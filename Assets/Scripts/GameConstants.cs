@@ -6,6 +6,10 @@ public class GameConstants : MonoBehaviour {
 
     public float AccelerationCoefficient = 1.0f;
 
+    public float GlobalCoefficient = 0.1f;
+
+    public int PhysicsSteps = 100;
+
     void Start()
     {
         Instance = this;
