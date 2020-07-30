@@ -6,9 +6,10 @@ public class GameConstants : MonoBehaviour {
 
     public float AccelerationCoefficient = 1.0f;
 
-    public float GlobalCoefficient = 0.1f;
+    public float GlobalCoefficient = 5.0f;
 
-    public int PhysicsSteps = 100;
+    public int MinPhysicsSteps = 1;
+    public int MaxPhysicsSteps = 1000;
 
     void Start()
     {

@@ -16,16 +16,22 @@ public class GravityAffected : MonoBehaviour
         return GameConstants.Instance.GlobalCoefficient * GameConstants.Instance.AccelerationCoefficient * vec.normalized * toMass / Mathf.Pow(vec.magnitude, 2);
     }
 
+    private static Vector3 GetForce(Vector3 pos) => 
+        GravitySource.All
+                .Select(src => CalculateForce(pos, src.transform.position, src.Mass))
+                .Aggregate((a, b) => a + b);
+
+    // Todo: perhaps add dynamic timestep for more efficient calculation / more resolution under high forces
+    //private static int StepsForForce(float force) => (int)Mathf.Clamp(force, GameConstants.Instance.MinPhysicsSteps, GameConstants.Instance.MaxPhysicsSteps);
+
     private void FixedUpdate()
     {
-        // Todo: extract the steps function
-        // Todo: make optimized version that determines number of steps from force magnitude (don't need as many when force is low)
-        var stepTime = Time.fixedDeltaTime / (float)GameConstants.Instance.PhysicsSteps;
-        for (int i = 0; i < GameConstants.Instance.PhysicsSteps; i++)
+        
+        var steps = GameConstants.Instance.MaxPhysicsSteps; //StepsForForce(force.magnitude); for if/when dynamic time step is added
+        var stepTime = Time.fixedDeltaTime / steps;
+        for (int i = 0; i < steps; i++)
         {
-            var force = GravitySource.All
-                .Select(src => CalculateForce(this.transform.position, src.transform.position, src.Mass))
-                .Aggregate((a, b) => a + b);
+            var force = GetForce(this.transform.position);
             this.velocity += force * stepTime;
             this.transform.position += this.velocity * stepTime;
         }
@@ -35,7 +41,7 @@ public class GravityAffected : MonoBehaviour
 
     public async Task Simulate(int steps, float stepTime, Vector3 initialVelocity)
     {
-        if(this.calculating)
+        if (this.calculating)
         {
             return;
         }
@@ -47,7 +53,12 @@ public class GravityAffected : MonoBehaviour
         {
             this.simulationPath = new GameObject();
             lineRenderer = this.simulationPath.AddComponent<LineRenderer>();
-            lineRenderer.startWidth = lineRenderer.endWidth = 0.02f;
+            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+            //lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+            lineRenderer.startWidth = 0.02f;
+            lineRenderer.endWidth = 1.0f;
+            lineRenderer.startColor = Color.white;
+            lineRenderer.endColor = new Color(0, 0, 0, 0);
         }
         else
         {
@@ -60,36 +71,32 @@ public class GravityAffected : MonoBehaviour
         var simVelocity = initialVelocity;
         var path = new Vector3[steps + 1];
 
-        // Cancel previous task if there was one
-        //this.simCT?.Cancel();
-        //this.simCT?.Dispose();
-        //this.simCT = new CancellationTokenSource();
-        //try
-        //{
-            this.calculating = true;
-            //var ct = this.simCT.Token;
-            var srcs = GravitySource.All.Select(src => new { src.transform.position, src.Mass }).ToArray();
-            await Task.Run(() =>
+        this.calculating = true;
+        var srcs = GravitySource.All.Select(src => new { src.transform.position, src.Mass }).ToArray();
+        await Task.Run(() =>
+        {
+            for (int step = 0; step < steps; step++)
             {
-                for (int step = 0; step < steps; step++)
-                {
-                    //ct.ThrowIfCancellationRequested();
-                    path[step] = simPos;
-                    var force = srcs
-                        .Select(src => CalculateForce(simPos, src.position, src.Mass))
-                        .Aggregate((a, b) => a + b);
-                    simVelocity += force * stepTime;
-                    simPos += simVelocity * stepTime;
-                }
-                path[steps] = simPos;
-            }/*, ct*/);
-            lineRenderer.SetPositions(path);
-            this.calculating = false;
-        //}
-        //catch (TaskCanceledException)
-        //{
+                path[step] = simPos;
+                var force = srcs
+                    .Select(src => CalculateForce(simPos, src.position, src.Mass))
+                    .Aggregate((a, b) => a + b);
+                simVelocity += force * stepTime;
+                simPos += simVelocity * stepTime;
+            }
+            path[steps] = simPos;
+        });
+        lineRenderer.SetPositions(path);
+        this.calculating = false;
+    }
 
-        //}
+    public void ClearSimulation()
+    {
+        if(this.simulationPath != null)
+        {
+            Destroy(this.simulationPath);
+            this.simulationPath = null;
+        }
     }
 
     public async Task Simulate(float time, int iterationsPerSecond, Vector3 initialVelocity)
@@ -103,7 +110,7 @@ public class GravityAffected : MonoBehaviour
     public async Task Simulate(Vector3 initialVelocity)
     {
         var stepTime = 0.01f; // Time.fixedDeltaTime / (float)GameConstants.Instance.PhysicsSteps;
-        int steps = (int)(20 / stepTime); // (int)(1 / stepTime);
+        int steps = (int)(5 / stepTime); // (int)(1 / stepTime);
         await Simulate(steps, stepTime, initialVelocity);
     }
 }

@@ -51,7 +51,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         var position = Camera.main.ScreenToWorldPoint(eventData.position);
         var vector = position - this.dragStart;
         gravityAffected.velocity = GameConstants.Instance.GlobalCoefficient * vector * this.ForceCoefficient;
-
+        gravityAffected.ClearSimulation();
         Destroy(this.lineObject);
         this.lineObject = null;
     }
