@@ -24,19 +24,22 @@ public class GravityAffected : MonoBehaviour
     // Todo: perhaps add dynamic timestep for more efficient calculation / more resolution under high forces
     //private static int StepsForForce(float force) => (int)Mathf.Clamp(force, GameConstants.Instance.MinPhysicsSteps, GameConstants.Instance.MaxPhysicsSteps);
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         
         var steps = GameConstants.Instance.MaxPhysicsSteps; //StepsForForce(force.magnitude); for if/when dynamic time step is added
+
+        var pos = this.GetComponent<Rigidbody>().position;
         var stepTime = Time.fixedDeltaTime / steps;
         for (int i = 0; i < steps; i++)
         {
-            var force = GetForce(this.transform.position);
+            var force = GetForce(pos);
             this.velocity += force * stepTime;
-            this.transform.position += this.velocity * stepTime;
+            pos += this.velocity * stepTime;
         }
-
-        this.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.velocity);
+        this.GetComponent<Rigidbody>().MovePosition(pos);
+        this.GetComponent<Rigidbody>().MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
+        // this.transform.rotation = ;
     }
 
     public async Task Simulate(int steps, float stepTime, Vector3 initialVelocity)
