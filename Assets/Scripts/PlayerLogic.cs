@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -49,13 +50,17 @@ public class PlayerLogic : MonoBehaviour
         this.Simulate(this.velocity).ContinueWith(_ => {});
     }
 
+    void OnGUI()
+    {
+
+    }
+
     public async Task Simulate(int steps, float stepTime, Vector3 initialVelocity)
     {
         if (this.calculating)
         {
             return;
         }
-        Debug.Log($"steps = {steps} stepTime = {stepTime}");
         LineRenderer lineRenderer;
         if (this.simulationPath == null)
         {
@@ -64,19 +69,17 @@ public class PlayerLogic : MonoBehaviour
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
             lineRenderer.startWidth = 0.02f;
             lineRenderer.endWidth = 1.0f;
-            lineRenderer.startColor = Color.white;
-            lineRenderer.endColor = new Color(0, 0, 0, 0);
+            lineRenderer.startColor = new Color(1, 1, 1, 0.05f);
+            lineRenderer.endColor = new Color(1, 1, 1, 0);
         }
         else
         {
             lineRenderer = this.simulationPath.GetComponent<LineRenderer>();
         }
 
-        lineRenderer.positionCount = steps + 1;
-
         var simPos = this.transform.position;
         var simVelocity = initialVelocity;
-        var path = new Vector3[steps + 1];
+        var path = new List<Vector3>();
 
         this.calculating = true;
         var srcs = GravitySource.All.Select(src => new { src.transform.position, src.Mass }).ToArray();
@@ -84,16 +87,21 @@ public class PlayerLogic : MonoBehaviour
         {
             for (int step = 0; step < steps; step++)
             {
-                path[step] = simPos;
+                path.Add(simPos);
                 var force = srcs
                     .Select(src => CalculateForce(simPos, src.position, src.Mass))
                     .Aggregate((a, b) => a + b);
+                if(force.magnitude > 20)
+                {
+                    break;
+                }
                 simVelocity += force * stepTime;
                 simPos += simVelocity * stepTime;
             }
-            path[steps] = simPos;
+            path.Add(simPos);
         });
-        lineRenderer.SetPositions(path);
+        lineRenderer.positionCount = path.Count;
+        lineRenderer.SetPositions(path.ToArray());
         this.calculating = false;
     }
 

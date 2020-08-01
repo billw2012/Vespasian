@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 6039441407903207764}
   - component: {fileID: 6039441407903207755}
   - component: {fileID: 6039441407903207754}
+  - component: {fileID: 2438610178736772583}
   - component: {fileID: 6039441407903207766}
   - component: {fileID: 6039441407903207767}
+  - component: {fileID: 3768597765047173929}
   m_Layer: 0
   m_Name: PlanetPrefab
   m_TagString: Untagged
@@ -58,7 +60,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,7 +84,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &6039441407903207754
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -97,6 +97,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2438610178736772583
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &6039441407903207766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,3 +140,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shadowLengths: 1000
+--- !u!114 &3768597765047173929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f4e2cac997b3148b4fcc4bd213d9e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -26,4 +26,9 @@ public class GameLogic : MonoBehaviour {
     {
         SceneManager.LoadScene("WinScene");
     }
+
+    public void LoseGame()
+    {
+        SceneManager.LoadScene("LoseScene");
+    }
 }
