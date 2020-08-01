@@ -8,20 +8,11 @@ public class TargetArrow : MonoBehaviour
 {
     public GameObject target;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
         Debug.Assert(this.target != null);
         var targetScreenPos = (Vector2)Camera.main.WorldToScreenPoint(this.target.transform.position);
-        //var halfScreen = new Vector3(Screen.width, Screen.height, 0);
-        //var screenBounds = new Bounds(new Vector3(Screen.width, Screen.height, 0));
 
         var image = this.GetComponent<TextMeshProUGUI>();
         if (!Screen.safeArea.Contains(targetScreenPos))
