@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerLogic : MonoBehaviour
 {
     public Vector3 velocity = Vector3.zero;
+    public float thrust { get; set; } = 0;
 
     GameObject simulationPath = null;
     //CancellationTokenSource simCT = null;
@@ -26,20 +27,26 @@ public class PlayerLogic : MonoBehaviour
 
     void FixedUpdate()
     {
-        
         var steps = GameConstants.Instance.MaxPhysicsSteps; //StepsForForce(force.magnitude); for if/when dynamic time step is added
 
-        var pos = this.GetComponent<Rigidbody>().position;
+        var rigidBody = this.GetComponent<Rigidbody>();
+        var pos = rigidBody.position;
         var stepTime = Time.fixedDeltaTime / steps;
         for (int i = 0; i < steps; i++)
         {
             var force = GetForce(pos);
+            if(this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0)
+            {
+                force += this.velocity.normalized * thrust;
+                GameLogic.Instance.remainingFuel = Mathf.Max(0, GameLogic.Instance.remainingFuel - Mathf.Abs(thrust) * stepTime * GameConstants.Instance.FuelUse);
+            }
             this.velocity += force * stepTime;
             pos += this.velocity * stepTime;
         }
-        this.GetComponent<Rigidbody>().MovePosition(pos);
-        this.GetComponent<Rigidbody>().MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
-        // this.transform.rotation = ;
+        rigidBody.MovePosition(pos);
+        rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
+
+        this.Simulate(this.velocity).ContinueWith(_ => {});
     }
 
     public async Task Simulate(int steps, float stepTime, Vector3 initialVelocity)
@@ -48,8 +55,6 @@ public class PlayerLogic : MonoBehaviour
         {
             return;
         }
-        //steps = 100;
-        //stepTime = 0.5f;
         Debug.Log($"steps = {steps} stepTime = {stepTime}");
         LineRenderer lineRenderer;
         if (this.simulationPath == null)
@@ -57,7 +62,6 @@ public class PlayerLogic : MonoBehaviour
             this.simulationPath = new GameObject();
             lineRenderer = this.simulationPath.AddComponent<LineRenderer>();
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-            //lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
             lineRenderer.startWidth = 0.02f;
             lineRenderer.endWidth = 1.0f;
             lineRenderer.startColor = Color.white;

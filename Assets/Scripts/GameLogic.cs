@@ -4,10 +4,16 @@ using UnityEngine.SceneManagement;
 public class GameLogic : MonoBehaviour {
     public static GameLogic Instance;
 
-    public GameObject player;
+    public GameObject player { get; private set; }
+
+    public float collectedMinerals = 0;
+    public float collectedGas = 0;
+    public float health = 1;
+    public float remainingFuel = 1;
 
     void Start()
     {
+        this.player = GameObject.Find("Player");
         Instance = this;
     }
 
