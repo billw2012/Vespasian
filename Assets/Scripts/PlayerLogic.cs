@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GravityAffected : MonoBehaviour
+public class PlayerLogic : MonoBehaviour
 {
     public Vector3 velocity = Vector3.zero;
 
