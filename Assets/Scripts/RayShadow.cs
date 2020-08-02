@@ -7,7 +7,7 @@ public class RayShadow : MonoBehaviour
 {
     struct LightAndShadow
     {
-        public Light light;
+        public GameObject light;
         public GameObject shadow;
         public LineRenderer lineRenderer;
     }
@@ -20,11 +20,11 @@ public class RayShadow : MonoBehaviour
     void Start()
     {
         var shadowStartWidth = this.transform.localScale.x;
-        var sun = GameObject.Find("SunMain").GetComponent<Light>();
+        var sun = GameObject.Find("SunMain");
         this.rays = 
             // FindObjectsOfType(typeof(Light))
             new [] { sun }
-            .Cast<Light>().Select(light => {
+            .Select(light => {
                 var shadow = new GameObject();
                 var lineRenderer = shadow.AddComponent<LineRenderer>();
                 lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
