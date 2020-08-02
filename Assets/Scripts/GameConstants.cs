@@ -13,6 +13,8 @@ public class GameConstants : MonoBehaviour {
 
     public float FuelUse = 0.1f;
 
+    public float MaxLaunchVelocity = 3.0f;
+
     void Start()
     {
         Instance = this;

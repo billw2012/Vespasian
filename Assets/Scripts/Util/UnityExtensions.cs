@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 // From https://stackoverflow.com/a/10660969/6402065
 public static class UnityExtensions

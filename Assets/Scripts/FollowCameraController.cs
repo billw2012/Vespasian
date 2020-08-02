@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class FollowCameraController : MonoBehaviour
 {
-    public float maxSpeed = 0.1f;
+    public float maxSpeed = 6.0f;
 
     [Tooltip("How much of a factor velocity is in the camera positioning"), Range(0f, 10f)]
-    public float velocityScale = 1.0f;
+    public float velocityScale = 2.0f;
 
     Vector3 offset;
     Vector3 minCameraOffset;
@@ -32,7 +32,9 @@ public class FollowCameraController : MonoBehaviour
         var follow = GameLogic.Instance.player.GetComponent<PlayerLogic>();
         var targetOffset = follow.velocity * velocityScale;
 
-        var offsetChange = Vector3.ClampMagnitude(targetOffset - this.offset, this.maxSpeed * Time.deltaTime);
+        var offsetDiff = targetOffset - this.offset;
+        var speed = Mathf.Min(this.maxSpeed, offsetDiff.magnitude);
+        var offsetChange = Vector3.ClampMagnitude(offsetDiff, speed * Time.deltaTime);
         targetOffset = this.offset + offsetChange;
 
         var clampedPosition = Clamp(targetOffset, this.minCameraOffset, this.maxCameraOffset);

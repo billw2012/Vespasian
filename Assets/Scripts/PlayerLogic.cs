@@ -68,9 +68,8 @@ public class PlayerLogic : MonoBehaviour
             lineRenderer = this.simulationPath.AddComponent<LineRenderer>();
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
             lineRenderer.startWidth = 0.02f;
-            lineRenderer.endWidth = 1.0f;
-            lineRenderer.startColor = new Color(1, 1, 1, 0.05f);
-            lineRenderer.endColor = new Color(1, 1, 1, 0);
+            lineRenderer.startColor = new Color(1, 1, 1, 0.25f);
+            lineRenderer.endColor = new Color(0, 0, 0, 0);
         }
         else
         {
@@ -83,6 +82,7 @@ public class PlayerLogic : MonoBehaviour
 
         this.calculating = true;
         var srcs = GravitySource.All.Select(src => new { src.transform.position, src.Mass }).ToArray();
+
         await Task.Run(() =>
         {
             for (int step = 0; step < steps; step++)
@@ -100,7 +100,13 @@ public class PlayerLogic : MonoBehaviour
             }
             path.Add(simPos);
         });
+        var fullLength = 0.0f;
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            fullLength += Vector3.Distance(path[i], path[i + 1]);
+        }
         lineRenderer.positionCount = path.Count;
+        lineRenderer.endWidth = fullLength / 30.0f;
         lineRenderer.SetPositions(path.ToArray());
         this.calculating = false;
     }
