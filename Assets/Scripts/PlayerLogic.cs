@@ -130,7 +130,7 @@ public class PlayerLogic : MonoBehaviour
 
     public async Task Simulate(Vector3 initialVelocity)
     {
-        var stepTime = 0.01f; // Time.fixedDeltaTime / (float)GameConstants.Instance.PhysicsSteps;
+        var stepTime = 0.1f; // Time.fixedDeltaTime / (float)GameConstants.Instance.PhysicsSteps;
         int steps = (int)(5 / stepTime); // (int)(1 / stepTime);
         await Simulate(steps, stepTime, initialVelocity);
     }
