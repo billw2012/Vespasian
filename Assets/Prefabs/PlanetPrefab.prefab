@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e25c09c37214e64286bcb2f322b06b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowLengths: 1000
+  shadowLengths: 10
 --- !u!114 &3768597765047173929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,3 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f4e2cac997b3148b4fcc4bd213d9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScoopMaxRadiusMultiplier: 2
+  ScoopFactor: 0
+  DragMaxRadiusMultiplier: 2
+  DragFactor: 0

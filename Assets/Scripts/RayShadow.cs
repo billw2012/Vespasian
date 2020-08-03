@@ -14,25 +14,32 @@ public class RayShadow : MonoBehaviour
 
     List<LightAndShadow> rays;
 
-    public float shadowLengths = 1000;
+    public float shadowLengthScale = 30.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        var shadowStartWidth = this.transform.localScale.x;
         var sun = GameObject.Find("SunMain");
-        this.rays = 
-            // FindObjectsOfType(typeof(Light))
-            new [] { sun }
-            .Select(light => {
+        this.rays =
+            new[] { sun }
+            .Select(light =>
+            {
                 var shadow = new GameObject();
                 var lineRenderer = shadow.AddComponent<LineRenderer>();
                 lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-                lineRenderer.startWidth = shadowStartWidth;
-                lineRenderer.endWidth = shadowStartWidth;
-                lineRenderer.startColor = new Color(0, 0, 0, 0.5f);
-                lineRenderer.endColor = new Color(0, 0, 0, 1.0f);
-                lineRenderer.positionCount = 2;
+                var colorGradient = new Gradient { mode = GradientMode.Blend };
+                colorGradient.SetKeys(
+                    new GradientColorKey[] {
+                        new GradientColorKey(Color.black, 0),
+                    },
+                    new GradientAlphaKey[] {
+                        new GradientAlphaKey(0, 0),
+                        new GradientAlphaKey(0.5f, 0.1f),
+                        new GradientAlphaKey(0, 1),
+                    }
+                );
+                lineRenderer.colorGradient = colorGradient;
+                lineRenderer.positionCount = 3;
                 return new LightAndShadow
                 {
                     light = light,
@@ -46,19 +53,49 @@ public class RayShadow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var planetPos = this.transform.position;
+        var ourPos = this.transform.position;
         foreach (var ray in this.rays)
         {
-            if (ray.lineRenderer.GetPosition(0) != planetPos)
+            // We need the extends to decide the length of the shadow
+            var localExtents = Vector3.Scale(this.GetComponent<MeshFilter>().mesh.bounds.extents, this.transform.localScale);
+            var shadowLength = localExtents.magnitude * this.shadowLengthScale;
+
+            // Set start and end
+            if (ray.lineRenderer.GetPosition(0) != ourPos)
             {
-                ray.lineRenderer.SetPosition(0, planetPos);
+                ray.lineRenderer.SetPosition(0, ourPos);
             }
             var lightPos = ray.light.transform.position;
-            var rayEnd = planetPos + (planetPos - lightPos).normalized * this.shadowLengths;
-            if (ray.lineRenderer.GetPosition(1) != rayEnd)
+            var lightRay = (ourPos - lightPos).normalized;
+
+
+            var rayMid = ourPos + lightRay * localExtents.magnitude;
+            if (ray.lineRenderer.GetPosition(1) != rayMid)
             {
-                ray.lineRenderer.SetPosition(1, rayEnd);
+                ray.lineRenderer.SetPosition(1, rayMid);
             }
+
+            var rayEnd = ourPos + lightRay * shadowLength;
+            if (ray.lineRenderer.GetPosition(2) != rayEnd)
+            {
+                ray.lineRenderer.SetPosition(2, rayEnd);
+            }
+
+            // Determine the width of the shadow we should cast:
+            // Project the x and y axis of the scaled oriented bounding box onto the vector perpendicular to 
+            // the direction of the light.
+            var perpVec = Vector3.Cross(lightRay, Vector3.forward).normalized;
+            
+            var xAxis = this.transform.TransformDirection(localExtents.x00());
+            var yAxis = this.transform.TransformDirection(localExtents._0y0());
+            var width = Mathf.Max(
+                Vector3.Project(xAxis, perpVec).magnitude,
+                Vector3.Project(yAxis, perpVec).magnitude
+            ) * 2;
+
+            ray.lineRenderer.startWidth = width;
+            ray.lineRenderer.endWidth = width * 0.5f;
+
         }
     }
 }
