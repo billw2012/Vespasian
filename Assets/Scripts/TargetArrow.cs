@@ -12,19 +12,23 @@ public class TargetArrow : MonoBehaviour
     void Update()
     {
         Debug.Assert(this.target != null);
-        var targetScreenPos = (Vector2)Camera.main.WorldToScreenPoint(this.target.transform.position);
+        //var targetScreenPos = (Vector2)Camera.main.WorldToScreenPoint(this.target.transform.position);
 
         var image = this.GetComponent<TextMeshProUGUI>();
-        if (!Screen.safeArea.Contains(targetScreenPos))
+        var targetCanvasPosition = image.canvas.WorldToCanvasPosition(this.target.transform.position);
+
+        var canvasSafeArea = image.canvas.ScreenToCanvasRect(Screen.safeArea);
+        if (!canvasSafeArea.Contains(targetCanvasPosition))
+            //Screen.safeArea.Contains(targetScreenPos))
         {
             var rectTransform = this.GetComponent<RectTransform>();
             var clampArea = new Rect(
-                Screen.safeArea.x - rectTransform.rect.x,
-                Screen.safeArea.y - rectTransform.rect.y,
-                Screen.safeArea.width - rectTransform.rect.width,
-                Screen.safeArea.height - rectTransform.rect.height
+                canvasSafeArea.x - rectTransform.rect.x,
+                canvasSafeArea.y - rectTransform.rect.y,
+                canvasSafeArea.width - rectTransform.rect.width,
+                canvasSafeArea.height - rectTransform.rect.height
             );
-            var clampedTargetScreenPos = clampArea.IntersectionWithRayFromCenter(targetScreenPos);
+            var clampedTargetScreenPos = clampArea.IntersectionWithRayFromCenter(targetCanvasPosition);
             rectTransform.anchoredPosition = clampedTargetScreenPos;
             rectTransform.rotation = Quaternion.FromToRotation(Vector3.right, clampedTargetScreenPos - clampArea.center);
             image.enabled = true;

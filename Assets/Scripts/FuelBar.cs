@@ -15,9 +15,13 @@ public class FuelBar : MonoBehaviour
         Debug.Assert(slider != null);
 
         slider.value = GameLogic.Instance.remainingFuel;
-        if(GameLogic.Instance.remainingFuel < 0.2)
+        if (GameLogic.Instance.remainingFuel < 0.2)
         {
             this.fill.GetComponent<Image>().color = Color.red;
+        }
+        else if (GameLogic.Instance.remainingFuel > 1)
+        {
+            this.fill.GetComponent<Image>().color = new Color(0.2f, 1.0f, 0.2f);
         }
     }
 }

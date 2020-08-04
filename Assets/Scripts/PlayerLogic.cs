@@ -39,7 +39,7 @@ public class PlayerLogic : MonoBehaviour
             if(this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0)
             {
                 force += this.velocity.normalized * thrust;
-                GameLogic.Instance.remainingFuel = Mathf.Max(0, GameLogic.Instance.remainingFuel - Mathf.Abs(thrust) * stepTime * GameConstants.Instance.FuelUse);
+                GameLogic.Instance.AddFuel(-Mathf.Abs(thrust) * stepTime * GameConstants.Instance.FuelUse);
             }
             this.velocity += force * stepTime;
             pos += this.velocity * stepTime;
@@ -68,8 +68,8 @@ public class PlayerLogic : MonoBehaviour
             lineRenderer = this.simulationPath.AddComponent<LineRenderer>();
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
             lineRenderer.startWidth = 0.02f;
-            lineRenderer.startColor = new Color(1, 1, 1, 0.25f);
-            lineRenderer.endColor = new Color(0, 0, 0, 0);
+            lineRenderer.startColor = new Color(1, 1, 1, 0.5f);
+            lineRenderer.endColor = new Color(1, 1, 1, 0);
         }
         else
         {

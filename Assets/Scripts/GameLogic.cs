@@ -31,4 +31,18 @@ public class GameLogic : MonoBehaviour {
     {
         SceneManager.LoadScene("LoseScene");
     }
+
+    public void AddFuel(float amount)
+    {
+        this.remainingFuel = Mathf.Clamp(this.remainingFuel + amount, 0, 1.25f);
+    }
+
+    public void AddDamage(float amount)
+    {
+        this.health = Mathf.Clamp(this.health - amount, 0, 1);
+        if(this.health == 0)
+        {
+            LoseGame();
+        }
+    }
 }
