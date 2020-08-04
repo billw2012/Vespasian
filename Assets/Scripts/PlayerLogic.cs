@@ -5,12 +5,28 @@ using UnityEngine;
 
 public class PlayerLogic : MonoBehaviour
 {
+    [HideInInspector]
     public Vector3 velocity = Vector3.zero;
+    [HideInInspector]
     public float thrust { get; set; } = 0;
+    bool canThrust => this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0;
+
+    public GameObject frontThruster;
+    public GameObject rearThruster;
 
     GameObject simulationPath = null;
     //CancellationTokenSource simCT = null;
     bool calculating = false;
+
+    void Start()
+    {
+        Debug.Assert(this.frontThruster != null);
+        Debug.Assert(this.rearThruster != null);
+
+        this.rearThruster.SetActive(false);
+        this.frontThruster.SetActive(false);
+
+    }
 
     private static Vector3 CalculateForce(Vector3 from, Vector3 to, float toMass)
     {
@@ -23,8 +39,20 @@ public class PlayerLogic : MonoBehaviour
                 .Select(src => CalculateForce(pos, src.transform.position, src.Mass))
                 .Aggregate((a, b) => a + b);
 
+    void Update()
+    {
+        this.rearThruster.SetActive(this.canThrust && this.thrust > 0);
+        this.frontThruster.SetActive(this.canThrust && this.thrust < 0);
+
+        var rearThrusterModule = this.rearThruster.GetComponent<ParticleSystem>().emission;
+        rearThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
+        var frontThrusterModule = this.frontThruster.GetComponent<ParticleSystem>().emission;
+        frontThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
+    }
+
     // Todo: perhaps add dynamic timestep for more efficient calculation / more resolution under high forces
     //private static int StepsForForce(float force) => (int)Mathf.Clamp(force, GameConstants.Instance.MinPhysicsSteps, GameConstants.Instance.MaxPhysicsSteps);
+
 
     void FixedUpdate()
     {
@@ -36,10 +64,10 @@ public class PlayerLogic : MonoBehaviour
         for (int i = 0; i < steps; i++)
         {
             var force = GetForce(pos);
-            if(this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0)
+            if(this.canThrust)
             {
-                force += this.velocity.normalized * thrust;
-                GameLogic.Instance.AddFuel(-Mathf.Abs(thrust) * stepTime * GameConstants.Instance.FuelUse);
+                force += this.velocity.normalized * this.thrust;
+                GameLogic.Instance.AddFuel(-Mathf.Abs(this.thrust) * stepTime * GameConstants.Instance.FuelUse);
             }
             this.velocity += force * stepTime;
             pos += this.velocity * stepTime;
