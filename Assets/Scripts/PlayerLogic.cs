@@ -11,21 +11,32 @@ public class PlayerLogic : MonoBehaviour
     public float thrust { get; set; } = 0;
     bool canThrust => this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0;
 
-    public GameObject frontThruster;
-    public GameObject rearThruster;
+    public ParticleSystem frontThruster;
+    public ParticleSystem rearThruster;
+    public ParticleSystem damageDebris;
 
     GameObject simulationPath = null;
     //CancellationTokenSource simCT = null;
     bool calculating = false;
 
+    static void SetEmissionActive(ParticleSystem pfx, bool enabled)
+    {
+        var em = pfx.emission;
+        if(em.enabled != enabled)
+        {
+            em.enabled = enabled;
+        }
+    }
+
     void Start()
     {
         Debug.Assert(this.frontThruster != null);
         Debug.Assert(this.rearThruster != null);
+        Debug.Assert(this.damageDebris != null);
 
-        this.rearThruster.SetActive(false);
-        this.frontThruster.SetActive(false);
-
+        SetEmissionActive(this.rearThruster, false);
+        SetEmissionActive(this.frontThruster, false);
+        SetEmissionActive(this.damageDebris, false);
     }
 
     private static Vector3 CalculateForce(Vector3 from, Vector3 to, float toMass)
@@ -41,18 +52,16 @@ public class PlayerLogic : MonoBehaviour
 
     void Update()
     {
-        this.rearThruster.SetActive(this.canThrust && this.thrust > 0);
-        this.frontThruster.SetActive(this.canThrust && this.thrust < 0);
-
-        var rearThrusterModule = this.rearThruster.GetComponent<ParticleSystem>().emission;
+        var rearThrusterModule = this.rearThruster.emission;
+        rearThrusterModule.enabled = this.canThrust && this.thrust > 0;
         rearThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
-        var frontThrusterModule = this.frontThruster.GetComponent<ParticleSystem>().emission;
+        var frontThrusterModule = this.frontThruster.emission;
+        frontThrusterModule.enabled = this.canThrust && this.thrust < 0;
         frontThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
     }
 
     // Todo: perhaps add dynamic timestep for more efficient calculation / more resolution under high forces
     //private static int StepsForForce(float force) => (int)Mathf.Clamp(force, GameConstants.Instance.MinPhysicsSteps, GameConstants.Instance.MaxPhysicsSteps);
-
 
     void FixedUpdate()
     {
@@ -81,6 +90,17 @@ public class PlayerLogic : MonoBehaviour
     void OnGUI()
     {
 
+    }
+
+    public void SetTakingDamage(float damageRate, Vector3 direction)
+    {
+        SetEmissionActive(this.damageDebris, damageRate > 0);
+        if (damageRate > 0)
+        {
+            this.damageDebris.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+            var emission = this.damageDebris.emission;
+            emission.rateOverTimeMultiplier = damageRate * 100;
+        }
     }
 
     public async Task Simulate(int steps, float stepTime, Vector3 initialVelocity)

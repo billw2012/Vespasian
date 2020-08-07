@@ -10,10 +10,11 @@ public abstract class RadiusEffect : MonoBehaviour
     {
         // TODO: check for player proximity to deliver fuel/damage/aero breaking/etc.
         var radius = this.transform.localScale.x;
-        var playerHeight = Vector3.Distance(GameLogic.Instance.player.transform.position, this.transform.position);
-
-        this.Apply(Mathf.Max(0, Time.deltaTime * this.EffectFactor * (1 - (playerHeight - radius) / (radius * this.MaxRadiusMultiplier))));
+        var planetPlayerVec = GameLogic.Instance.player.transform.position - this.transform.position;
+        var playerHeight = planetPlayerVec.magnitude;
+        var heightRatio = 1 - (playerHeight - radius) / (radius * this.MaxRadiusMultiplier);
+        this.Apply(Mathf.Max(0, Time.deltaTime * this.EffectFactor * heightRatio), planetPlayerVec.normalized);
     }
 
-    protected virtual void Apply(float value) { }
+    protected virtual void Apply(float value, Vector3 direction) { }
 }

@@ -10,11 +10,22 @@ public class GameLogic : MonoBehaviour {
     public float collectedGas = 0;
     public float health = 1;
     public float remainingFuel = 1;
+    public float previousHealth = 1;
+    public Vector3 lastDamageDirection;
 
     void Start()
     {
         this.player = GameObject.Find("Player");
         Instance = this;
+    }
+
+    void Update()
+    {
+        if (this.player != null)
+        {
+            this.player.GetComponent<PlayerLogic>().SetTakingDamage((this.previousHealth - this.health) / Time.deltaTime, this.lastDamageDirection);
+        }
+        this.previousHealth = this.health;
     }
 
     public void RestartGame()
@@ -37,9 +48,14 @@ public class GameLogic : MonoBehaviour {
         this.remainingFuel = Mathf.Clamp(this.remainingFuel + amount, 0, 1.25f);
     }
 
-    public void AddDamage(float amount)
+    public void AddDamage(float amount, Vector3 direction)
     {
         this.health = Mathf.Clamp(this.health - amount, 0, 1);
+        if(amount > 0)
+        {
+            this.lastDamageDirection = direction;
+        }
+
         if(this.health == 0)
         {
             LoseGame();

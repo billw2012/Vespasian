@@ -16,9 +16,17 @@ public class RayShadow : MonoBehaviour
 
     public float shadowLengthScale = 30.0f;
 
+    public MeshFilter geometry;
+
     // Start is called before the first frame update
     void Start()
     {
+        if(this.geometry == null)
+        {
+            this.geometry = this.gameObject.GetComponent<MeshFilter>();
+            Debug.Assert(this.geometry != null);
+        }
+
         var sun = GameObject.Find("SunMain");
         this.rays =
             new[] { sun }
@@ -57,7 +65,7 @@ public class RayShadow : MonoBehaviour
         foreach (var ray in this.rays)
         {
             // We need the extends to decide the length of the shadow
-            var localExtents = Vector3.Scale(this.GetComponent<MeshFilter>().mesh.bounds.extents, this.transform.localScale);
+            var localExtents = Vector3.Scale(this.geometry.mesh.bounds.extents, this.geometry.transform.localScale);
             var shadowLength = localExtents.magnitude * this.shadowLengthScale;
 
             // Set start and end

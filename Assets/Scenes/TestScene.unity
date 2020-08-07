@@ -195,12 +195,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93512165}
   m_CullTransparentMesh: 0
---- !u!1 &98285268 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7481144287700719540, guid: 2155780610961ba48b4847e56576da67,
-    type: 3}
-  m_PrefabInstance: {fileID: 7620224552822910553}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &139736183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1125,8 @@ MonoBehaviour:
   collectedGas: 0
   health: 1
   remainingFuel: 1
+  previousHealth: 1
+  lastDamageDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &989402410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2137,6 +2133,21 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 8919
       objectReference: {fileID: 0}
+    - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 39.59707
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 39.59707
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 39.59707
+      objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207753, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_Name
@@ -2480,7 +2491,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9.268829
+  orthographic size: 15.03
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3320,6 +3331,26 @@ PrefabInstance:
       propertyPath: m_VertexStreams.Array.data[2]
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1790498452241795457, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790498452241795457, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790498452241795457, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1790498452241795457, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5289229948885378436, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_VertexStreams.Array.size
@@ -3343,12 +3374,12 @@ PrefabInstance:
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -7.54
       objectReference: {fileID: 0}
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.14
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
@@ -3400,10 +3431,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7620224551109491999, guid: 2155780610961ba48b4847e56576da67,
-        type: 3}
-      propertyPath: rearThruster
-      value: 
-      objectReference: {fileID: 98285268}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2155780610961ba48b4847e56576da67, type: 3}
