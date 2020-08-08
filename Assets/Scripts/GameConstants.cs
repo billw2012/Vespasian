@@ -9,7 +9,7 @@ public class GameConstants : MonoBehaviour {
     public float GlobalCoefficient = 5.0f;
 
     public int MinPhysicsSteps = 1;
-    public int MaxPhysicsSteps = 100;
+    public int MaxPhysicsSteps = 1;
 
     public float FuelUse = 0.1f;
 
