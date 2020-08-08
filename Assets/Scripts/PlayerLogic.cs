@@ -19,6 +19,8 @@ public class PlayerLogic : MonoBehaviour
     //CancellationTokenSource simCT = null;
     bool calculating = false;
 
+    float rotVelocity;
+
     static void SetEmissionActive(ParticleSystem pfx, bool enabled)
     {
         var em = pfx.emission;
@@ -82,7 +84,13 @@ public class PlayerLogic : MonoBehaviour
             pos += this.velocity * stepTime;
         }
         rigidBody.MovePosition(pos);
-        rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
+
+        // Smooth rotation slightly to avoid random flipping. Smoothing should not be noticible in
+        // normal play.
+        var desiredRot = Quaternion.FromToRotation(Vector3.up, this.velocity).eulerAngles.z;
+        var currentRot = rigidBody.rotation.eulerAngles.z;
+        var smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 90);
+        rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
 
         this.Simulate(this.velocity).ContinueWith(_ => {});
     }
