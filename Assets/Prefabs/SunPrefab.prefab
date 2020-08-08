@@ -4945,7 +4945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1dfa9f655221446ba5e171e6685cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hue: {r: 0, g: 0.03921604, b: 1, a: 0}
+  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!33 &6039441407903207764
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5064,7 +5064,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9333334, b: 0, a: 1}
+  m_Color: {r: 0.801, g: 0.801, b: 0.801, a: 1}
   m_Intensity: 2500
   m_Range: 10000
   m_SpotAngle: 30
