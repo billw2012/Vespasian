@@ -6,6 +6,6 @@ public class Background : MonoBehaviour
 {
     void Update()
     {
-        this.GetComponent<MeshRenderer>().material.mainTextureOffset = this.transform.position * -0.02f;
+        this.GetComponent<MeshRenderer>().material.SetTextureOffset("_BaseMap", this.transform.position * -0.02f);
     }
 }
