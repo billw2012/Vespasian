@@ -34,30 +34,8 @@ public class SunLogic : MonoBehaviour
         }
     }
 
-    //public Color hue
-    //{
-    //    get {
-    //        Color.RGBToHSV(this.childLight.color, out float h, out _, out _);
-    //        return TweakHue(Color.white, h);
-    //    }
-
-    //    set {
-    //        Color.RGBToHSV(value, out float newHue, out _, out _);
-    //        TweakHue(this.childLight, newHue);
-    //        TweakHue(this.glowMaterial, newHue);
-    //        TweakHue(this.mainMaterial, newHue);
-    //        TweakHue(this.pfxMaterial, newHue);
-    //    }
-    //}
-
     public Color hue;
 
-    void OnValidate()
-    {
-        
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
         this.childLight = this.transform.Find("Light").GetComponent<Light>();
