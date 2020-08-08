@@ -4975,10 +4975,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f4e2cac997b3148b4fcc4bd213d9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoopMaxRadiusMultiplier: 2
-  ScoopFactor: 0
-  DragMaxRadiusMultiplier: 2
-  DragFactor: 0
+  RingEnabled: 0
+  RingRadiusFactor: 1.5
+  RingWidthFactor: 0.5
 --- !u!1 &6093582211867798575
 GameObject:
   m_ObjectHideFlags: 0
@@ -5088,7 +5087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2278435754469915029
 Transform:
   m_ObjectHideFlags: 0
@@ -5110,7 +5109,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7500456029015867994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
