@@ -4946,6 +4946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 1, b: 1, a: 1}
+  lightTintFactor: 0.25
 --- !u!33 &6039441407903207764
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5064,7 +5065,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.801, g: 0.801, b: 0.801, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2500
   m_Range: 10000
   m_SpotAngle: 30
