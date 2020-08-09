@@ -58,17 +58,17 @@ public class PlayerLogic : MonoBehaviour
     void Update()
     {
         var rearThrusterModule = this.rearThruster.emission;
-        rearThrusterModule.enabled = this.canThrust && this.thrustForward > 0;
+        rearThrusterModule.enabled = this.canThrust && (this.thrustForward > 0 || Input.GetKey("w") );
         rearThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
         var frontThrusterModule = this.frontThruster.emission;
-        frontThrusterModule.enabled = this.canThrust && this.thrustForward < 0;
+        frontThrusterModule.enabled = this.canThrust && (this.thrustForward < 0 || Input.GetKey("s") );
         frontThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
 
         // Right/left thrusters
         var rightThrusterModule = this.rightThruster.emission;
-        rightThrusterModule.enabled = this.canThrust && this.thrustRight < 0;
+        rightThrusterModule.enabled = this.canThrust && (this.thrustRight < 0 || Input.GetKey("a") );
         var leftThrusterModule = this.leftThruster.emission;
-        leftThrusterModule.enabled = this.canThrust && this.thrustRight > 0;
+        leftThrusterModule.enabled = this.canThrust && (this.thrustRight > 0 || Input.GetKey("d") );
     }
 
     // Todo: perhaps add dynamic timestep for more efficient calculation / more resolution under high forces
@@ -88,8 +88,19 @@ public class PlayerLogic : MonoBehaviour
             {
                 Vector3 vNorm = this.velocity.normalized;
                 Vector3 vNormSide = new Vector3(vNorm.y, -vNorm.x, 0); // Vector orthogonal to velocity (sideways)
-                float thrustForwardFinal = this.thrustForward * GameConstants.Instance.ThrustForward;
-                float thrustRightFinal = this.thrustRight * GameConstants.Instance.ThrustRight;
+
+                float thrustForwardFinal = 0;
+                if (this.thrustForward > 0 || Input.GetKey("w"))
+                    thrustForwardFinal = GameConstants.Instance.ThrustForward;
+                if (this.thrustForward < 0 || Input.GetKey("s"))
+                    thrustForwardFinal = -GameConstants.Instance.ThrustForward;
+
+                float thrustRightFinal = 0;
+                if (this.thrustRight > 0 || Input.GetKey("d"))
+                    thrustRightFinal = GameConstants.Instance.ThrustRight;
+                if (this.thrustRight < 0 || Input.GetKey("a"))
+                    thrustRightFinal = -GameConstants.Instance.ThrustRight;
+
                 force += vNorm * thrustForwardFinal;
                 force += vNormSide * thrustRightFinal;
                 float thrustTotal = Mathf.Abs(thrustForwardFinal) + Mathf.Abs(thrustRightFinal);
