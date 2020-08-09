@@ -2,10 +2,19 @@
 
 public class PlanetLogic : MonoBehaviour
 {
-    public bool RingEnabled = false;
+    [Tooltip("Planet Radius (use this instead of scaling)"), Range(0, 10)]
+    public float radius = 0.5f;
 
-    public float RingRadiusFactor = 1.5f;
-    public float RingWidthFactor = 0.5f;
+    public bool ringEnabled = false;
+    public float ringRadiusFactor = 1.5f;
+    public float ringWidthFactor = 0.5f;
+
+    public Transform geometry;
+
+    void OnValidate()
+    {
+        this.geometry.localScale = Vector3.one * this.radius;
+    }
 
     // Start is called before the first frame update
     void Start()

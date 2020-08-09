@@ -16,6 +16,7 @@ public class RayShadow : MonoBehaviour
 
     public float shadowLengthScale = 30.0f;
 
+    //public Transform root;
     public MeshFilter geometry;
 
     // Start is called before the first frame update
@@ -33,6 +34,8 @@ public class RayShadow : MonoBehaviour
             .Select(light =>
             {
                 var shadow = new GameObject();
+                shadow.transform.SetParent(this.geometry.transform);
+
                 var lineRenderer = shadow.AddComponent<LineRenderer>();
                 lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
                 var colorGradient = new Gradient { mode = GradientMode.Blend };
@@ -61,10 +64,10 @@ public class RayShadow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var ourPos = this.transform.position;
+        var ourPos = this.geometry.transform.position;
         foreach (var ray in this.rays)
         {
-            // We need the extends to decide the length of the shadow
+            // We need the extents to decide the length of the shadow
             var localExtents = Vector3.Scale(this.geometry.mesh.bounds.extents, this.geometry.transform.localScale);
             var shadowLength = localExtents.magnitude * this.shadowLengthScale;
 
@@ -75,7 +78,6 @@ public class RayShadow : MonoBehaviour
             }
             var lightPos = ray.light.transform.position;
             var lightRay = (ourPos - lightPos).normalized;
-
 
             var rayMid = ourPos + lightRay * localExtents.magnitude;
             if (ray.lineRenderer.GetPosition(1) != rayMid)
@@ -90,16 +92,24 @@ public class RayShadow : MonoBehaviour
             }
 
             // Determine the width of the shadow we should cast:
-            // Project the x and y axis of the scaled oriented bounding box onto the vector perpendicular to 
-            // the direction of the light.
-            var perpVec = Vector3.Cross(lightRay, Vector3.forward).normalized;
+            float width;
+            if(localExtents.x == localExtents.y)
+            {
+                width = localExtents.x * 2;
+            }
+            else
+            {
+                // Project the x and y axis of the scaled oriented bounding box onto the vector perpendicular to 
+                // the direction of the light.
+                var perpVec = Vector3.Cross(lightRay, Vector3.forward).normalized;
             
-            var xAxis = this.transform.TransformDirection(localExtents.x00());
-            var yAxis = this.transform.TransformDirection(localExtents._0y0());
-            var width = Mathf.Max(
-                Vector3.Project(xAxis, perpVec).magnitude,
-                Vector3.Project(yAxis, perpVec).magnitude
-            ) * 2;
+                var xAxis = this.transform.TransformDirection(localExtents.x00());
+                var yAxis = this.transform.TransformDirection(localExtents._0y0());
+                width = Mathf.Max(
+                    Vector3.Project(xAxis, perpVec).magnitude,
+                    Vector3.Project(yAxis, perpVec).magnitude
+                ) * 2;
+            }
 
             ray.lineRenderer.startWidth = width;
             ray.lineRenderer.endWidth = width * 0.5f;

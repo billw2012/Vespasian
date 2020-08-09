@@ -4,31 +4,19 @@ using UnityEngine;
 
 public class SunLogic : MonoBehaviour
 {
-    private Light childLight;
-    //private Material mainMaterial;
+    public Light childLight;
+    public MeshRenderer mainRenderer;
+    public MeshRenderer glowRenderer;
+    public ParticleSystemRenderer pfxRenderer;
+
     private MaterialPropertyBlock mainPB;
-    //private Material glowMaterial;
     private MaterialPropertyBlock glowPB;
-    //private Material pfxMaterial;
     private MaterialPropertyBlock pfxPB;
 
     private static Color TweakH(Color color, float newH)
     {
         Color.RGBToHSV(color, out _, out float s, out float v);
         return Color.HSVToRGB(newH, s, v);
-    }
-
-    private static void TweakH(Light light, float newH)
-    {
-        light.color = TweakH(light.color, newH);
-    }
-
-    private static void TweakH(Material mat, string[] colorProps, float newH)
-    {
-        foreach(var colorProp in colorProps)
-        {
-            mat.SetColor(colorProp, TweakH(mat.GetColor(colorProp), newH));
-        }
     }
 
     private static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH)
@@ -79,15 +67,13 @@ public class SunLogic : MonoBehaviour
     public Color color = Color.white;
     [Tooltip("How closely the light color follows sun color"), Range(0, 1)]
     public float lightTintFactor = 0.25f;
+    [Tooltip("How high the light is above the sun surface"), Range(0, 30)]
+    public float lightHeight = 5f;
 
     void OnValidate()
     {
-        this.childLight = this.transform.Find("Light").GetComponent<Light>();
-        var mainRenderer = this.GetComponent<MeshRenderer>();
-        var glowRenderer = this.transform.Find("Glow").GetComponent<MeshRenderer>();
-        var pfxRenderer = this.transform.Find("Particles").GetComponent<ParticleSystemRenderer>();
-
         this.childLight.color = Color.Lerp(Color.white, color, this.lightTintFactor);
+        this.childLight.transform.localPosition = Vector3.back * (this.lightHeight + this.mainRenderer.transform.localScale.z);
 
         Color.RGBToHSV(this.color, out float newH, out _, out _);
 
@@ -98,24 +84,24 @@ public class SunLogic : MonoBehaviour
             this.pfxPB = new MaterialPropertyBlock();
         }
 
-        TweakH(this.mainPB, mainRenderer.sharedMaterial, new[] {
+        TweakH(this.mainPB, this.mainRenderer.sharedMaterial, new[] {
             "_BaseColor",
             "_SpecColor",
             "_EmissionColor",
         }, newH);
-        TweakH(this.glowPB, glowRenderer.sharedMaterial, new[] {
+        TweakH(this.glowPB, this.glowRenderer.sharedMaterial, new[] {
             "_BaseColor",
             "_SpecColor",
             "_EmissionColor",
         }, newH);
-        TweakH(this.pfxPB, pfxRenderer.sharedMaterial, new[] {
+        TweakH(this.pfxPB, this.pfxRenderer.sharedMaterial, new[] {
             "_BaseColor",
             "_SpecColor",
             "_EmissionColor",
         }, newH);
 
-        mainRenderer.SetPropertyBlock(this.mainPB);
-        glowRenderer.SetPropertyBlock(this.glowPB);
-        pfxRenderer.SetPropertyBlock(this.pfxPB);
+        this.mainRenderer.SetPropertyBlock(this.mainPB);
+        this.glowRenderer.SetPropertyBlock(this.glowPB);
+        this.pfxRenderer.SetPropertyBlock(this.pfxPB);
     }
 }
