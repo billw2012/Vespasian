@@ -8,11 +8,14 @@ public class PlayerLogic : MonoBehaviour
     [HideInInspector]
     public Vector3 velocity = Vector3.zero;
     [HideInInspector]
-    public float thrust { get; set; } = 0;
+    public float thrustForward { get; set; } = 0;
+    public float thrustRight { get; set; } = 0;
     bool canThrust => this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0;
 
     public ParticleSystem frontThruster;
     public ParticleSystem rearThruster;
+    public ParticleSystem rightThruster;
+    public ParticleSystem leftThruster;
     public ParticleSystem damageDebris;
 
     GameObject simulationPath = null;
@@ -36,6 +39,8 @@ public class PlayerLogic : MonoBehaviour
 
         SetEmissionActive(this.rearThruster, false);
         SetEmissionActive(this.frontThruster, false);
+        SetEmissionActive(this.rightThruster, false);
+        SetEmissionActive(this.leftThruster, false);
         SetEmissionActive(this.damageDebris, false);
     }
 
@@ -53,11 +58,17 @@ public class PlayerLogic : MonoBehaviour
     void Update()
     {
         var rearThrusterModule = this.rearThruster.emission;
-        rearThrusterModule.enabled = this.canThrust && this.thrust > 0;
+        rearThrusterModule.enabled = this.canThrust && this.thrustForward > 0;
         rearThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
         var frontThrusterModule = this.frontThruster.emission;
-        frontThrusterModule.enabled = this.canThrust && this.thrust < 0;
+        frontThrusterModule.enabled = this.canThrust && this.thrustForward < 0;
         frontThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
+
+        // Right/left thrusters
+        var rightThrusterModule = this.rightThruster.emission;
+        rightThrusterModule.enabled = this.canThrust && this.thrustRight < 0;
+        var leftThrusterModule = this.leftThruster.emission;
+        leftThrusterModule.enabled = this.canThrust && this.thrustRight > 0;
     }
 
     // Todo: perhaps add dynamic timestep for more efficient calculation / more resolution under high forces
@@ -75,8 +86,14 @@ public class PlayerLogic : MonoBehaviour
             var force = GetForce(pos);
             if(this.canThrust)
             {
-                force += this.velocity.normalized * this.thrust;
-                GameLogic.Instance.AddFuel(-Mathf.Abs(this.thrust) * stepTime * GameConstants.Instance.FuelUse);
+                Vector3 vNorm = this.velocity.normalized;
+                Vector3 vNormSide = new Vector3(vNorm.y, -vNorm.x, 0); // Vector orthogonal to velocity (sideways)
+                float thrustForwardFinal = this.thrustForward * GameConstants.Instance.ThrustForward;
+                float thrustRightFinal = this.thrustRight * GameConstants.Instance.ThrustRight;
+                force += vNorm * thrustForwardFinal;
+                force += vNormSide * thrustRightFinal;
+                float thrustTotal = Mathf.Abs(thrustForwardFinal) + Mathf.Abs(thrustRightFinal);
+                GameLogic.Instance.AddFuel(-thrustTotal * stepTime * GameConstants.Instance.FuelUse);
             }
             this.velocity += force * stepTime;
             pos += this.velocity * stepTime;
@@ -178,7 +195,7 @@ public class PlayerLogic : MonoBehaviour
 
     public async Task Simulate(Vector3 initialVelocity)
     {
-        var stepTime = 0.1f; // Time.fixedDeltaTime / (float)GameConstants.Instance.PhysicsSteps;
+        var stepTime = 0.01f; // Time.fixedDeltaTime / (float)GameConstants.Instance.PhysicsSteps;
         int steps = (int)(5 / stepTime); // (int)(1 / stepTime);
         await Simulate(steps, stepTime, initialVelocity);
     }
