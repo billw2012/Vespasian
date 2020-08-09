@@ -4857,11 +4857,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 945431077}
     m_Modifications:
-    - target: {fileID: 2438610178736772583, guid: f4c510226c1baa1408c3d36050fc87f1,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2896633096848152199, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_Layer
