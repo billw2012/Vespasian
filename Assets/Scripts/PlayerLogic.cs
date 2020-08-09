@@ -85,12 +85,17 @@ public class PlayerLogic : MonoBehaviour
         }
         rigidBody.MovePosition(pos);
 
-        // Smooth rotation slightly to avoid random flipping. Smoothing should not be noticible in
+        // TODO: rotation needs to be smoothed, but this commented out method results in rotation
+        // while following the current orbit lagging.
+        // (perhaps even limiting them to the same magnitude?)
+        // Smooth rotation slightly to avoid random flipping. Smoothing should not be noticeable in
         // normal play.
-        var desiredRot = Quaternion.FromToRotation(Vector3.up, this.velocity).eulerAngles.z;
-        var currentRot = rigidBody.rotation.eulerAngles.z;
-        var smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 90);
-        rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
+        //var desiredRot = Quaternion.FromToRotation(Vector3.up, this.velocity).eulerAngles.z;
+        //var currentRot = rigidBody.rotation.eulerAngles.z;
+        //var smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 90);
+        //rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
+
+        rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
 
         this.Simulate(this.velocity).ContinueWith(_ => {});
     }
