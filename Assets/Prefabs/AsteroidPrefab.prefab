@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 6039441407903207755}
   - component: {fileID: 6039441407903207754}
   - component: {fileID: 2438610178736772583}
-  - component: {fileID: 6039441407903207766}
-  - component: {fileID: 6039441407903207767}
-  - component: {fileID: 3768597765047173929}
+  - component: {fileID: 1323492281585380605}
+  - component: {fileID: 3943400424216723535}
   m_Layer: 0
-  m_Name: PlanetPrefab
+  m_Name: AsteroidPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6039441407903207753}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &6039441407903207755
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55,7 +54,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -63,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 079c3d8bb2faa714b908229bbd1b7274, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,35 +112,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &6039441407903207766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039441407903207753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f53f59c86760584291048a1c9336c49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Density: 1
-  Mass: -1
---- !u!114 &6039441407903207767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039441407903207753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e25c09c37214e64286bcb2f322b06b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadowLengthScale: 30
-  geometry: {fileID: 0}
---- !u!114 &3768597765047173929
+--- !u!114 &1323492281585380605
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -156,3 +127,15 @@ MonoBehaviour:
   RingEnabled: 0
   RingRadiusFactor: 1.5
   RingWidthFactor: 0.5
+--- !u!114 &3943400424216723535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67546db15602b0845a4fb272be8d7c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
