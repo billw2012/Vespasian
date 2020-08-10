@@ -22,6 +22,13 @@ public class PlayerLogic : MonoBehaviour
     //CancellationTokenSource simCT = null;
     bool calculating = false;
 
+    public enum e_state {
+        aiming, // We are aiming at start of the game
+        flying  // We have been launched and are flying already
+    };
+
+    public e_state state = e_state.aiming;
+
     static void SetEmissionActive(ParticleSystem pfx, bool enabled)
     {
         var em = pfx.emission;
@@ -57,18 +64,35 @@ public class PlayerLogic : MonoBehaviour
 
     void Update()
     {
+        // todo move this to a common function?
+        float thrustForwardFinal = thrustForward;
+        if (Input.GetKey("w"))
+            thrustForwardFinal = GameConstants.Instance.ThrustForward;
+        if (Input.GetKey("s"))
+            thrustForwardFinal = -GameConstants.Instance.ThrustForward;
+
+        float thrustRightFinal = thrustRight;
+        if (Input.GetKey("d"))
+            thrustRightFinal = GameConstants.Instance.ThrustRight;
+        if (Input.GetKey("a"))
+            thrustRightFinal = -GameConstants.Instance.ThrustRight;
+
+        const float rateOverTimeMax = 100;
+
         var rearThrusterModule = this.rearThruster.emission;
-        rearThrusterModule.enabled = this.canThrust && (this.thrustForward > 0 || Input.GetKey("w") );
-        rearThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
+        rearThrusterModule.enabled = this.canThrust && thrustForwardFinal > 0;
+        rearThrusterModule.rateOverTimeMultiplier = rateOverTimeMax*Mathf.Abs(thrustForwardFinal);
         var frontThrusterModule = this.frontThruster.emission;
-        frontThrusterModule.enabled = this.canThrust && (this.thrustForward < 0 || Input.GetKey("s") );
-        frontThrusterModule.rateOverTimeMultiplier = GameLogic.Instance.remainingFuel * 100;
+        frontThrusterModule.enabled = this.canThrust && thrustForwardFinal < 0;
+        frontThrusterModule.rateOverTimeMultiplier = rateOverTimeMax * Mathf.Abs(thrustForwardFinal);
 
         // Right/left thrusters
         var rightThrusterModule = this.rightThruster.emission;
-        rightThrusterModule.enabled = this.canThrust && (this.thrustRight < 0 || Input.GetKey("a") );
+        rightThrusterModule.enabled = this.canThrust && thrustRightFinal < 0;
+        rightThrusterModule.rateOverTimeMultiplier = rateOverTimeMax * Mathf.Abs(thrustRightFinal);
         var leftThrusterModule = this.leftThruster.emission;
-        leftThrusterModule.enabled = this.canThrust && (this.thrustRight > 0 || Input.GetKey("d") );
+        leftThrusterModule.rateOverTimeMultiplier = rateOverTimeMax * Mathf.Abs(thrustRightFinal);
+        leftThrusterModule.enabled = this.canThrust && thrustRightFinal > 0;
     }
 
     // Todo: perhaps add dynamic timestep for more efficient calculation / more resolution under high forces
@@ -89,16 +113,16 @@ public class PlayerLogic : MonoBehaviour
                 Vector3 vNorm = this.velocity.normalized;
                 Vector3 vNormSide = new Vector3(vNorm.y, -vNorm.x, 0); // Vector orthogonal to velocity (sideways)
 
-                float thrustForwardFinal = 0;
-                if (this.thrustForward > 0 || Input.GetKey("w"))
+                float thrustForwardFinal = thrustForward;
+                if (Input.GetKey("w"))
                     thrustForwardFinal = GameConstants.Instance.ThrustForward;
-                if (this.thrustForward < 0 || Input.GetKey("s"))
+                if (Input.GetKey("s"))
                     thrustForwardFinal = -GameConstants.Instance.ThrustForward;
 
-                float thrustRightFinal = 0;
-                if (this.thrustRight > 0 || Input.GetKey("d"))
+                float thrustRightFinal = thrustRight;
+                if (Input.GetKey("d"))
                     thrustRightFinal = GameConstants.Instance.ThrustRight;
-                if (this.thrustRight < 0 || Input.GetKey("a"))
+                if (Input.GetKey("a"))
                     thrustRightFinal = -GameConstants.Instance.ThrustRight;
 
                 force += vNorm * thrustForwardFinal;

@@ -20,6 +20,9 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Assert(this.ObjectToFire != null);
+
+        var playerLogic = this.ObjectToFire.GetComponent<PlayerLogic>();
+
         this.dragStart = eventData.position;
     }
 
@@ -51,5 +54,9 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         playerLogic.enabled = true;
         playerLogic.velocity = this.GetVelocity(eventData.position);
         playerLogic.ClearSimulation();
+        playerLogic.state = PlayerLogic.e_state.flying;
+
+        // Disable this after ship has been launched
+        this.enabled = false;
     }
 }

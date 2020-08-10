@@ -152,6 +152,7 @@ MonoBehaviour:
   rightThruster: {fileID: 7668834564355503827}
   leftThruster: {fileID: 8480122912372712441}
   damageDebris: {fileID: 1482889361666344771}
+  state: 0
 --- !u!114 &7620224551109491988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,6 +532,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Left Thruster
+      objectReference: {fileID: 0}
+    - target: {fileID: 4772546888013792632, guid: 63528eef9aa5e4a42ae0a7b424fa64de,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6763505182893971282, guid: 63528eef9aa5e4a42ae0a7b424fa64de,
         type: 3}
