@@ -32,4 +32,26 @@ public static class UnityExtensions
             new Vector2(pointOnRay_local.x * edgeToRayRatios.y + rect.center.x,
                 pointOnRay_local.y > 0 ? rect.yMax : rect.yMin);
     }
+
+    public static Vector2 ClampToRectOnRay(this Rect rect, Vector2 point)
+    {
+        if(rect.Contains(point))
+        {
+            return point;
+        }
+        return rect.IntersectionWithRayFromCenter(point);
+    }
+
+    public static T GetComponentInParentOnly<T>(this GameObject child) where T : class
+    {
+        var parent = child.transform.parent;
+        while (parent != null && parent.GetComponent<T>() == null)
+        {
+            parent = parent.transform.parent;
+        }
+        if (parent == null)
+            return null;
+
+        return parent.GetComponent<T>();
+    }
 }

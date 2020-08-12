@@ -10,6 +10,9 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     Vector2 dragStart;
 
+    PlayerLogic playerLogic => this.ObjectToFire.GetComponent<PlayerLogic>();
+    bool launched => this.playerLogic.enabled;
+
     void Start()
     {
         Debug.Assert(this.ObjectToFire != null);
@@ -34,22 +37,16 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Assert(this.ObjectToFire != null);
-
-        var playerLogic = this.ObjectToFire.GetComponent<PlayerLogic>();
         
-        playerLogic.velocity = this.GetVelocity(eventData.position);
+        this.playerLogic.velocity = this.GetVelocity(eventData.position);
 
-        this.ObjectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, playerLogic.velocity);
-
-        playerLogic.Simulate(playerLogic.velocity).ContinueWith(_ => { });
+        this.ObjectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerLogic.velocity);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Assert(this.ObjectToFire != null);
-        var playerLogic = this.ObjectToFire.GetComponent<PlayerLogic>();
-        playerLogic.enabled = true;
-        playerLogic.velocity = this.GetVelocity(eventData.position);
-        playerLogic.ClearSimulation();
+        this.playerLogic.enabled = true;
+        this.playerLogic.velocity = this.GetVelocity(eventData.position);
     }
 }

@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f53f59c86760584291048a1c9336c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Density: 1
-  Mass: -1
+  density: 1
+  mass: -1
 --- !u!1 &2043561178338600667
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,9 +150,9 @@ GameObject:
   - component: {fileID: 6039441407903207765}
   - component: {fileID: 3768597765047173929}
   - component: {fileID: 270560365}
+  - component: {fileID: 1992624584283286723}
   - component: {fileID: 270560364}
   - component: {fileID: 2438610178736772583}
-  - component: {fileID: 1992624584283286723}
   m_Layer: 8
   m_Name: PlanetPrefab
   m_TagString: Untagged
@@ -210,6 +210,20 @@ MonoBehaviour:
   eccentricity: 0
   meanLongitude: 0
   pathQuality: 1
+--- !u!114 &1992624584283286723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e25c09c37214e64286bcb2f322b06b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowLengthScale: 30
+  geometry: {fileID: 2518515470092575213}
 --- !u!120 &270560364
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -681,17 +695,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &1992624584283286723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039441407903207753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e25c09c37214e64286bcb2f322b06b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadowLengthScale: 30
-  geometry: {fileID: 2518515470092575213}

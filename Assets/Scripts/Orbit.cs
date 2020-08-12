@@ -97,6 +97,6 @@ public class Orbit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.UpdatePosition(this.startTime - Time.time);
+        this.UpdatePosition(Time.time - this.startTime);
     }
 }
