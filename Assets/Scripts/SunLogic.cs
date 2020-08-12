@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SunLogic : MonoBehaviour
@@ -21,7 +22,7 @@ public class SunLogic : MonoBehaviour
 
     private static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH)
     {
-        foreach (var colorProp in colorProps)
+        foreach (var colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
         {
             matPB.SetColor(colorProp, TweakH(baseMaterial.GetColor(colorProp), newH));
         }

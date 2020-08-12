@@ -11,19 +11,15 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     Vector2 dragStart;
 
     PlayerLogic playerLogic => this.ObjectToFire.GetComponent<PlayerLogic>();
-    bool launched => this.playerLogic.enabled;
-
-    void Start()
-    {
-        Debug.Assert(this.ObjectToFire != null);
-        // Freeze the object in place until we impart the velocity we want to
-        this.ObjectToFire.GetComponent<PlayerLogic>().enabled = false;
-    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Assert(this.ObjectToFire != null);
-        this.dragStart = eventData.position;
+
+        if (this.playerLogic.state == PlayerLogic.FlyingState.Aiming)
+        {
+            this.dragStart = eventData.position;
+        }
     }
 
     private Vector3 GetVelocity(Vector3 dragPosition)
@@ -37,16 +33,24 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Assert(this.ObjectToFire != null);
-        
-        this.playerLogic.velocity = this.GetVelocity(eventData.position);
 
-        this.ObjectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerLogic.velocity);
+        if (this.playerLogic.state == PlayerLogic.FlyingState.Aiming)
+        {
+            this.playerLogic.velocity = this.GetVelocity(eventData.position);
+
+            this.ObjectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerLogic.velocity);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Assert(this.ObjectToFire != null);
-        this.playerLogic.enabled = true;
-        this.playerLogic.velocity = this.GetVelocity(eventData.position);
+
+        if (this.playerLogic.state == PlayerLogic.FlyingState.Aiming)
+        {
+            this.playerLogic.velocity = this.GetVelocity(eventData.position);
+
+            this.playerLogic.state = PlayerLogic.FlyingState.Flying;
+        }
     }
 }

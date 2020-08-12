@@ -14,6 +14,10 @@ public class GameConstants : MonoBehaviour {
 
     public float FuelUse = 0.1f;
 
+    // Modifiers of thrust of engine groups
+    public float ThrustForward = 1.0f;
+    public float ThrustRight = 0.3f;
+
     public float MaxLaunchVelocity = 3.0f;
 
     void Start()

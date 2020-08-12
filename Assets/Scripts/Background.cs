@@ -12,6 +12,6 @@ public class Background : MonoBehaviour
         var worldSize = tr - bl;
         var size = this.GetComponent<MeshFilter>().mesh.bounds.size.x;
         this.transform.localScale = Vector3.one * Mathf.Max(worldSize.x, worldSize.y) / size;
-        this.GetComponent<MeshRenderer>().material.mainTextureOffset = this.transform.position * -0.02f;
+        this.GetComponent<MeshRenderer>().material.SetTextureOffset("_BaseMap", this.transform.position * -0.02f);
     }
 }
