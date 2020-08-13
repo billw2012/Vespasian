@@ -56,10 +56,12 @@ public class PlayerLogic : MonoBehaviour
         this.state = FlyingState.Aiming;
     }
 
-    private static Vector3 GetForce(Vector3 pos) => 
-        GravitySource.All
-                .Select(src => GravitySource.CalculateForce(pos, src.transform.position, src.mass))
-                .Aggregate((a, b) => a + b);
+    private static Vector3 GetForce(Vector3 pos)
+    {
+        return GravitySource.All
+            .Select(src => GravityParameters.CalculateForce(pos, src.transform.position, src.parameters.mass))
+            .Aggregate((a, b) => a + b);
+    }
 
     void UpdateFinalThrust()
     {

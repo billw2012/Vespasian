@@ -22,7 +22,7 @@ public class SimManager : MonoBehaviour {
         public Vector3 localPosition = Vector3.zero;
         public Vector3 position = Vector3.zero;
 
-        public float mass => this.gravitySource.mass;
+        public float mass => this.gravitySource.parameters.mass;
 
         public override string ToString() => (this.orbit != null ? this.orbit.gameObject : this.gravitySource.gameObject).ToString();
 
@@ -40,7 +40,7 @@ public class SimManager : MonoBehaviour {
         {
             if (orbit != null)
             {
-                this.localPosition = this.orbit.GetPosition(t);
+                this.localPosition = this.orbit.parameters.GetPosition(t);
             }
             else
             {
@@ -196,7 +196,7 @@ public class SimManager : MonoBehaviour {
             rootPlanet.UpdatePositions(this.simTime - this.startTime);
         }
         var force = this.gravitySources
-                .Select(src => GravitySource.CalculateForce(this.position, src.position, src.mass))
+                .Select(src => GravityParameters.CalculateForce(this.position, src.position, src.mass))
                 .Aggregate((a, b) => a + b);
         this.velocity += force * dt;
         this.position += this.velocity * dt;

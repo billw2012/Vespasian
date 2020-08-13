@@ -1,27 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Orbit : MonoBehaviour
+[Serializable]
+public struct OrbitParameters
 {
     // Longitude means rotational offset from the primary axis of the system in orbital mechanics.
     // e.g. if rotation is around z axis then either x or y might be the primary axis from which longitudes are measured.
     // Perihelion is the point of closest approach to the orbited body.
     [Tooltip("The angle from primary axis of the point of closest approach, in degrees"), Range(0, 360)]
-    public float longitudeOfPerihelion = 0;
+    public float longitudeOfPerihelion;
     [Tooltip("Average orbital distance"), Range(0, 200)]
-    public float meanDistance = 5;
+    public float meanDistance;
     [Tooltip("Motion of orbiting body per second, in degrees per second"), Range(0, 45)]
-    public float motionPerSecond = 0.1f;
+    public float motionPerSecond;
     [Tooltip("How elliptical the orbit is"), Range(0, 1)]
-    public float eccentricity = 0;
+    public float eccentricity;
     // Mean longitude is the ecliptic longitude at which an orbiting body could be found if its orbit were circular, and free of perturbations, and if its inclination were zero
     [Tooltip("Angle the orbit starts from, in degrees"), Range(0, 360)]
-    public float meanLongitude = 0;
-    [Tooltip("How finely subdivided the path rendering is"), Range(0, 1)]
-    public float pathQuality = 1;
+    public float meanLongitude;
 
-    float startTime = 0;
 
     static float Mod2PI(float val)
     {
@@ -44,9 +43,25 @@ public class Orbit : MonoBehaviour
         );
     }
 
+}
+
+public class Orbit : MonoBehaviour
+{
+    public OrbitParameters parameters = new OrbitParameters {
+        longitudeOfPerihelion = 0,
+        meanDistance = 5,
+        motionPerSecond = 0.1f,
+        eccentricity = 0,
+        meanLongitude = 0
+    };
+
+    [Tooltip("How finely subdivided the path rendering is"), Range(0, 1)]
+    public float pathQuality = 1;
+
+    float startTime = 0;
     void UpdatePosition(float time)
     {
-        this.transform.Find("Position").localPosition = GetPosition(time);
+        this.transform.Find("Position").localPosition = this.parameters.GetPosition(time);
     }
 
     void OnValidate()
@@ -75,13 +90,14 @@ public class Orbit : MonoBehaviour
         //{
         //    lineRenderer = this.orbitPath.GetComponent<LineRenderer>();
         //}
-        var pathPoints = (int)(360 * this.pathQuality);
-        var totalOrbitTime = 360 / this.motionPerSecond;
-        var timePerPoint = totalOrbitTime / pathPoints;
+
+        int pathPoints = (int)(360 * this.pathQuality);
+        float totalOrbitTime = 360 / this.parameters.motionPerSecond;
+        float timePerPoint = totalOrbitTime / pathPoints;
         var path = new List<Vector3>();
         for (int i = 0; i < pathPoints; i++)
         {
-            path.Add(this.GetPosition(i * timePerPoint));
+            path.Add(this.parameters.GetPosition(i * timePerPoint));
         }
         lineRenderer.positionCount = path.Count;
         lineRenderer.SetPositions(path.ToArray());

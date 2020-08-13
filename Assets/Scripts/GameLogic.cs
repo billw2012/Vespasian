@@ -30,7 +30,7 @@ public class GameLogic : MonoBehaviour {
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("Test1Scene");
+        SceneManager.LoadScene("TestScene");
     }
 
     public void WinGame()

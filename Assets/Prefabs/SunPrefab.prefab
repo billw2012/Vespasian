@@ -5093,8 +5093,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f53f59c86760584291048a1c9336c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  density: 1
-  mass: -1
+  parameters:
+    density: 1
+    mass: -1
 --- !u!33 &4952247942164856782
 MeshFilter:
   m_ObjectHideFlags: 0
