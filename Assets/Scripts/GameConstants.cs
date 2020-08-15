@@ -8,8 +8,7 @@ public class GameConstants : MonoBehaviour {
 
     public float GlobalCoefficient = 5.0f;
 
-    public int SimStepsPerFrame = 1000;
-    public float SimStepDt = 0.02f;
+    public float SimStepDt = 0.05f;
     public float SimDistanceLimit = 100f;
 
     public float FuelUse = 0.1f;

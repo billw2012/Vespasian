@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -104,8 +104,8 @@ public class SimManager : MonoBehaviour {
                 // presumed to be due to inaccurate evaluation of the collision position,
                 // however the rendering of the position still jitters, so there must be another cause for this (perhaps mismatch of 
                 // start time with rendering?).
-                var collision = Geometry.IntersectRaySphere(oldPosition, this.position - oldPosition, planetPosition, g.radius + this.owner.radius);
-                if (collision.occurred)//Collision(planetPosition, g.radius))
+                var collision = Geometry.IntersectRaySphere(oldPosition, this.velocity.normalized, planetPosition, g.radius + this.owner.radius);
+                if (collision.occurred && collision.t < this.velocity.magnitude * dt * 3)//Collision(planetPosition, g.radius))
                 {
                     //var collision = Geometry.IntersectRaySphere(oldPosition, this.position - oldPosition, planetPosition, g.radius + this.radius);
                     this.position = collision.at;
@@ -176,7 +176,6 @@ public class SimManager : MonoBehaviour {
 
     async Task UpdatePath()
     {
-
         var state = new SimState(
             owner: this,
             startPosition: GameLogic.Instance.player.transform.position,
@@ -184,7 +183,7 @@ public class SimManager : MonoBehaviour {
             startTime: Time.time
         );
 
-        float timeStep = Time.fixedDeltaTime;
+        float timeStep = GameConstants.Instance.SimStepDt;//Time.fixedDeltaTime;
 
         // Hand off to another thread
         await Task.Run(() =>
@@ -194,28 +193,31 @@ public class SimManager : MonoBehaviour {
             }
         });
 
-        // Resume in main thread
-        this.pathRenderer.positionCount = state.path.Count;
-        this.pathRenderer.SetPositions(state.path.ToArray());
+        if (this.pathRenderer != null && this.warningSign != null)
+        {
+            // Resume in main thread
+            this.pathRenderer.positionCount = state.path.Count;
+            this.pathRenderer.SetPositions(state.path.ToArray());
 
-        if (state.crashed && state.path.Count > 0)
-        {
-            this.warningSign.SetActive(true);
-            var rectTransform = this.warningSign.GetComponent<RectTransform>();
-            var canvas = this.warningSign.GetComponent<Graphic>().canvas;
-            var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
-            var targetCanvasPosition = canvas.WorldToCanvasPosition(state.path.Last());
-            var clampArea = new Rect(
-                canvasSafeArea.x - rectTransform.rect.x,
-                canvasSafeArea.y - rectTransform.rect.y,
-                canvasSafeArea.width - rectTransform.rect.width,
-                canvasSafeArea.height - rectTransform.rect.height
-            );
-            rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
-        }
-        else
-        {
-            this.warningSign.SetActive(false);
+            if (state.crashed && state.path.Count > 0)
+            {
+                this.warningSign.SetActive(true);
+                var rectTransform = this.warningSign.GetComponent<RectTransform>();
+                var canvas = this.warningSign.GetComponent<Graphic>().canvas;
+                var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
+                var targetCanvasPosition = canvas.WorldToCanvasPosition(state.path.Last());
+                var clampArea = new Rect(
+                    canvasSafeArea.x - rectTransform.rect.x,
+                    canvasSafeArea.y - rectTransform.rect.y,
+                    canvasSafeArea.width - rectTransform.rect.width,
+                    canvasSafeArea.height - rectTransform.rect.height
+                );
+                rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
+            }
+            else
+            {
+                this.warningSign.SetActive(false);
+            }
         }
     }
 
