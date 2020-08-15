@@ -35,23 +35,59 @@ public static class UnityExtensions
 
     public static Vector2 ClampToRectOnRay(this Rect rect, Vector2 point)
     {
-        if(rect.Contains(point))
-        {
-            return point;
-        }
-        return rect.IntersectionWithRayFromCenter(point);
+        return rect.Contains(point) ? point : rect.IntersectionWithRayFromCenter(point);
     }
 
     public static T GetComponentInParentOnly<T>(this GameObject child) where T : class
     {
+        #pragma warning disable UNT0014 // Invalid type for call to GetComponent
         var parent = child.transform.parent;
-        while (parent != null && parent.GetComponent<T>() == null)
+        while (parent != null && !parent.HasComponent<T>())
         {
             parent = parent.transform.parent;
         }
-        if (parent == null)
-            return null;
+        return parent != null ? parent.GetComponent<T>() : null;
+        #pragma warning restore UNT0014 // Invalid type for call to GetComponent
+    }
 
-        return parent.GetComponent<T>();
+    public static IEnumerable<GameObject> GetAllParents(this GameObject child, GameObject until = null)
+    {
+        var parent = child.transform.parent;
+        while (parent != null && parent.gameObject != until)
+        {
+            yield return parent.gameObject;
+            parent = parent.transform.parent;
+        }
+    }
+
+    public static IEnumerable<GameObject> GetAllParents(this Component child, GameObject until = null)
+    {
+        var parent = child.transform.parent;
+        while (parent != null && parent.gameObject != until)
+        {
+            yield return parent.gameObject;
+            parent = parent.transform.parent;
+        }
+    }
+
+    public static bool IsIdentity(this Transform transform)
+    {
+        return transform.localPosition == Vector3.zero
+            && transform.localScale == Vector3.one
+            && transform.localRotation == Quaternion.identity;
+    }
+
+    public static bool HasComponent<T>(this GameObject g) where T : class
+    {
+        #pragma warning disable UNT0014 // Invalid type for call to GetComponent
+        return g.GetComponent<T>() != null;
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
+    }
+
+    public static bool HasComponent<T>(this Component c) where T : class
+    {
+#pragma warning disable UNT0014 // Invalid type for call to GetComponent
+        return c.GetComponent<T>() != null;
+#pragma warning restore UNT0014 // Invalid type for call to GetComponent
     }
 }

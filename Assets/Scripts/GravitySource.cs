@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -29,6 +30,30 @@ public class GravitySource : MonoBehaviour {
 
     void Start()
     {
+        bool Validate()
+        {
+            var parentOrbit = this.gameObject.GetComponentInParent<Orbit>();
+            // If it hasn't got a parent orbit then any transform is valid
+            if (parentOrbit == null)
+                return true;
+
+            // Only game objects being controlled by Orbit component are allowed to have non-identity transforms
+            var orbitControlled = GameObject.FindObjectsOfType<Orbit>().Select(o => o.position.gameObject);
+            // If it has a parent then all the non orbit parents must have null local transforms
+            var invalidParents = this.gameObject.GetAllParents(until: parentOrbit.gameObject)
+                .Where(p => !orbitControlled.Contains(p) && !p.transform.IsIdentity());
+            if (invalidParents.Any())
+            {
+                foreach (var p in invalidParents)
+                {
+                    Debug.LogError($"{this}: parent {p.name} is invalid, it has none zero transform", p);
+                }
+                return false;
+            }
+            return true;
+        }
+        Debug.Assert(Validate());
+
         All.Add(this);
         if(this.parameters.mass < 0)
         {

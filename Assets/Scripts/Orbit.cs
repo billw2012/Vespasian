@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -59,15 +60,25 @@ public class Orbit : MonoBehaviour
     public float pathQuality = 1;
 
     float startTime = 0;
+
+    [Tooltip("Transform to apply the position to, defaults to any child called 'Position'")]
+    public Transform position;
+
     void UpdatePosition(float time)
     {
-        this.transform.Find("Position").localPosition = this.parameters.GetPosition(time);
+        this.position.localPosition = this.parameters.GetPosition(time);
     }
 
     void OnValidate()
     {
+        if (this.position == null)
+        {
+            this.position = this.transform.Find("Position");
+        }
+
         this.UpdatePosition(0);
         this.UpdateOrbitPath();
+        // Debug.LogError($"Orbit hierarchies must not have any manual transforms applied: these objects are invalid: {}");
     }
 
     void UpdateOrbitPath()
@@ -106,6 +117,28 @@ public class Orbit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(this.position == null)
+        {
+            this.position = this.transform.Find("Position");
+        }
+
+        bool ValidateParents()
+        {
+            // Only game objects being controlled by Orbit component are allowed to have non-identity transforms
+            var orbitControlled = GameObject.FindObjectsOfType<Orbit>().Select(o => o.position.gameObject);
+            var invalidParents = this.GetAllParents()
+                .Where(p => !orbitControlled.Contains(p) && !p.transform.IsIdentity());
+            if(invalidParents.Any())
+            {
+                foreach (var p in invalidParents)
+                {
+                    Debug.LogError($"{this}: parent {p.name} is invalid, it has none zero transform", p);
+                }
+                return false;
+            }
+            return true;
+        }
+        Debug.Assert(ValidateParents());
         this.startTime = Time.time;
         this.UpdateOrbitPath();
     }
