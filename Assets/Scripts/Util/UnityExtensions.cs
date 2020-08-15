@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 // From https://stackoverflow.com/a/10660969/6402065
@@ -89,5 +90,14 @@ public static class UnityExtensions
 #pragma warning disable UNT0014 // Invalid type for call to GetComponent
         return c.GetComponent<T>() != null;
 #pragma warning restore UNT0014 // Invalid type for call to GetComponent
+    }
+
+    public static Task<TResult> ContinueOnThisThread<TResult>(this Task task, Func<Task, TResult> continuationFunction)
+    {
+        return task.ContinueWith(continuationFunction, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+    public static Task ContinueOnThisThread(this Task task, Action<Task> continuationFunction)
+    {
+        return task.ContinueWith(continuationFunction, TaskScheduler.FromCurrentSynchronizationContext());
     }
 }

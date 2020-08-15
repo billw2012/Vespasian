@@ -212,6 +212,7 @@ MonoBehaviour:
     eccentricity: 0
     meanLongitude: 0
   pathQuality: 1
+  position: {fileID: 2318905709148006584}
 --- !u!114 &1992624584283286723
 MonoBehaviour:
   m_ObjectHideFlags: 0

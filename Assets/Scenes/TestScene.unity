@@ -6593,6 +6593,11 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 11.87
       objectReference: {fileID: 0}
+    - target: {fileID: 4538521788297379538, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4538521788400305316, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -6651,7 +6656,7 @@ PrefabInstance:
     - target: {fileID: 4538521789519950743, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4741171058214613415, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}

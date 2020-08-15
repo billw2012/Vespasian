@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,81 +31,94 @@ public class SimManager : MonoBehaviour {
         public Vector3 position;
     }
 
-    //class SimPlanet
-    //{
-    //    public SimPlanet parent;
-    //    public List<SimPlanet> children = new List<SimPlanet>();
-
-    //    public string name;
-    //    public int sourceID;
-    //    public OrbitParameters? orbit;
-    //    public GravityParameters? gravity;
-    //    //public Matrix4x4 localToWorldMatrix;
-    //    public float radius = 0f;
-
-    //    public Vector3 localPosition = Vector3.zero;
-    //    public Vector3 position = Vector3.zero;
-
-    //    public float mass => this.gravity?.mass ?? 0;
-
-    //    public override string ToString() => this.name;
-
-    //    public SimPlanet(GravitySource from)
-    //    {
-    //        this.gravity = from.parameters;
-    //        this.radius = from.transform.localScale.x * 0.5f;
-    //        this.localPosition = from.transform.localPosition;
-    //        this.position = from.transform.position;
-    //        var parentOrbit = from.GetComponentInParent<Orbit>();
-    //        if (parentOrbit != null)
-    //        {
-    //            this.orbit = parentOrbit.parameters;
-    //        }
-    //    }
-
-    //    public void UpdatePositions(float t)
-    //    {
-    //        if (this.orbit != null)
-    //        {
-    //            this.localPosition = this.orbit?.GetPosition(t) ?? Vector2.zero;
-    //            this.position = this.parent != null ? this.parent.position + this.localPosition : this.localPosition;
-    //        }
-    //        //else
-    //        //{
-    //        //    if (this.parent != null)
-    //        //    {
-    //        //        this.localPosition = this.parent.localTransform.inverse.InverseTransformPoint(this.gravity.transform.position);
-    //        //    }
-    //        //    else
-    //        //    {
-    //        //        this.localPosition = this.gravity.transform.position;
-    //        //    }
-    //        //}
-
-    //        foreach (var child in this.children)
-    //        {
-    //            child.UpdatePositions(t);
-    //        }
-    //    }
-
-    //    public bool Collision(Vector3 otherPosition, float otherRadius)
-    //    {
-    //        return this.radius > 0 && Vector3.Distance(otherPosition, this.position) < otherRadius + this.radius
-    //            || this.children.Any(c => c.Collision(otherPosition, otherRadius));
-    //    }
-    //}
-
+    // Radius of the player
     float radius;
-    Vector3 position;
-    Vector3 velocity;
+    // Orbit parameters of all simulated bodies
     List<SimOrbit> orbits;
+    // Gravity parameters of all simulated bodies
     List<SimGravity> gravitySources;
+    // Time the SimManager was Started
     float startTime;
-    float simTime;
 
-    List<Vector3> path;
-    float pathLength;
-    bool crashed;
+    // Task representing the current instance of the sim path update task
+    Task updatingPathTask = null;
+
+    #region SimState
+    // Represents the current state of a simulation
+    class SimState
+    {
+        readonly SimManager owner;
+        Vector3 position;
+        Vector3 velocity;
+        float simTime;
+        public readonly List<Vector3> path = new List<Vector3>();
+        public float pathLength = 0;
+        public bool crashed;
+
+        public SimState(SimManager owner, Vector3 startPosition, Vector3 startVelocity, float startTime)
+        {
+            this.owner = owner;
+            this.position = startPosition;
+            this.velocity = startVelocity;
+            this.simTime = startTime;
+        }
+
+        public void Step(float dt)
+        {
+            this.simTime += dt;
+
+            // TODO: use System.Buffers ArrayPool<Vector3>.Shared; (needs a package installed)
+            var orbitPositions = new Vector3[this.owner.orbits.Count];
+
+            for (int i = 0; i < this.owner.orbits.Count; i++)
+            {
+                var o = this.owner.orbits[i];
+                var localPosition = (Vector3)o.orbit.GetPosition(this.simTime - this.owner.startTime);
+                orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
+            }
+
+            //bool Collision(Vector3 position, float radius)
+            //{
+            //    return radius > 0 && Vector3.Distance(this.position, position) < this.radius + radius;
+            //}
+
+            var force = Vector3.zero;
+
+            foreach (var g in this.owner.gravitySources)
+            {
+                var position = g.parent != -1 ? orbitPositions[g.parent] : g.position;
+                force += GravityParameters.CalculateForce(this.position, position, g.mass);
+            }
+
+            this.velocity += force * dt;
+
+            var oldPosition = this.position;
+            this.position += this.velocity * dt;
+
+            this.crashed = false;
+            foreach (var g in this.owner.gravitySources)
+            {
+                var planetPosition = g.parent != -1 ? orbitPositions[g.parent] : g.position;
+                
+                // This collision detection method was intended to address jittering of the predicted collision position,
+                // presumed to be due to inaccurate evaluation of the collision position,
+                // however the rendering of the position still jitters, so there must be another cause for this (perhaps mismatch of 
+                // start time with rendering?).
+                var collision = Geometry.IntersectRaySphere(oldPosition, this.position - oldPosition, planetPosition, g.radius + this.owner.radius);
+                if (collision.occurred)//Collision(planetPosition, g.radius))
+                {
+                    //var collision = Geometry.IntersectRaySphere(oldPosition, this.position - oldPosition, planetPosition, g.radius + this.radius);
+                    this.position = collision.at;
+                    this.crashed = true;
+                    break;
+                }
+            }
+
+            this.path.Add(this.position);
+            this.pathLength += Vector3.Distance(oldPosition, this.position);
+        }
+    }
+    #endregion
 
     public static SimManager Instance = null;
 
@@ -114,6 +128,18 @@ public class SimManager : MonoBehaviour {
         this.startTime = Time.time;
         this.warningSign.SetActive(false);
     }
+
+    void OnDestroy()
+    {
+        if(this.updatingPathTask != null)
+        {
+            // Wait for it to complete as it holds references to this object.
+            // If this doesn't work well (causing hitches or whatever), then add cancellation fences instead.
+            this.updatingPathTask.Wait();
+        }
+    }
+
+
 
     void DelayedInit()
     {
@@ -132,18 +158,6 @@ public class SimManager : MonoBehaviour {
             var directChildren = allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == orbit);
             orderedOrbits.AddRange(directChildren.Reverse());
         }
-
-        // NOTE: We assume that orbits have no relative offsets other than those driven by the orbit parameters
-        // i.e. localPosition in the hierarchy is 0 all the way to the root.
-        //bool ValidateOrbits()
-        //{
-        //    var invalidOrbits = orderedOrbits.Where(o => o.GetAllParents().Any(p => p.GetComponent<Orbit>() == null && p.transform.localPosition != Vector3.zero));
-        //    if(invalidOrbits.Any())
-        //    {
-                
-        //    }
-        //}
-        //Debug.Assert(!orderedOrbits.Any(o => o.GetAllParents().Any(p => p.GetComponent<Orbit>() == null && p.transform.localPosition != Vector3.zero)));
 
         // Orbits ordered in depth first search ordering, with parent indices
         this.orbits = orderedOrbits.Select(
@@ -170,135 +184,70 @@ public class SimManager : MonoBehaviour {
                 parent = orderedOrbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
                 position = g.transform.position
             }).ToList();
+    }
 
+    async Task UpdatePath()
+    {
 
+        var state = new SimState(
+            owner: this,
+            startPosition: GameLogic.Instance.player.transform.position,
+            startVelocity: GameLogic.Instance.player.GetComponent<PlayerLogic>().velocity,
+            startTime: Time.time
+        );
 
-        //// Add all gravity sources
-        //var planets = GameObject.FindObjectsOfType<GravitySource>()
-        //    .Select(g => new { gravitySource = g, orbit = g.GetComponentInParent<Orbit>() }).ToList();
+        float timeStep = Time.fixedDeltaTime;
 
-        //// Add all orbits (unless their GameObject was already added as a gravity source above)
-        //planets.AddRange(
-        //    GameObject.FindObjectsOfType<Orbit>()
-        //        .Where(o => !planets.Any(p => p.orbit == o))
-        //        .Select(o => new { gravitySource = default(GravitySource), orbit = o })
-        //);
+        // Hand off to another thread
+        await Task.Run(() =>
+        {
+            while(state.pathLength < GameConstants.Instance.SimDistanceLimit && !state.crashed) {
+                state.Step(timeStep);
+            }
+        });
 
-        //// Set parent objects
-        //foreach (var planet in planets.Where(p => p.orbit != null))
-        //{
-        //    var parentOrbit = planet.orbit.gameObject.GetComponentInParentOnly<Orbit>();
-        //    if (parentOrbit != null)
-        //    {
-        //        planet.parent = planets.FirstOrDefault(p => p.orbit == parentOrbit);
-        //        planet.parent.children.Add(planet);
-        //    }
-        //}
+        // Resume in main thread
+        this.pathRenderer.positionCount = state.path.Count;
+        this.pathRenderer.SetPositions(state.path.ToArray());
 
-        //// We only need to remember the root planets for simulation, as it is must be done recursively from the root
-        //this.rootPlanets = planets.Where(p => p.parent == null).ToList();
-        //// Keep a handy list of gravity sources, as we evaluate gravity force using just a flat list of sources, not recursion
-        //this.gravitySources = planets.Where(p => p.gravitySource != null).ToList();
+        if (state.crashed && state.path.Count > 0)
+        {
+            this.warningSign.SetActive(true);
+            var rectTransform = this.warningSign.GetComponent<RectTransform>();
+            var canvas = this.warningSign.GetComponent<Graphic>().canvas;
+            var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
+            var targetCanvasPosition = canvas.WorldToCanvasPosition(state.path.Last());
+            var clampArea = new Rect(
+                canvasSafeArea.x - rectTransform.rect.x,
+                canvasSafeArea.y - rectTransform.rect.y,
+                canvasSafeArea.width - rectTransform.rect.width,
+                canvasSafeArea.height - rectTransform.rect.height
+            );
+            rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
+        }
+        else
+        {
+            this.warningSign.SetActive(false);
+        }
+    }
+
+    async void UpdatePathAsync()
+    {
+        if(this.updatingPathTask == null)
+        {
+            this.updatingPathTask = this.UpdatePath();
+            // Hand off to the other thread
+            await this.updatingPathTask;
+            // Back on the main thread
+            this.updatingPathTask = null;
+        }
     }
 
     void FixedUpdate()
     {
         this.DelayedInit();
 
-        if(this.path == null)
-        {
-            this.position = GameLogic.Instance.player.transform.position;
-            this.velocity = GameLogic.Instance.player.GetComponent<PlayerLogic>().velocity;
-            this.simTime = Time.time;
-            this.path = new List<Vector3>(2000);
-            this.pathLength = 0;
-            this.crashed = false;
-        }
-
-        for (int i = 0;
-            i < GameConstants.Instance.SimStepsPerFrame && this.pathLength < GameConstants.Instance.SimDistanceLimit && !this.crashed; 
-            i++)
-        {
-            var prevPos = this.position;
-            this.Step(Time.fixedDeltaTime);
-            this.path.Add(this.position);
-            this.pathLength += Vector3.Distance(prevPos, this.position);
-        }
-
-        if (this.pathLength >= GameConstants.Instance.SimDistanceLimit || this.crashed)
-        {
-            this.pathRenderer.positionCount = this.path.Count;
-            this.pathRenderer.SetPositions(this.path.ToArray());
-
-            if(this.crashed && this.path.Count > 0)
-            {
-                this.warningSign.SetActive(true);
-                var rectTransform = this.warningSign.GetComponent<RectTransform>();
-                var canvas = this.warningSign.GetComponent<Graphic>().canvas;
-                var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
-                var targetCanvasPosition = canvas.WorldToCanvasPosition(this.path.Last());
-                var clampArea = new Rect(
-                    canvasSafeArea.x - rectTransform.rect.x,
-                    canvasSafeArea.y - rectTransform.rect.y,
-                    canvasSafeArea.width - rectTransform.rect.width,
-                    canvasSafeArea.height - rectTransform.rect.height
-                );
-                rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
-            }
-            else
-            {
-                this.warningSign.SetActive(false);
-            }
-
-            this.path = null;
-        }
+        this.UpdatePathAsync();
     }
 
-    public void Step(float dt)
-    {
-        this.simTime += dt;
-
-        // TODO: use System.Buffers ArrayPool<Vector3>.Shared; (needs a package installed)
-        var orbitPositions = new Vector3[this.orbits.Count];
-
-        for (int i = 0; i < this.orbits.Count; i++)
-        {
-            var o = this.orbits[i];
-            var localPosition = (Vector3)o.orbit.GetPosition(this.simTime - this.startTime);
-            orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
-        }
-
-        //bool Collision(Vector3 position, float radius)
-        //{
-        //    return radius > 0 && Vector3.Distance(this.position, position) < this.radius + radius;
-        //}
-
-        var force = Vector3.zero;
-
-        foreach (var g in this.gravitySources)
-        {
-            var position = g.parent != -1 ? orbitPositions[g.parent] : g.position;
-            force += GravityParameters.CalculateForce(this.position, position, g.mass);
-        }
-
-        this.velocity += force * dt;
-
-        var oldPosition = this.position;
-        this.position += this.velocity * dt;
-
-        this.crashed = false;
-        foreach (var g in this.gravitySources)
-        {
-            var planetPosition = g.parent != -1 ? orbitPositions[g.parent] : g.position;
-            // TODO: interpolate crash position onto surface (sphere-line intersect from our last position to our current one)
-            var collision = Geometry.IntersectRaySphere(oldPosition, this.position - oldPosition, planetPosition, g.radius + this.radius);
-            if (collision.occurred)//Collision(planetPosition, g.radius))
-            {
-                //var collision = Geometry.IntersectRaySphere(oldPosition, this.position - oldPosition, planetPosition, g.radius + this.radius);
-                this.position = collision.at;
-                this.crashed = true;
-                break;
-            }
-        }
-    }
 }
