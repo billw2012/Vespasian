@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4772546888013792632}
   - component: {fileID: 5653731414863186874}
   m_Layer: 8
-  m_Name: Thruster
+  m_Name: ThrusterFXPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
