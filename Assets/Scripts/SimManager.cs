@@ -129,18 +129,6 @@ public class SimManager : MonoBehaviour {
         this.warningSign.SetActive(false);
     }
 
-    void OnDestroy()
-    {
-        if(this.updatingPathTask != null)
-        {
-            // Wait for it to complete as it holds references to this object.
-            // If this doesn't work well (causing hitches or whatever), then add cancellation fences instead.
-            this.updatingPathTask.Wait();
-        }
-    }
-
-
-
     void DelayedInit()
     {
         if (this.orbits != null)
@@ -243,7 +231,7 @@ public class SimManager : MonoBehaviour {
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         this.DelayedInit();
 
