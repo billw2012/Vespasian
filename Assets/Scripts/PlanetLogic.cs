@@ -11,15 +11,20 @@ public class PlanetLogic : MonoBehaviour
 
     public Transform geometry;
 
-    void OnValidate()
+    void UpdateScale()
     {
         this.geometry.localScale = Vector3.one * this.radius;
+    }
+
+    void OnValidate()
+    {
+        this.UpdateScale();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.UpdateScale();
     }
 
     void OnCollisionEnter(Collision collision)

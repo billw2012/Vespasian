@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -71,7 +71,7 @@ public class SunLogic : MonoBehaviour
     [Tooltip("How high the light is above the sun surface"), Range(0, 30)]
     public float lightHeight = 5f;
 
-    void OnValidate()
+    void UpdateDependentColors()
     {
         this.childLight.color = Color.Lerp(Color.white, color, this.lightTintFactor);
         this.childLight.transform.localPosition = Vector3.back * (this.lightHeight + this.mainRenderer.transform.localScale.z);
@@ -104,5 +104,15 @@ public class SunLogic : MonoBehaviour
         this.mainRenderer.SetPropertyBlock(this.mainPB);
         this.glowRenderer.SetPropertyBlock(this.glowPB);
         this.pfxRenderer.SetPropertyBlock(this.pfxPB);
+    }
+
+    void OnValidate()
+    {
+        this.UpdateDependentColors();
+    }
+
+    void Start()
+    {
+        this.UpdateDependentColors();
     }
 }
