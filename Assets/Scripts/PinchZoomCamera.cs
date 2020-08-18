@@ -39,11 +39,13 @@ public class PinchZoomCamera : MonoBehaviour
 
             if (!this.pinching) {
                 this.distStart = dist;
+                this.camSizeStart = this.cameraComponent.orthographicSize;
                 Debug.Log($"PinchZoomCamera: Start: distance: {this.distStart}");
                 this.pinching = true;
             }
 
             float ratio = dist / this.distStart;
+            this.targetSize = this.camSizeStart / ratio;
             Debug.Log($"PinchZoomCamera: ratio: {ratio}");
         }
         else
@@ -51,9 +53,8 @@ public class PinchZoomCamera : MonoBehaviour
             if (this.pinching)
             {
                 this.pinching = false;
-                Debug.Log($"PinchZoomCamera: end: distance: {this.distCurrent}");
-                this.distCurrent = 0;
-                this.distStart = 0;
+                float ratio = this.distCurrent / this.distStart;
+                Debug.Log($"PinchZoomCamera: end: distance: {this.distCurrent}, ratio: {ratio}");
             }
         }
 
