@@ -4,14 +4,30 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
-    void Update()
+    // LateUpdate used as we need the ensure the background is always fitted to the final camera size and position
+    Vector2 lastPosition;
+    Vector2 offset;
+
+    private float parallaxSpeed => 0.5f / Camera.main.orthographicSize;
+
+    private void Start()
+    {
+        this.lastPosition = this.transform.position;
+        this.offset = this.transform.position * -this.parallaxSpeed;
+    }
+
+    void LateUpdate()
     {
         // Do this every time, as screen size can change, and its a very cheap calculation
         var bl = Camera.main.ScreenToWorldPoint(Vector3.zero);
         var tr = Camera.main.ScreenToWorldPoint(Screen.width * Vector3.right + Screen.height * Vector3.up);
         var worldSize = tr - bl;
-        var size = this.GetComponent<MeshFilter>().mesh.bounds.size.x;
+        float size = this.GetComponent<MeshFilter>().mesh.bounds.size.x;
         this.transform.localScale = Vector3.one * Mathf.Max(worldSize.x, worldSize.y) / size;
-        this.GetComponent<MeshRenderer>().material.SetTextureOffset("_BaseMap", this.transform.position * -0.02f);
+
+        var movement = (Vector2)this.transform.position - this.lastPosition;
+        this.lastPosition = this.transform.position;
+        this.offset += movement * -this.parallaxSpeed;
+        this.GetComponent<MeshRenderer>().material.SetTextureOffset("_BaseMap", this.offset);
     }
 }

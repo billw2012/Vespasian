@@ -5,8 +5,12 @@ using UnityEngine;
 public class PinchZoomCamera : MonoBehaviour
 {
     // Camera size (zoom) limits
-    public readonly float sizeMax = 40.0f;
-    public readonly float sizeMin = 10.0f;
+    [Tooltip("Minimum view size"), Range(5, 40)]
+    public float sizeMin = 10f;
+    [Tooltip("Maximum view size"), Range(40, 200)]
+    public float sizeMax = 100f;
+    [Tooltip("Scroll wheel sensitivity"), Range(0.01f, 3f)]
+    public float scrollWheelSensitivity = 1f;
 
     bool pinching = false;
     float distStart = 0;    // Distance between fingers when we started pinching
@@ -15,12 +19,13 @@ public class PinchZoomCamera : MonoBehaviour
     float targetSize; // Target camera size
     float camSizeStart = 1;  // Camera size when we started pinching
 
+
     Camera cameraComponent;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.cameraComponent = GetComponent<Camera>();
+        this.cameraComponent = this.GetComponent<Camera>();
         this.targetSize = this.cameraComponent.orthographicSize;
     }
 
@@ -31,7 +36,7 @@ public class PinchZoomCamera : MonoBehaviour
         // Handle screen touches.
         if (Input.touchCount == 2)
         {
-            Touch[] touch = new Touch[2];
+            var touch = new Touch[2];
             touch[0] = Input.GetTouch(0);
             touch[1] = Input.GetTouch(1);
             float dist = Vector2.Distance(touch[0].position, touch[1].position);
@@ -57,6 +62,8 @@ public class PinchZoomCamera : MonoBehaviour
                 Debug.Log($"PinchZoomCamera: end: distance: {this.distCurrent}, ratio: {ratio}");
             }
         }
+
+        this.targetSize = Mathf.Clamp(this.targetSize + -Input.GetAxis("Mouse ScrollWheel") * this.targetSize * this.scrollWheelSensitivity, this.sizeMin, this.sizeMax);
 
         this.cameraComponent.orthographicSize = this.targetSize;
     }
