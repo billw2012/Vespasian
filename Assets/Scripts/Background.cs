@@ -8,7 +8,9 @@ public class Background : MonoBehaviour
     Vector2 lastPosition;
     Vector2 offset;
 
-    private float parallaxSpeed => 0.5f / Camera.main.orthographicSize;
+    public float speedMultiplier = 0.1f;
+
+    private float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
 
     private void Start()
     {
