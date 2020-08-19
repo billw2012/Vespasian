@@ -78,7 +78,6 @@ public class Orbit : MonoBehaviour
 
         this.UpdatePosition(0);
         this.UpdateOrbitPath();
-        // Debug.LogError($"Orbit hierarchies must not have any manual transforms applied: these objects are invalid: {}");
     }
 
     void UpdateOrbitPath()
@@ -88,19 +87,6 @@ public class Orbit : MonoBehaviour
         {
             return;
         }
-        //lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        //lineRenderer.startWidth = lineRenderer.endWidth = 0.05f;
-        //lineRenderer.startColor = lineRenderer.endColor = new Color(1, 1, 1, 0.2f);
-        //lineRenderer.useWorldSpace = false;
-        //lineRenderer.loop = true;
-        // TODO: would be nice if it faded out from the current pos, but that requires recreating it each frame or 
-        // doing a custom shader I think
-        //lineRenderer.endColor = new Color(1, 1, 1, 0);
-        //}
-        //else
-        //{
-        //    lineRenderer = this.orbitPath.GetComponent<LineRenderer>();
-        //}
 
         int pathPoints = (int)(360 * this.pathQuality);
         float totalOrbitTime = 360 / this.parameters.motionPerSecond;
@@ -112,6 +98,16 @@ public class Orbit : MonoBehaviour
         }
         lineRenderer.positionCount = path.Count;
         lineRenderer.SetPositions(path.ToArray());
+    }
+
+    void UpdateOrbitWidth()
+    {
+        var lineRenderer = this.GetComponent<LineRenderer>();
+        if (lineRenderer == null)
+        {
+            return;
+        }
+        lineRenderer.startWidth = lineRenderer.endWidth = GameConstants.Instance.OrbitLineWidth;
     }
 
     // Start is called before the first frame update
@@ -147,5 +143,6 @@ public class Orbit : MonoBehaviour
     void Update()
     {
         this.UpdatePosition(Time.time - this.startTime);
+        this.UpdateOrbitWidth();
     }
 }

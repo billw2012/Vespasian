@@ -233,11 +233,18 @@ public class SimManager : MonoBehaviour {
         }
     }
 
+    void UpdateOrbitWidth()
+    {
+        this.pathRenderer.startWidth = this.pathRenderer.endWidth = GameConstants.Instance.SimLineWidth;
+    }
+
     void Update()
     {
         this.DelayedInit();
 
         this.UpdatePathAsync();
+
+        this.UpdateOrbitWidth();
     }
 
 }

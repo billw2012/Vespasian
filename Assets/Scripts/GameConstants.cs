@@ -19,6 +19,21 @@ public class GameConstants : MonoBehaviour {
 
     public float MaxLaunchVelocity = 3.0f;
 
+    public float OrbitLineWidthPixels = 5.0f;
+
+    public float SimPathLineWidthPixels = 5.0f;
+
+    [HideInInspector]
+    public float OrbitLineWidth => GetWorldFromScreenSpaceSize(this.OrbitLineWidthPixels);
+
+    [HideInInspector]
+    public float SimLineWidth => GetWorldFromScreenSpaceSize(this.SimPathLineWidthPixels);
+
+    static float GetWorldFromScreenSpaceSize(float pixels)
+    {
+        return Camera.main.orthographicSize * pixels / Screen.width;
+    }
+
     void Start()
     {
         Instance = this;
