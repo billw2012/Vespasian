@@ -22,7 +22,6 @@ public struct OrbitParameters
     [Tooltip("Angle the orbit starts from, in degrees"), Range(0, 360)]
     public float meanLongitude;
 
-
     static float Mod2PI(float val)
     {
         while (val > Mathf.PI * 2)
@@ -59,13 +58,23 @@ public class Orbit : MonoBehaviour
     [Tooltip("How finely subdivided the path rendering is"), Range(0, 1)]
     public float pathQuality = 1;
 
-    float startTime = 0;
-
     [Tooltip("Transform to apply the position to, defaults to any child called 'Position'")]
     public Transform position;
 
+    // This was used to more closely match the SimManager math by simply adding positions to get world location for
+    // nested orbits. However it doesn't appear to be necessary and can be removed at a later time if the path
+    // sim proves stable.
+    //Orbit parent;
+
     void UpdatePosition(float time)
     {
+        // See note on the parent variable declaration above
+        //var newPosition = (Vector3)this.parameters.GetPosition(time);
+        //if (this.parent != null)
+        //{
+        //    newPosition += this.parent.position.position;
+        //}
+        //this.position.position = newPosition;
         this.position.localPosition = this.parameters.GetPosition(time);
     }
 
@@ -88,13 +97,16 @@ public class Orbit : MonoBehaviour
             return;
         }
 
-        int pathPoints = (int)(360 * this.pathQuality);
-        float totalOrbitTime = 360 / this.parameters.motionPerSecond;
-        float timePerPoint = totalOrbitTime / pathPoints;
         var path = new List<Vector3>();
-        for (int i = 0; i < pathPoints; i++)
+        if (Application.isPlaying)
         {
-            path.Add(this.parameters.GetPosition(i * timePerPoint));
+            int pathPoints = (int)(360 * this.pathQuality);
+            //float totalOrbitTime = 360 / this.parameters.motionPerSecond;
+            float timePerPoint = 360f / pathPoints;
+            for (int i = 0; i < pathPoints; i++)
+            {
+                path.Add(this.parameters.GetPosition(0, i * timePerPoint));
+            }
         }
         lineRenderer.positionCount = path.Count;
         lineRenderer.SetPositions(path.ToArray());
@@ -135,14 +147,20 @@ public class Orbit : MonoBehaviour
             return true;
         }
         Debug.Assert(ValidateParents());
-        this.startTime = Time.time;
+
+        // See note on the parent variable declaration above
+        //this.parent = this.gameObject.GetComponentInParentOnly<Orbit>();
+
         this.UpdateOrbitPath();
     }
 
-    // Update is called once per frame
+    public void SimUpdate()
+    {
+        this.UpdatePosition(GameLogic.Instance.simTime);
+    }
+
     void Update()
     {
-        this.UpdatePosition(Time.time - this.startTime);
         this.UpdateOrbitWidth();
     }
 }

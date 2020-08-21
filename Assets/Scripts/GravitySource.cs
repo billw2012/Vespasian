@@ -26,8 +26,6 @@ public class GravitySource : MonoBehaviour {
         mass = -1
     };
 
-    public static HashSet<GravitySource> All = new HashSet<GravitySource>();
-
     void Start()
     {
         bool Validate()
@@ -54,7 +52,6 @@ public class GravitySource : MonoBehaviour {
         }
         Debug.Assert(Validate());
 
-        All.Add(this);
         if(this.parameters.mass < 0)
         {
             // We are using area instead of volume for mass, or we can't vary size much without 
@@ -63,9 +60,8 @@ public class GravitySource : MonoBehaviour {
         }
     }
 
-    void OnDestroy()
+    public static GravitySource[] All()
     {
-        All.Remove(this);
+        return GameObject.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToArray();
     }
-
 }

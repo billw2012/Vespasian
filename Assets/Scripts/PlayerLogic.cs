@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -43,6 +44,10 @@ public class PlayerLogic : MonoBehaviour
         }
     }
 
+    GravitySource[] gravitySources;
+    // Tracks correct simulated position, as rigid body is not perfectly matching the SimManager generated paths
+    public Vector3 simPosition;
+
     void Start()
     {
         SetEmissionActive(this.rearThruster, false);
@@ -54,13 +59,19 @@ public class PlayerLogic : MonoBehaviour
         this.manualThrust = Vector2.zero;
         this.finalThrust = Vector2.zero;
         this.state = FlyingState.Aiming;
+
+        this.gravitySources = GravitySource.All();
+        this.simPosition = this.transform.position;
     }
 
-    private static Vector3 GetForce(Vector3 pos)
+    Vector3 GetForce(Vector3 pos)
     {
-        return GravitySource.All
-            .Select(src => GravityParameters.CalculateForce(pos, src.transform.position, src.parameters.mass))
-            .Aggregate((a, b) => a + b);
+        var force = Vector3.zero;
+        foreach(var g in this.gravitySources)
+        {
+            force += GravityParameters.CalculateForce(pos, g.transform.position, g.parameters.mass);
+        }
+        return force;
     }
 
     void UpdateFinalThrust()
@@ -102,13 +113,11 @@ public class PlayerLogic : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    public void SimUpdate()
     {
         if (this.state == FlyingState.Flying)
         {
-            var rigidBody = this.GetComponent<Rigidbody>();
-
-            var force = GetForce(rigidBody.position);
+            var force = this.GetForce(this.simPosition);
 
             if (this.canThrust)
             {
@@ -118,13 +127,15 @@ public class PlayerLogic : MonoBehaviour
                 force += forward * this.finalThrust.y;
                 force += right * this.finalThrust.x;
 
-                var thrustTotal = Mathf.Abs(this.finalThrust.x) + Mathf.Abs(this.finalThrust.y);
+                float thrustTotal = Mathf.Abs(this.finalThrust.x) + Mathf.Abs(this.finalThrust.y);
                 GameLogic.Instance.AddFuel(-thrustTotal * Time.fixedDeltaTime * GameConstants.Instance.FuelUse);
             }
 
             this.velocity += force * Time.fixedDeltaTime;
-            var pos = rigidBody.position + this.velocity * Time.fixedDeltaTime;
-            rigidBody.MovePosition(pos);
+            this.simPosition += this.velocity * Time.fixedDeltaTime;
+
+            var rigidBody = this.GetComponent<Rigidbody>();
+            this.GetComponent<Rigidbody>().MovePosition(this.simPosition);
 
             // TODO: rotation needs to be smoothed, but this commented out method results in rotation
             // while following the current orbit lagging.

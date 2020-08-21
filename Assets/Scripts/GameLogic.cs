@@ -13,10 +13,13 @@ public class GameLogic : MonoBehaviour {
     public float previousHealth = 1;
     public Vector3 lastDamageDirection;
 
+    public float simTime;
+
     void Start()
     {
         this.player = GameObject.Find("Player");
         Instance = this;
+        this.simTime = 0;
     }
 
     void Update()
@@ -26,6 +29,11 @@ public class GameLogic : MonoBehaviour {
             this.player.GetComponent<PlayerLogic>().SetTakingDamage((this.previousHealth - this.health) / Time.deltaTime, this.lastDamageDirection);
         }
         this.previousHealth = this.health;
+    }
+
+    void FixedUpdate()
+    {
+        this.simTime += Time.fixedDeltaTime;
     }
 
     public void RestartGame()

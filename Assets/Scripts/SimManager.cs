@@ -33,15 +33,20 @@ public class SimManager : MonoBehaviour {
 
     // Radius of the player
     float radius;
+
+    // Real Orbits for updating
+    List<Orbit> orbits;
+
     // Orbit parameters of all simulated bodies
-    List<SimOrbit> orbits;
+    List<SimOrbit> simOrbits;
+
     // Gravity parameters of all simulated bodies
-    List<SimGravity> gravitySources;
-    // Time the SimManager was Started
-    float startTime;
+    List<SimGravity> simGravitySources;
 
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
+
+    float pathLength = 0;
 
     #region SimState
     // Represents the current state of a simulation
@@ -50,7 +55,7 @@ public class SimManager : MonoBehaviour {
         readonly SimManager owner;
         Vector3 position;
         Vector3 velocity;
-        float simTime;
+        float time;
         public readonly List<Vector3> path = new List<Vector3>();
         public float pathLength = 0;
         public bool crashed;
@@ -60,20 +65,20 @@ public class SimManager : MonoBehaviour {
             this.owner = owner;
             this.position = startPosition;
             this.velocity = startVelocity;
-            this.simTime = startTime;
+            this.time = startTime;
         }
 
         public void Step(float dt)
         {
-            this.simTime += dt;
+            this.time += dt;
 
             // TODO: use System.Buffers ArrayPool<Vector3>.Shared; (needs a package installed)
-            var orbitPositions = new Vector3[this.owner.orbits.Count];
+            var orbitPositions = new Vector3[this.owner.simOrbits.Count];
 
-            for (int i = 0; i < this.owner.orbits.Count; i++)
+            for (int i = 0; i < this.owner.simOrbits.Count; i++)
             {
-                var o = this.owner.orbits[i];
-                var localPosition = (Vector3)o.orbit.GetPosition(this.simTime - this.owner.startTime);
+                var o = this.owner.simOrbits[i];
+                var localPosition = (Vector3)o.orbit.GetPosition(this.time);
                 orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
             }
 
@@ -84,7 +89,7 @@ public class SimManager : MonoBehaviour {
 
             var force = Vector3.zero;
 
-            foreach (var g in this.owner.gravitySources)
+            foreach (var g in this.owner.simGravitySources)
             {
                 var position = g.parent != -1 ? orbitPositions[g.parent] : g.position;
                 force += GravityParameters.CalculateForce(this.position, position, g.mass);
@@ -95,8 +100,9 @@ public class SimManager : MonoBehaviour {
             var oldPosition = this.position;
             this.position += this.velocity * dt;
 
+
             this.crashed = false;
-            foreach (var g in this.owner.gravitySources)
+            foreach (var g in this.owner.simGravitySources)
             {
                 var planetPosition = g.parent != -1 ? orbitPositions[g.parent] : g.position;
                 
@@ -122,10 +128,18 @@ public class SimManager : MonoBehaviour {
 
     public static SimManager Instance = null;
 
+    void OnValidate()
+    {
+        if (this.pathRenderer != null)
+        {
+            this.pathRenderer.positionCount = 0;
+            this.pathRenderer.SetPositions(new Vector3[] { });
+        }
+    }
+
     void Start()
     {
         Instance = this;
-        this.startTime = Time.time;
         this.warningSign.SetActive(false);
     }
 
@@ -137,53 +151,54 @@ public class SimManager : MonoBehaviour {
         this.radius = GameLogic.Instance.player.GetComponentInChildren<MeshRenderer>().bounds.extents.x;
 
         var allOrbits = GameObject.FindObjectsOfType<Orbit>();
-        var orderedOrbits = new List<Orbit>();
+        this.orbits = new List<Orbit>();
         var orbitStack = new Stack<Orbit>(allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == null));
         while(orbitStack.Any())
         {
             var orbit = orbitStack.Pop();
-            orderedOrbits.Add(orbit);
+            this.orbits.Add(orbit);
             var directChildren = allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == orbit);
-            orderedOrbits.AddRange(directChildren.Reverse());
+            this.orbits.AddRange(directChildren.Reverse());
         }
 
         // Orbits ordered in depth first search ordering, with parent indices
-        this.orbits = orderedOrbits.Select(
+        this.simOrbits = this.orbits.Select(
             o => new SimOrbit {
 #if DEBUG
                 name = o.ToString(),
 #endif
                 orbit = o.parameters,
-                parent = orderedOrbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit>())
+                parent = this.orbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit>())
             }).ToList();
 
         // NOTE: We assume that if the gravity source has a parent orbit then its local position is 0, 0, 0.
-        var allGravitySources = GameObject.FindObjectsOfType<GravitySource>();
+        var allGravitySources = GravitySource.All();
         Debug.Assert(!allGravitySources.Any(g => g.gameObject.GetComponentInParent<Orbit>() != null && g.transform.localPosition != Vector3.zero));
 
         // Gravity sources with parent orbits (if the have one), and global positions (in case they don't).
-        this.gravitySources = allGravitySources
+        this.simGravitySources = allGravitySources
             .Select(g => new SimGravity {
 #if DEBUG
                 name = g.ToString(),
 #endif
                 mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
                 radius = g.transform.localScale.x * 0.5f, // radius is applied using local scale on the same game object as the gravity
-                parent = orderedOrbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
+                parent = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
                 position = g.transform.position
             }).ToList();
     }
 
     async Task UpdatePath()
     {
+        var playerLogic = GameLogic.Instance.player.GetComponent<PlayerLogic>();
         var state = new SimState(
             owner: this,
-            startPosition: GameLogic.Instance.player.transform.position,
-            startVelocity: GameLogic.Instance.player.GetComponent<PlayerLogic>().velocity,
-            startTime: Time.time
+            startPosition: playerLogic.simPosition,
+            startVelocity: playerLogic.velocity,
+            startTime: GameLogic.Instance.simTime
         );
 
-        float timeStep = GameConstants.Instance.SimStepDt;//Time.fixedDeltaTime;
+        float timeStep = Time.fixedDeltaTime; //GameConstants.Instance.SimStepDt;//Time.fixedDeltaTime;
 
         // Hand off to another thread
         await Task.Run(() =>
@@ -193,11 +208,12 @@ public class SimManager : MonoBehaviour {
             }
         });
 
-        if (this.pathRenderer != null && this.warningSign != null)
+        if (Application.isPlaying && this.pathRenderer != null && this.warningSign != null)
         {
             // Resume in main thread
             this.pathRenderer.positionCount = state.path.Count;
             this.pathRenderer.SetPositions(state.path.ToArray());
+            this.pathLength = state.pathLength;
 
             if (state.crashed && state.path.Count > 0)
             {
@@ -223,7 +239,7 @@ public class SimManager : MonoBehaviour {
 
     async void UpdatePathAsync()
     {
-        if(this.updatingPathTask == null)
+        if (this.updatingPathTask == null)
         {
             this.updatingPathTask = this.UpdatePath();
             // Hand off to the other thread
@@ -233,18 +249,30 @@ public class SimManager : MonoBehaviour {
         }
     }
 
-    void UpdateOrbitWidth()
+    void UpdatePathWidth()
     {
+        //this.pathRenderer.startWidth = 0;
+        //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
+        // Fixed width line in screen space:
         this.pathRenderer.startWidth = this.pathRenderer.endWidth = GameConstants.Instance.SimLineWidth;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         this.DelayedInit();
 
+        // Update "real" orbits and player
+        foreach(var o in this.orbits)
+        {
+            o.SimUpdate();
+        }
+
+        GameLogic.Instance.player.GetComponent<PlayerLogic>().SimUpdate();
+
+
         this.UpdatePathAsync();
 
-        this.UpdateOrbitWidth();
+        this.UpdatePathWidth();
     }
 
 }
