@@ -113,11 +113,10 @@ public class PlayerLogic : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    public void SimUpdate()
     {
         if (this.state == FlyingState.Flying)
         {
-
             var force = this.GetForce(this.simPosition);
 
             if (this.canThrust)

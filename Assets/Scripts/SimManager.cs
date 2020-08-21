@@ -33,12 +33,15 @@ public class SimManager : MonoBehaviour {
 
     // Radius of the player
     float radius;
+
+    // Real Orbits for updating
+    List<Orbit> orbits;
+
     // Orbit parameters of all simulated bodies
-    List<SimOrbit> orbits;
+    List<SimOrbit> simOrbits;
+
     // Gravity parameters of all simulated bodies
-    List<SimGravity> gravitySources;
-    // Time the SimManager was Started
-    float timeZero;
+    List<SimGravity> simGravitySources;
 
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
@@ -68,11 +71,11 @@ public class SimManager : MonoBehaviour {
             this.time += dt;
 
             // TODO: use System.Buffers ArrayPool<Vector3>.Shared; (needs a package installed)
-            var orbitPositions = new Vector3[this.owner.orbits.Count];
+            var orbitPositions = new Vector3[this.owner.simOrbits.Count];
 
-            for (int i = 0; i < this.owner.orbits.Count; i++)
+            for (int i = 0; i < this.owner.simOrbits.Count; i++)
             {
-                var o = this.owner.orbits[i];
+                var o = this.owner.simOrbits[i];
                 var localPosition = (Vector3)o.orbit.GetPosition(this.time);
                 orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
             }
@@ -84,7 +87,7 @@ public class SimManager : MonoBehaviour {
 
             var force = Vector3.zero;
 
-            foreach (var g in this.owner.gravitySources)
+            foreach (var g in this.owner.simGravitySources)
             {
                 var position = g.parent != -1 ? orbitPositions[g.parent] : g.position;
                 force += GravityParameters.CalculateForce(this.position, position, g.mass);
@@ -97,7 +100,7 @@ public class SimManager : MonoBehaviour {
 
 
             this.crashed = false;
-            foreach (var g in this.owner.gravitySources)
+            foreach (var g in this.owner.simGravitySources)
             {
                 var planetPosition = g.parent != -1 ? orbitPositions[g.parent] : g.position;
                 
@@ -137,24 +140,24 @@ public class SimManager : MonoBehaviour {
         this.radius = GameLogic.Instance.player.GetComponentInChildren<MeshRenderer>().bounds.extents.x;
 
         var allOrbits = GameObject.FindObjectsOfType<Orbit>();
-        var orderedOrbits = new List<Orbit>();
+        this.orbits = new List<Orbit>();
         var orbitStack = new Stack<Orbit>(allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == null));
         while(orbitStack.Any())
         {
             var orbit = orbitStack.Pop();
-            orderedOrbits.Add(orbit);
+            this.orbits.Add(orbit);
             var directChildren = allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == orbit);
-            orderedOrbits.AddRange(directChildren.Reverse());
+            this.orbits.AddRange(directChildren.Reverse());
         }
 
         // Orbits ordered in depth first search ordering, with parent indices
-        this.orbits = orderedOrbits.Select(
+        this.simOrbits = this.orbits.Select(
             o => new SimOrbit {
 #if DEBUG
                 name = o.ToString(),
 #endif
                 orbit = o.parameters,
-                parent = orderedOrbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit>())
+                parent = this.orbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit>())
             }).ToList();
 
         // NOTE: We assume that if the gravity source has a parent orbit then its local position is 0, 0, 0.
@@ -162,14 +165,14 @@ public class SimManager : MonoBehaviour {
         Debug.Assert(!allGravitySources.Any(g => g.gameObject.GetComponentInParent<Orbit>() != null && g.transform.localPosition != Vector3.zero));
 
         // Gravity sources with parent orbits (if the have one), and global positions (in case they don't).
-        this.gravitySources = allGravitySources
+        this.simGravitySources = allGravitySources
             .Select(g => new SimGravity {
 #if DEBUG
                 name = g.ToString(),
 #endif
                 mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
                 radius = g.transform.localScale.x * 0.5f, // radius is applied using local scale on the same game object as the gravity
-                parent = orderedOrbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
+                parent = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
                 position = g.transform.position
             }).ToList();
     }
@@ -224,7 +227,7 @@ public class SimManager : MonoBehaviour {
 
     async void UpdatePathAsync()
     {
-        if(this.updatingPathTask == null)
+        if (this.updatingPathTask == null)
         {
             this.updatingPathTask = this.UpdatePath();
             // Hand off to the other thread
@@ -242,6 +245,15 @@ public class SimManager : MonoBehaviour {
     void FixedUpdate()
     {
         this.DelayedInit();
+
+        // Update "real" orbits and player
+        foreach(var o in this.orbits)
+        {
+            o.SimUpdate();
+        }
+
+        GameLogic.Instance.player.GetComponent<PlayerLogic>().SimUpdate();
+
 
         this.UpdatePathAsync();
 

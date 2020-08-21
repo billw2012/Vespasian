@@ -61,16 +61,20 @@ public class Orbit : MonoBehaviour
     [Tooltip("Transform to apply the position to, defaults to any child called 'Position'")]
     public Transform position;
 
-    Orbit parent;
+    // This was used to more closely match the SimManager math by simply adding positions to get world location for
+    // nested orbits. However it doesn't appear to be necessary and can be removed at a later time if the path
+    // sim proves stable.
+    //Orbit parent;
 
     void UpdatePosition(float time)
     {
-        var newPosition = (Vector3)this.parameters.GetPosition(time);
-        if (this.parent != null)
-        {
-            newPosition += this.parent.position.position;
-        }
-        this.position.position = newPosition;
+        // See note on the parent variable declaration above
+        //var newPosition = (Vector3)this.parameters.GetPosition(time);
+        //if (this.parent != null)
+        //{
+        //    newPosition += this.parent.position.position;
+        //}
+        //this.position.position = newPosition;
         this.position.localPosition = this.parameters.GetPosition(time);
     }
 
@@ -141,11 +145,13 @@ public class Orbit : MonoBehaviour
         }
         Debug.Assert(ValidateParents());
 
-        this.parent = this.gameObject.GetComponentInParentOnly<Orbit>();
+        // See note on the parent variable declaration above
+        //this.parent = this.gameObject.GetComponentInParentOnly<Orbit>();
+
         this.UpdateOrbitPath();
     }
 
-    void FixedUpdate()
+    public void SimUpdate()
     {
         this.UpdatePosition(GameLogic.Instance.simTime);
     }
