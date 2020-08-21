@@ -97,13 +97,16 @@ public class Orbit : MonoBehaviour
             return;
         }
 
-        int pathPoints = (int)(360 * this.pathQuality);
-        //float totalOrbitTime = 360 / this.parameters.motionPerSecond;
-        float timePerPoint = 360f / pathPoints;
         var path = new List<Vector3>();
-        for (int i = 0; i < pathPoints; i++)
+        if (Application.isPlaying)
         {
-            path.Add(this.parameters.GetPosition(0, i * timePerPoint));
+            int pathPoints = (int)(360 * this.pathQuality);
+            //float totalOrbitTime = 360 / this.parameters.motionPerSecond;
+            float timePerPoint = 360f / pathPoints;
+            for (int i = 0; i < pathPoints; i++)
+            {
+                path.Add(this.parameters.GetPosition(0, i * timePerPoint));
+            }
         }
         lineRenderer.positionCount = path.Count;
         lineRenderer.SetPositions(path.ToArray());

@@ -128,6 +128,15 @@ public class SimManager : MonoBehaviour {
 
     public static SimManager Instance = null;
 
+    void OnValidate()
+    {
+        if (this.pathRenderer != null)
+        {
+            this.pathRenderer.positionCount = 0;
+            this.pathRenderer.SetPositions(new Vector3[] { });
+        }
+    }
+
     void Start()
     {
         Instance = this;
@@ -199,7 +208,7 @@ public class SimManager : MonoBehaviour {
             }
         });
 
-        if (this.pathRenderer != null && this.warningSign != null)
+        if (Application.isPlaying && this.pathRenderer != null && this.warningSign != null)
         {
             // Resume in main thread
             this.pathRenderer.positionCount = state.path.Count;
