@@ -46,6 +46,8 @@ public class SimManager : MonoBehaviour {
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
 
+    float pathLength = 0;
+
     #region SimState
     // Represents the current state of a simulation
     class SimState
@@ -202,6 +204,7 @@ public class SimManager : MonoBehaviour {
             // Resume in main thread
             this.pathRenderer.positionCount = state.path.Count;
             this.pathRenderer.SetPositions(state.path.ToArray());
+            this.pathLength = state.pathLength;
 
             if (state.crashed && state.path.Count > 0)
             {
@@ -237,8 +240,11 @@ public class SimManager : MonoBehaviour {
         }
     }
 
-    void UpdateOrbitWidth()
+    void UpdatePathWidth()
     {
+        //this.pathRenderer.startWidth = 0;
+        //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
+        // Fixed width line in screen space:
         this.pathRenderer.startWidth = this.pathRenderer.endWidth = GameConstants.Instance.SimLineWidth;
     }
 
@@ -257,7 +263,7 @@ public class SimManager : MonoBehaviour {
 
         this.UpdatePathAsync();
 
-        this.UpdateOrbitWidth();
+        this.UpdatePathWidth();
     }
 
 }
