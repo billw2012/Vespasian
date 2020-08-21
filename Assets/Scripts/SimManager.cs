@@ -38,7 +38,7 @@ public class SimManager : MonoBehaviour {
     // Gravity parameters of all simulated bodies
     List<SimGravity> gravitySources;
     // Time the SimManager was Started
-    float startTime;
+    float timeZero;
 
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
@@ -50,7 +50,7 @@ public class SimManager : MonoBehaviour {
         readonly SimManager owner;
         Vector3 position;
         Vector3 velocity;
-        float simTime;
+        float time;
         public readonly List<Vector3> path = new List<Vector3>();
         public float pathLength = 0;
         public bool crashed;
@@ -60,12 +60,12 @@ public class SimManager : MonoBehaviour {
             this.owner = owner;
             this.position = startPosition;
             this.velocity = startVelocity;
-            this.simTime = startTime;
+            this.time = startTime;
         }
 
         public void Step(float dt)
         {
-            this.simTime += dt;
+            this.time += dt;
 
             // TODO: use System.Buffers ArrayPool<Vector3>.Shared; (needs a package installed)
             var orbitPositions = new Vector3[this.owner.orbits.Count];
@@ -73,7 +73,7 @@ public class SimManager : MonoBehaviour {
             for (int i = 0; i < this.owner.orbits.Count; i++)
             {
                 var o = this.owner.orbits[i];
-                var localPosition = (Vector3)o.orbit.GetPosition(this.simTime - this.owner.startTime);
+                var localPosition = (Vector3)o.orbit.GetPosition(this.time);
                 orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
             }
 
@@ -94,6 +94,7 @@ public class SimManager : MonoBehaviour {
 
             var oldPosition = this.position;
             this.position += this.velocity * dt;
+
 
             this.crashed = false;
             foreach (var g in this.owner.gravitySources)
@@ -125,7 +126,6 @@ public class SimManager : MonoBehaviour {
     void Start()
     {
         Instance = this;
-        this.startTime = Time.time;
         this.warningSign.SetActive(false);
     }
 
@@ -158,7 +158,7 @@ public class SimManager : MonoBehaviour {
             }).ToList();
 
         // NOTE: We assume that if the gravity source has a parent orbit then its local position is 0, 0, 0.
-        var allGravitySources = GameObject.FindObjectsOfType<GravitySource>();
+        var allGravitySources = GravitySource.All();
         Debug.Assert(!allGravitySources.Any(g => g.gameObject.GetComponentInParent<Orbit>() != null && g.transform.localPosition != Vector3.zero));
 
         // Gravity sources with parent orbits (if the have one), and global positions (in case they don't).
@@ -176,14 +176,15 @@ public class SimManager : MonoBehaviour {
 
     async Task UpdatePath()
     {
+        var playerLogic = GameLogic.Instance.player.GetComponent<PlayerLogic>();
         var state = new SimState(
             owner: this,
-            startPosition: GameLogic.Instance.player.transform.position,
-            startVelocity: GameLogic.Instance.player.GetComponent<PlayerLogic>().velocity,
-            startTime: Time.time
+            startPosition: playerLogic.simPosition,
+            startVelocity: playerLogic.velocity,
+            startTime: GameLogic.Instance.simTime
         );
 
-        float timeStep = GameConstants.Instance.SimStepDt;//Time.fixedDeltaTime;
+        float timeStep = Time.fixedDeltaTime; //GameConstants.Instance.SimStepDt;//Time.fixedDeltaTime;
 
         // Hand off to another thread
         await Task.Run(() =>
@@ -238,7 +239,7 @@ public class SimManager : MonoBehaviour {
         this.pathRenderer.startWidth = this.pathRenderer.endWidth = GameConstants.Instance.SimLineWidth;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         this.DelayedInit();
 
