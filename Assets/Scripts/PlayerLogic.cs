@@ -3,9 +3,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerLogic : MonoBehaviour
 {
+    public GameConstants constants;
+
     [HideInInspector]
     public Vector3 velocity = Vector3.zero;
 
@@ -16,11 +19,6 @@ public class PlayerLogic : MonoBehaviour
     public float forwardThrust { get => this.manualThrust.y; set => this.manualThrust.y = value; }
     public float rightThrust { get => this.manualThrust.x; set => this.manualThrust.x = value; }
 
-    [HideInInspector]
-    // x is +right/-left, y is +forward/-backward
-    Vector2 finalThrust = Vector2.zero;
-
-    bool canThrust => this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0;
 
     public ParticleSystem frontThruster;
     public ParticleSystem rearThruster;
@@ -33,23 +31,34 @@ public class PlayerLogic : MonoBehaviour
         Flying  // We have been launched and are flying already
     };
 
+    [HideInInspector]
     public FlyingState state = FlyingState.Aiming;
 
-    static void SetEmissionActive(ParticleSystem pfx, bool enabled)
-    {
-        var em = pfx.emission;
-        if(em.enabled != enabled)
-        {
-            em.enabled = enabled;
-        }
-    }
-
-    GravitySource[] gravitySources;
+    [HideInInspector]
     // Tracks correct simulated position, as rigid body is not perfectly matching the SimManager generated paths
     public Vector3 simPosition;
 
+    // x is +right/-left, y is +forward/-backward
+    Vector2 finalThrust = Vector2.zero;
+
+    bool canThrust => this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0;
+
+    GravitySource[] gravitySources;
+
+    void OnValidate()
+    {
+        Assert.IsNotNull(this.constants);
+        Assert.IsNotNull(this.frontThruster);
+        Assert.IsNotNull(this.rearThruster);
+        Assert.IsNotNull(this.rightThruster);
+        Assert.IsNotNull(this.leftThruster);
+        Assert.IsNotNull(this.damageDebris);
+    }
+
     void Start()
     {
+        this.OnValidate();
+
         SetEmissionActive(this.rearThruster, false);
         SetEmissionActive(this.frontThruster, false);
         SetEmissionActive(this.rightThruster, false);
@@ -62,30 +71,6 @@ public class PlayerLogic : MonoBehaviour
 
         this.gravitySources = GravitySource.All();
         this.simPosition = this.transform.position;
-    }
-
-    Vector3 GetForce(Vector3 pos)
-    {
-        var force = Vector3.zero;
-        foreach(var g in this.gravitySources)
-        {
-            force += GravityParameters.CalculateForce(pos, g.transform.position, g.parameters.mass);
-        }
-        return force;
-    }
-
-    void UpdateFinalThrust()
-    {
-        this.finalThrust = this.manualThrust;
-        if (Input.GetKey("w"))
-            this.finalThrust.y = GameConstants.Instance.ThrustForward;
-        else if (Input.GetKey("s"))
-            this.finalThrust.y = -GameConstants.Instance.ThrustForward;
-
-        if (Input.GetKey("d"))
-            this.finalThrust.x = GameConstants.Instance.ThrustRight;
-        else if (Input.GetKey("a"))
-            this.finalThrust.x = -GameConstants.Instance.ThrustRight;
     }
 
     void Update()
@@ -128,7 +113,7 @@ public class PlayerLogic : MonoBehaviour
                 force += right * this.finalThrust.x;
 
                 float thrustTotal = Mathf.Abs(this.finalThrust.x) + Mathf.Abs(this.finalThrust.y);
-                GameLogic.Instance.AddFuel(-thrustTotal * Time.fixedDeltaTime * GameConstants.Instance.FuelUse);
+                GameLogic.Instance.AddFuel(-thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
             }
 
             this.velocity += force * Time.fixedDeltaTime;
@@ -159,6 +144,39 @@ public class PlayerLogic : MonoBehaviour
             this.damageDebris.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
             var emission = this.damageDebris.emission;
             emission.rateOverTimeMultiplier = damageRate * 100;
+        }
+    }
+
+    Vector3 GetForce(Vector3 pos)
+    {
+        var force = Vector3.zero;
+        foreach(var g in this.gravitySources)
+        {
+            force += GravityParameters.CalculateForce(pos, g.position, g.parameters.mass, this.constants.GravitationalConstant);
+        }
+        return force;
+    }
+
+    void UpdateFinalThrust()
+    {
+        this.finalThrust = this.manualThrust;
+        if (Input.GetKey("w"))
+            this.finalThrust.y = this.constants.ThrustForward;
+        else if (Input.GetKey("s"))
+            this.finalThrust.y = -this.constants.ThrustForward;
+
+        if (Input.GetKey("d"))
+            this.finalThrust.x = this.constants.ThrustRight;
+        else if (Input.GetKey("a"))
+            this.finalThrust.x = -this.constants.ThrustRight;
+    }
+
+    static void SetEmissionActive(ParticleSystem pfx, bool enabled)
+    {
+        var em = pfx.emission;
+        if (em.enabled != enabled)
+        {
+            em.enabled = enabled;
         }
     }
 }

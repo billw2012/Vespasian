@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
+// http://hyperphysics.phy-astr.gsu.edu/hbase/kepler.html
 [Serializable]
 public struct OrbitParameters
 {
@@ -42,7 +44,6 @@ public struct OrbitParameters
             radiusVector * Mathf.Sin(trueAnomaly + this.longitudeOfPerihelion * Mathf.Deg2Rad)
         );
     }
-
 }
 
 public class Orbit : MonoBehaviour
@@ -50,21 +51,98 @@ public class Orbit : MonoBehaviour
     public OrbitParameters parameters = new OrbitParameters {
         longitudeOfPerihelion = 0,
         meanDistance = 5,
-        motionPerSecond = 0.1f,
+        motionPerSecond = 0,
         eccentricity = 0,
         meanLongitude = 0
     };
+
+    public GameConstants constants;
 
     [Tooltip("How finely subdivided the path rendering is"), Range(0, 1)]
     public float pathQuality = 1;
 
     [Tooltip("Transform to apply the position to, defaults to any child called 'Position'")]
+    public Transform customPosition;
+    [HideInInspector]
     public Transform position;
+
+    [Tooltip("Whether to automatically adjust motionPerSecond orbit parameter based on meanDistance")]
+    public bool autoMotionPerSecond = true;
 
     // This was used to more closely match the SimManager math by simply adding positions to get world location for
     // nested orbits. However it doesn't appear to be necessary and can be removed at a later time if the path
     // sim proves stable.
     //Orbit parent;
+
+    void OnValidate()
+    {
+        this.RefreshValidate();
+        foreach(var child in this.GetComponentsInChildren<Orbit>())
+        {
+            child.RefreshValidate();
+        }
+    }
+
+    void Start()
+    {
+        this.RefreshValidate();
+    }
+
+    void Update()
+    {
+        this.UpdateOrbitWidth();
+    }
+
+    float LawOfPeriods(float parentMass, float meanDistance)
+    {
+        return Mathf.Sqrt(4f * Mathf.Pow(Mathf.PI, 2f) * Mathf.Pow(meanDistance, 3f) / (parentMass * this.constants.GravitationalConstant));
+    }
+
+    float FindParentsMass()
+    {
+        var directParent = this.gameObject.GetComponentInParentOnly<GravitySource>();
+        if (directParent != null)
+            return directParent.parameters.mass;
+        // Instead use sum of sun masses...
+        return GameObject.FindObjectsOfType<SunLogic>().Select(s => s.GetComponent<GravitySource>().parameters.mass).Sum();
+    }
+
+    void RefreshValidate()
+    {
+        Assert.IsNotNull(this.constants);
+
+        this.position = this.customPosition == null ? this.transform.Find("Position") : this.customPosition;
+        bool ValidateParents()
+        {
+            // Only game objects being controlled by Orbit component are allowed to have non-identity transforms
+            var orbitControlled = GameObject.FindObjectsOfType<Orbit>().Select(o => o.position.gameObject);
+            var invalidParents = this.GetAllParents()
+                .Where(p => !orbitControlled.Contains(p) && !p.transform.IsIdentity());
+            if (invalidParents.Any())
+            {
+                foreach (var p in invalidParents)
+                {
+                    Debug.LogError($"{this}: parent {p.name} is invalid, it has none zero transform", p);
+                }
+                return false;
+            }
+            return true;
+        }
+        Debug.Assert(ValidateParents());
+
+        if (this.autoMotionPerSecond)
+        {
+            this.parameters.motionPerSecond = this.parameters.meanDistance > 0 ? 360f / LawOfPeriods(this.FindParentsMass(), this.parameters.meanDistance) : 0f;
+        }
+
+        this.UpdatePosition(0);
+        this.UpdateOrbitPath();
+    }
+
+    public void SimUpdate()
+    {
+        this.UpdatePosition(GameLogic.Instance.simTime);
+    }
 
     void UpdatePosition(float time)
     {
@@ -76,17 +154,6 @@ public class Orbit : MonoBehaviour
         //}
         //this.position.position = newPosition;
         this.position.localPosition = this.parameters.GetPosition(time);
-    }
-
-    void OnValidate()
-    {
-        if (this.position == null)
-        {
-            this.position = this.transform.Find("Position");
-        }
-
-        this.UpdatePosition(0);
-        this.UpdateOrbitPath();
     }
 
     void UpdateOrbitPath()
@@ -119,48 +186,7 @@ public class Orbit : MonoBehaviour
         {
             return;
         }
-        lineRenderer.startWidth = lineRenderer.endWidth = GameConstants.Instance.OrbitLineWidth;
+        lineRenderer.startWidth = lineRenderer.endWidth = this.constants.OrbitLineWidth;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if(this.position == null)
-        {
-            this.position = this.transform.Find("Position");
-        }
-
-        bool ValidateParents()
-        {
-            // Only game objects being controlled by Orbit component are allowed to have non-identity transforms
-            var orbitControlled = GameObject.FindObjectsOfType<Orbit>().Select(o => o.position.gameObject);
-            var invalidParents = this.GetAllParents()
-                .Where(p => !orbitControlled.Contains(p) && !p.transform.IsIdentity());
-            if(invalidParents.Any())
-            {
-                foreach (var p in invalidParents)
-                {
-                    Debug.LogError($"{this}: parent {p.name} is invalid, it has none zero transform", p);
-                }
-                return false;
-            }
-            return true;
-        }
-        Debug.Assert(ValidateParents());
-
-        // See note on the parent variable declaration above
-        //this.parent = this.gameObject.GetComponentInParentOnly<Orbit>();
-
-        this.UpdateOrbitPath();
-    }
-
-    public void SimUpdate()
-    {
-        this.UpdatePosition(GameLogic.Instance.simTime);
-    }
-
-    void Update()
-    {
-        this.UpdateOrbitWidth();
-    }
 }

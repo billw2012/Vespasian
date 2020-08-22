@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class RayShadow : MonoBehaviour
 {
+    public float shadowLengthScale = 30.0f;
+    public MeshFilter geometry;
+
     struct LightAndShadow
     {
         public GameObject light;
@@ -14,24 +18,17 @@ public class RayShadow : MonoBehaviour
 
     List<LightAndShadow> rays;
 
-    public float shadowLengthScale = 30.0f;
-
-    //public Transform root;
-    public MeshFilter geometry;
-
     // Start is called before the first frame update
     void Start()
     {
         if(this.geometry == null)
         {
-            this.geometry = this.gameObject.GetComponent<MeshFilter>();
-            Debug.Assert(this.geometry != null);
+            this.geometry = this.GetComponent<MeshFilter>();
+            Assert.IsNotNull(this.geometry);
         }
 
-        var sun = GameObject.Find("SunMain");
-        this.rays =
-            new[] { sun }
-            .Select(light =>
+        var suns = GameObject.FindObjectsOfType<SunLogic>();
+        this.rays = suns.Select(light =>
             {
                 var shadow = new GameObject();
                 shadow.transform.SetParent(this.geometry.transform);
@@ -53,7 +50,7 @@ public class RayShadow : MonoBehaviour
                 lineRenderer.positionCount = 3;
                 return new LightAndShadow
                 {
-                    light = light,
+                    light = light.gameObject,
                     shadow = shadow,
                     lineRenderer = lineRenderer,
                 };
@@ -69,7 +66,7 @@ public class RayShadow : MonoBehaviour
         {
             // We need the extents to decide the length of the shadow
             var localExtents = Vector3.Scale(this.geometry.mesh.bounds.extents, this.geometry.transform.localScale);
-            var shadowLength = localExtents.magnitude * this.shadowLengthScale;
+            float shadowLength = localExtents.magnitude * this.shadowLengthScale;
 
             // Set start and end
             if (ray.lineRenderer.GetPosition(0) != ourPos)
@@ -106,9 +103,9 @@ public class RayShadow : MonoBehaviour
                 var xAxis = this.transform.TransformDirection(localExtents.x00());
                 var yAxis = this.transform.TransformDirection(localExtents._0y0());
                 width = Mathf.Max(
-                    Vector3.Project(xAxis, perpVec).magnitude,
-                    Vector3.Project(yAxis, perpVec).magnitude
-                ) * 2;
+                        Vector3.Project(xAxis, perpVec).magnitude,
+                        Vector3.Project(yAxis, perpVec).magnitude
+                    ) * 2;
             }
 
             ray.lineRenderer.startWidth = width;

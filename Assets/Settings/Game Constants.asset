@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf985b73e330134bbb740bcff5c2451, type: 3}
+  m_Name: Game Constants
+  m_EditorClassIdentifier: 
+  GravitationalConstant: 5
+  SimStepDt: 0.05
+  SimDistanceLimit: 100
+  FuelUse: 0.1
+  ThrustForward: 1
+  ThrustRight: 0.3
+  MaxLaunchVelocity: 3
+  OrbitLineWidthPixels: 5
+  SimPathLineWidthPixels: 5

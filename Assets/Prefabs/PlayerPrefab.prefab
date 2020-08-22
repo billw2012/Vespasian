@@ -146,13 +146,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce0cb700702fb54e8033e7612549479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   velocity: {x: 0, y: 0, z: 0}
+  manualThrust: {x: 0, y: 0}
   frontThruster: {fileID: 4983925967727487814}
   rearThruster: {fileID: 2162793376743296761}
   rightThruster: {fileID: 7668834564355503827}
   leftThruster: {fileID: 8480122912372712441}
   damageDebris: {fileID: 1482889361666344771}
   state: 0
+  simPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &7620224551109491988
 MonoBehaviour:
   m_ObjectHideFlags: 0

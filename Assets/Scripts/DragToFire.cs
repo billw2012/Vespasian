@@ -1,56 +1,57 @@
 
 
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 
-public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
+public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
+    public PlayerLogic objectToFire = null;
 
-    public GameObject ObjectToFire = null;
-    public float ForceCoefficient = 1.0f;
+    [Tooltip("How much force to apply")]
+    public float forceCoefficient = 1.0f;
+
+    public GameConstants constants;
 
     Vector2 dragStart;
 
-    PlayerLogic playerLogic => this.ObjectToFire.GetComponent<PlayerLogic>();
+    void OnValidate()
+    {
+        Assert.IsNotNull(this.objectToFire);
+        Assert.IsNotNull(this.constants);
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Assert(this.ObjectToFire != null);
-
-        if (this.playerLogic.state == PlayerLogic.FlyingState.Aiming)
+        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
         {
             this.dragStart = eventData.position;
         }
     }
 
-    private Vector3 GetVelocity(Vector3 dragPosition)
+    Vector3 GetVelocity(Vector3 dragPosition)
     {
         // We always recalculate this as the camera might move
         var startPosition = Camera.main.ScreenToWorldPoint(this.dragStart);
         var position = Camera.main.ScreenToWorldPoint(dragPosition);
-        return Vector3.ClampMagnitude(position - startPosition, GameConstants.Instance.MaxLaunchVelocity) * GameConstants.Instance.GlobalCoefficient * this.ForceCoefficient;
+        return Vector3.ClampMagnitude(position - startPosition, this.constants.MaxLaunchVelocity) * this.constants.GravitationalConstant * this.forceCoefficient * 2 / Camera.main.orthographicSize;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Assert(this.ObjectToFire != null);
-
-        if (this.playerLogic.state == PlayerLogic.FlyingState.Aiming)
+        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
         {
-            this.playerLogic.velocity = this.GetVelocity(eventData.position);
-
-            this.ObjectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerLogic.velocity);
+            this.objectToFire.velocity = this.GetVelocity(eventData.position);
+            this.objectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.objectToFire.velocity);
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Assert(this.ObjectToFire != null);
-
-        if (this.playerLogic.state == PlayerLogic.FlyingState.Aiming)
+        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
         {
-            this.playerLogic.velocity = this.GetVelocity(eventData.position);
-
-            this.playerLogic.state = PlayerLogic.FlyingState.Flying;
+            this.objectToFire.velocity = this.GetVelocity(eventData.position);
+            this.objectToFire.state = PlayerLogic.FlyingState.Flying;
         }
     }
 }

@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(TextMeshProUGUI))]
 public class TargetArrow : MonoBehaviour
 {
     public GameObject target;
 
+    TextMeshProUGUI image;
+
+    void Start()
+    {
+        Assert.IsNotNull(this.target);
+        this.image = this.GetComponent<TextMeshProUGUI>();
+        Assert.IsNotNull(this.image);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        Debug.Assert(this.target != null);
         //var targetScreenPos = (Vector2)Camera.main.WorldToScreenPoint(this.target.transform.position);
+        var targetCanvasPosition = this.image.canvas.WorldToCanvasPosition(this.target.transform.position);
 
-        var image = this.GetComponent<TextMeshProUGUI>();
-        var targetCanvasPosition = image.canvas.WorldToCanvasPosition(this.target.transform.position);
-
-        var canvasSafeArea = image.canvas.ScreenToCanvasRect(Screen.safeArea);
+        var canvasSafeArea = this.image.canvas.ScreenToCanvasRect(Screen.safeArea);
         if (!canvasSafeArea.Contains(targetCanvasPosition))
             //Screen.safeArea.Contains(targetScreenPos))
         {
@@ -31,11 +39,11 @@ public class TargetArrow : MonoBehaviour
             var clampedTargetScreenPos = clampArea.IntersectionWithRayFromCenter(targetCanvasPosition);
             rectTransform.anchoredPosition = clampedTargetScreenPos;
             rectTransform.rotation = Quaternion.FromToRotation(Vector3.right, clampedTargetScreenPos - clampArea.center);
-            image.enabled = true;
+            this.image.enabled = true;
         }
         else
         {
-            image.enabled = false;
+            this.image.enabled = false;
         }
     }
 }

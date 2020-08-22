@@ -4847,6 +4847,7 @@ GameObject:
   - component: {fileID: 7639369803563321502}
   - component: {fileID: 6931139407177234544}
   - component: {fileID: 56469765501527648}
+  - component: {fileID: 5627716558633760033}
   - component: {fileID: 2438610178736772583}
   m_Layer: 8
   m_Name: SunPrefab
@@ -4954,8 +4955,30 @@ MonoBehaviour:
     motionPerSecond: 0
     eccentricity: 0
     meanLongitude: 0
+  constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
+  customPosition: {fileID: 0}
   position: {fileID: 8927440856455040385}
+  autoMotionPerSecond: 1
+--- !u!114 &5627716558633760033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f53f59c86760584291048a1c9336c49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    density: 1
+    mass: 12.566371
+  constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
+  customTarget: {fileID: 8649645052135855122}
+  target: {fileID: 8649645052135855122}
+  autoMass: 1
 --- !u!54 &2438610178736772583
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5073,7 +5096,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8649645052135855122}
-  - component: {fileID: 5995637431331797450}
   - component: {fileID: 4952247942164856782}
   - component: {fileID: 6731737867862525207}
   - component: {fileID: 2672253577225764955}
@@ -5101,21 +5123,6 @@ Transform:
   m_Father: {fileID: 8927440856455040385}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5995637431331797450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6442401090780597286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f53f59c86760584291048a1c9336c49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parameters:
-    density: 1
-    mass: -1
 --- !u!33 &4952247942164856782
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -1,12 +1,9 @@
 using UnityEngine;
 
-public class GameConstants : MonoBehaviour {
-
-    public static GameConstants Instance;
-
-    public float AccelerationCoefficient = 1.0f;
-
-    public float GlobalCoefficient = 5.0f;
+[CreateAssetMenu]
+public class GameConstants : ScriptableObject
+{
+    public float GravitationalConstant = 5.0f;
 
     public float SimStepDt = 0.05f;
     public float SimDistanceLimit = 100f;
@@ -32,10 +29,5 @@ public class GameConstants : MonoBehaviour {
     static float GetWorldFromScreenSpaceSize(float pixels)
     {
         return Camera.main.orthographicSize * pixels / Screen.width;
-    }
-
-    void Start()
-    {
-        Instance = this;
     }
 }

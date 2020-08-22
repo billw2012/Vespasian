@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public class SimManager : MonoBehaviour {
+public class SimManager : MonoBehaviour
+{
+    public GameConstants constants;
+
     [Tooltip("Used to render the simulated path")]
     public LineRenderer pathRenderer;
     [Tooltip("Used to indicate a predicted crash")]
@@ -46,7 +50,7 @@ public class SimManager : MonoBehaviour {
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
 
-    float pathLength = 0;
+    //float pathLength = 0;
 
     #region SimState
     // Represents the current state of a simulation
@@ -92,7 +96,7 @@ public class SimManager : MonoBehaviour {
             foreach (var g in this.owner.simGravitySources)
             {
                 var position = g.parent != -1 ? orbitPositions[g.parent] : g.position;
-                force += GravityParameters.CalculateForce(this.position, position, g.mass);
+                force += GravityParameters.CalculateForce(this.position, position, g.mass, this.owner.constants.GravitationalConstant);
             }
 
             this.velocity += force * dt;
@@ -126,10 +130,9 @@ public class SimManager : MonoBehaviour {
     }
     #endregion
 
-    public static SimManager Instance = null;
-
     void OnValidate()
     {
+        Assert.IsNotNull(this.constants);
         if (this.pathRenderer != null)
         {
             this.pathRenderer.positionCount = 0;
@@ -139,8 +142,26 @@ public class SimManager : MonoBehaviour {
 
     void Start()
     {
-        Instance = this;
+        Assert.IsNotNull(this.constants);
         this.warningSign.SetActive(false);
+    }
+
+    void FixedUpdate()
+    {
+        this.DelayedInit();
+
+        // Update "real" orbits and player
+        foreach (var o in this.orbits)
+        {
+            o.SimUpdate();
+        }
+
+        GameLogic.Instance.player.GetComponent<PlayerLogic>().SimUpdate();
+
+
+        this.UpdatePathAsync();
+
+        this.UpdatePathWidth();
     }
 
     void DelayedInit()
@@ -182,9 +203,9 @@ public class SimManager : MonoBehaviour {
                 name = g.ToString(),
 #endif
                 mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
-                radius = g.transform.localScale.x * 0.5f, // radius is applied using local scale on the same game object as the gravity
+                radius = g.radius, // radius is applied using local scale on the same game object as the gravity
                 parent = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
-                position = g.transform.position
+                position = g.position
             }).ToList();
     }
 
@@ -198,22 +219,25 @@ public class SimManager : MonoBehaviour {
             startTime: GameLogic.Instance.simTime
         );
 
-        float timeStep = Time.fixedDeltaTime; //GameConstants.Instance.SimStepDt;//Time.fixedDeltaTime;
+        // timeStep *must* match what the normal calculate uses
+        float timeStep = Time.fixedDeltaTime;
+        float pathLengthLimit = this.constants.SimDistanceLimit;
 
         // Hand off to another thread
         await Task.Run(() =>
         {
-            while(state.pathLength < GameConstants.Instance.SimDistanceLimit && !state.crashed) {
+            while(state.pathLength < pathLengthLimit && !state.crashed) {
                 state.Step(timeStep);
             }
         });
 
+        // Check Application.isPlaying to avoid the case where game was stopped before the task was finished (in editor).
         if (Application.isPlaying && this.pathRenderer != null && this.warningSign != null)
         {
             // Resume in main thread
             this.pathRenderer.positionCount = state.path.Count;
             this.pathRenderer.SetPositions(state.path.ToArray());
-            this.pathLength = state.pathLength;
+            //this.pathLength = state.pathLength;
 
             if (state.crashed && state.path.Count > 0)
             {
@@ -254,25 +278,6 @@ public class SimManager : MonoBehaviour {
         //this.pathRenderer.startWidth = 0;
         //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
         // Fixed width line in screen space:
-        this.pathRenderer.startWidth = this.pathRenderer.endWidth = GameConstants.Instance.SimLineWidth;
+        this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth;
     }
-
-    void FixedUpdate()
-    {
-        this.DelayedInit();
-
-        // Update "real" orbits and player
-        foreach(var o in this.orbits)
-        {
-            o.SimUpdate();
-        }
-
-        GameLogic.Instance.player.GetComponent<PlayerLogic>().SimUpdate();
-
-
-        this.UpdatePathAsync();
-
-        this.UpdatePathWidth();
-    }
-
 }
