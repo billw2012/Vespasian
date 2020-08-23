@@ -58,7 +58,8 @@ public struct OrbitParameters
 
 public class Orbit : MonoBehaviour
 {
-    public OrbitParameters parameters = new OrbitParameters {
+    public OrbitParameters parameters = new OrbitParameters
+    {
         longitudeOfPerihelion = 0,
         meanDistance = 5,
         motionPerSecond = 0,
@@ -78,6 +79,21 @@ public class Orbit : MonoBehaviour
 
     [Tooltip("Whether to automatically adjust motionPerSecond orbit parameter based on meanDistance")]
     public bool autoMotionPerSecond = true;
+
+#if UNITY_EDITOR
+    Vector3[] _editorPath;
+    public Vector3[] editorPath
+    {
+        get
+        {
+            if (this._editorPath == null)
+            {
+                this._editorPath = this.GetPositions(360, 0.2f);
+            }
+            return _editorPath;
+        }
+    }
+#endif
 
     // This was used to more closely match the SimManager math by simply adding positions to get world location for
     // nested orbits. However it doesn't appear to be necessary and can be removed at a later time if the path
@@ -156,6 +172,10 @@ public class Orbit : MonoBehaviour
         }
 
         this.UpdatePosition(0);
+
+#if UNITY_EDITOR
+        this._editorPath = null;
+#endif
     }
 
     public void SimUpdate()
@@ -175,13 +195,13 @@ public class Orbit : MonoBehaviour
         this.position.localPosition = this.parameters.GetPosition(time);
     }
 
-    public Vector3[] GetPositions(float degrees = 360f)
+    public Vector3[] GetPositions(float degrees = 360f, float quality = 1)
     {
         degrees = Mathf.Min(degrees, 360f);
-        int pathPoints = Math.Max(1, (int)(degrees * this.pathQuality));
+        int pathPoints = Math.Max(1, (int)(degrees * this.pathQuality * quality));
         var path = new Vector3[pathPoints];
         //float totalOrbitTime = degrees / this.parameters.motionPerSecond;
-        float timePerPoint = degrees / pathPoints;
+        float timePerPoint = degrees / (pathPoints - 1);
         for (int i = 0; i < pathPoints; i++)
         {
             path[i] = this.parameters.GetPosition(0, i * timePerPoint);
@@ -192,7 +212,7 @@ public class Orbit : MonoBehaviour
     void UpdateOrbitPath()
     {
         var lineRenderer = this.GetComponent<LineRenderer>();
-        if(lineRenderer == null)
+        if (lineRenderer == null)
         {
             return;
         }

@@ -11,7 +11,7 @@ public class RayShadow : MonoBehaviour
 
     struct LightAndShadow
     {
-        public GameObject light;
+        public Transform light;
         public GameObject shadow;
         public LineRenderer lineRenderer;
     }
@@ -48,9 +48,10 @@ public class RayShadow : MonoBehaviour
                 );
                 lineRenderer.colorGradient = colorGradient;
                 lineRenderer.positionCount = 3;
+                var orbitComponent = light.GetComponent<Orbit>();
                 return new LightAndShadow
                 {
-                    light = light.gameObject,
+                    light = orbitComponent.position,
                     shadow = shadow,
                     lineRenderer = lineRenderer,
                 };

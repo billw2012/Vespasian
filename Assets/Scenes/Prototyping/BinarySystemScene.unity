@@ -3026,21 +3026,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.meanDistance
-      value: 4
+      value: 6.4935493
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.motionPerSecond
-      value: 27.24983
+      value: 13.174392
+      objectReference: {fileID: 0}
+    - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
+      propertyPath: parameters.meanLongitude
+      value: -46.557266
+      objectReference: {fileID: 0}
+    - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
+      propertyPath: parameters.longitudeOfPerihelion
+      value: 4.363588
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 4.4651546
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -4.7147193
       objectReference: {fileID: 0}
     - target: {fileID: 3768597765047173929, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
@@ -6231,33 +6239,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.meanDistance
-      value: 37.687428
+      value: 37.06758
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.meanLongitude
-      value: -9.047763
+      value: -28.05006
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.eccentricity
-      value: 0.081606664
+      value: 0.0980394
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.longitudeOfPerihelion
-      value: -56.699192
+      value: -44.44604
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.motionPerSecond
-      value: 2.3270838
+      value: 2.3856976
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35.74979
+      value: 30.595943
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.027931
+      value: -13.921177
       objectReference: {fileID: 0}
     - target: {fileID: 3768597765047173929, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
@@ -9450,33 +9458,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.meanDistance
-      value: 24.508486
+      value: 20.94057
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.meanLongitude
-      value: -46.123398
+      value: -7.1019964
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.eccentricity
-      value: 0.007941574
+      value: 0.1206816
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.longitudeOfPerihelion
-      value: -20.005053
+      value: 1.412916
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.motionPerSecond
-      value: 4.437435
+      value: 5.6185465
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.741938
+      value: 18.196407
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -17.659346
+      value: -3.044523
       objectReference: {fileID: 0}
     - target: {fileID: 3768597765047173929, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
