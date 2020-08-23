@@ -15,7 +15,7 @@ MonoBehaviour:
   GravitationalConstant: 5
   SimStepDt: 0.05
   SimDistanceLimit: 100
-  FuelUse: 0.1
+  FuelUse: 0
   ThrustForward: 1
   ThrustRight: 0.3
   MaxLaunchVelocity: 3
