@@ -2,7 +2,7 @@
 
 public class PlanetLogic : MonoBehaviour
 {
-    [Tooltip("Planet Radius (use this instead of scaling)"), Range(0, 10)]
+    [Tooltip("Planet Radius (use this instead of scaling)"), Range(0, 1000)]
     public float radius = 0.5f;
 
     public bool ringEnabled = false;
