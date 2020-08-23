@@ -79,6 +79,8 @@ public class Orbit : MonoBehaviour
 
     [Tooltip("Whether to automatically adjust motionPerSecond orbit parameter based on meanDistance")]
     public bool autoMotionPerSecond = true;
+    [Tooltip("Whether automatically motion is clockwise")]
+    public bool clockwiseMotion = false;
 
 #if UNITY_EDITOR
     Vector3[] _editorPath;
@@ -168,7 +170,10 @@ public class Orbit : MonoBehaviour
 
         if (this.autoMotionPerSecond)
         {
-            this.parameters.motionPerSecond = this.parameters.meanDistance > 0 ? 360f / LawOfPeriods(this.FindParentsMass(), this.parameters.meanDistance) : 0f;
+            this.parameters.motionPerSecond = this.parameters.meanDistance > 0?
+                (this.clockwiseMotion? -360f : 360f) / this.LawOfPeriods(this.FindParentsMass(), this.parameters.meanDistance)
+                :
+                0f;
         }
 
         this.UpdatePosition(0);
@@ -197,12 +202,11 @@ public class Orbit : MonoBehaviour
 
     public Vector3[] GetPositions(float degrees = 360f, float quality = 1)
     {
-        degrees = Mathf.Min(degrees, 360f);
-        int pathPoints = Math.Max(1, (int)(degrees * this.pathQuality * quality));
-        var path = new Vector3[pathPoints];
-        //float totalOrbitTime = degrees / this.parameters.motionPerSecond;
-        float timePerPoint = degrees / (pathPoints - 1);
-        for (int i = 0; i < pathPoints; i++)
+        degrees = Mathf.Clamp(degrees, -360f, 360f);
+        int numPoints = Math.Max(1, (int)(Mathf.Abs(degrees) * this.pathQuality * quality));
+        var path = new Vector3[numPoints];
+        float timePerPoint = degrees / (numPoints - 1);
+        for (int i = 0; i < numPoints; i++)
         {
             path[i] = this.parameters.GetPosition(0, i * timePerPoint);
         }

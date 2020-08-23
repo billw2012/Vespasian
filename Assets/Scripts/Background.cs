@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
+    public float speedMultiplier = 0.1f;
+
     // LateUpdate used as we need the ensure the background is always fitted to the final camera size and position
     Vector2 lastPosition;
     Vector2 offset;
 
-    public float speedMultiplier = 0.1f;
+    float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
 
-    private float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
-
-    private void Start()
+    void Start()
     {
         this.lastPosition = this.transform.position;
         this.offset = this.transform.position * -this.parallaxSpeed;

@@ -9,6 +9,9 @@ public class OrbitEditor : Editor
 
     void OnSceneGUI()
     {
+        if (Application.isPlaying)
+            return;
+
         var orbit = this.target as Orbit;
 
         float uiScale = HandleUtility.GetHandleSize(orbit.transform.position) * 0.2f;
@@ -23,7 +26,7 @@ public class OrbitEditor : Editor
         // Draw movement per 10 seconds
         Handles.matrix = orbit.transform.localToWorldMatrix;
         Handles.color = new Color(1, 1, 1, 0.35f);
-        var movementPositions = orbit.GetPositions(Mathf.Abs(orbit.parameters.motionPerSecond) * 10);
+        var movementPositions = orbit.GetPositions(orbit.parameters.motionPerSecond * 10, 0.2f);
         if (movementPositions.Length > 0)
         {
             Handles.DrawAAPolyLine(45, movementPositions);

@@ -4960,6 +4960,7 @@ MonoBehaviour:
   customPosition: {fileID: 0}
   position: {fileID: 8927440856455040385}
   autoMotionPerSecond: 1
+  clockwiseMotion: 0
 --- !u!114 &5627716558633760033
 MonoBehaviour:
   m_ObjectHideFlags: 0
