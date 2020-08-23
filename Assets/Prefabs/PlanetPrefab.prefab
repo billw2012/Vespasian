@@ -193,7 +193,7 @@ MonoBehaviour:
   parameters:
     longitudeOfPerihelion: 0
     meanDistance: 5
-    motionPerSecond: 41.941853
+    motionPerSecond: 48.15615
     eccentricity: 0
     meanLongitude: 0
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}

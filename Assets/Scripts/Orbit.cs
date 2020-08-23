@@ -5,7 +5,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+
 // http://hyperphysics.phy-astr.gsu.edu/hbase/kepler.html
+// This method of calculation is not so accurate, it works okay for eccentricity < 0.2 (which covers all planets in our solar system, and pluto).
+// TODO: use a more accurate method (although they will all be slower, we could just precalculate the path and then interpolate along it).
+// References/code examples for alternate methods:
+// https://space.stackexchange.com/questions/8911/determining-orbital-position-at-a-future-point-in-time
+// https://pastebin.com/NqTwa4QM
+// https://space.stackexchange.com/questions/21458/is-this-c-code-to-obtain-the-coordinates-of-the-planets-correct/
+// https://github.com/nemesgyadam/all-my-circuirs/blob/master/Orbit.cs
+// http://www.jgiesen.de/kepler/kepler.html
+
 [Serializable]
 public struct OrbitParameters
 {
@@ -16,9 +26,9 @@ public struct OrbitParameters
     public float longitudeOfPerihelion;
     [Tooltip("Average orbital distance"), Range(0, 200)]
     public float meanDistance;
-    [Tooltip("Motion of orbiting body per second, in degrees per second"), Range(0, 45)]
+    [Tooltip("Motion of orbiting body per second, in degrees per second"), Range(-45, 45)]
     public float motionPerSecond;
-    [Tooltip("How elliptical the orbit is"), Range(0, 1)]
+    [Tooltip("How elliptical the orbit is (values beyond 0.2 become inaccurate with the method of calculation used here)"), Range(0, 0.3f)]
     public float eccentricity;
     // Mean longitude is the ecliptic longitude at which an orbiting body could be found if its orbit were circular, and free of perturbations, and if its inclination were zero
     [Tooltip("Angle the orbit starts from, in degrees"), Range(0, 360)]
@@ -26,19 +36,19 @@ public struct OrbitParameters
 
     static float Mod2PI(float val)
     {
-        while (val > Mathf.PI * 2)
-            val -= Mathf.PI * 2;
+        while (val > Mathf.PI * 2f)
+            val -= Mathf.PI * 2f;
         while (val < 0)
-            val += Mathf.PI * 2;
+            val += Mathf.PI * 2f;
         return val;
     }
 
     public Vector2 GetPosition(float time, float meanLongitudeOffset = 0)
     {
         float meanAnomaly = Mod2PI((this.motionPerSecond * time + this.meanLongitude + meanLongitudeOffset - this.longitudeOfPerihelion) * Mathf.Deg2Rad);
-        float trueAnomaly = meanAnomaly + 1 * ((2 * this.eccentricity - Mathf.Pow(this.eccentricity, 3) / 4) * Mathf.Sin(meanAnomaly)
-            + 5 / 4 * Mathf.Pow(this.eccentricity, 2) * Mathf.Sin(2 * meanAnomaly) + 13 / 12 * Mathf.Pow(this.eccentricity, 3) * Mathf.Sin(3 * meanAnomaly));
-        float radiusVector = this.meanDistance * (1 - Mathf.Pow(this.eccentricity, 2)) / (1 + this.eccentricity * Mathf.Cos(trueAnomaly));
+        float trueAnomaly = Mod2PI(meanAnomaly + 1f * ((2f * this.eccentricity - Mathf.Pow(this.eccentricity, 3) / 4f) * Mathf.Sin(meanAnomaly)
+            + (5f / 4f) * Mathf.Pow(this.eccentricity, 2) * Mathf.Sin(2f * meanAnomaly) + (13f / 12f) * Mathf.Pow(this.eccentricity, 3) * Mathf.Sin(3f * meanAnomaly)));
+        float radiusVector = this.meanDistance * (1f - Mathf.Pow(this.eccentricity, 2)) / (1f + this.eccentricity * Mathf.Cos(trueAnomaly));
         return new Vector2(
             radiusVector * Mathf.Cos(trueAnomaly + this.longitudeOfPerihelion * Mathf.Deg2Rad),
             radiusVector * Mathf.Sin(trueAnomaly + this.longitudeOfPerihelion * Mathf.Deg2Rad)
@@ -76,16 +86,13 @@ public class Orbit : MonoBehaviour
 
     void OnValidate()
     {
-        this.RefreshValidate();
-        foreach(var child in this.GetComponentsInChildren<Orbit>())
-        {
-            child.RefreshValidate();
-        }
+        this.RefreshValidateRecursive();
     }
 
     void Start()
     {
         this.RefreshValidate();
+        this.UpdateOrbitPath();
     }
 
     void Update()
@@ -105,6 +112,16 @@ public class Orbit : MonoBehaviour
             return directParent.parameters.mass;
         // Instead use sum of sun masses...
         return GameObject.FindObjectsOfType<SunLogic>().Select(s => s.GetComponent<GravitySource>().parameters.mass).Sum();
+    }
+
+    public void RefreshValidateRecursive()
+    {
+        this.RefreshValidate();
+
+        foreach (var child in this.GetComponentsInChildren<Orbit>().Where(c => c != this))
+        {
+            child.RefreshValidateRecursive();
+        }
     }
 
     void RefreshValidate()
@@ -128,7 +145,10 @@ public class Orbit : MonoBehaviour
             }
             return true;
         }
+
         Debug.Assert(ValidateParents());
+
+        this.parameters.eccentricity = Mathf.Clamp(this.parameters.eccentricity, 0, 0.3f);
 
         if (this.autoMotionPerSecond)
         {
@@ -136,7 +156,6 @@ public class Orbit : MonoBehaviour
         }
 
         this.UpdatePosition(0);
-        this.UpdateOrbitPath();
     }
 
     public void SimUpdate()
@@ -156,6 +175,20 @@ public class Orbit : MonoBehaviour
         this.position.localPosition = this.parameters.GetPosition(time);
     }
 
+    public Vector3[] GetPositions(float degrees = 360f)
+    {
+        degrees = Mathf.Min(degrees, 360f);
+        int pathPoints = Math.Max(1, (int)(degrees * this.pathQuality));
+        var path = new Vector3[pathPoints];
+        //float totalOrbitTime = degrees / this.parameters.motionPerSecond;
+        float timePerPoint = degrees / pathPoints;
+        for (int i = 0; i < pathPoints; i++)
+        {
+            path[i] = this.parameters.GetPosition(0, i * timePerPoint);
+        }
+        return path;
+    }
+
     void UpdateOrbitPath()
     {
         var lineRenderer = this.GetComponent<LineRenderer>();
@@ -164,19 +197,9 @@ public class Orbit : MonoBehaviour
             return;
         }
 
-        var path = new List<Vector3>();
-        if (Application.isPlaying)
-        {
-            int pathPoints = (int)(360 * this.pathQuality);
-            //float totalOrbitTime = 360 / this.parameters.motionPerSecond;
-            float timePerPoint = 360f / pathPoints;
-            for (int i = 0; i < pathPoints; i++)
-            {
-                path.Add(this.parameters.GetPosition(0, i * timePerPoint));
-            }
-        }
-        lineRenderer.positionCount = path.Count;
-        lineRenderer.SetPositions(path.ToArray());
+        var path = this.GetPositions();
+        lineRenderer.positionCount = path.Length;
+        lineRenderer.SetPositions(path);
     }
 
     void UpdateOrbitWidth()
