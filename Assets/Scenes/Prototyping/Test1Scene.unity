@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4347,6 +4347,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 18.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4538521788297379537, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 18.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538521788297379537, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4538521788400305316, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -4687,7 +4697,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameters:
     density: 1
-    mass: -1
+    mass: 16.220419
+  constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
+  customTarget: {fileID: 0}
+  target: {fileID: 1294735380}
+  autoMass: 1
 --- !u!1001 &1389085976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11147,12 +11161,12 @@ PrefabInstance:
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 59.53561
+      value: 52.80591
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.2793155
+      value: -14.301176
       objectReference: {fileID: 0}
     - target: {fileID: 3768597765047173929, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
@@ -11253,6 +11267,11 @@ PrefabInstance:
         type: 3}
       propertyPath: radius
       value: 8.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627716558633760033, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: parameters.mass
+      value: 53.456165
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207753, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
