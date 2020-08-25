@@ -142,11 +142,12 @@ public class Orbit2Editor : Editor
     {
         // Draw orbit
         Handles.color = new Color(0.33f, 0.33f, 0.33f);
-        foreach (var orbit in FindObjectsOfType<Orbit>())
+        foreach (var orbit in FindObjectsOfType<Orbit2>())
         {
             Handles.matrix = orbit.transform.localToWorldMatrix;
-            Handles.DrawPolyLine(orbit.editorPath);
-            Handles.DrawPolyLine(Vector3.zero, orbit.editorPath[0]);
+            Handles.DrawPolyLine(orbit.pathPositions);
+            Handles.DrawPolyLine(orbit.pathPositions.Last(), orbit.pathPositions.First());
+            Handles.DrawPolyLine(Vector3.zero, orbit.pathPositions.First());
         }
     }
 }

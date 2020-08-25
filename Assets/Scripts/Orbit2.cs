@@ -22,6 +22,12 @@ public struct OrbitParameters2
     public float apoapsis; // furthest distance in orbit
     public float angle; // argument of periapsis (angle from ascending node)
     public float offset; // 0 - 1, how far through one orbit to start the path
+    public enum OrbitDirection
+    {
+        CounterClockwise,
+        Clockwise
+    }
+    public OrbitDirection direction;
 
     public float eccentricity => this.periapsis + this.apoapsis == 0? 0 : (this.apoapsis - this.periapsis) / (this.apoapsis + this.periapsis);
     public float semiMajorAxis => (this.apoapsis + this.periapsis) / 2f;
@@ -59,6 +65,16 @@ public struct OrbitParameters2
         public Vector3[] path;
         public float dt;
         public float timeOffset;
+        public OrbitDirection direction;
+
+        static int ModPositive(int x, int m)
+        {
+            return (x % m + m) % m;
+        }
+        static float ModPositive(float x, float m)
+        {
+            return (x % m + m) % m;
+        }
 
         public Vector3 GetPosition(float t)
         {
@@ -66,10 +82,23 @@ public struct OrbitParameters2
             {
                 return Vector3.zero;
             }
-            float fIdx = ((t + this.timeOffset) / this.dt) % this.path.Length;
-            int idx0 = Mathf.FloorToInt(fIdx);
-            int idx1 = Mathf.CeilToInt(fIdx) % this.path.Length;
-            float frac = fIdx - idx0;
+            float fIdx;
+            if (this.direction == OrbitDirection.Clockwise)
+            {
+                fIdx = (this.path.Length - ((t - this.timeOffset) / this.dt)) % this.path.Length;
+            }
+            else
+            {
+                fIdx = ((t + this.timeOffset) / this.dt) % this.path.Length;
+            }
+            //float fIdx = ((t + this.timeOffset) / this.dt) % this.path.Length;
+            //if(this.direction == OrbitDirection.Clockwise)
+            //{
+                //fIdx = this.path.Length - fIdx;
+            //}
+            int idx0 = ModPositive(Mathf.FloorToInt(fIdx), this.path.Length);
+            int idx1 = ModPositive(idx0 + 1, this.path.Length);
+            float frac = fIdx - Mathf.FloorToInt(fIdx);
             return Vector3.Lerp(this.path[idx0], this.path[idx1], frac);
         }
     }
@@ -95,7 +124,13 @@ public struct OrbitParameters2
             }
         }
 
-        return new OrbitPath { path = pathList.ToArray(), dt = dt, timeOffset = Mathf.Max(0, orbit.period * this.offset) };
+        // If we closed the path successfully:
+        if(Vector3.Distance(pathList[0], pathList[pathList.Count - 1]) < Vector3.Distance(pathList[0], pathList[1]) * 0.1f)
+        {
+            pathList.RemoveAt(pathList.Count - 1);
+        }
+
+        return new OrbitPath { path = pathList.ToArray(), dt = dt, timeOffset = Mathf.Max(0, orbit.period * this.offset), direction = this.direction };
     }
 }
 
@@ -117,11 +152,6 @@ public class Orbit2 : MonoBehaviour
     public Transform customPosition;
     [HideInInspector]
     public Transform position;
-
-    [Tooltip("Whether to automatically adjust angularVelocity orbit parameter based on distance")]
-    public bool autoAngularVelocity = true;
-    [Tooltip("Whether automatically motion is clockwise")]
-    public bool clockwiseMotion = false;
 
     public OrbitParameters2.OrbitPath orbitPath;
 

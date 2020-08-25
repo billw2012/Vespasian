@@ -196,16 +196,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    periapsis: 3.7297354
-    apoapsis: 38.068653
-    angle: -146.6973
-    offset: 0.7374602
+    periapsis: 2.991394
+    apoapsis: 48.516468
+    angle: -145.4584
+    offset: 0.023369769
+    direction: 1
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
   customPosition: {fileID: 0}
   position: {fileID: 8358135012855275900}
-  autoAngularVelocity: 1
-  clockwiseMotion: 0
 --- !u!4 &1396775057
 Transform:
   m_ObjectHideFlags: 0
@@ -997,7 +996,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5732053072754814751}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.68019, y: 24.447113, z: 0}
+  m_LocalPosition: {x: 7.838835, y: -4.543745, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1021050753190677849}
