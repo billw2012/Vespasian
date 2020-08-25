@@ -23,7 +23,8 @@ public class Orbit2Editor : Editor
         // Draw orbit
         Handles.matrix = orbit.transform.localToWorldMatrix;
         Handles.DrawAAPolyLine(orbit.pathPositions);
-        Handles.DrawAAPolyLine(Vector3.zero, orbit.pathPositions[0]);
+        Handles.DrawAAPolyLine(orbit.pathPositions.Last(), orbit.pathPositions.First());
+        Handles.DrawAAPolyLine(Vector3.zero, orbit.pathPositions.First());
 
         // Draw handles
         var angleRot = Quaternion.Euler(0, 0, orbit.parameters.angle);
@@ -48,9 +49,19 @@ public class Orbit2Editor : Editor
             {
                 Undo.RecordObject(this.target, "Changed Orbit2 periapsis/angle");
                 float previousRatio = orbit.parameters.periapsis / orbit.parameters.periapsis;
-                orbit.parameters.SetPeriapsisMaintainEccentricity(Mathf.Max(0, newValue.magnitude - 3f));
-               // orbit.parameters.apoapsis = orbit.parameters.periapsis * previousRatio;
-                orbit.parameters.angle = Vector3.SignedAngle(Vector3.right, newValue, Vector3.forward);
+                float newPeriapsis = Mathf.Max(0, newValue.magnitude - 3f);
+                if (Event.current.control)
+                {
+                    orbit.parameters.angle = Vector3.SignedAngle(Vector3.right, newValue, Vector3.forward);
+                }
+                else if (Event.current.shift)
+                {
+                    orbit.parameters.SetPeriapsis(newPeriapsis);
+                }
+                else
+                {
+                    orbit.parameters.SetPeriapsisMaintainEccentricity(newPeriapsis);
+                }
                 orbit.RefreshValidateRecursive();
                 return true;
             }
@@ -78,13 +89,52 @@ public class Orbit2Editor : Editor
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(this.target, "Changed Orbit2 apoapsis");
-                orbit.parameters.apoapsis = Mathf.Max(orbit.parameters.periapsis, newValue.magnitude - 3f);
+                if (Event.current.control)
+                {
+                    orbit.parameters.angle = Vector3.SignedAngle(Vector3.left, newValue, Vector3.forward);
+                }
+                else
+                {
+                    orbit.parameters.SetApoapsis(newValue.magnitude - 3f);
+                }
                 orbit.RefreshValidateRecursive();
                 return true;
             }
             return false;
         };
         ApoapsisHandle();
+
+        // Draw handles
+        bool OffsetHandle()
+        {
+            Handles.color = Color.magenta;
+            Handles.matrix = orbit.transform.localToWorldMatrix * Matrix4x4.Rotate(angleRot) * Matrix4x4.Translate(Vector3.right * (orbit.parameters.semiMajorAxis - orbit.parameters.apoapsis));
+
+            var offsetRot = Quaternion.Euler(0, 0, orbit.parameters.offset * 360f);
+
+            const float HandleOffset = 10f;
+            var handlePos = offsetRot * (Vector3.right * (orbit.parameters.semiMajorAxis + HandleOffset));
+            Handles.DrawAAPolyLine(Vector3.zero, handlePos);
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"offset: {orbit.parameters.offset * 360f}°");
+            EditorGUI.BeginChangeCheck();
+            var newValue = Handles.Slider2D(
+                handlePos,
+                Vector3.forward,
+                Vector3.left,
+                Vector3.up,
+                uiScale * 0.5f,
+                Handles.CircleHandleCap,
+                0);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(this.target, "Changed Orbit2 apoapsis");
+                orbit.parameters.offset = Vector3.SignedAngle(Vector3.left, newValue, Vector3.forward) / 360f + 0.5f;
+                orbit.RefreshValidateRecursive();
+                return true;
+            }
+            return false;
+        };
+        OffsetHandle();
     }
 
     [DrawGizmo(GizmoType.NotInSelectionHierarchy)]

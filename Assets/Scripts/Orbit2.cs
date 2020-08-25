@@ -21,8 +21,22 @@ public struct OrbitParameters2
     public float periapsis; // nearest distance in orbit
     public float apoapsis; // furthest distance in orbit
     public float angle; // argument of periapsis (angle from ascending node)
+    public float offset; // 0 - 1, how far through one orbit to start the path
+
     public float eccentricity => this.periapsis + this.apoapsis == 0? 0 : (this.apoapsis - this.periapsis) / (this.apoapsis + this.periapsis);
-    public float semiMajorAxis => this.apoapsis + this.periapsis;
+    public float semiMajorAxis => (this.apoapsis + this.periapsis) / 2f;
+
+    public void SetPeriapsis(float newPeriapsis)
+    {
+        this.periapsis = newPeriapsis;
+        this.apoapsis = Mathf.Max(this.apoapsis, newPeriapsis);
+    }
+
+    public void SetApoapsis(float newApoapsis)
+    {
+        this.apoapsis = newApoapsis;
+        this.periapsis = Mathf.Min(this.periapsis, newApoapsis);
+    }
 
     public void SetPeriapsisMaintainEccentricity(float newPeriapsis)
     {
@@ -44,6 +58,7 @@ public struct OrbitParameters2
     {
         public Vector3[] path;
         public float dt;
+        public float timeOffset;
 
         public Vector3 GetPosition(float t)
         {
@@ -51,7 +66,7 @@ public struct OrbitParameters2
             {
                 return Vector3.zero;
             }
-            float fIdx = (t / this.dt) % this.path.Length;
+            float fIdx = ((t + this.timeOffset) / this.dt) % this.path.Length;
             int idx0 = Mathf.FloorToInt(fIdx);
             int idx1 = Mathf.CeilToInt(fIdx) % this.path.Length;
             float frac = fIdx - idx0;
@@ -59,48 +74,28 @@ public struct OrbitParameters2
         }
     }
 
-
     public OrbitPath CalculatePath(float parentMass, float gravitationalConstant, float pathQuality)
     {
         var orbit = new OrbitPhysics(this.periapsis, this.apoapsis, this.angle, parentMass, gravitationalConstant);
 
-        const int SimSteps = 100;
+        // Intermediate steps, to improve accuracy
+        const int SimSteps = 10;
 
-        // float approxOrbitTime = 360f / OrbitPhysics.OrbitalVelocityToAngularVelocity(OrbitPhysics.Vp(this.periapsis, this.apoapsis, parentMass, gravitationalConstant));
-        //float dt = Time.fixedDeltaTime / SimSteps;
-        float dt = pathQuality * orbit.period / (10f * 360f);
+        float dt = pathQuality * orbit.period / (1f * 360f);
+
         var pathList = new List<Vector3>();
-        // float lastAngle = orbit.angle - 1f;
 
         for(int itr = 0; itr < 5000 && orbit.angle < this.angle + 360f; ++itr)
         {
             var pos = orbit.GetPosition();
-            // Avoid broken positions
-            if (pos.magnitude < 1000)
-            {
-                pathList.Add(pos);
-            }
+            pathList.Add(pos);
             for (int step = 0; step < SimSteps; step++)
             {
                 orbit.Step(dt / SimSteps);
             }
         }
 
-        if(orbit.angle >= this.angle + 360f)
-        {
-            var diff = pathList.First() - pathList.Last();
-            for (int i = 0; i < pathList.Count; i++)
-            {
-                pathList[i] += diff * i / pathList.Count;
-            }
-        }
-
-        //var secondHalf = pathList.AsEnumerable()
-        //    .Reverse()
-        //    .Select(p => Vector3.Reflect(p, Vector2.Perpendicular(pathList[0]).normalized));
-        //Assert.AreNotEqual(orbit.angle, lastAngle, $"Failed to make process in CalculatePath");
-        //return new OrbitPath { path = pathList.Concat(secondHalf).ToArray(), dt = dt};
-        return new OrbitPath { path = pathList.ToArray(), dt = dt };
+        return new OrbitPath { path = pathList.ToArray(), dt = dt, timeOffset = Mathf.Max(0, orbit.period * this.offset) };
     }
 }
 
@@ -112,7 +107,6 @@ public class Orbit2 : MonoBehaviour
         periapsis = 5,
         angle = 0
     };
-    public float timeOffset = 0;
 
     public GameConstants constants;
 
@@ -202,16 +196,6 @@ public class Orbit2 : MonoBehaviour
 
         Debug.Assert(ValidateParents());
 
-        //this.parameters.eccentricity = Mathf.Clamp(this.parameters.eccentricity, 0, 0.3f);
-
-        //if (this.autoMotionPerSecond)
-        //{
-        //    this.parameters.motionPerSecond = this.parameters.meanDistance > 0?
-        //        (this.clockwiseMotion? -360f : 360f) / this.LawOfPeriods(this.FindParentsMass(), this.parameters.meanDistance)
-        //        :
-        //        0f;
-        //}
-
         this.orbitPath = this.parameters.CalculatePath(this.FindParentsMass(), this.constants.GravitationalConstant, this.pathQuality);
 
         this.UpdatePosition(0);
@@ -233,19 +217,6 @@ public class Orbit2 : MonoBehaviour
         //this.position.position = newPosition;
         this.position.localPosition = this.orbitPath.GetPosition(time);
     }
-
-    //public Vector3[] GetPositions(float degrees = 360f, float quality = 1)
-    //{
-    //    degrees = Mathf.Clamp(degrees, -360f, 360f);
-    //    int numPoints = Math.Max(1, (int)(Mathf.Abs(degrees) * this.pathQuality * quality));
-    //    var path = new Vector3[numPoints];
-    //    float timePerPoint = degrees / (numPoints - 1);
-    //    for (int i = 0; i < numPoints; i++)
-    //    {
-    //        path[i] = this.parameters.GetPosition(0, i * timePerPoint);
-    //    }
-    //    return path;
-    //}
 
     void CreateOrbitPath()
     {
