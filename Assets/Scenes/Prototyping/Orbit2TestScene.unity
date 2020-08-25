@@ -196,9 +196,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    distance: 35.12806
-    angle: 0.93188244
-    angularVelocity: 0.91520184
+    periapsis: 28.083492
+    apoapsis: 44.599396
+    angle: 175.74522
+  timeOffset: 0
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
   customPosition: {fileID: 0}
@@ -227,6 +228,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1745969654}
     m_Modifications:
+    - target: {fileID: 56469765501527648, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: parameters.longitudeOfPerihelion
+      value: 1.774978
+      objectReference: {fileID: 0}
     - target: {fileID: 2896633096848152199, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_Layer
@@ -991,7 +997,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5732053072754814751}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.123413, y: 0.5713122, z: 0}
+  m_LocalPosition: {x: -28.006094, y: 2.0835614, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1021050753190677849}

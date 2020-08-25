@@ -18,7 +18,7 @@ public class Orbit2Editor : Editor
 
         float uiScale = HandleUtility.GetHandleSize(orbit.transform.position) * 0.2f;
 
-        Handles.Label(orbit.transform.position + (Vector3.right * 0.2f + Vector3.up) * orbit.parameters.distance * (1f + uiScale * 0.1f), $"{orbit.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
+        Handles.Label(orbit.transform.position + (Vector3.right * 0.2f + Vector3.up) * orbit.parameters.semiMajorAxis * 0.5f, $"{orbit.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
 
         // Draw orbit
         Handles.matrix = orbit.transform.localToWorldMatrix;
@@ -27,17 +27,17 @@ public class Orbit2Editor : Editor
 
         // Draw handles
         var angleRot = Quaternion.Euler(0, 0, orbit.parameters.angle);
-        bool DistAngleHandle()
+        bool PeriapsisAngleHandle()
         {
             Handles.color = Color.magenta;
             Handles.matrix = orbit.transform.localToWorldMatrix;
 
-            var distAngleHandlePos = angleRot * (Vector3.right * (orbit.parameters.distance + 3f));
-            Handles.DrawAAPolyLine(Vector3.zero, distAngleHandlePos);
-            Handles.Label(distAngleHandlePos + Vector3.right * 2 * uiScale, $"distance: {orbit.parameters.distance:0.0}\nangle: {orbit.parameters.angle:0.0}°");
+            var handlePos = angleRot * (Vector3.right * (orbit.parameters.periapsis + 3f));
+            Handles.DrawAAPolyLine(Vector3.zero, handlePos);
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"periapsis: {orbit.parameters.periapsis:0.0}\nangle: {orbit.parameters.angle:0.0}°");
             EditorGUI.BeginChangeCheck();
-            var newDistAngle = Handles.Slider2D(
-                distAngleHandlePos,
+            var newValue = Handles.Slider2D(
+                handlePos,
                 Vector3.forward,
                 Vector3.right,
                 Vector3.up,
@@ -46,44 +46,45 @@ public class Orbit2Editor : Editor
                 Vector2.zero);
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(this.target, "Changed Orbit2 distance/angle");
-                orbit.parameters.distance = newDistAngle.magnitude - 3f;
-                orbit.parameters.angle = Vector3.SignedAngle(Vector3.right, newDistAngle, Vector3.forward);
+                Undo.RecordObject(this.target, "Changed Orbit2 periapsis/angle");
+                float previousRatio = orbit.parameters.periapsis / orbit.parameters.periapsis;
+                orbit.parameters.SetPeriapsisMaintainEccentricity(Mathf.Max(0, newValue.magnitude - 3f));
+               // orbit.parameters.apoapsis = orbit.parameters.periapsis * previousRatio;
+                orbit.parameters.angle = Vector3.SignedAngle(Vector3.right, newValue, Vector3.forward);
                 orbit.RefreshValidateRecursive();
                 return true;
             }
             return false;
         };
-        DistAngleHandle();
+        PeriapsisAngleHandle();
 
-        bool AngularVelocityHandle()
+        bool ApoapsisHandle()
         {
-            Handles.color = Color.cyan;
-            Handles.matrix = orbit.transform.localToWorldMatrix * Matrix4x4.Rotate(angleRot) * Matrix4x4.Translate(Vector3.right * orbit.parameters.distance);
+            Handles.color = Color.magenta;
+            Handles.matrix = orbit.transform.localToWorldMatrix;
 
-            const float AngularVelocityScale = 3f;
-            var handleDir = orbit.parameters.angularVelocity >= 0 ? Vector3.up : Vector3.down;
-            var angularVelocityHandlePos = Vector3.up * orbit.parameters.angularVelocity * AngularVelocityScale; // angleRot * (Vector3.right * orbit.parameters.distance + Vector3.up * orbit.parameters.angularVelocity);
-            Handles.Label(angularVelocityHandlePos + (Vector3.right + handleDir * 5f) * uiScale, $"angular velocity: {orbit.parameters.angularVelocity:0.00}°/s");
-            Handles.DrawAAPolyLine(Vector3.zero, angularVelocityHandlePos);
-            
+            var handlePos = angleRot * (Vector3.left * (orbit.parameters.apoapsis + 3f));
+            Handles.DrawAAPolyLine(Vector3.zero, handlePos);
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"apoapsis: {orbit.parameters.apoapsis:0.0}\neccentricity: {orbit.parameters.eccentricity}");
             EditorGUI.BeginChangeCheck();
-            var newSliderPos = Handles.Slider(
-                angularVelocityHandlePos,
-                handleDir,
-                5f * uiScale,
-                Handles.ArrowHandleCap,
+            var newValue = Handles.Slider2D(
+                handlePos,
+                Vector3.forward,
+                Vector3.left,
+                Vector3.up,
+                uiScale * 0.5f,
+                Handles.CircleHandleCap,
                 0);
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(this.target, "Changed Orbit2 angular velocity");
-                orbit.parameters.angularVelocity = newSliderPos.y / AngularVelocityScale;
+                Undo.RecordObject(this.target, "Changed Orbit2 apoapsis");
+                orbit.parameters.apoapsis = Mathf.Max(orbit.parameters.periapsis, newValue.magnitude - 3f);
                 orbit.RefreshValidateRecursive();
                 return true;
             }
             return false;
         };
-        AngularVelocityHandle();
+        ApoapsisHandle();
     }
 
     [DrawGizmo(GizmoType.NotInSelectionHierarchy)]

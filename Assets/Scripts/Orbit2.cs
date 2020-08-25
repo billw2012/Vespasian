@@ -18,11 +18,27 @@ using UnityEngine.Assertions;
 [Serializable]
 public struct OrbitParameters2
 {
-    public float distance;
-    public float angle;
-    public float angularVelocity;
+    public float periapsis; // nearest distance in orbit
+    public float apoapsis; // furthest distance in orbit
+    public float angle; // argument of periapsis (angle from ascending node)
+    public float eccentricity => this.periapsis + this.apoapsis == 0? 0 : (this.apoapsis - this.periapsis) / (this.apoapsis + this.periapsis);
+    public float semiMajorAxis => this.apoapsis + this.periapsis;
 
-    public float approxOrbitTime => 360f / this.angularVelocity;
+    public void SetPeriapsisMaintainEccentricity(float newPeriapsis)
+    {
+        float oldEccentricity = this.eccentricity;
+        this.periapsis = newPeriapsis;
+        if (newPeriapsis == 0)
+        {
+            this.apoapsis = 0;
+        }
+        else
+        {
+            // a = (1 - e) / ((1 + e) * p);
+            // https://en.wikipedia.org/wiki/Orbital_eccentricity#:~:text=For%20elliptical%20orbits%20it%20can,a%20focus%20of%20the%20ellipse).
+            this.apoapsis = (1f + oldEccentricity) * this.periapsis / (1f - oldEccentricity);
+        }
+    }
 
     public struct OrbitPath
     {
@@ -31,6 +47,10 @@ public struct OrbitParameters2
 
         public Vector3 GetPosition(float t)
         {
+            if(this.path.Length < 2)
+            {
+                return Vector3.zero;
+            }
             float fIdx = (t / this.dt) % this.path.Length;
             int idx0 = Mathf.FloorToInt(fIdx);
             int idx1 = Mathf.CeilToInt(fIdx) % this.path.Length;
@@ -42,15 +62,17 @@ public struct OrbitParameters2
 
     public OrbitPath CalculatePath(float parentMass, float gravitationalConstant, float pathQuality)
     {
-        var orbit = new OrbitPhysics(this.distance, this.angle, this.angularVelocity, parentMass, gravitationalConstant);
+        var orbit = new OrbitPhysics(this.periapsis, this.apoapsis, this.angle, parentMass, gravitationalConstant);
 
         const int SimSteps = 100;
+
+        // float approxOrbitTime = 360f / OrbitPhysics.OrbitalVelocityToAngularVelocity(OrbitPhysics.Vp(this.periapsis, this.apoapsis, parentMass, gravitationalConstant));
         //float dt = Time.fixedDeltaTime / SimSteps;
-        float dt = pathQuality * this.approxOrbitTime / (10f * 360f);
+        float dt = pathQuality * orbit.period / (10f * 360f);
         var pathList = new List<Vector3>();
         // float lastAngle = orbit.angle - 1f;
 
-        for(int itr = 0; itr < 10000 && orbit.angle < this.angle + 360f; ++itr)
+        for(int itr = 0; itr < 5000 && orbit.angle < this.angle + 360f; ++itr)
         {
             var pos = orbit.GetPosition();
             // Avoid broken positions
@@ -86,10 +108,11 @@ public class Orbit2 : MonoBehaviour
 {
     public OrbitParameters2 parameters = new OrbitParameters2
     {
-        distance = 5,
-        angle = 0,
-        angularVelocity = 1
+        apoapsis = 5,
+        periapsis = 5,
+        angle = 0
     };
+    public float timeOffset = 0;
 
     public GameConstants constants;
 

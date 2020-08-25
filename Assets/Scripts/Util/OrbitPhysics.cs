@@ -1,5 +1,52 @@
 ﻿using UnityEngine;
 
+
+public static class OrbitalUtils
+{
+
+    // http://www.braeunig.us/space/orbmech.htm 4.6
+    public static float CircularOrbitalVelocity(float radius, float mass, float G)
+    {
+        return Mathf.Sqrt(G * mass / radius);
+    }
+
+    // http://www.braeunig.us/space/orbmech.htm 4.8
+    public static float CircularOrbitalAngularVelocity(float radius, float mass, float G)
+    {
+        return G * mass / Mathf.Pow(radius, 3);
+    }
+
+    public static float SemiMajorAxis(float periapsis, float apoapsis)
+    {
+        return (periapsis + apoapsis) / 2f;
+    }
+
+    // http://www.braeunig.us/space/orbmech.htm 4.9
+    public static float OrbitalPeriod(float semiMajorAxis, float mass, float G)
+    {
+        return Mathf.Sqrt(4 * Mathf.Pow(Mathf.PI, 2) * Mathf.Pow(semiMajorAxis, 3) / G * mass);
+    }
+
+    public static float OrbitalVelocityToAngularVelocity(float radius, float v)
+    {
+        return v / radius;
+    }
+
+    // http://www.braeunig.us/space/orbmech.htm 4.16 4.17
+    // Vp: velocity at periapsis
+    // Rp (periapsis): closest distance of orbit
+    // Ra (apoapsis): furthest distance of orbit
+    public static float Vp(float Rp, float Ra, float M, float G)
+    {
+        return Mathf.Sqrt(2f * G * M * Ra / (Rp * (Ra + Rp)));
+    }
+
+    //public static float EccentricOrbitalVelocity(float radius, float mass, float G, float eccentricity)
+    //{
+    //    // ??return Mathf.Sqrt(G * mass / radius);
+    //}
+}
+
 // http://www.braeunig.us/space/orbmech.htm
 // https://evgenii.com/blog/earth-orbit-simulation/
 public class OrbitPhysics
@@ -13,57 +60,30 @@ public class OrbitPhysics
     Xdx distanceXdx;
     Xdx angleXdx;
 
-    readonly float mass;
-    readonly float gravitationalConstant;
+    public readonly float periapsis;
+    public readonly float apoapsis;
+    public readonly float mass;
+    public readonly float G;
 
-    // http://www.braeunig.us/space/orbmech.htm 4.6
-    public static float CircularOrbitalVelocity(float radius, float mass, float G)
-    {
-        return Mathf.Sqrt(G * mass / radius);
-    }
-
-
-    // http://www.braeunig.us/space/orbmech.htm 4.8
-    public static float CircularOrbitalAngularVelocity(float radius, float mass, float G)
-    {
-        return Mathf.Rad2Deg * G * mass / Mathf.Pow(radius, 3);
-    }
-
-    // http://www.braeunig.us/space/orbmech.htm 4.9
-    public static float OrbitalPeriod(float semiMajorAxis, float mass, float G)
-    {
-        return Mathf.Sqrt(4 * Mathf.Pow(Mathf.PI, 2) * Mathf.Pow(semiMajorAxis, 3) / G * mass);
-    }
-
-    public static float OrbitalVelocityToAngularVelocity(float radius, float v)
-    {
-        return Mathf.Rad2Deg * 2f * Mathf.PI * Mathf.PI * Mathf.Pow(radius, 2) / v;
-    }
-
-    // http://www.braeunig.us/space/orbmech.htm 4.16 4.17
-    // Vp: velocity at periapsis
-    // Rp (periapsis): closest distance of orbit
-    // Ra (apoapsis): furthest distance of orbit
-    public static float Vp(float Rp, float Ra, float M, float G)
-    {
-        return Mathf.Sqrt(2 * G * M * Ra / (Rp * (Ra + Rp)));
-    }
-
-    //public static float EccentricOrbitalVelocity(float radius, float mass, float G, float eccentricity)
-    //{
-    //    // ??return Mathf.Sqrt(G * mass / radius);
-    //}
+    public float semiMajorAxis => OrbitalUtils.SemiMajorAxis(this.periapsis, this.apoapsis);
+    public float period => OrbitalUtils.OrbitalPeriod(this.semiMajorAxis, this.mass, this.G);
 
     public Vector2 GetPosition() => new Vector2(Mathf.Cos(this.angleXdx.X), Mathf.Sin(this.angleXdx.X)) * this.distanceXdx.X;
     public float distance => this.distanceXdx.X;
     public float angle => this.angleXdx.X * Mathf.Rad2Deg;
 
-    public OrbitPhysics(float distance, float angle, float angularVelocity, float mass, float gravitationalConstant)
+    public OrbitPhysics(float periapsis, float apoapsis, float angle, float mass, float G)
     {
-        this.distanceXdx = new Xdx { X = distance, dx = 0 };
-        this.angleXdx = new Xdx { X = angle * Mathf.Deg2Rad, dx = angularVelocity * Mathf.Deg2Rad };
+        this.periapsis = periapsis;
+        this.apoapsis = apoapsis;
         this.mass = mass;
-        this.gravitationalConstant = gravitationalConstant;
+        this.G = G;
+
+        this.distanceXdx = new Xdx { X = periapsis, dx = 0 };
+
+        float angularVelocityAtPeriapsis = OrbitalUtils.OrbitalVelocityToAngularVelocity(periapsis, OrbitalUtils.Vp(periapsis, apoapsis, mass, G));
+
+        this.angleXdx = new Xdx { X = angle * Mathf.Deg2Rad, dx = angularVelocityAtPeriapsis };
     }
 
     // Calculates position of the Earth
@@ -72,7 +92,7 @@ public class OrbitPhysics
         float CalculateDistanceAcceleration()
         {
             // [acceleration of distance] = [distance][angular velocity]^2 - G * M / [distance]^2
-            return this.distanceXdx.X * Mathf.Pow(this.angleXdx.dx, 2) - this.gravitationalConstant * this.mass / Mathf.Pow(this.distanceXdx.X, 2);
+            return this.distanceXdx.X * Mathf.Pow(this.angleXdx.dx, 2) - this.G * this.mass / Mathf.Pow(this.distanceXdx.X, 2);
         }
 
         float CalculateAngleAcceleration()
