@@ -3,10 +3,8 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Orbit))]
-public class OrbitEditor : Editor
+public class Orbit2Editor : Editor
 {
-    private static readonly int ControlIDBase = typeof(OrbitEditor).ToString().GetHashCode();
-
     void OnSceneGUI()
     {
         if (Application.isPlaying)
@@ -16,99 +14,127 @@ public class OrbitEditor : Editor
 
         float uiScale = HandleUtility.GetHandleSize(orbit.transform.position) * 0.2f;
 
-        Handles.Label(orbit.transform.position + (Vector3.right * 0.2f + Vector3.up) * orbit.parameters.meanDistance * (1f + uiScale * 0.1f), $"{orbit.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
+        Handles.Label(orbit.transform.position + (Vector3.right * 0.2f + Vector3.up) * orbit.parameters.semiMajorAxis * 0.5f, $"{orbit.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
 
         // Draw orbit
         Handles.matrix = orbit.transform.localToWorldMatrix;
-        Handles.DrawAAPolyLine(orbit.editorPath);
-        Handles.DrawAAPolyLine(Vector3.zero, orbit.editorPath[0]);
 
-        // Draw movement per 10 seconds
-        Handles.matrix = orbit.transform.localToWorldMatrix;
-        Handles.color = new Color(1, 1, 1, 0.35f);
-        var movementPositions = orbit.GetPositions(orbit.parameters.motionPerSecond * 10, 0.2f);
-        if (movementPositions.Length > 0)
+        if (orbit.pathPositions != null)
         {
-            Handles.DrawAAPolyLine(45, movementPositions);
-            Handles.Label(movementPositions.Last() + Vector3.right * uiScale, $"motion in 10s: {orbit.parameters.motionPerSecond * 10:0.0}°");
+            Handles.DrawAAPolyLine(orbit.pathPositions);
+            Handles.DrawAAPolyLine(orbit.pathPositions.Last(), orbit.pathPositions.First());
+            Handles.DrawAAPolyLine(Vector3.zero, orbit.pathPositions.First());
         }
-        // Draw handles
-        var meanLogitudeRot = Quaternion.Euler(0, 0, orbit.parameters.meanLongitude); //* Matrix4x4.Translate();
-        bool DistAngleHandle()
-        {
 
+        // Draw handles
+        var angleRot = Quaternion.Euler(0, 0, orbit.parameters.angle);
+        bool PeriapsisAngleHandle()
+        {
             Handles.color = Color.magenta;
-            var distAngleHandlePos = Quaternion.Euler(0, 0, orbit.parameters.meanLongitude) * (Vector3.right * (orbit.parameters.meanDistance + 3f));
-            Handles.DrawAAPolyLine(Vector3.zero, distAngleHandlePos);
-            Handles.Label(distAngleHandlePos + Vector3.right * 2 * uiScale, $"mean dist: {orbit.parameters.meanDistance:0.0}\nmean long: {orbit.parameters.meanLongitude:0.0}°");
+            Handles.matrix = orbit.transform.localToWorldMatrix;
+
+            var handlePos = angleRot * (Vector3.right * (orbit.parameters.periapsis + 3f));
+            Handles.DrawAAPolyLine(Vector3.zero, handlePos);
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"periapsis: {orbit.parameters.periapsis:0.0}\nangle: {orbit.parameters.angle:0.0}°");
             EditorGUI.BeginChangeCheck();
-            var newDistAngle = Handles.Slider2D(
-                distAngleHandlePos,
+            var newValue = Handles.Slider2D(
+                handlePos,
                 Vector3.forward,
                 Vector3.right,
                 Vector3.up,
                 uiScale,
-                Handles.CircleHandleCap, Vector2.zero);
+                Handles.CircleHandleCap,
+                Vector2.zero);
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(this.target, "Changed Slider Look Target");
-                orbit.parameters.meanDistance = newDistAngle.magnitude - 3f;
-                orbit.parameters.meanLongitude = Vector3.SignedAngle(Vector3.right, newDistAngle, Vector3.forward);
+                Undo.RecordObject(this.target, "Changed Orbit periapsis/angle");
+                float previousRatio = orbit.parameters.periapsis / orbit.parameters.periapsis;
+                float newPeriapsis = Mathf.Max(0, newValue.magnitude - 3f);
+                if (Event.current.control)
+                {
+                    orbit.parameters.angle = Vector3.SignedAngle(Vector3.right, newValue, Vector3.forward);
+                }
+                else if (Event.current.shift)
+                {
+                    orbit.parameters.SetPeriapsis(newPeriapsis);
+                }
+                else
+                {
+                    orbit.parameters.SetPeriapsisMaintainEccentricity(newPeriapsis);
+                }
                 orbit.RefreshValidateRecursive();
                 return true;
             }
             return false;
         };
-        DistAngleHandle();
+        PeriapsisAngleHandle();
 
-        bool EccHandle()
+        bool ApoapsisHandle()
         {
             Handles.color = Color.magenta;
-            var distAngleHandlePos = Quaternion.Euler(0, 0, orbit.parameters.meanLongitude) * (Vector3.right * (orbit.parameters.meanDistance + 3f));
-            Handles.color = Color.cyan;
-            var eccHandlePos = meanLogitudeRot * (Vector3.down * orbit.parameters.meanDistance * (1.0f - orbit.parameters.eccentricity * 2f));
-            Handles.Label(eccHandlePos + Vector3.right * uiScale, $"ecc: {orbit.parameters.eccentricity:0.00}");
-            Handles.DrawAAPolyLine(Vector3.zero, distAngleHandlePos);
-            EditorGUI.BeginChangeCheck();
-            var newEcc = Handles.Slider(eccHandlePos, (meanLogitudeRot * Vector3.down).normalized, orbit.parameters.meanDistance * 0.25f * uiScale, Handles.ArrowHandleCap, 0);
-            if (EditorGUI.EndChangeCheck())
-            {
-                Undo.RecordObject(this.target, "Changed Slider Look Target");
+            Handles.matrix = orbit.transform.localToWorldMatrix;
 
-                float newMag = Vector3.Dot(newEcc, eccHandlePos) <= 0 ? 0 : newEcc.magnitude;
-                orbit.parameters.eccentricity =  Mathf.Clamp((1.0f - newMag / orbit.parameters.meanDistance) / 2f, 0, 0.3f);
-                orbit.RefreshValidateRecursive();
-                return true;
-            }
-            return false;
-        };
-        EccHandle();
-
-        bool LopHandle()
-        {
-            Handles.color = Color.magenta;
-            Handles.color = Color.yellow;
-            var lopHandlePos = Quaternion.Euler(0, 0, orbit.parameters.longitudeOfPerihelion) * (Vector3.right * (orbit.parameters.meanDistance + 6f));
-            Handles.DrawAAPolyLine(Vector3.zero, lopHandlePos);
-            Handles.Label(lopHandlePos + Vector3.right * 2 * uiScale, $"lop: {orbit.parameters.longitudeOfPerihelion:0.0}");
+            var handlePos = angleRot * (Vector3.left * (orbit.parameters.apoapsis + 3f));
+            Handles.DrawAAPolyLine(Vector3.zero, handlePos);
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"apoapsis: {orbit.parameters.apoapsis:0.0}\neccentricity: {orbit.parameters.eccentricity}");
             EditorGUI.BeginChangeCheck();
-            var newLopAngle = Handles.Slider2D(
-                lopHandlePos,
+            var newValue = Handles.Slider2D(
+                handlePos,
                 Vector3.forward,
-                Vector3.right,
+                Vector3.left,
                 Vector3.up,
-                0.6f * uiScale,
-                Handles.CircleHandleCap, Vector2.zero);
+                uiScale * 0.5f,
+                Handles.CircleHandleCap,
+                0);
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(this.target, "Changed Slider Look Target");
-                orbit.parameters.longitudeOfPerihelion = Vector3.SignedAngle(Vector3.right, newLopAngle, Vector3.forward);
+                Undo.RecordObject(this.target, "Changed Orbit apoapsis");
+                if (Event.current.control)
+                {
+                    orbit.parameters.angle = Vector3.SignedAngle(Vector3.left, newValue, Vector3.forward);
+                }
+                else
+                {
+                    orbit.parameters.SetApoapsis(newValue.magnitude - 3f);
+                }
                 orbit.RefreshValidateRecursive();
                 return true;
             }
             return false;
         };
-        LopHandle();
+        ApoapsisHandle();
+
+        // Draw handles
+        bool OffsetHandle()
+        {
+            Handles.color = Color.magenta;
+            Handles.matrix = orbit.transform.localToWorldMatrix * Matrix4x4.Rotate(angleRot) * Matrix4x4.Translate(Vector3.right * (orbit.parameters.semiMajorAxis - orbit.parameters.apoapsis));
+
+            var offsetRot = Quaternion.Euler(0, 0, orbit.parameters.offset * 360f);
+
+            const float HandleOffset = 10f;
+            var handlePos = offsetRot * (Vector3.right * (orbit.parameters.semiMajorAxis + HandleOffset));
+            Handles.DrawAAPolyLine(Vector3.zero, handlePos);
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"offset: {orbit.parameters.offset * 360f}°");
+            EditorGUI.BeginChangeCheck();
+            var newValue = Handles.Slider2D(
+                handlePos,
+                Vector3.forward,
+                Vector3.left,
+                Vector3.up,
+                uiScale * 0.5f,
+                Handles.CircleHandleCap,
+                0);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(this.target, "Changed Orbit apoapsis");
+                orbit.parameters.offset = Vector3.SignedAngle(Vector3.left, newValue, Vector3.forward) / 360f + 0.5f;
+                orbit.RefreshValidateRecursive();
+                return true;
+            }
+            return false;
+        };
+        OffsetHandle();
     }
 
     [DrawGizmo(GizmoType.NotInSelectionHierarchy)]
@@ -116,11 +142,12 @@ public class OrbitEditor : Editor
     {
         // Draw orbit
         Handles.color = new Color(0.33f, 0.33f, 0.33f);
-        foreach (var orbit in FindObjectsOfType<Orbit>())
+        foreach (var orbit in FindObjectsOfType<Orbit>().Where(o => o.pathPositions != null))
         {
             Handles.matrix = orbit.transform.localToWorldMatrix;
-            Handles.DrawPolyLine(orbit.editorPath);
-            Handles.DrawPolyLine(Vector3.zero, orbit.editorPath[0]);
+            Handles.DrawPolyLine(orbit.pathPositions);
+            Handles.DrawPolyLine(orbit.pathPositions.Last(), orbit.pathPositions.First());
+            Handles.DrawPolyLine(Vector3.zero, orbit.pathPositions.First());
         }
     }
 }

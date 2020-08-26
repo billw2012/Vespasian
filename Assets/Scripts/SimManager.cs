@@ -21,7 +21,7 @@ public class SimManager : MonoBehaviour
         public string name;
 #endif
         public int parent;
-        public OrbitParameters2.OrbitPath orbit;
+        public OrbitParameters.OrbitPath orbit;
     }
 
     struct SimGravity
@@ -39,9 +39,9 @@ public class SimManager : MonoBehaviour
     float radius;
 
     // Real Orbits for updating
-    List<Orbit2> orbits;
+    List<Orbit> orbits;
 
-    // Orbit2 parameters of all simulated bodies
+    // Orbit parameters of all simulated bodies
     List<SimOrbit> simOrbits;
 
     // Gravity parameters of all simulated bodies
@@ -171,14 +171,14 @@ public class SimManager : MonoBehaviour
 
         this.radius = GameLogic.Instance.player.GetComponentInChildren<MeshRenderer>().bounds.extents.x;
 
-        var allOrbits = GameObject.FindObjectsOfType<Orbit2>();
-        this.orbits = new List<Orbit2>();
-        var orbitStack = new Stack<Orbit2>(allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit2>() == null));
+        var allOrbits = GameObject.FindObjectsOfType<Orbit>();
+        this.orbits = new List<Orbit>();
+        var orbitStack = new Stack<Orbit>(allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == null));
         while(orbitStack.Any())
         {
             var orbit = orbitStack.Pop();
             this.orbits.Add(orbit);
-            var directChildren = allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit2>() == orbit);
+            var directChildren = allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == orbit);
             this.orbits.AddRange(directChildren.Reverse());
         }
 
@@ -189,12 +189,12 @@ public class SimManager : MonoBehaviour
                 name = o.ToString(),
 #endif
                 orbit = o.orbitPath,
-                parent = this.orbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit2>())
+                parent = this.orbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit>())
             }).ToList();
 
         // NOTE: We assume that if the gravity source has a parent orbit then its local position is 0, 0, 0.
         var allGravitySources = GravitySource.All();
-        Debug.Assert(!allGravitySources.Any(g => g.gameObject.GetComponentInParent<Orbit2>() != null && g.transform.localPosition != Vector3.zero));
+        Debug.Assert(!allGravitySources.Any(g => g.gameObject.GetComponentInParent<Orbit>() != null && g.transform.localPosition != Vector3.zero));
 
         // Gravity sources with parent orbits (if the have one), and global positions (in case they don't).
         this.simGravitySources = allGravitySources
@@ -204,7 +204,7 @@ public class SimManager : MonoBehaviour
 #endif
                 mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
                 radius = g.radius, // radius is applied using local scale on the same game object as the gravity
-                parent = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit2>()),
+                parent = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
                 position = g.position
             }).ToList();
     }

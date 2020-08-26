@@ -55,7 +55,10 @@ public static class ODE
                 ut[i] = ut[i] + b[j] * du[i];
             }
 
-            Assert.IsFalse(u.Any(x => float.IsNaN(x)));
+            if(u.Any(x => float.IsNaN(x)))
+            {
+                Assert.IsFalse(u.Any(x => float.IsNaN(x)));
+            }
         }
 
         for (int i = 0; i < dimension; i++)
@@ -69,13 +72,15 @@ public static class ODE
 // https://evgenii.com/blog/earth-orbit-simulation/
 public class OrbitPhysics
 {
-    public readonly float periapsis;
-    public readonly float apoapsis;
-    public readonly float mass;
-    public readonly float G;
+    public readonly float periapsis; // nearest distance to primary
+    public readonly float apoapsis; // farthest distance to primary
+    public readonly float mass; // mass of primary
+    public readonly float G; // gravitational constant
 
     public float semiMajorAxis => OrbitalUtils.SemiMajorAxis(this.periapsis, this.apoapsis);
     public float period => OrbitalUtils.OrbitalPeriod(this.semiMajorAxis, this.mass, this.G);
+
+    public bool valid => this.periapsis > 0 && this.apoapsis >= this.periapsis && this.mass > 0 && this.G > 0;
 
     public Vector2 GetPosition() => new Vector2(Mathf.Cos(this.u[Angle]), Mathf.Sin(this.u[Angle])) * this.u[Distance];
 
