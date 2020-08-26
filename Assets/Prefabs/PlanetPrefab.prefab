@@ -191,16 +191,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    longitudeOfPerihelion: 0
-    meanDistance: 5
-    motionPerSecond: 48.15615
-    eccentricity: 0
-    meanLongitude: 0
+    periapsis: 5
+    apoapsis: 5
+    angle: 0
+    offset: 0
+    direction: 0
+  fixedPeriod: 0
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
   customPosition: {fileID: 0}
   position: {fileID: 2318905709148006584}
-  autoMotionPerSecond: 1
 --- !u!114 &1992624584283286723
 MonoBehaviour:
   m_ObjectHideFlags: 0

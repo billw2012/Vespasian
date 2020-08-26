@@ -22,15 +22,10 @@ public class FollowCameraController : MonoBehaviour
 
     void Start()
     {
+        Assert.IsNotNull(this.target);
         var center = this.transform.position;
         var tr = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, this.transform.position.z));
         this.cameraArea = new Rect(center - tr, (tr - center) * 2);
-    }
-
-    void OnValidate()
-    {
-        Assert.IsNotNull(this.target);
-        this.Update();
     }
 
     void Update()

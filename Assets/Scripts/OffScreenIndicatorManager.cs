@@ -105,6 +105,6 @@ public class OffScreenIndicatorManager : MonoBehaviour
             image.enabled = false;
         }
 
-        Debug.Log($"Sources outside of canvas: {sourcesOutsideCanvas.Count()}");
+        // Debug.Log($"Sources outside of canvas: {sourcesOutsideCanvas.Count()}");
     }
 }

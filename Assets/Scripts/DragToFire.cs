@@ -15,7 +15,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     Vector2 dragStart;
 
-    void OnValidate()
+    void Start()
     {
         Assert.IsNotNull(this.objectToFire);
         Assert.IsNotNull(this.constants);
