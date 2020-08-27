@@ -3,40 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/*
+ * How to do follow camera with context focus:
+ * - Use bounds of section of sim path (from the start) that will fit on screen at maximum position
+ * - When there is specific targets / scoring opportunities then add them to the context bounding box?
+ * - 
+ */
 public class FollowCameraController : MonoBehaviour
 {
     //[Tooltip("How fast the camera can move to its desired offset"), Range(0f, 100f)]
     //public float maxSpeed = 60.0f;
 
-    [Tooltip("How much of a factor velocity is in the camera positioning"), Range(0f, 10f)]
-    public float velocityScale = 2.0f;
+    //[Tooltip("How much of a factor velocity is in the camera positioning"), Range(0f, 10f)]
+    //public float velocityScale = 2.0f;
 
     [Tooltip("How fast the camera can move to its desired offset"), Range(0f, 10f)]
-    public float smoothTime = 1.0f;
+    public float smoothTime = 3f;
 
-    public PlayerLogic target;
+    public Transform target;
 
-    Vector3 offset;
-    Vector3 offsetVelocity;
-    Rect cameraArea;
+    public LineRenderer trackedPath;
+
+    Vector2 offset;
+    Vector2 offsetVelocity;
+    float initialCameraSize;
 
     void Start()
     {
         Assert.IsNotNull(this.target);
+        Assert.IsNotNull(this.trackedPath);
+
+        this.initialCameraSize = Camera.main.orthographicSize;
+    }
+
+    Vector2 ClampToCameraInnerArea(Vector2 vec)
+    {
         var center = this.transform.position;
         var tr = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, this.transform.position.z));
-        this.cameraArea = new Rect(center - tr, (tr - center) * 2);
+        var cameraArea = new Rect(center - tr, (tr - center) * 2);
+        var maxOffset = cameraArea.IntersectionWithRayFromCenter(vec);
+        return Vector3.ClampMagnitude(vec, maxOffset.magnitude);
     }
 
     void Update()
     {
-        var targetOffset = this.target.velocity * this.velocityScale;
+        var targetOffset = (Vector2)this.trackedPath.bounds.center - (Vector2)this.target.position;
 
-        targetOffset = Vector3.SmoothDamp(this.offset, targetOffset, ref this.offsetVelocity, this.smoothTime);
-        var maxOffset = this.cameraArea.IntersectionWithRayFromCenter(targetOffset);
-        var clampedOffset = Vector3.ClampMagnitude(targetOffset, maxOffset.magnitude);
+        float cameraZoom = this.initialCameraSize / Camera.main.orthographicSize;
+        var smoothedOffset = Vector2.SmoothDamp(this.offset, targetOffset, ref this.offsetVelocity, this.smoothTime * cameraZoom);
+
+        var clampedOffset = this.ClampToCameraInnerArea(smoothedOffset);
         // Don't modify the z coordinate
-        this.transform.position = (this.target.transform.position + clampedOffset).xy0() + this.transform.position._00z();
+        this.transform.position = (this.target.transform.position + (Vector3)clampedOffset).xy0() + this.transform.position._00z();
         this.offset = clampedOffset;
     }
 }

@@ -50,8 +50,6 @@ public class SimManager : MonoBehaviour
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
 
-    //float pathLength = 0;
-
     #region SimState
     // Represents the current state of a simulation
     class SimState
@@ -76,7 +74,8 @@ public class SimManager : MonoBehaviour
         {
             this.time += dt;
 
-            // TODO: use System.Buffers ArrayPool<Vector3>.Shared; (needs a package installed)
+            // TODO: use System.Buffers ArrayPool<Vector3>.Shared; (needs a package installed).
+            // Or use stackalloc, or make it a member...
             var orbitPositions = new Vector3[this.owner.simOrbits.Count];
 
             for (int i = 0; i < this.owner.simOrbits.Count; i++)
@@ -85,11 +84,6 @@ public class SimManager : MonoBehaviour
                 var localPosition = o.orbit.GetPosition(this.time);
                 orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
             }
-
-            //bool Collision(Vector3 position, float radius)
-            //{
-            //    return radius > 0 && Vector3.Distance(this.position, position) < this.radius + radius;
-            //}
 
             var force = Vector3.zero;
 
@@ -109,15 +103,10 @@ public class SimManager : MonoBehaviour
             foreach (var g in this.owner.simGravitySources)
             {
                 var planetPosition = g.parent != -1 ? orbitPositions[g.parent] : g.position;
-                
-                // This collision detection method was intended to address jittering of the predicted collision position,
-                // presumed to be due to inaccurate evaluation of the collision position,
-                // however the rendering of the position still jitters, so there must be another cause for this (perhaps mismatch of 
-                // start time with rendering?).
+
                 var collision = Geometry.IntersectRaySphere(oldPosition, this.velocity.normalized, planetPosition, g.radius + this.owner.radius);
-                if (collision.occurred && collision.t < this.velocity.magnitude * dt * 3)//Collision(planetPosition, g.radius))
+                if (collision.occurred && collision.t < this.velocity.magnitude * dt * 3)
                 {
-                    //var collision = Geometry.IntersectRaySphere(oldPosition, this.position - oldPosition, planetPosition, g.radius + this.radius);
                     this.position = collision.at;
                     this.crashed = true;
                     break;

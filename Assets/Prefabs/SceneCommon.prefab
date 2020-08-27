@@ -207,7 +207,17 @@ PrefabInstance:
         type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 4538521788195604904}
+      objectReference: {fileID: 4538521788195604900}
+    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: trackedPath
+      value: 
+      objectReference: {fileID: 4538521789459465360}
+    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: smoothTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -410,12 +420,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2155780610961ba48b4847e56576da67, type: 3}
---- !u!1 &4538521788195604907 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7620224551109491996, guid: 2155780610961ba48b4847e56576da67,
-    type: 3}
-  m_PrefabInstance: {fileID: 6286013933565408439}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4538521788195604900 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
@@ -428,7 +432,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6286013933565408439}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4538521788195604907}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ce0cb700702fb54e8033e7612549479, type: 3}
@@ -466,6 +470,11 @@ PrefabInstance:
       propertyPath: objectToFire
       value: 
       objectReference: {fileID: 4538521788195604904}
+    - target: {fileID: 5211564406433664632, guid: 83b00f141a5f1024bbd410279e621042,
+        type: 3}
+      propertyPath: forceCoefficient
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5211564406434846050, guid: 83b00f141a5f1024bbd410279e621042,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -625,7 +634,7 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 4538521788195604907}
+      objectReference: {fileID: 4538521788195604900}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83b00f141a5f1024bbd410279e621042, type: 3}
 --- !u!224 &4538521788841975535 stripped

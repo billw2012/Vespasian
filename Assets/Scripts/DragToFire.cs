@@ -14,6 +14,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public GameConstants constants;
 
     Vector2 dragStart;
+    Vector2 dragCurrent;
 
     void Start()
     {
@@ -29,19 +30,26 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
     }
 
-    Vector3 GetVelocity(Vector3 dragPosition)
+    Vector3 GetVelocity()
     {
         // We always recalculate this as the camera might move
-        var startPosition = Camera.main.ScreenToWorldPoint(this.dragStart);
-        var position = Camera.main.ScreenToWorldPoint(dragPosition);
-        return Vector3.ClampMagnitude(position - startPosition, this.constants.MaxLaunchVelocity) * this.constants.GravitationalConstant * this.forceCoefficient * 2 / Camera.main.orthographicSize;
+        var vec = (this.dragCurrent - this.dragStart) / Screen.width;
+        return Vector3.ClampMagnitude(vec, 0.25f) * this.constants.GravitationalConstant * this.forceCoefficient /*/ Camera.main.orthographicSize*/;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
         {
-            this.objectToFire.velocity = this.GetVelocity(eventData.position);
+            this.dragCurrent = eventData.position;
+        }
+    }
+
+    void Update()
+    {
+        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
+        {
+            this.objectToFire.velocity = this.GetVelocity();
             this.objectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.objectToFire.velocity);
         }
     }
@@ -50,7 +58,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
         {
-            this.objectToFire.velocity = this.GetVelocity(eventData.position);
+            this.objectToFire.velocity = this.GetVelocity();
             this.objectToFire.state = PlayerLogic.FlyingState.Flying;
         }
     }

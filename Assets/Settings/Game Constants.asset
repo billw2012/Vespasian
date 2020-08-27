@@ -18,6 +18,6 @@ MonoBehaviour:
   FuelUse: 0.1
   ThrustForward: 1
   ThrustRight: 0.3
-  MaxLaunchVelocity: 3
+  MaxLaunchVelocity: 1
   OrbitLineWidthPixels: 5
   SimPathLineWidthPixels: 5
