@@ -11,12 +11,6 @@ using UnityEngine.Assertions;
  */
 public class FollowCameraController : MonoBehaviour
 {
-    //[Tooltip("How fast the camera can move to its desired offset"), Range(0f, 100f)]
-    //public float maxSpeed = 60.0f;
-
-    //[Tooltip("How much of a factor velocity is in the camera positioning"), Range(0f, 10f)]
-    //public float velocityScale = 2.0f;
-
     [Tooltip("How fast the camera can move to its desired offset"), Range(0f, 10f)]
     public float smoothTime = 3f;
 
@@ -53,6 +47,7 @@ public class FollowCameraController : MonoBehaviour
         var smoothedOffset = Vector2.SmoothDamp(this.offset, targetOffset, ref this.offsetVelocity, this.smoothTime * cameraZoom);
 
         var clampedOffset = this.ClampToCameraInnerArea(smoothedOffset);
+
         // Don't modify the z coordinate
         this.transform.position = (this.target.transform.position + (Vector3)clampedOffset).xy0() + this.transform.position._00z();
         this.offset = clampedOffset;

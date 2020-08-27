@@ -97,9 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ca439c66cbadd40bfcd9c0992cf483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocityScale: 2
-  smoothTime: 2.99
+  smoothTime: 1.5
   target: {fileID: 0}
+  trackedPath: {fileID: 0}
 --- !u!114 &6946838896639316914
 MonoBehaviour:
   m_ObjectHideFlags: 0
