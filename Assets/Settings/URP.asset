@@ -23,7 +23,7 @@ MonoBehaviour:
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
     BloomAmount: 1.6
     BloomDiffuse: 0.636
-    BloomThreshold: 0.416
+    BloomThreshold: 0.16
     BloomSoftness: 0
     LUT: 0
     LutAmount: 1

@@ -19,13 +19,12 @@ public class GameLogic : ScriptableObject {
 
     void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        //this.playUI = GameObject.Find("PlayUI");
-        //this.winUI = GameObject.Find("WinUI");
-        //this.loseUI = GameObject.Find("LoseUI");
+        this.playUI = GameObject.Find("Play UI");
+        this.winUI = GameObject.Find("Win UI");
+        this.loseUI = GameObject.Find("Lose UI");
 
-        //this.playUI.SetActive(true);
-        //this.winUI.SetActive(false);
-        //this.loseUI.SetActive(false);
+        this.winUI.SetActive(false);
+        this.loseUI.SetActive(false);
     }
 
     public void NextLevel()
@@ -40,13 +39,13 @@ public class GameLogic : ScriptableObject {
 
     public void WinGame()
     {
-        //this.playUI.SetActive(false);
-        //this.winUI.SetActive(true);
+        this.playUI.SetActive(false);
+        this.winUI.SetActive(true);
     }
 
     public void LoseGame()
     {
-       // this.playUI.SetActive(false);
-        //this.loseUI.SetActive(true);
+        this.playUI.SetActive(false);
+        this.loseUI.SetActive(true);
     }
 }

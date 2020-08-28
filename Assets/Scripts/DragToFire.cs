@@ -6,25 +6,26 @@ using UnityEngine.EventSystems;
 
 public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public PlayerLogic objectToFire = null;
+    public GameConstants constants;
 
     [Tooltip("How much force to apply")]
     public float forceCoefficient = 1.0f;
 
-    public GameConstants constants;
+    PlayerLogic player;
 
     Vector2 dragStart;
     Vector2 dragCurrent;
 
     void Start()
     {
-        Assert.IsNotNull(this.objectToFire);
         Assert.IsNotNull(this.constants);
+        this.player = FindObjectOfType<PlayerLogic>();
+        Assert.IsNotNull(this.player);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
+        if (this.player.state == PlayerLogic.FlyingState.Aiming)
         {
             this.dragStart = eventData.position;
         }
@@ -39,7 +40,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
+        if (this.player.state == PlayerLogic.FlyingState.Aiming)
         {
             this.dragCurrent = eventData.position;
         }
@@ -47,19 +48,19 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     void Update()
     {
-        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
+        if (this.player.state == PlayerLogic.FlyingState.Aiming)
         {
-            this.objectToFire.velocity = this.GetVelocity();
-            this.objectToFire.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.objectToFire.velocity);
+            this.player.velocity = this.GetVelocity();
+            this.player.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.player.velocity);
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (this.objectToFire.state == PlayerLogic.FlyingState.Aiming)
+        if (this.player.state == PlayerLogic.FlyingState.Aiming)
         {
-            this.objectToFire.velocity = this.GetVelocity();
-            this.objectToFire.state = PlayerLogic.FlyingState.Flying;
+            this.player.velocity = this.GetVelocity();
+            this.player.state = PlayerLogic.FlyingState.Flying;
         }
     }
 }

@@ -32,7 +32,7 @@ public class PlanetLogic : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.HasComponent<PlayerLogic>())
+        if (collision.gameObject.GetComponentInParent<PlayerLogic>() != null)
         {
             this.gameLogic.LoseGame();
         }

@@ -14,6 +14,10 @@ public class TargetArrow : MonoBehaviour
 
     void Start()
     {
+        if(this.target == null)
+        {
+            this.target = GameObject.Find("Target");
+        }
         Assert.IsNotNull(this.target);
         this.image = this.GetComponent<TextMeshProUGUI>();
         Assert.IsNotNull(this.image);

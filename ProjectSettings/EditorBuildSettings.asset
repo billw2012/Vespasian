@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototyping/Test1Scene.unity
     guid: f27b7f25922341d43b2c9074a5b21455
+  - enabled: 1
+    path: Assets/Scenes/Prototyping/BinarySystemScene.unity
+    guid: 68413fe7b5db6f24380ce3c2f5f0530c
   m_configObjects: {}

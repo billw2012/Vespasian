@@ -10,11 +10,72 @@ public class SunLogic : MonoBehaviour
     public MeshRenderer glowRenderer;
     public ParticleSystemRenderer pfxRenderer;
 
-    private MaterialPropertyBlock mainPB;
-    private MaterialPropertyBlock glowPB;
-    private MaterialPropertyBlock pfxPB;
+    public Color color = Color.white;
 
-    private static Color TweakH(Color color, float newH, float newAlpha = 1)
+    [Tooltip("How closely the light color follows sun color"), Range(0, 1)]
+    public float lightTintFactor = 0.25f;
+
+    [Tooltip("How high the light is above the sun surface"), Range(0, 30)]
+    public float lightHeight = 5f;
+
+    [Tooltip("How intense the sun glow is"), Range(0, 1)]
+    public float glowIntensity = 0.25f;
+
+    [Tooltip("How far the sun glow spreads"), Range(0, 5)]
+    public float glowSpread = 1f;
+
+    MaterialPropertyBlock mainPB;
+    MaterialPropertyBlock glowPB;
+    MaterialPropertyBlock pfxPB;
+
+    void OnValidate()
+    {
+        this.Update();
+    }
+
+    void Start()
+    {
+        this.Update();
+    }
+
+    void Update()
+    {
+        this.childLight.color = Color.Lerp(Color.white, color, this.lightTintFactor);
+        this.childLight.transform.localPosition = Vector3.back * (this.lightHeight + this.mainRenderer.transform.localScale.z);
+
+        Color.RGBToHSV(this.color, out float newH, out _, out _);
+
+        if (this.mainPB == null)
+        {
+            this.mainPB = new MaterialPropertyBlock();
+            this.glowPB = new MaterialPropertyBlock();
+            this.pfxPB = new MaterialPropertyBlock();
+        }
+
+        TweakH(this.mainPB, this.mainRenderer.sharedMaterial, new[] {
+            "_BaseColor",
+            "_SpecColor",
+            "_EmissionColor",
+        }, newH);
+        TweakH(this.glowPB, this.glowRenderer.sharedMaterial, new[] {
+            "_BaseColor",
+            "_SpecColor",
+            "_EmissionColor",
+        }, newH, this.glowIntensity);
+        TweakH(this.pfxPB, this.pfxRenderer.sharedMaterial, new[] {
+            "_BaseColor",
+            "_SpecColor",
+            "_EmissionColor",
+        }, newH);
+
+        this.mainRenderer.SetPropertyBlock(this.mainPB);
+        this.glowRenderer.SetPropertyBlock(this.glowPB);
+        this.pfxRenderer.SetPropertyBlock(this.pfxPB);
+
+        this.glowRenderer.transform.localScale = Vector3.one * 40f * this.glowSpread;
+    }
+
+    static Color TweakH(Color color, float newH, float newAlpha = 1)
     {
         Color.RGBToHSV(color, out _, out float s, out float v);
         var result = Color.HSVToRGB(newH, s, v);
@@ -22,11 +83,11 @@ public class SunLogic : MonoBehaviour
         return result;
     }
 
-    private static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH, float newAlpha = 1)
+    static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH, float newAlpha = 1)
     {
         foreach (var colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
         {
-            matPB.SetColor(colorProp, TweakH(baseMaterial.GetColor(colorProp), newH));
+            matPB.SetColor(colorProp, TweakH(baseMaterial.GetColor(colorProp), newH, newAlpha));
         }
     }
 
@@ -66,57 +127,4 @@ public class SunLogic : MonoBehaviour
     //}
     //[Tooltip("Sun Temperature in Kelvin"), Range(100f, 40000f)]
     //public float temp = 1000;
-
-    public Color color = Color.white;
-    [Tooltip("How closely the light color follows sun color"), Range(0, 1)]
-    public float lightTintFactor = 0.25f;
-    [Tooltip("How high the light is above the sun surface"), Range(0, 30)]
-    public float lightHeight = 5f;
-    [Tooltip("How intense the sun glow is"), Range(0, 1)]
-    public float glowIntensity = 0.25f;
-
-    void UpdateDependentColors()
-    {
-        this.childLight.color = Color.Lerp(Color.white, color, this.lightTintFactor);
-        this.childLight.transform.localPosition = Vector3.back * (this.lightHeight + this.mainRenderer.transform.localScale.z);
-
-        Color.RGBToHSV(this.color, out float newH, out _, out _);
-
-        if (this.mainPB == null)
-        {
-            this.mainPB = new MaterialPropertyBlock();
-            this.glowPB = new MaterialPropertyBlock();
-            this.pfxPB = new MaterialPropertyBlock();
-        }
-
-        TweakH(this.mainPB, this.mainRenderer.sharedMaterial, new[] {
-            "_BaseColor",
-            "_SpecColor",
-            "_EmissionColor",
-        }, newH);
-        TweakH(this.glowPB, this.glowRenderer.sharedMaterial, new[] {
-            "_BaseColor",
-            "_SpecColor",
-            "_EmissionColor",
-        }, newH, this.glowIntensity);
-        TweakH(this.pfxPB, this.pfxRenderer.sharedMaterial, new[] {
-            "_BaseColor",
-            "_SpecColor",
-            "_EmissionColor",
-        }, newH);
-
-        this.mainRenderer.SetPropertyBlock(this.mainPB);
-        this.glowRenderer.SetPropertyBlock(this.glowPB);
-        this.pfxRenderer.SetPropertyBlock(this.pfxPB);
-    }
-
-    void OnValidate()
-    {
-        this.UpdateDependentColors();
-    }
-
-    void Start()
-    {
-        this.UpdateDependentColors();
-    }
 }

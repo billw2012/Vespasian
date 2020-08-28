@@ -3229,6 +3229,21 @@ PrefabInstance:
       propertyPath: radius
       value: 2.33
       objectReference: {fileID: 0}
+    - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 26.800001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 26.800001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 26.800001
+      objectReference: {fileID: 0}
     - target: {fileID: 5627716558633760033, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: parameters.mass
@@ -3318,6 +3333,16 @@ PrefabInstance:
         type: 3}
       propertyPath: color.b
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: glowIntensity
+      value: 0.696
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: glowSpread
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: 7359115369874976276, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
@@ -9668,6 +9693,11 @@ PrefabInstance:
       propertyPath: lightTintFactor
       value: 0.253
       objectReference: {fileID: 0}
+    - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: glowIntensity
+      value: 0.476
+      objectReference: {fileID: 0}
     - target: {fileID: 7359115369874976276, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -13041,6 +13071,26 @@ PrefabInstance:
     - target: {fileID: 4741171058214613415, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532287018110987506, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532287018110987506, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532287019293774686, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532287019293774686, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7834170176192543847, guid: 744ad02f3404f3b42aa9f779c1288a76,
