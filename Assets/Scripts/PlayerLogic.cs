@@ -13,12 +13,16 @@ public class PlayerLogic : MonoBehaviour
     public Vector3 velocity = Vector3.zero;
 
     [HideInInspector]
+    // NORMALIZED dimensionless thrust input for joystick
+    // x is -1...1 <=> +right/-left, y is -1...1 <=> +forward/-backward
+    public Vector2 thrustInputJoystick = Vector2.zero;
+    // NORMALIZED dimensionless thrust input for separate axis -1..1 <=> -max...+max
+    public float thrustInputForward { get; set; }
+    public float thrustInputRight { get; set; }
+
+    // Final calculated thrust value
     // x is +right/-left, y is +forward/-backward
-    public Vector2 manualThrust = Vector2.zero;
-
-    public float forwardThrust { get => this.manualThrust.y; set => this.manualThrust.y = value; }
-    public float rightThrust { get => this.manualThrust.x; set => this.manualThrust.x = value; }
-
+    Vector2 finalThrust = Vector2.zero;
 
     public ParticleSystem frontThruster;
     public ParticleSystem rearThruster;
@@ -37,9 +41,6 @@ public class PlayerLogic : MonoBehaviour
     [HideInInspector]
     // Tracks correct simulated position, as rigid body is not perfectly matching the SimManager generated paths
     public Vector3 simPosition;
-
-    // x is +right/-left, y is +forward/-backward
-    Vector2 finalThrust = Vector2.zero;
 
     bool canThrust => this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0;
 
@@ -65,7 +66,7 @@ public class PlayerLogic : MonoBehaviour
         SetEmissionActive(this.leftThruster, false);
         SetEmissionActive(this.damageDebris, false);
 
-        this.manualThrust = Vector2.zero;
+        this.thrustInputJoystick = Vector2.zero;
         this.finalThrust = Vector2.zero;
         this.state = FlyingState.Aiming;
 
@@ -157,18 +158,24 @@ public class PlayerLogic : MonoBehaviour
         return force;
     }
 
+    // Calculates final thrust value from various control inputs
     void UpdateFinalThrust()
     {
-        this.finalThrust = this.manualThrust;
+        // Add thrust from keyboard
+        var kbInput = new Vector2(0, 0);
         if (Input.GetKey("w"))
-            this.finalThrust.y = this.constants.ThrustForward;
+            kbInput.y = 1.0f;
         else if (Input.GetKey("s"))
-            this.finalThrust.y = -this.constants.ThrustForward;
+            kbInput.y = -1.0f;
 
         if (Input.GetKey("d"))
-            this.finalThrust.x = this.constants.ThrustRight;
+            kbInput.x = 1.0f;
         else if (Input.GetKey("a"))
-            this.finalThrust.x = -this.constants.ThrustRight;
+            kbInput.x = -1.0f;
+
+        // Convert normalized inputs into final values in (kind of) Newtons
+        this.finalThrust.y = this.constants.ThrustForward * Mathf.Clamp(this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y, -1, 1);
+        this.finalThrust.x = this.constants.ThrustRight * Mathf.Clamp(this.thrustInputRight + this.thrustInputJoystick.x + kbInput.x, -1, 1); ;
     }
 
     static void SetEmissionActive(ParticleSystem pfx, bool enabled)

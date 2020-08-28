@@ -20,12 +20,12 @@ public class DragJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         var offset = Vector2.ClampMagnitude(eventData.position - this.dragStart, JoystickSizePx) / JoystickSizePx;
 
         var playerLogic = this.player.GetComponent<PlayerLogic>();
-        playerLogic.manualThrust = offset;
+        playerLogic.thrustInputJoystick = offset;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         var playerLogic = this.player.GetComponent<PlayerLogic>();
-        playerLogic.manualThrust = Vector2.zero;
+        playerLogic.thrustInputJoystick = Vector2.zero;
     }
 }

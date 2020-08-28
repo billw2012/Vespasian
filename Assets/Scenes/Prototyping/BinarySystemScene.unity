@@ -12943,6 +12943,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4538521788089597576, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_thrustInputRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538521788089597576, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_thrustInputRight
+      objectReference: {fileID: 0}
     - target: {fileID: 4538521788400305316, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -12958,6 +12968,16 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1294735376}
+    - target: {fileID: 4538521788529482055, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_thrustInputRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538521788529482055, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_thrustInputRight
+      objectReference: {fileID: 0}
     - target: {fileID: 4538521788576480008, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMax.x
