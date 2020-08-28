@@ -2,8 +2,12 @@
 
 public class ScoopEffect : RadiusEffect
 {
-    protected override void Apply(float value, Vector3 direction)
+    protected override void Apply(RadiusEffectTarget target, float value, Vector3 direction)
     {
-        GameLogic.Instance.AddFuel(value);
+        var playerLogic = target.GetComponent<PlayerLogic>();
+        if (playerLogic != null)
+        {
+            playerLogic.AddFuel(value);
+        }
     }
 };

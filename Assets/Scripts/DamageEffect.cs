@@ -2,8 +2,12 @@
 
 public class DamageEffect : RadiusEffect
 {
-    protected override void Apply(float value, Vector3 direction)
+    protected override void Apply(RadiusEffectTarget target, float value, Vector3 direction)
     {
-        GameLogic.Instance.AddDamage(value * 0.1f, direction);
+        var healthComponent = target.GetComponent<HealthComponent>();
+        if (healthComponent != null)
+        {
+            healthComponent.AddDamage(value * 0.1f, direction);
+        }
     }
 };

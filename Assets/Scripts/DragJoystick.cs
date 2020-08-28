@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
-
-    public GameObject player;
+public class DragJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
+    PlayerLogic player;
     Vector2 dragStart;
+
+    void Start()
+    {
+        this.player = FindObjectOfType<PlayerLogic>();
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {

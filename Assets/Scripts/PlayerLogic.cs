@@ -9,6 +9,11 @@ public class PlayerLogic : MonoBehaviour
 {
     public GameConstants constants;
 
+    public ParticleSystem frontThruster;
+    public ParticleSystem rearThruster;
+    public ParticleSystem rightThruster;
+    public ParticleSystem leftThruster;
+
     [HideInInspector]
     public Vector3 velocity = Vector3.zero;
 
@@ -24,11 +29,8 @@ public class PlayerLogic : MonoBehaviour
     // x is +right/-left, y is +forward/-backward
     Vector2 finalThrust = Vector2.zero;
 
-    public ParticleSystem frontThruster;
-    public ParticleSystem rearThruster;
-    public ParticleSystem rightThruster;
-    public ParticleSystem leftThruster;
-    public ParticleSystem damageDebris;
+    [HideInInspector]
+    public float remainingFuel = 1;
 
     public enum FlyingState {
         Aiming, // We are aiming at start of the game
@@ -42,7 +44,7 @@ public class PlayerLogic : MonoBehaviour
     // Tracks correct simulated position, as rigid body is not perfectly matching the SimManager generated paths
     public Vector3 simPosition;
 
-    bool canThrust => this.velocity.magnitude != 0 && GameLogic.Instance.remainingFuel > 0;
+    bool canThrust => this.velocity.magnitude != 0 && this.remainingFuel > 0;
 
     GravitySource[] gravitySources;
 
@@ -53,18 +55,16 @@ public class PlayerLogic : MonoBehaviour
         Assert.IsNotNull(this.rearThruster);
         Assert.IsNotNull(this.rightThruster);
         Assert.IsNotNull(this.leftThruster);
-        Assert.IsNotNull(this.damageDebris);
     }
 
     void Start()
     {
         this.OnValidate();
 
-        SetEmissionActive(this.rearThruster, false);
-        SetEmissionActive(this.frontThruster, false);
-        SetEmissionActive(this.rightThruster, false);
-        SetEmissionActive(this.leftThruster, false);
-        SetEmissionActive(this.damageDebris, false);
+        this.rearThruster.SetEmissionEnabled(false);
+        this.frontThruster.SetEmissionEnabled(false);
+        this.rightThruster.SetEmissionEnabled(false);
+        this.leftThruster.SetEmissionEnabled(false);
 
         this.thrustInputJoystick = Vector2.zero;
         this.finalThrust = Vector2.zero;
@@ -82,11 +82,9 @@ public class PlayerLogic : MonoBehaviour
 
             void SetThrusterFX(ParticleSystem pfx, bool enabled, float thrust)
             {
-                var thrusterModule = pfx.emission;
-                thrusterModule.enabled = this.canThrust && enabled;
-
+                pfx.SetEmissionEnabled(this.canThrust && enabled);
                 const float RateOverTimeMax = 100;
-                thrusterModule.rateOverTimeMultiplier = RateOverTimeMax * Mathf.Abs(thrust);
+                pfx.SetEmissionRateOverTimeMultiplier(RateOverTimeMax * Mathf.Abs(thrust));
             }
 
             // Accel/decel
@@ -114,7 +112,7 @@ public class PlayerLogic : MonoBehaviour
                 force += right * this.finalThrust.x;
 
                 float thrustTotal = Mathf.Abs(this.finalThrust.x) + Mathf.Abs(this.finalThrust.y);
-                GameLogic.Instance.AddFuel(-thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
+                this.AddFuel(-thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
             }
 
             this.velocity += force * Time.fixedDeltaTime;
@@ -136,16 +134,9 @@ public class PlayerLogic : MonoBehaviour
             rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
         }
     }
-
-    public void SetTakingDamage(float damageRate, Vector3 direction)
+    public void AddFuel(float amount)
     {
-        SetEmissionActive(this.damageDebris, damageRate > 0);
-        if (damageRate > 0)
-        {
-            this.damageDebris.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
-            var emission = this.damageDebris.emission;
-            emission.rateOverTimeMultiplier = damageRate * 100;
-        }
+        this.remainingFuel = Mathf.Clamp(this.remainingFuel + amount, 0, 1.25f);
     }
 
     Vector3 GetForce(Vector3 pos)
@@ -176,14 +167,5 @@ public class PlayerLogic : MonoBehaviour
         // Convert normalized inputs into final values in (kind of) Newtons
         this.finalThrust.y = this.constants.ThrustForward * Mathf.Clamp(this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y, -1, 1);
         this.finalThrust.x = this.constants.ThrustRight * Mathf.Clamp(this.thrustInputRight + this.thrustInputJoystick.x + kbInput.x, -1, 1); ;
-    }
-
-    static void SetEmissionActive(ParticleSystem pfx, bool enabled)
-    {
-        var em = pfx.emission;
-        if (em.enabled != enabled)
-        {
-            em.enabled = enabled;
-        }
     }
 }

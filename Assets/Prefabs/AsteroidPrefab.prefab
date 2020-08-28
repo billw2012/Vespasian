@@ -129,6 +129,7 @@ MonoBehaviour:
   ringRadiusFactor: 1.5
   ringWidthFactor: 0.5
   geometry: {fileID: 6039441407903207765}
+  gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
 --- !u!114 &3943400424216723535
 MonoBehaviour:
   m_ObjectHideFlags: 0

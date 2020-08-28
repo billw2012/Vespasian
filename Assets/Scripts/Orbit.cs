@@ -171,6 +171,7 @@ public class Orbit : MonoBehaviour
 
     public Vector3[] pathPositions => this.orbitPath.path;
 
+
     // This was used to more closely match the SimManager math by simply adding positions to get world location for
     // nested orbits. However it doesn't appear to be necessary and can be removed at a later time if the path
     // sim proves stable.
@@ -220,6 +221,7 @@ public class Orbit : MonoBehaviour
     {
         Assert.IsNotNull(this.constants);
 
+
         this.position = this.customPosition == null ? this.transform.Find("Position") : this.customPosition;
         bool ValidateParents()
         {
@@ -247,9 +249,9 @@ public class Orbit : MonoBehaviour
         this.UpdatePosition(0);
     }
 
-    public void SimUpdate()
+    public void SimUpdate(float simTime)
     {
-        this.UpdatePosition(GameLogic.Instance.simTime);
+        this.UpdatePosition(simTime);
     }
 
     void UpdatePosition(float time)

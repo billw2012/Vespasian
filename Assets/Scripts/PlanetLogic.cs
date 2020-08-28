@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlanetLogic : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlanetLogic : MonoBehaviour
     public float ringWidthFactor = 0.5f;
 
     public Transform geometry;
+    public GameLogic gameLogic;
 
     void UpdateScale()
     {
@@ -18,20 +20,21 @@ public class PlanetLogic : MonoBehaviour
 
     void OnValidate()
     {
+        Assert.IsNotNull(this.geometry);
+        Assert.IsNotNull(this.gameLogic);
         this.UpdateScale();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        this.UpdateScale();
+        this.OnValidate();
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == GameLogic.Instance.player)
+        if (collision.gameObject.HasComponent<PlayerLogic>())
         {
-            GameLogic.Instance.LoseGame();
+            this.gameLogic.LoseGame();
         }
     }
 }

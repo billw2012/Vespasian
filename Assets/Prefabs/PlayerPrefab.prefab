@@ -104,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7620224551109491987}
   - component: {fileID: 7620224551109491999}
+  - component: {fileID: 1408795510517265554}
   - component: {fileID: 7620224551109491988}
   - component: {fileID: 3664154167166374825}
   m_Layer: 8
@@ -125,10 +126,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9100325830287176949}
+  - {fileID: 7620224552652236275}
   - {fileID: 6543101853953964396}
   - {fileID: 136369296770587859}
   - {fileID: 825278302280865129}
-  - {fileID: 7620224552652236275}
   - {fileID: 8469756173283255545}
   - {fileID: 7658583239627223507}
   m_Father: {fileID: 0}
@@ -147,15 +148,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
-  velocity: {x: 0, y: 0, z: 0}
-  manualThrust: {x: 0, y: 0}
   frontThruster: {fileID: 4983925967727487814}
   rearThruster: {fileID: 2162793376743296761}
   rightThruster: {fileID: 7668834564355503827}
   leftThruster: {fileID: 8480122912372712441}
-  damageDebris: {fileID: 1482889361666344771}
+  velocity: {x: 0, y: 0, z: 0}
+  manualThrust: {x: 0, y: 0}
+  remainingFuel: 1
   state: 0
   simPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &1408795510517265554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6aa604502fdb504199e6737ca8b4be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageDebris: {fileID: 1482889361666344771}
+  gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
+  health: 1
 --- !u!114 &7620224551109491988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +231,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7620224551109491987}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &7620224552652236274
 TrailRenderer:
@@ -382,7 +398,7 @@ PrefabInstance:
     - target: {fileID: 6763505182893971282, guid: 63528eef9aa5e4a42ae0a7b424fa64de,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6763505182893971282, guid: 63528eef9aa5e4a42ae0a7b424fa64de,
         type: 3}
@@ -675,7 +691,7 @@ PrefabInstance:
     - target: {fileID: 6763505182893971282, guid: 63528eef9aa5e4a42ae0a7b424fa64de,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6763505182893971282, guid: 63528eef9aa5e4a42ae0a7b424fa64de,
         type: 3}
@@ -821,7 +837,7 @@ PrefabInstance:
     - target: {fileID: 9084249432580072437, guid: e1d4a7a561cb33c458385735a2cfdfbe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9084249432580072437, guid: e1d4a7a561cb33c458385735a2cfdfbe,
         type: 3}

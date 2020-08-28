@@ -13,6 +13,8 @@ public class OffScreenIndicatorManager : MonoBehaviour
 {
     // Indicator prefab
     public GameObject indicatorPrefab;
+
+    [HideInInspector]
     public Transform player;
 
     // Amount of indicators
@@ -29,6 +31,9 @@ public class OffScreenIndicatorManager : MonoBehaviour
     void Start()
     {
         Assert.IsNotNull(this.indicatorPrefab);
+
+        this.player = FindObjectOfType<PlayerLogic>().transform;
+
         Assert.IsNotNull(this.player);
 
         this.gravitySources = GravitySource.All();

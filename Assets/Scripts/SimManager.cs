@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +13,9 @@ public class SimManager : MonoBehaviour
     public LineRenderer pathRenderer;
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
+
+    [HideInInspector]
+    public float simTime;
 
     struct SimOrbit
     {
@@ -49,6 +51,8 @@ public class SimManager : MonoBehaviour
 
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
+
+    PlayerLogic player;
 
     #region SimState
     // Represents the current state of a simulation
@@ -122,6 +126,7 @@ public class SimManager : MonoBehaviour
     void OnValidate()
     {
         Assert.IsNotNull(this.constants);
+        
         if (this.pathRenderer != null)
         {
             this.pathRenderer.positionCount = 0;
@@ -132,20 +137,27 @@ public class SimManager : MonoBehaviour
     void Start()
     {
         Assert.IsNotNull(this.constants);
+
         this.warningSign.SetActive(false);
+        this.player = FindObjectOfType<PlayerLogic>();
+        Assert.IsNotNull(this.player);
+
+        this.simTime = 0;
     }
 
     void FixedUpdate()
     {
         this.DelayedInit();
 
+        this.simTime += Time.fixedDeltaTime;
+
         // Update "real" orbits and player
         foreach (var o in this.orbits)
         {
-            o.SimUpdate();
+            o.SimUpdate(this.simTime);
         }
 
-        GameLogic.Instance.player.GetComponent<PlayerLogic>().SimUpdate();
+        this.player.SimUpdate();
 
 
         this.UpdatePathAsync();
@@ -158,7 +170,7 @@ public class SimManager : MonoBehaviour
         if (this.orbits != null)
             return;
 
-        this.radius = GameLogic.Instance.player.GetComponentInChildren<MeshRenderer>().bounds.extents.x;
+        this.radius = this.player.GetComponentInChildren<MeshRenderer>().bounds.extents.x;
 
         var allOrbits = GameObject.FindObjectsOfType<Orbit>();
         this.orbits = new List<Orbit>();
@@ -200,12 +212,11 @@ public class SimManager : MonoBehaviour
 
     async Task UpdatePath()
     {
-        var playerLogic = GameLogic.Instance.player.GetComponent<PlayerLogic>();
         var state = new SimState(
             owner: this,
-            startPosition: playerLogic.simPosition,
-            startVelocity: playerLogic.velocity,
-            startTime: GameLogic.Instance.simTime
+            startPosition: this.player.simPosition,
+            startVelocity: this.player.velocity,
+            startTime: this.simTime
         );
 
         // timeStep *must* match what the normal calculate uses
@@ -230,18 +241,21 @@ public class SimManager : MonoBehaviour
 
             if (state.crashed && state.path.Count > 0)
             {
-                this.warningSign.SetActive(true);
-                var rectTransform = this.warningSign.GetComponent<RectTransform>();
                 var canvas = this.warningSign.GetComponent<Graphic>().canvas;
-                var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
-                var targetCanvasPosition = canvas.WorldToCanvasPosition(state.path.Last());
-                var clampArea = new Rect(
-                    canvasSafeArea.x - rectTransform.rect.x,
-                    canvasSafeArea.y - rectTransform.rect.y,
-                    canvasSafeArea.width - rectTransform.rect.width,
-                    canvasSafeArea.height - rectTransform.rect.height
-                );
-                rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
+                if (canvas != null)
+                {
+                    this.warningSign.SetActive(true);
+                    var rectTransform = this.warningSign.GetComponent<RectTransform>();
+                    var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
+                    var targetCanvasPosition = canvas.WorldToCanvasPosition(state.path.Last());
+                    var clampArea = new Rect(
+                        canvasSafeArea.x - rectTransform.rect.x,
+                        canvasSafeArea.y - rectTransform.rect.y,
+                        canvasSafeArea.width - rectTransform.rect.width,
+                        canvasSafeArea.height - rectTransform.rect.height
+                    );
+                    rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
+                }
             }
             else
             {

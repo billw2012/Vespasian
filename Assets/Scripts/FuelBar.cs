@@ -8,11 +8,13 @@ using UnityEngine.UI;
 public class FuelBar : MonoBehaviour
 {
     public GameObject fill;
+    public PlayerLogic target;
 
     Slider slider;
 
     void Start()
     {
+        Assert.IsNotNull(this.target);
         Assert.IsNotNull(this.fill);
         this.slider = this.GetComponent<Slider>();
         Assert.IsNotNull(this.slider);
@@ -21,12 +23,12 @@ public class FuelBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.slider.value = GameLogic.Instance.remainingFuel;
-        if (GameLogic.Instance.remainingFuel < 0.2)
+        this.slider.value = this.target.remainingFuel;
+        if (this.target.remainingFuel < 0.2)
         {
             this.fill.GetComponent<Image>().color = Color.red;
         }
-        else if (GameLogic.Instance.remainingFuel > 1)
+        else if (this.target.remainingFuel > 1)
         {
             this.fill.GetComponent<Image>().color = new Color(0.2f, 1.0f, 0.2f);
         }

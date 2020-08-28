@@ -4888,6 +4888,7 @@ MonoBehaviour:
   ringRadiusFactor: 1.5
   ringWidthFactor: 0.5
   geometry: {fileID: 8649645052135855122}
+  gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
 --- !u!114 &3823042140233048264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4937,6 +4938,7 @@ MonoBehaviour:
   color: {r: 0, g: 0.530468, b: 1, a: 1}
   lightTintFactor: 0.238
   lightHeight: 6.6
+  glowIntensity: 0.25
 --- !u!114 &56469765501527648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5038,7 +5040,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.76199996, g: 0.88825136, b: 1, a: 1}
-  m_Intensity: 1000
+  m_Intensity: 500
   m_Range: 10000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

@@ -1,72 +1,52 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameLogic : MonoBehaviour {
-    public static GameLogic Instance;
-
-    public GameObject player { get; private set; }
-
+[CreateAssetMenu]
+public class GameLogic : ScriptableObject {
+    [HideInInspector]
     public float collectedMinerals = 0;
+    [HideInInspector]
     public float collectedGas = 0;
-    public float health = 1;
-    public float remainingFuel = 1;
-    public float previousHealth = 1;
-    public Vector3 lastDamageDirection;
 
-    public float simTime;
+    GameObject playUI;
+    GameObject winUI;
+    GameObject loseUI;
 
-    void Start()
+    void OnEnable()
     {
-        this.player = GameObject.Find("Player");
-        Instance = this;
-        this.simTime = 0;
+        SceneManager.sceneLoaded += this.SceneManager_sceneLoaded;
     }
 
-    void Update()
+    void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (this.player != null)
-        {
-            this.player.GetComponent<PlayerLogic>().SetTakingDamage((this.previousHealth - this.health) / Time.deltaTime, this.lastDamageDirection);
-        }
-        this.previousHealth = this.health;
+        //this.playUI = GameObject.Find("PlayUI");
+        //this.winUI = GameObject.Find("WinUI");
+        //this.loseUI = GameObject.Find("LoseUI");
+
+        //this.playUI.SetActive(true);
+        //this.winUI.SetActive(false);
+        //this.loseUI.SetActive(false);
     }
 
-    void FixedUpdate()
+    public void NextLevel()
     {
-        this.simTime += Time.fixedDeltaTime;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void RestartGame()
+    public void RestartLevel()
     {
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void WinGame()
     {
-        SceneManager.LoadScene("WinScene");
+        //this.playUI.SetActive(false);
+        //this.winUI.SetActive(true);
     }
 
     public void LoseGame()
     {
-        SceneManager.LoadScene("LoseScene");
-    }
-
-    public void AddFuel(float amount)
-    {
-        this.remainingFuel = Mathf.Clamp(this.remainingFuel + amount, 0, 1.25f);
-    }
-
-    public void AddDamage(float amount, Vector3 direction)
-    {
-        this.health = Mathf.Clamp(this.health - amount, 0, 1);
-        if(amount > 0)
-        {
-            this.lastDamageDirection = direction;
-        }
-
-        if(this.health == 0)
-        {
-            LoseGame();
-        }
+       // this.playUI.SetActive(false);
+        //this.loseUI.SetActive(true);
     }
 }

@@ -14,13 +14,15 @@ public class SunLogic : MonoBehaviour
     private MaterialPropertyBlock glowPB;
     private MaterialPropertyBlock pfxPB;
 
-    private static Color TweakH(Color color, float newH)
+    private static Color TweakH(Color color, float newH, float newAlpha = 1)
     {
         Color.RGBToHSV(color, out _, out float s, out float v);
-        return Color.HSVToRGB(newH, s, v);
+        var result = Color.HSVToRGB(newH, s, v);
+        result.a = newAlpha;
+        return result;
     }
 
-    private static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH)
+    private static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH, float newAlpha = 1)
     {
         foreach (var colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
         {
@@ -70,6 +72,8 @@ public class SunLogic : MonoBehaviour
     public float lightTintFactor = 0.25f;
     [Tooltip("How high the light is above the sun surface"), Range(0, 30)]
     public float lightHeight = 5f;
+    [Tooltip("How intense the sun glow is"), Range(0, 1)]
+    public float glowIntensity = 0.25f;
 
     void UpdateDependentColors()
     {
@@ -94,7 +98,7 @@ public class SunLogic : MonoBehaviour
             "_BaseColor",
             "_SpecColor",
             "_EmissionColor",
-        }, newH);
+        }, newH, this.glowIntensity);
         TweakH(this.pfxPB, this.pfxRenderer.sharedMaterial, new[] {
             "_BaseColor",
             "_SpecColor",
