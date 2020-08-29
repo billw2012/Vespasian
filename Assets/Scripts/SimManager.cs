@@ -11,26 +11,33 @@ public class SimManager : MonoBehaviour
 
     [Tooltip("Used to render the simulated path")]
     public LineRenderer pathRenderer;
+
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
 
     [HideInInspector]
     public float simTime;
 
+    public class SphereOfInfluence
+    {
+        public GravitySource g;
+        public float radius;
+        public float maxForce;
+    }
+
+    [HideInInspector]
+    public List<SphereOfInfluence> sois;
+
     struct SimOrbit
     {
-#if DEBUG
-        public string name;
-#endif
+        public Orbit from;
         public int parent;
         public OrbitParameters.OrbitPath orbit;
     }
 
     struct SimGravity
     {
-#if DEBUG
-        public string name;
-#endif
+        public GravitySource from;
         public int parent;
         public float mass;
         public float radius;
@@ -66,6 +73,10 @@ public class SimManager : MonoBehaviour
         public float pathLength = 0;
         public bool crashed;
 
+        // A consecutive list of spheres of influence the path passes through.
+        // It can refer to the same GravitySource more than once.
+        public readonly List<SphereOfInfluence> sois = new List<SphereOfInfluence>();
+
         public SimState(SimManager owner, Vector3 startPosition, Vector3 startVelocity, float startTime)
         {
             this.owner = owner;
@@ -89,15 +100,41 @@ public class SimManager : MonoBehaviour
                 orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
             }
 
-            var force = Vector3.zero;
+            var bestSoi = new SphereOfInfluence { maxForce = 0 };
+            var forceTotal = Vector3.zero;
 
             foreach (var g in this.owner.simGravitySources)
             {
                 var position = g.parent != -1 ? orbitPositions[g.parent] : g.position;
-                force += GravityParameters.CalculateForce(this.position, position, g.mass, this.owner.constants.GravitationalConstant);
+                var force = GravityParameters.CalculateForce(this.position, position, g.mass, this.owner.constants.GravitationalConstant);
+                if(force.magnitude > bestSoi.maxForce)
+                {
+                    bestSoi.radius = Vector3.Distance(this.position, position);
+                    bestSoi.maxForce = force.magnitude;
+                    bestSoi.g = g.from;
+                }
+                forceTotal += force;
             }
 
-            this.velocity += force * dt;
+            if(this.sois.Count == 0)
+            {
+                this.sois.Add(bestSoi);
+            }
+            else
+            {
+                var lastSoi = this.sois.Last();
+                if (lastSoi.g == bestSoi.g)
+                {
+                    lastSoi.maxForce = Mathf.Max(lastSoi.maxForce, bestSoi.maxForce);
+                    lastSoi.radius = Mathf.Max(lastSoi.radius, bestSoi.radius);
+                }
+                else
+                {
+                    this.sois.Add(bestSoi);
+                }
+            }
+
+            this.velocity += forceTotal * dt;
 
             var oldPosition = this.position;
             this.position += this.velocity * dt;
@@ -188,9 +225,7 @@ public class SimManager : MonoBehaviour
         // Orbits ordered in depth first search ordering, with parent indices
         this.simOrbits = this.orbits.Select(
             o => new SimOrbit {
-#if DEBUG
-                name = o.ToString(),
-#endif
+                from = o,
                 orbit = o.orbitPath,
                 parent = this.orbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit>())
             }).ToList();
@@ -202,9 +237,7 @@ public class SimManager : MonoBehaviour
         // Gravity sources with parent orbits (if the have one), and global positions (in case they don't).
         this.simGravitySources = allGravitySources
             .Select(g => new SimGravity {
-#if DEBUG
-                name = g.ToString(),
-#endif
+                from = g,
                 mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
                 radius = g.radius, // radius is applied using local scale on the same game object as the gravity
                 parent = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
@@ -239,6 +272,7 @@ public class SimManager : MonoBehaviour
             // Resume in main thread
             this.pathRenderer.positionCount = state.path.Count;
             this.pathRenderer.SetPositions(state.path.ToArray());
+            this.sois = state.sois;
             //this.pathLength = state.pathLength;
 
             if (state.crashed && state.path.Count > 0)

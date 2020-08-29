@@ -4321,6 +4321,11 @@ PrefabInstance:
       propertyPath: smoothTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: simManager
+      value: 
+      objectReference: {fileID: 4538521789459465363}
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: m_LocalPosition.x
