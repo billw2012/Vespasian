@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,11 +42,30 @@ public class GameLogic : ScriptableObject {
     {
         this.playUI.SetActive(false);
         this.winUI.SetActive(true);
+        GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = $"{this.CalculateScore()} points";
+
+        FindObjectOfType<PlayerLogic>().gameObject.SetActive(false);
     }
 
     public void LoseGame()
     {
         this.playUI.SetActive(false);
         this.loseUI.SetActive(true);
+        FindObjectOfType<PlayerLogic>().gameObject.SetActive(false);
+    }
+
+    int CalculateScore()
+    {
+        int score = 0;
+
+        var player = FindObjectOfType<PlayerLogic>().gameObject;
+
+        // 1 point for each % of fuel remaining
+        score += Mathf.FloorToInt(player.GetComponent<PlayerLogic>().remainingFuel * 100f);
+
+        // 1 point for each % of health remaining
+        score += Mathf.FloorToInt(player.GetComponent<HealthComponent>().health * 100f);
+
+        return score;
     }
 }

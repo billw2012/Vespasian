@@ -157,12 +157,14 @@ public class SimManager : MonoBehaviour
             o.SimUpdate(this.simTime);
         }
 
-        this.player.SimUpdate();
+        if (this.player.gameObject.activeInHierarchy)
+        {
+            this.player.SimUpdate();
 
+            this.UpdatePathAsync();
 
-        this.UpdatePathAsync();
-
-        this.UpdatePathWidth();
+            this.UpdatePathWidth();
+        }
     }
 
     void DelayedInit()
