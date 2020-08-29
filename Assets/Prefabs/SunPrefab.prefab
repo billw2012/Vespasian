@@ -4884,6 +4884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 4
+  dayPeriod: 0
   ringEnabled: 0
   ringRadiusFactor: 1.5
   ringWidthFactor: 0.5
