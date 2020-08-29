@@ -52,6 +52,7 @@ public class GameLogic : ScriptableObject {
     {
         this.playUI.SetActive(false);
         this.loseUI.SetActive(true);
+
         FindObjectOfType<PlayerLogic>().gameObject.SetActive(false);
     }
 

@@ -4,10 +4,10 @@ public class DragEffect : RadiusEffect
 {
     protected override void Apply(RadiusEffectTarget target, float value, Vector3 direction)
     {
-        var playerLogic = target.GetComponent<PlayerLogic>();
-        if (playerLogic != null)
+        var simMovement = target.GetComponent<SimMovement>();
+        if (simMovement != null && simMovement.velocity.magnitude > 0)
         {
-            playerLogic.velocity = Vector3.ClampMagnitude(playerLogic.velocity, playerLogic.velocity.magnitude - value);
+            simMovement.AddForce(-simMovement.velocity.normalized * value);
         }
     }
 };

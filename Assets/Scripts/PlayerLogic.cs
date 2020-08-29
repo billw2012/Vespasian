@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[RequireComponent(typeof(SimMovement))]
 public class PlayerLogic : MonoBehaviour
 {
     public GameConstants constants;
@@ -13,9 +10,6 @@ public class PlayerLogic : MonoBehaviour
     public ParticleSystem rearThruster;
     public ParticleSystem rightThruster;
     public ParticleSystem leftThruster;
-
-    [HideInInspector]
-    public Vector3 velocity = Vector3.zero;
 
     [HideInInspector]
     // NORMALIZED dimensionless thrust input for joystick
@@ -33,34 +27,16 @@ public class PlayerLogic : MonoBehaviour
     public float fuelCurrent = 1;
     public float fuelStart = 1.0f; // To be set in the editor
 
-    public enum FlyingState {
-        Aiming, // We are aiming at start of the game
-        Flying  // We have been launched and are flying already
-    };
+    SimMovement movement;
 
-    [HideInInspector]
-    public FlyingState state = FlyingState.Aiming;
+    bool canThrust => this.movement.velocity.magnitude != 0 && this.fuelCurrent > 0;
 
-    [HideInInspector]
-    // Tracks correct simulated position, as rigid body is not perfectly matching the SimManager generated paths
-    public Vector3 simPosition;
-
-    bool canThrust => this.velocity.magnitude != 0 && this.fuelCurrent > 0;
-
-    GravitySource[] gravitySources;
-
-    void OnValidate()
-    {
-        Assert.IsNotNull(this.constants);
-        Assert.IsNotNull(this.frontThruster);
-        Assert.IsNotNull(this.rearThruster);
-        Assert.IsNotNull(this.rightThruster);
-        Assert.IsNotNull(this.leftThruster);
-    }
-
-    void Start()
+    void Awake()
     {
         this.OnValidate();
+
+        this.movement = this.GetComponent<SimMovement>();
+        Assert.IsNotNull(this.movement);
 
         this.fuelCurrent = this.fuelStart;
 
@@ -71,85 +47,57 @@ public class PlayerLogic : MonoBehaviour
 
         this.thrustInputJoystick = Vector2.zero;
         this.finalThrust = Vector2.zero;
-        this.state = FlyingState.Aiming;
+    }
 
-        this.gravitySources = GravitySource.All();
-        this.simPosition = this.transform.position;
+    void OnValidate()
+    {
+        Assert.IsNotNull(this.constants);
+        Assert.IsNotNull(this.frontThruster);
+        Assert.IsNotNull(this.rearThruster);
+        Assert.IsNotNull(this.rightThruster);
+        Assert.IsNotNull(this.leftThruster);
     }
 
     void Update()
     {
-        if (this.state == FlyingState.Flying)
+        this.UpdateFinalThrust();
+
+        void SetThrusterFX(ParticleSystem pfx, bool enabled, float thrust)
         {
-            this.UpdateFinalThrust();
-
-            void SetThrusterFX(ParticleSystem pfx, bool enabled, float thrust)
-            {
-                pfx.SetEmissionEnabled(this.canThrust && enabled);
-                const float RateOverTimeMax = 100;
-                pfx.SetEmissionRateOverTimeMultiplier(RateOverTimeMax * Mathf.Abs(thrust));
-            }
-
-            // Accel/decel
-            SetThrusterFX(this.rearThruster, this.finalThrust.y > 0, this.finalThrust.y);
-            SetThrusterFX(this.frontThruster, this.finalThrust.y < 0, this.finalThrust.y);
-
-            // Right/left thrusters
-            SetThrusterFX(this.rightThruster, this.finalThrust.x < 0, this.finalThrust.x);
-            SetThrusterFX(this.leftThruster, this.finalThrust.x > 0, this.finalThrust.x);
+            pfx.SetEmissionEnabled(this.canThrust && enabled);
+            const float RateOverTimeMax = 100;
+            pfx.SetEmissionRateOverTimeMultiplier(RateOverTimeMax * Mathf.Abs(thrust));
         }
+
+        // Accel/decel
+        SetThrusterFX(this.rearThruster, this.finalThrust.y > 0, this.finalThrust.y);
+        SetThrusterFX(this.frontThruster, this.finalThrust.y < 0, this.finalThrust.y);
+
+        // Right/left thrusters
+        SetThrusterFX(this.rightThruster, this.finalThrust.x < 0, this.finalThrust.x);
+        SetThrusterFX(this.leftThruster, this.finalThrust.x > 0, this.finalThrust.x);
     }
 
-    public void SimUpdate()
+    void FixedUpdate()
     {
-        if (this.state == FlyingState.Flying)
+        var force = Vector3.zero;
+        if (this.canThrust)
         {
-            var force = this.GetForce(this.simPosition);
+            var forward = this.movement.velocity.normalized;
+            var right = -(Vector3)Vector2.Perpendicular(forward);
 
-            if (this.canThrust)
-            {
-                var forward = this.velocity.normalized;
-                var right = -(Vector3)Vector2.Perpendicular(forward);
+            force += forward * this.finalThrust.y;
+            force += right * this.finalThrust.x;
 
-                force += forward * this.finalThrust.y;
-                force += right * this.finalThrust.x;
-
-                float thrustTotal = Mathf.Abs(this.finalThrust.x) + Mathf.Abs(this.finalThrust.y);
-                this.AddFuel(-thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
-            }
-
-            this.velocity += force * Time.fixedDeltaTime;
-            this.simPosition += this.velocity * Time.fixedDeltaTime;
-
-            var rigidBody = this.GetComponent<Rigidbody>();
-            this.GetComponent<Rigidbody>().MovePosition(this.simPosition);
-
-            // TODO: rotation needs to be smoothed, but this commented out method results in rotation
-            // while following the current orbit lagging.
-            // (perhaps even limiting them to the same magnitude?)
-            // Smooth rotation slightly to avoid random flipping. Smoothing should not be noticeable in
-            // normal play.
-            //var desiredRot = Quaternion.FromToRotation(Vector3.up, this.velocity).eulerAngles.z;
-            //var currentRot = rigidBody.rotation.eulerAngles.z;
-            //var smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 90);
-            //rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
-
-            rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
+            float thrustTotal = Mathf.Abs(this.finalThrust.x) + Mathf.Abs(this.finalThrust.y);
+            this.AddFuel(-thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
         }
+        this.movement.AddForce(force);
     }
+
     public void AddFuel(float amount)
     {
         this.fuelCurrent = Mathf.Clamp(this.fuelCurrent + amount, 0, 1.1f * this.fuelStart);
-    }
-
-    Vector3 GetForce(Vector3 pos)
-    {
-        var force = Vector3.zero;
-        foreach(var g in this.gravitySources)
-        {
-            force += GravityParameters.CalculateForce(pos, g.position, g.parameters.mass, this.constants.GravitationalConstant);
-        }
-        return force;
     }
 
     // Calculates final thrust value from various control inputs

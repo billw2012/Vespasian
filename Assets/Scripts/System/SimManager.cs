@@ -60,7 +60,8 @@ public class SimManager : MonoBehaviour
     // Task representing the current instance of the sim path update task
     Task updatingPathTask = null;
 
-    PlayerLogic player;
+    SimMovement[] simulatedObjects;
+    GameObject player;
 
     #region SimState
     // Represents the current state of a simulation
@@ -179,8 +180,10 @@ public class SimManager : MonoBehaviour
         Assert.IsNotNull(this.constants);
 
         this.warningSign.SetActive(false);
-        this.player = FindObjectOfType<PlayerLogic>();
+        this.player = FindObjectOfType<PlayerLogic>().gameObject;
         Assert.IsNotNull(this.player);
+
+        this.simulatedObjects = FindObjectsOfType<SimMovement>().ToArray();
 
         this.simTime = 0;
     }
@@ -197,10 +200,14 @@ public class SimManager : MonoBehaviour
             o.SimUpdate(this.simTime);
         }
 
-        if (this.player.gameObject.activeInHierarchy)
+        foreach(var s in this.simulatedObjects.Where(s => s.gameObject.activeInHierarchy && s.enabled))
         {
-            this.player.SimUpdate();
+            s.SimUpdate();
+        }
 
+        this.pathRenderer.enabled = this.player.activeInHierarchy;
+        if (this.player.activeInHierarchy)
+        {
             this.UpdatePathAsync();
 
             this.UpdatePathWidth();
@@ -250,10 +257,11 @@ public class SimManager : MonoBehaviour
 
     async Task UpdatePath()
     {
+        var playerSimMovement = this.player.GetComponent<SimMovement>();
         var state = new SimState(
             owner: this,
-            startPosition: this.player.simPosition,
-            startVelocity: this.player.velocity,
+            startPosition: playerSimMovement.simPosition,
+            startVelocity: playerSimMovement.velocity,
             startTime: this.simTime
         );
 

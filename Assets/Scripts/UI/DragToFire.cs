@@ -11,7 +11,8 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [Tooltip("How much force to apply")]
     public float forceCoefficient = 1.0f;
 
-    PlayerLogic player;
+    PlayerLogic playerLogic;
+    SimMovement playerMovement;
 
     Vector2 dragStart;
     Vector2 dragCurrent;
@@ -19,16 +20,16 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     void Start()
     {
         Assert.IsNotNull(this.constants);
-        this.player = FindObjectOfType<PlayerLogic>();
-        Assert.IsNotNull(this.player);
+        this.playerLogic = FindObjectOfType<PlayerLogic>();
+        this.playerMovement = FindObjectOfType<SimMovement>();
+
+        this.playerLogic.enabled = false;
+        this.playerMovement.enabled = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (this.player.state == PlayerLogic.FlyingState.Aiming)
-        {
-            this.dragStart = eventData.position;
-        }
+        this.dragStart = eventData.position;
     }
 
     Vector3 GetVelocity()
@@ -40,27 +41,20 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (this.player.state == PlayerLogic.FlyingState.Aiming)
-        {
-            this.dragCurrent = eventData.position;
-        }
+        this.dragCurrent = eventData.position;
     }
 
     void Update()
     {
-        if (this.player.state == PlayerLogic.FlyingState.Aiming)
-        {
-            this.player.velocity = this.GetVelocity();
-            this.player.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.player.velocity);
-        }
+        this.playerMovement.velocity = this.GetVelocity();
+        this.playerMovement.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerMovement.velocity);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (this.player.state == PlayerLogic.FlyingState.Aiming)
-        {
-            this.player.velocity = this.GetVelocity();
-            this.player.state = PlayerLogic.FlyingState.Flying;
-        }
+        this.playerMovement.enabled = true;
+        this.playerMovement.velocity = this.GetVelocity();
+        this.playerLogic.enabled = true;
+        this.enabled = false;
     }
 }

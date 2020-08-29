@@ -104,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7620224551109491987}
   - component: {fileID: 7620224551109491999}
+  - component: {fileID: 470503325313159492}
   - component: {fileID: 1408795510517265554}
   - component: {fileID: 7620224551109491988}
   - component: {fileID: 8939774266473288669}
@@ -153,10 +154,25 @@ MonoBehaviour:
   rearThruster: {fileID: 2162793376743296761}
   rightThruster: {fileID: 7668834564355503827}
   leftThruster: {fileID: 8480122912372712441}
-  velocity: {x: 0, y: 0, z: 0}
   thrustInputJoystick: {x: 0, y: 0}
-  remainingFuel: 1
+  fuelCurrent: 1
+  fuelStart: 1
   state: 0
+--- !u!114 &470503325313159492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24106d275949ef144842685378f94955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
+  alignToVelocity: 1
+  velocity: {x: 0, y: 0, z: 0}
   simPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1408795510517265554
 MonoBehaviour:

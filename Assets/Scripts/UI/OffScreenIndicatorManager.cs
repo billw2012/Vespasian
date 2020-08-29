@@ -15,7 +15,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
     public GameObject indicatorPrefab;
 
     [HideInInspector]
-    public Transform player;
+    public Transform playerTransform;
 
     // Amount of indicators
     const int nIndicators = 2;
@@ -32,9 +32,9 @@ public class OffScreenIndicatorManager : MonoBehaviour
     {
         Assert.IsNotNull(this.indicatorPrefab);
 
-        this.player = FindObjectOfType<PlayerLogic>().transform;
+        this.playerTransform = FindObjectOfType<PlayerLogic>().transform;
 
-        Assert.IsNotNull(this.player);
+        Assert.IsNotNull(this.playerTransform);
 
         this.gravitySources = GravitySource.All();
 
@@ -64,7 +64,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
         float ForceMetric(GravitySource src)
         {
             // Force metric is not full force as it lacks gravity constant and maybe others
-            float dist = Vector3.Distance(this.player.position, src.transform.position);
+            float dist = Vector3.Distance(this.playerTransform.position, src.transform.position);
             return src.parameters.mass / Mathf.Pow(dist, 2);
         }
         var sourcesSorted = this.gravitySources.OrderByDescending(ForceMetric);
