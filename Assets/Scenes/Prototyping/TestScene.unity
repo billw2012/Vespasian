@@ -3081,15 +3081,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.periapsis
-      value: 20.635954
+      value: 16.086784
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.apoapsis
-      value: 21.352304
+      value: 16.645218
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: parameters.angle
-      value: 65.839645
+      value: -61.224308
       objectReference: {fileID: 0}
     - target: {fileID: 270560365, guid: a3c9b3aff3b514b448d317d28e742610, type: 3}
       propertyPath: dayPeriod
@@ -3098,12 +3098,12 @@ PrefabInstance:
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.446127
+      value: 7.743887
       objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.828318
+      value: -14.100243
       objectReference: {fileID: 0}
     - target: {fileID: 3768597765047173929, guid: a3c9b3aff3b514b448d317d28e742610,
         type: 3}

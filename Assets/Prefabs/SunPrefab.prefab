@@ -4902,7 +4902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac1c3b4916550945815568443f28bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadiusMultiplier: 1
+  maxRadius: 5
   effectFactor: 1
   effector: {fileID: 8649645052135855122}
 --- !u!114 &7639369803563321502
@@ -4917,7 +4917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111afeeb5aee51049a9bf888620de5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadiusMultiplier: 1
+  maxRadius: 4
   effectFactor: 1
   effector: {fileID: 8649645052135855122}
 --- !u!114 &6931139407177234544

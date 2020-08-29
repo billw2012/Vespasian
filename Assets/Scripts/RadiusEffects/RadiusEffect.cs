@@ -2,8 +2,8 @@ using UnityEngine;
 
 public abstract class RadiusEffect : MonoBehaviour
 {
-    [Tooltip("Radius at which effect starts, as a multiplier of the radius of the effector (determined from localScale)"), Range(0, 10)]
-    public float maxRadiusMultiplier = 1.0f;
+    [Tooltip("Height at which effect starts above surface"), Range(0, 10)]
+    public float maxRadius = 3.0f;
 
     [Tooltip("Strength of the effect"), Range(0, 100)]
     public float effectFactor = 1.0f;
@@ -20,12 +20,10 @@ public abstract class RadiusEffect : MonoBehaviour
             var targetVec = target.transform.position - this.effector.transform.position;
 
             float targetHeight = targetVec.magnitude;
-            float heightRatio = 1 - (targetHeight - radius) / (radius * this.maxRadiusMultiplier);
-            if(heightRatio > 0)
-            {
-                float effect = Mathf.Max(0, Time.deltaTime * this.effectFactor * heightRatio);
-                this.Apply(target, effect, targetVec.normalized);
-            }
+            float heightRatio = 1 - (targetHeight - radius) / this.maxRadius;
+
+            float effect = Mathf.Max(0, Time.deltaTime * this.effectFactor * heightRatio);
+            this.Apply(target, effect, targetVec.normalized);
         }
     }
 

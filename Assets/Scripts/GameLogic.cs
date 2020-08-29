@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -65,6 +66,9 @@ public class GameLogic : ScriptableObject {
 
         // 1 point for each % of health remaining
         score += Mathf.FloorToInt(player.GetComponent<HealthComponent>().health * 100f);
+
+        // 0.2 point for each % of planets scanned
+        score += Mathf.FloorToInt(FindObjectsOfType<ScanEffect>().Select(e => e.scanned).Sum() * 20f);
 
         return score;
     }
