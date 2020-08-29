@@ -62,7 +62,7 @@ public class GameLogic : ScriptableObject {
         var player = FindObjectOfType<PlayerLogic>().gameObject;
 
         // 1 point for each % of fuel remaining
-        score += Mathf.FloorToInt(player.GetComponent<PlayerLogic>().remainingFuel * 100f);
+        score += Mathf.FloorToInt(player.GetComponent<PlayerLogic>().fuelCurrent * 100f);
 
         // 1 point for each % of health remaining
         score += Mathf.FloorToInt(player.GetComponent<HealthComponent>().health * 100f);

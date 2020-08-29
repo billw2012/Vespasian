@@ -30,7 +30,8 @@ public class PlayerLogic : MonoBehaviour
     Vector2 finalThrust = Vector2.zero;
 
     [HideInInspector]
-    public float remainingFuel = 1;
+    public float fuelCurrent = 1;
+    public float fuelStart = 1.0f; // To be set in the editor
 
     public enum FlyingState {
         Aiming, // We are aiming at start of the game
@@ -44,7 +45,7 @@ public class PlayerLogic : MonoBehaviour
     // Tracks correct simulated position, as rigid body is not perfectly matching the SimManager generated paths
     public Vector3 simPosition;
 
-    bool canThrust => this.velocity.magnitude != 0 && this.remainingFuel > 0;
+    bool canThrust => this.velocity.magnitude != 0 && this.fuelCurrent > 0;
 
     GravitySource[] gravitySources;
 
@@ -60,6 +61,8 @@ public class PlayerLogic : MonoBehaviour
     void Start()
     {
         this.OnValidate();
+
+        this.fuelCurrent = this.fuelStart;
 
         this.rearThruster.SetEmissionEnabled(false);
         this.frontThruster.SetEmissionEnabled(false);
@@ -136,7 +139,7 @@ public class PlayerLogic : MonoBehaviour
     }
     public void AddFuel(float amount)
     {
-        this.remainingFuel = Mathf.Clamp(this.remainingFuel + amount, 0, 1.25f);
+        this.fuelCurrent = Mathf.Clamp(this.fuelCurrent + amount, 0, 1.1f * this.fuelStart);
     }
 
     Vector3 GetForce(Vector3 pos)

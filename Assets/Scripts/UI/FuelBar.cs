@@ -23,12 +23,13 @@ public class FuelBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.slider.value = this.target.remainingFuel;
-        if (this.target.remainingFuel < 0.2)
+        float fuelRatio = this.target.fuelCurrent;
+        this.slider.value = fuelRatio;
+        if (fuelRatio < 0.2)
         {
             this.fill.GetComponent<Image>().color = Color.red;
         }
-        else if (this.target.remainingFuel > 1)
+        else if (fuelRatio >= 1)
         {
             this.fill.GetComponent<Image>().color = new Color(0.2f, 1.0f, 0.2f);
         }
