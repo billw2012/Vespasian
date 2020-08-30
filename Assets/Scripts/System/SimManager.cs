@@ -19,7 +19,7 @@ public class SimManager : MonoBehaviour
     public float simTime;
 
     [HideInInspector]
-    public List<SimModel.SphereOfInfluence> sois;
+    public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
 
     SimMovement[] simulatedObjects;
     GameObject player;

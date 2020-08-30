@@ -77,12 +77,10 @@ public class FollowCameraController : MonoBehaviour
 
     void Update()
     {
-
         // Combine spheres of influence from sim path and points of interest from scene
         // Both use distance metric, but distance for SOIs is measured along the simulated path
         // and distance for basic POIs is measured from player
-        var pointsOfInterest =
-            (this.simManager.sois ?? new List<SimManager.SphereOfInfluence>())
+        var pointsOfInterest = this.simManager.sois
             .Select(i => new PointOfInterest(i.g.position, i.g.transform.localScale, i.distance))
             .Concat(this.scenePointsOfInterest.Select(i => new PointOfInterest(i.transform.position, i.size, Vector3.Distance(i.transform.position, this.target.position))))
             .OrderBy(i => i.distance); // Sort by ascending distance

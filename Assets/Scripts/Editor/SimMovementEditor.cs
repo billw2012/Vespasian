@@ -42,7 +42,7 @@ public class SimMovementEditor : Editor
 
             var handlePos = simMovement.velocity * 4f;
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"velocity: {simMovement.velocity}");
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"velocity: {simMovement.velocity}\nshift = lock angle\nctrl = lock magnitude");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 handlePos,
@@ -58,6 +58,10 @@ public class SimMovementEditor : Editor
                 if (Event.current.control)
                 {
                     simMovement.velocity = newValue.normalized * simMovement.velocity.magnitude;
+                    if (simMovement.alignToVelocity)
+                    {
+                        simMovement.transform.localRotation = Quaternion.FromToRotation(Vector3.up, newValue);
+                    }
                 }
                 else if(Event.current.shift)
                 {
@@ -66,10 +70,10 @@ public class SimMovementEditor : Editor
                 else
                 {
                     simMovement.velocity = newValue;
-                }
-                if (simMovement.alignToVelocity)
-                {
-                    simMovement.transform.localRotation = Quaternion.FromToRotation(Vector3.up, newValue);
+                    if (simMovement.alignToVelocity)
+                    {
+                        simMovement.transform.localRotation = Quaternion.FromToRotation(Vector3.up, newValue);
+                    }
                 }
                 return true;
             }
