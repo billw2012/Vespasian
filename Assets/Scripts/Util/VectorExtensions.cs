@@ -16,7 +16,7 @@
     note: swizzles that start with a 0 or 1 have an underscore in front of them
 */
 
-static class Vector2Swizzles
+public static class Vector2Swizzles
 {
     //swizzles of size 2
     public static Vector2 _11(this Vector2 a) { return new Vector2(1.0f, 1.0f); }
@@ -358,7 +358,7 @@ static class Vector2Swizzles
     public static Vector4 xyyy(this Vector2 a) { return new Vector4(a.x, a.y, a.y, a.y); }
     public static Vector4 yyyy(this Vector2 a) { return new Vector4(a.y, a.y, a.y, a.y); }
 }
-static class Vector3Swizzles
+public static class Vector3Swizzles
 {
     //swizzles of size 2
     public static Vector2 _11(this Vector3 a) { return new Vector2(1.0f, 1.0f); }
@@ -1139,7 +1139,7 @@ static class Vector3Swizzles
     public static Vector4 yzzz(this Vector3 a) { return new Vector4(a.y, a.z, a.z, a.z); }
     public static Vector4 zzzz(this Vector3 a) { return new Vector4(a.z, a.z, a.z, a.z); }
 }
-static class Vector4Swizzles
+public static class Vector4Swizzles
 {
     //swizzles of size 2
     public static Vector2 _11(this Vector4 a) { return new Vector2(1.0f, 1.0f); }

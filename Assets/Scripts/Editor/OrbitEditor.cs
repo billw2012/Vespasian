@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Orbit))]
-public class Orbit2Editor : Editor
+public class OrbitEditor : Editor
 {
     void OnSceneGUI()
     {

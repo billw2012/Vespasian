@@ -6,6 +6,8 @@ public class ScanEffect : RadiusEffect
     public float scanned = 0;
     LineRenderer scanEffect;
 
+    // TODO: factor out the scanner itself into its own component, as we need potentially need multiple ones per 
+    // ScanEffect and per RadiusEffectTarget.
     float nextChangeStep = 0;
     Vector3 currentScanPos = Vector3.zero;
     Vector3 targetScanPos = Vector3.zero;
