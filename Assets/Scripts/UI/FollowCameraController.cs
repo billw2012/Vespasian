@@ -61,15 +61,31 @@ public class FollowCameraController : MonoBehaviour
 
     //}
 
+    // Used locally for sorting
+    struct PointOfInterest
+    {
+        public Vector3 position;
+        public Vector3 fullSize;
+        public float distance; // For sorting
+        public PointOfInterest(Vector3 pos, Vector3 size, float dist)
+        {
+            this.position = pos;
+            this.fullSize = size;
+            this.distance = dist;
+        }
+    }
+
     void Update()
     {
 
         // Combine spheres of influence from sim path and points of interest from scene
         // Both use distance metric, but distance for SOIs is measured along the simulated path
         // and distance for basic POIs is measured from player
-        var pointsOfInterest = (this.simManager.sois ?? new List<SimManager.SphereOfInfluence>()).Select(i => (i.g.position, i.distance))
-        .Concat(this.scenePointsOfInterest.Select(i => (i.transform.position, Vector3.Distance(i.transform.position, this.target.position))))
-        .OrderBy(i => i.Item2); // Sort by ascending distance
+        var pointsOfInterest =
+            (this.simManager.sois ?? new List<SimManager.SphereOfInfluence>())
+            .Select(i => new PointOfInterest(i.g.position, i.g.transform.localScale, i.distance))
+            .Concat(this.scenePointsOfInterest.Select(i => new PointOfInterest(i.transform.position, i.size, Vector3.Distance(i.transform.position, this.target.position))))
+            .OrderBy(i => i.distance); // Sort by ascending distance
 
         // Determining which pois to use:
         // keep adding pois until their bounding box exceeds the camera inner area available
@@ -79,7 +95,7 @@ public class FollowCameraController : MonoBehaviour
         foreach (var poi in pointsOfInterest)
         {
             var expandedBounds = bounds;
-            expandedBounds.Encapsulate(new Bounds((Vector2)poi.Item1, Vector2.one * this.margin));
+            expandedBounds.Encapsulate(new Bounds((Vector2)poi.position, (Vector2)poi.fullSize));
             if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
             {
                 break;
