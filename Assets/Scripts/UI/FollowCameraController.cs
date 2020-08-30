@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -25,12 +26,16 @@ public class FollowCameraController : MonoBehaviour
     Vector2 offsetVelocity;
     float initialCameraSize;
 
+    CameraPointOfInterest[] scenePointsOfInterest;
+
     void Start()
     {
         Assert.IsNotNull(this.target);
         Assert.IsNotNull(this.simManager);
 
         this.initialCameraSize = Camera.main.orthographicSize;
+
+        this.scenePointsOfInterest = GameObject.FindObjectsOfType<CameraPointOfInterest>();
     }
 
     Vector2 ClampToCameraInnerArea(Vector2 vec)
@@ -56,26 +61,30 @@ public class FollowCameraController : MonoBehaviour
 
     //}
 
-
     void Update()
     {
+
+        // Combine spheres of influence from sim path and points of interest from scene
+        // Both use distance metric, but distance for SOIs is measured along the simulated path
+        // and distance for basic POIs is measured from player
+        var pointsOfInterest = (this.simManager.sois ?? new List<SimManager.SphereOfInfluence>()).Select(i => (i.g.position, i.distance))
+        .Concat(this.scenePointsOfInterest.Select(i => (i.transform.position, Vector3.Distance(i.transform.position, this.target.position))))
+        .OrderBy(i => i.Item2); // Sort by ascending distance
+
         // Determining which pois to use:
         // keep adding pois until their bounding box exceeds the camera inner area available
 
         var cameraArea = WorldCameraArea();
         var bounds = new Bounds((Vector2)this.target.position, Vector2.one * this.margin);
-        if (this.simManager.sois != null)
+        foreach (var poi in pointsOfInterest)
         {
-            foreach (var soi in this.simManager.sois)
+            var expandedBounds = bounds;
+            expandedBounds.Encapsulate(new Bounds((Vector2)poi.Item1, Vector2.one * this.margin));
+            if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
             {
-                var expandedBounds = bounds;
-                expandedBounds.Encapsulate(new Bounds((Vector2)soi.g.position, Vector2.one * this.margin));
-                if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
-                {
-                    break;
-                }
-                bounds = expandedBounds;
+                break;
             }
+            bounds = expandedBounds;
         }
 
         var targetOffset = (Vector2)bounds.center - (Vector2)this.target.position;

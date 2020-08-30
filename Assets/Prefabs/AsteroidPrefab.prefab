@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2438610178736772583}
   - component: {fileID: 1323492281585380605}
   - component: {fileID: 3943400424216723535}
+  - component: {fileID: 7657101580584554705}
   m_Layer: 0
   m_Name: AsteroidPrefab
   m_TagString: Untagged
@@ -125,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0.55
+  dayPeriod: 0
   ringEnabled: 0
   ringRadiusFactor: 1.5
   ringWidthFactor: 0.5
@@ -140,5 +142,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67546db15602b0845a4fb272be8d7c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7657101580584554705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1d049a36ef48d4283a5b932fd3a8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

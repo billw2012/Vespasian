@@ -23,6 +23,7 @@ public class SimManager : MonoBehaviour
         public GravitySource g;
         public float radius;
         public float maxForce;
+        public float distance; // Distance when it was strongest SOI along the simulated path
     }
 
     [HideInInspector]
@@ -100,7 +101,7 @@ public class SimManager : MonoBehaviour
                 orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
             }
 
-            var bestSoi = new SphereOfInfluence { maxForce = 0 };
+            var bestSoi = new SphereOfInfluence { maxForce = 0, distance = this.pathLength };
             var forceTotal = Vector3.zero;
 
             foreach (var g in this.owner.simGravitySources)
@@ -112,6 +113,7 @@ public class SimManager : MonoBehaviour
                     bestSoi.radius = Vector3.Distance(this.position, position);
                     bestSoi.maxForce = force.magnitude;
                     bestSoi.g = g.from;
+                    bestSoi.distance = this.pathLength;
                 }
                 forceTotal += force;
             }
@@ -127,6 +129,7 @@ public class SimManager : MonoBehaviour
                 {
                     lastSoi.maxForce = Mathf.Max(lastSoi.maxForce, bestSoi.maxForce);
                     lastSoi.radius = Mathf.Max(lastSoi.radius, bestSoi.radius);
+                    lastSoi.distance = this.pathLength;
                 }
                 else
                 {
