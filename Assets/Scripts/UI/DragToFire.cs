@@ -46,14 +46,14 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     void Update()
     {
-        this.playerMovement.velocity = this.GetVelocity();
-        this.playerMovement.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerMovement.velocity);
+        this.playerMovement.startVelocity = this.GetVelocity();
+        this.playerMovement.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerMovement.startVelocity);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         this.playerMovement.enabled = true;
-        this.playerMovement.velocity = this.GetVelocity();
+        this.playerMovement.startVelocity = this.GetVelocity();
         this.playerLogic.enabled = true;
         this.enabled = false;
     }

@@ -19,6 +19,8 @@ public class SimMovement : MonoBehaviour
     SectionedSimPath path;
     Vector3 force = Vector3.zero;
 
+    public LineRenderer pathRenderer;
+
     void OnValidate()
     {
         Assert.IsNotNull(this.constants);
@@ -42,7 +44,6 @@ public class SimMovement : MonoBehaviour
         this.force += force;
     }
 
-
     public void SimUpdate(float simTime, float dt)
     {
         //var position = this.path.GetPosition(simTime);
@@ -58,6 +59,13 @@ public class SimMovement : MonoBehaviour
         //}
 
         this.path.Step(simTime, this.force);
+
+        if(this.pathRenderer != null)
+        {
+            var path = this.path.GetFullPath().ToArray();
+            this.pathRenderer.positionCount = path.Length;
+            this.pathRenderer.SetPositions(path);
+        }
 
         //this.velocity += this.force * dt;
         this.force = Vector3.zero;

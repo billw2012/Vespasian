@@ -80,26 +80,26 @@ public class FollowCameraController : MonoBehaviour
         // Combine spheres of influence from sim path and points of interest from scene
         // Both use distance metric, but distance for SOIs is measured along the simulated path
         // and distance for basic POIs is measured from player
-        var pointsOfInterest = this.simManager.sois
-            .Select(i => new PointOfInterest(i.g.position, i.g.transform.localScale, i.distance))
-            .Concat(this.scenePointsOfInterest.Select(i => new PointOfInterest(i.transform.position, i.size, Vector3.Distance(i.transform.position, this.target.position))))
-            .OrderBy(i => i.distance); // Sort by ascending distance
+        //var pointsOfInterest = this.simManager.sois
+        //    .Select(i => new PointOfInterest(i.g.position, i.g.transform.localScale, i.distance))
+        //    .Concat(this.scenePointsOfInterest.Select(i => new PointOfInterest(i.transform.position, i.size, Vector3.Distance(i.transform.position, this.target.position))))
+        //    .OrderBy(i => i.distance); // Sort by ascending distance
 
         // Determining which pois to use:
         // keep adding pois until their bounding box exceeds the camera inner area available
 
         var cameraArea = WorldCameraArea();
         var bounds = new Bounds((Vector2)this.target.position, Vector2.one * this.margin);
-        foreach (var poi in pointsOfInterest)
-        {
-            var expandedBounds = bounds;
-            expandedBounds.Encapsulate(new Bounds((Vector2)poi.position, (Vector2)poi.fullSize));
-            if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
-            {
-                break;
-            }
-            bounds = expandedBounds;
-        }
+        //foreach (var poi in pointsOfInterest)
+        //{
+        //    var expandedBounds = bounds;
+        //    expandedBounds.Encapsulate(new Bounds((Vector2)poi.position, (Vector2)poi.fullSize));
+        //    if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
+        //    {
+        //        break;
+        //    }
+        //    bounds = expandedBounds;
+        //}
 
         var targetOffset = (Vector2)bounds.center - (Vector2)this.target.position;
 

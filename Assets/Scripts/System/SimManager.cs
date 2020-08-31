@@ -29,7 +29,7 @@ public class SimManager : MonoBehaviour
     // Task representing the current instance of the player sim path update task
     //Task updatingPathTask = null;
 
-    SimModel model = null;
+    SimModel model = new SimModel();
 
     void OnValidate()
     {
@@ -55,7 +55,7 @@ public class SimManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        this.DelayedInit();
+        this.model.DelayedInit();
 
         float dt = Time.fixedDeltaTime * this.constants.GameSpeedBase;
         this.simTime += dt;
@@ -82,11 +82,6 @@ public class SimManager : MonoBehaviour
 
     void DelayedInit()
     {
-        if (this.model != null)
-            return;
-
-        this.model = new SimModel();
-
         //this.radius = this.player.GetComponentInChildren<MeshRenderer>().bounds.extents.x;
     }
 
@@ -217,13 +212,13 @@ public class SimModel
     }
 
     // Real Orbits for updating
-    readonly public List<Orbit> orbits;
+    public List<Orbit> orbits;
 
     // Orbit parameters of all simulated bodies
-    readonly List<SimOrbit> simOrbits;
+    List<SimOrbit> simOrbits;
 
     // Gravity parameters of all simulated bodies
-    readonly List<SimGravity> simGravitySources;
+    List<SimGravity> simGravitySources;
 
     #region SimState
     // Represents the current state of a simulation
@@ -319,8 +314,13 @@ public class SimModel
     }
     #endregion
 
-    public SimModel()
+    public void DelayedInit()
     {
+        if(this.orbits != null)
+        {
+            return;
+        }
+
         var allOrbits = GameObject.FindObjectsOfType<Orbit>();
         this.orbits = new List<Orbit>();
         var orbitStack = new Stack<Orbit>(allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == null));
@@ -370,6 +370,8 @@ public class SimModel
 
     public ForceInfo CalculateForce(float time, Vector3 position, float gravitationalConstant, float gravitationalRescaling)
     {
+        this.DelayedInit();
+
         var orbitPositions = new Vector3[this.simOrbits.Count];
 
         for (int i = 0; i < this.simOrbits.Count; i++)
@@ -415,6 +417,8 @@ public class SimModel
 
     public async Task<SimPath> CalculateSimPath(Vector3 position, Vector3 velocity, float startTime, float timeStep, int steps, float collisionRadius, float gravitationalConstant, float gravitationalRescaling)
     {
+        this.DelayedInit();
+
         var state = new SimState(
             owner: this,
             startPosition: position,
@@ -450,7 +454,6 @@ public class SectionedSimPath
 
     readonly SimModel model;
     readonly float targetLength;
-    readonly float queuedLength = 0;
     readonly int sectionSteps;
     readonly float dt;
     readonly float gravitationalConstant;
@@ -461,6 +464,11 @@ public class SectionedSimPath
     bool sectionIsQueued = false;
     SimPath lastValidPathSection = null;
     bool restartPath = true;
+
+    public IEnumerable<Vector3> GetFullPath()
+    {
+        return pathSections.SelectMany(p => p.path);
+    }
 
     public SectionedSimPath(SimModel model, float startSimTime, Vector3 startPosition, Vector3 startVelocity, float targetLength, float dt, float gravitationalConstant, float gravitationalRescaling, int sectionSteps = 100)
     {
@@ -496,7 +504,7 @@ public class SectionedSimPath
         else
         {
             // Hopefully we will never hit this for more than a frame
-            this.velocity += this.model.CalculateForce(this.simTime, this.position, this.gravitationalConstant, this.gravitationalRescaling).rescaledTotalForce;
+            this.velocity += this.model.CalculateForce(this.simTime, this.position, this.gravitationalConstant, this.gravitationalRescaling).rescaledTotalForce * this.dt;
             this.velocity += force * this.dt;
             this.position += this.velocity * this.dt;
             this.restartPath = true;
@@ -536,7 +544,7 @@ public class SectionedSimPath
         this.pathSections = this.pathSections
             .Where(p => p.timeEnd <= newSection.timeStart)
             .Concat(new[] { newSection })
-            .Concat(this.pathSections.Where(p => p.timeStart <= newSection.timeEnd)).ToList();
+            .Concat(this.pathSections.Where(p => p.timeStart >= newSection.timeEnd)).ToList();
         this.lastValidPathSection = newSection;
 
         this.sectionIsQueued = false;

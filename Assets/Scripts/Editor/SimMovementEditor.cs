@@ -110,7 +110,7 @@ public class SimMovementEditor : Editor
                 simMovement.startVelocity,
                 0,
                 Time.fixedDeltaTime * simMovement.constants.GameSpeedBase,
-                500,
+                5000,
                 0,
                 simMovement.constants.GravitationalConstant,
                 simMovement.constants.GravitationalRescaling
