@@ -18,7 +18,7 @@ public class TargetArrow : MonoBehaviour
         {
             this.target = GameObject.Find("Target");
         }
-        Assert.IsNotNull(this.target);
+        //Assert.IsNotNull(this.target);
         this.image = this.GetComponent<TextMeshProUGUI>();
         Assert.IsNotNull(this.image);
     }
@@ -26,6 +26,12 @@ public class TargetArrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(this.target == null)
+        {
+            this.image.enabled = false;
+            return;
+        }
+
         //var targetScreenPos = (Vector2)Camera.main.WorldToScreenPoint(this.target.transform.position);
         var targetCanvasPosition = this.image.canvas.WorldToCanvasPosition(this.target.transform.position);
 
