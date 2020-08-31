@@ -13,12 +13,6 @@ public struct GravityParameters
     public float density;
     [Tooltip("Mass, if less than zero then it will be automatically calculated based on density and radius"), Range(0, 50)]
     public float mass;
-
-    public static Vector3 CalculateForce(Vector3 from, Vector3 to, float toMass, float gravitationalConstant)
-    {
-        var vec = to - from;
-        return vec.normalized * gravitationalConstant * toMass / Mathf.Pow(vec.magnitude, 2);
-    }
 }
 
 public class GravitySource : MonoBehaviour {

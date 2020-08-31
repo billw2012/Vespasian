@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,16 +10,14 @@ public class SimMovement : MonoBehaviour
 
     public bool alignToVelocity = true;
 
-    [HideInInspector]
-    public Vector3 velocity = Vector3.zero;
+    public Vector3 startVelocity;
 
-    [HideInInspector]
-    // Tracks correct simulated position, as rigid body is not perfectly matching the SimManager generated paths
-    public Vector3 simPosition;
+    public Vector3 simPosition => this.path.position;
+    public Vector3 velocity => this.path.velocity;
+    //GravitySource[] gravitySources;
 
+    SectionedSimPath path;
     Vector3 force = Vector3.zero;
-
-    GravitySource[] gravitySources;
 
     void OnValidate()
     {
@@ -28,8 +28,13 @@ public class SimMovement : MonoBehaviour
     {
         this.OnValidate();
 
-        this.gravitySources = GravitySource.All();
-        this.simPosition = this.transform.position;
+        var simManager = FindObjectOfType<SimManager>();
+        Assert.IsNotNull(simManager);
+
+        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 100);
+
+        //this.gravitySources = GravitySource.All();
+        //this.simPosition = this.transform.position;
     }
 
     public void AddForce(Vector3 force)
@@ -37,10 +42,29 @@ public class SimMovement : MonoBehaviour
         this.force += force;
     }
 
-    public void SimUpdate()
+
+    public void SimUpdate(float simTime, float dt)
     {
-        this.velocity += (this.force + this.GetGravityForce(this.simPosition)) * Time.fixedDeltaTime;
-        this.simPosition += this.velocity * Time.fixedDeltaTime;
+        //var position = this.path.GetPosition(simTime);
+
+        //if (position != null)
+        //{
+        //    this.velocity = position.Value - this.simPosition;
+        //    this.simPosition = position.Value;
+        //}
+        //else
+        //{
+        //    this.simPosition += this.velocity * dt;
+        //}
+
+        this.path.Step(simTime, this.force);
+
+        //this.velocity += this.force * dt;
+        this.force = Vector3.zero;
+
+        //Vector3 direction;
+        //this.velocity += (this.force + this.GetGravityForce(this.simPosition)) * dt;
+        //this.simPosition += this.velocity * dt;
 
         var rigidBody = this.GetComponent<Rigidbody>();
         this.GetComponent<Rigidbody>().MovePosition(this.simPosition);
@@ -59,17 +83,35 @@ public class SimMovement : MonoBehaviour
 
             rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
         }
-
-        this.force = Vector3.zero;
     }
 
-    Vector3 GetGravityForce(Vector3 pos)
-    {
-        var force = Vector3.zero;
-        foreach(var g in this.gravitySources)
-        {
-            force += GravityParameters.CalculateForce(pos, g.position, g.parameters.mass, this.constants.GravitationalConstant);
-        }
-        return force;
-    }
+    //Vector3 GetGravityForce(Vector3 pos)
+    //{
+    //    var forces = new List<Vector3>(this.gravitySources.Length);
+
+    //    float maxForce = 0;
+    //    int primary = 0;
+    //    for (int i = 0; i < this.gravitySources.Length; i++)
+    //    {
+    //        var force = OrbitalUtils.CalculateForce(g.position - pos, g.parameters.mass, this.constants.GravitationalConstant);
+    //        forces.Add(force);
+    //        float forceMag = force.magnitude;
+    //        if (forceMag > maxForce)
+    //        {
+    //            maxForce = forceMag;
+    //            primary = i;
+    //        }
+    //    }
+
+    //    var forceTotal = Vector3.zero;
+    //    for (int i = 0; i < forces.Count; i++)
+    //    {
+    //        this.gravitySources[primary].par
+    //    }
+    //    foreach (var force in forces)
+    //    {
+    //        forceTotal += force; //.normalized * maxForce * Mathf.Pow(force.magnitude / maxForce, this.constants.GravitationalRescaling);
+    //    }
+    //    return forceTotal;
+    //}
 }

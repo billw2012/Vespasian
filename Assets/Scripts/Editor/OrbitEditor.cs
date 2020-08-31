@@ -35,7 +35,7 @@ public class OrbitEditor : Editor
 
             var handlePos = angleRot * (Vector3.right * (orbit.parameters.periapsis + 3f));
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"periapsis: {orbit.parameters.periapsis:0.0}\nangle: {orbit.parameters.angle:0.0}°");
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"periapsis: {orbit.parameters.periapsis:0.0}\nangle: {orbit.parameters.angle:0.0}°\nshift = set eccentricity\nctrl = set angle");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 handlePos,
@@ -76,7 +76,7 @@ public class OrbitEditor : Editor
 
             var handlePos = angleRot * (Vector3.left * (orbit.parameters.apoapsis + 3f));
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"apoapsis: {orbit.parameters.apoapsis:0.0}\neccentricity: {orbit.parameters.eccentricity}");
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"apoapsis: {orbit.parameters.apoapsis:0.0}\neccentricity: {orbit.parameters.eccentricity}\nctrl = set angle");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 handlePos,

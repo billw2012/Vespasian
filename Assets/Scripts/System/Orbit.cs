@@ -82,10 +82,6 @@ public struct OrbitParameters
         {
             return (x % m + m) % m;
         }
-        static float ModPositive(float x, float m)
-        {
-            return (x % m + m) % m;
-        }
 
         public Vector3 GetPosition(float t)
         {

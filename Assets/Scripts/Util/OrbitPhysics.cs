@@ -6,6 +6,11 @@ using UnityEngine.Assertions;
 
 public static class OrbitalUtils
 {
+    public static Vector3 CalculateForce(Vector3 vec, float M, float G)
+    {
+        return vec.normalized * G * M / Mathf.Pow(vec.magnitude, 2);
+    }
+
     public static float SemiMajorAxis(float periapsis, float apoapsis)
     {
         return (periapsis + apoapsis) / 2f;
@@ -72,17 +77,17 @@ public static class ODE
 // https://evgenii.com/blog/earth-orbit-simulation/
 public class OrbitPhysics
 {
-    public readonly float periapsis; // nearest distance to primary
-    public readonly float apoapsis; // farthest distance to primary
-    public readonly float mass; // mass of primary
-    public readonly float G; // gravitational constant
+    readonly float periapsis; // nearest distance to primary
+    readonly float apoapsis; // farthest distance to primary
+    readonly float mass; // mass of primary
+    readonly float G; // gravitational constant
 
-    public float semiMajorAxis => OrbitalUtils.SemiMajorAxis(this.periapsis, this.apoapsis);
+    float semiMajorAxis => OrbitalUtils.SemiMajorAxis(this.periapsis, this.apoapsis);
     public float period => OrbitalUtils.OrbitalPeriod(this.semiMajorAxis, this.mass, this.G);
 
     public bool valid => this.periapsis > 0 && this.apoapsis >= this.periapsis && this.mass > 0 && this.G > 0;
 
-    public Vector2 GetPosition() => new Vector2(Mathf.Cos(this.u[Angle]), Mathf.Sin(this.u[Angle])) * this.u[Distance];
+    public Vector2 GetPosition() => new Vector2(Mathf.Cos(this.u[Angle]), Mathf.Sin(this.u[Angle])) * this.distance;
 
     public float distance => this.u[Distance];
     public float angle => this.u[Angle] * Mathf.Rad2Deg;
@@ -117,7 +122,7 @@ public class OrbitPhysics
             dx[Angle] = x[AngularVelocity]; // derivative of angle is angular velocity
             dx[Distance] = x[Speed]; // derivative of distance is speed
             dx[AngularVelocity] = - 2f * x[Speed] * x[AngularVelocity] / x[Distance];
-            dx[Speed] = x[Distance] * Mathf.Pow(x[AngularVelocity], 2) - G * mass / Mathf.Pow(x[Distance], 2);
+            dx[Speed] = x[Distance] * Mathf.Pow(x[AngularVelocity], 2) - this.G * this.mass / Mathf.Pow(x[Distance], 2);
             return dx;
         }
 

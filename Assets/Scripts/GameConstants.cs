@@ -3,9 +3,10 @@ using UnityEngine;
 [CreateAssetMenu]
 public class GameConstants : ScriptableObject
 {
-    public float GravitationalConstant = 5.0f;
+    public float GravitationalConstant = 1.0f;
+    public float GravitationalRescaling = 2.0f;
 
-    public float SimStepDt = 0.05f;
+    public float GameSpeedBase = 1f;
     public float SimDistanceLimit = 100f;
 
     public float FuelUse = 0.1f;

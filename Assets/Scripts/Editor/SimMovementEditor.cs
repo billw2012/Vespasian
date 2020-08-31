@@ -7,7 +7,7 @@ using UnityEngine;
 public class SimMovementEditor : Editor
 {
     SimModel simModel;
-    Task<SimModel.SimState> simTask;
+    Task<SimPath> simTask;
 
     Vector3[] currPath;
     bool crashed;
@@ -21,9 +21,9 @@ public class SimMovementEditor : Editor
 
         float uiScale = HandleUtility.GetHandleSize(simMovement.transform.position) * 0.2f;
 
-        Handles.Label(simMovement.transform.position + (Vector3.right * 0.2f + Vector3.up) + simMovement.velocity * 0.5f, $"{simMovement.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
+        Handles.Label(simMovement.transform.position + (Vector3.right * 0.2f + Vector3.up) + simMovement.startVelocity * 0.5f, $"{simMovement.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
 
-        if (this.currPath != null)
+        if (this.currPath != null && this.currPath.Length > 1)
         {
             Handles.DrawLines(this.currPath);
             if(this.crashed)
@@ -40,9 +40,10 @@ public class SimMovementEditor : Editor
             Handles.color = Color.magenta;
             Handles.matrix = Matrix4x4.Translate(simMovement.transform.position - simMovement.transform.right * uiScale * 1);
 
-            var handlePos = simMovement.velocity * 4f;
+            float scale = simMovement.constants.GameSpeedBase * 4f;
+            var handlePos = simMovement.startVelocity * scale;
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"velocity: {simMovement.velocity}\nshift = lock angle\nctrl = lock magnitude");
+            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"velocity: {simMovement.startVelocity}\nshift = lock angle\nctrl = lock magnitude");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 handlePos,
@@ -51,13 +52,13 @@ public class SimMovementEditor : Editor
                 Vector3.up,
                 uiScale * 0.5f,
                 Handles.CircleHandleCap,
-                Vector2.zero) / 4f;
+                Vector2.zero) / scale;
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(this.target, "Changed velocity");
                 if (Event.current.control)
                 {
-                    simMovement.velocity = newValue.normalized * simMovement.velocity.magnitude;
+                    simMovement.startVelocity = newValue.normalized * simMovement.startVelocity.magnitude;
                     if (simMovement.alignToVelocity)
                     {
                         simMovement.transform.localRotation = Quaternion.FromToRotation(Vector3.up, newValue);
@@ -65,11 +66,11 @@ public class SimMovementEditor : Editor
                 }
                 else if(Event.current.shift)
                 {
-                    simMovement.velocity = simMovement.transform.up * newValue.magnitude;
+                    simMovement.startVelocity = simMovement.transform.up * newValue.magnitude;
                 }
                 else
                 {
-                    simMovement.velocity = newValue;
+                    simMovement.startVelocity = newValue;
                     if (simMovement.alignToVelocity)
                     {
                         simMovement.transform.localRotation = Quaternion.FromToRotation(Vector3.up, newValue);
@@ -90,7 +91,7 @@ public class SimMovementEditor : Editor
                 path = path.Take(path.Count() - 1);
             }
             this.currPath = path.ToArray();
-            this.crashed = this.simTask.Result.crashed;
+            this.crashed = false; // this.simTask.Result.crashed;
             this.simTask = null;
         }
         else if(this.simTask?.Status == TaskStatus.Faulted)
@@ -104,14 +105,16 @@ public class SimMovementEditor : Editor
             {
                 this.simModel = new SimModel();
             }
-            this.simTask = this.simModel.CalculateSimState(
+            this.simTask = this.simModel.CalculateSimPath(
                 simMovement.transform.position,
-                simMovement.velocity,
+                simMovement.startVelocity,
                 0,
-                Time.fixedDeltaTime,
-                1000,
+                Time.fixedDeltaTime * simMovement.constants.GameSpeedBase,
+                500,
                 0,
-                simMovement.constants.GravitationalConstant);
+                simMovement.constants.GravitationalConstant,
+                simMovement.constants.GravitationalRescaling
+            );
         }
     }
 }
