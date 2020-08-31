@@ -643,8 +643,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
-  pathRenderer: {fileID: 4538521789459465360}
-  warningSign: {fileID: 7532287019744066019}
   simTime: 0
 --- !u!120 &4538521789459465360
 LineRenderer:
@@ -3895,7 +3893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7532287019744066020
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4500,6 +4498,11 @@ PrefabInstance:
       propertyPath: simManager
       value: 
       objectReference: {fileID: 4538521789459465363}
+    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: simMovement
+      value: 
+      objectReference: {fileID: 5889573712058656243}
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4653,6 +4656,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ce0cb700702fb54e8033e7612549479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5889573712058656243 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 470503325313159492, guid: 2155780610961ba48b4847e56576da67,
+    type: 3}
+  m_PrefabInstance: {fileID: 6286013933565408439}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24106d275949ef144842685378f94955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4949847774559043621 stripped

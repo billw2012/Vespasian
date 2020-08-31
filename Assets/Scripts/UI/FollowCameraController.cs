@@ -18,9 +18,11 @@ public class FollowCameraController : MonoBehaviour
     [Tooltip("How much space to keep within the target and the screen edge"), Range(0f, 10f)]
     public float margin = 2f;
 
+    [Tooltip("What the camera should follow (required)")]
     public Transform target;
 
-    public SimManager simManager;
+    [Tooltip("The SimMomement component of the target for SOI focus (optional)")]
+    public SimMovement simMovement;
 
     Vector2 offset;
     Vector2 offsetVelocity;
@@ -31,7 +33,6 @@ public class FollowCameraController : MonoBehaviour
     void Start()
     {
         Assert.IsNotNull(this.target);
-        Assert.IsNotNull(this.simManager);
 
         this.initialCameraSize = Camera.main.orthographicSize;
 
@@ -54,52 +55,41 @@ public class FollowCameraController : MonoBehaviour
         return new Rect(center - tr, (tr - center) * 2);
     }
 
-    //Vector3 GetTrackedPathFocusPoint()
-    //{
-    //    // focus formula:
-    //    // 
-
-    //}
-
-    // Used locally for sorting
-    struct PointOfInterest
-    {
-        public Vector3 position;
-        public Vector3 fullSize;
-        public float distance; // For sorting
-        public PointOfInterest(Vector3 pos, Vector3 size, float dist)
-        {
-            this.position = pos;
-            this.fullSize = size;
-            this.distance = dist;
-        }
-    }
-
     void Update()
     {
         // Combine spheres of influence from sim path and points of interest from scene
         // Both use distance metric, but distance for SOIs is measured along the simulated path
         // and distance for basic POIs is measured from player
-        //var pointsOfInterest = this.simManager.sois
-        //    .Select(i => new PointOfInterest(i.g.position, i.g.transform.localScale, i.distance))
-        //    .Concat(this.scenePointsOfInterest.Select(i => new PointOfInterest(i.transform.position, i.size, Vector3.Distance(i.transform.position, this.target.position))))
-        //    .OrderBy(i => i.distance); // Sort by ascending distance
+        var pointsOfInterest = this.scenePointsOfInterest.Select(i => (
+                position: i.transform.position,
+                size: i.size,
+                distance: Vector3.Distance(i.transform.position, this.target.position)
+             ));
+        if (this.simMovement != null)
+        {
+            pointsOfInterest = pointsOfInterest.Concat(
+                this.simMovement.sois.Select(i => (
+                    position: i.g.position,
+                    size: i.g.transform.localScale,
+                    distance: Vector3.Distance(i.g.position, this.target.position)
+                )));
+        }
 
         // Determining which pois to use:
         // keep adding pois until their bounding box exceeds the camera inner area available
 
         var cameraArea = WorldCameraArea();
         var bounds = new Bounds((Vector2)this.target.position, Vector2.one * this.margin);
-        //foreach (var poi in pointsOfInterest)
-        //{
-        //    var expandedBounds = bounds;
-        //    expandedBounds.Encapsulate(new Bounds((Vector2)poi.position, (Vector2)poi.fullSize));
-        //    if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
-        //    {
-        //        break;
-        //    }
-        //    bounds = expandedBounds;
-        //}
+        foreach (var poi in pointsOfInterest.OrderBy(i => i.distance))
+        {
+            var expandedBounds = bounds;
+            expandedBounds.Encapsulate(new Bounds((Vector2)poi.position, (Vector2)poi.size));
+            if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
+            {
+                break;
+            }
+            bounds = expandedBounds;
+        }
 
         var targetOffset = (Vector2)bounds.center - (Vector2)this.target.position;
 

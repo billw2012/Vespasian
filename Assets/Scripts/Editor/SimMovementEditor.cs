@@ -91,7 +91,7 @@ public class SimMovementEditor : Editor
                 path = path.Take(path.Count() - 1);
             }
             this.currPath = path.ToArray();
-            this.crashed = false; // this.simTask.Result.crashed;
+            this.crashed = this.simTask.Result.crashed; // this.simTask.Result.crashed;
             this.simTask = null;
         }
         else if(this.simTask?.Status == TaskStatus.Faulted)
@@ -109,9 +109,9 @@ public class SimMovementEditor : Editor
                 simMovement.transform.position,
                 simMovement.startVelocity,
                 0,
-                Time.fixedDeltaTime * simMovement.constants.GameSpeedBase,
+                Time.fixedDeltaTime,
                 5000,
-                0,
+                1,
                 simMovement.constants.GravitationalConstant,
                 simMovement.constants.GravitationalRescaling
             );

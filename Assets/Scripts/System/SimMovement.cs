@@ -2,24 +2,30 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SimMovement : MonoBehaviour
 {
     public GameConstants constants;
 
+    public Vector3 startVelocity;
     public bool alignToVelocity = true;
 
-    public Vector3 startVelocity;
+    [Tooltip("Used to render the simulated path")]
+    public LineRenderer pathRenderer;
+
+    [Tooltip("Used to indicate a predicted crash")]
+    public GameObject warningSign;
 
     public Vector3 simPosition => this.path.position;
     public Vector3 velocity => this.path.velocity;
-    //GravitySource[] gravitySources;
+
+    [HideInInspector]
+    public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
 
     SectionedSimPath path;
     Vector3 force = Vector3.zero;
-
-    public LineRenderer pathRenderer;
 
     void OnValidate()
     {
@@ -33,10 +39,16 @@ public class SimMovement : MonoBehaviour
         var simManager = FindObjectOfType<SimManager>();
         Assert.IsNotNull(simManager);
 
-        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 100);
+        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 100, this.transform.localScale.x, 1000);
+    }
 
-        //this.gravitySources = GravitySource.All();
-        //this.simPosition = this.transform.position;
+    void Update()
+    {
+        if (this.pathRenderer != null)
+        {
+            this.UpdatePath();
+            this.UpdatePathWidth();
+        }
     }
 
     public void AddForce(Vector3 force)
@@ -44,35 +56,11 @@ public class SimMovement : MonoBehaviour
         this.force += force;
     }
 
-    public void SimUpdate(float simTime, float dt)
+    public void SimUpdate(float simTime)
     {
-        //var position = this.path.GetPosition(simTime);
-
-        //if (position != null)
-        //{
-        //    this.velocity = position.Value - this.simPosition;
-        //    this.simPosition = position.Value;
-        //}
-        //else
-        //{
-        //    this.simPosition += this.velocity * dt;
-        //}
-
         this.path.Step(simTime, this.force);
 
-        if(this.pathRenderer != null)
-        {
-            var path = this.path.GetFullPath().ToArray();
-            this.pathRenderer.positionCount = path.Length;
-            this.pathRenderer.SetPositions(path);
-        }
-
-        //this.velocity += this.force * dt;
         this.force = Vector3.zero;
-
-        //Vector3 direction;
-        //this.velocity += (this.force + this.GetGravityForce(this.simPosition)) * dt;
-        //this.simPosition += this.velocity * dt;
 
         var rigidBody = this.GetComponent<Rigidbody>();
         this.GetComponent<Rigidbody>().MovePosition(this.simPosition);
@@ -93,33 +81,48 @@ public class SimMovement : MonoBehaviour
         }
     }
 
-    //Vector3 GetGravityForce(Vector3 pos)
-    //{
-    //    var forces = new List<Vector3>(this.gravitySources.Length);
+    void UpdatePathWidth()
+    {
+        //this.pathRenderer.startWidth = 0;
+        //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
+        // Fixed width line in screen space:
+        this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth;
+    }
 
-    //    float maxForce = 0;
-    //    int primary = 0;
-    //    for (int i = 0; i < this.gravitySources.Length; i++)
-    //    {
-    //        var force = OrbitalUtils.CalculateForce(g.position - pos, g.parameters.mass, this.constants.GravitationalConstant);
-    //        forces.Add(force);
-    //        float forceMag = force.magnitude;
-    //        if (forceMag > maxForce)
-    //        {
-    //            maxForce = forceMag;
-    //            primary = i;
-    //        }
-    //    }
+    void UpdatePath()
+    {
+        var fullPath = this.path.GetFullPath().ToArray();
 
-    //    var forceTotal = Vector3.zero;
-    //    for (int i = 0; i < forces.Count; i++)
-    //    {
-    //        this.gravitySources[primary].par
-    //    }
-    //    foreach (var force in forces)
-    //    {
-    //        forceTotal += force; //.normalized * maxForce * Mathf.Pow(force.magnitude / maxForce, this.constants.GravitationalRescaling);
-    //    }
-    //    return forceTotal;
-    //}
+        // Resume in main thread
+        this.pathRenderer.positionCount = fullPath.Length;
+        this.pathRenderer.SetPositions(fullPath.ToArray());
+        this.sois = this.path.GetFullPathSOIs().ToList();
+        //this.pathLength = state.pathLength;
+
+        if (this.warningSign != null)
+        {
+            if (this.path.crashed && fullPath.Length > 0)
+            {
+                var canvas = this.warningSign.GetComponent<Graphic>().canvas;
+                if (canvas != null)
+                {
+                    this.warningSign.SetActive(true);
+                    var rectTransform = this.warningSign.GetComponent<RectTransform>();
+                    var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
+                    var targetCanvasPosition = canvas.WorldToCanvasPosition(fullPath.Last());
+                    var clampArea = new Rect(
+                        canvasSafeArea.x - rectTransform.rect.x,
+                        canvasSafeArea.y - rectTransform.rect.y,
+                        canvasSafeArea.width - rectTransform.rect.width,
+                        canvasSafeArea.height - rectTransform.rect.height
+                    );
+                    rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
+                }
+            }
+            else
+            {
+                this.warningSign.SetActive(false);
+            }
+        }
+    }
 }
