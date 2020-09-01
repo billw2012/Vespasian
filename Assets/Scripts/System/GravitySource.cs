@@ -11,7 +11,7 @@ public struct GravityParameters
 {
     [Tooltip("Density used if auto-calculating the mass from the radius"), Range(0, 1)]
     public float density;
-    [Tooltip("Mass, if less than zero then it will be automatically calculated based on density and radius"), Range(0, 50)]
+    [Tooltip("Mass, if less than zero then it will be automatically calculated based on density and radius"), Range(0, 500)]
     public float mass;
 }
 
