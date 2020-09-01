@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototyping/TutorialGravityTurn1.unity
     guid: 43fa066860400784db005af657e441f2
-  - enabled: 0
-    path: Assets/Scenes/Prototyping/TestScene.unity
-    guid: cc68751b19e4c15428f58d4f212d73eb
-  - enabled: 0
-    path: Assets/Scenes/Prototyping/Test1Scene.unity
-    guid: f27b7f25922341d43b2c9074a5b21455
-  - enabled: 0
-    path: Assets/Scenes/Prototyping/BinarySystemScene.unity
-    guid: 68413fe7b5db6f24380ce3c2f5f0530c
+  - enabled: 1
+    path: Assets/Scenes/Prototyping/TutorialOrbitalMenauvers1.unity
+    guid: 599e638fe6bc6ef4889f9aaa501d7932
+  - enabled: 1
+    path: Assets/Scenes/Prototyping/TutorialGravityAssist1.unity
+    guid: 1b0b0b3fcbaca2a41991043ba13df0c6
+  - enabled: 1
+    path: Assets/Scenes/Prototyping/TutorialOrbit1.unity
+    guid: 2dc906c8163388f488fed116e54ed238
   m_configObjects: {}
