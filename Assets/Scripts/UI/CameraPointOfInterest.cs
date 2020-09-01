@@ -23,16 +23,17 @@ public class CameraPointOfInterest : MonoBehaviour
     /*
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     */
 
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (this.pointType == PointType.box)
@@ -42,6 +43,7 @@ public class CameraPointOfInterest : MonoBehaviour
             Handles.Label(transform.position, "Cam. Box Of Interest");
         }
     }
+    #endif
 
     public Vector3 size
     {

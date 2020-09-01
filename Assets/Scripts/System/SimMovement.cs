@@ -97,7 +97,6 @@ public class SimMovement : MonoBehaviour
         this.pathRenderer.positionCount = fullPath.Length;
         this.pathRenderer.SetPositions(fullPath.ToArray());
         this.sois = this.path.GetFullPathSOIs().ToList();
-        //this.pathLength = state.pathLength;
 
         if (this.warningSign != null)
         {

@@ -23,8 +23,16 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         this.playerLogic = FindObjectOfType<PlayerLogic>();
         this.playerMovement = FindObjectOfType<SimMovement>();
 
-        this.playerLogic.enabled = false;
-        this.playerMovement.enabled = false;
+        if (this.playerMovement.startVelocity.magnitude > 0)
+        {
+            Debug.Log("Disabling DragToFire as player simMovement startVelocity is not zero");
+            this.enabled = false;
+        }
+        else
+        {
+            this.playerLogic.enabled = false;
+            this.playerMovement.enabled = false;
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
