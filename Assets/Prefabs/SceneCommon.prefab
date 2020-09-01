@@ -1390,8 +1390,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_rightThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputRight
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1405,8 +1405,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_rightThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputRight
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2352,8 +2352,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_forwardThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputForward
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2367,8 +2367,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_forwardThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputForward
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2738,8 +2738,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_forwardThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputForward
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2753,8 +2753,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_forwardThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputForward
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3419,8 +3419,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_rightThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputRight
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3434,8 +3434,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: set_rightThrust
+        - m_Target: {fileID: 4538521788195604904}
+          m_MethodName: set_thrustInputRight
           m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
