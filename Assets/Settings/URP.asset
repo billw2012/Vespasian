@@ -17,14 +17,14 @@ MonoBehaviour:
     Event: 500
     blitMaterial: {fileID: 2100000, guid: 0d439bd919acb754099435230811f0fe, type: 2}
     Blur: 0
-    BlurAmount: 1
+    BlurAmount: 0.642
     BlurMask: {fileID: 0}
     Bloom: 1
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 1.6
-    BloomDiffuse: 0.636
-    BloomThreshold: 0.16
-    BloomSoftness: 0
+    BloomAmount: 2.21
+    BloomDiffuse: 0.57
+    BloomThreshold: 0.296
+    BloomSoftness: 0.24
     LUT: 0
     LutAmount: 1
     SourceLut: {fileID: 2800000, guid: 7a637246ababfd248b27222457979084, type: 3}
