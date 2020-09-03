@@ -6,9 +6,11 @@ using UnityEngine;
 public class SunLogic : MonoBehaviour
 {
     public Light childLight;
-    public MeshRenderer mainRenderer;
-    public MeshRenderer glowRenderer;
-    public ParticleSystemRenderer pfxRenderer;
+
+    public Transform geometryTransform;
+    public Transform glowTransform;
+
+    public List<Renderer> renderers = new List<Renderer>();
 
     public Color color = Color.white;
 
@@ -24,55 +26,48 @@ public class SunLogic : MonoBehaviour
     [Tooltip("How far the sun glow spreads"), Range(0, 5)]
     public float glowSpread = 1f;
 
-    MaterialPropertyBlock mainPB;
-    MaterialPropertyBlock glowPB;
-    MaterialPropertyBlock pfxPB;
+    //MaterialPropertyBlock mainPB;
+    //MaterialPropertyBlock glowPB;
+    //MaterialPropertyBlock pfxPB;
+    //MaterialPropertyBlock coronaPB;
 
     void OnValidate()
     {
-        this.Update();
+        this.Refresh();
     }
 
     void Start()
     {
-        this.Update();
+        this.Refresh();
     }
 
-    void Update()
+    void Refresh()
     {
         this.childLight.color = Color.Lerp(Color.white, color, this.lightTintFactor);
-        this.childLight.transform.localPosition = Vector3.back * (this.lightHeight + this.mainRenderer.transform.localScale.z);
+        this.childLight.transform.localPosition = Vector3.back * (this.lightHeight + this.geometryTransform.localScale.z);
+
+        this.glowTransform.localScale = Vector3.one * 40f * this.glowSpread;
 
         Color.RGBToHSV(this.color, out float newH, out _, out _);
 
-        if (this.mainPB == null)
+        //if (this.mainPB == null)
+        //{
+        //this.mainPB = new MaterialPropertyBlock();
+        //this.glowPB = new MaterialPropertyBlock();
+        //this.coronaPB = new MaterialPropertyBlock();
+        //this.pfxPB = new MaterialPropertyBlock();
+        //}
+
+        foreach(var renderer in this.renderers)
         {
-            this.mainPB = new MaterialPropertyBlock();
-            this.glowPB = new MaterialPropertyBlock();
-            this.pfxPB = new MaterialPropertyBlock();
+            var pb = new MaterialPropertyBlock();
+            TweakColor(pb, renderer.sharedMaterial, new[] {
+                "_BaseColor",
+                "_SpecColor",
+                "_EmissionColor",
+            }, this.color);
+            renderer.SetPropertyBlock(pb);
         }
-
-        TweakH(this.mainPB, this.mainRenderer.sharedMaterial, new[] {
-            "_BaseColor",
-            "_SpecColor",
-            "_EmissionColor",
-        }, newH);
-        TweakH(this.glowPB, this.glowRenderer.sharedMaterial, new[] {
-            "_BaseColor",
-            "_SpecColor",
-            "_EmissionColor",
-        }, newH, this.glowIntensity);
-        TweakH(this.pfxPB, this.pfxRenderer.sharedMaterial, new[] {
-            "_BaseColor",
-            "_SpecColor",
-            "_EmissionColor",
-        }, newH);
-
-        this.mainRenderer.SetPropertyBlock(this.mainPB);
-        this.glowRenderer.SetPropertyBlock(this.glowPB);
-        this.pfxRenderer.SetPropertyBlock(this.pfxPB);
-
-        this.glowRenderer.transform.localScale = Vector3.one * 40f * this.glowSpread;
     }
 
     static Color TweakH(Color color, float newH, float newAlpha = 1)
@@ -85,9 +80,16 @@ public class SunLogic : MonoBehaviour
 
     static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH, float newAlpha = 1)
     {
-        foreach (var colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
+        foreach (string colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
         {
             matPB.SetColor(colorProp, TweakH(baseMaterial.GetColor(colorProp), newH, newAlpha));
+        }
+    }
+    static void TweakColor(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, Color newColor)
+    {
+        foreach (string colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
+        {
+            matPB.SetColor(colorProp, newColor);
         }
     }
 

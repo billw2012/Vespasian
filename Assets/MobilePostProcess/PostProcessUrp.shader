@@ -179,11 +179,12 @@
 #ifdef BLOOM
 		half br = max(b.r, max(b.g, b.b));
 		half soft = clamp(br - _BloomData.y, 0.0h, _BloomData.z);
+		//c = half4(soft, soft, soft, 1);
 		b *= max(soft * soft * _BloomData.w, br - _BloomData.x) / max(br, 0.00001h) ;
 #if !defined(UNITY_NO_LINEAR_COLORSPACE)
 		b.rgb *= b.rgb;
 #endif
-		c += b * _BloomColor;
+		c += b * _BloomColor;//+= b * _BloomColor;
 #endif
 
 #ifdef FILTER

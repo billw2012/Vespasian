@@ -3275,6 +3275,26 @@ PrefabInstance:
       propertyPath: parameters.angle
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1147034875936276459, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1147034875936276459, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1147034875936276459, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1147034875936276459, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2343956415427441088, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_Intensity
@@ -3295,6 +3315,11 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2343956415427441088, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2896633096848152199, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_Layer
@@ -3313,17 +3338,37 @@ PrefabInstance:
     - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 34.4
+      value: 41.199997
       objectReference: {fileID: 0}
     - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 34.4
+      value: 41.199997
       objectReference: {fileID: 0}
     - target: {fileID: 4879598060101277175, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 34.4
+      value: 41.199997
+      objectReference: {fileID: 0}
+    - target: {fileID: 5601791397393048469, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5601791397393048469, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5601791397393048469, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5601791397393048469, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5627716558633760033, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
@@ -3398,27 +3443,42 @@ PrefabInstance:
     - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: lightHeight
-      value: 7.2
+      value: 17.9
       objectReference: {fileID: 0}
     - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: glowIntensity
-      value: 0.479
+      value: 0.379
       objectReference: {fileID: 0}
     - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: glowSpread
-      value: 0.86
+      value: 1.03
       objectReference: {fileID: 0}
     - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: lightTintFactor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: color.r
+      value: 0.6037736
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: color.g
+      value: 0.5279647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: color.b
+      value: 0.28764686
+      objectReference: {fileID: 0}
     - target: {fileID: 7359115369874976276, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.33
+      value: -22.029999
       objectReference: {fileID: 0}
     - target: {fileID: 7500456029015867994, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}

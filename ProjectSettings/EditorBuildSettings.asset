@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Prototyping/TestScene.unity
+    guid: cc68751b19e4c15428f58d4f212d73eb
+  - enabled: 1
     path: Assets/Scenes/Prototyping/TutorialGravityTurn1.unity
     guid: 43fa066860400784db005af657e441f2
   - enabled: 1
