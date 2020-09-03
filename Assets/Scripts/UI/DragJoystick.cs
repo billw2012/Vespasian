@@ -3,34 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DragJoystick : MonoBehaviour
 {
-    PlayerLogic player;
-    Vector2 dragStart;
+    PlayerLogic playerLogic;
+    Vector2 posStart;
+    bool dragging = false;
 
     void Start()
     {
-        this.player = FindObjectOfType<PlayerLogic>();
+        this.playerLogic = FindObjectOfType<PlayerLogic>();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    void Update()
     {
-        this.dragStart = eventData.position;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        const float JoystickSizePx = 200;
-
-        var offset = Vector2.ClampMagnitude(eventData.position - this.dragStart, JoystickSizePx) / JoystickSizePx;
-
-        var playerLogic = this.player.GetComponent<PlayerLogic>();
-        playerLogic.thrustInputJoystick = offset;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        var playerLogic = this.player.GetComponent<PlayerLogic>();
-        playerLogic.thrustInputJoystick = Vector2.zero;
+        Debug.Log($"Touch count: {Input.touchCount}");
+        if (Input.touchCount == 1)
+        {
+            var touch = Input.GetTouch(0);
+            if (!this.dragging)
+            {
+                this.posStart = touch.position;
+                this.dragging = true;
+            }
+            const float JoystickSizePx = 200;
+            var offset = Vector2.ClampMagnitude(touch.position - this.posStart, JoystickSizePx) / JoystickSizePx;
+            playerLogic.thrustInputJoystick = offset;
+        }
+        else
+        {
+            if (this.dragging)
+            {
+                this.dragging = false;
+            }
+            playerLogic.thrustInputJoystick = Vector2.zero;
+        }
     }
 }
