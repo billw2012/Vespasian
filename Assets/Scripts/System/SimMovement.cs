@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -124,4 +126,33 @@ public class SimMovement : MonoBehaviour
             }
         }
     }
+
+
+#if UNITY_EDITOR
+    [NonSerialized]
+    public Vector3[] editorCurrPath;
+    public bool editorCrashed;
+
+    public async Task EditorUpdatePathAsync(SimModel simModel)
+    {
+        var simPath = await simModel.CalculateSimPathAsync(
+                this.transform.position,
+                this.startVelocity,
+                0,
+                Time.fixedDeltaTime,
+                5000,
+                1,
+                this.constants.GravitationalConstant,
+                this.constants.GravitationalRescaling
+            );
+
+        var path = simPath.path.AsEnumerable();
+        if (path.Count() % 2 == 1)
+        {
+            path = path.Take(path.Count() - 1);
+        }
+        this.editorCurrPath = path.ToArray();
+        this.editorCrashed = simPath.crashed;
+    }
+#endif
 }

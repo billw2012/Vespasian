@@ -163,6 +163,7 @@ public class Orbit : MonoBehaviour
     [HideInInspector]
     public Transform position;
 
+    [NonSerialized]
     public OrbitParameters.OrbitPath orbitPath;
 
     public Vector3[] pathPositions => this.orbitPath.path;
@@ -289,5 +290,4 @@ public class Orbit : MonoBehaviour
         }
         lineRenderer.startWidth = lineRenderer.endWidth = this.constants.OrbitLineWidth;
     }
-
 }

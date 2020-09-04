@@ -19,6 +19,12 @@ public class PlanetLogic : MonoBehaviour
     void UpdateScale()
     {
         this.geometry.localScale = Vector3.one * this.radius;
+        // Make sure to update auto mass
+        var gravity = this.GetComponent<GravitySource>();
+        if(gravity != null)
+        {
+            gravity.RefreshValidate();
+        }
     }
 
     void OnValidate()

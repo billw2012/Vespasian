@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -7,10 +8,6 @@ using UnityEngine;
 public class SimMovementEditor : Editor
 {
     SimModel simModel;
-    Task<SimPath> simTask;
-
-    Vector3[] currPath;
-    bool crashed;
 
     void OnSceneGUI()
     {
@@ -23,13 +20,13 @@ public class SimMovementEditor : Editor
 
         Handles.Label(simMovement.transform.position + (Vector3.right * 0.2f + Vector3.up) + simMovement.startVelocity * 0.5f, $"{simMovement.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
 
-        if (this.currPath != null && this.currPath.Length > 1)
+        if (simMovement.editorCurrPath?.Length > 1)
         {
-            Handles.DrawLines(this.currPath);
-            if(this.crashed)
+            Handles.DrawLines(simMovement.editorCurrPath);
+            if(simMovement.editorCrashed)
             {
                 Handles.color = Color.red;
-                var crashPt = this.currPath.Last();
+                var crashPt = simMovement.editorCurrPath.Last();
                 Handles.DrawLine(crashPt + Vector3.left + Vector3.down, crashPt + Vector3.right + Vector3.up);
                 Handles.DrawLine(crashPt + Vector3.right + Vector3.down, crashPt + Vector3.left + Vector3.up);
             }
@@ -83,38 +80,69 @@ public class SimMovementEditor : Editor
         VelocityHandle();
 
 
-        if(this.simTask?.Status == TaskStatus.RanToCompletion)
+        //if(this.simTask?.Status == TaskStatus.RanToCompletion)
+        //{
+        //    var path = this.simTask.Result.path.AsEnumerable();
+        //    if(path.Count() % 2 == 1)
+        //    {
+        //        path = path.Take(path.Count() - 1);
+        //    }
+        //    this.currPath = path.ToArray();
+        //    this.crashed = this.simTask.Result.crashed; // this.simTask.Result.crashed;
+        //    this.simTask = null;
+        //}
+        //else if(this.simTask?.Status == TaskStatus.Faulted)
+        //{
+        //    this.currPath = null;
+        //}
+
+        //if (this.simTask == null)
+        //{
+        //    if(this.simModel == null)
+        //    {
+        //        this.simModel = new SimModel();
+        //    }
+        //    this.simTask = this.simModel.CalculateSimPath(
+        //        simMovement.transform.position,
+        //        simMovement.startVelocity,
+        //        0,
+        //        Time.fixedDeltaTime,
+        //        5000,
+        //        1,
+        //        simMovement.constants.GravitationalConstant,
+        //        simMovement.constants.GravitationalRescaling
+        //    );
+        //}
+    }
+
+    static double lastUpdate = 0;
+
+    [DrawGizmo(GizmoType.NotInSelectionHierarchy)]
+    static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
+    {
+        // Draw existing paths
+        Handles.color = new Color(0.33f, 0.66f, 0.66f);
+        foreach (var simMovement in FindObjectsOfType<SimMovement>().Where(s => s.editorCurrPath?.Length > 1))
         {
-            var path = this.simTask.Result.path.AsEnumerable();
-            if(path.Count() % 2 == 1)
+            Handles.DrawLines(simMovement.editorCurrPath);
+            if (simMovement.editorCrashed)
             {
-                path = path.Take(path.Count() - 1);
+                Handles.color = Color.red;
+                var crashPt = simMovement.editorCurrPath.Last();
+                Handles.DrawLine(crashPt + Vector3.left + Vector3.down, crashPt + Vector3.right + Vector3.up);
+                Handles.DrawLine(crashPt + Vector3.right + Vector3.down, crashPt + Vector3.left + Vector3.up);
             }
-            this.currPath = path.ToArray();
-            this.crashed = this.simTask.Result.crashed; // this.simTask.Result.crashed;
-            this.simTask = null;
-        }
-        else if(this.simTask?.Status == TaskStatus.Faulted)
-        {
-            this.currPath = null;
         }
 
-        if (this.simTask == null)
+        if(EditorApplication.timeSinceStartup - lastUpdate > 0.1)
         {
-            if(this.simModel == null)
+            lastUpdate = EditorApplication.timeSinceStartup;
+            var simModel = new SimModel();
+            simModel.DelayedInit();
+            foreach (var simMovement in FindObjectsOfType<SimMovement>())
             {
-                this.simModel = new SimModel();
+                _ = simMovement.EditorUpdatePathAsync(simModel);
             }
-            this.simTask = this.simModel.CalculateSimPath(
-                simMovement.transform.position,
-                simMovement.startVelocity,
-                0,
-                Time.fixedDeltaTime,
-                5000,
-                1,
-                simMovement.constants.GravitationalConstant,
-                simMovement.constants.GravitationalRescaling
-            );
         }
     }
 }

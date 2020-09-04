@@ -53,7 +53,7 @@ public class GravitySource : MonoBehaviour {
         return GameObject.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToArray();
     }
 
-    void RefreshValidate()
+    public void RefreshValidate()
     {
         Assert.IsNotNull(this.constants);
 
