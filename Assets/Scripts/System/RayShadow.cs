@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class RayShadow : MonoBehaviour
 {
     public float shadowLengthScale = 30.0f;
     public MeshFilter geometry;
+    public Vector2 shadowCasterSize = new Vector2(0.5f, 0.5f);
 
     struct LightAndShadow
     {
@@ -17,6 +19,9 @@ public class RayShadow : MonoBehaviour
     }
 
     List<LightAndShadow> rays;
+
+    Vector3 localExtents;
+    float shadowLength;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +62,12 @@ public class RayShadow : MonoBehaviour
                 };
             })
             .ToList();
+
+        // We need the extents to decide the length of the shadow
+        var relativeMatrix = this.transform.worldToLocalMatrix * this.geometry.transform.localToWorldMatrix;
+
+        this.localExtents = Vector2.Scale(this.shadowCasterSize, relativeMatrix.lossyScale);
+        this.shadowLength = this.localExtents.magnitude * this.shadowLengthScale;
     }
 
     // Update is called once per frame
@@ -65,10 +76,6 @@ public class RayShadow : MonoBehaviour
         var ourPos = this.geometry.transform.position;
         foreach (var ray in this.rays)
         {
-            // We need the extents to decide the length of the shadow
-            var localExtents = Vector3.Scale(this.geometry.mesh.bounds.extents, this.geometry.transform.localScale);
-            float shadowLength = localExtents.magnitude * this.shadowLengthScale;
-
             // Set start and end
             if (ray.lineRenderer.GetPosition(0) != ourPos)
             {
@@ -77,13 +84,13 @@ public class RayShadow : MonoBehaviour
             var lightPos = ray.light.transform.position;
             var lightRay = (ourPos - lightPos).normalized;
 
-            var rayMid = ourPos + lightRay * localExtents.magnitude;
+            var rayMid = ourPos + lightRay * this.localExtents.magnitude;
             if (ray.lineRenderer.GetPosition(1) != rayMid)
             {
                 ray.lineRenderer.SetPosition(1, rayMid);
             }
 
-            var rayEnd = ourPos + lightRay * shadowLength;
+            var rayEnd = ourPos + lightRay * this.shadowLength;
             if (ray.lineRenderer.GetPosition(2) != rayEnd)
             {
                 ray.lineRenderer.SetPosition(2, rayEnd);
@@ -91,9 +98,9 @@ public class RayShadow : MonoBehaviour
 
             // Determine the width of the shadow we should cast:
             float width;
-            if(localExtents.x == localExtents.y)
+            if(this.localExtents.x == this.localExtents.y)
             {
-                width = localExtents.x * 2;
+                width = this.localExtents.x;
             }
             else
             {
@@ -101,12 +108,12 @@ public class RayShadow : MonoBehaviour
                 // the direction of the light.
                 var perpVec = Vector3.Cross(lightRay, Vector3.forward).normalized;
             
-                var xAxis = this.transform.TransformDirection(localExtents.x00());
-                var yAxis = this.transform.TransformDirection(localExtents._0y0());
+                var xAxis = this.transform.TransformDirection(this.localExtents.x00());
+                var yAxis = this.transform.TransformDirection(this.localExtents._0y0());
                 width = Mathf.Max(
                         Vector3.Project(xAxis, perpVec).magnitude,
                         Vector3.Project(yAxis, perpVec).magnitude
-                    ) * 2;
+                    );
             }
 
             ray.lineRenderer.startWidth = width;
