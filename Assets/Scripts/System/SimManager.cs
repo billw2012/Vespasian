@@ -433,7 +433,7 @@ public class SimModel
         };
     }
 
-    public async Task<SimPath> CalculateSimPath(Vector3 position, Vector3 velocity, float startTime, float timeStep, int steps, float collisionRadius, float gravitationalConstant, float gravitationalRescaling)
+    public async Task<SimPath> CalculateSimPathAsync(Vector3 position, Vector3 velocity, float startTime, float timeStep, int steps, float collisionRadius, float gravitationalConstant, float gravitationalRescaling)
     {
         this.DelayedInit();
 
@@ -567,11 +567,11 @@ public class SectionedSimPath
         if (this.restartPath || this.path == null)
         {
             this.restartPath = false; // Reset this to allow it to be set again immediately if required
-            this.path = await this.model.CalculateSimPath(this.position, this.velocity, this.simTime, this.dt, (int)(this.targetLength / this.dt), this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling);
+            this.path = await this.model.CalculateSimPathAsync(this.position, this.velocity, this.simTime, this.dt, (int)(this.targetLength / this.dt), this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling);
         }
         else //if(this.path.duration < this.targetLength)
         {
-            this.path.Append(await this.model.CalculateSimPath(this.path.finalPosition, this.path.finalVelocity, this.path.timeEnd, this.dt, this.sectionSteps, this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling));
+            this.path.Append(await this.model.CalculateSimPathAsync(this.path.finalPosition, this.path.finalVelocity, this.path.timeEnd, this.dt, this.sectionSteps, this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling));
         }
 
         this.sectionIsQueued = false;

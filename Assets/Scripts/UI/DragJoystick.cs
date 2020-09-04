@@ -19,7 +19,6 @@ public class DragJoystick : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"Touch count: {Input.touchCount}");
         if (Input.touchCount == 1)
         {
             var touch = Input.GetTouch(0);
