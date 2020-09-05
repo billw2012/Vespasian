@@ -24,9 +24,17 @@ public class FollowCameraController : MonoBehaviour
     [Tooltip("The SimMomement component of the target for SOI focus (optional)")]
     public SimMovement simMovement;
 
-    Vector2 offset;
-    Vector2 offsetVelocity;
+    [Tooltip("Camera will try to include points of interest into the view")]
+    public bool searchPointsOfInterest = true;
+
+    [Tooltip("Camera position will always be clamped to include target into the view")]
+    public bool clampToCameraInnerArea = true;
+
+    Vector2 currentOffset;
+    Vector2 offsetVelocity; // Modified by SmoothDamp on each update
+    Vector2 smoothedOffset; // Smoothed offset value without clamping
     float initialCameraSize;
+
 
     CameraPointOfInterest[] scenePointsOfInterest;
 
@@ -57,49 +65,85 @@ public class FollowCameraController : MonoBehaviour
 
     void Update()
     {
-        // Combine spheres of influence from sim path and points of interest from scene
-        // Both use distance metric, but distance for SOIs is measured along the simulated path
-        // and distance for basic POIs is measured from player
-        var pointsOfInterest = this.scenePointsOfInterest.Select(i => (
-                position: i.transform.position,
-                size: i.size,
-                distance: Vector3.Distance(i.transform.position, this.target.position)
-             ));
-        if (this.simMovement != null)
-        {
-            pointsOfInterest = pointsOfInterest.Concat(
-                this.simMovement.sois.Select(i => (
-                    position: i.g.position,
-                    size: i.g.transform.localScale,
-                    distance: Vector3.Distance(i.g.position, this.target.position)
-                )));
-        }
-
-        // Determining which pois to use:
-        // keep adding pois until their bounding box exceeds the camera inner area available
-
-        var cameraArea = WorldCameraArea();
         var bounds = new Bounds((Vector2)this.target.position, Vector2.one * this.margin);
-        foreach (var poi in pointsOfInterest.OrderBy(i => i.distance))
+
+        // Include other points of interested only if this is enabled
+        if (this.searchPointsOfInterest)
         {
-            var expandedBounds = bounds;
-            expandedBounds.Encapsulate(new Bounds((Vector2)poi.position, (Vector2)poi.size));
-            if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
+            // Combine spheres of influence from sim path and points of interest from scene
+            // Both use distance metric, but distance for SOIs is measured along the simulated path
+            // and distance for basic POIs is measured from player
+            var pointsOfInterest = this.scenePointsOfInterest.Select(i => (
+                    position: i.transform.position,
+                    size: i.size,
+                    distance: Vector3.Distance(i.transform.position, this.target.position)
+                 ));
+            if (this.simMovement != null)
             {
-                break;
+                pointsOfInterest = pointsOfInterest.Concat(
+                    this.simMovement.sois.Select(i => (
+                        position: i.g.position,
+                        size: i.g.transform.localScale,
+                        distance: Vector3.Distance(i.g.position, this.target.position)
+                    )));
             }
-            bounds = expandedBounds;
+
+            // Determining which pois to use:
+            // keep adding pois until their bounding box exceeds the camera inner area available
+
+            var cameraArea = WorldCameraArea();
+            foreach (var poi in pointsOfInterest.OrderBy(i => i.distance))
+            {
+                var expandedBounds = bounds;
+                expandedBounds.Encapsulate(new Bounds((Vector2)poi.position, (Vector2)poi.size));
+                if (expandedBounds.size.magnitude > cameraArea.size.magnitude)
+                {
+                    break;
+                }
+                bounds = expandedBounds;
+            }
         }
 
-        var targetOffset = (Vector2)bounds.center - (Vector2)this.target.position;
+        var offsetToTarget = (Vector2)bounds.center - (Vector2)this.target.position;
 
         float cameraZoom = this.initialCameraSize / Camera.main.orthographicSize;
-        var smoothedOffset = Vector2.SmoothDamp(this.offset, targetOffset, ref this.offsetVelocity, this.smoothTime * cameraZoom);
+        var smoothedOffset = Vector2.SmoothDamp(this.currentOffset, offsetToTarget, ref this.offsetVelocity, this.smoothTime * cameraZoom);
+        this.smoothedOffset = smoothedOffset;
 
-        var clampedOffset = this.ClampToCameraInnerArea(smoothedOffset);
+        var clampedOffset = this.clampToCameraInnerArea ? this.ClampToCameraInnerArea(smoothedOffset) : smoothedOffset;
 
         // Don't modify the z coordinate
         this.transform.position = (this.target.transform.position + (Vector3)clampedOffset).xy0() + this.transform.position._00z();
-        this.offset = clampedOffset;
+        this.currentOffset = clampedOffset;
+    }
+
+    public void ForceFocusOnTarget()
+    {
+        if (this.target)
+        {
+            Vector3 targetPos = this.target.transform.position;
+            this.transform.position = new Vector3(targetPos.x, targetPos.y, this.transform.position.z);
+            this.currentOffset = Vector2.zero;
+        }
+        GetComponent<Camera>().orthographicSize = 12;
+    }
+
+    // Sets new target, use this for target changes at runtime to animate to another target
+    public void SetTarget(Transform newTarget)
+    {
+        this.target = newTarget;
+        this.currentOffset = this.transform.position - newTarget.transform.position;
+        this.smoothedOffset = this.currentOffset;
+        this.offsetVelocity = Vector2.zero;
+    }
+
+    // Returns true when camera has (sort of) arrived to the target position
+    public bool atTargetPosition
+    {
+        get
+        {
+            float dist = Vector2.Distance(this.transform.position, target.transform.position);
+            return (dist < 2.0f);
+        }
     }
 }
