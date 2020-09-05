@@ -85,25 +85,17 @@ public class SimpleCameraController : MonoBehaviour
         Vector3 direction = new Vector3();
         if (Input.GetKey(KeyCode.W))
         {
-            direction += Vector3.forward;
+            direction += Vector3.left;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            direction += Vector3.back;
+            direction += Vector3.right;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            direction += Vector3.left;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            direction += Vector3.right;
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
             direction += Vector3.down;
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.D))
         {
             direction += Vector3.up;
         }
@@ -137,17 +129,6 @@ public class SimpleCameraController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
-        // Rotation
-        if (Input.GetMouseButton(1))
-        {
-            var mouseMovement = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y") * (invertY ? 1 : -1));
-            
-            var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
-
-            m_TargetCameraState.yaw += mouseMovement.x * mouseSensitivityFactor;
-            m_TargetCameraState.pitch += mouseMovement.y * mouseSensitivityFactor;
-        }
-        
         // Translation
         translation = GetInputTranslationDirection() * Time.deltaTime;
 

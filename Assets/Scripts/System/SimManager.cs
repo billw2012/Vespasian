@@ -269,7 +269,6 @@ public class SimModel
 
         // NOTE: We assume that if the gravity source has a parent orbit then its local position is 0, 0, 0.
         var allGravitySources = GravitySource.All();
-        Debug.Assert(!allGravitySources.Any(g => g.gameObject.GetComponentInParent<Orbit>() != null && g.transform.localPosition != Vector3.zero));
 
         // Gravity sources with parent orbits (if the have one), and global positions (in case they don't).
         this.simGravitySources = allGravitySources

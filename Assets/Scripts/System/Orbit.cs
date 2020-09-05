@@ -223,7 +223,7 @@ public class Orbit : MonoBehaviour
         bool ValidateParents()
         {
             // Only game objects being controlled by Orbit component are allowed to have non-identity transforms
-            var orbitControlled = GameObject.FindObjectsOfType<Orbit>().Select(o => o.position.gameObject);
+            var orbitControlled = GameObject.FindObjectsOfType<Orbit>().Where(o => o.isActiveAndEnabled).Select(o => o.position.gameObject);
             var invalidParents = this.GetAllParents()
                 .Where(p => !orbitControlled.Contains(p) && !p.transform.IsIdentity());
             if (invalidParents.Any())

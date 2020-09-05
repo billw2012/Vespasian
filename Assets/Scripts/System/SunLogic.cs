@@ -46,7 +46,8 @@ public class SunLogic : MonoBehaviour
         this.childLight.color = Color.Lerp(Color.white, color, this.lightTintFactor);
         this.childLight.transform.localPosition = Vector3.back * (this.lightHeight + this.geometryTransform.localScale.z);
 
-        this.glowTransform.localScale = Vector3.one * 40f * this.glowSpread;
+        this.glowTransform.localScale = Vector3.forward + (Vector3)(Vector2.one * 40f * this.geometryTransform.localScale.x * this.glowSpread);
+        this.glowTransform.localPosition = new Vector3(0, 0, 10f + this.geometryTransform.localScale.x);
 
         //Color.RGBToHSV(this.color, out float newH, out _, out _);
 
@@ -58,7 +59,7 @@ public class SunLogic : MonoBehaviour
         //this.pfxPB = new MaterialPropertyBlock();
         //}
 
-        foreach(var renderer in this.renderers)
+        foreach (var renderer in this.renderers)
         {
             var pb = new MaterialPropertyBlock();
             TweakColor(pb, renderer.sharedMaterial, new[] {

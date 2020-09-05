@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Util;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 public class PlanetLogic : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlanetLogic : MonoBehaviour
     public float ringWidthFactor = 0.5f;
 
     public Transform geometry;
+
     public GameLogic gameLogic;
 
     void UpdateScale()
@@ -29,14 +31,12 @@ public class PlanetLogic : MonoBehaviour
 
     void OnValidate()
     {
-        Assert.IsNotNull(this.geometry);
-        Assert.IsNotNull(this.gameLogic);
         this.UpdateScale();
     }
 
     void Start()
     {
-        this.OnValidate();
+        this.UpdateScale();
     }
 
     void Update()
