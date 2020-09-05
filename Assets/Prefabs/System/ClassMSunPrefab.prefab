@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 248616768826728670, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: InitialModule.startRotation.scalar
+      value: 0.033161256
+      objectReference: {fileID: 0}
     - target: {fileID: 2343956415427441088, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_Color.r
@@ -112,6 +117,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6731737867862525207, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ad24ccfc5c3e17e45a8da7aceeef781e, type: 2}
     - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: color.r
