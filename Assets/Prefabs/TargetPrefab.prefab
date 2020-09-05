@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 329428303756805735}
   - component: {fileID: 329428303756805732}
   - component: {fileID: 329428303756805731}
+  - component: {fileID: 3047152317826789823}
   m_Layer: 8
   m_Name: TargetPrefab
   m_TagString: Untagged
@@ -126,6 +127,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 1
+--- !u!114 &3047152317826789823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 329428303756805733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1d049a36ef48d4283a5b932fd3a8df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointType: 0
 --- !u!1 &895844011333795594
 GameObject:
   m_ObjectHideFlags: 0

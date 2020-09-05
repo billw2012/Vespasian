@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shadowLengthScale: 30
   geometry: {fileID: 2518515470092575213}
+  shadowCasterSize: {x: 0.5, y: 0.5}
 --- !u!114 &2959377669531555612
 MonoBehaviour:
   m_ObjectHideFlags: 0
