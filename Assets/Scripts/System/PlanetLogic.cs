@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Util;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 
 public class PlanetLogic : MonoBehaviour
