@@ -48,7 +48,7 @@ public class SunLogic : MonoBehaviour
 
         this.glowTransform.localScale = Vector3.one * 40f * this.glowSpread;
 
-        Color.RGBToHSV(this.color, out float newH, out _, out _);
+        //Color.RGBToHSV(this.color, out float newH, out _, out _);
 
         //if (this.mainPB == null)
         //{

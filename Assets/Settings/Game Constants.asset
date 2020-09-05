@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game Constants
   m_EditorClassIdentifier: 
   GravitationalConstant: 1
-  GravitationalRescaling: 1
+  GravitationalRescaling: 2
   GameSpeedBase: 1
   SimDistanceLimit: 100
   FuelUse: 0.1

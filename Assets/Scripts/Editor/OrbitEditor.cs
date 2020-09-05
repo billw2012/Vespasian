@@ -137,6 +137,8 @@ public class OrbitEditor : Editor
         OffsetHandle();
     }
 
+    static double lastUpdate = 0;
+
     [DrawGizmo(GizmoType.NotInSelectionHierarchy)]
     static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
     {
@@ -148,6 +150,17 @@ public class OrbitEditor : Editor
             Handles.DrawPolyLine(orbit.pathPositions);
             Handles.DrawPolyLine(orbit.pathPositions.Last(), orbit.pathPositions.First());
             Handles.DrawPolyLine(Vector3.zero, orbit.pathPositions.First());
+        }
+
+        if (EditorApplication.timeSinceStartup - lastUpdate > 0.1)
+        {
+            lastUpdate = EditorApplication.timeSinceStartup;
+            var simModel = new SimModel();
+            simModel.DelayedInit();
+            foreach (var orbit in FindObjectsOfType<Orbit>())
+            {
+                orbit.RefreshValidateRecursive();
+            }
         }
     }
 }

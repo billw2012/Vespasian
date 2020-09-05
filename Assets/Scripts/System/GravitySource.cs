@@ -48,9 +48,9 @@ public class GravitySource : MonoBehaviour {
         this.RefreshValidate();
     }
 
-    public static GravitySource[] All()
+    public static List<GravitySource> All()
     {
-        return GameObject.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToArray();
+        return GameObject.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToList();
     }
 
     public void RefreshValidate()

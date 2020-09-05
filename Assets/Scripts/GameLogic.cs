@@ -25,8 +25,8 @@ public class GameLogic : ScriptableObject {
         this.winUI = GameObject.Find("Win UI");
         this.loseUI = GameObject.Find("Lose UI");
 
-        this.winUI.SetActive(false);
-        this.loseUI.SetActive(false);
+        this.winUI?.SetActive(false);
+        this.loseUI?.SetActive(false);
     }
 
     public void NextLevel()
