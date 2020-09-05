@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1627814067368065515}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 2.26, y: 2.26, z: 2.26}
   m_Children: []
   m_Father: {fileID: 2318905709148006584}
   m_RootOrder: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: dc29bce0cb2f30c489919d8da9fef6b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -116,14 +116,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2043561178338600667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.31917483, y: -0.14493452, z: 0.06038181, w: 0.93459916}
   m_LocalPosition: {x: 5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6772261233770448029}
   m_Father: {fileID: 6039441407903207765}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 37.887, y: -17.123001, z: 1.4770001}
 --- !u!1 &6039441407903207753
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 270560364}
   - component: {fileID: 2438610178736772583}
   m_Layer: 8
-  m_Name: PlanetPrefab
+  m_Name: EarthLikePlanetPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f4e2cac997b3148b4fcc4bd213d9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.5
-  dayPeriod: 0
+  radius: 2.26
+  dayPeriod: 10
   ringEnabled: 0
   ringRadiusFactor: 1.5
   ringWidthFactor: 0.5
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameters:
     density: 1
-    mass: 0.19634955
+    mass: 4.0114994
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   customTarget: {fileID: 6772261233770448029}
   target: {fileID: 6772261233770448029}
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shadowLengthScale: 30
   geometry: {fileID: 2518515470092575213}
-  shadowCasterSize: {x: 0.5, y: 0.5}
+  shadowCasterSize: {x: 1, y: 1}
 --- !u!114 &2959377669531555612
 MonoBehaviour:
   m_ObjectHideFlags: 0

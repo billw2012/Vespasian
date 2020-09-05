@@ -4609,6 +4609,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4741171058214613415}
     m_Modifications:
+    - target: {fileID: 470503325313159492, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: warningSign
+      value: 
+      objectReference: {fileID: 7532287019744066019}
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_LocalPosition.x
