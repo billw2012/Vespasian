@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -51,6 +52,11 @@ public static class UnityExtensions
         #pragma warning restore UNT0014 // Invalid type for call to GetComponent
     }
 
+    public static T GetComponentInParentOnly<T>(this MonoBehaviour child) where T : class
+    {
+        return GetComponentInParentOnly<T>(child.gameObject);
+    }
+
     public static IEnumerable<GameObject> GetAllParents(this GameObject child, GameObject until = null)
     {
         var parent = child.transform.parent;
@@ -69,6 +75,20 @@ public static class UnityExtensions
             yield return parent.gameObject;
             parent = parent.transform.parent;
         }
+    }
+
+    public static Bounds GetFullMeshRendererBounds(this GameObject ob)
+    {
+        var allRenderers = ob.GetComponentsInChildren<MeshRenderer>();
+        if (!allRenderers.Any())
+            return new Bounds(ob.transform.position, Vector3.zero);
+
+        var fullBounds = allRenderers.First().bounds;
+        foreach(var r in allRenderers)
+        {
+            fullBounds.Encapsulate(r.bounds);
+        }
+        return fullBounds;
     }
 
     public static bool IsIdentity(this Transform transform)

@@ -27,6 +27,8 @@ public struct OrbitParameters
     [Tooltip("Fraction of orbit to start at"), Range(0, 1)]
     public float offset;
 
+    public bool validOrbit => this.periapsis > 0 && this.apoapsis > 0;
+
     public enum OrbitDirection
     {
         CounterClockwise,
@@ -208,7 +210,7 @@ public class Orbit : MonoBehaviour
     {
         this.RefreshValidate();
 
-        foreach (var child in this.GetComponentsInChildren<Orbit>().Where(c => c != this))
+        foreach (var child in this.GetComponentsInChildren<Orbit>().Where(c => c.isActiveAndEnabled && c != this))
         {
             child.RefreshValidateRecursive();
         }
@@ -218,8 +220,14 @@ public class Orbit : MonoBehaviour
     {
         Assert.IsNotNull(this.constants);
 
-
         this.position = this.customPosition == null ? this.transform.Find("Position") : this.customPosition;
+
+        if (!this.isActiveAndEnabled)
+        {
+            this.position.localPosition = Vector3.zero;
+            return;
+        }
+
         bool ValidateParents()
         {
             // Only game objects being controlled by Orbit component are allowed to have non-identity transforms
@@ -241,6 +249,18 @@ public class Orbit : MonoBehaviour
 
         Debug.Assert(ValidateParents());
 
+        // Scale must be 1
+        this.transform.localScale = Vector3.one;
+        // Rotation must be 0
+        this.transform.localRotation = Quaternion.identity;
+
+        // If we are not parented to another orbit then position must be 0,
+        // otherwise our position will be set by the orbit
+        if (this.GetComponentInParentOnly<Orbit>() == null)
+        {
+            this.transform.localPosition = Vector3.zero;
+        }
+
         this.orbitPath = this.parameters.CalculatePath(this.FindParentsMass(), this.constants.GravitationalConstant, this.pathQuality, this.fixedPeriod);
 
         this.UpdatePosition(0);
@@ -248,6 +268,7 @@ public class Orbit : MonoBehaviour
 
     public void SimUpdate(float simTime)
     {
+        Debug.Assert(this.isActiveAndEnabled);
         this.UpdatePosition(simTime);
     }
 

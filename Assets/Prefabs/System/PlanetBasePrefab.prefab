@@ -37,7 +37,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2043561178338600667}
   m_LocalRotation: {x: 0.31917483, y: -0.14493452, z: 0.06038181, w: 0.93459916}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 674852769794172463}
@@ -57,11 +57,10 @@ GameObject:
   - component: {fileID: 270560365}
   - component: {fileID: 8256936986849645567}
   - component: {fileID: 1992624584283286723}
-  - component: {fileID: 2959377669531555612}
   - component: {fileID: 270560364}
   - component: {fileID: 2438610178736772583}
   m_Layer: 8
-  m_Name: EarthLikePlanetPrefab
+  m_Name: PlanetBasePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f4e2cac997b3148b4fcc4bd213d9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2.26
+  radius: 3
   dayPeriod: 10
   ringEnabled: 0
   ringRadiusFactor: 1.5
@@ -138,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameters:
     density: 1
-    mass: 4.0114994
+    mass: 7.0685835
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   customTarget: {fileID: 674852769794172463}
   target: {fileID: 674852769794172463}
@@ -156,24 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shadowLengthScale: 30
-  geometry: {fileID: 0}
+  geometry: {fileID: 4535780758698731914}
   shadowCasterSize: {x: 1, y: 1}
---- !u!114 &2959377669531555612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039441407903207753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61f4196fdf5e584ca0129d840d3ef75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxRadius: 5
-  effectFactor: 1
-  effector: {fileID: 0}
-  scanned: 0
 --- !u!120 &270560364
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -350,23 +333,24 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 349a035ec9962ba489509808280708f3,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.26
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 349a035ec9962ba489509808280708f3,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.26
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 349a035ec9962ba489509808280708f3,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.26
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 349a035ec9962ba489509808280708f3,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: dc29bce0cb2f30c489919d8da9fef6b7, type: 2}
+      objectReference: {fileID: -8771166627424403242, guid: b59000064744df241a42704c268716b2,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: 349a035ec9962ba489509808280708f3,
         type: 3}
       propertyPath: m_Name
@@ -388,6 +372,12 @@ GameObject:
 --- !u!4 &674852769794172463 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 349a035ec9962ba489509808280708f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1069383333029888452}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &4535780758698731914 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: -5754084199372789682, guid: 349a035ec9962ba489509808280708f3,
     type: 3}
   m_PrefabInstance: {fileID: 1069383333029888452}
   m_PrefabAsset: {fileID: 0}

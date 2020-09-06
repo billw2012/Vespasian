@@ -35,6 +35,29 @@ public static class OrbitalUtils
     {
         return Mathf.Sqrt(2f * G * M * Ra / (Rp * (Ra + Rp)));
     }
+
+    // V^2 = G * M * ( 2 / r - 1 / a )
+    // 1 / (2 / r - V^2 / G * M)  =  a
+
+    // rGM / (2GM - rv^2) = a
+    // 2 / r - V^2 / GM = 1 / a
+
+    // V = sqrt( GM (2/r - 1/a) )
+    // V^2 / GM = 2/r - 1/a
+
+    // If OrbitDescriminator > 0 then the object is in orbit
+    // https://www.vanderbilt.edu/AnS/physics/astrocourses/ast201/orbitalvelocity.html
+    // or
+    // https://phys.libretexts.org/Bookshelves/Astronomy__Cosmology/Book%3A_Celestial_Mechanics_(Tatum)/09%3A_The_Two_Body_Problem_in_Two_Dimensions/9.08%3A_Orbital_Elements_and_Velocity_Vector#mjx-eqn-9.5.31
+    public static float OrbitDescriminator(float speed, float distance, float mass, float G)
+    {
+        return 2f * mass * G - distance * speed * speed;
+    }
+
+    public static float SemiMajorAxis(float speed, float distance, float mass, float G)
+    {
+        return distance * mass * G / OrbitDescriminator(speed, distance, mass, G);
+    }
 }
 
 // Ordinary differential equation solver

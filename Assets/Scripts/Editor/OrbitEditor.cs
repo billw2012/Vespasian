@@ -12,6 +12,11 @@ public class OrbitEditor : Editor
 
         var orbit = this.target as Orbit;
 
+        if(!orbit.isActiveAndEnabled)
+        {
+            return;
+        }
+
         float uiScale = HandleUtility.GetHandleSize(orbit.transform.position) * 0.2f;
 
         Handles.Label(orbit.transform.position + (Vector3.right * 0.2f + Vector3.up) * orbit.parameters.semiMajorAxis * 0.5f, $"{orbit.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
@@ -144,7 +149,7 @@ public class OrbitEditor : Editor
     {
         // Draw orbit
         Handles.color = new Color(0.33f, 0.33f, 0.33f);
-        foreach (var orbit in FindObjectsOfType<Orbit>().Where(o => o.pathPositions != null))
+        foreach (var orbit in FindObjectsOfType<Orbit>().Where(o => o.isActiveAndEnabled && o.pathPositions != null))
         {
             Handles.matrix = orbit.transform.localToWorldMatrix;
             Handles.DrawPolyLine(orbit.pathPositions);

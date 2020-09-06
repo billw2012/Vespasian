@@ -29,7 +29,6 @@ public class RayShadow : MonoBehaviour
         if(this.geometry == null)
         {
             this.geometry = this.GetComponent<MeshFilter>();
-            Assert.IsNotNull(this.geometry);
         }
 
         var suns = GameObject.FindObjectsOfType<SunLogic>();

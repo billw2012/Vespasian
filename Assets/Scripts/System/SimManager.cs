@@ -42,7 +42,7 @@ public class SimManager : MonoBehaviour
             o.SimUpdate(this.simTime);
         }
 
-        foreach (var s in this.simulatedObjects.Where(s => s.gameObject.activeInHierarchy && s.enabled))
+        foreach (var s in this.simulatedObjects.Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
         {
             s.SimUpdate(this.simTime);
         }
@@ -248,7 +248,7 @@ public class SimModel
             return;
         }
 
-        var allOrbits = GameObject.FindObjectsOfType<Orbit>();
+        var allOrbits = GameObject.FindObjectsOfType<Orbit>().Where(o => o.isActiveAndEnabled);
         this.orbits = new List<Orbit>();
         var orbitStack = new Stack<Orbit>(allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == null));
         while(orbitStack.Any())
