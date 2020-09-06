@@ -21,7 +21,7 @@ public class ScoopEffect : RadiusEffect
                 float scale = distance / 5.0f;
 
                 // Set emission amount based on height ratio
-                //particleEffect.SetEmissionRateOverTimeMultiplier(50.0f*Mathf.Clamp(0.3f + 1.0f*heightRatio, 0, 1));
+                particleEffect.SetEmissionRateOverTimeMultiplier(50.0f*Mathf.Clamp(0.3f + 1.0f*heightRatio, 0, 1));
 
                 // Check if the source is on the left or right, flip particle effect if needed
                 var thisPosInTargetSpace = target.transform.InverseTransformDirection(offset);
