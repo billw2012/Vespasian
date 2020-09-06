@@ -38,7 +38,7 @@ public class ScanEffect : RadiusEffect
         this.scanEffect.enabled = false;
     }
 
-    protected override void Apply(RadiusEffectTarget target, float value, Vector3 direction)
+    protected override void Apply(RadiusEffectTarget target, float value, float heightRatio, Vector3 direction)
     {
         float newScanned = Mathf.Min(1, this.scanned + value * 0.25f);
         this.scanEffect.enabled = newScanned != this.scanned;

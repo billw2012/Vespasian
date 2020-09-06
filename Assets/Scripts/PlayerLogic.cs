@@ -10,6 +10,7 @@ public class PlayerLogic : MonoBehaviour
     public ParticleSystem rearThruster;
     public ParticleSystem rightThruster;
     public ParticleSystem leftThruster;
+    public ParticleSystem scoopEffect;
 
     [HideInInspector]
     // NORMALIZED dimensionless thrust input for joystick

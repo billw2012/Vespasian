@@ -48,7 +48,7 @@ public class CameraIntro : MonoBehaviour
         // Iterate all targets till there are no targets
         if (camController.atTargetPosition)
         {
-            if (this.currentTargetID == targets.Count)
+            if (this.currentTargetID == targets.Count-1)
             {
                 // Animation is done, let's play now
                 this.startGame();

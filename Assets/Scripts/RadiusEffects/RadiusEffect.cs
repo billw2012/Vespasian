@@ -23,9 +23,9 @@ public abstract class RadiusEffect : MonoBehaviour
             float heightRatio = 1 - (targetHeight - radius) / this.maxRadius;
 
             float effect = Mathf.Max(0, Time.deltaTime * this.effectFactor * heightRatio);
-            this.Apply(target, effect, targetVec.normalized);
+            this.Apply(target, effect, heightRatio, targetVec.normalized);
         }
     }
 
-    protected virtual void Apply(RadiusEffectTarget target, float value, Vector3 direction) { }
+    protected virtual void Apply(RadiusEffectTarget target, float value, float heightRatio, Vector3 direction) { }
 }

@@ -2,7 +2,7 @@
 
 public class DragEffect : RadiusEffect
 {
-    protected override void Apply(RadiusEffectTarget target, float value, Vector3 direction)
+    protected override void Apply(RadiusEffectTarget target, float value, float heightRatio, Vector3 direction)
     {
         var simMovement = target.GetComponent<SimMovement>();
         if (simMovement != null && simMovement.velocity.magnitude > 0)

@@ -2,7 +2,7 @@
 
 public class DamageEffect : RadiusEffect
 {
-    protected override void Apply(RadiusEffectTarget target, float value, Vector3 direction)
+    protected override void Apply(RadiusEffectTarget target, float value, float heightRatio, Vector3 direction)
     {
         var healthComponent = target.GetComponent<HealthComponent>();
         if (healthComponent != null)
