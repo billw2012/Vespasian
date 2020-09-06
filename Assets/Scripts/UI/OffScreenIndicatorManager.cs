@@ -24,7 +24,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
     readonly List<GameObject> indicators = new List<GameObject>();
 
     // Cached references to objects in scene
-    GravitySource[] gravitySources;
+    List<GravitySource> gravitySources;
     Canvas canvas;
 
     // Start is called before the first frame update

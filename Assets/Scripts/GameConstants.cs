@@ -4,7 +4,8 @@ using UnityEngine;
 public class GameConstants : ScriptableObject
 {
     public float GravitationalConstant = 1.0f;
-    public float GravitationalRescaling = 2.0f;
+    [Tooltip("How much to reduce the gravitational influence of sources outside the current primary hierarchy"), Range(1, 5)]
+    public float GravitationalRescaling = 1.0f;
 
     public float GameSpeedBase = 1f;
     public float SimDistanceLimit = 100f;

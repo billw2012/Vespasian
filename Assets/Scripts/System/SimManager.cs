@@ -14,33 +14,17 @@ public class SimManager : MonoBehaviour
     public float simTime;
 
     SimMovement[] simulatedObjects;
-    //GameObject player;
-    // Radius of the player
-    //float radius;
 
-    // Task representing the current instance of the player sim path update task
-    //Task updatingPathTask = null;
-
-    SimModel model = new SimModel();
+    readonly SimModel model = new SimModel();
 
     void OnValidate()
     {
         Assert.IsNotNull(this.constants);
-
-        //if (this.pathRenderer != null)
-        //{
-        //    this.pathRenderer.positionCount = 0;
-        //    this.pathRenderer.SetPositions(new Vector3[] { });
-        //}
     }
 
     void Start()
     {
         Assert.IsNotNull(this.constants);
-
-        //this.warningSign.SetActive(false);
-        //this.player = FindObjectOfType<PlayerLogic>().gameObject;
-        //Assert.IsNotNull(this.player);
 
         this.simulatedObjects = FindObjectsOfType<SimMovement>().ToArray();
     }
@@ -62,84 +46,8 @@ public class SimManager : MonoBehaviour
         {
             s.SimUpdate(this.simTime);
         }
-
-        //this.pathRenderer.enabled = this.player.activeInHierarchy;
-        //if (this.player.activeInHierarchy)
-        //{
-        //    this.UpdatePathAsync();
-
-        //    this.UpdatePathWidth();
-        //}
     }
 
-    //async Task UpdatePath()
-    //{
-    //    var playerSimMovement = this.player.GetComponent<SimMovement>();
-
-    //    // timeStep *must* match what the normal calculate uses
-    //    var state = await this.simModel.CalculateSimState(
-    //        playerSimMovement.simPosition,
-    //        playerSimMovement.velocity,
-    //        this.simTime,
-    //        Time.fixedDeltaTime,
-    //        this.constants.SimDistanceLimit,
-    //        this.radius,
-    //        this.constants.GravitationalConstant,
-    //        this.constants.GravitationalRescaling);
-
-    //    // Check Application.isPlaying to avoid the case where game was stopped before the task was finished (in editor).
-    //    if (Application.isPlaying && this.pathRenderer != null && this.warningSign != null)
-    //    {
-    //        // Resume in main thread
-    //        this.pathRenderer.positionCount = state.path.Count;
-    //        this.pathRenderer.SetPositions(state.path.ToArray());
-    //        this.sois = state.sois;
-    //        //this.pathLength = state.pathLength;
-
-    //        if (state.crashed && state.path.Count > 0)
-    //        {
-    //            var canvas = this.warningSign.GetComponent<Graphic>().canvas;
-    //            if (canvas != null)
-    //            {
-    //                this.warningSign.SetActive(true);
-    //                var rectTransform = this.warningSign.GetComponent<RectTransform>();
-    //                var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
-    //                var targetCanvasPosition = canvas.WorldToCanvasPosition(state.path.Last());
-    //                var clampArea = new Rect(
-    //                    canvasSafeArea.x - rectTransform.rect.x,
-    //                    canvasSafeArea.y - rectTransform.rect.y,
-    //                    canvasSafeArea.width - rectTransform.rect.width,
-    //                    canvasSafeArea.height - rectTransform.rect.height
-    //                );
-    //                rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            this.warningSign.SetActive(false);
-    //        }
-    //    }
-    //}
-
-    //async void UpdatePathAsync()
-    //{
-    //    if (this.updatingPathTask == null)
-    //    {
-    //        this.updatingPathTask = this.UpdatePath();
-    //        // Hand off to the other thread
-    //        await this.updatingPathTask;
-    //        // Back on the main thread
-    //        this.updatingPathTask = null;
-    //    }
-    //}
-
-    //void UpdatePathWidth()
-    //{
-    //    //this.pathRenderer.startWidth = 0;
-    //    //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
-    //    // Fixed width line in screen space:
-    //    this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth;
-    //}
     public SectionedSimPath CreateSectionedSimPath(Vector3 startPosition, Vector3 startVelocity, float targetLength, float proximityWarningRange, int sectionSteps = 100)
     {
         return new SectionedSimPath(this.model, this.simTime, startPosition, startVelocity, targetLength, Time.fixedDeltaTime, this.constants.GravitationalConstant, this.constants.GravitationalRescaling, proximityWarningRange, sectionSteps);
@@ -220,7 +128,8 @@ public class SimModel
     struct SimGravity
     {
         public GravitySource from;
-        public int parent;
+        public int orbitIndex;
+        public int gravityParentIndex;
         public float mass;
         public float radius;
         public Vector3 position;
@@ -360,16 +269,21 @@ public class SimModel
 
         // NOTE: We assume that if the gravity source has a parent orbit then its local position is 0, 0, 0.
         var allGravitySources = GravitySource.All();
-        Debug.Assert(!allGravitySources.Any(g => g.gameObject.GetComponentInParent<Orbit>() != null && g.transform.localPosition != Vector3.zero));
 
         // Gravity sources with parent orbits (if the have one), and global positions (in case they don't).
         this.simGravitySources = allGravitySources
-            .Select(g => new SimGravity {
-                from = g,
-                mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
-                radius = g.radius, // radius is applied using local scale on the same game object as the gravity
-                parent = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
-                position = g.position
+            .Select(g =>
+            {
+                var parentGravitySource = g.gameObject.GetComponentInParentOnly<GravitySource>();
+                return new SimGravity
+                {
+                    from = g,
+                    mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
+                    radius = g.radius, // radius is applied using local scale on the same game object as the gravity
+                    orbitIndex = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
+                    gravityParentIndex = allGravitySources.FindIndex(s => s == parentGravitySource),
+                    position = g.position
+                };
             }).ToList();
     }
 
@@ -402,27 +316,51 @@ public class SimModel
         // Calculate raw forces
         var positions = new Vector3[this.simGravitySources.Count];
         var forces = new Vector3[this.simGravitySources.Count];
+        int primaryIndex = 0;
 
         for (int i = 0; i < this.simGravitySources.Count; i++)
         {
             var g = this.simGravitySources[i];
-            var gPosition = g.parent != -1 ? orbitPositions[g.parent] : g.position;
+            var gPosition = g.orbitIndex != -1 ? orbitPositions[g.orbitIndex] : g.position;
             var force = OrbitalUtils.CalculateForce(
                 gPosition - position,
                 g.mass,
                 gravitationalConstant);
             positions[i] = gPosition;
             forces[i] = force;
+            if(force.magnitude > forces[primaryIndex].magnitude)
+            {
+                primaryIndex = i;
+            }
+        }
+
+        // We try to reduce perturbation by reducing the force of bodies that are outside
+        // of the current primary gravity sources parent hierarchy
+
+        // Determine all non-parents of the primary
+        var parents = new List<int>();
+        int currParent = this.simGravitySources[primaryIndex].gravityParentIndex;
+        while (currParent != -1)
+        {
+            parents.Add(currParent);
+            currParent = this.simGravitySources[currParent].gravityParentIndex;
         }
 
         // Apply force rescaling
         var totalForce = Vector3.zero;
         var rescaledTotalForce = Vector3.zero;
-
-        foreach (var force in forces)
+        float maxForceMag = forces[primaryIndex].magnitude;
+        for (int i = 0; i < this.simGravitySources.Count; i++)
         {
-            totalForce += force;
-            rescaledTotalForce += force; //.normalized * bestSoi.maxForce * Mathf.Pow(force.magnitude / bestSoi.maxForce, this.gravitationalRescaling);
+            totalForce += forces[i];
+            if(!parents.Contains(i))
+            {
+                rescaledTotalForce += forces[i].normalized * maxForceMag * Mathf.Pow(forces[i].magnitude / maxForceMag, gravitationalRescaling);
+            }
+            else
+            {
+                rescaledTotalForce += forces[i];
+            }
         }
 
         return new ForceInfo {
