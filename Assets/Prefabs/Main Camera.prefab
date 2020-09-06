@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2532546599120530937}
   - component: {fileID: 2532546599120530822}
   - component: {fileID: 6946838896639316914}
+  - component: {fileID: 8380396357931695548}
   - component: {fileID: 2532546599120530936}
   - component: {fileID: 2532546599120530939}
   - component: {fileID: 2532546599120530938}
@@ -49,8 +50,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smoothTime: 1.5
+  margin: 2
   target: {fileID: 0}
-  trackedPath: {fileID: 0}
+  simMovement: {fileID: 0}
+  searchPointsOfInterest: 1
+  clampToCameraInnerArea: 1
 --- !u!114 &6946838896639316914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +70,20 @@ MonoBehaviour:
   sizeMin: 10
   sizeMax: 100
   scrollWheelSensitivity: 1
+--- !u!114 &8380396357931695548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2532546599120530941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd68e544a10fa74fa12e228f1eb0df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targets: []
+  simMgrComponent: {fileID: 0}
 --- !u!20 &2532546599120530936
 Camera:
   m_ObjectHideFlags: 0

@@ -7,51 +7,52 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(FollowCameraController))]
 public class CameraIntro : MonoBehaviour
 {
+    [Tooltip("Targets for the camera flyby, in order (leave empty to automatically use Objectives in the scene)")]
     public List<Transform> targets;
-    public Transform player;
-    FollowCameraController camController;
-    public SimManager simMgrComponent;
 
+    FollowCameraController camController;
     int currentTargetID;
     float smoothTimeStart;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Assertions
-        Assert.IsTrue(this.player != null);
-        Assert.IsTrue(this.simMgrComponent != null);
+        this.camController = this.GetComponent<FollowCameraController>();
 
-        this.camController = GetComponent<FollowCameraController>();
+        this.smoothTimeStart = this.camController.smoothTime;
 
-        this.smoothTimeStart = camController.smoothTime;
-
-        if (this.targets.Count > 0)
+        var player = FindObjectOfType<PlayerLogic>().transform;
+        if (this.targets.Count == 0)
         {
-            this.currentTargetID = 0;
-            this.camController.smoothTime = 0.9f;
-            this.camController.SetTarget(this.targets[0]);
-            this.camController.ForceFocusOnTarget();
-            this.targets.Add(this.player);
+            this.targets = FindObjectsOfType<Objective>()
+                .Select(o => o.target)
+                // TODO: solve traveling salesman problem, then order the objectives better
+                .OrderBy(o => Vector2.Distance(player.transform.position, o.position))
+                .ToList();
         }
-        else
+
+        var simManager = FindObjectOfType<SimManager>();
+        if (simManager != null)
         {
-            // If targets are not specified, just ignore it and start the game
-            this.startGame();
-            this.enabled = false;
+            simManager.enabled = false;
         }
+        this.camController.smoothTime = 0.9f;
+        // Start at player
+        this.currentTargetID = -1;
+        this.camController.SetTarget(player);
+        this.camController.ForceFocusOnTarget();
+        // End at player
+        this.targets.Add(player);
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Iterate all targets till there are no targets
-        if (camController.atTargetPosition)
+        if (this.camController.atTargetPosition)
         {
-            if (this.currentTargetID == targets.Count-1)
+            if (this.currentTargetID == this.targets.Count-1)
             {
                 // Animation is done, let's play now
-                this.startGame();
+                this.StartGame();
             }
             else
             {
@@ -62,12 +63,18 @@ public class CameraIntro : MonoBehaviour
         }
     }
 
-    void startGame()
+    void StartGame()
     {
-        this.simMgrComponent.enabled = true;
         //this.camController.SetTarget(this.player);
         this.camController.smoothTime = this.smoothTimeStart;
         this.camController.searchPointsOfInterest = true;
         this.camController.clampToCameraInnerArea = true;
+
+        var simManager = FindObjectOfType<SimManager>();
+        if (simManager != null)
+        {
+            simManager.enabled = true;
+        }
+        this.enabled = false;
     }
 }

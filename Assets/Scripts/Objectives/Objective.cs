@@ -34,6 +34,8 @@ public abstract class Objective : MonoBehaviour
         this.failedStyle.normal.textColor = new Color(1.0f, 0.5f, 0.5f);
     }
 
+    public abstract Transform target { get; }
+    public abstract float radius { get; }
     public abstract float amountRequired { get; }
     public abstract float amountDone { get; }
     public abstract bool required { get; }

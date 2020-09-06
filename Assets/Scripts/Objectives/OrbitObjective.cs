@@ -6,7 +6,7 @@ using UnityEngine;
 public class OrbitObjective : Objective
 {
     [Range(0, 10f)]
-    public float radius = 5f;
+    public float orbitMaxRadius = 5f;
     [Range(0.25f, 10f)]
     public float requiredOrbits = 1;
     public bool makeRequired;
@@ -15,7 +15,6 @@ public class OrbitObjective : Objective
     bool isOrbit;
     Vector2 lastRelativePosition;
     float performedOrbits = 0;
-    Transform target => this.GetComponentInParent<Orbit>().position;
 
     static Vector2 ScreenToGUI(Vector2 screen)
     {
@@ -76,6 +75,8 @@ public class OrbitObjective : Objective
     public override bool required => this.makeRequired;
     public override float score => this.performedOrbits / this.requiredOrbits;
     public override bool active => this.isOrbit;
+    public override Transform target => this.GetComponentInParent<Orbit>().position;
+    public override float radius => this.orbitMaxRadius;
     #endregion
 
 #if UNITY_EDITOR
