@@ -162,7 +162,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicatorPrefab: {fileID: 2451807392889260069, guid: 9138f337120d18a4c972e9aad921b143,
     type: 3}
-  playerTransform: {fileID: 0}
 --- !u!1 &2528723476828145984
 GameObject:
   m_ObjectHideFlags: 0

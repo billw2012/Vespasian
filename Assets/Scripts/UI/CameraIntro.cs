@@ -13,6 +13,9 @@ public class CameraIntro : MonoBehaviour
     FollowCameraController camController;
     int currentTargetID;
     float smoothTimeStart;
+    float nextTargetTime = 0;
+
+    const float PauseTime = 1f;
 
     void Start()
     {
@@ -42,6 +45,7 @@ public class CameraIntro : MonoBehaviour
         this.camController.ForceFocusOnTarget();
         // End at player
         this.targets.Add(player);
+        this.nextTargetTime = 0;
     }
 
     void Update()
@@ -49,16 +53,24 @@ public class CameraIntro : MonoBehaviour
         // Iterate all targets till there are no targets
         if (this.camController.atTargetPosition)
         {
-            if (this.currentTargetID == this.targets.Count-1)
+            if (this.nextTargetTime == 0)
             {
-                // Animation is done, let's play now
-                this.StartGame();
+                this.nextTargetTime = Time.time + PauseTime;
             }
-            else
+            else if (this.nextTargetTime < Time.time)
             {
-                // We have more objects to visit
-                this.currentTargetID++;
-                this.camController.SetTarget(this.targets[this.currentTargetID]);
+                this.nextTargetTime = 0;
+                if (this.currentTargetID == this.targets.Count - 1)
+                {
+                    // Animation is done, let's play now
+                    this.StartGame();
+                }
+                else
+                {
+                    // We have more objects to visit
+                    this.currentTargetID++;
+                    this.camController.SetTarget(this.targets[this.currentTargetID]);
+                }
             }
         }
     }

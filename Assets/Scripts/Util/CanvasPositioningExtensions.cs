@@ -9,7 +9,7 @@
 /// 
 public static class CanvasPositioningExtensions
 {
-    public static Vector3 WorldToCanvasPosition(this Canvas canvas, Vector3 worldPosition, Camera camera = null)
+    public static Vector2 WorldToCanvasPosition(this Canvas canvas, Vector3 worldPosition, Camera camera = null)
     {
         if (camera == null)
         {
@@ -19,11 +19,10 @@ public static class CanvasPositioningExtensions
         return canvas.ViewportToCanvasPosition(viewportPosition);
     }
 
-    public static Vector3 ScreenToCanvasPosition(this Canvas canvas, Vector3 screenPosition)
+    public static Vector2 ScreenToCanvasPosition(this Canvas canvas, Vector2 screenPosition)
     {
-        var viewportPosition = new Vector3(screenPosition.x / Screen.width,
-                                           screenPosition.y / Screen.height,
-                                           0);
+        var viewportPosition = new Vector2(screenPosition.x / Screen.width,
+                                           screenPosition.y / Screen.height);
         return canvas.ViewportToCanvasPosition(viewportPosition);
     }
 
@@ -31,17 +30,21 @@ public static class CanvasPositioningExtensions
     {
         var viewportRectMin = new Vector2(screenRect.xMin / Screen.width,
                                            screenRect.yMin / Screen.height);
-        var viewportRectMax = new Vector3(screenRect.xMax / Screen.width,
+        var viewportRectMax = new Vector2(screenRect.xMax / Screen.width,
                                            screenRect.yMax / Screen.height);
         var canvasRectMin = canvas.ViewportToCanvasPosition(viewportRectMin);
         return new Rect(canvasRectMin, canvas.ViewportToCanvasPosition(viewportRectMax)  - canvasRectMin);
     }
 
-    public static Vector3 ViewportToCanvasPosition(this Canvas canvas, Vector3 viewportPosition)
+    public static Vector2 ViewportToCanvasPosition(this Canvas canvas, Vector2 viewportPosition)
     {
-        var centerBasedViewPortPosition = viewportPosition - new Vector3(0.5f, 0.5f, 0);
         var canvasRect = canvas.GetComponent<RectTransform>();
         var scale = canvasRect.sizeDelta;
-        return Vector3.Scale(centerBasedViewPortPosition, scale);
+        return Vector2.Scale(viewportPosition, scale);
     }
+
+    //public static Vector2 CanvasToAnchoredPosition(this RectTransform transform, Vector2 canvasPosition)
+    //{
+    //    ((RectTransform)transform.parent).Get
+    //}
 }

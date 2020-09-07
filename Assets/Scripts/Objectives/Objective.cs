@@ -41,7 +41,8 @@ public abstract class Objective : MonoBehaviour
     public abstract bool required { get; }
     public abstract float score { get; }
     public abstract bool active { get; }
+    public abstract GameObject uiAsset { get; }
+
     public virtual bool failed => false;
     public virtual bool complete => this.amountDone >= this.amountRequired;
-    public virtual GameObject ui { get; }
 }

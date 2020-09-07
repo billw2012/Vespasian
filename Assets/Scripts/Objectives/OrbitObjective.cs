@@ -11,6 +11,7 @@ public class OrbitObjective : Objective
     public float requiredOrbits = 1;
     public bool makeRequired;
     public GameObject objectiveMarker;
+    public GameObject uiIconAsset;
 
     bool isOrbit;
     Vector2 lastRelativePosition;
@@ -25,16 +26,6 @@ public class OrbitObjective : Objective
     {
         var marker = Instantiate(this.objectiveMarker, this.target);
         marker.transform.localScale = Vector3.one * this.radius;
-    }
-
-    void OnGUI()
-    {
-        var screenPos = Camera.main.WorldToScreenPoint(this.target.position);
-        //var bounds = this.gameObject.GetFullMeshRendererBounds();
-        var screenSize = Camera.main.WorldToScreenPoint(this.target.position + Vector3.one * radius) -
-            Camera.main.WorldToScreenPoint(this.target.position);
-
-        GUI.Box(new Rect(ScreenToGUI(screenPos + screenSize), Vector2.one * 100), $"orbit {this.performedOrbits:0.00} / {this.requiredOrbits}", this.style);
     }
 
     // Use FixedUpdate as we are tracking position of objects that are updated in FixedUpdate
@@ -70,20 +61,24 @@ public class OrbitObjective : Objective
     }
 
     #region Objective implementation
+    public override Transform target => this.GetComponentInParent<Orbit>()?.position;
+    public override float radius => this.orbitMaxRadius;
     public override float amountRequired => this.requiredOrbits;
     public override float amountDone => this.performedOrbits;
     public override bool required => this.makeRequired;
     public override float score => this.performedOrbits / this.requiredOrbits;
     public override bool active => this.isOrbit;
-    public override Transform target => this.GetComponentInParent<Orbit>().position;
-    public override float radius => this.orbitMaxRadius;
+    public override GameObject uiAsset => this.uiIconAsset;
     #endregion
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        Handles.color = Color.green;
-        Handles.DrawWireDisc(this.target.position, Vector3.forward, this.radius);
+        if (this.target != null)
+        {
+            Handles.color = Color.green;
+            Handles.DrawWireDisc(this.target.position, Vector3.forward, this.radius);
+        }
     }
 #endif
 }
