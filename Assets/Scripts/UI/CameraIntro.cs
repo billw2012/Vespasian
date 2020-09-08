@@ -26,7 +26,7 @@ public class CameraIntro : MonoBehaviour
         var player = FindObjectOfType<PlayerLogic>().transform;
         if (this.targets.Count == 0)
         {
-            this.targets = FindObjectsOfType<Objective>()
+            this.targets = FindObjectsOfType<PositionalObjective>()
                 .Select(o => o.target)
                 // TODO: solve traveling salesman problem, then order the objectives better
                 .OrderBy(o => Vector2.Distance(player.transform.position, o.position))

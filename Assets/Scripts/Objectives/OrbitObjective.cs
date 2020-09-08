@@ -1,35 +1,22 @@
-﻿using System.Collections;
+﻿using Pixelplacement;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class OrbitObjective : Objective
+public class OrbitObjective : PositionalObjective
 {
-    [Range(0, 10f)]
+    [Range(0, 30f)]
     public float orbitMaxRadius = 5f;
     [Range(0.25f, 10f)]
     public float requiredOrbits = 1;
     public bool makeRequired;
-    public GameObject objectiveMarker;
-    public GameObject uiIconAsset;
 
     bool isOrbit;
     Vector2 lastRelativePosition;
     float performedOrbits = 0;
 
-    static Vector2 ScreenToGUI(Vector2 screen)
-    {
-        return new Vector2(screen.x, Screen.height - screen.y);
-    }
-
-    void Start()
-    {
-        var marker = Instantiate(this.objectiveMarker, this.target);
-        marker.transform.localScale = Vector3.one * this.radius;
-    }
-
-    // Use FixedUpdate as we are tracking position of objects that are updated in FixedUpdate
-    void FixedUpdate()
+    protected override void UpdateObjective()
     {
         var player = FindObjectOfType<PlayerLogic>();
         if(player == null)
@@ -66,19 +53,8 @@ public class OrbitObjective : Objective
     public override float amountRequired => this.requiredOrbits;
     public override float amountDone => this.performedOrbits;
     public override bool required => this.makeRequired;
-    public override float score => this.performedOrbits / this.requiredOrbits;
     public override bool active => this.isOrbit;
-    public override GameObject uiAsset => this.uiIconAsset;
+    public override string debugName => "Orbit";
+    public override Color color => Color.green;
     #endregion
-
-#if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        if (this.target != null)
-        {
-            Handles.color = Color.green;
-            Handles.DrawWireDisc(this.target.position, Vector3.forward, this.radius);
-        }
-    }
-#endif
 }

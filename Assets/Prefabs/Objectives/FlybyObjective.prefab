@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3316844101632596618}
-  - component: {fileID: 1260058446968278555}
+  - component: {fileID: 105139525102014081}
   m_Layer: 8
-  m_Name: OrbitObjective
+  m_Name: FlybyObjective
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1260058446968278555
+--- !u!114 &105139525102014081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,13 +40,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4672626712936304807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef1b2920d61510448de56c090d99352, type: 3}
+  m_Script: {fileID: 11500000, guid: f260e6c60336d5b40a79f4c93e2f993b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitMaxRadius: 5
-  requiredOrbits: 3
+  flybyMaxDistance: 5
   makeRequired: 0
   objectiveMarkerAsset: {fileID: 2900056225493054018, guid: 1068afa00354f3d42bfa6d79836c6b5f,
     type: 3}
-  uiIconAsset: {fileID: 674572251429765367, guid: b5f102b52ac4eb44084e383b79ef9202,
+  uiIconAsset: {fileID: 9218500706157785939, guid: 5a9a55a0c3abd0541b2157b2c2115c8b,
     type: 3}

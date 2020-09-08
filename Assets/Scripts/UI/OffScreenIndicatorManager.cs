@@ -23,14 +23,15 @@ public class OffScreenIndicatorManager : MonoBehaviour
 
     class ObjectiveIndicator
     {
-        public Objective objective;
+        public PositionalObjective objective;
         public GameObject indicator;
-        public bool wasCompleted;
-        public bool wasOffscreen;
+        public bool wasCompleted = false;
+        public bool wasOffscreen = true;
+        public float angleOffset = 0;
+        public float angleOffsetVelocity = 0;
     }
-    readonly List<ObjectiveIndicator> objectiveIndicators = new List<ObjectiveIndicator>();
 
-    //readonly List<(Objective objective, GameObject indicator)> completeObjectiveIndicators = new List<(Objective objective, GameObject indicator)>();
+    readonly List<ObjectiveIndicator> objectiveIndicators = new List<ObjectiveIndicator>();
 
     // Start is called before the first frame update
     void Start()
@@ -41,15 +42,13 @@ public class OffScreenIndicatorManager : MonoBehaviour
             this.indicators.Add(Instantiate(this.indicatorPrefab, this.transform));
         }
 
-        foreach (var objective in FindObjectsOfType<Objective>())
+        foreach (var objective in FindObjectsOfType<PositionalObjective>())
         {
             var objectiveUi = Instantiate(objective.uiAsset, this.transform);
             objectiveUi.GetComponent<ObjectiveIcon>().target = objective;
             this.objectiveIndicators.Add(new ObjectiveIndicator {
                 objective = objective,
-                indicator = objectiveUi, 
-                wasCompleted = false,
-                wasOffscreen = false
+                indicator = objectiveUi
             });
         }
     }
@@ -76,10 +75,6 @@ public class OffScreenIndicatorManager : MonoBehaviour
         var clampArea = new Rect(
             canvasSafeArea.min + prefabRectTransform.rect.size * prefabRectTransform.pivot,
             canvasSafeArea.size - prefabRectTransform.rect.size
-            //.x - prefabRectTransform.rect.x + prefabRectTransform.rect.width * prefabRectTransform.pivot.x,
-            //canvasSafeArea.y - prefabRectTransform.rect.y,
-            //canvasSafeArea.width - prefabRectTransform.rect.width,
-            //canvasSafeArea.height - prefabRectTransform.rect.height
         );
 
         var indicatorSettings = GravitySource.All().Where(g => g.isActiveAndEnabled)
@@ -104,16 +99,30 @@ public class OffScreenIndicatorManager : MonoBehaviour
             remainingIndicators.GetComponentInChildren<UnityEngine.UI.Image>().enabled = false;
         }
 
-        foreach(var objectiveIndicator in this.objectiveIndicators.Where(o => !o.wasCompleted))
+        var playerForward = playerTransform.up;
+        var playerPosition = playerTransform.position;
+        foreach (var objectiveIndicator in this.objectiveIndicators.Where(o => !o.wasCompleted))
         {
-            var canvasPos = (Vector2)canvas.WorldToCanvasPosition(objectiveIndicator.objective.target.position + Vector3.one * objectiveIndicator.objective.radius);
+            // position of indicator is on radius of objective ahead of player
+            var targetPosition = objectiveIndicator.objective.target.position;
+            var targetToPlayer = (playerPosition - targetPosition).normalized;
+            // Which angle to rotate the indicator out of the players way
+            float desiredAngle = Mathf.Sign(Vector2.SignedAngle(targetToPlayer, playerForward)) * 25f;
+            objectiveIndicator.angleOffset = Mathf.SmoothDampAngle(objectiveIndicator.angleOffset, desiredAngle, ref objectiveIndicator.angleOffsetVelocity, 1);
+            var rotatedRelativePosition = Quaternion.Euler(0, 0, objectiveIndicator.angleOffset) * targetToPlayer;
 
+            var worldPosIndicator = targetPosition + rotatedRelativePosition * objectiveIndicator.objective.radius;
+
+            var canvasPosTarget = (Vector2)canvas.WorldToCanvasPosition(targetPosition);
+            var canvasPosIndicator = (Vector2)canvas.WorldToCanvasPosition(worldPosIndicator);
+            var canvasIndicatorOffset = canvasPosIndicator - canvasPosTarget;
             var indicatorTransform = objectiveIndicator.indicator.GetComponent<RectTransform>();
-            if (canvasSafeArea.Contains(canvasPos))
+            var finalIndicatorPos = canvasPosTarget + canvasIndicatorOffset.normalized * (canvasIndicatorOffset.magnitude + indicatorTransform.rect.size.magnitude * 0.5f * indicatorTransform.localScale.x);
+            if (canvasSafeArea.Contains(finalIndicatorPos))
             {
                 if(objectiveIndicator.wasOffscreen)
                 {
-                    Tween.LocalScale(indicatorTransform, new Vector3(3, 3, 1), 0.25f, 0);
+                    Tween.LocalScale(indicatorTransform, new Vector3(3, 3, 1), 0.25f, 0, Tween.EaseOutBack);
                     objectiveIndicator.wasOffscreen = false;
                 }
             }
@@ -121,12 +130,12 @@ public class OffScreenIndicatorManager : MonoBehaviour
             {
                 if (!objectiveIndicator.wasOffscreen)
                 {
-                    Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0);
+                    Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0, Tween.EaseOutBack);
                     objectiveIndicator.wasOffscreen = true;
                 }
-                canvasPos = clampArea.IntersectionWithRayFromCenter(canvasPos);
+                finalIndicatorPos = clampArea.IntersectionWithRayFromCenter(finalIndicatorPos);
             }
-            indicatorTransform.anchoredPosition = canvasPos;
+            indicatorTransform.anchoredPosition = finalIndicatorPos;
             //var clampPos = !canvasSafeArea.Contains(canvasPos) ?
             //    clampArea.IntersectionWithRayFromCenter(canvasPos)
             //    :
@@ -136,8 +145,8 @@ public class OffScreenIndicatorManager : MonoBehaviour
             if(objectiveIndicator.objective.complete)
             {
                 int completeObjectives = this.objectiveIndicators.Count(o => o.wasCompleted);
-                Tween.AnchoredPosition(indicatorTransform, new Vector2(40, 160 + completeObjectives * 40), 0.25f, 0);
-                Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0);
+                Tween.AnchoredPosition(indicatorTransform, new Vector2(40, 160 + completeObjectives * 40), 0.25f, 0, Tween.EaseInBack);
+                Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0, Tween.EaseInBack);
                 completeObjectives++;
                 objectiveIndicator.wasCompleted = true;
             }
