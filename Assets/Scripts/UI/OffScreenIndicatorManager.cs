@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +29,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
         public bool wasOffscreen = true;
         public float angleOffset = 0;
         public float angleOffsetVelocity = 0;
+        public float markerGapScale = 0;
     }
 
     readonly List<ObjectiveIndicator> objectiveIndicators = new List<ObjectiveIndicator>();
@@ -113,11 +114,26 @@ public class OffScreenIndicatorManager : MonoBehaviour
 
             var worldPosIndicator = targetPosition + rotatedRelativePosition * objectiveIndicator.objective.radius;
 
+            // Set up the objective marker
+            var marker = objectiveIndicator.objective.objectiveMarker;
+            marker.transform.localEulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.right, rotatedRelativePosition);
+            // Update the size of the gap in the marker circle so it fits the indicator icon correctly
+            var markerCircle = marker.GetComponent<CircleRenderer>();
+            // Degrees required is calculated using:
+            // s = size of icon in world space
+            // d = perimeter of the circle in world space
+            //   d = 2 * PI * radius
+            // degrees = 360 * (1 - (s / d))
+            var indicatorTransform = objectiveIndicator.indicator.GetComponent<RectTransform>();
+            var indicatorWorld = canvas.GetWorldSpaceRect(indicatorTransform);
+            float indicatorSize = Vector3.Distance(indicatorWorld[0], indicatorWorld[2]);
+            markerCircle.degrees = 360f * (1 - indicatorSize * 1.5f / (2 * Mathf.PI * objectiveIndicator.objective.radius));
+            markerCircle.UpdateCircle();
+
             var canvasPosTarget = (Vector2)canvas.WorldToCanvasPosition(targetPosition);
             var canvasPosIndicator = (Vector2)canvas.WorldToCanvasPosition(worldPosIndicator);
             var canvasIndicatorOffset = canvasPosIndicator - canvasPosTarget;
-            var indicatorTransform = objectiveIndicator.indicator.GetComponent<RectTransform>();
-            var finalIndicatorPos = canvasPosTarget + canvasIndicatorOffset.normalized * (canvasIndicatorOffset.magnitude + indicatorTransform.rect.size.magnitude * 0.5f * indicatorTransform.localScale.x);
+            var finalIndicatorPos = canvasPosTarget + canvasIndicatorOffset.normalized * canvasIndicatorOffset.magnitude;
             if (canvasSafeArea.Contains(finalIndicatorPos))
             {
                 if(objectiveIndicator.wasOffscreen)
@@ -136,11 +152,6 @@ public class OffScreenIndicatorManager : MonoBehaviour
                 finalIndicatorPos = clampArea.IntersectionWithRayFromCenter(finalIndicatorPos);
             }
             indicatorTransform.anchoredPosition = finalIndicatorPos;
-            //var clampPos = !canvasSafeArea.Contains(canvasPos) ?
-            //    clampArea.IntersectionWithRayFromCenter(canvasPos)
-            //    :
-            //    canvasPos;
-            //indicator.GetComponent<RectTransform>().anchoredPosition = clampPos;
 
             if(objectiveIndicator.objective.complete)
             {
@@ -150,7 +161,6 @@ public class OffScreenIndicatorManager : MonoBehaviour
                 completeObjectives++;
                 objectiveIndicator.wasCompleted = true;
             }
-
         }
     }
 }

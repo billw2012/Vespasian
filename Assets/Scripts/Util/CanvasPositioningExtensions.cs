@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Small helper class to convert viewport, screen or world positions to canvas space.
@@ -17,6 +18,17 @@ public static class CanvasPositioningExtensions
         }
         var viewportPosition = camera.WorldToViewportPoint(worldPosition);
         return canvas.ViewportToCanvasPosition(viewportPosition);
+    }
+
+    public static Vector3 CanvasToWorldPosition(this Canvas canvas, Vector2 canvasPosition, float z = 0, Camera camera = null)
+    {
+        if (camera == null)
+        {
+            camera = Camera.main;
+        }
+
+        var viewportPosition = canvas.CanvasToViewportPosition(canvasPosition);
+        return  camera.ViewportToWorldPoint((Vector3)viewportPosition + Vector3.forward * z);
     }
 
     public static Vector2 ScreenToCanvasPosition(this Canvas canvas, Vector2 screenPosition)
@@ -43,6 +55,19 @@ public static class CanvasPositioningExtensions
         return Vector2.Scale(viewportPosition, scale);
     }
 
+    public static Vector2 CanvasToViewportPosition(this Canvas canvas, Vector2 canvasPosition)
+    {
+        var canvasRect = canvas.GetComponent<RectTransform>();
+        var scale = canvasRect.sizeDelta;
+        return Vector2.Scale(canvasPosition, Vector2.one / scale);
+    }
+
+    public static Vector3[] GetWorldSpaceRect(this Canvas canvas, RectTransform ui, float z = 0, Camera camera = null)
+    {
+        var canvasRect = new Vector3[4];
+        ui.GetWorldCorners(canvasRect);
+        return canvasRect.Select(p => canvas.CanvasToWorldPosition(p, z, camera)).ToArray();
+    }
     //public static Vector2 CanvasToAnchoredPosition(this RectTransform transform, Vector2 canvasPosition)
     //{
     //    ((RectTransform)transform.parent).Get

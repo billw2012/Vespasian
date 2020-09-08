@@ -125,7 +125,7 @@ public class FollowCameraController : MonoBehaviour
             this.transform.position = new Vector3(targetPos.x, targetPos.y, this.transform.position.z);
             this.currentOffset = Vector2.zero;
         }
-        GetComponent<Camera>().orthographicSize = 12;
+        this.GetComponent<Camera>().orthographicSize = 12;
     }
 
     // Sets new target, use this for target changes at runtime to animate to another target
@@ -142,7 +142,7 @@ public class FollowCameraController : MonoBehaviour
     {
         get
         {
-            float dist = Vector2.Distance(this.transform.position, target.transform.position);
+            float dist = Vector2.Distance(this.transform.position, this.target.transform.position);
             return (dist < 2.0f);
         }
     }

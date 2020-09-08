@@ -1,5 +1,6 @@
 ﻿using Pixelplacement;
 using Pixelplacement.TweenSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -10,20 +11,13 @@ public abstract class PositionalObjective : Objective
     public GameObject objectiveMarkerAsset;
     public GameObject uiIconAsset;
 
-    GameObject objectiveMarker;
-    //TweenBase activeAnim;
+    [NonSerialized]
+    public GameObject objectiveMarker;
 
     void Start()
     {
         this.objectiveMarker = Instantiate(this.objectiveMarkerAsset, this.target);
         this.objectiveMarker.transform.localScale = Vector3.one * this.radius;
-        //this.activeAnim = Tween.LocalScale(this.objectiveMarker.transform,
-        //    startValue: Vector3.one * this.radius,
-        //    endValue: Vector3.one * this.radius * 0.95f,
-        //    duration: 0.5f,
-        //    delay: 0,
-        //    loop: Tween.LoopType.Loop,
-        //    easeCurve: Tween.EaseOut);
     }
 
     // Use FixedUpdate as we are tracking position of objects that are updated in FixedUpdate
@@ -36,24 +30,21 @@ public abstract class PositionalObjective : Objective
 
         this.UpdateObjective();
 
-        //if(this.active && this.activeAnim.Status != Tween.TweenStatus.Running)
-        //{
-        //    this.activeAnim.Start();
-        //}
-        //else if (!this.active && this.activeAnim.Status == Tween.TweenStatus.Running)
-        //{
-        //    this.activeAnim.Cancel();
-        //}
-
         // Hide the objective marker once we are done
         if (this.complete)
         {
-            //this.activeAnim.Stop();
+            var markerCircle = this.objectiveMarker.GetComponent<CircleRenderer>();
+            Tween.Value(markerCircle.degrees, 0,
+                v => { markerCircle.degrees = v; markerCircle.UpdateCircle(); },
+                duration: 0.2f,
+                delay: 0.1f,
+                easeCurve: Tween.EaseInBack,
+                completeCallback: () => this.objectiveMarker.SetActive(false));
             Tween.LocalScale(this.objectiveMarker.transform,
-                Vector3.one * this.radius * 10,
-                0.7f,
-                0.5f,
-                Tween.EaseInBack,
+                Vector3.one * this.radius * 3,
+                duration: 0.2f,
+                delay: 0.1f,
+                easeCurve: Tween.EaseInBack,
                 completeCallback: () => this.objectiveMarker.SetActive(false));
         }
     }
