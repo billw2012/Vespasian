@@ -11,6 +11,22 @@ public abstract class RadiusEffect : MonoBehaviour
     [Tooltip("Object to use as the effect source")]
     public Transform effector;
 
+    void Start()
+    {
+        if(this.effector == null)
+        {
+            var orbit = this.GetComponentInParent<Orbit>();
+            if(orbit != null && (orbit.gameObject == this || orbit.gameObject == this.transform.parent.gameObject))
+            {
+                this.effector = orbit.position;
+            }
+            else
+            {
+                this.effector = this.transform;
+            }
+        }
+    }
+
     void Update()
     {
         float radius = this.effector.transform.localScale.x;

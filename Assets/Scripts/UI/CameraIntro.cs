@@ -24,13 +24,19 @@ public class CameraIntro : MonoBehaviour
         this.smoothTimeStart = this.camController.smoothTime;
 
         var player = FindObjectOfType<PlayerLogic>().transform;
-        if (this.targets.Count == 0)
+        if (!this.targets.Any())
         {
             this.targets = FindObjectsOfType<PositionalObjective>()
                 .Select(o => o.target)
                 // TODO: solve traveling salesman problem, then order the objectives better
                 .OrderBy(o => Vector2.Distance(player.transform.position, o.position))
                 .ToList();
+            // Just forget the intro if there are no objectives at all
+            if(!this.targets.Any())
+            {
+                this.StartGame();
+                return;
+            }
         }
 
         var simManager = FindObjectOfType<SimManager>();
