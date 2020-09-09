@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3316844101632596618}
   - component: {fileID: 6030778569162965802}
+  - component: {fileID: 6218428923803299201}
   m_Layer: 8
   m_Name: ScanObjective
   m_TagString: Untagged
@@ -47,3 +48,21 @@ MonoBehaviour:
   effectFactor: 1
   effector: {fileID: 0}
   scanned: 0
+  scanning: 0
+--- !u!114 &6218428923803299201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4672626712936304807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1c395ee34c4704ca53dfd6c4219ec8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectiveMarkerAsset: {fileID: 2900056225493054018, guid: 1068afa00354f3d42bfa6d79836c6b5f,
+    type: 3}
+  uiIconAsset: {fileID: 3937794868256674711, guid: 7898e6de76b362c49a2a2484fc0afb30,
+    type: 3}
+  makeRequired: 0

@@ -481,6 +481,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 828748794}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &892993100 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1937751458560186259, guid: e909f63bf4fb3ca45b9d379415211c19,
+    type: 3}
+  m_PrefabInstance: {fileID: 1247210315}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1247210315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -660,7 +666,22 @@ PrefabInstance:
     - target: {fileID: 6030778569162965802, guid: 36fd53333a406714aaf82339575c3d05,
         type: 3}
       propertyPath: maxRadius
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6030778569162965802, guid: 36fd53333a406714aaf82339575c3d05,
+        type: 3}
+      propertyPath: effector
+      value: 
+      objectReference: {fileID: 892993100}
+    - target: {fileID: 6030778569162965802, guid: 36fd53333a406714aaf82339575c3d05,
+        type: 3}
+      propertyPath: effectFactor
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218428923803299201, guid: 36fd53333a406714aaf82339575c3d05,
+        type: 3}
+      propertyPath: makeRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36fd53333a406714aaf82339575c3d05, type: 3}

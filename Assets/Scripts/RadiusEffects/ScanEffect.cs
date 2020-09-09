@@ -5,9 +5,14 @@ public class ScanEffect : RadiusEffect
     [HideInInspector]
     public float scanned = 0;
 
+    public bool scanning = false;
+
+    public bool fullyScanned => this.scanned >= 1;
+
     protected override void Apply(RadiusEffectTarget target, float value, float heightRatio, Vector3 direction)
     {
-        if(value > 0)
+        this.scanning = !this.fullyScanned && value > 0;
+        if (this.scanning)
         {
             if (target.GetComponentInChildren<Scanner>().MarkTargetActive(this.effector))
             {

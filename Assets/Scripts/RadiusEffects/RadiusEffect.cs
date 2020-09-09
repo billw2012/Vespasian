@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class RadiusEffect : MonoBehaviour
@@ -11,20 +12,20 @@ public abstract class RadiusEffect : MonoBehaviour
     [Tooltip("Object to use as the effect source")]
     public Transform effector;
 
-    void Start()
+    void OnValidate()
     {
-        if(this.effector == null)
+        if (this.effector == null)
         {
             var orbit = this.GetComponentInParent<Orbit>();
-            if(orbit != null && (orbit.gameObject == this || orbit.gameObject == this.transform.parent.gameObject))
-            {
-                this.effector = orbit.position;
-            }
-            else
-            {
-                this.effector = this.transform;
-            }
+            this.effector = orbit != null && (orbit.gameObject == this || orbit.gameObject == this.transform.parent.gameObject)
+                ? orbit.position
+                : this.transform;
         }
+    }
+
+    void Start()
+    {
+        this.OnValidate();
     }
 
     void Update()
