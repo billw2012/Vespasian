@@ -159,6 +159,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538521787757848290, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4538521788195604900, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_LocalRotation.z
@@ -188,6 +213,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538521788297379536, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: orthographic size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714121131598302858, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: brightness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714121131598302858, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: scaleRatio
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4741171058214613415, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}

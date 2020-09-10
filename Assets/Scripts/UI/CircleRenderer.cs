@@ -14,13 +14,17 @@ public class CircleRenderer : MonoBehaviour
     [Range(0, 360)]
     public float degrees = 360f;
 
-    void Start()
+    void Awake()
     {
         if(this.lineRenderer == null)
         {
             this.lineRenderer = this.GetComponent<LineRenderer>();
         }
         this.lineRenderer.useWorldSpace = false;
+    }
+
+    void Start()
+    {
         this.UpdateCircle();
     }
 
@@ -34,7 +38,7 @@ public class CircleRenderer : MonoBehaviour
 
     public void UpdateCircle()
     {
-        int vertexNumber = (int)(this.degrees * this.quality);
+        int vertexNumber = Mathf.Max(1, (int)(this.degrees * this.quality));
         float angle = this.degrees * Mathf.Deg2Rad / vertexNumber;
         float startAngle = (360f - this.degrees) * Mathf.Deg2Rad / 2f;
         this.lineRenderer.positionCount = vertexNumber + 1;
