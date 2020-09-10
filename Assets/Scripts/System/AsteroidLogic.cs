@@ -9,6 +9,8 @@ public class AsteroidLogic : MonoBehaviour
     // Axis around which we are rotating
     private Vector3 rotationAxis;
 
+    public GameLogic gameLogic;
+
     // Rotation speed
     private float rotationVelocity;
     void Start()
@@ -21,5 +23,13 @@ public class AsteroidLogic : MonoBehaviour
     void Update()
     {
         GetComponent<Transform>().Rotate(rotationAxis, Time.deltaTime*rotationVelocity);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponentInParent<PlayerLogic>() != null)
+        {
+            this.gameLogic.LoseGame();
+        }
     }
 }

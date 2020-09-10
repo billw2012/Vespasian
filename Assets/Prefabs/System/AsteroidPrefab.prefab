@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 3509586705671889919}
   - component: {fileID: 9150105991769169910}
   - component: {fileID: 344344990072184525}
-  - component: {fileID: 1013234481607961084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,19 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1013234481607961084
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331125091250287216}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6039441407903207753
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +95,7 @@ GameObject:
   - component: {fileID: 3943400424216723535}
   - component: {fileID: 7657101580584554705}
   - component: {fileID: 8738747452464767748}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AsteroidPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +136,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.45
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2438610178736772583
 Rigidbody:
@@ -199,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67546db15602b0845a4fb272be8d7c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
 --- !u!114 &7657101580584554705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,3 +213,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shadowLengthScale: 30
   geometry: {fileID: 9150105991769169910}
+  shadowCasterSize: {x: 0.5, y: 0.5}
