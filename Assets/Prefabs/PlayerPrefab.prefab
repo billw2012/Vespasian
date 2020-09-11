@@ -129,6 +129,8 @@ MonoBehaviour:
   startVelocity: {x: 0, y: 0, z: 0}
   alignToVelocity: 1
   pathRenderer: {fileID: 2007543306442515008}
+  pathRendererSoiAsset: {fileID: 5168330289270263234, guid: 0f42fcf47f7b3204dbabda1749c699a6,
+    type: 3}
   warningSign: {fileID: 0}
   editorCrashed: 0
 --- !u!114 &1408795510517265554
@@ -204,7 +206,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c08cb9b3d66eedc48b4cf9566906601a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,7 +232,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -249,8 +251,8 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.3455188, g: 1, b: 0.25943398, a: 0}
-      key1: {r: 0.34509805, g: 1, b: 0.25882354, a: 1}
-      key2: {r: 0.34509805, g: 1, b: 0.25882354, a: 1}
+      key1: {r: 0.34509805, g: 1, b: 0.25882354, a: 0.5019608}
+      key2: {r: 0.34509805, g: 1, b: 0.25882354, a: 0.38039216}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -265,7 +267,7 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 2313
+      atime1: 655
       atime2: 39321
       atime3: 65535
       atime4: 0
@@ -278,7 +280,7 @@ LineRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 0
+    textureMode: 1
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1
