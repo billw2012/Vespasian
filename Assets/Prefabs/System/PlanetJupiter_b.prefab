@@ -19,16 +19,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e60ea05dc4e5b934fa519842b05ce26e, type: 2}
+      objectReference: {fileID: 2100000, guid: 5099f8b1c8ec50741b7017127c732a90, type: 2}
     - target: {fileID: 2318905709148006584, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2318905709148006584, guid: bb7acb2ed8858c243ae801a3c0997461,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207753, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_Name
-      value: PlanetJupiterLike
+      value: PlanetJupiter_b
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207765, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
