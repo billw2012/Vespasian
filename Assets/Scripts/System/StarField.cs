@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 // Roughly based on this: http://guidohenkel.com/2018/05/endless_starfield_unity/
 public class StarField : MonoBehaviour
 {
-    [Range(1, 100)]
+    [Range(1, 500)]
     public int maxStars = 100;
     [Range(0.01f, 1f)]
     public float starMinSize = 0.01f;
@@ -26,6 +26,10 @@ public class StarField : MonoBehaviour
     [Range(0f, 1f)]
     public float scaleEffect = 0.25f;
 
+    [Range(0f, 1f)]
+    public float animationSpeed = 0.1f;
+
+    public AnimationCurve sizeDistribution;
     public AnimationCurve twinkleAlphaAnim;
     public AnimationCurve rotationAnim;
 
@@ -55,6 +59,12 @@ public class StarField : MonoBehaviour
         this.stars = new ParticleSystem.Particle[this.maxStars];
         this.baseSizes = new float[this.maxStars];
 
+        float GetRandomSize()
+        {
+            float sizeScale = this.sizeDistribution != null ? this.sizeDistribution.Evaluate(Random.value) : Random.value;
+            return this.starMinSize + sizeScale * this.starSizeRange;
+        }
+
         float halfRectSize = this.rectSize * 0.5f;
         for (int i = 0; i < this.stars.Length; i++)
         {
@@ -62,13 +72,14 @@ public class StarField : MonoBehaviour
             // float scaledColor = (true == this.colorize) ? randSize - StarSizeRange : 1f;
 
             this.stars[i].position = new Vector3(Random.Range(-halfRectSize, halfRectSize), Random.Range(-halfRectSize, halfRectSize), Random.Range(0, this.parallaxRange));
-            this.baseSizes[i] = this.stars[i].startSize = this.starMinSize + Random.Range(0, this.starSizeRange);
+            this.baseSizes[i] = this.stars[i].startSize = GetRandomSize();
             this.stars[i].startColor = this.colors[Random.Range(0, this.colors.Count)];
             this.stars[i].rotation = Random.Range(0f, 360f);
             this.stars[i].axisOfRotation = Vector3.forward;
         }
         this.GetComponent<ParticleSystem>().SetParticles(this.stars, this.stars.Length);
     }
+
 
     static Color SetAlpha(Color col, float alpha) => new Color(col.r, col.g, col.b, alpha);
 
@@ -127,13 +138,13 @@ public class StarField : MonoBehaviour
 
             if (this.twinkleAlphaAnim != null)
             {
-                float size = this.twinkleAlphaAnim.Evaluate(0.05f * Time.time + i * 7.13f);
+                float size = this.twinkleAlphaAnim.Evaluate(0.1f * this.animationSpeed * Time.time + i * 7.13f);
                 this.stars[i].startSize = size * this.baseSizes[i];
                 this.stars[i].startColor = SetAlpha(this.stars[i].startColor, size);
             }
             if (this.rotationAnim != null)
             {
-                this.stars[i].rotation = 360f * this.rotationAnim.Evaluate(0.15f * Time.time + i * 3.21f);
+                this.stars[i].rotation = 360f * this.rotationAnim.Evaluate(0.3f * this.animationSpeed * Time.time + i * 3.21f);
             }
         }
         this.GetComponent<ParticleSystem>().SetParticles(this.stars, this.stars.Length);
