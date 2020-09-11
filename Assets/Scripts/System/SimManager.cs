@@ -88,12 +88,22 @@ public class SimPath
         return (position, velocity);
     }
 
+    static float TrimList<T>(float beforeTime, float startTime, float dt, List<T> list)
+    {
+        int count = Mathf.Clamp(Mathf.FloorToInt((beforeTime - startTime) / dt), 0, list.Count);
+        list.RemoveRange(0, count);
+        return startTime + count * dt;
+    }
+
     public void TrimStart(float beforeTime)
     {
-        int count = Mathf.Clamp(Mathf.FloorToInt((beforeTime - this.timeStart) / this.dt), 0, this.path.Count);
-        this.path.RemoveRange(0, count);
-        this.timeStart += count * this.dt;
+        this.timeStart = TrimList(beforeTime, this.timeStart, this.dt, this.path);
         this.sois = this.sois.Where(s => s.endTime > this.timeStart).ToList();
+        if(this.sois.Any())
+        {
+            var firstSoi = this.sois.First();
+            firstSoi.startTime = TrimList(beforeTime, firstSoi.startTime, this.dt, firstSoi.relativePath);
+        }
     }
 
     public void Append(SimPath other)
@@ -104,7 +114,19 @@ public class SimPath
 
         this.crashed = other.crashed;
         this.path.AddRange(other.path);
-        this.sois.AddRange(other.sois);
+        if (this.sois.Any() && other.sois.Any() && this.sois.Last().g == other.sois.First().g)
+        {
+            var ourLastSoi = this.sois.Last();
+            var otherFirstSoi = other.sois.First();
+            ourLastSoi.endTime = otherFirstSoi.endTime;
+            ourLastSoi.maxForce = Mathf.Max(ourLastSoi.maxForce, otherFirstSoi.maxForce);
+            ourLastSoi.relativePath.AddRange(otherFirstSoi.relativePath);
+            this.sois.AddRange(other.sois.Skip(1));
+        }
+        else
+        {
+            this.sois.AddRange(other.sois);
+        }
         this.finalVelocity = other.finalVelocity;
     }
 }
@@ -117,6 +139,7 @@ public class SimModel
         public float maxForce;
         public float startTime;
         public float endTime;
+        public List<Vector3> relativePath = new List<Vector3>();
     }
 
     struct SimOrbit
@@ -214,12 +237,12 @@ public class SimModel
             }
             this.sois.Last().endTime = this.time;
 
-
             this.velocity += forceInfo.rescaledTotalForce * dt;
 
             var oldPosition = this.position;
             this.position += this.velocity * dt;
 
+            this.sois.Last().relativePath.Add(this.position - forceInfo.positions[maxIndex]);
 
             this.crashed = false;
             for (int i = 0; i < this.owner.simGravitySources.Count; i++)
