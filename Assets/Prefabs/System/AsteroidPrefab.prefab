@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shadowLengthScale: 30
   geometry: {fileID: 9150105991769169910}
-  shadowCasterSize: {x: 0.5, y: 0.5}
+  shadowCasterSize: {x: 0.05, y: 0.05}
 --- !u!1 &6860978582396334874
 GameObject:
   m_ObjectHideFlags: 0
