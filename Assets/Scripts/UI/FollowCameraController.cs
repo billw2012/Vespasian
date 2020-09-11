@@ -73,7 +73,9 @@ public class FollowCameraController : MonoBehaviour
             // Combine spheres of influence from sim path and points of interest from scene
             // Both use distance metric, but distance for SOIs is measured along the simulated path
             // and distance for basic POIs is measured from player
-            var pointsOfInterest = this.scenePointsOfInterest.Select(i => (
+            var pointsOfInterest = this.scenePointsOfInterest
+                .Where(i => i != null)
+                .Select(i => (
                     position: i.transform.position,
                     size: i.size,
                     distance: Vector3.Distance(i.transform.position, this.target.position)

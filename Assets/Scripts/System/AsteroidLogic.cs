@@ -11,6 +11,9 @@ public class AsteroidLogic : MonoBehaviour
 
     public GameLogic gameLogic;
 
+    [Tooltip("Root object to destroy when this asteroid is destroyed. For compatibility with orbiting asteroids.")]
+    public GameObject rootDestroy;
+
     // Rotation speed
     private float rotationVelocity;
     void Start()
@@ -29,7 +32,17 @@ public class AsteroidLogic : MonoBehaviour
     {
         if (collision.gameObject.GetComponentInParent<PlayerLogic>() != null)
         {
-            this.gameLogic.LoseGame();
+            //this.gameLogic.LoseGame();
+            this.Explode();
         }
+    }
+
+    public void Explode()
+    {
+        var particleSystem = GetComponentInChildren<ParticleSystem>();
+        particleSystem.Play();
+        Destroy(this.rootDestroy, particleSystem.main.duration);
+        var meshRenderer = GetComponentInChildren<MeshRenderer>();
+        meshRenderer.enabled = false;
     }
 }

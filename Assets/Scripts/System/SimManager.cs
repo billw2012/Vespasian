@@ -39,10 +39,11 @@ public class SimManager : MonoBehaviour
         // Update game objects from model (we use the simModels orbit list so we keep consistent ordering)
         foreach (var o in this.model.orbits)
         {
-            o.SimUpdate(this.simTime);
+            if (o != null)
+                o.SimUpdate(this.simTime);
         }
 
-        foreach (var s in this.simulatedObjects.Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
+        foreach (var s in this.simulatedObjects.Where(s => s != null).Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
         {
             s.SimUpdate(this.simTime);
         }
