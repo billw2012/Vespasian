@@ -30,6 +30,6 @@ public class Background : MonoBehaviour
         var movement = (Vector2)this.transform.position - this.lastPosition;
         this.lastPosition = this.transform.position;
         this.offset += movement * -this.parallaxSpeed;
-        this.GetComponent<MeshRenderer>().material.SetTextureOffset("_BaseMap", this.offset);
+        this.GetComponent<MeshRenderer>().material.SetTextureOffset("_MainTex", this.offset);
     }
 }
