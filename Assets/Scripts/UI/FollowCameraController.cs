@@ -35,8 +35,15 @@ public class FollowCameraController : MonoBehaviour
     Vector2 smoothedOffset; // Smoothed offset value without clamping
     float initialCameraSize;
 
-
     CameraPointOfInterest[] scenePointsOfInterest;
+
+    // Camera shake effect
+    int shakeNCycles = 0;
+    Vector3 shakeTargetOffset;
+    Vector3 shakePrevOffset;
+    Vector3 shakeCurrentOffset; // current = prev + target*transitionFunction(progress)
+    float shakeProgress = 0;
+    const float shakeCycleDuration = 0.05f; // How long it takes camera to animate from one place to another
 
     void Start()
     {
@@ -65,6 +72,9 @@ public class FollowCameraController : MonoBehaviour
 
     void Update()
     {
+        // Update shake effect
+        this.UpdateShake();
+
         var bounds = new Bounds((Vector2)this.target.position, Vector2.one * this.margin);
 
         // Include other points of interested only if this is enabled
@@ -115,7 +125,9 @@ public class FollowCameraController : MonoBehaviour
         var clampedOffset = this.clampToCameraInnerArea ? this.ClampToCameraInnerArea(smoothedOffset) : smoothedOffset;
 
         // Don't modify the z coordinate
-        this.transform.position = (this.target.transform.position + (Vector3)clampedOffset).xy0() + this.transform.position._00z();
+        this.transform.position = (this.target.transform.position + (Vector3)clampedOffset).xy0()
+                                    + this.transform.position._00z()
+                                    + this.shakeCurrentOffset;
         this.currentOffset = clampedOffset;
     }
 
@@ -147,5 +159,40 @@ public class FollowCameraController : MonoBehaviour
             float dist = Vector2.Distance(this.transform.position, this.target.transform.position);
             return (dist < 2.0f);
         }
+    }
+
+    // Shaking
+
+    // Cos-like transition function, take input 0..1, returns value 0..1
+    float CosTransition(float valueNormalized)
+    {
+        var valueClamped = Mathf.Clamp(valueNormalized, 0, 1);
+        return (0.5f - 0.5f * Mathf.Cos(valueClamped * Mathf.PI));
+    }
+
+    public void StartShake(float duration)
+    {
+        this.shakeNCycles = Mathf.CeilToInt(duration / FollowCameraController.shakeCycleDuration);
+    }
+
+    void UpdateShake()
+    {
+        // Increase progress to next point
+        this.shakeProgress = Mathf.Clamp(this.shakeProgress + Time.deltaTime / FollowCameraController.shakeCycleDuration, 0, 1);
+
+        if (this.shakeProgress >= 1.0f && this.shakeNCycles != 0)
+        {
+            this.shakeNCycles--;
+            this.shakePrevOffset = this.shakeTargetOffset;
+            this.shakeTargetOffset = this.shakeNCycles == 0 ? Vector3.zero : Random.insideUnitSphere;
+            this.shakeProgress = 0;            
+        }
+
+        // Update position
+        float shakeScale = 1.0f;
+        var targetPrevDifference = this.shakeTargetOffset - this.shakePrevOffset;
+        this.shakeCurrentOffset = shakeScale * (this.shakePrevOffset + this.CosTransition(this.shakeProgress) * targetPrevDifference);
+        this.shakeCurrentOffset.z = 0;
+        //Debug.Log($"ShakeNCycles: {this.shakeNCycles}, shakeProgress: {this.shakeProgress}, prev offset: {this.shakePrevOffset}, targetOffset: {this.shakeTargetOffset}, currentOffset: {this.shakeCurrentOffset}");
     }
 }

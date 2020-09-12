@@ -75,8 +75,13 @@ public class GameLogic : ScriptableObject {
     }
 
     // Returns player object
-    public GameObject GetPlayer()
+    public PlayerLogic GetPlayerLogic()
     {
-        return FindObjectOfType<PlayerLogic>().gameObject;
+        return FindObjectOfType<PlayerLogic>();
+    }
+
+    public FollowCameraController GetCameraController()
+    {
+        return FindObjectOfType<FollowCameraController>();
     }
 }

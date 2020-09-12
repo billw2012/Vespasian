@@ -32,14 +32,14 @@ public class AsteroidLogic : MonoBehaviour
     private float rotationVelocity;
 
     // Player object
-    GameObject player;
+    PlayerLogic playerLogic;
     
     void Start()
     {
         this.miningRadiusRenderer.transform.localScale = this.miningRadius * 2 * (new Vector3(1,1,1));
         rotationAxis = Random.onUnitSphere;
         rotationVelocity = 50; // Random.Range(-40, 40);
-        this.player = this.gameLogic.GetPlayer();
+        this.playerLogic = this.gameLogic.GetPlayerLogic();
     }
 
     private void OnValidate()
@@ -53,7 +53,7 @@ public class AsteroidLogic : MonoBehaviour
         asteroidModelTransform.Rotate(rotationAxis, Time.deltaTime*rotationVelocity);
 
         // Check if player is close enough. If so, enable the circle indicator
-        this.miningRadiusRenderer.enabled = this.miningRadius * 3 > Vector3.Distance(this.transform.position, this.player.transform.position);
+        this.miningRadiusRenderer.enabled = this.miningRadius * 3 > Vector3.Distance(this.transform.position, this.playerLogic.transform.position);
 
         this.timePassedWithoutMining += Time.deltaTime;
 
@@ -66,6 +66,7 @@ public class AsteroidLogic : MonoBehaviour
         {
             //this.gameLogic.LoseGame();
             this.Explode();
+            this.gameLogic.GetCameraController().StartShake(0.5f);
         }
     }
 
@@ -89,7 +90,8 @@ public class AsteroidLogic : MonoBehaviour
         if (this.miningProgress >= 1.0f && !this.exploded)
         {
             this.Explode();
-            this.player?.GetComponent<PlayerLogic>().AddHealth(0.2f);
+            if (this.playerLogic != null)
+                this.playerLogic?.AddHealth(0.2f);
         }
     }
 

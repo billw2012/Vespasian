@@ -136,6 +136,7 @@ public class PlayerLogic : MonoBehaviour
     }
 
     // ==== Mining
+    // todo: should we move it to separate component?
     void UpdateMining()
     {
         if (this.miningTarget != null) {
