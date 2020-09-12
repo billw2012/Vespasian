@@ -142,10 +142,9 @@ public class PlayerLogic : MonoBehaviour
         if (this.miningTarget != null) {
             //var miningComponent = miningTarget.GetComponent<AsteroidLogic>();
             var distanceToTarget = Vector3.Distance(this.transform.position, this.miningTarget.transform.position);
-            if (distanceToTarget < this.miningTarget.miningRadius)
+            if (distanceToTarget < this.miningTarget.miningRadius && !this.miningTarget.HasExploded)
             {
                 this.miningTarget.Mine(); // It's mine!!
-
             }
             else
             {

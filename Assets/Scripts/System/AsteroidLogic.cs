@@ -26,6 +26,7 @@ public class AsteroidLogic : MonoBehaviour
     float miningProgress = 0; // Ranges 0..1
     float timePassedWithoutMining = 0;
     bool exploded = false;
+    public bool HasExploded { get { return this.exploded; } }
 
     // Axis around which we are rotating
     private Vector3 rotationAxis;
