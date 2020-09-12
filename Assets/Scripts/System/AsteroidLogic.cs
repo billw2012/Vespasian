@@ -54,7 +54,8 @@ public class AsteroidLogic : MonoBehaviour
         asteroidModelTransform.Rotate(rotationAxis, Time.deltaTime*rotationVelocity);
 
         // Check if player is close enough. If so, enable the circle indicator
-        this.miningRadiusRenderer.enabled = this.miningRadius * 3 > Vector3.Distance(this.transform.position, this.playerLogic.transform.position);
+        this.miningRadiusRenderer.enabled = this.miningRadius * 3 > Vector3.Distance(this.transform.position, this.playerLogic.transform.position)
+                                            && !this.exploded;
 
         this.timePassedWithoutMining += Time.deltaTime;
 
