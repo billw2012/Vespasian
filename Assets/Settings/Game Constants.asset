@@ -21,4 +21,4 @@ MonoBehaviour:
   ThrustRight: 0.3
   MaxLaunchVelocity: 1
   OrbitLineWidthPixels: 5
-  SimPathLineWidthPixels: 5
+  SimPathLineWidthPixels: 3

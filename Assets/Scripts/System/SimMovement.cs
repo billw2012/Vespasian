@@ -17,6 +17,9 @@ public class SimMovement : MonoBehaviour
     [Tooltip("Used to render the simulated path")]
     public LineRenderer pathRenderer;
 
+    [Tooltip("Used to render the simulated path in the first soi")]
+    public GameObject pathRendererSoiAsset;
+
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
 
@@ -28,6 +31,10 @@ public class SimMovement : MonoBehaviour
 
     SectionedSimPath path;
     Vector3 force = Vector3.zero;
+
+    GameObject pathRendererPrimarySoi;
+
+    //Dictionary<Transform, GameObject> soiPathRenderers = new Dictionary<Transform, GameObject>();
 
     void OnValidate()
     {
@@ -42,6 +49,9 @@ public class SimMovement : MonoBehaviour
         Assert.IsNotNull(simManager);
 
         this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 100, this.transform.localScale.x, 1000);
+
+        this.pathRendererPrimarySoi = Instantiate(this.pathRendererSoiAsset);
+        this.pathRendererPrimarySoi.SetActive(false);
     }
 
     void Update()
@@ -89,6 +99,8 @@ public class SimMovement : MonoBehaviour
         //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
         // Fixed width line in screen space:
         this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth;
+        var soiLineRenderer = this.pathRendererPrimarySoi.GetComponent<LineRenderer>();
+        soiLineRenderer.startWidth = soiLineRenderer.endWidth = this.constants.SimLineWidth;
     }
 
     void UpdatePath()
@@ -125,8 +137,52 @@ public class SimMovement : MonoBehaviour
                 this.warningSign.SetActive(false);
             }
         }
-    }
 
+        if(this.sois.Count == 1/* && primarySoi.relativePath.Count > 1*/)
+        {
+            var soi = this.sois.FirstOrDefault();
+            var soiLineRenderer = this.pathRendererPrimarySoi.GetComponent<LineRenderer>();
+
+            // TODO: Maybe only show a single orbit? But secondaries can distrupt it so maybe not...
+            float totalAngle = 0; // Vector2.SignedAngle(Vector2.right, soi.relativePath[0]);
+            int range = 1;
+            for (; range < soi.relativePath.Count && totalAngle < 360f; range++)
+            {
+                totalAngle += Vector2.SignedAngle(soi.relativePath[range - 1], soi.relativePath[range]);
+            }
+            var conicSection = soi.relativePath.Take(range).ToArray(); //new List<Vector3> { soi.relativePath[0] };
+            //soi.relativePath.TakeWhile(v => Vector2.SignedAngle(Vector2.right, v) - initialAngle < 180);
+            soiLineRenderer.positionCount = conicSection.Length; // Mathf.Min(primarySoi.relativePath.Count, 500);
+            soiLineRenderer.SetPositions(conicSection);
+            this.pathRendererPrimarySoi.transform.SetParent(soi.g.GetComponent<Orbit>().position, worldPositionStays: false);
+
+            this.pathRendererPrimarySoi.SetActive(true);
+        }
+        else
+        {
+            this.pathRendererPrimarySoi.SetActive(false);
+        }
+        //var activeSoiTargets = new List<Transform>();
+        //foreach(var soi in this.sois)
+        //{
+        //    var target = soi.g.GetComponent<Orbit>().position;
+        //    if (!this.soiPathRenderers.TryGetValue(target, out var soiLineRendererObject))
+        //    {
+        //        soiLineRendererObject = Instantiate(this.pathRendererSoiAsset, target);
+        //        this.soiPathRenderers[target] = soiLineRendererObject;
+        //    }
+        //    var soiLineRenderer = soiLineRendererObject.GetComponent<LineRenderer>();
+        //    soiLineRenderer.positionCount = fullPath.Length;
+        //    soiLineRenderer.SetPositions(soi.relativePath.ToArray());
+        //    activeSoiTargets.Add(target);
+        //    soiLineRendererObject.SetActive(true);
+        //}
+
+        //foreach(var inactive in this.soiPathRenderers.Where(kv => !activeSoiTargets.Contains(kv.Key)).Select(kv => kv.Value))
+        //{
+        //    inactive.SetActive(false);
+        //}
+    }
 
 #if UNITY_EDITOR
     [NonSerialized]
