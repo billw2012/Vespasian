@@ -272,15 +272,19 @@ public class SimModel
             return;
         }
 
-        var allOrbits = GameObject.FindObjectsOfType<Orbit>().Where(o => o.isActiveAndEnabled);
+        var allOrbits = GameObject.FindObjectsOfType<Orbit>().Where(o => o.isActiveAndEnabled).ToList();
         this.orbits = new List<Orbit>();
         var orbitStack = new Stack<Orbit>(allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == null));
         while(orbitStack.Any())
         {
             var orbit = orbitStack.Pop();
             this.orbits.Add(orbit);
-            var directChildren = allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == orbit);
-            this.orbits.AddRange(directChildren.Reverse());
+            var directChildren = allOrbits.Where(o => o.gameObject.GetComponentInParentOnly<Orbit>() == orbit).Reverse().ToList();
+            // this.orbits.AddRange(directChildren);
+            foreach (var child in directChildren)
+            {
+                orbitStack.Push(child);
+            }
         }
 
         // Orbits ordered in depth first search ordering, with parent indices

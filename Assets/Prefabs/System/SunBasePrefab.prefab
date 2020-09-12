@@ -19319,8 +19319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    density: 1
-    mass: 12.566371
+    density: 0.2
+    mass: 2.5132742
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   customTarget: {fileID: 8649645052135855122}
   target: {fileID: 8649645052135855122}

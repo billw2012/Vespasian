@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 
 public class PlanetLogic : MonoBehaviour
 {
-    [Tooltip("Planet Radius (use this instead of scaling)"), Range(0, 10)]
+    [Tooltip("Planet Radius (use this instead of scaling)"), Range(0, 20)]
     public float radius = 0.5f;
 
     [Tooltip("Time to complete a full axial rotation (0 = no rotation)"), Range(-100, 100)]
