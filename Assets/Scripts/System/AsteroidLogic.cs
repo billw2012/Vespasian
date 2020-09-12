@@ -66,7 +66,7 @@ public class AsteroidLogic : MonoBehaviour
         {
             //this.gameLogic.LoseGame();
             this.Explode();
-            this.gameLogic.GetCameraController().StartShake(0.5f);
+            this.gameLogic.GetCameraController().StartShake(1f);
         }
     }
 
