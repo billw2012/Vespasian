@@ -5045,7 +5045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxStars: 180
-  starMinSize: 0.393
+  starMinSize: 0.692
   starSizeRange: 1
   rectSize: 40.4
   speedMultiplier: 1
