@@ -73,4 +73,10 @@ public class GameLogic : ScriptableObject {
 
         return score;
     }
+
+    // Returns player object
+    public GameObject GetPlayer()
+    {
+        return FindObjectOfType<PlayerLogic>().gameObject;
+    }
 }

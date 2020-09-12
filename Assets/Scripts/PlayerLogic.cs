@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -11,6 +12,7 @@ public class PlayerLogic : MonoBehaviour
     public ParticleSystem rightThruster;
     public ParticleSystem leftThruster;
     public ParticleSystem scoopEffect;
+    public ParticleSystem miningEffect;
 
     [HideInInspector]
     // NORMALIZED dimensionless thrust input for joystick
@@ -31,6 +33,9 @@ public class PlayerLogic : MonoBehaviour
     SimMovement movement;
 
     bool canThrust => this.movement.velocity.magnitude != 0 && this.fuelCurrent > 0;
+
+    // Mining
+    AsteroidLogic miningTarget = null;
 
     void Awake()
     {
@@ -77,6 +82,9 @@ public class PlayerLogic : MonoBehaviour
         // Right/left thrusters
         SetThrusterFX(this.rightThruster, this.finalThrust.x < 0, this.finalThrust.x);
         SetThrusterFX(this.leftThruster, this.finalThrust.x > 0, this.finalThrust.x);
+
+        // Mining
+        this.UpdateMining();
     }
 
     void FixedUpdate()
@@ -101,6 +109,12 @@ public class PlayerLogic : MonoBehaviour
         this.fuelCurrent = Mathf.Clamp(this.fuelCurrent + amount, 0, 1.1f * this.fuelStart);
     }
 
+    public void AddHealth(float amount)
+    {
+        var healthComponent = this.GetComponent<HealthComponent>();
+        healthComponent?.AddHealth(amount);
+    }
+
     // Calculates final thrust value from various control inputs
     void UpdateFinalThrust()
     {
@@ -119,5 +133,60 @@ public class PlayerLogic : MonoBehaviour
         // Convert normalized inputs into final values in (kind of) Newtons
         this.finalThrust.y = this.constants.ThrustForward * Mathf.Clamp(this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y, -1, 1);
         this.finalThrust.x = this.constants.ThrustRight * Mathf.Clamp(this.thrustInputRight + this.thrustInputJoystick.x + kbInput.x, -1, 1); ;
+    }
+
+    // ==== Mining
+    void UpdateMining()
+    {
+        if (this.miningTarget != null) {
+            //var miningComponent = miningTarget.GetComponent<AsteroidLogic>();
+            var distanceToTarget = Vector3.Distance(this.transform.position, this.miningTarget.transform.position);
+            if (distanceToTarget < this.miningTarget.miningRadius)
+            {
+                this.miningTarget.Mine(); // It's mine!!
+
+            }
+            else
+            {
+                this.StopMining();
+            }
+        }
+        else
+        {
+            
+        }
+
+        // Update mining effect
+        this.miningEffect.gameObject.SetActive(this.miningTarget != null);
+        if (this.miningTarget != null)
+        {
+            var vectorToTarget = this.miningTarget.transform.position - this.transform.position;
+            this.miningEffect.transform.rotation =
+                Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget));// *
+                                                                                           //Quaternion.Euler(0, 45f, 0);
+            this.miningEffect.transform.localScale = new Vector3(vectorToTarget.magnitude, 1, 1);
+        }
+    }
+
+    public void StartMining()
+    {
+        // Search for nearby mining targets
+        var asteroids = Object.FindObjectsOfType<AsteroidLogic>();
+        var asteroidsSorted = asteroids.OrderBy(i => Vector3.Distance(i.transform.position, this.transform.position)).ToArray();
+        if (asteroidsSorted.Length > 0)
+        {
+            var closestDistance = Vector3.Distance(asteroidsSorted[0].transform.position, this.transform.position);
+            if (closestDistance < asteroidsSorted[0].miningRadius)
+            {
+                this.miningTarget = asteroidsSorted[0];
+            }
+        }
+    }
+
+    public void StopMining()
+    {
+        if (this.miningTarget != null)
+            this.miningTarget.ResetMining();
+        this.miningTarget = null;
     }
 }

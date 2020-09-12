@@ -50,4 +50,9 @@ public class HealthComponent : MonoBehaviour
             this.gameLogic.LoseGame();
         }
     }
+
+    public void AddHealth(float amount)
+    {
+        this.health = Mathf.Clamp(this.health + amount, 0, 1);
+    }
 }
