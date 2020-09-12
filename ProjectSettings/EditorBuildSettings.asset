@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Showcases/Objectives/ObjectiveFlybyShowcase.unity
+    guid: 2ed2ce489a9f96241b4fe128a9fdb916
+  - enabled: 1
     path: Assets/Scenes/Prototyping/AsteroidMining.unity
     guid: 148029943eb270847b0e85145a5175b2
   - enabled: 0
     path: Assets/Scenes/Showcases/Objectives/ObjectiveOrbitShowcase.unity
     guid: d757858993cbea4448bc46e29b17974f
-  - enabled: 0
-    path: Assets/Scenes/Showcases/Objectives/ObjectiveFlybyShowcase.unity
-    guid: 2ed2ce489a9f96241b4fe128a9fdb916
+  - enabled: 1
+    path: Assets/Scenes/Showcases/Objectives/ObjectiveScanShowcase.unity
+    guid: 4d280486dea7d51429d0f371b04012e8
   m_configObjects: {}

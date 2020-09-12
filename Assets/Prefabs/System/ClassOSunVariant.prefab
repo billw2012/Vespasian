@@ -22,6 +22,11 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.9483585
       objectReference: {fileID: 0}
+    - target: {fileID: 2343956415427441088, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 1.76
+      objectReference: {fileID: 0}
     - target: {fileID: 3768597765047173929, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: radius
