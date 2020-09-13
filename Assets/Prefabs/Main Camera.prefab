@@ -5051,7 +5051,7 @@ MonoBehaviour:
   speedMultiplier: 1
   parallaxBase: 0.3
   parallaxRange: 1
-  scaleEffect: 1
+  scaleEffect: 0.95
   animationSpeed: 1
   sizeDistribution:
     serializedVersion: 2
