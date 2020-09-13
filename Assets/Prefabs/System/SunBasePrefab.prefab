@@ -14392,7 +14392,7 @@ Transform:
   m_GameObject: {fileID: 3426990814653887313}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 14}
-  m_LocalScale: {x: 118.4, y: 118.4, z: 1}
+  m_LocalScale: {x: 123.2, y: 123.2, z: 1}
   m_Children: []
   m_Father: {fileID: 8927440856455040385}
   m_RootOrder: 1
@@ -19285,8 +19285,8 @@ MonoBehaviour:
   color: {r: 0.5754717, g: 0.5220649, b: 0.38274297, a: 1}
   lightTintFactor: 0.238
   lightHeight: 6.6
-  glowIntensity: 0.084
-  glowSpread: 0.74
+  glowIntensity: 0.113
+  glowSpread: 0.77
 --- !u!114 &3768597765047173929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19484,6 +19484,79 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &6295964738546993000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1554313388787382301}
+  - component: {fileID: 7614524655931929166}
+  m_Layer: 0
+  m_Name: Post Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1554313388787382301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295964738546993000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8649645052135855122}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7614524655931929166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295964738546993000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc5321082b8f7440af9a3189199432f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  innerRadius: 1.2
+  falloffRange: 1
+  cameraTransform: {fileID: 0}
+  target: {fileID: -754972587007797143, guid: 3a37e1f9b25cc8148b0a484e209c89cc, type: 2}
+  floatProperties:
+  - target: 9
+    targetValue: -0.5
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - target: 12
+    targetValue: 0.2
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - target: 14
+    targetValue: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  colorProperties: []
 --- !u!1 &6442401090780597286
 GameObject:
   m_ObjectHideFlags: 0
@@ -19518,6 +19591,7 @@ Transform:
   - {fileID: 7587208816608663058}
   - {fileID: 343658330589757526}
   - {fileID: 2852498135257175875}
+  - {fileID: 1554313388787382301}
   m_Father: {fileID: 8927440856455040385}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

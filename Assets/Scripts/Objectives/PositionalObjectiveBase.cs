@@ -67,8 +67,9 @@ public abstract class PositionalObjective : Objective
         if (this.target != null)
         {
             Handles.color = this.color;
-            Handles.DrawWireDisc(this.target.position, Vector3.forward, this.radius);
-            Handles.Label(this.target.position + Vector3.up * this.radius, this.debugName);
+            Handles.matrix = this.target.localToWorldMatrix;
+            Handles.DrawWireDisc(Vector3.zero, Vector3.forward, this.radius);
+            Handles.Label(Vector3.up * this.radius, this.debugName);
         }
     }
 #endif

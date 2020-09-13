@@ -1,5 +1,8 @@
-﻿namespace UnityEngine.Rendering.Universal
+﻿using UnityEditor;
+
+namespace UnityEngine.Rendering.Universal
 {
+
     public class PostProcessUrp : ScriptableRendererFeature
     {
         public static PostProcessUrp Instance { get; set; }
@@ -63,27 +66,113 @@
             public float VignetteAmount = 0f;
             [Range(0.001f, 1)]
             public float VignetteSoftness = 0.001f;
+
+            public void CopyFrom(PostProcessSettings from)
+            {
+                this.Event = from.Event;
+                this.blitMaterial = from.blitMaterial;
+                this.Blur = from.Blur;
+                this.BlurAmount = from.BlurAmount;
+                this.BlurMask = from.BlurMask;
+                this.Bloom = from.Bloom;
+                this.BloomColor = from.BloomColor;
+                this.BloomAmount = from.BloomAmount;
+                this.BloomDiffuse = from.BloomDiffuse;
+                this.BloomThreshold = from.BloomThreshold;
+                this.BloomSoftness = from.BloomSoftness;
+                this.LUT = from.LUT;
+                this.LutAmount = from.LutAmount;
+                this.SourceLut = from.SourceLut;
+                this.ImageFiltering = from.ImageFiltering;
+                this.Color = from.Color;
+                this.Contrast = from.Contrast;
+                this.Brightness = from.Brightness;
+                this.Saturation = from.Saturation;
+                this.Exposure = from.Exposure;
+                this.Gamma = from.Gamma;
+                this.Sharpness = from.Sharpness;
+                this.ChromaticAberration = from.ChromaticAberration;
+                this.Offset = from.Offset;
+                this.FishEyeDistortion = from.FishEyeDistortion;
+                this.GlitchAmount = from.GlitchAmount;
+                this.Distortion = from.Distortion;
+                this.LensDistortion = from.LensDistortion;
+                this.Vignette = from.Vignette;
+                this.VignetteColor = from.VignetteColor;
+                this.VignetteAmount = from.VignetteAmount;
+                this.VignetteSoftness = from.VignetteSoftness;
+            }
+
+            public PostProcessSettings Clone()
+            {
+                return new PostProcessSettings {
+                    Event = Event,
+                    blitMaterial = blitMaterial,
+                    Blur = Blur,
+                    BlurAmount = BlurAmount,
+                    BlurMask = BlurMask,
+                    Bloom = Bloom,
+                    BloomColor = BloomColor,
+                    BloomAmount = BloomAmount,
+                    BloomDiffuse = BloomDiffuse,
+                    BloomThreshold = BloomThreshold,
+                    BloomSoftness = BloomSoftness,
+                    LUT = LUT,
+                    LutAmount = LutAmount,
+                    SourceLut = SourceLut,
+                    ImageFiltering = ImageFiltering,
+                    Color = Color,
+                    Contrast = Contrast,
+                    Brightness = Brightness,
+                    Saturation = Saturation,
+                    Exposure = Exposure,
+                    Gamma = Gamma,
+                    Sharpness = Sharpness,
+                    ChromaticAberration = ChromaticAberration,
+                    Offset = Offset,
+                    FishEyeDistortion = FishEyeDistortion,
+                    GlitchAmount = GlitchAmount,
+                    Distortion = Distortion,
+                    LensDistortion = LensDistortion,
+                    Vignette = Vignette,
+                    VignetteColor = VignetteColor,
+                    VignetteAmount = VignetteAmount,
+                    VignetteSoftness = VignetteSoftness
+                };
+            }
         }
 
         public PostProcessSettings settings = new PostProcessSettings();
 
+        [System.NonSerialized]
+        public PostProcessSettings runtimeSettings = new PostProcessSettings();
+
         PostProcessUrpPass ppsUrpPass;
+
+        void Awake()
+        {
+            this.ResetRuntimeSettings();
+        }
+
+        void OnValidate()
+        {
+            this.ResetRuntimeSettings();
+        }
+
+        public void ResetRuntimeSettings()
+        {
+            this.runtimeSettings.CopyFrom(this.settings);
+        }
 
         public override void Create()
         {
-            ppsUrpPass = new PostProcessUrpPass(settings.Event, settings.blitMaterial,
-                settings.Blur, settings.BlurAmount, settings.BlurMask,
-                settings.Bloom, settings.BloomColor, settings.BloomAmount, settings.BloomDiffuse, settings.BloomThreshold, settings.BloomSoftness,
-                settings.LUT, settings.LutAmount, settings.SourceLut,
-                settings.ImageFiltering, settings.Color, settings.Contrast, settings.Saturation, settings.Brightness, settings.Exposure, settings.Gamma, settings.Sharpness,
-                settings.ChromaticAberration, settings.Offset, settings.FishEyeDistortion, settings.GlitchAmount,
-                settings.Distortion, settings.LensDistortion,
-                settings.Vignette, settings.VignetteColor, settings.VignetteAmount, settings.VignetteSoftness, this.name);
+            this.ResetRuntimeSettings();
+            this.ppsUrpPass = new PostProcessUrpPass(this.runtimeSettings, this.name);
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if(Instance == null)
+            if (Instance == null)
             {
                 Instance = this;
             }

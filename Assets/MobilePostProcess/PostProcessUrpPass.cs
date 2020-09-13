@@ -2,7 +2,7 @@
 {
     public class PostProcessUrpPass : ScriptableRenderPass
     {
-        public Material material;
+        public Material material => this.settings.blitMaterial;
         public FilterMode filterMode { get; set; }
 
         private RenderTargetIdentifier source;
@@ -14,36 +14,43 @@
         private bool maskSet = false;
         private int numberOfPasses = 3;
         private readonly string tag;
-        private readonly bool blur;
-        private readonly float blurAmount;
-        private readonly Texture2D blurMask; 
-        private readonly bool bloom;
-        private readonly Color bloomColor;
-        private readonly float bloomAmount;
-        private readonly float bloomDiffuse;
-        private readonly float bloomThreshold;
-        private readonly float bloomSoftness;
-        private readonly bool lut;
-        private readonly Texture2D sourceLut;
-        private readonly float lutAmount;
-        private readonly bool imageFiltering;
-        private readonly Color color;
-        private readonly float contrast;
-        private readonly float brightness;
-        private readonly float saturation;
-        private readonly float exposure;
-        private readonly float gamma;
-        private readonly float sharpness;
-        private readonly bool chromaticAberration;
-        private readonly float offset;
-        private readonly float fishEyeDistortion;
-        private readonly float glitchAmount;
-        private readonly bool distortion;
-        private readonly float lensDistortion;
-        private readonly bool vignette;
-        private readonly Color vignetteColor;
-        private readonly float vignetteAmount;
-        private readonly float vignetteSoftness;
+        readonly PostProcessUrp.PostProcessSettings settings;
+
+        private bool blur => settings.Blur;
+        private float blurAmount => settings.BlurAmount;
+        private Texture2D blurMask => settings.BlurMask == null ? Texture2D.whiteTexture : settings.BlurMask;
+        private bool bloom => settings.Bloom;
+        private Color bloomColor => this.settings.BloomColor;
+        private float bloomAmount => this.settings.BloomAmount;
+        private float bloomDiffuse => this.settings.BloomDiffuse;
+        private float bloomThreshold => this.settings.BloomThreshold;
+        private float bloomSoftness => this.settings.BloomSoftness;
+        
+        private bool lut => this.settings.LUT;
+        private float lutAmount => this.settings.LutAmount;
+        private Texture2D sourceLut => this.settings.SourceLut;
+
+        private bool imageFiltering => this.settings.ImageFiltering;
+        private Color color => this.settings.Color;
+        private float contrast => this.settings.Contrast;
+        private float brightness => this.settings.Brightness;
+        private float saturation => this.settings.Saturation;
+        private float exposure => this.settings.Exposure;
+        private float gamma => this.settings.Gamma;
+        private float sharpness => this.settings.Sharpness;
+        
+        private bool chromaticAberration => this.settings.ChromaticAberration;
+        private float offset => this.settings.Offset;
+        private float fishEyeDistortion => this.settings.FishEyeDistortion;
+        private float glitchAmount => this.settings.GlitchAmount;
+
+        private bool distortion => this.settings.Distortion;
+        private float lensDistortion => this.settings.LensDistortion;
+
+        private bool vignette => this.settings.Vignette;
+        private Color vignetteColor => this.settings.VignetteColor;
+        private float vignetteAmount => this.settings.VignetteAmount;
+        private float vignetteSoftness => this.settings.VignetteSoftness;
 
         static readonly int blurTexString = Shader.PropertyToID("_BlurTex");
         static readonly int maskTextureString = Shader.PropertyToID("_MaskTex");
@@ -82,47 +89,10 @@
         private Texture3D converted3D = null;
         private float t, a, knee;
 
-        public PostProcessUrpPass(RenderPassEvent renderPassEvent, Material material,
-            bool blur, float blurAmount, Texture2D blurMask,
-            bool bloom, Color bloomColor, float bloomAmount, float bloomDiffuse, float bloomThreshold, float bloomSoftness,
-            bool lut, float lutAmount, Texture2D sourceLut,
-            bool imageFiltering, Color color, float contrast, float saturation, float brightness, float exposure, float gamma, float sharpness,
-            bool chromaticAberration, float offset, float fishEyeDistortion, float glitchAmount,
-            bool distortion, float lensDistortion,
-            bool vignette, Color vignetteColor, float vignetteAmount, float vignetteSoftness, string tag)
+        public PostProcessUrpPass(PostProcessUrp.PostProcessSettings settings, string tag)
         {
-            this.renderPassEvent = renderPassEvent;
-            this.material = material;
-            this.blur = blur;
-            this.blurAmount = blurAmount;
-            this.blurMask = blurMask == null ? Texture2D.whiteTexture : blurMask;
-            this.bloom = bloom;
-            this.bloomColor = bloomColor;
-            this.bloomDiffuse = bloomDiffuse;
-            this.bloomAmount = bloomAmount;
-            this.bloomThreshold = bloomThreshold;
-            this.bloomSoftness = bloomSoftness;
-            this.lut = lut;
-            this.lutAmount = lutAmount;
-            this.sourceLut = sourceLut;
-            this.imageFiltering = imageFiltering;
-            this.color = color;
-            this.contrast = contrast;
-            this.saturation = saturation;
-            this.brightness = brightness;
-            this.exposure = exposure;
-            this.gamma = gamma;
-            this.sharpness = sharpness;
-            this.chromaticAberration = chromaticAberration;
-            this.offset = offset;
-            this.fishEyeDistortion = fishEyeDistortion;
-            this.glitchAmount = glitchAmount;
-            this.distortion = distortion;
-            this.lensDistortion = lensDistortion;
-            this.vignette = vignette;
-            this.vignetteColor = vignetteColor;
-            this.vignetteAmount = vignetteAmount;
-            this.vignetteSoftness = vignetteSoftness;
+            this.renderPassEvent = settings.Event;
+            this.settings = settings;
             this.tag = tag;
         }
 
@@ -130,7 +100,6 @@
         {
             this.source = source;
         }
-
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {

@@ -17,13 +17,13 @@ MonoBehaviour:
     Event: 500
     blitMaterial: {fileID: 2100000, guid: 0d439bd919acb754099435230811f0fe, type: 2}
     Blur: 0
-    BlurAmount: 0.556
+    BlurAmount: 0
     BlurMask: {fileID: 0}
     Bloom: 1
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 3.33
-    BloomDiffuse: 0.513
-    BloomThreshold: 0.69
+    BloomAmount: 3.54
+    BloomDiffuse: 0.485
+    BloomThreshold: 0.479
     BloomSoftness: 0
     LUT: 1
     LutAmount: 1
@@ -32,19 +32,19 @@ MonoBehaviour:
     Color: {r: 1, g: 1, b: 1, a: 1}
     Contrast: 0
     Brightness: 0
-    Saturation: 1
+    Saturation: 0
     Exposure: 0
     Gamma: 0
     Sharpness: 0
-    ChromaticAberration: 0
-    Offset: 0.2
-    FishEyeDistortion: 0.575
-    GlitchAmount: 0.771
-    Distortion: 1
+    ChromaticAberration: 1
+    Offset: 0
+    FishEyeDistortion: 0
+    GlitchAmount: 0
+    Distortion: 0
     LensDistortion: 0
     Vignette: 1
     VignetteColor: {r: 0, g: 0, b: 0, a: 1}
-    VignetteAmount: 0.102
+    VignetteAmount: 0.025
     VignetteSoftness: 0.472
 --- !u!114 &11400000
 MonoBehaviour:
