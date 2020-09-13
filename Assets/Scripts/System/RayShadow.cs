@@ -10,6 +10,10 @@ public class RayShadow : MonoBehaviour
     public float shadowLengthScale = 30.0f;
     public MeshFilter geometry;
     public Vector2 shadowCasterSize = new Vector2(0.5f, 0.5f);
+    [Range(0.1f, 2)]
+    public float shadowFadeInFactor = 1f;
+    [Range(0, 1)]
+    public float shadowIntensity = 0.5f;
 
     struct LightAndShadow
     {
@@ -30,12 +34,21 @@ public class RayShadow : MonoBehaviour
         {
             this.geometry = this.GetComponent<MeshFilter>();
         }
+        
+        // We need the extents to decide the length of the shadow
+        var relativeMatrix = this.transform.worldToLocalMatrix * this.geometry.transform.localToWorldMatrix;
+
+        this.localExtents = Vector2.Scale(this.shadowCasterSize, relativeMatrix.lossyScale);
+        this.shadowLength = this.localExtents.magnitude * this.shadowLengthScale;
+
+        float darkestPoint = this.localExtents.magnitude * this.shadowFadeInFactor / this.shadowLength;
 
         var suns = GameObject.FindObjectsOfType<SunLogic>();
         this.rays = suns.Select(light =>
             {
-                var shadow = new GameObject();
-                shadow.transform.SetParent(this.geometry.transform);
+                var shadow = new GameObject($"Shadow ({light.name})");
+                shadow.transform.SetParent(this.geometry.transform, worldPositionStays: false);
+                shadow.hideFlags = HideFlags.NotEditable | HideFlags.DontSaveInEditor | HideFlags.DontSaveInBuild;
 
                 var lineRenderer = shadow.AddComponent<LineRenderer>();
                 lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
@@ -46,7 +59,7 @@ public class RayShadow : MonoBehaviour
                     },
                     new GradientAlphaKey[] {
                         new GradientAlphaKey(0, 0),
-                        new GradientAlphaKey(0.5f, 0.1f),
+                        new GradientAlphaKey(this.shadowIntensity, darkestPoint),
                         new GradientAlphaKey(0, 1),
                     }
                 );
@@ -62,17 +75,14 @@ public class RayShadow : MonoBehaviour
             })
             .ToList();
 
-        // We need the extents to decide the length of the shadow
-        var relativeMatrix = this.transform.worldToLocalMatrix * this.geometry.transform.localToWorldMatrix;
 
-        this.localExtents = Vector2.Scale(this.shadowCasterSize, relativeMatrix.lossyScale);
-        this.shadowLength = this.localExtents.magnitude * this.shadowLengthScale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        var ourPos = this.geometry.transform.position;
+        var heightOffset = Vector3.back * 10f;
+        var ourPos = this.geometry.transform.position + heightOffset;
         foreach (var ray in this.rays)
         {
             // Set start and end
@@ -83,7 +93,7 @@ public class RayShadow : MonoBehaviour
             var lightPos = ray.light.transform.position;
             var lightRay = (ourPos - lightPos).normalized;
 
-            var rayMid = ourPos + lightRay * this.localExtents.magnitude;
+            var rayMid = ourPos + lightRay * this.localExtents.magnitude * this.shadowFadeInFactor;
             if (ray.lineRenderer.GetPosition(1) != rayMid)
             {
                 ray.lineRenderer.SetPosition(1, rayMid);

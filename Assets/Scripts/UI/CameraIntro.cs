@@ -23,7 +23,12 @@ public class CameraIntro : MonoBehaviour
 
         this.smoothTimeStart = this.camController.smoothTime;
 
-        var player = FindObjectOfType<PlayerLogic>().transform;
+        var player = FindObjectOfType<PlayerLogic>();
+        if(player == null)
+        {
+            this.StartGame();
+            return;
+        }
         if (!this.targets.Any())
         {
             this.targets = FindObjectsOfType<PositionalObjective>()
@@ -47,10 +52,10 @@ public class CameraIntro : MonoBehaviour
         this.camController.smoothTime = 0.9f;
         // Start at player
         this.currentTargetID = -1;
-        this.camController.SetTarget(player);
+        this.camController.SetTarget(player.transform);
         this.camController.ForceFocusOnTarget();
         // End at player
-        this.targets.Add(player);
+        this.targets.Add(player.transform);
         this.nextTargetTime = 0;
     }
 

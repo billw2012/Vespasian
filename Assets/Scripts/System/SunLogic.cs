@@ -26,11 +26,6 @@ public class SunLogic : MonoBehaviour
     [Tooltip("How far the sun glow spreads"), Range(0, 5)]
     public float glowSpread = 1f;
 
-    //MaterialPropertyBlock mainPB;
-    //MaterialPropertyBlock glowPB;
-    //MaterialPropertyBlock pfxPB;
-    //MaterialPropertyBlock coronaPB;
-
     void OnValidate()
     {
         this.Refresh();
@@ -48,16 +43,6 @@ public class SunLogic : MonoBehaviour
 
         this.glowTransform.localScale = Vector3.forward + (Vector3)(Vector2.one * 40f * this.geometryTransform.localScale.x * this.glowSpread);
         this.glowTransform.localPosition = new Vector3(0, 0, 10f + this.geometryTransform.localScale.x);
-
-        //Color.RGBToHSV(this.color, out float newH, out _, out _);
-
-        //if (this.mainPB == null)
-        //{
-        //this.mainPB = new MaterialPropertyBlock();
-        //this.glowPB = new MaterialPropertyBlock();
-        //this.coronaPB = new MaterialPropertyBlock();
-        //this.pfxPB = new MaterialPropertyBlock();
-        //}
 
         foreach (var renderer in this.renderers)
         {

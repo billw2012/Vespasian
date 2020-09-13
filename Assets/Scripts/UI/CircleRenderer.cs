@@ -14,6 +14,8 @@ public class CircleRenderer : MonoBehaviour
     [Range(0, 360)]
     public float degrees = 360f;
 
+    public MeshFilter bakeMeshFilter;
+
     void Awake()
     {
         if(this.lineRenderer == null)
@@ -38,15 +40,24 @@ public class CircleRenderer : MonoBehaviour
 
     public void UpdateCircle()
     {
+        this.lineRenderer.loop = this.degrees == 360f;
         int vertexNumber = Mathf.Max(1, (int)(this.degrees * this.quality));
-        float angle = this.degrees * Mathf.Deg2Rad / vertexNumber;
+        // If we are not looping then we need to step further each vertex to meet the
+        // degrees requirement (fencepost problem)
+        float dAngle = this.degrees * Mathf.Deg2Rad / (vertexNumber - (this.lineRenderer.loop? 0 : 1));
         float startAngle = (360f - this.degrees) * Mathf.Deg2Rad / 2f;
-        this.lineRenderer.positionCount = vertexNumber + 1;
+        this.lineRenderer.positionCount = vertexNumber;
 
-        for (int i = 0; i <= vertexNumber; i++)
+        for (int i = 0; i < vertexNumber; i++)
         {
-            var pos = new Vector3(Mathf.Cos(startAngle + angle * i), Mathf.Sin(startAngle + angle * i), 0) * this.radius;
+            var pos = new Vector3(Mathf.Cos(startAngle + dAngle * i), Mathf.Sin(startAngle + dAngle * i), 0) * this.radius;
             this.lineRenderer.SetPosition(i, pos);
+        }
+
+        if(this.bakeMeshFilter != null)
+        {
+            this.lineRenderer.BakeMesh(this.bakeMeshFilter.mesh);
+            this.lineRenderer.enabled = false;
         }
     }
 
