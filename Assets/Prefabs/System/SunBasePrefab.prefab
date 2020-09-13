@@ -19360,9 +19360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111afeeb5aee51049a9bf888620de5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 4
-  effectFactor: 1
-  effector: {fileID: 8649645052135855122}
+  maxRadius: 4.79
+  effectSourceTransform: {fileID: 8927440856455040385}
 --- !u!54 &2438610178736772583
 Rigidbody:
   m_ObjectHideFlags: 0

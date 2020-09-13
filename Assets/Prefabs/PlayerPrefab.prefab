@@ -58,12 +58,13 @@ GameObject:
   - component: {fileID: 470503325313159492}
   - component: {fileID: 1408795510517265554}
   - component: {fileID: 7620224551109491988}
-  - component: {fileID: 8939774266473288669}
-  - component: {fileID: 9046037887904196229}
   - component: {fileID: 2007543306442515008}
   - component: {fileID: 3664154167166374825}
+  - component: {fileID: 9046037887904196229}
   - component: {fileID: 1598108454956247620}
   - component: {fileID: 3927293353395457018}
+  - component: {fileID: 8646860288577946623}
+  - component: {fileID: 5862893504565150251}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -167,31 +168,6 @@ MonoBehaviour:
   shadowLengthScale: 30
   geometry: {fileID: 8929588465089797921}
   shadowCasterSize: {x: 4, y: 3}
---- !u!114 &8939774266473288669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7620224551109491996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f1eaeeb600e9884499613cdba980ac5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9046037887904196229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7620224551109491996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 551aa7b6bbc0dcf498803345fe1021c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laserScanner: {fileID: 105885175689493256}
 --- !u!120 &2007543306442515008
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -305,6 +281,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9046037887904196229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 551aa7b6bbc0dcf498803345fe1021c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserScanner: {fileID: 105885175689493256}
 --- !u!114 &1598108454956247620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +320,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleEffect: {fileID: 8520331350740000157}
+--- !u!114 &8646860288577946623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df7f278270af024abe1d57cfcbecc44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5862893504565150251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21456a72cb0040e49ad0cca0e6fc72dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7620224552652236272
 GameObject:
   m_ObjectHideFlags: 0
