@@ -23,8 +23,7 @@ public class Miner : MonoBehaviour
         // Mine the target
         if (this.miningActive)
         {
-            var distanceToTarget = Vector3.Distance(this.transform.position, this.target.transform.position);
-            if (distanceToTarget < this.target.miningRadius && target.CanBeMined)
+            if (this.target.IsInEffectRange(this.transform) && target.CanBeMined)
             {
                 this.target.Mine(this); // It's mine!!
             }
@@ -49,17 +48,8 @@ public class Miner : MonoBehaviour
     public void StartMining()
     {
         // Search for nearby mining targets
-        var mineables = Object.FindObjectsOfType<Mineable>();
-        var mineablesSorted = mineables.OrderBy(i => Vector3.Distance(i.transform.position, this.transform.position)).ToArray();
-        if (mineablesSorted.Length > 0)
-        {
-            var closest = mineablesSorted[0];
-            var closestDistance = Vector3.Distance(closest.transform.position, this.transform.position);
-            if (closestDistance < closest.miningRadius)
-            {
-                this.target = closest;
-            }
-        }
+        var closestMineable = EffectSource.GetNearestEffectSource<Mineable>(this.transform); // Might return null
+        this.target = closestMineable;
     }
 
     public void StopMining()
