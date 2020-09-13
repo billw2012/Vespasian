@@ -25,7 +25,8 @@ public class EffectSource : MonoBehaviour
     // Virtual functions, must be overrided in derived effect sources
 
     // Must return true when this has no more resource (fully mined, fully scanned, etc)
-    // Proximity methods below will use this
+    // It is essential to mark effect sources as complete so we don't keep focus on them and switch to next one instead
+    // Proximity methods below use this method
     public virtual bool IsEmpty()
     {
         return false;

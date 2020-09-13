@@ -26,6 +26,23 @@ public class Miner : MonoBehaviour
             if (this.target.IsInEffectRange(this.transform) && !target.IsEmpty())
             {
                 this.target.Mine(this); // It's mine!!
+                if (this.target.IsEmpty())
+                {
+                    // Mining is done, decide what to do
+                    var asteroidLogic = this.target.GetComponent<AsteroidLogic>();
+
+                    // Explode astoroid if attached to asteroid
+                    if (asteroidLogic != null)
+                        asteroidLogic.Explode();
+
+                    // Give health if miner is on player
+                    var playerLogic = GetComponent<PlayerLogic>();
+                    if (playerLogic != null)
+                        playerLogic.AddHealth(0.35f);
+
+                    this.StopMining();
+                    this.target = null;
+                }
             }
             else
             {

@@ -7881,6 +7881,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 2053893111}
+    - target: {fileID: 4949847774559043621, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: health
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: startVelocity.x

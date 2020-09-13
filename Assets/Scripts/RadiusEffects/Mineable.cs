@@ -61,17 +61,8 @@ public class Mineable : EffectSource
         //Debug.Log($"Mining progress: {this.miningProgress}");
         if (this.miningProgress >= 1.0f && !this.completionDone)
         {
-            // Mining is done, decide what to do
-            var asteroidLogic = GetComponent<AsteroidLogic>();
-
-            // Explode astoroid if attached to asteroid
-            if (asteroidLogic != null)
-                asteroidLogic.Explode();
-
-            // Give health if miner is on player
-            var playerLogic = miner.GetComponent<PlayerLogic>();
-            if (playerLogic != null)
-               playerLogic.AddHealth(0.2f);
+            // Extra code can be put here which fill run
+            // on this component once when mining is done
 
             this.completionDone = true;
         }
