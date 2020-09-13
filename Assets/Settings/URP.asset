@@ -17,14 +17,14 @@ MonoBehaviour:
     Event: 500
     blitMaterial: {fileID: 2100000, guid: 0d439bd919acb754099435230811f0fe, type: 2}
     Blur: 0
-    BlurAmount: 0.238
+    BlurAmount: 0.556
     BlurMask: {fileID: 0}
     Bloom: 1
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 2.5
-    BloomDiffuse: 0.227
-    BloomThreshold: 0.538
-    BloomSoftness: 0.046
+    BloomAmount: 3.33
+    BloomDiffuse: 0.513
+    BloomThreshold: 0.69
+    BloomSoftness: 0
     LUT: 1
     LutAmount: 1
     SourceLut: {fileID: 2800000, guid: 7a637246ababfd248b27222457979084, type: 3}
@@ -38,14 +38,14 @@ MonoBehaviour:
     Sharpness: 0
     ChromaticAberration: 0
     Offset: 0.2
-    FishEyeDistortion: 0.5
-    GlitchAmount: 0.2
-    Distortion: 0
-    LensDistortion: 0.5
-    Vignette: 0
+    FishEyeDistortion: 0.575
+    GlitchAmount: 0.771
+    Distortion: 1
+    LensDistortion: 0
+    Vignette: 1
     VignetteColor: {r: 0, g: 0, b: 0, a: 1}
-    VignetteAmount: 0
-    VignetteSoftness: 0.001
+    VignetteAmount: 0.102
+    VignetteSoftness: 0.472
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,10 +71,10 @@ MonoBehaviour:
     fallbackErrorPS: {fileID: 4800000, guid: e6e9a19c3678ded42a3bc431ebef7dbd, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 279
+    m_Bits: 311
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 279
+    m_Bits: 311
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0

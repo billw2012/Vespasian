@@ -156,7 +156,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
             if(objectiveIndicator.objective.complete)
             {
                 int completeObjectives = this.objectiveIndicators.Count(o => o.wasCompleted);
-                Tween.AnchoredPosition(indicatorTransform, new Vector2(40, 160 + completeObjectives * 40), 0.25f, 0, Tween.EaseInBack);
+                Tween.AnchoredPosition(indicatorTransform, new Vector2(40, 280 + completeObjectives * 40), 0.25f, 0, Tween.EaseInBack);
                 Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0, Tween.EaseInBack);
                 completeObjectives++;
                 objectiveIndicator.wasCompleted = true;
