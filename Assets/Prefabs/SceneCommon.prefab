@@ -5148,6 +5148,11 @@ PrefabInstance:
       propertyPath: clampToCameraInnerArea
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2532546599120530936, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 311
+      objectReference: {fileID: 0}
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5233,6 +5238,51 @@ PrefabInstance:
       propertyPath: warningSign
       value: 
       objectReference: {fileID: 7532287019744066019}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key2.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007543306442515008, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.atime2
+      value: 60138
+      objectReference: {fileID: 0}
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_LocalPosition.x

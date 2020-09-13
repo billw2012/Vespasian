@@ -14,11 +14,14 @@ public class SimMovement : MonoBehaviour
     public Vector3 startVelocity;
     public bool alignToVelocity = true;
 
-    [Tooltip("Used to render the simulated path")]
-    public LineRenderer pathRenderer;
-
+    [Tooltip("Used to render the global simulated path")]
+    public GameObject pathRendererGlobalAsset;
+    [Range(0, 50)]
+    public float globalPathWidthScale = 1f;
     [Tooltip("Used to render the simulated path in the first soi")]
     public GameObject pathRendererSoiAsset;
+    [Range(0, 50)]
+    public float soiPathWidthScale = 1f;
 
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
@@ -32,9 +35,8 @@ public class SimMovement : MonoBehaviour
     SectionedSimPath path;
     Vector3 force = Vector3.zero;
 
-    GameObject pathRendererPrimarySoi;
-
-    //Dictionary<Transform, GameObject> soiPathRenderers = new Dictionary<Transform, GameObject>();
+    LineRenderer pathRendererGlobal;
+    LineRenderer pathRendererSoi;
 
     void OnValidate()
     {
@@ -50,17 +52,23 @@ public class SimMovement : MonoBehaviour
 
         this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 100, this.transform.localScale.x, 1000);
 
-        this.pathRendererPrimarySoi = Instantiate(this.pathRendererSoiAsset);
-        this.pathRendererPrimarySoi.SetActive(false);
+        if (this.pathRendererGlobalAsset != null)
+        {
+            this.pathRendererGlobal = Instantiate(this.pathRendererGlobalAsset).GetComponent<LineRenderer>();
+            this.pathRendererGlobal.gameObject.SetActive(false);
+        }
+
+        if (this.pathRendererSoiAsset)
+        {
+            this.pathRendererSoi = Instantiate(this.pathRendererSoiAsset).GetComponent<LineRenderer>();
+            this.pathRendererSoi.gameObject.SetActive(false);
+        }
     }
 
     void Update()
     {
-        if (this.pathRenderer != null)
-        {
-            this.UpdatePath();
-            this.UpdatePathWidth();
-        }
+        this.UpdatePath();
+        this.UpdatePathWidth();
     }
 
     public void AddForce(Vector3 force)
@@ -98,19 +106,66 @@ public class SimMovement : MonoBehaviour
         //this.pathRenderer.startWidth = 0;
         //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
         // Fixed width line in screen space:
-        this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth;
-        var soiLineRenderer = this.pathRendererPrimarySoi.GetComponent<LineRenderer>();
-        soiLineRenderer.startWidth = soiLineRenderer.endWidth = this.constants.SimLineWidth;
+        if (this.pathRendererGlobal != null)
+        {
+            this.pathRendererGlobal.startWidth = this.pathRendererGlobal.endWidth = this.constants.SimLineWidth * this.globalPathWidthScale;
+        }
+        if (this.pathRendererSoi != null)
+        {
+            this.pathRendererSoi.startWidth = this.pathRendererSoi.endWidth = this.constants.SimLineWidth * this.soiPathWidthScale;
+        }
     }
 
     void UpdatePath()
     {
+        this.sois = this.path.GetFullPathSOIs().ToList();
         var fullPath = this.path.GetFullPath().ToArray();
 
-        // Resume in main thread
-        this.pathRenderer.positionCount = fullPath.Length;
-        this.pathRenderer.SetPositions(fullPath.ToArray());
-        this.sois = this.path.GetFullPathSOIs().ToList();
+        if (this.sois.Count == 1/* && primarySoi.relativePath.Count > 1*/)
+        {
+            if (this.pathRendererGlobal != null)
+            {
+                var soi = this.sois.FirstOrDefault();
+
+                // TODO: Maybe only show a single orbit? But secondaries can disrupt it so maybe not...
+                float totalAngle = 0;
+                // Vector2.SignedAngle(Vector2.right, soi.relativePath[0]);
+                int range = 1;
+                for (; range < soi.relativePath.Count && totalAngle < 360f; range++)
+                {
+                    totalAngle += Vector2.Angle(soi.relativePath[range - 1], soi.relativePath[range]);
+                }
+                var conicSection = soi.relativePath.Take(range).ToArray();
+                //new List<Vector3> { soi.relativePath[0] };
+                //soi.relativePath.TakeWhile(v => Vector2.SignedAngle(Vector2.right, v) - initialAngle < 180);
+                this.pathRendererGlobal.positionCount = conicSection.Length;
+                // Mathf.Min(primarySoi.relativePath.Count, 500);
+                this.pathRendererGlobal.SetPositions(conicSection);
+                this.pathRendererGlobal.transform.SetParent(soi.g.GetComponent<Orbit>().position, worldPositionStays: false);
+                this.pathRendererGlobal.useWorldSpace = false;
+                this.pathRendererGlobal.gameObject.SetActive(true);
+            }
+
+            //if (this.pathRendererGlobal != null)
+            //{
+            //    this.pathRendererGlobal.gameObject.SetActive(false);
+            //}
+        }
+        else
+        {
+            if (this.pathRendererGlobal != null)
+            {
+                this.pathRendererGlobal.positionCount = fullPath.Length;
+                this.pathRendererGlobal.SetPositions(fullPath.ToArray());
+                this.pathRendererGlobal.useWorldSpace = true;
+                this.pathRendererGlobal.gameObject.SetActive(true);
+            }
+
+            //if (this.pathRendererSoi != null)
+            //{
+            //    this.pathRendererSoi.gameObject.SetActive(false);
+            //}
+        }
 
         if (this.warningSign != null)
         {
@@ -138,69 +193,26 @@ public class SimMovement : MonoBehaviour
             }
         }
 
-        if(this.sois.Count == 1/* && primarySoi.relativePath.Count > 1*/)
-        {
-            var soi = this.sois.FirstOrDefault();
-            var soiLineRenderer = this.pathRendererPrimarySoi.GetComponent<LineRenderer>();
-
-            // TODO: Maybe only show a single orbit? But secondaries can distrupt it so maybe not...
-            float totalAngle = 0; // Vector2.SignedAngle(Vector2.right, soi.relativePath[0]);
-            int range = 1;
-            for (; range < soi.relativePath.Count && totalAngle < 360f; range++)
-            {
-                totalAngle += Vector2.SignedAngle(soi.relativePath[range - 1], soi.relativePath[range]);
-            }
-            var conicSection = soi.relativePath.Take(range).ToArray(); //new List<Vector3> { soi.relativePath[0] };
-            //soi.relativePath.TakeWhile(v => Vector2.SignedAngle(Vector2.right, v) - initialAngle < 180);
-            soiLineRenderer.positionCount = conicSection.Length; // Mathf.Min(primarySoi.relativePath.Count, 500);
-            soiLineRenderer.SetPositions(conicSection);
-            this.pathRendererPrimarySoi.transform.SetParent(soi.g.GetComponent<Orbit>().position, worldPositionStays: false);
-
-            this.pathRendererPrimarySoi.SetActive(true);
-        }
-        else
-        {
-            this.pathRendererPrimarySoi.SetActive(false);
-        }
-        //var activeSoiTargets = new List<Transform>();
-        //foreach(var soi in this.sois)
-        //{
-        //    var target = soi.g.GetComponent<Orbit>().position;
-        //    if (!this.soiPathRenderers.TryGetValue(target, out var soiLineRendererObject))
-        //    {
-        //        soiLineRendererObject = Instantiate(this.pathRendererSoiAsset, target);
-        //        this.soiPathRenderers[target] = soiLineRendererObject;
-        //    }
-        //    var soiLineRenderer = soiLineRendererObject.GetComponent<LineRenderer>();
-        //    soiLineRenderer.positionCount = fullPath.Length;
-        //    soiLineRenderer.SetPositions(soi.relativePath.ToArray());
-        //    activeSoiTargets.Add(target);
-        //    soiLineRendererObject.SetActive(true);
-        //}
-
-        //foreach(var inactive in this.soiPathRenderers.Where(kv => !activeSoiTargets.Contains(kv.Key)).Select(kv => kv.Value))
-        //{
-        //    inactive.SetActive(false);
-        //}
     }
 
 #if UNITY_EDITOR
     [NonSerialized]
     public Vector3[] editorCurrPath;
+    [NonSerialized]
     public bool editorCrashed;
 
     public async Task EditorUpdatePathAsync(SimModel simModel)
     {
         var simPath = await simModel.CalculateSimPathAsync(
-                this.transform.position,
-                this.startVelocity,
-                0,
-                Time.fixedDeltaTime,
-                5000,
-                1,
-                this.constants.GravitationalConstant,
-                this.constants.GravitationalRescaling
-            );
+            this.transform.position,
+            this.startVelocity,
+            0,
+            Time.fixedDeltaTime,
+            5000,
+            1,
+            this.constants.GravitationalConstant,
+            this.constants.GravitationalRescaling
+        );
 
         var path = simPath.path.AsEnumerable();
         if (path.Count() % 2 == 1)

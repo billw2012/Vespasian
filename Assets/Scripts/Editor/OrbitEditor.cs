@@ -144,6 +144,7 @@ public class OrbitEditor : Editor
 
     static double lastUpdate = 0;
 
+
     [DrawGizmo(GizmoType.NotInSelectionHierarchy)]
     static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
     {

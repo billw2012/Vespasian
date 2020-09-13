@@ -10,31 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 864677e595539bf4bbecf0c40589f800, type: 3}
-  m_Name: PostProcessUrpPass
+  m_Name: URP PP
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
     Event: 500
     blitMaterial: {fileID: 2100000, guid: 0d439bd919acb754099435230811f0fe, type: 2}
     Blur: 0
-    BlurAmount: 0.642
+    BlurAmount: 0.238
     BlurMask: {fileID: 0}
     Bloom: 1
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 2.18
+    BloomAmount: 2.5
     BloomDiffuse: 0.227
-    BloomThreshold: 0.544
+    BloomThreshold: 0.538
     BloomSoftness: 0.046
-    LUT: 0
+    LUT: 1
     LutAmount: 1
     SourceLut: {fileID: 2800000, guid: 7a637246ababfd248b27222457979084, type: 3}
-    ImageFiltering: 0
+    ImageFiltering: 1
     Color: {r: 1, g: 1, b: 1, a: 1}
-    Contrast: 0.25
-    Brightness: 0.25
-    Saturation: 0.25
-    Exposure: 0.25
-    Gamma: 0.25
+    Contrast: 0
+    Brightness: 0
+    Saturation: 1
+    Exposure: 0
+    Gamma: 0
     Sharpness: 0
     ChromaticAberration: 0
     Offset: 0.2
@@ -71,10 +71,10 @@ MonoBehaviour:
     fallbackErrorPS: {fileID: 4800000, guid: e6e9a19c3678ded42a3bc431ebef7dbd, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 279
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 279
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -82,4 +82,4 @@ MonoBehaviour:
     passOperation: 0
     failOperation: 0
     zFailOperation: 0
-  m_ShadowTransparentReceive: 1
+  m_ShadowTransparentReceive: 0
