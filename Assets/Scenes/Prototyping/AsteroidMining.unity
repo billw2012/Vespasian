@@ -4136,6 +4136,11 @@ PrefabInstance:
       propertyPath: lightTintFactor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6969213077173605535, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: maxRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7359115369874976276, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_LocalPosition.z

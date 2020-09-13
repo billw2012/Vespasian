@@ -19,9 +19,17 @@ public class EffectSource : MonoBehaviour
     {
         // Display the explosion radius when selected
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, this.maxRadius);
+        Gizmos.DrawWireSphere(effectSourceTransform.position, this.maxRadius);
     }
 
+    // Virtual functions, must be overrided in derived effect sources
+
+    // Must return true when this has no more resource (fully mined, fully scanned, etc)
+    // Proximity methods below will use this
+    public virtual bool IsEmpty()
+    {
+        return false;
+    }
 
 
     // Various helper functions
@@ -56,6 +64,7 @@ public class EffectSource : MonoBehaviour
     public static T GetNearestEffectSource<T>(Transform tFrom, T[] sources) where T : EffectSource
     {
         var sourcesSorted = sources.Where(i => i != null)
+                                    .Where(i => !i.IsEmpty())
                                     .Select(i => new { effectsrc = i, dist = Vector3.Distance(tFrom.position, i.effectSourceTransform.position) })
                                     .Where(i => i.dist < i.effectsrc.maxRadius)
                                     .OrderBy(i => i.dist);
@@ -73,7 +82,7 @@ public class EffectSource : MonoBehaviour
     public static T[] GetEffectSourcesInRange<T>(Transform tFrom, T[] sources) where T : EffectSource
     {
         var sourcesInRange = sources.Where(i => i != null)
-                                    .Where(i => Vector3.Distance(tFrom.position, i.effectSourceTransform.position) < i.maxRadius);
+                                    .Where(i => !i.IsEmpty() && Vector3.Distance(tFrom.position, i.effectSourceTransform.position) < i.maxRadius);
         return sourcesInRange.ToArray();
     }
 

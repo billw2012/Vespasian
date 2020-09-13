@@ -69,7 +69,7 @@ public class GameLogic : ScriptableObject {
         score += Mathf.FloorToInt(player.GetComponent<HealthComponent>().health * 100f);
 
         // 0.2 point for each % of planets scanned
-        score += Mathf.FloorToInt(FindObjectsOfType<ScanEffect>().Select(e => e.scanned).Sum() * 20f);
+        score += Mathf.FloorToInt(FindObjectsOfType<Scannable>().Select(e => e.scanProgress).Sum() * 20f);
 
         return score;
     }

@@ -14,6 +14,8 @@ public class Mineable : EffectSource
     float miningProgress = 0; // Ranges 0..1
     bool wasMinedThisFrame = false; // Set by Mine() call on each frame
 
+    bool completionDone = false; // Set to true after completion event
+
     Miner[] miners;
 
     // Start is called before the first frame update
@@ -50,13 +52,14 @@ public class Mineable : EffectSource
         this.wasMinedThisFrame = false;
     }
 
+    // Must be called in update!!
     // If something is mining this, then it must call this method each frame
     public void Mine(Miner miner)
     {
         this.miningProgress += (1.0f / 3.0f) * Time.deltaTime;
         this.wasMinedThisFrame = true;
         //Debug.Log($"Mining progress: {this.miningProgress}");
-        if (this.miningProgress >= 1.0f)
+        if (this.miningProgress >= 1.0f && !this.completionDone)
         {
             // Mining is done, decide what to do
             var asteroidLogic = GetComponent<AsteroidLogic>();
@@ -69,24 +72,15 @@ public class Mineable : EffectSource
             var playerLogic = miner.GetComponent<PlayerLogic>();
             if (playerLogic != null)
                playerLogic.AddHealth(0.2f);
+
+            this.completionDone = true;
         }
     }
 
     // Returns true if it still makes sense to mine this
-    public bool CanBeMined
+    public override bool IsEmpty()
     {
-        get
-        {
-            // If attached to asteroid, it makes sense to mine it until it has exploded
-            var asteroidLogic = GetComponent<AsteroidLogic>();
-            if (asteroidLogic != null)
-            {
-                return !asteroidLogic.HasExploded;
-            }
-
-            // Else it's always mineable
-            return true;
-        }
+        return miningProgress >= 1.0f;
     }
 
     public void ResetMining()

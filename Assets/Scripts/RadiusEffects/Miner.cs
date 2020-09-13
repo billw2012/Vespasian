@@ -23,7 +23,7 @@ public class Miner : MonoBehaviour
         // Mine the target
         if (this.miningActive)
         {
-            if (this.target.IsInEffectRange(this.transform) && target.CanBeMined)
+            if (this.target.IsInEffectRange(this.transform) && !target.IsEmpty())
             {
                 this.target.Mine(this); // It's mine!!
             }
@@ -37,7 +37,7 @@ public class Miner : MonoBehaviour
         this.miningEffect.gameObject.SetActive(this.miningActive);
         if (this.miningActive)
         {
-            var vectorToTarget = this.target.transform.position - this.transform.position;
+            var vectorToTarget = this.target.effectSourceTransform.position - this.transform.position;
             this.miningEffect.transform.rotation =
                 Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget));// *
                                                                                            //Quaternion.Euler(0, 45f, 0);
