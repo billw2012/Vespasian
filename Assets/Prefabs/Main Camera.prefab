@@ -5047,12 +5047,12 @@ MonoBehaviour:
   maxStars: 180
   starMinSize: 0.692
   starSizeRange: 1
-  rectSize: 40.4
+  rectSize: 53.1
   speedMultiplier: 1
   parallaxBase: 0.3
   parallaxRange: 1
-  scaleEffect: 0.9
-  animationSpeed: 0.354
+  scaleEffect: 1
+  animationSpeed: 1
   sizeDistribution:
     serializedVersion: 2
     m_Curve: []
@@ -5072,8 +5072,44 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
+      time: 0.04574216
+      value: 0.3618343
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.110999286
+      value: 0.9985932
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 0.14232488
       value: 0.71752197
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.23590069
+      value: 1.0002943
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2998937
+      value: 0.36838388
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -5092,6 +5128,24 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.44725758
       value: 0.11015737
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5108955
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5875012
+      value: 0.15830207
       inSlope: 0
       outSlope: 0
       tangentMode: 136

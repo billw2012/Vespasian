@@ -35,7 +35,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 39fc1fe7ecc42a34a9445db6bfc23646, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9c8f07b333657d647b4b86e602b392db, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
