@@ -15,16 +15,7 @@ public class AsteroidLogic : MonoBehaviour
     [Tooltip("Must set it to asteroid's transform so we can rotate it.")]
     public Transform asteroidModelTransform;
 
-    [Tooltip("Damage particle effect, used for mining")]
-    public ParticleSystem miningDamageEffect;
-
-
     // Mining
-    
-    public float miningRadius = 3.0f;
-    public SpriteRenderer miningRadiusRenderer;
-    float miningProgress = 0; // Ranges 0..1
-    float timePassedWithoutMining = 0;
     bool exploded = false;
     public bool HasExploded { get { return this.exploded; } }
 
@@ -37,29 +28,15 @@ public class AsteroidLogic : MonoBehaviour
     
     void Start()
     {
-        this.miningRadiusRenderer.transform.localScale = this.miningRadius * 2 * (new Vector3(1,1,1));
         rotationAxis = Random.onUnitSphere;
         rotationVelocity = 50; // Random.Range(-40, 40);
         this.playerLogic = this.gameLogic.GetPlayerLogic();
     }
 
-    private void OnValidate()
-    {
-        this.miningRadiusRenderer.transform.localScale = this.miningRadius * 2 * (new Vector3(1, 1, 1));
-    }
-
     // Update is called once per frame
     void Update()
     {
-        asteroidModelTransform.Rotate(rotationAxis, Time.deltaTime*rotationVelocity);
-
-        // Check if player is close enough. If so, enable the circle indicator
-        this.miningRadiusRenderer.enabled = this.miningRadius * 3 > Vector3.Distance(this.transform.position, this.playerLogic.transform.position)
-                                            && !this.exploded;
-
-        this.timePassedWithoutMining += Time.deltaTime;
-
-        this.miningDamageEffect.SetEmissionRateOverTimeMultiplier(this.timePassedWithoutMining > 0.1f ? 0 : 30.0f);
+        asteroidModelTransform.Rotate(rotationAxis, Time.deltaTime*rotationVelocity); 
     }
 
     void OnCollisionEnter(Collision collision)
@@ -81,24 +58,5 @@ public class AsteroidLogic : MonoBehaviour
         var meshRenderer = GetComponentInChildren<MeshRenderer>();
         meshRenderer.enabled = false;
         this.exploded = true;
-    }
-
-    // If player is mining this, then it must call this method each frame
-    public void Mine()
-    {
-        this.miningProgress += (1.0f/3.0f) * Time.deltaTime;
-        this.timePassedWithoutMining = 0;
-        //Debug.Log($"Mining progress: {this.miningProgress}");
-        if (this.miningProgress >= 1.0f && !this.exploded)
-        {
-            this.Explode();
-            if (this.playerLogic != null)
-                this.playerLogic?.AddHealth(0.2f);
-        }
-    }
-
-    public void ResetMining()
-    {
-        this.miningProgress = 0;
     }
 }

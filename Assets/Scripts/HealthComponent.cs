@@ -6,7 +6,7 @@ public class HealthComponent : MonoBehaviour
     public ParticleSystem damageDebris;
     public GameLogic gameLogic;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float health = 1;
     float previousHealth = 1;
     Vector3 lastDamageDirection;

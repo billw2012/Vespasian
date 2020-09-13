@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 3943400424216723535}
   - component: {fileID: 7657101580584554705}
   - component: {fileID: 8738747452464767748}
+  - component: {fileID: 864730426328604565}
   m_Layer: 8
   m_Name: AsteroidPrefab
   m_TagString: Untagged
@@ -252,9 +253,6 @@ MonoBehaviour:
   gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
   rootDestroy: {fileID: 6039441407903207753}
   asteroidModelTransform: {fileID: 3509586705671889919}
-  miningDamageEffect: {fileID: 4441507834249139020}
-  miningRadius: 4.5
-  miningRadiusRenderer: {fileID: 4945033889383893654}
 --- !u!114 &7657101580584554705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +281,21 @@ MonoBehaviour:
   shadowLengthScale: 30
   geometry: {fileID: 9150105991769169910}
   shadowCasterSize: {x: 0.05, y: 0.05}
+--- !u!114 &864730426328604565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe594411bc1c87b449d536274f8e4387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miningDamageEffect: {fileID: 4441507834249139020}
+  miningRadius: 4.5
+  miningRadiusRenderer: {fileID: 4945033889383893654}
 --- !u!1 &6860978582396334874
 GameObject:
   m_ObjectHideFlags: 0

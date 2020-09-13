@@ -626,7 +626,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4538521788195604904}
+        - m_Target: {fileID: 4688800756493803251}
           m_MethodName: StartMining
           m_Mode: 1
           m_Arguments:
@@ -5208,6 +5208,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 6946838896639316914, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: sizeMin
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74647e47a25362544b444dcfa26a90bf, type: 3}
 --- !u!4 &4538521788297379537 stripped
@@ -5290,6 +5295,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2155780610961ba48b4847e56576da67, type: 3}
+--- !u!4 &4538521788195604900 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
+    type: 3}
+  m_PrefabInstance: {fileID: 6286013933565408439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4538521788195604904 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7620224551109491999, guid: 2155780610961ba48b4847e56576da67,
@@ -5326,9 +5337,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aa604502fdb504199e6737ca8b4be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4538521788195604900 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
+--- !u!114 &4688800756493803251 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1598108454956247620, guid: 2155780610961ba48b4847e56576da67,
     type: 3}
   m_PrefabInstance: {fileID: 6286013933565408439}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d46b947d02e862488c9630a9ab651c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
