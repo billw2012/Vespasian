@@ -15,6 +15,15 @@ public class EffectSource : MonoBehaviour
     public Transform effectSourceTransform;
 
 
+    void OnDrawGizmosSelected()
+    {
+        // Display the explosion radius when selected
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, this.maxRadius);
+    }
+
+
+
     // Various helper functions
 
     // Returns true if other transform is in range of this effect source

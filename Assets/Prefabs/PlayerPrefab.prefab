@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 2007543306442515008}
   - component: {fileID: 3664154167166374825}
   - component: {fileID: 1598108454956247620}
+  - component: {fileID: 3927293353395457018}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -317,6 +318,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miningEffect: {fileID: 4089781873597139559}
+--- !u!114 &3927293353395457018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac1c3b4916550945815568443f28bf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffect: {fileID: 8520331350740000157}
 --- !u!1 &7620224552652236272
 GameObject:
   m_ObjectHideFlags: 0

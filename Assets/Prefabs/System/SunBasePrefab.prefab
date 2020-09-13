@@ -19238,9 +19238,9 @@ GameObject:
   - component: {fileID: 3768597765047173929}
   - component: {fileID: 5627716558633760033}
   - component: {fileID: 56469765501527648}
-  - component: {fileID: 3823042140233048264}
   - component: {fileID: 7639369803563321502}
   - component: {fileID: 2438610178736772583}
+  - component: {fileID: 6969213077173605535}
   m_Layer: 8
   m_Name: SunBasePrefab
   m_TagString: Untagged
@@ -19348,21 +19348,6 @@ MonoBehaviour:
   pathQuality: 1
   customPosition: {fileID: 0}
   position: {fileID: 8927440856455040385}
---- !u!114 &3823042140233048264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039441407903207753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ac1c3b4916550945815568443f28bf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxRadius: 5
-  effectFactor: 1
-  effector: {fileID: 8649645052135855122}
 --- !u!114 &7639369803563321502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19394,6 +19379,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &6969213077173605535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57f01e30241c534883df6a9c7ae7f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRadius: 8
+  effectSourceTransform: {fileID: 6039441407903207765}
 --- !u!1 &6093582211867798575
 GameObject:
   m_ObjectHideFlags: 0
