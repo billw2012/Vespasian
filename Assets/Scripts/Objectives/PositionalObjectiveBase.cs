@@ -69,7 +69,7 @@ public abstract class PositionalObjective : Objective
             Handles.color = this.color;
             Handles.matrix = this.target.localToWorldMatrix;
             Handles.DrawWireDisc(Vector3.zero, Vector3.forward, this.radius);
-            Handles.Label(Vector3.up * this.radius, this.debugName);
+            GUIUtils.Label(Quaternion.Euler(0, 0, this.debugName.GetHashCode() % 90) * Vector2.right * this.radius * 0.95f, this.debugName);
         }
     }
 #endif

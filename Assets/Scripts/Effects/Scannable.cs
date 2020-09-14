@@ -8,7 +8,7 @@ public class Scannable : EffectSource
     [HideInInspector]
     public bool scanning = false;
 
-    override public bool IsEmpty()
+    public override bool IsEmpty()
     {
         return scanProgress >= 1.0f;
     }
@@ -19,10 +19,14 @@ public class Scannable : EffectSource
     }
 
     // Must be called in update!!
-    public void Scan(Scanner scanner)
+    public void Scan(Scanner _)
     {
         float scanAdd = Time.deltaTime * 0.2f;
         this.scanProgress = Mathf.Clamp(this.scanProgress + scanAdd, 0, 1);
         this.scanning = true;
     }
+
+    public override Color gizmoColor => Color.yellow;
+    public override string debugName => "Scannable";
+
 };

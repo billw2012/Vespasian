@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
 
-public class EffectSource : MonoBehaviour
+public abstract class EffectSource : MonoBehaviour
 {
     [Tooltip("Max distance from center for effect to work"), Range(0, 10)]
     public float maxRadius = 3.0f;
@@ -14,38 +15,29 @@ public class EffectSource : MonoBehaviour
     [Tooltip("Transform to use as the effect source")]
     public Transform effectSourceTransform;
 
-
-    void OnDrawGizmosSelected()
-    {
-        // Display the explosion radius when selected
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(effectSourceTransform.position, this.maxRadius);
-    }
-
-    // Virtual functions, must be overrided in derived effect sources
+    // Virtual functions, must be overidden in derived effect sources
 
     // Must return true when this has no more resource (fully mined, fully scanned, etc)
     // It is essential to mark effect sources as complete so we don't keep focus on them and switch to next one instead
     // Proximity methods below use this method
-    public virtual bool IsEmpty()
+    public virtual bool IsEmpty() => false;
+
+    public float GetDistance(Transform other)
     {
-        return false;
+        return this.effectSourceTransform.worldToLocalMatrix.MultiplyPoint(other.position).xy0().magnitude;
     }
 
-
     // Various helper functions
-
     // Returns true if other transform is in range of this effect source
     public bool IsInEffectRange(Transform other)
     {
-        return Vector3.Distance(this.effectSourceTransform.position, other.position) < this.maxRadius;
+        return this.GetDistance(other) < this.maxRadius;
     }
 
     // Returns value where 1 corresponds to max distance
-    public float GetDistanceNormalized(Transform tFrom)
+    public float GetDistanceNormalized(Transform from)
     {
-        float dist = Vector3.Distance(tFrom.position, this.effectSourceTransform.position);
-        return dist / this.maxRadius;
+        return this.GetDistance(from) / this.maxRadius;
     }
 
     // Returns 0 if tFrom is beyond range
@@ -54,22 +46,23 @@ public class EffectSource : MonoBehaviour
     public float GetEffectStrengthNormalized(Transform tFrom)
     {
         float dist = this.GetDistanceNormalized(tFrom);
-        float distClamp = Mathf.Clamp(dist, 0, 1);
+        float distClamp = Mathf.Clamp01(dist);
         return 1.0f - distClamp;
     }
 
 
     // Various static helper functions
-    
+
     // Returns closet effect source in range, or null
     public static T GetNearestEffectSource<T>(Transform tFrom, T[] sources) where T : EffectSource
     {
-        var sourcesSorted = sources.Where(i => i != null)
-                                    .Where(i => !i.IsEmpty())
-                                    .Select(i => new { effectsrc = i, dist = Vector3.Distance(tFrom.position, i.effectSourceTransform.position) })
-                                    .Where(i => i.dist < i.effectsrc.maxRadius)
-                                    .OrderBy(i => i.dist);
-        return sourcesSorted.Count() > 0 ? sourcesSorted.ElementAt(0).effectsrc : null;
+        return sources.Where(i => i != null)
+            .Where(i => !i.IsEmpty())
+            .Select(i => (effectsrc: i, dist: i.GetDistance(tFrom)))
+            .Where(i => i.dist < i.effectsrc.maxRadius)
+            .OrderBy(i => i.dist)
+            .FirstOrDefault().effectsrc
+            ;
     }
 
     // Returns closet effect source in range, or null
@@ -82,9 +75,9 @@ public class EffectSource : MonoBehaviour
 
     public static T[] GetEffectSourcesInRange<T>(Transform tFrom, T[] sources) where T : EffectSource
     {
-        var sourcesInRange = sources.Where(i => i != null)
-                                    .Where(i => !i.IsEmpty() && Vector3.Distance(tFrom.position, i.effectSourceTransform.position) < i.maxRadius);
-        return sourcesInRange.ToArray();
+         return sources.Where(i => i != null)
+            .Where(i => !i.IsEmpty() && i.GetDistance(tFrom) < i.maxRadius)
+            .ToArray();
     }
 
     public static T[] GetEffectSourcesInRange<T>(Transform tFrom) where T : EffectSource
@@ -92,4 +85,18 @@ public class EffectSource : MonoBehaviour
         var sources = Object.FindObjectsOfType<T>();
         return EffectSource.GetEffectSourcesInRange<T>(tFrom, sources);
     }
+
+    public abstract Color gizmoColor { get; }
+    public abstract string debugName { get; }
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        // Display the explosion radius when selected
+        Handles.color = this.gizmoColor;
+        Handles.matrix = this.effectSourceTransform.localToWorldMatrix;
+        Handles.DrawWireDisc(Vector3.zero, Vector3.forward, this.maxRadius);
+        GUIUtils.Label(Quaternion.Euler(0, 0, this.debugName.GetHashCode() % 90) * Vector2.left * this.maxRadius * 0.95f, this.debugName);
+    }
+#endif
 }

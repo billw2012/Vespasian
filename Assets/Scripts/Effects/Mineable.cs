@@ -21,23 +21,20 @@ public class Mineable : EffectSource
     // Start is called before the first frame update
     void Start()
     {
-        this.miningRadiusRenderer.transform.localScale = this.maxRadius * 2 * new Vector3(1, 1, 1);
+        this.miningRadiusRenderer.transform.localScale = this.maxRadius * 2 * Vector3.one;
         this.miners = FindObjectsOfType<Miner>();
     }
 
     private void OnValidate()
     {
-        this.miningRadiusRenderer.transform.localScale = this.maxRadius * 2 * new Vector3(1, 1, 1);
+        this.miningRadiusRenderer.transform.localScale = this.maxRadius * 2 * Vector3.one;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Check if any miners are close enough. If so, enable the circle indicator
-        var anyMinersNearby = this.miners.Any(obj =>
-        {
-            return obj != null ? this.maxRadius * 3 > Vector3.Distance(this.transform.position, obj.transform.position) : false;
-        });
+        bool anyMinersNearby = this.miners.Any(obj => obj != null && this.maxRadius * 3 > this.GetDistance(obj.transform));
         this.miningRadiusRenderer.enabled = anyMinersNearby;
     }
 
@@ -46,7 +43,7 @@ public class Mineable : EffectSource
         // Update mining damage effect
         if (this.miningDamageEffect != null)
         {
-            this.miningDamageEffect.SetEmissionRateOverTimeMultiplier(this.wasMinedThisFrame ? 30.0f : 0);
+            this.miningDamageEffect.SetEmissionRateOverTimeMultiplier(this.wasMinedThisFrame ? 30f : 0);
         }
 
         this.wasMinedThisFrame = false;
@@ -54,12 +51,12 @@ public class Mineable : EffectSource
 
     // Must be called in update!!
     // If something is mining this, then it must call this method each frame
-    public void Mine(Miner miner)
+    public void Mine(Miner _)
     {
-        this.miningProgress += (1.0f / 3.0f) * Time.deltaTime;
+        this.miningProgress += (1f / 3f) * Time.deltaTime;
         this.wasMinedThisFrame = true;
         //Debug.Log($"Mining progress: {this.miningProgress}");
-        if (this.miningProgress >= 1.0f && !this.completionDone)
+        if (this.miningProgress >= 1f && !this.completionDone)
         {
             // Extra code can be put here which fill run
             // on this component once when mining is done
@@ -71,11 +68,14 @@ public class Mineable : EffectSource
     // Returns true if it still makes sense to mine this
     public override bool IsEmpty()
     {
-        return miningProgress >= 1.0f;
+        return miningProgress >= 1f;
     }
 
     public void ResetMining()
     {
         this.miningProgress = 0;
     }
+
+    public override Color gizmoColor => Color.gray;
+    public override string debugName => "Mineable";
 }
