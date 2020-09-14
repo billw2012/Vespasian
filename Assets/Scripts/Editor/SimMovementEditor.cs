@@ -117,12 +117,13 @@ public class SimMovementEditor : Editor
 
     static double lastUpdate = 0;
 
-    [DrawGizmo(GizmoType.NotInSelectionHierarchy)]
-    static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
+    [DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.InSelectionHierarchy)]
+    static async void RenderCustomGizmo(SimMovement simMovement, GizmoType gizmoType)
     {
         // Draw existing paths
         Handles.color = new Color(0.33f, 0.66f, 0.66f);
-        foreach (var simMovement in FindObjectsOfType<SimMovement>().Where(s => s.editorCurrPath?.Length > 1))
+
+        if(simMovement.editorCurrPath?.Length > 1)
         {
             Handles.DrawLines(simMovement.editorCurrPath);
             if (simMovement.editorCrashed)
@@ -134,14 +135,14 @@ public class SimMovementEditor : Editor
             }
         }
 
-        if(EditorApplication.timeSinceStartup - lastUpdate > 0.1)
+        if(EditorApplication.timeSinceStartup - lastUpdate > 0.05)
         {
             lastUpdate = EditorApplication.timeSinceStartup;
             var simModel = new SimModel();
             simModel.DelayedInit();
-            foreach (var simMovement in FindObjectsOfType<SimMovement>())
+            foreach (var s in FindObjectsOfType<SimMovement>())
             {
-                _ = simMovement.EditorUpdatePathAsync(simModel);
+                await s.EditorUpdatePathAsync(simModel);
             }
         }
     }

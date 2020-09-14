@@ -144,13 +144,12 @@ public class OrbitEditor : Editor
 
     static double lastUpdate = 0;
 
-
-    [DrawGizmo(GizmoType.NotInSelectionHierarchy)]
-    static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
+    [DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.InSelectionHierarchy)]
+    static void RenderCustomGizmo(Orbit orbit, GizmoType gizmoType)
     {
         // Draw orbit
         Handles.color = new Color(0.33f, 0.33f, 0.33f);
-        foreach (var orbit in FindObjectsOfType<Orbit>().Where(o => o.isActiveAndEnabled && o.pathPositions != null))
+        if (orbit.isActiveAndEnabled && orbit.pathPositions != null)
         {
             Handles.matrix = orbit.transform.localToWorldMatrix;
             Handles.DrawPolyLine(orbit.pathPositions);
@@ -158,14 +157,14 @@ public class OrbitEditor : Editor
             Handles.DrawPolyLine(Vector3.zero, orbit.pathPositions.First());
         }
 
-        if (EditorApplication.timeSinceStartup - lastUpdate > 0.5)
+        if (EditorApplication.timeSinceStartup - lastUpdate > 0.1)
         {
             lastUpdate = EditorApplication.timeSinceStartup;
             var simModel = new SimModel();
             simModel.DelayedInit();
-            foreach (var orbit in FindObjectsOfType<Orbit>())
+            foreach (var o in FindObjectsOfType<Orbit>())
             {
-                orbit.RefreshValidateRecursive();
+                o.RefreshValidateRecursive();
             }
         }
     }
