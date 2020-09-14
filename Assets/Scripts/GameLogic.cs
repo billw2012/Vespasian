@@ -10,9 +10,7 @@ public class GameLogic : ScriptableObject {
     [HideInInspector]
     public float collectedGas = 0;
 
-    GameObject playUI;
-    GameObject winUI;
-    GameObject loseUI;
+    GUILayerManager uiManager;
 
     void OnEnable()
     {
@@ -21,12 +19,7 @@ public class GameLogic : ScriptableObject {
 
     void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        this.playUI = GameObject.Find("Play UI");
-        this.winUI = GameObject.Find("Win UI");
-        this.loseUI = GameObject.Find("Lose UI");
-
-        this.winUI?.SetActive(false);
-        this.loseUI?.SetActive(false);
+        this.uiManager = FindObjectOfType<GUILayerManager>();
     }
 
     public void NextLevel()
@@ -41,8 +34,8 @@ public class GameLogic : ScriptableObject {
 
     public void WinGame()
     {
-        this.playUI.SetActive(false);
-        this.winUI.SetActive(true);
+        this.uiManager.ShowWinUI();
+
         GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = $"{this.CalculateScore()} points";
 
         FindObjectOfType<PlayerLogic>().gameObject.SetActive(false);
@@ -50,8 +43,7 @@ public class GameLogic : ScriptableObject {
 
     public void LoseGame()
     {
-        this.playUI.SetActive(false);
-        this.loseUI.SetActive(true);
+        this.uiManager.ShowLoseUI();
 
         FindObjectOfType<PlayerLogic>().gameObject.SetActive(false);
     }
@@ -72,16 +64,5 @@ public class GameLogic : ScriptableObject {
         score += Mathf.FloorToInt(FindObjectsOfType<Scannable>().Select(e => e.scanProgress).Sum() * 20f);
 
         return score;
-    }
-
-    // Returns player object
-    public PlayerLogic GetPlayerLogic()
-    {
-        return FindObjectOfType<PlayerLogic>();
-    }
-
-    public FollowCameraController GetCameraController()
-    {
-        return FindObjectOfType<FollowCameraController>();
     }
 }
