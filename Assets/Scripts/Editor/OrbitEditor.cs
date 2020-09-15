@@ -157,7 +157,7 @@ public class OrbitEditor : Editor
             Handles.DrawPolyLine(Vector3.zero, orbit.pathPositions.First());
         }
 
-        if (EditorApplication.timeSinceStartup - lastUpdate > 0.1)
+        if (!EditorApplication.isPlaying && EditorApplication.timeSinceStartup - lastUpdate > 0.1)
         {
             lastUpdate = EditorApplication.timeSinceStartup;
             var simModel = new SimModel();

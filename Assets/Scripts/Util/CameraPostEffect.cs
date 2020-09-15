@@ -145,11 +145,11 @@ public class CameraPostEffect : MonoBehaviour
     {
         foreach (var p in this.colorProperties)
         {
-            p.field.SetValue(this.target.runtimeSettings, p.originalValue);
+            p.field?.SetValue(this.target.runtimeSettings, p.originalValue);
         }
         foreach (var p in this.floatProperties)
         {
-            p.field.SetValue(this.target.runtimeSettings, p.originalValue);
+            p.field?.SetValue(this.target.runtimeSettings, p.originalValue);
         }
     }
 

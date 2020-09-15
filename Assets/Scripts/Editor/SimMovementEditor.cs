@@ -135,7 +135,7 @@ public class SimMovementEditor : Editor
             }
         }
 
-        if(EditorApplication.timeSinceStartup - lastUpdate > 0.05)
+        if(!EditorApplication.isPlaying && EditorApplication.timeSinceStartup - lastUpdate > 0.05)
         {
             lastUpdate = EditorApplication.timeSinceStartup;
             var simModel = new SimModel();

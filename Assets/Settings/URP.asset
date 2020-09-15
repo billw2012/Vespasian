@@ -21,10 +21,10 @@ MonoBehaviour:
     BlurMask: {fileID: 0}
     Bloom: 1
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 3.48
+    BloomAmount: 2.16
     BloomDiffuse: 0.818
-    BloomThreshold: 0.564
-    BloomSoftness: 0
+    BloomThreshold: 0.6
+    BloomSoftness: 1
     LUT: 1
     LutAmount: 1
     SourceLut: {fileID: 2800000, guid: 7a637246ababfd248b27222457979084, type: 3}
