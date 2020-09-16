@@ -21,20 +21,20 @@ public class Mineable : EffectSource
     // Start is called before the first frame update
     void Start()
     {
-        this.miningRadiusRenderer.transform.localScale = this.maxRadius * 2 * Vector3.one;
+        this.miningRadiusRenderer.transform.localScale = this.range * 2 * Vector3.one;
         this.miners = FindObjectsOfType<Miner>();
     }
 
     private void OnValidate()
     {
-        this.miningRadiusRenderer.transform.localScale = this.maxRadius * 2 * Vector3.one;
+        this.miningRadiusRenderer.transform.localScale = this.range * 2 * Vector3.one;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Check if any miners are close enough. If so, enable the circle indicator
-        bool anyMinersNearby = this.miners.Any(obj => obj != null && this.maxRadius * 3 > this.GetDistance(obj.transform));
+        bool anyMinersNearby = this.miners.Any(obj => obj != null && this.range * 3 > this.GetDistance(obj.transform));
         this.miningRadiusRenderer.enabled = anyMinersNearby;
     }
 

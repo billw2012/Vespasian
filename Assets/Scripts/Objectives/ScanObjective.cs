@@ -14,8 +14,8 @@ public class ScanObjective : PositionalObjective
     Scannable scannable => this.GetComponent<Scannable>();
 
     #region Objective implementation
-    public override Transform target => this.scannable.effectSourceTransform;
-    public override float radius => this.scannable.maxRadius;
+    public override Transform target => this.scannable.originTransform;
+    public override float radius => this.scannable.range;
     public override float amountRequired => 1;
     public override float amountDone => this.scannable.scanProgress;
     public override bool required => this.makeRequired;

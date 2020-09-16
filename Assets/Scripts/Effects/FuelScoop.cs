@@ -6,7 +6,7 @@ public class FuelScoop : MonoBehaviour
 
     private void Update()
     {
-        var fuelSource = EffectSource.GetNearestEffectSource<FuelSource>(this.transform);
+        var fuelSource = EffectSource.GetNearest<FuelSource>(this.transform);
         ///Debug.Log($"Nearest fuel source: {fuelSource}");
         if (fuelSource != null)
         {

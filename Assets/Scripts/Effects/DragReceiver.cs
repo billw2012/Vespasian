@@ -6,7 +6,7 @@ public class DragReceiver : MonoBehaviour
 {
     void Update()
     {
-        var dragSources = EffectSource.GetEffectSourcesInRange<DragSource>(this.transform);
+        var dragSources = EffectSource.AllInRange<DragSource>(this.transform);
         foreach (var source in dragSources)
         {
             float fieldStrength = source.GetEffectStrengthNormalized(this.transform);

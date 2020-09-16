@@ -19,7 +19,7 @@ public class OrbitEditor : Editor
 
         float uiScale = HandleUtility.GetHandleSize(orbit.transform.position) * 0.2f;
 
-        Handles.Label(orbit.transform.position + (Vector3.right * 0.2f + Vector3.up) * orbit.parameters.semiMajorAxis * 0.5f, $"{orbit.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
+        GUIUtils.Label(orbit.transform.position + (Vector3.right * 0.2f + Vector3.up) * orbit.parameters.semiMajorAxis * 0.5f, $"{orbit.gameObject.name}");
 
         // Draw orbit
         Handles.matrix = orbit.transform.localToWorldMatrix;
@@ -40,7 +40,7 @@ public class OrbitEditor : Editor
 
             var handlePos = angleRot * (Vector3.right * (orbit.parameters.periapsis + 3f));
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"periapsis: {orbit.parameters.periapsis:0.0}\nangle: {orbit.parameters.angle:0.0}°\nshift = set eccentricity\nctrl = set angle");
+            GUIUtils.Label(handlePos + Vector3.right * 2 * uiScale, $"periapsis: {orbit.parameters.periapsis:0.0}\nangle: {orbit.parameters.angle:0.0}°\nshift = set eccentricity\nctrl = set angle");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 handlePos,
@@ -81,7 +81,7 @@ public class OrbitEditor : Editor
 
             var handlePos = angleRot * (Vector3.left * (orbit.parameters.apoapsis + 3f));
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"apoapsis: {orbit.parameters.apoapsis:0.0}\neccentricity: {orbit.parameters.eccentricity}\nctrl = set angle");
+            GUIUtils.Label(handlePos + Vector3.right * 2 * uiScale, $"apoapsis: {orbit.parameters.apoapsis:0.0}\neccentricity: {orbit.parameters.eccentricity}\nctrl = set angle");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 handlePos,
@@ -120,7 +120,7 @@ public class OrbitEditor : Editor
             const float HandleOffset = 10f;
             var handlePos = offsetRot * (Vector3.right * (orbit.parameters.semiMajorAxis + HandleOffset));
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"offset: {orbit.parameters.offset * 360f}°");
+            GUIUtils.Label(handlePos + Vector3.right * 2 * uiScale, $"offset: {orbit.parameters.offset * 360f}°");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 handlePos,

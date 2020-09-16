@@ -65,7 +65,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &828959835198526907
 Transform:
   m_ObjectHideFlags: 0
@@ -5411,7 +5411,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 20
+    maxNumParticles: 200
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -5676,7 +5676,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 10
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6421,7 +6421,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.70329285
+          value: 0.37362123
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -6901,7 +6901,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.25
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -14448,7 +14448,7 @@ PrefabInstance:
     - target: {fileID: 6039441407903207753, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_Name
-      value: PlanetJupiter_a
+      value: PlanetJupiter_a_alternate_vfx
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207765, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}

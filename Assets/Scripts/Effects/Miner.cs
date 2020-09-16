@@ -11,19 +11,12 @@ public class Miner : MonoBehaviour
 
     bool miningActive => target != null;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         // Mine the target
         if (this.miningActive)
         {
-            if (this.target.IsInEffectRange(this.transform) && !target.IsEmpty())
+            if (this.target.IsInRange(this.transform) && !target.IsEmpty())
             {
                 this.target.Mine(this); // It's mine!!
                 if (this.target.IsEmpty())
@@ -54,7 +47,7 @@ public class Miner : MonoBehaviour
         this.miningEffect.gameObject.SetActive(this.miningActive);
         if (this.miningActive)
         {
-            var vectorToTarget = this.target.effectSourceTransform.position - this.transform.position;
+            var vectorToTarget = this.target.originTransform.position - this.transform.position;
             this.miningEffect.transform.rotation =
                 Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget));// *
                                                                                            //Quaternion.Euler(0, 45f, 0);
@@ -65,7 +58,7 @@ public class Miner : MonoBehaviour
     public void StartMining()
     {
         // Search for nearby mining targets
-        var closestMineable = EffectSource.GetNearestEffectSource<Mineable>(this.transform); // Might return null
+        var closestMineable = EffectSource.GetNearest<Mineable>(this.transform); // Might return null
         this.target = closestMineable;
     }
 

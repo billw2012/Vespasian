@@ -160,7 +160,7 @@ public class CameraPostEffect : MonoBehaviour
         Handles.matrix = this.transform.localToWorldMatrix;
         Handles.DrawWireDisc(Vector3.zero, Vector3.forward, this.innerRadius);
         Handles.DrawWireDisc(Vector3.zero, Vector3.forward, this.innerRadius + this.falloffRange);
-        Handles.Label(Vector3.up * this.innerRadius, "Postfx");
+        GUIUtils.Label(Vector3.up * this.innerRadius, "Postfx");
     }
 #endif
 }

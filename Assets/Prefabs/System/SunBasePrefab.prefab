@@ -19360,8 +19360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111afeeb5aee51049a9bf888620de5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 4.79
-  effectSourceTransform: {fileID: 8927440856455040385}
+  range: 1.7
+  originTransform: {fileID: 8649645052135855122}
 --- !u!54 &2438610178736772583
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19390,8 +19390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57f01e30241c534883df6a9c7ae7f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 8
-  effectSourceTransform: {fileID: 6039441407903207765}
+  range: 2.2
+  originTransform: {fileID: 8649645052135855122}
 --- !u!1 &6093582211867798575
 GameObject:
   m_ObjectHideFlags: 0
