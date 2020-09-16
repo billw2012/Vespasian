@@ -7,11 +7,6 @@ public class DamageReceiver : MonoBehaviour
 {
     readonly Dictionary<RingDamageSource, Vector3> previousRelativePosMap = new Dictionary<RingDamageSource, Vector3>();
 
-    void Start()
-    {
-        //this.previousPos = this.transform.position;
-    }
-
     void Update()
     {
         var damageSources = EffectSource.AllInRange<DamageSource>(this.transform);
@@ -31,8 +26,7 @@ public class DamageReceiver : MonoBehaviour
             if (this.previousRelativePosMap.TryGetValue(source, out var prevRelativePos))
             {
                 var relativeVelocity = (prevRelativePos - relativePos) / Time.deltaTime;
-                Debug.Log($"{relativeVelocity.x} {relativeVelocity.y} {relativeVelocity.magnitude}");
-                float damagePerTime = Time.deltaTime * 0.1f * relativeVelocity.sqrMagnitude * source.damageMultiplier;
+                float damagePerTime = Time.deltaTime * 1f * Mathf.Max(0, relativeVelocity.sqrMagnitude - 0.01f) * source.damageMultiplier;
                 healthComponent.AddDamage(damagePerTime, source.transform.localToWorldMatrix.MultiplyVector(relativeVelocity));
             }
 

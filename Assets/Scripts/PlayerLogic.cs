@@ -28,7 +28,7 @@ public class PlayerLogic : MonoBehaviour
 
     [HideInInspector]
     public float fuelCurrent = 1;
-    public float fuelStart = 1.0f; // To be set in the editor
+    public float fuelStart = 1f; // To be set in the editor
 
     SimMovement movement;
 
@@ -100,13 +100,7 @@ public class PlayerLogic : MonoBehaviour
 
     public void AddFuel(float amount)
     {
-        this.fuelCurrent = Mathf.Clamp(this.fuelCurrent + amount, 0, 1.1f * this.fuelStart);
-    }
-
-    public void AddHealth(float amount)
-    {
-        var healthComponent = this.GetComponent<HealthComponent>();
-        healthComponent?.AddHealth(amount);
+        this.fuelCurrent = Mathf.Clamp01(this.fuelCurrent + amount);
     }
 
     // Calculates final thrust value from various control inputs

@@ -21,8 +21,8 @@ MonoBehaviour:
     BlurMask: {fileID: 0}
     Bloom: 1
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 2.16
-    BloomDiffuse: 0.818
+    BloomAmount: 3.03
+    BloomDiffuse: 0.433
     BloomThreshold: 0.6
     BloomSoftness: 1
     LUT: 1
