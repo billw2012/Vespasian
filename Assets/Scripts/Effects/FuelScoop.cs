@@ -10,25 +10,25 @@ public class FuelScoop : MonoBehaviour
         ///Debug.Log($"Nearest fuel source: {fuelSource}");
         if (fuelSource != null)
         {
-            var playerLogic = GetComponent<PlayerLogic>();
-            if (playerLogic != null)
+            var engine = this.GetComponent<EngineComponent>();
+            if (engine != null)
             {
                 float fuelIncrease = Time.deltaTime * 0.3f;
-                playerLogic.AddFuel(fuelIncrease);
+                engine.AddFuel(fuelIncrease);
             }
 
             // Set emission amount based on height ratio
             this.particleEffect.SetEmissionEnabled(true);
             float effectStrength = fuelSource.GetEffectStrengthNormalized(this.transform);
-            particleEffect.SetEmissionRateOverTimeMultiplier(50.0f * Mathf.Clamp(0.05f + 1.0f * effectStrength, 0, 1));
+            this.particleEffect.SetEmissionRateOverTimeMultiplier(50.0f * Mathf.Clamp(0.05f + 1.0f * effectStrength, 0, 1));
 
             // Check if the source is on the left or right, flip particle effect if needed
-            var offset = fuelSource.transform.position - transform.position;
+            var offset = fuelSource.transform.position - this.transform.position;
             offset.z = 0;
-            var distance = offset.magnitude;
+            float distance = offset.magnitude;
             float scale = distance / 5.0f;
             var sourcePosInThisSpace = this.transform.InverseTransformDirection(offset);
-            particleEffect.transform.localScale = sourcePosInThisSpace.x > 0 ? scale * new Vector3(1, 1, 1) : scale * new Vector3(-1, 1, 1);
+            this.particleEffect.transform.localScale = sourcePosInThisSpace.x > 0 ? scale * new Vector3(1, 1, 1) : scale * new Vector3(-1, 1, 1);
         }
         else
         {

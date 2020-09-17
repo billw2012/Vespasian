@@ -20,7 +20,7 @@ public class TargetArea : MonoBehaviour
     // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.GetComponentInParent<PlayerLogic>() != null)
+        if(collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {
             this.gameLogic.WinGame();
         }

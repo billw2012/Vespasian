@@ -8,10 +8,10 @@ using UnityEngine.UI;
 public class FuelBar : MonoBehaviour
 {
     public GameObject fill;
-    public PlayerLogic target;
+    public EngineComponent engine;
 
     void Update()
     {
-        this.GetComponent<Slider>().value = this.target.fuelCurrent;
+        this.GetComponent<Slider>().value = this.engine.fuelCurrent;
     }
 }

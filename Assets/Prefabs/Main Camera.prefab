@@ -5169,7 +5169,7 @@ MonoBehaviour:
   starMinSize: 0.692
   starSizeRange: 1
   rectSize: 53.1
-  speedMultiplier: 1
+  speedMultiplier: 10
   parallaxBase: 0.3
   parallaxRange: 1
   scaleEffect: 0.95
@@ -5184,7 +5184,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0
+      time: 0.0015830994
       value: 1.000104
       inSlope: 0
       outSlope: 0
@@ -5256,8 +5256,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5108955
-      value: 1
+      time: 0.5116878
+      value: 0.994384
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -5292,8 +5292,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1.000002
-      value: 0.9954103
+      time: 0.99914837
+      value: 0.9968143
       inSlope: 0
       outSlope: 0
       tangentMode: 136

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class DragJoystick : MonoBehaviour
 {
-    PlayerLogic playerLogic;
+    PlayerController playerLogic;
     Vector2 posStart;
     bool dragging = false;
 
@@ -14,7 +14,7 @@ public class DragJoystick : MonoBehaviour
 
     void Start()
     {
-        this.playerLogic = FindObjectOfType<PlayerLogic>();
+        this.playerLogic = FindObjectOfType<PlayerController>();
     }
 
     void Update()

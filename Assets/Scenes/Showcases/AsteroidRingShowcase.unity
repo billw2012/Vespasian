@@ -224,6 +224,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClassKSunVariant
       objectReference: {fileID: 0}
+    - target: {fileID: 4086295030639294488, guid: 10d3e5655e8d93a4e996159662f3f21c,
+        type: 3}
+      propertyPath: parameters.density
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086295030639294488, guid: 10d3e5655e8d93a4e996159662f3f21c,
+        type: 3}
+      propertyPath: parameters.mass
+      value: 15.904313
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10d3e5655e8d93a4e996159662f3f21c, type: 3}
 --- !u!4 &680283924 stripped
@@ -253,12 +263,12 @@ PrefabInstance:
     - target: {fileID: 4538521788195604900, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.017659366
+      value: 0.01355314
       objectReference: {fileID: 0}
     - target: {fileID: 4538521788195604900, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9998441
+      value: 0.99990815
       objectReference: {fileID: 0}
     - target: {fileID: 4538521788195604900, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
@@ -363,12 +373,12 @@ PrefabInstance:
     - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: startVelocity.x
-      value: -0.017214825
+      value: -0.030410102
       objectReference: {fileID: 0}
     - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: startVelocity.y
-      value: 0.4871854
+      value: 1.1215749
       objectReference: {fileID: 0}
     - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}

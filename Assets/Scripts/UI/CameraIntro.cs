@@ -23,7 +23,7 @@ public class CameraIntro : MonoBehaviour
 
         this.smoothTimeStart = this.camController.smoothTime;
 
-        var player = FindObjectOfType<PlayerLogic>();
+        var player = FindObjectOfType<PlayerController>();
         if(player == null)
         {
             this.StartGame();

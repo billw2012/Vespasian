@@ -17,7 +17,7 @@ public class FlybyObjective : PositionalObjective
     // Use FixedUpdate as we are tracking position of objects that are updated in FixedUpdate
     protected override void UpdateObjective()
     {
-        var player = FindObjectOfType<PlayerLogic>();
+        var player = FindObjectOfType<PlayerController>();
         if (player == null)
         {
             return;

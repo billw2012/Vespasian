@@ -18,7 +18,7 @@ public class OrbitObjective : PositionalObjective
 
     protected override void UpdateObjective()
     {
-        var player = FindObjectOfType<PlayerLogic>();
+        var player = FindObjectOfType<PlayerController>();
         if(player == null)
         {
             return;

@@ -60,7 +60,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
         var canvas = this.GetComponentInParent<Canvas>();
         var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
 
-        var playerTransform = FindObjectOfType<PlayerLogic>().transform;
+        var playerTransform = FindObjectOfType<PlayerController>().transform;
         // We want to select first N strongest gravity sources
         // and leave only those which are outside of the screen
 

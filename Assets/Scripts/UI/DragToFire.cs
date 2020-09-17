@@ -11,7 +11,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [Tooltip("How much force to apply")]
     public float forceCoefficient = 1.0f;
 
-    PlayerLogic playerLogic;
+    PlayerController playerLogic;
     SimMovement playerMovement;
 
     Vector2 dragStart;
@@ -20,7 +20,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     void Start()
     {
         Assert.IsNotNull(this.constants);
-        this.playerLogic = FindObjectOfType<PlayerLogic>();
+        this.playerLogic = FindObjectOfType<PlayerController>();
         this.playerMovement = FindObjectOfType<SimMovement>();
 
         if (this.playerMovement.startVelocity.magnitude > 0)

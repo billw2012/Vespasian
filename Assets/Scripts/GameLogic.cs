@@ -38,24 +38,24 @@ public class GameLogic : ScriptableObject {
 
         GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = $"{this.CalculateScore()} points";
 
-        FindObjectOfType<PlayerLogic>().gameObject.SetActive(false);
+        FindObjectOfType<PlayerController>().gameObject.SetActive(false);
     }
 
     public void LoseGame()
     {
         this.uiManager.ShowLoseUI();
 
-        FindObjectOfType<PlayerLogic>().gameObject.SetActive(false);
+        FindObjectOfType<PlayerController>().gameObject.SetActive(false);
     }
 
     int CalculateScore()
     {
         int score = 0;
 
-        var player = FindObjectOfType<PlayerLogic>().gameObject;
+        var player = FindObjectOfType<PlayerController>().gameObject;
 
         // 1 point for each % of fuel remaining
-        score += Mathf.FloorToInt(player.GetComponent<PlayerLogic>().fuelCurrent * 100f);
+        score += Mathf.FloorToInt(player.GetComponent<EngineComponent>().fuelCurrent * 100f);
 
         // 1 point for each % of health remaining
         score += Mathf.FloorToInt(player.GetComponent<HealthComponent>().hull * 100f);

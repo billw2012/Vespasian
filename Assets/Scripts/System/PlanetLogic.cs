@@ -50,7 +50,7 @@ public class PlanetLogic : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponentInParent<PlayerLogic>() != null)
+        if (collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {
             this.gameLogic.LoseGame();
         }

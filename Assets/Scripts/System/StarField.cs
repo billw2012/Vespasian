@@ -16,7 +16,7 @@ public class StarField : MonoBehaviour
     public float starSizeRange = 0.1f;
     [Range(1f, 100f)]
     public float rectSize = 10f;
-    [Range(0.01f, 1f)]
+    [Range(0.01f, 10f)]
     public float speedMultiplier = 0.25f;
     [Range(0.01f, 1f)]
     public float parallaxBase = 1.0f;
