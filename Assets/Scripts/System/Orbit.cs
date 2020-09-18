@@ -92,14 +92,33 @@ public struct OrbitParameters
                 return Vector3.zero;
             }
 
-            float fIdx = this.direction == OrbitDirection.Clockwise
-                ? (this.path.Length - ((t - this.timeOffset) / this.dt)) % this.path.Length
-                : ((t + this.timeOffset) / this.dt) % this.path.Length;
+            float fIdx = (this.direction == OrbitDirection.Clockwise
+                ? (this.path.Length - (t - this.timeOffset) / this.dt)
+                : ((t + this.timeOffset) / this.dt)) % this.path.Length;
 
             int idx0 = ModPositive(Mathf.FloorToInt(fIdx), this.path.Length);
             int idx1 = ModPositive(idx0 + 1, this.path.Length);
             float frac = fIdx - Mathf.FloorToInt(fIdx);
             return Vector3.Lerp(this.path[idx0], this.path[idx1], frac);
+        }
+
+        public (Vector3, Vector3) GetPositionVelocity(float t)
+        {
+            if (this.path == null || this.path.Length < 2)
+            {
+                return (Vector3.zero, Vector3.zero);
+            }
+
+            float fIdx = (this.direction == OrbitDirection.Clockwise
+                ? (this.path.Length - (t - this.timeOffset) / this.dt)
+                : ((t + this.timeOffset) / this.dt)) % this.path.Length;
+
+            int idx0 = ModPositive(Mathf.FloorToInt(fIdx), this.path.Length);
+            int idx1 = ModPositive(idx0 + 1, this.path.Length);
+            float frac = fIdx - Mathf.FloorToInt(fIdx);
+            var position = Vector3.Lerp(this.path[idx0], this.path[idx1], frac);
+            var velocity = (Vector3.Lerp(this.path[idx1], this.path[(idx1 + 1) % this.path.Length], frac) - position) / this.dt;
+            return (position, velocity);
         }
     }
 
@@ -134,7 +153,12 @@ public struct OrbitParameters
 
             float period = fixedPeriod == 0 ? orbit.period : fixedPeriod;
             float finaldt = fixedPeriod == 0 ? dt : fixedPeriod / (pathList.Count + 1);
-            return new OrbitPath { path = pathList.ToArray(), dt = finaldt, timeOffset = Mathf.Max(0, period * this.offset), direction = this.direction };
+            return new OrbitPath {
+                path = pathList.ToArray(),
+                dt = finaldt,
+                timeOffset = Mathf.Max(0, period * this.offset),
+                direction = this.direction
+            };
         }
         else
         {
@@ -169,6 +193,8 @@ public class Orbit : MonoBehaviour
     public OrbitParameters.OrbitPath orbitPath;
 
     public Vector3[] pathPositions => this.orbitPath.path;
+
+    public Vector3 velocity;
 
 
     // This was used to more closely match the SimManager math by simply adding positions to get world location for
@@ -266,10 +292,10 @@ public class Orbit : MonoBehaviour
         this.UpdatePosition(0);
     }
 
-    public void SimUpdate(float simTime)
+    public void SimUpdate(int simTick)
     {
         Debug.Assert(this.isActiveAndEnabled);
-        this.UpdatePosition(simTime);
+        this.UpdatePosition(simTick * Time.fixedDeltaTime);
     }
 
     void UpdatePosition(float time)
@@ -281,7 +307,7 @@ public class Orbit : MonoBehaviour
         //    newPosition += this.parent.position.position;
         //}
         //this.position.position = newPosition;
-        this.position.localPosition = this.orbitPath.GetPosition(time);
+        (this.position.localPosition, this.velocity) = this.orbitPath.GetPositionVelocity(time);
     }
 
     void CreateOrbitPath()

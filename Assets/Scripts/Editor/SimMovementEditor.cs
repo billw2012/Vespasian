@@ -9,6 +9,9 @@ public class SimMovementEditor : Editor
 {
     SimModel simModel;
 
+    bool editing = false;
+    float scale;
+
     void OnSceneGUI()
     {
         if (Application.isPlaying)
@@ -34,22 +37,37 @@ public class SimMovementEditor : Editor
 
         bool VelocityHandle()
         {
+            int id = GUIUtility.GetControlID(FocusType.Passive);
+
+            if(!this.editing)
+            {
+                this.editing = Event.current.GetTypeForControl(id) == EventType.MouseDown;
+                this.scale = 2 * HandleUtility.GetHandleSize(Vector3.zero) / Mathf.Max(0.0001f, simMovement.startVelocity.magnitude);
+            }
+            else
+            {
+                this.editing = Event.current.GetTypeForControl(id) != EventType.MouseUp;
+            }
+
             Handles.color = Color.magenta;
             Handles.matrix = Matrix4x4.Translate(simMovement.transform.position - simMovement.transform.right * uiScale * 1);
 
-            float scale = simMovement.constants.GameSpeedBase * 4f;
-            var handlePos = simMovement.startVelocity * scale;
+            //float scale = simMovement.constants.GameSpeedBase * 4f;
+            var handlePos = simMovement.startVelocity * this.scale;
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
             Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"velocity: {simMovement.startVelocity}\nshift = lock angle\nctrl = lock magnitude");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
+                id,
                 handlePos,
                 Vector3.forward,
                 Vector3.right,
                 Vector3.up,
                 uiScale * 0.5f,
                 Handles.CircleHandleCap,
-                Vector2.zero) / scale;
+                Vector2.zero) / this.scale;
+
+
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(this.target, "Changed velocity");

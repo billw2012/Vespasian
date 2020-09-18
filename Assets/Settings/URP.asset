@@ -43,9 +43,9 @@ MonoBehaviour:
     Distortion: 0
     LensDistortion: 0
     Vignette: 1
-    VignetteColor: {r: 0, g: 0, b: 0, a: 1}
-    VignetteAmount: 0.025
-    VignetteSoftness: 0.472
+    VignetteColor: {r: 0.319, g: 0.319, b: 0.319, a: 1}
+    VignetteAmount: 0
+    VignetteSoftness: 0.49
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

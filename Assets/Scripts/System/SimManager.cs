@@ -10,8 +10,7 @@ public class SimManager : MonoBehaviour
 {
     public GameConstants constants;
 
-    [HideInInspector]
-    public float simTime;
+    int simTick = 0;
 
     SimMovement[] simulatedObjects;
 
@@ -33,48 +32,51 @@ public class SimManager : MonoBehaviour
     {
         this.model.DelayedInit();
 
-        float dt = Time.fixedDeltaTime * this.constants.GameSpeedBase;
-        this.simTime += dt;
+        this.simTick++;
 
         // Update game objects from model (we use the simModels orbit list so we keep consistent ordering)
-        foreach (var o in this.model.orbits)
+        foreach (var o in this.model.orbits
+            .Where(o => o != null))
         {
-            if (o != null)
-                o.SimUpdate(this.simTime);
+            o.SimUpdate(this.simTick);
         }
 
-        foreach (var s in this.simulatedObjects.Where(s => s != null).Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
+        foreach (var s in this.simulatedObjects
+            .Where(s => s != null)
+            .Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
         {
-            s.SimUpdate(this.simTime);
+            s.SimUpdate(this.simTick);
         }
     }
 
     public SectionedSimPath CreateSectionedSimPath(Vector3 startPosition, Vector3 startVelocity, float targetLength, float proximityWarningRange, int sectionSteps = 100)
     {
-        return new SectionedSimPath(this.model, this.simTime, startPosition, startVelocity, targetLength, Time.fixedDeltaTime, this.constants.GravitationalConstant, this.constants.GravitationalRescaling, proximityWarningRange, sectionSteps);
+        return new SectionedSimPath(this.model, this.simTick, startPosition, startVelocity, targetLength, Time.fixedDeltaTime, this.constants.GravitationalConstant, this.constants.GravitationalRescaling, proximityWarningRange, sectionSteps);
     }
 }
 
-public class SimPath
+public class PathSection
 {
     public List<Vector3> path;
-    public List<SphereOfInfluence> sois;
-    public float dt;
-    public float timeStart;
+    public int startTick;
     public Vector3 finalVelocity;
-    public bool crashed;
-
-    public float duration => this.dt * this.path.Count;
-    public float timeEnd => this.timeStart + this.duration;
+    public int durationTicks => this.path.Count;
+    public int endTick => this.startTick + this.durationTicks;
     public Vector3 finalPosition => this.path[this.path.Count - 1];
 
-    public bool InRange(float time) => time >= this.timeStart && time <= this.timeEnd && this.path != null && this.path.Count >= 4;
+    public bool InRange(float tick) => tick >= this.startTick && tick <= this.endTick && this.path != null && this.path.Count >= 4;
 
-    public (Vector3, Vector3) GetPositionVelocity(float t)
+    public PathSection(int startTick)
     {
-        Assert.IsTrue(this.InRange(t));
+        this.startTick = startTick;
+        this.path = new List<Vector3>();
+    }
 
-        float fIdx = (t - this.timeStart) / this.dt;
+    public (Vector3, Vector3) GetPositionVelocity(float tick, float dt)
+    {
+        Assert.IsTrue(this.InRange(tick));
+
+        float fIdx = tick - this.startTick;
 
         int idx0 = Mathf.Clamp(Mathf.FloorToInt(fIdx), 0, this.path.Count - 1);
         int idx1 = Mathf.Clamp(idx0 + 1, 0, this.path.Count - 1);
@@ -82,54 +84,81 @@ public class SimPath
         var position = Vector3.Lerp(this.path[idx0], this.path[idx1], frac);
 
         var velocity = idx1 + 1 > this.path.Count - 1 ?
-            (position - Vector3.Lerp(this.path[idx0 - 1], this.path[idx0], frac)) / this.dt
+            (position - Vector3.Lerp(this.path[idx0 - 1], this.path[idx0], frac))
             :
-            (Vector3.Lerp(this.path[idx1], this.path[idx1 + 1], frac) - position) / this.dt;
-        return (position, velocity);
+            (Vector3.Lerp(this.path[idx1], this.path[idx1 + 1], frac) - position);
+        return (position, velocity / dt);
     }
 
-    static float TrimList<T>(float beforeTime, float startTime, float dt, List<T> list)
+    public void Add(Vector3 pos, Vector3 velocity)
     {
-        int count = Mathf.Clamp(Mathf.FloorToInt((beforeTime - startTime) / dt), 0, list.Count);
+        this.path.Add(pos);
+        this.finalVelocity = velocity;
+    }
+
+    static int TrimList<T>(int beforeTick, int startTick, List<T> list)
+    {
+        int count = Mathf.Clamp(beforeTick - startTick, 0, list.Count);
         list.RemoveRange(0, count);
-        return startTime + count * dt;
+        return startTick + count;
     }
 
-    public void TrimStart(float beforeTime)
+    public void TrimStart(int beforeTick)
     {
-        this.timeStart = TrimList(beforeTime, this.timeStart, this.dt, this.path);
-        this.sois = this.sois.Where(s => s.endTime > this.timeStart).ToList();
-        if(this.sois.Any())
+        this.startTick = TrimList(beforeTick, this.startTick, this.path);
+    }
+
+    public void Append(PathSection other)
+    {
+        if (other.startTick != this.endTick)
         {
-            var firstSoi = this.sois.First();
-            firstSoi.startTime = TrimList(beforeTime, firstSoi.startTime, this.dt, firstSoi.relativePath);
+            Debug.Log("blah");
         }
+        Assert.AreEqual(other.startTick, this.endTick);
+
+        this.path.AddRange(other.path);
+        this.finalVelocity = other.finalVelocity;
+    }
+}
+
+
+public class SimPath
+{
+    public PathSection path;
+    public List<SphereOfInfluence> sois;
+    public bool crashed;
+    
+    public void TrimStart(int beforeTick)
+    {
+        this.path.TrimStart(beforeTick);
+        this.sois = this.sois.Where(s => s.relativePath.endTick > this.path.startTick).ToList();
+        this.sois.FirstOrDefault()?.relativePath.TrimStart(beforeTick);
     }
 
     public void Append(SimPath other)
     {
         Assert.IsFalse(this.crashed);
-        Assert.IsTrue(Mathf.Approximately(other.timeStart, this.timeEnd));
-        Assert.IsTrue(Mathf.Approximately(other.dt, this.dt));
 
         this.crashed = other.crashed;
-        this.path.AddRange(other.path);
+        this.path.Append(other.path);
+        // If we have sois to merge
         if (this.sois.Any() && other.sois.Any() && this.sois.Last().g == other.sois.First().g)
         {
             var ourLastSoi = this.sois.Last();
             var otherFirstSoi = other.sois.First();
-            ourLastSoi.endTime = otherFirstSoi.endTime;
             ourLastSoi.maxForce = Mathf.Max(ourLastSoi.maxForce, otherFirstSoi.maxForce);
-            ourLastSoi.relativePath.AddRange(otherFirstSoi.relativePath);
+            ourLastSoi.relativePath.Append(otherFirstSoi.relativePath);
+            // We merged the first soi of the others so we skip it and append the remaining ones
             this.sois.AddRange(other.sois.Skip(1));
         }
         else
         {
+            // This covers all other cases
             this.sois.AddRange(other.sois);
         }
-        this.finalVelocity = other.finalVelocity;
     }
 }
+
 
 public class SimModel
 {
@@ -137,9 +166,13 @@ public class SimModel
     {
         public GravitySource g;
         public float maxForce;
-        public float startTime;
-        public float endTime;
-        public List<Vector3> relativePath = new List<Vector3>();
+        public PathSection relativePath;
+
+        public SphereOfInfluence(GravitySource g, int startTick)
+        {
+            this.g = g;
+            this.relativePath = new PathSection(startTick);
+        }
     }
 
     struct SimOrbit
@@ -172,9 +205,10 @@ public class SimModel
     // Represents the current state of a simulation
     class SimState
     {
-        public readonly List<Vector3> path = new List<Vector3>();
+        public PathSection path;
+        //public readonly List<Vector3> path = new List<Vector3>();
         public Vector3 velocity;
-        public float pathLength = 0;
+        //public float pathLength = 0;
         public bool crashed;
         // A consecutive list of spheres of influence the path passes through.
         // It can refer to the same GravitySource more than once.
@@ -184,83 +218,83 @@ public class SimModel
         readonly float collisionRadius;
         readonly float gravitationalConstant;
         readonly float gravitationalRescaling;
-        readonly float startTime;
+        //readonly float startTime;
+        //readonly float dt;
 
         Vector3 position;
-        float time;
+        float dt;
+        int tick;
 
-        public SimState(SimModel owner, Vector3 startPosition, Vector3 startVelocity, float startTime, float collisionRadius, float gravitationalConstant, float gravitationalRescaling)
+        public SimState(SimModel owner, Vector3 startPosition, Vector3 startVelocity, int startTick, float collisionRadius, float gravitationalConstant, float gravitationalRescaling, float dt)
         {
             this.owner = owner;
             this.collisionRadius = collisionRadius;
             this.gravitationalConstant = gravitationalConstant;
             this.gravitationalRescaling = gravitationalRescaling;
             this.position = startPosition;
+            this.dt = dt;
+            this.tick = startTick;
             this.velocity = startVelocity;
-            this.time = this.startTime = startTime;
+            // + dt because the first sample we take will be after stepping forward once
+            this.path = new PathSection(startTick);
         }
 
-        public void Step(float dt)
+        public void Step()
         {
-            this.time += dt;
+            var forceInfo = this.owner.CalculateForce(this.tick * this.dt, this.position, this.gravitationalConstant, this.gravitationalRescaling);
 
-            var forceInfo = this.owner.CalculateForce(this.time, this.position, this.gravitationalConstant, this.gravitationalRescaling);
-
-            int maxIndex = 0;
-            float maxForce = 0;
-            for (int i = 0; i < forceInfo.forces.Length; i++)
+            if (forceInfo.valid)
             {
-                float forceMag = forceInfo.forces[i].magnitude;
-                if (forceMag > maxForce)
+                int maxIndex = 0;
+                float maxForce = 0;
+                for (int i = 0; i < forceInfo.forces.Length; i++)
                 {
-                    maxIndex = i;
-                    maxForce = forceMag;
+                    float forceMag = forceInfo.forces[i].magnitude;
+                    if (forceMag > maxForce)
+                    {
+                        maxIndex = i;
+                        maxForce = forceMag;
+                    }
                 }
-            }
 
-            var bestG = this.owner.simGravitySources[maxIndex].from;
-            if (this.sois.Count == 0)
-            {
-                this.sois.Add(new SphereOfInfluence { g = bestG, startTime = this.startTime } );
-            }
-            else
-            {
-                var lastSoi = this.sois.Last();
-                if (lastSoi.g == bestG)
+                var bestG = this.owner.simGravitySources[maxIndex].from;
+                var lastSoi = this.sois.LastOrDefault();
+                if (lastSoi?.g == bestG)
                 {
                     lastSoi.maxForce = Mathf.Max(lastSoi.maxForce, maxForce);
                 }
                 else
                 {
-                    this.sois.Add(new SphereOfInfluence { g = bestG, startTime = this.time });
+                    this.sois.Add(new SphereOfInfluence(bestG, this.tick));
+                    lastSoi = this.sois.Last();
                 }
-            }
-            this.sois.Last().endTime = this.time;
 
-            this.velocity += forceInfo.rescaledTotalForce * dt;
+                this.velocity += forceInfo.rescaledTotalForce * this.dt;
 
-            var oldPosition = this.position;
-            this.position += this.velocity * dt;
+                var oldPosition = this.position;
+                this.position += this.velocity * this.dt;
 
-            this.sois.Last().relativePath.Add(this.position - forceInfo.positions[maxIndex]);
+                lastSoi.relativePath.Add(this.position - forceInfo.positions[maxIndex], this.velocity);
 
-            this.crashed = false;
-            for (int i = 0; i < this.owner.simGravitySources.Count; i++)
-            {
-                var g = this.owner.simGravitySources[i];
-                var planetPosition = forceInfo.positions[i];
-
-                var collision = Geometry.IntersectRaySphere(oldPosition, this.velocity.normalized, planetPosition, this.collisionRadius + g.radius);
-                if (collision.occurred && collision.t < this.velocity.magnitude * dt * 3)
+                this.crashed = false;
+                for (int i = 0; i < this.owner.simGravitySources.Count; i++)
                 {
-                    this.position = collision.at;
-                    this.crashed = true;
-                    break;
-                }
-            }
-            this.path.Add(this.position);
+                    var g = this.owner.simGravitySources[i];
+                    var planetPosition = forceInfo.positions[i];
 
-            this.pathLength += Vector3.Distance(oldPosition, this.position);
+                    var collision = Geometry.IntersectRaySphere(oldPosition, this.velocity.normalized, planetPosition, this.collisionRadius + g.radius);
+                    if (collision.occurred && collision.t < this.velocity.magnitude * this.dt * 3)
+                    {
+                        this.position = collision.at;
+                        this.crashed = true;
+                        break;
+                    }
+                }
+                this.path.Add(this.position, this.velocity);
+            }
+
+            this.tick++;
+            //this.pathLength += Vector3.Distance(oldPosition, this.position);
         }
     }
     #endregion
@@ -320,29 +354,42 @@ public class SimModel
     {
         // Position of each gravity source
         public Vector3[] positions;
+        // Velocity of each gravity source
+        public Vector3[] velocities;
         // Force from each gravity source
         public Vector3[] forces;
         // Total force
         public Vector3 totalForce;
         // Total force with gravity rescaling applied
         public Vector3 rescaledTotalForce;
+        // Index of the current primary
+        public int primaryIndex;
+
+        public bool valid => this.forces != null && this.positions != null && this.velocities != null;
     }
 
     public ForceInfo CalculateForce(float time, Vector3 position, float gravitationalConstant, float gravitationalRescaling)
     {
         this.DelayedInit();
+        if(!this.simGravitySources.Any())
+        {
+            return new ForceInfo {};
+        }
 
         var orbitPositions = new Vector3[this.simOrbits.Count];
+        var orbitVelocities = new Vector3[this.simOrbits.Count];
 
         for (int i = 0; i < this.simOrbits.Count; i++)
         {
             var o = this.simOrbits[i];
-            var localPosition = o.orbit.GetPosition(time);
+            var (localPosition, localVelocity) = o.orbit.GetPositionVelocity(time);
             orbitPositions[i] = o.parent != -1 ? orbitPositions[o.parent] + localPosition : localPosition;
+            orbitVelocities[i] = o.parent != -1 ? orbitVelocities[o.parent] + localVelocity : localVelocity;
         }
 
         // Calculate raw forces
         var positions = new Vector3[this.simGravitySources.Count];
+        var velocities = new Vector3[this.simGravitySources.Count];
         var forces = new Vector3[this.simGravitySources.Count];
         int primaryIndex = 0;
 
@@ -355,6 +402,7 @@ public class SimModel
                 g.mass,
                 gravitationalConstant);
             positions[i] = gPosition;
+            velocities[i] = g.orbitIndex != -1 ? orbitVelocities[g.orbitIndex] : Vector3.zero;
             forces[i] = force;
             if(force.magnitude > forces[primaryIndex].magnitude)
             {
@@ -393,13 +441,15 @@ public class SimModel
 
         return new ForceInfo {
             positions = positions,
+            velocities = velocities,
             forces = forces,
             totalForce = totalForce,
-            rescaledTotalForce = rescaledTotalForce
+            rescaledTotalForce = rescaledTotalForce,
+            primaryIndex = primaryIndex
         };
     }
 
-    public async Task<SimPath> CalculateSimPathAsync(Vector3 position, Vector3 velocity, float startTime, float timeStep, int steps, float collisionRadius, float gravitationalConstant, float gravitationalRescaling)
+    public async Task<SimPath> CalculateSimPathAsync(Vector3 position, Vector3 velocity, int startTick, float timeStep, int ticks, float collisionRadius, float gravitationalConstant, float gravitationalRescaling)
     {
         this.DelayedInit();
 
@@ -407,26 +457,25 @@ public class SimModel
             owner: this,
             startPosition: position,
             startVelocity: velocity,
-            startTime: startTime,
+            startTick: startTick,
             collisionRadius: collisionRadius,
             gravitationalConstant: gravitationalConstant,
-            gravitationalRescaling: gravitationalRescaling
+            gravitationalRescaling: gravitationalRescaling,
+            dt: timeStep
         );
 
         // Hand off to another thread
         await Task.Run(() =>
         {
-            for (int i = 0; i < steps && !state.crashed; i++)
+            for (int i = 0; i < ticks && !state.crashed; i++)
             {
-                state.Step(timeStep);
+                state.Step();
             }
         });
 
-        return new SimPath { 
-            dt = timeStep,
-            finalVelocity = state.velocity,
+        return new SimPath
+        { 
             path = state.path,
-            timeStart = startTime,
             sois = state.sois,
             crashed = state.crashed
         };
@@ -437,6 +486,7 @@ public class SectionedSimPath
 {
     public Vector3 position;
     public Vector3 velocity;
+    public Vector3 relativeVelocity;
     public bool crashed => this.path?.crashed == true;
 
     readonly SimModel model;
@@ -447,14 +497,12 @@ public class SectionedSimPath
     readonly float gravitationalRescaling;
     readonly float proximityWarningRange;
 
-    // List<SimPath> pathSections = new List<SimPath>();
     SimPath path;
-    float simTime;
+    int simTick;
     bool sectionIsQueued = false;
-    //SimPath lastValidPathSection = null;
     bool restartPath = true;
 
-    public SectionedSimPath(SimModel model, float startSimTime, Vector3 startPosition, Vector3 startVelocity, float targetLength, float dt, float gravitationalConstant, float gravitationalRescaling, float proximityWarningRange, int sectionSteps = 100)
+    public SectionedSimPath(SimModel model, int startSimTick, Vector3 startPosition, Vector3 startVelocity, float targetLength, float dt, float gravitationalConstant, float gravitationalRescaling, float proximityWarningRange, int sectionSteps = 100)
     {
         this.model = model;
         this.targetLength = targetLength;
@@ -466,12 +514,12 @@ public class SectionedSimPath
 
         this.position = startPosition;
         this.velocity = startVelocity;
-        this.simTime = startSimTime;
+        this.simTick = startSimTick;
     }
 
     public IEnumerable<Vector3> GetFullPath()
     {
-        return this.path?.path ?? new List<Vector3>();
+        return this.path?.path.path ?? new List<Vector3>();
     }
 
     public IEnumerable<SphereOfInfluence> GetFullPathSOIs()
@@ -479,43 +527,47 @@ public class SectionedSimPath
         return this.path?.sois ?? new List<SphereOfInfluence>();
     }
 
-    public void Step(float simTime, Vector3 force)
+    public void Step(int tick, Vector3 force)
     {
-        this.simTime = simTime;
+        this.simTick = tick;
 
-        //// Remove old sections
-        //while (this.pathSections.Count > 0 && this.pathSections[0].timeEnd <= this.simTime)
-        //{
-        //    this.pathSections.RemoveAt(0);
-        //}
+        this.path?.TrimStart(this.simTick);
 
-        this.path?.TrimStart(this.simTime);
-
-        var prevVel = this.velocity;
         // Get new position, either from the path or via dead reckoning
-        if (this.path != null && this.path.InRange(this.simTime) && force.magnitude == 0)
+        if (this.path != null && this.path.path.InRange(this.simTick) && force.magnitude == 0)
         {
-            (this.position, this.velocity) = this.path.GetPositionVelocity(this.simTime);
+            (this.position, this.velocity) = this.path.path.GetPositionVelocity(this.simTick, this.dt);
+
+            if (this.path.sois.Any())
+            {
+                var firstSoi = this.path.sois.First();
+                var orbitComponent = firstSoi.g.GetComponent<Orbit>();
+                this.relativeVelocity = orbitComponent != null ?
+                    this.velocity - orbitComponent.velocity
+                    :
+                    this.velocity;
+            }
+            else
+            {
+                this.relativeVelocity = this.velocity;
+            }
         }
         else
         {
             // Hopefully we will never hit this for more than a frame
-            this.velocity += this.model.CalculateForce(this.simTime, this.position, this.gravitationalConstant, this.gravitationalRescaling).rescaledTotalForce * this.dt;
+            var forceInfo = this.model.CalculateForce(this.simTick * this.dt, this.position, this.gravitationalConstant, this.gravitationalRescaling);
+            this.velocity += forceInfo.rescaledTotalForce * this.dt;
             this.velocity += force * this.dt;
             this.position += this.velocity * this.dt;
-            this.restartPath = true;
+            this.relativeVelocity = this.velocity - forceInfo.velocities[forceInfo.primaryIndex];
             // Start recreating the path sections
-        }
-
-        if((prevVel - this.velocity).magnitude > 1)
-        {
-            Debug.DebugBreak();
+            this.restartPath = true;
         }
 
         if (!this.sectionIsQueued && 
             (this.restartPath ||
             this.path == null ||
-            (this.path.duration < this.targetLength && !this.crashed)))
+            this.path.path.durationTicks < this.targetLength && !this.crashed))
         {
             this.GenerateNewSection();
         }
@@ -527,19 +579,17 @@ public class SectionedSimPath
     {
         this.sectionIsQueued = true;
 
-        // TODO? Might need to avoid restarting the path until we calculated all the required sections of the old path
-        //       In this case perhaps it makes no sense to calculate it in sections at all? Maybe for aesthetics and less laggy feeling,
-        //       but we could still interpolate the whole path anyway...
         if (this.restartPath || this.path == null)
         {
             this.restartPath = false; // Reset this to allow it to be set again immediately if required
-            this.path = await this.model.CalculateSimPathAsync(this.position, this.velocity, this.simTime, this.dt, (int)(this.targetLength / this.dt), this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling);
+            this.path = await this.model.CalculateSimPathAsync(this.position, this.velocity, this.simTick, this.dt, (int)(this.targetLength / this.dt), this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling);
         }
-        else //if(this.path.duration < this.targetLength)
+        else
         {
-            this.path.Append(await this.model.CalculateSimPathAsync(this.path.finalPosition, this.path.finalVelocity, this.path.timeEnd, this.dt, this.sectionSteps, this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling));
+            this.path.Append(await this.model.CalculateSimPathAsync(this.path.path.finalPosition, this.path.path.finalVelocity, this.path.path.endTick, this.dt, this.sectionSteps, this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling));
         }
 
         this.sectionIsQueued = false;
     }
 }
+// SimUpdate should update orbit velocity on planets, then just use that to get relative velocity for the current soi instead of using GetPositionAndVelocity

@@ -15,19 +15,17 @@ public class SimMovement : MonoBehaviour
     public bool alignToVelocity = true;
 
     [Tooltip("Used to render the global simulated path")]
-    public GameObject pathRendererGlobalAsset;
+    public GameObject pathRendererAsset;
     [Range(0, 50)]
-    public float globalPathWidthScale = 1f;
-    [Tooltip("Used to render the simulated path in the first soi")]
-    public GameObject pathRendererSoiAsset;
-    [Range(0, 50)]
-    public float soiPathWidthScale = 1f;
+    public float pathWidthScale = 1f;
 
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
 
     public Vector3 simPosition => this.path.position;
     public Vector3 velocity => this.path.velocity;
+    public bool isPrimaryRelative;
+    public Vector3 relativeVelocity => this.isPrimaryRelative? this.path.relativeVelocity : this.path.velocity;
 
     [HideInInspector]
     public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
@@ -35,33 +33,17 @@ public class SimMovement : MonoBehaviour
     SectionedSimPath path;
     Vector3 force = Vector3.zero;
 
-    LineRenderer pathRendererGlobal;
-    LineRenderer pathRendererSoi;
-
-    void OnValidate()
-    {
-        Assert.IsNotNull(this.constants);
-    }
+    LineRenderer pathRenderer;
 
     void Start()
     {
-        this.OnValidate();
-
         var simManager = FindObjectOfType<SimManager>();
-        Assert.IsNotNull(simManager);
 
         this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 100, this.transform.localScale.x, 1000);
 
-        if (this.pathRendererGlobalAsset != null)
+        if (this.pathRendererAsset != null)
         {
-            this.pathRendererGlobal = Instantiate(this.pathRendererGlobalAsset).GetComponent<LineRenderer>();
-            this.pathRendererGlobal.gameObject.SetActive(false);
-        }
-
-        if (this.pathRendererSoiAsset)
-        {
-            this.pathRendererSoi = Instantiate(this.pathRendererSoiAsset).GetComponent<LineRenderer>();
-            this.pathRendererSoi.gameObject.SetActive(false);
+            this.pathRenderer = Instantiate(this.pathRendererAsset).GetComponent<LineRenderer>();
         }
     }
 
@@ -76,9 +58,11 @@ public class SimMovement : MonoBehaviour
         this.force += force;
     }
 
-    public void SimUpdate(float simTime)
+    float rotVelocity;
+
+    public void SimUpdate(int simTick)
     {
-        this.path.Step(simTime, this.force);
+        this.path.Step(simTick, this.force);
 
         this.force = Vector3.zero;
 
@@ -92,12 +76,12 @@ public class SimMovement : MonoBehaviour
             // (perhaps even limiting them to the same magnitude?)
             // Smooth rotation slightly to avoid random flipping. Smoothing should not be noticeable in
             // normal play.
-            //var desiredRot = Quaternion.FromToRotation(Vector3.up, this.velocity).eulerAngles.z;
-            //var currentRot = rigidBody.rotation.eulerAngles.z;
-            //var smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 90);
-            //rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
+            var desiredRot = Quaternion.FromToRotation(Vector3.up, this.relativeVelocity).eulerAngles.z;
+            var currentRot = rigidBody.rotation.eulerAngles.z;
+            var smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 360);
+            rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
 
-            rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.velocity));
+            //rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.relativeVelocity));
         }
     }
 
@@ -106,93 +90,77 @@ public class SimMovement : MonoBehaviour
         //this.pathRenderer.startWidth = 0;
         //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
         // Fixed width line in screen space:
-        if (this.pathRendererGlobal != null)
+        if (this.pathRenderer != null)
         {
-            this.pathRendererGlobal.startWidth = this.pathRendererGlobal.endWidth = this.constants.SimLineWidth * this.globalPathWidthScale;
-        }
-        if (this.pathRendererSoi != null)
-        {
-            this.pathRendererSoi.startWidth = this.pathRendererSoi.endWidth = this.constants.SimLineWidth * this.soiPathWidthScale;
+            this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth * this.pathWidthScale;
         }
     }
 
     void UpdatePath()
     {
         this.sois = this.path.GetFullPathSOIs().ToList();
-        var fullPath = this.path.GetFullPath().ToArray();
+        this.isPrimaryRelative = this.sois.Count == 1;
 
-        if (this.sois.Count == 1/* && primarySoi.relativePath.Count > 1*/)
+        var endPosition = Vector3.zero;
+        if (this.pathRenderer != null)
         {
-            if (this.pathRendererGlobal != null)
+            Vector3[] finalPath;
+            if (this.isPrimaryRelative)
             {
                 var soi = this.sois.FirstOrDefault();
 
-                // TODO: Maybe only show a single orbit? But secondaries can disrupt it so maybe not...
-                float totalAngle = 0;
-                // Vector2.SignedAngle(Vector2.right, soi.relativePath[0]);
-                int range = 1;
-                for (; range < soi.relativePath.Count && totalAngle < 360f; range++)
+                if (this.path.crashed)
                 {
-                    totalAngle += Vector2.Angle(soi.relativePath[range - 1], soi.relativePath[range]);
+                    finalPath = soi.relativePath.path.ToArray();
                 }
-                var conicSection = soi.relativePath.Take(range).ToArray();
-                //new List<Vector3> { soi.relativePath[0] };
-                //soi.relativePath.TakeWhile(v => Vector2.SignedAngle(Vector2.right, v) - initialAngle < 180);
-                this.pathRendererGlobal.positionCount = conicSection.Length;
-                // Mathf.Min(primarySoi.relativePath.Count, 500);
-                this.pathRendererGlobal.SetPositions(conicSection);
-                this.pathRendererGlobal.transform.SetParent(soi.g.GetComponent<Orbit>().position, worldPositionStays: false);
-                this.pathRendererGlobal.useWorldSpace = false;
-                this.pathRendererGlobal.gameObject.SetActive(true);
-            }
+                else
+                {
+                    float totalAngle = 0;
+                    int range = 1;
+                    for (; range < soi.relativePath.path.Count && totalAngle < 360f; range++)
+                    {
+                        totalAngle += Vector2.Angle(soi.relativePath.path[range - 1], soi.relativePath.path[range]);
+                    }
+                    finalPath = soi.relativePath.path.Take(range).ToArray();
+                }
 
-            //if (this.pathRendererGlobal != null)
-            //{
-            //    this.pathRendererGlobal.gameObject.SetActive(false);
-            //}
-        }
-        else
-        {
-            if (this.pathRendererGlobal != null)
+                this.pathRenderer.transform.SetParent(soi.g.GetComponent<Orbit>().position, worldPositionStays: false);
+                this.pathRenderer.useWorldSpace = false;
+            }
+            else
             {
-                this.pathRendererGlobal.positionCount = fullPath.Length;
-                this.pathRendererGlobal.SetPositions(fullPath.ToArray());
-                this.pathRendererGlobal.useWorldSpace = true;
-                this.pathRendererGlobal.gameObject.SetActive(true);
-            }
+                finalPath = this.path.GetFullPath().ToArray();
 
-            //if (this.pathRendererSoi != null)
-            //{
-            //    this.pathRendererSoi.gameObject.SetActive(false);
-            //}
+                this.pathRenderer.transform.SetParent(null, worldPositionStays: false);
+                this.pathRenderer.useWorldSpace = true;
+            }
+            endPosition = this.pathRenderer.transform.localToWorldMatrix.MultiplyPoint(finalPath.LastOrDefault());
+            this.pathRenderer.positionCount = finalPath.Length;
+            this.pathRenderer.SetPositions(finalPath);
         }
 
         if (this.warningSign != null)
         {
-            if (this.path.crashed && fullPath.Length > 0)
+            if (this.path.crashed)
             {
                 var canvas = this.warningSign.GetComponent<Graphic>().canvas;
-                if (canvas != null)
-                {
-                    this.warningSign.SetActive(true);
-                    var rectTransform = this.warningSign.GetComponent<RectTransform>();
-                    var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
-                    var targetCanvasPosition = canvas.WorldToCanvasPosition(fullPath.Last());
-                    var clampArea = new Rect(
-                        canvasSafeArea.x - rectTransform.rect.x,
-                        canvasSafeArea.y - rectTransform.rect.y,
-                        canvasSafeArea.width - rectTransform.rect.width,
-                        canvasSafeArea.height - rectTransform.rect.height
-                    );
-                    rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
-                }
+                this.warningSign.SetActive(true);
+                var rectTransform = this.warningSign.GetComponent<RectTransform>();
+                var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);
+                var targetCanvasPosition = canvas.WorldToCanvasPosition(endPosition);
+                var clampArea = new Rect(
+                    canvasSafeArea.x - rectTransform.rect.x,
+                    canvasSafeArea.y - rectTransform.rect.y,
+                    canvasSafeArea.width - rectTransform.rect.width,
+                    canvasSafeArea.height - rectTransform.rect.height
+                );
+                rectTransform.anchoredPosition = clampArea.ClampToRectOnRay(targetCanvasPosition);
             }
             else
             {
                 this.warningSign.SetActive(false);
             }
         }
-
     }
 
 #if UNITY_EDITOR
@@ -214,7 +182,7 @@ public class SimMovement : MonoBehaviour
             this.constants.GravitationalRescaling
         );
 
-        var path = simPath.path.AsEnumerable();
+        var path = simPath.path.path.AsEnumerable();
         if (path.Count() % 2 == 1)
         {
             path = path.Take(path.Count() - 1);
