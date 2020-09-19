@@ -39,7 +39,7 @@ public class SimMovement : MonoBehaviour
     {
         var simManager = FindObjectOfType<SimManager>();
 
-        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 100, this.transform.localScale.x, 1000);
+        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
 
         if (this.pathRendererAsset != null)
         {

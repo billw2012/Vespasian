@@ -49,9 +49,9 @@ public class SimManager : MonoBehaviour
         }
     }
 
-    public SectionedSimPath CreateSectionedSimPath(Vector3 startPosition, Vector3 startVelocity, float targetLength, float proximityWarningRange, int sectionSteps = 100)
+    public SectionedSimPath CreateSectionedSimPath(Vector3 startPosition, Vector3 startVelocity, int targetTicks, float proximityWarningRange, int sectionTicks = 200)
     {
-        return new SectionedSimPath(this.model, this.simTick, startPosition, startVelocity, targetLength, Time.fixedDeltaTime, this.constants.GravitationalConstant, this.constants.GravitationalRescaling, proximityWarningRange, sectionSteps);
+        return new SectionedSimPath(this.model, this.simTick, startPosition, startVelocity, targetTicks, Time.fixedDeltaTime, this.constants.GravitationalConstant, this.constants.GravitationalRescaling, proximityWarningRange, sectionTicks);
     }
 }
 
@@ -222,7 +222,7 @@ public class SimModel
         //readonly float dt;
 
         Vector3 position;
-        float dt;
+        readonly float dt;
         int tick;
 
         public SimState(SimModel owner, Vector3 startPosition, Vector3 startVelocity, int startTick, float collisionRadius, float gravitationalConstant, float gravitationalRescaling, float dt)
@@ -490,8 +490,8 @@ public class SectionedSimPath
     public bool crashed => this.path?.crashed == true;
 
     readonly SimModel model;
-    readonly float targetLength;
-    readonly int sectionSteps;
+    readonly int targetTicks;
+    readonly int sectionTicks;
     readonly float dt;
     readonly float gravitationalConstant;
     readonly float gravitationalRescaling;
@@ -502,11 +502,11 @@ public class SectionedSimPath
     bool sectionIsQueued = false;
     bool restartPath = true;
 
-    public SectionedSimPath(SimModel model, int startSimTick, Vector3 startPosition, Vector3 startVelocity, float targetLength, float dt, float gravitationalConstant, float gravitationalRescaling, float proximityWarningRange, int sectionSteps = 100)
+    public SectionedSimPath(SimModel model, int startSimTick, Vector3 startPosition, Vector3 startVelocity, int targetTicks, float dt, float gravitationalConstant, float gravitationalRescaling, float proximityWarningRange, int sectionTicks = 200)
     {
         this.model = model;
-        this.targetLength = targetLength;
-        this.sectionSteps = sectionSteps;
+        this.targetTicks = targetTicks;
+        this.sectionTicks = sectionTicks;
         this.dt = dt;
         this.gravitationalConstant = gravitationalConstant;
         this.gravitationalRescaling = gravitationalRescaling;
@@ -567,7 +567,7 @@ public class SectionedSimPath
         if (!this.sectionIsQueued && 
             (this.restartPath ||
             this.path == null ||
-            this.path.path.durationTicks < this.targetLength && !this.crashed))
+            this.path.path.durationTicks < this.targetTicks && !this.crashed))
         {
             this.GenerateNewSection();
         }
@@ -582,11 +582,11 @@ public class SectionedSimPath
         if (this.restartPath || this.path == null)
         {
             this.restartPath = false; // Reset this to allow it to be set again immediately if required
-            this.path = await this.model.CalculateSimPathAsync(this.position, this.velocity, this.simTick, this.dt, (int)(this.targetLength / this.dt), this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling);
+            this.path = await this.model.CalculateSimPathAsync(this.position, this.velocity, this.simTick, this.dt, this.targetTicks, this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling);
         }
         else
         {
-            this.path.Append(await this.model.CalculateSimPathAsync(this.path.path.finalPosition, this.path.path.finalVelocity, this.path.path.endTick, this.dt, this.sectionSteps, this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling));
+            this.path.Append(await this.model.CalculateSimPathAsync(this.path.path.finalPosition, this.path.path.finalVelocity, this.path.path.endTick, this.dt, this.sectionTicks, this.proximityWarningRange, this.gravitationalConstant, this.gravitationalRescaling));
         }
 
         this.sectionIsQueued = false;

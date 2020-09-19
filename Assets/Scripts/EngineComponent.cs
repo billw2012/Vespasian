@@ -60,8 +60,8 @@ public class EngineComponent : MonoBehaviour
         this.rightThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x < 0, this.thrust.x));
         this.leftThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x > 0, this.thrust.x));
 
-        this.animator.SetFloat("Forward", this.thrust.y);
-        this.animator.SetFloat("Right", this.thrust.x);
+        this.animator.SetFloat("Forward", this.canThrust? this.thrust.y : 0);
+        this.animator.SetFloat("Right", this.canThrust? this.thrust.x : 0);
     }
 
     void FixedUpdate()

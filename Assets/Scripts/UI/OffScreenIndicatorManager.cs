@@ -128,7 +128,15 @@ public class OffScreenIndicatorManager : MonoBehaviour
             var indicatorWorld = canvas.GetWorldSpaceRect(indicatorTransform);
             float indicatorSize = Vector3.Distance(indicatorWorld[0], indicatorWorld[2]);
             markerCircle.degrees = 360f * (1 - indicatorSize * 1.5f / (2 * Mathf.PI * objectiveIndicator.objective.radius));
-            markerCircle.UpdateCircle();
+            if (markerCircle.degrees < 180)
+            {
+                marker.SetActive(false);
+            }
+            else
+            {
+                marker.SetActive(true);
+                markerCircle.UpdateCircle();
+            }
 
             var canvasPosTarget = (Vector2)canvas.WorldToCanvasPosition(targetPosition);
             var canvasPosIndicator = (Vector2)canvas.WorldToCanvasPosition(worldPosIndicator);

@@ -5521,6 +5521,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 6679563936346561954, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: twinkleAlphaAnim.m_PreInfinity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6679563936346561954, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: rotationAnim.m_PostInfinity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6679563936346561954, guid: 74647e47a25362544b444dcfa26a90bf,
+        type: 3}
+      propertyPath: rotationAnim.m_PreInfinity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6946838896639316914, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: sizeMin
