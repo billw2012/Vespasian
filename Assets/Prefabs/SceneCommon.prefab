@@ -1093,7 +1093,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
-  simTime: 0
 --- !u!120 &4538521789459465360
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -5598,6 +5597,46 @@ PrefabInstance:
       propertyPath: m_Parameters.colorGradient.atime2
       value: 60138
       objectReference: {fileID: 0}
+    - target: {fileID: 2222610021420083258, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6da972be15943194786a44d4c89f1d67, type: 2}
+    - target: {fileID: 2513845976256549496, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6da972be15943194786a44d4c89f1d67, type: 2}
+    - target: {fileID: 2831806039006346312, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6da972be15943194786a44d4c89f1d67, type: 2}
+    - target: {fileID: 2948745235202310258, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Name
+      value: spaceship
+      objectReference: {fileID: 0}
+    - target: {fileID: 3269136699715615119, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6da972be15943194786a44d4c89f1d67, type: 2}
+    - target: {fileID: 4062743632952056333, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6da972be15943194786a44d4c89f1d67, type: 2}
+    - target: {fileID: 4607745068765064032, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6da972be15943194786a44d4c89f1d67, type: 2}
+    - target: {fileID: 4975524674551313625, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6da972be15943194786a44d4c89f1d67, type: 2}
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_LocalPosition.x
