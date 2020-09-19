@@ -13,6 +13,8 @@ public class EngineComponent : MonoBehaviour
     //public List<ParticleSystem> scoopEffects;
     // public List<ParticleSystem> miningEffects;
 
+    public Animator animator;
+
     // Final calculated object relative thrust value
     // x is +right/-left, y is +forward/-backward
     [HideInInspector]
@@ -57,6 +59,9 @@ public class EngineComponent : MonoBehaviour
         // Right/left thrusters
         this.rightThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x < 0, this.thrust.x));
         this.leftThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x > 0, this.thrust.x));
+
+        this.animator.SetFloat("Forward", this.thrust.y);
+        this.animator.SetFloat("Right", this.thrust.x);
     }
 
     void FixedUpdate()

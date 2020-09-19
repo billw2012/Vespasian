@@ -21,6 +21,10 @@ public class PlanetRingRenderer : MonoBehaviour
     [Range(0, 1)]
     public float saturation = 0.3f;
     [Range(0, 1)]
+    public float contrast = 1f;
+    [Range(0, 1)]
+    public float coloration = 0.5f;
+    [Range(0, 1)]
     public float patternSelect = 0f;
     [Range(0, 1)]
     public float patternOffset = 0f;
@@ -63,6 +67,8 @@ public class PlanetRingRenderer : MonoBehaviour
         var pb = new MaterialPropertyBlock();
         pb.SetColor("_BaseColor", this.color);
         pb.SetFloat("_Saturation", this.saturation);
+        pb.SetFloat("_Contrast", this.contrast);
+        pb.SetFloat("_Coloration", this.coloration);
         pb.SetColor("_EmissionColor", this.emissive);
         pb.SetFloat("_PatternSelect", this.patternSelect);
         pb.SetFloat("_PatternOffset", this.patternOffset);
