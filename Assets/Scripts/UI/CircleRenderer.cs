@@ -16,6 +16,8 @@ public class CircleRenderer : MonoBehaviour
 
     public MeshFilter bakeMeshFilter;
 
+    MaterialPropertyBlock uvScalingPropertyBlock;
+
     void Awake()
     {
         if(this.lineRenderer == null)
@@ -23,6 +25,8 @@ public class CircleRenderer : MonoBehaviour
             this.lineRenderer = this.GetComponent<LineRenderer>();
         }
         this.lineRenderer.useWorldSpace = false;
+
+        this.uvScalingPropertyBlock = new MaterialPropertyBlock();
     }
 
     void Start()
@@ -34,7 +38,14 @@ public class CircleRenderer : MonoBehaviour
     {
         if(this.screenSpaceWidth)
         {
-            this.lineRenderer.startWidth = this.lineRenderer.endWidth = GetWorldFromScreenSpaceSize(this.pixelWidth);
+            float size = GetWorldFromScreenSpaceSize(this.pixelWidth);
+            this.lineRenderer.startWidth = this.lineRenderer.endWidth = size;
+
+
+            float ratio = (float)this.lineRenderer.sharedMaterial.mainTexture.height / this.lineRenderer.sharedMaterial.mainTexture.width;
+
+            this.uvScalingPropertyBlock.SetVector("_UVScaling", new Vector2(ratio / size, 1));
+            this.lineRenderer.SetPropertyBlock(this.uvScalingPropertyBlock);
         }
     }
 

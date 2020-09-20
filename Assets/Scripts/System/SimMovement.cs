@@ -16,7 +16,7 @@ public class SimMovement : MonoBehaviour
 
     [Tooltip("Used to render the global simulated path")]
     public GameObject pathRendererAsset;
-    [Range(0, 50)]
+    [Range(0, 5)]
     public float pathWidthScale = 1f;
 
     [Tooltip("Used to indicate a predicted crash")]
@@ -34,6 +34,9 @@ public class SimMovement : MonoBehaviour
     Vector3 force = Vector3.zero;
 
     LineRenderer pathRenderer;
+    MaterialPropertyBlock pathRendererUVScaling;
+
+    float rotVelocity;
 
     void Start()
     {
@@ -44,6 +47,8 @@ public class SimMovement : MonoBehaviour
         if (this.pathRendererAsset != null)
         {
             this.pathRenderer = Instantiate(this.pathRendererAsset).GetComponent<LineRenderer>();
+
+            this.pathRendererUVScaling = new MaterialPropertyBlock();
         }
     }
 
@@ -57,8 +62,6 @@ public class SimMovement : MonoBehaviour
     {
         this.force += force;
     }
-
-    float rotVelocity;
 
     public void SimUpdate(int simTick)
     {
@@ -87,12 +90,13 @@ public class SimMovement : MonoBehaviour
 
     void UpdatePathWidth()
     {
-        //this.pathRenderer.startWidth = 0;
-        //this.pathRenderer.endWidth = (1 + 9 * this.pathLength / GameConstants.Instance.SimDistanceLimit);
-        // Fixed width line in screen space:
         if (this.pathRenderer != null)
         {
             this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth * this.pathWidthScale;
+            float ratio = (float)this.pathRenderer.sharedMaterial.mainTexture.height / this.pathRenderer.sharedMaterial.mainTexture.width;
+
+            this.pathRendererUVScaling.SetVector("_UVScaling", new Vector2(ratio / (this.constants.SimLineWidth * this.pathWidthScale), 1));
+            this.pathRenderer.SetPropertyBlock(this.pathRendererUVScaling);
         }
     }
 

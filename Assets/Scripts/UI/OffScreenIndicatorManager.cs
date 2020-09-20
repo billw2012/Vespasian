@@ -138,8 +138,8 @@ public class OffScreenIndicatorManager : MonoBehaviour
                 markerCircle.UpdateCircle();
             }
 
-            var canvasPosTarget = (Vector2)canvas.WorldToCanvasPosition(targetPosition);
-            var canvasPosIndicator = (Vector2)canvas.WorldToCanvasPosition(worldPosIndicator);
+            var canvasPosTarget = canvas.WorldToCanvasPosition(targetPosition);
+            var canvasPosIndicator = canvas.WorldToCanvasPosition(worldPosIndicator);
             var canvasIndicatorOffset = canvasPosIndicator - canvasPosTarget;
             var finalIndicatorPos = canvasPosTarget + canvasIndicatorOffset.normalized * canvasIndicatorOffset.magnitude;
             if (canvasSafeArea.Contains(finalIndicatorPos))

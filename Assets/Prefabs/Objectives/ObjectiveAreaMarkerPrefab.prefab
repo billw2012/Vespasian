@@ -146,9 +146,10 @@ MonoBehaviour:
   lineRenderer: {fileID: 0}
   radius: 1
   screenSpaceWidth: 1
-  pixelWidth: 10
+  pixelWidth: 100
   quality: 1
   degrees: 300
+  bakeMeshFilter: {fileID: 0}
 --- !u!1 &7221960752854691895
 GameObject:
   m_ObjectHideFlags: 0
