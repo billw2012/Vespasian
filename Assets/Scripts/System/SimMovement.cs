@@ -116,9 +116,15 @@ public class SimMovement : MonoBehaviour
             // Lerped path:
             // - Global positions
             // Position is sum of weighted relative positions relative to forces..
-            if (this.isPrimaryRelative)
-            {
-                finalPath = this.path.GetWeightedPath(this.pathSOIBlending);
+            //if (this.isPrimaryRelative)
+            //{
+                var fullPath = this.path.GetWeightedPath(this.pathSOIBlending);
+                const int Scaling = 10;
+                finalPath = new Vector3[Mathf.FloorToInt((float)fullPath.Length / Scaling)];
+                for (int i = 0; i < finalPath.Length; i++)
+                {
+                    finalPath[i] = fullPath[i * Scaling];
+                }
                 this.pathRenderer.transform.SetParent(null, worldPositionStays: false);
                 this.pathRenderer.useWorldSpace = true;
                 //var soi = this.sois.FirstOrDefault();
@@ -141,14 +147,14 @@ public class SimMovement : MonoBehaviour
 
                 //this.pathRenderer.transform.SetParent(soi.g.GetComponent<Orbit>().position, worldPositionStays: false);
                 //this.pathRenderer.useWorldSpace = false;
-            }
-            else
-            {
-                finalPath = this.path.GetFullPath().ToArray();
-
-                this.pathRenderer.transform.SetParent(null, worldPositionStays: false);
-                this.pathRenderer.useWorldSpace = true;
-            }
+            //}
+            //else
+            //{
+            //    finalPath = this.path.GetFullPath().ToArray();
+            //
+            //    this.pathRenderer.transform.SetParent(null, worldPositionStays: false);
+            //    this.pathRenderer.useWorldSpace = true;
+            //}
             endPosition = this.pathRenderer.transform.localToWorldMatrix.MultiplyPoint(finalPath.LastOrDefault());
             this.pathRenderer.positionCount = finalPath.Length;
             this.pathRenderer.SetPositions(finalPath);

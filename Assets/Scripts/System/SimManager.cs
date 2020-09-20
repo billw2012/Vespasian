@@ -456,23 +456,25 @@ public class SimModel
         var totalForce = Vector3.zero;
         var rescaledTotalForce = Vector3.zero;
         float maxForceMag = forces[primaryIndex].magnitude;
-        var rescaledForces = new Vector3[this.simGravitySources.Count];
-        float sumOfForceMag = 0;
+        float[] rescaledForceMags = new float[this.simGravitySources.Count];
+        float sumRescaledForceMags = 0;
         for (int i = 0; i < this.simGravitySources.Count; i++)
         {
             totalForce += forces[i];
-            rescaledForces[i] = !parents.Contains(i)
+            var rescaledForce = !parents.Contains(i)
                 ? forces[i].normalized * maxForceMag * Mathf.Pow(forces[i].magnitude / maxForceMag, gravitationalRescaling)
                 : forces[i];
-            rescaledTotalForce += rescaledForces[i];
-            sumOfForceMag += rescaledForces[i].magnitude;
+            rescaledTotalForce += rescaledForce;
+            float rescaledForceMag = rescaledForce.magnitude;
+            rescaledForceMags[i] = rescaledForceMag;// < 0.01f ? 0 : rescaledForceMag;
+            sumRescaledForceMags += rescaledForceMags[i];
         }
 
         // Calculate weights
         float[] weights = new float[this.simGravitySources.Count];
         for (int i = 0; i < this.simGravitySources.Count; i++)
         {
-            weights[i] = rescaledForces[i].magnitude / sumOfForceMag;
+            weights[i] = rescaledForceMags[i] / sumRescaledForceMags;
         }
 
         return new ForceInfo {
