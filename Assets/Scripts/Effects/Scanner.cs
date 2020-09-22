@@ -7,6 +7,7 @@ using UnityEngine;
 public class Scanner : MonoBehaviour
 {
     public ParticleSystem laserScanner;
+    public float scanRate = 0.1f;
 
     Scannable target = null;
 

@@ -12,6 +12,8 @@ public class SimManager : MonoBehaviour
 
     int simTick = 0;
 
+    public float time => this.simTick * Time.fixedDeltaTime;
+
     SimMovement[] simulatedObjects;
 
     readonly SimModel model = new SimModel();
@@ -25,7 +27,7 @@ public class SimManager : MonoBehaviour
     {
         Assert.IsNotNull(this.constants);
 
-        this.simulatedObjects = FindObjectsOfType<SimMovement>().ToArray();
+        this.simulatedObjects = FindObjectsOfType<SimMovement>();
     }
 
     void FixedUpdate()
@@ -574,7 +576,7 @@ public class SectionedSimPath
         return this.simPath?.relativePaths[g].positions ?? Empty;
     }
 
-    public Vector3[] GetWeightedPath(float weighting)
+    public Vector3[] GetWeightedPath()
     {
         if (this.simPath == null || !this.simPath.relativePaths.Any())
             return Empty.ToArray();

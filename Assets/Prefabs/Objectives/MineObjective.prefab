@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3316844101632596618}
-  - component: {fileID: 6030778569162965802}
-  - component: {fileID: 6218428923803299201}
+  - component: {fileID: -3910988551237170029}
   m_Layer: 8
-  m_Name: ScanObjective
+  m_Name: MineObjective
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6030778569162965802
+--- !u!114 &-3910988551237170029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,28 +40,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4672626712936304807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61f4196fdf5e584ca0129d840d3ef75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 3
-  originTransform: {fileID: 0}
-  scanProgress: 0
-  scanning: 0
---- !u!114 &6218428923803299201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4672626712936304807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed1c395ee34c4704ca53dfd6c4219ec8, type: 3}
+  m_Script: {fileID: 11500000, guid: b9eca5a5707db1649a8f9f940721f344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectiveMarkerAsset: {fileID: 2900056225493054018, guid: 1068afa00354f3d42bfa6d79836c6b5f,
     type: 3}
-  uiIconAsset: {fileID: 3937794868256674711, guid: 7898e6de76b362c49a2a2484fc0afb30,
+  uiIconAsset: {fileID: 3937794868256674711, guid: 8ea93b7a95e5f494499f5270ea4b139b,
     type: 3}
   activeColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}

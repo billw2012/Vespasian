@@ -34,6 +34,7 @@ public abstract class Objective : MonoBehaviour
         this.failedStyle.normal.textColor = new Color(1.0f, 0.5f, 0.5f);
     }
 
+
     public abstract float amountRequired { get; }
     public abstract float amountDone { get; }
     public abstract bool required { get; }
@@ -46,4 +47,6 @@ public abstract class Objective : MonoBehaviour
     public virtual float score => this.amountDone / this.amountRequired;
     public virtual bool failed => false;
     public virtual bool complete => this.amountDone >= this.amountRequired;
+
+    public float fractionDone => this.amountDone / this.amountRequired;
 }

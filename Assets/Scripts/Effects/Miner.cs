@@ -7,6 +7,8 @@ public class Miner : MonoBehaviour
 {
     public ParticleSystem miningEffect;
 
+    public float miningRate = 0.01f;
+
     Mineable target = null;
 
     bool miningActive => this.target != null;
@@ -24,7 +26,7 @@ public class Miner : MonoBehaviour
                     // Mining is done, decide what to do
                     var asteroidLogic = this.target.GetComponent<AsteroidLogic>();
 
-                    // Explode astoroid if attached to asteroid
+                    // Explode asteroid if attached to asteroid
                     if (asteroidLogic != null)
                     {
                         asteroidLogic.Explode();
@@ -37,13 +39,13 @@ public class Miner : MonoBehaviour
                         healthComp.AddHull(0.35f);
                     }
 
-                    this.StopMining();
                     this.target = null;
                 }
             }
             else
             {
-                this.StopMining();
+                this.target.ResetMining();
+                this.target = null;
             }
         }
 
@@ -61,15 +63,6 @@ public class Miner : MonoBehaviour
 
     public void StartMining()
     {
-        // Search for nearby mining targets
-        var closestMineable = EffectSource.GetNearest<Mineable>(this.transform); // Might return null
-        this.target = closestMineable;
-    }
-
-    public void StopMining()
-    {
-        if (this.target != null)
-            this.target.ResetMining();
-        this.target = null;
+        this.target = EffectSource.GetNearest<Mineable>(this.transform); // Might return null
     }
 }

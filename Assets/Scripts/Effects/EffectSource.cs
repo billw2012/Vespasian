@@ -52,9 +52,9 @@ public abstract class EffectSource : MonoBehaviour
     // Various static helper functions
 
     // Returns closet effect source in range, or null
-    public static T GetNearest<T>(Transform tFrom, IEnumerable<T> sources) where T : EffectSource
+    public static T GetNearest<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource
     {
-        return sources.Where(i => i != null)
+        return (sources ?? FindObjectsOfType<T>()).Where(i => i != null)
             .Where(i => !i.IsEmpty())
             .Select(i => (effectsrc: i, dist: i.GetDistance(tFrom)))
             .Where(i => i.dist < i.effectsrc.range)
@@ -63,24 +63,10 @@ public abstract class EffectSource : MonoBehaviour
             ;
     }
 
-    // Returns closet effect source in range, or null
-    public static T GetNearest<T>(Transform tFrom) where T : EffectSource
+    public static IEnumerable<T> AllInRange<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource
     {
-        var sources = Object.FindObjectsOfType<T>();
-        return EffectSource.GetNearest<T>(tFrom, sources);
-    }
-
-
-    public static IEnumerable<T> AllInRange<T>(Transform tFrom, IEnumerable<T> sources) where T : EffectSource
-    {
-         return sources.Where(i => i != null)
+         return (sources ?? FindObjectsOfType<T>()).Where(i => i != null)
             .Where(i => !i.IsEmpty() && i.IsInRange(tFrom));
-    }
-
-    public static IEnumerable<T> AllInRange<T>(Transform tFrom) where T : EffectSource
-    {
-        var sources = Object.FindObjectsOfType<T>();
-        return EffectSource.AllInRange<T>(tFrom, sources);
     }
 
     public abstract Color gizmoColor { get; }

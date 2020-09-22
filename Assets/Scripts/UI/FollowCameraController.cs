@@ -203,7 +203,7 @@ public class FollowCameraController : MonoBehaviour
         }
 
         // Update position
-        float shakeScale = 10.0f;
+        float shakeScale = 1.0f;
         float shakeAmplitude = shakeScale * this.ShakeAmplitude(this.shakeSeriesProgess);
         var targetPrevDifference = this.shakeTargetOffset - this.shakePrevOffset;
         this.shakeCurrentOffset = shakeAmplitude * (this.shakePrevOffset + this.CosTransition(this.shakeCycleProgress) * targetPrevDifference);

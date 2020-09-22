@@ -43,10 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef1b2920d61510448de56c090d99352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitMaxRadius: 5
-  requiredOrbits: 3
-  makeRequired: 0
   objectiveMarkerAsset: {fileID: 2900056225493054018, guid: 1068afa00354f3d42bfa6d79836c6b5f,
     type: 3}
   uiIconAsset: {fileID: 674572251429765367, guid: b5f102b52ac4eb44084e383b79ef9202,
     type: 3}
+  activeColor: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
+  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
+  completionColor: {r: 0, g: 1, b: 0, a: 1}
+  orbitMaxRadius: 5
+  requiredOrbits: 3
+  makeRequired: 1

@@ -84,7 +84,7 @@ Material:
     - _BevelWidth: 0
     - _Blend: 2
     - _BlendOp: 0
-    - _BorderThickness: 0.16
+    - _BorderThickness: 1
     - _Border_Thickness: 0.24
     - _BumpFace: 0
     - _BumpOutline: 0
@@ -142,7 +142,7 @@ Material:
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
-    - _ShadowThickness: 0.65
+    - _ShadowThickness: 0.81
     - _Sharpness: -0.08
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -173,7 +173,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
-    - _BorderColor: {r: 1, g: 1, b: 1, a: 0.6666667}
+    - _BorderColor: {r: 0, g: 1, b: 0.98333335, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -186,7 +186,7 @@ Material:
     - _OutlineColor: {r: 0.16666651, g: 0, b: 1, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 1, g: 0.98214674, b: 0.5613208, a: 0.24313726}
+    - _ShadowColor: {r: 1, g: 0.98214674, b: 0.5613208, a: 0.59607846}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

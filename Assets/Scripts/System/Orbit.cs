@@ -196,12 +196,6 @@ public class Orbit : MonoBehaviour
 
     public Vector3 velocity;
 
-
-    // This was used to more closely match the SimManager math by simply adding positions to get world location for
-    // nested orbits. However it doesn't appear to be necessary and can be removed at a later time if the path
-    // sim proves stable.
-    //Orbit parent;
-
     void OnValidate()
     {
         this.RefreshValidateRecursive();
@@ -217,11 +211,6 @@ public class Orbit : MonoBehaviour
     {
         this.UpdateOrbitWidth();
     }
-
-    //float LawOfPeriods(float parentMass, float meanDistance)
-    //{
-    //    return Mathf.Sqrt(4f * Mathf.Pow(Mathf.PI, 2f) * Mathf.Pow(meanDistance, 3f) / (parentMass * this.constants.GravitationalConstant));
-    //}
 
     float FindParentsMass()
     {
@@ -244,8 +233,6 @@ public class Orbit : MonoBehaviour
 
     void RefreshValidate()
     {
-        Assert.IsNotNull(this.constants);
-
         this.position = this.customPosition == null ? this.transform.Find("Position") : this.customPosition;
 
         if (!this.isActiveAndEnabled)
@@ -300,13 +287,6 @@ public class Orbit : MonoBehaviour
 
     void UpdatePosition(float time)
     {
-        // See note on the parent variable declaration above
-        //var newPosition = (Vector3)this.parameters.GetPosition(time);
-        //if (this.parent != null)
-        //{
-        //    newPosition += this.parent.position.position;
-        //}
-        //this.position.position = newPosition;
         (this.position.localPosition, this.velocity) = this.orbitPath.GetPositionVelocity(time);
     }
 

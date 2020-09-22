@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2847909503754473096}
   - component: {fileID: 2542922555221905093}
+  - component: {fileID: 3277746641428701403}
   m_Layer: 0
-  m_Name: AsteroidOrbitingPrefab
+  m_Name: MultipleAsteroidsPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,6 +57,23 @@ MonoBehaviour:
   customPosition: {fileID: 407559202453906493}
   position: {fileID: 407559202453906493}
   velocity: {x: -0.017154634, y: 1.9656732, z: 0}
+--- !u!114 &3277746641428701403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676661824646031810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d899b634e0b2a1e4893c21d8130c3387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asteroidPrefab: {fileID: 6039441407903207753, guid: 42f7f031ac6451242b8ea9396d5c0fe1,
+    type: 3}
+  count: 20
+  radiusRandomization: 2.5
+  orbitRandomization: 0.662
 --- !u!1001 &6230614743672943976
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -206,6 +206,8 @@ MonoBehaviour:
   alignToVelocity: 1
   pathRendererAsset: {fileID: 0}
   pathWidthScale: 1
+  pathMode: 3
+  pathQuality: 0.1
   warningSign: {fileID: 0}
   isPrimaryRelative: 0
 --- !u!114 &3072350682290906300
@@ -286,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserScanner: {fileID: 105885175689493256}
+  scanRate: 0.1
 --- !u!114 &1598108454956247620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miningEffect: {fileID: 4089781873597139559}
+  miningRate: 0.2
 --- !u!114 &3927293353395457018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,6 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleEffect: {fileID: 8520331350740000157}
+  refuelRate: 0.3
 --- !u!114 &8646860288577946623
 MonoBehaviour:
   m_ObjectHideFlags: 0

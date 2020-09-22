@@ -43,9 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f260e6c60336d5b40a79f4c93e2f993b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flybyMaxDistance: 5
-  makeRequired: 0
   objectiveMarkerAsset: {fileID: 2900056225493054018, guid: 1068afa00354f3d42bfa6d79836c6b5f,
     type: 3}
   uiIconAsset: {fileID: 9218500706157785939, guid: 5a9a55a0c3abd0541b2157b2c2115c8b,
     type: 3}
+  activeColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
+  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
+  completionColor: {r: 0, g: 1, b: 0, a: 1}
+  flybyMaxDistance: 5
+  makeRequired: 1

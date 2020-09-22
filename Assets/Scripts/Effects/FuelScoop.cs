@@ -3,17 +3,18 @@
 public class FuelScoop : MonoBehaviour
 {
     public ParticleSystem particleEffect;
+    public float refuelRate = 0.3f;
 
     private void Update()
     {
         var fuelSource = EffectSource.GetNearest<FuelSource>(this.transform);
-        ///Debug.Log($"Nearest fuel source: {fuelSource}");
+
         if (fuelSource != null)
         {
             var engine = this.GetComponent<EngineComponent>();
             if (engine != null)
             {
-                float fuelIncrease = Time.deltaTime * 0.3f;
+                float fuelIncrease = Time.deltaTime * this.refuelRate;
                 engine.AddFuel(fuelIncrease);
             }
 

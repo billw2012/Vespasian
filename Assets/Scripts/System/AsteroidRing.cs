@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,6 +25,13 @@ public class AsteroidRing : MonoBehaviour
     // Degrees per second
     float orbitalAngularVelocity;
     readonly List<float> shadowAngularVelocities = new List<float>();
+
+    SimManager simManager;
+
+    void Awake()
+    {
+        this.simManager = FindObjectOfType<SimManager>();
+    }
 
     void Start()
     {
@@ -55,11 +63,16 @@ public class AsteroidRing : MonoBehaviour
 
     void Update()
     {
-        this.transform.localRotation = Quaternion.Euler(0, 0, Time.time * this.orbitalAngularVelocity);
-
-        for (int i = 0; i < this.shadows.Length; i++)
+        if (this.simManager == null || this.simManager.enabled)
         {
-            this.shadows[i].localRotation = Quaternion.Euler(0, 0, i * 71f + Time.time * this.shadowAngularVelocities[i] * this.shadowRateVariance);
+            float t = this.simManager == null ? Time.time : this.simManager.time;
+
+            this.transform.localRotation = Quaternion.Euler(0, 0, t * this.orbitalAngularVelocity);
+
+            for (int i = 0; i < this.shadows.Length; i++)
+            {
+                this.shadows[i].localRotation = Quaternion.Euler(0, 0, i * 71f + t * this.shadowAngularVelocities[i] * this.shadowRateVariance);
+            }
         }
     }
 

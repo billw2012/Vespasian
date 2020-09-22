@@ -11,15 +11,15 @@ public class ScanObjective : PositionalObjective
 
     protected override void UpdateObjective() {}
 
-    Scannable scannable => this.GetComponent<Scannable>();
+    public Scannable scanTarget;
 
     #region Objective implementation
-    public override Transform target => this.scannable.originTransform;
-    public override float radius => this.scannable.range;
+    public override Transform target => this.scanTarget.originTransform;
+    public override float radius => this.scanTarget.range;
     public override float amountRequired => 1;
-    public override float amountDone => this.scannable.scanProgress;
+    public override float amountDone => this.scanTarget.scanProgress;
     public override bool required => this.makeRequired;
-    public override bool active => this.scannable.scanning;
+    public override bool active => this.scanTarget.scanning;
     public override string debugName => "Scan";
     public override Color color => Color.yellow;
     #endregion

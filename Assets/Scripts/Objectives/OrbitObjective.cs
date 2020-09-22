@@ -12,6 +12,8 @@ public class OrbitObjective : PositionalObjective
     public float requiredOrbits = 1;
     public bool makeRequired;
 
+    public GravitySource orbitTarget;
+
     bool isOrbit;
     Vector2 lastRelativePosition;
     float performedOrbits = 0;
@@ -23,7 +25,7 @@ public class OrbitObjective : PositionalObjective
         {
             return;
         }
-        var gravity = this.GetComponentInParent<GravitySource>();
+        var gravity = this.orbitTarget;
 
         var newRelativePosition = (Vector2)(player.transform.position - this.target.position);
         var velocity = (newRelativePosition - this.lastRelativePosition) / Time.deltaTime;
@@ -48,7 +50,7 @@ public class OrbitObjective : PositionalObjective
     }
 
     #region Objective implementation
-    public override Transform target => this.GetComponentInParent<Orbit>()?.position;
+    public override Transform target => this.orbitTarget.target;
     public override float radius => this.orbitMaxRadius;
     public override float amountRequired => this.requiredOrbits;
     public override float amountDone => this.performedOrbits;

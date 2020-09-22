@@ -44,6 +44,10 @@ public class CircleRenderer : MonoBehaviour
 
             float ratio = (float)this.lineRenderer.sharedMaterial.mainTexture.height / this.lineRenderer.sharedMaterial.mainTexture.width;
 
+            if(this.lineRenderer.HasPropertyBlock())
+            {
+                this.lineRenderer.GetPropertyBlock(this.uvScalingPropertyBlock);
+            }
             this.uvScalingPropertyBlock.SetVector("_UVScaling", new Vector2(ratio / size, 1));
             this.lineRenderer.SetPropertyBlock(this.uvScalingPropertyBlock);
         }

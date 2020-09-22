@@ -19,8 +19,16 @@ public class SimMovement : MonoBehaviour
     [Range(0, 5)]
     public float pathWidthScale = 1f;
 
-    [Range(0, 5)]
-    public float pathSOIBlending = 1f;
+    [Serializable]
+    public enum PathMode
+    {
+        None,
+        Global,
+        Local,
+        Lerped
+    }
+    public PathMode pathMode = PathMode.Lerped;
+    public float pathQuality = 0.1f;
 
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
@@ -28,7 +36,7 @@ public class SimMovement : MonoBehaviour
     public Vector3 simPosition => this.path.position;
     public Vector3 velocity => this.path.velocity;
     public bool isPrimaryRelative;
-    public Vector3 relativeVelocity => this.isPrimaryRelative? this.path.relativeVelocity : this.path.velocity;
+    public Vector3 relativeVelocity => this.isPrimaryRelative ? this.path.relativeVelocity : this.path.velocity;
 
     [HideInInspector]
     public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
@@ -103,6 +111,47 @@ public class SimMovement : MonoBehaviour
         }
     }
 
+    static readonly Vector3[] EmptyPath = new Vector3[0];
+
+    static Vector3[] Reduce(IList<Vector3> fullPath, float quality)
+    {
+        int scaling = (int)(1f / quality);
+        var finalPath = new Vector3[Mathf.FloorToInt((float)fullPath.Count / scaling)];
+        for (int i = 0; i < finalPath.Length; i++)
+        {
+            finalPath[i] = fullPath[i * scaling];
+        }
+        return finalPath;
+    }
+
+    Vector3[] GetPath()
+    {
+        switch (this.pathMode)
+        {
+            case PathMode.Global:
+                return Reduce(this.path.GetFullPath().ToArray(), this.pathQuality);
+            case PathMode.Local:
+                if (this.sois.Any() && !this.path.crashed)
+                {
+                    var g = this.sois.First().g;
+                    var relativePath = Reduce(this.path.GetRelativePath(g), this.pathQuality);
+                    for (int i = 0; i < relativePath.Length; i++)
+                    {
+                        relativePath[i] += g.position;
+                    }
+                    return relativePath;
+                }
+                else
+                {
+                    return Reduce(this.path.GetFullPath(), this.pathQuality);
+                }
+            case PathMode.Lerped:
+                return Reduce(this.path.GetWeightedPath(), this.pathQuality);
+            default:
+                return EmptyPath;
+        }
+    }
+
     void UpdatePath()
     {
         this.sois = this.path.GetFullPathSOIs().ToList();
@@ -111,23 +160,11 @@ public class SimMovement : MonoBehaviour
         var endPosition = Vector3.zero;
         if (this.pathRenderer != null)
         {
-            Vector3[] finalPath;
+            var finalPath = this.GetPath();
 
-            // Lerped path:
-            // - Global positions
-            // Position is sum of weighted relative positions relative to forces..
-            //if (this.isPrimaryRelative)
-            //{
-            var fullPath = this.path.GetWeightedPath(this.pathSOIBlending);
-            const int Scaling = 10;
-            finalPath = new Vector3[Mathf.FloorToInt((float)fullPath.Length / Scaling)];
-            for (int i = 0; i < finalPath.Length; i++)
-            {
-                finalPath[i] = fullPath[i * Scaling];
-            }
             this.pathRenderer.transform.SetParent(null, worldPositionStays: false);
             this.pathRenderer.useWorldSpace = true;
-            if(!this.path.crashed && this.sois.Count == 1)
+            if (!this.path.crashed && this.sois.Count == 1)
             {
                 var soiPos = this.sois.First().g.position;
                 float totalAngle = 0;
@@ -138,32 +175,7 @@ public class SimMovement : MonoBehaviour
                 }
                 finalPath = finalPath.Take(range).ToArray();
             }
-            //var relativePath = this.path.GetRelativePath(soi.g);
-            //if (this.path.crashed)
-            //{
-            //    finalPath = relativePath.ToArray(); // soi.relativePath.path.ToArray();
-            //}
-            //else
-            //{
-            //    float totalAngle = 0;
-            //    int range = 1;
-            //    for (; range < relativePath.Count && totalAngle < 360f; range++)
-            //    {
-            //        totalAngle += Vector2.Angle(relativePath[range - 1], relativePath[range]);
-            //    }
-            //    finalPath = relativePath.Take(range).ToArray();
-            //}
 
-            //this.pathRenderer.transform.SetParent(soi.g.GetComponent<Orbit>().position, worldPositionStays: false);
-            //this.pathRenderer.useWorldSpace = false;
-            //}
-            //else
-            //{
-            //    finalPath = this.path.GetFullPath().ToArray();
-            //
-            //    this.pathRenderer.transform.SetParent(null, worldPositionStays: false);
-            //    this.pathRenderer.useWorldSpace = true;
-            //}
             endPosition = this.pathRenderer.transform.localToWorldMatrix.MultiplyPoint(finalPath.LastOrDefault());
             this.pathRenderer.positionCount = finalPath.Length;
             this.pathRenderer.SetPositions(finalPath);

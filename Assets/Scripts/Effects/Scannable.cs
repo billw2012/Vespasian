@@ -10,7 +10,7 @@ public class Scannable : EffectSource
 
     public override bool IsEmpty()
     {
-        return scanProgress >= 1.0f;
+        return this.scanProgress >= 1.0f;
     }
 
     void LateUpdate()
@@ -28,5 +28,4 @@ public class Scannable : EffectSource
 
     public override Color gizmoColor => Color.yellow;
     public override string debugName => "Scannable";
-
 };

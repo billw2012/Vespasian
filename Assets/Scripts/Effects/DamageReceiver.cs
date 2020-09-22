@@ -26,7 +26,13 @@ public class DamageReceiver : MonoBehaviour
             if (this.previousRelativePosMap.TryGetValue(source, out var prevRelativePos))
             {
                 var relativeVelocity = (prevRelativePos - relativePos) / Time.deltaTime;
-                float damagePerTime = Time.deltaTime * 1f * Mathf.Max(0, relativeVelocity.sqrMagnitude - 0.01f) * source.damageMultiplier;
+                float damagePerTime 
+                    = 0.01f 
+                    * Time.deltaTime 
+                    * Mathf.Pow(Mathf.Max(0, relativeVelocity.magnitude - 1f), 5)
+                    * source.damageMultiplier
+                    ;
+
                 healthComponent.AddDamage(damagePerTime, source.transform.localToWorldMatrix.MultiplyVector(relativeVelocity));
             }
 

@@ -17,15 +17,11 @@ public class PlanetLogic : MonoBehaviour
 
     public GameLogic gameLogic;
 
-    void UpdateScale()
+    SimManager simManager;
+
+    void Awake()
     {
-        this.geometry.localScale = Vector3.one * this.radius;
-        // Make sure to update auto mass
-        var gravity = this.GetComponent<GravitySource>();
-        if(gravity != null)
-        {
-            gravity.RefreshValidate();
-        }
+        this.simManager = FindObjectOfType<SimManager>();
     }
 
     void OnValidate()
@@ -40,7 +36,7 @@ public class PlanetLogic : MonoBehaviour
 
     void Update()
     {
-        if (this.dayPeriod != 0)
+        if (this.dayPeriod != 0 && (this.simManager == null || this.simManager.enabled))
         {
             var rot = this.geometry.rotation.eulerAngles;
             this.geometry.rotation = Quaternion.Euler(rot + 360f * Vector3.forward * Time.deltaTime / this.dayPeriod);
@@ -53,6 +49,17 @@ public class PlanetLogic : MonoBehaviour
         if (collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {
             this.gameLogic.LoseGame();
+        }
+    }
+
+    void UpdateScale()
+    {
+        this.geometry.localScale = Vector3.one * this.radius;
+        // Make sure to update auto mass
+        var gravity = this.GetComponent<GravitySource>();
+        if (gravity != null)
+        {
+            gravity.RefreshValidate();
         }
     }
 }

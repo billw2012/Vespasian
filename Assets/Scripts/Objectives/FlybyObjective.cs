@@ -14,6 +14,8 @@ public class FlybyObjective : PositionalObjective
     bool traversing = false;
     Vector3 lastPos;
 
+    public Transform flybyTarget;
+
     // Use FixedUpdate as we are tracking position of objects that are updated in FixedUpdate
     protected override void UpdateObjective()
     {
@@ -33,7 +35,7 @@ public class FlybyObjective : PositionalObjective
     }
 
     #region Objective implementation
-    public override Transform target => this.GetComponentInParent<Orbit>()?.position;
+    public override Transform target => this.flybyTarget;
     public override float radius => this.flybyMaxDistance;
     public override float amountRequired => this.radius; // player must travel within range for this much distance
     public override float amountDone => this.traversed;

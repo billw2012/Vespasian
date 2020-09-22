@@ -17,10 +17,19 @@ public class ObjectiveIcon : MonoBehaviour
 
     void Update()
     {
-        this.slider.value = this.target.amountDone / this.target.amountRequired;
         if (this.target.complete)
         {
+            this.slider.value = 1;
             this.fill.color = Color.green;
+        }
+        else if (this.target.failed)
+        {
+            this.slider.value = 1;
+            this.fill.color = Color.red;
+        }
+        else
+        {
+            this.slider.value = this.target.amountDone / this.target.amountRequired;
         }
     }
 }

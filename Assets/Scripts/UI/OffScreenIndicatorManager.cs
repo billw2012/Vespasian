@@ -104,70 +104,73 @@ public class OffScreenIndicatorManager : MonoBehaviour
         var playerPosition = playerTransform.position;
         foreach (var objectiveIndicator in this.objectiveIndicators.Where(o => !o.wasCompleted))
         {
-            // position of indicator is on radius of objective ahead of player
-            var targetPosition = objectiveIndicator.objective.target.position;
-            var targetToPlayer = (playerPosition - targetPosition).normalized;
-            // Which angle to rotate the indicator out of the players way
-            float desiredAngle = Mathf.Sign(Vector2.SignedAngle(targetToPlayer, playerForward)) * 25f;
-            objectiveIndicator.angleOffset = Mathf.SmoothDampAngle(objectiveIndicator.angleOffset, desiredAngle, ref objectiveIndicator.angleOffsetVelocity, 1);
-            var rotatedRelativePosition = Quaternion.Euler(0, 0, objectiveIndicator.angleOffset) * targetToPlayer;
-
-            var worldPosIndicator = targetPosition + rotatedRelativePosition * objectiveIndicator.objective.radius;
-
-            // Set up the objective marker
-            var marker = objectiveIndicator.objective.objectiveMarker;
-            marker.transform.localEulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.right, rotatedRelativePosition);
-            // Update the size of the gap in the marker circle so it fits the indicator icon correctly
-            var markerCircle = marker.GetComponent<CircleRenderer>();
-            // Degrees required is calculated using:
-            // s = size of icon in world space
-            // d = perimeter of the circle in world space
-            //   d = 2 * PI * radius
-            // degrees = 360 * (1 - (s / d))
             var indicatorTransform = objectiveIndicator.indicator.GetComponent<RectTransform>();
-            var indicatorWorld = canvas.GetWorldSpaceRect(indicatorTransform);
-            float indicatorSize = Vector3.Distance(indicatorWorld[0], indicatorWorld[2]);
-            markerCircle.degrees = 360f * (1 - indicatorSize * 1.5f / (2 * Mathf.PI * objectiveIndicator.objective.radius));
-            if (markerCircle.degrees < 180)
-            {
-                marker.SetActive(false);
-            }
-            else
-            {
-                marker.SetActive(true);
-                markerCircle.UpdateCircle();
-            }
-
-            var canvasPosTarget = canvas.WorldToCanvasPosition(targetPosition);
-            var canvasPosIndicator = canvas.WorldToCanvasPosition(worldPosIndicator);
-            var canvasIndicatorOffset = canvasPosIndicator - canvasPosTarget;
-            var finalIndicatorPos = canvasPosTarget + canvasIndicatorOffset.normalized * canvasIndicatorOffset.magnitude;
-            if (canvasSafeArea.Contains(finalIndicatorPos))
-            {
-                if(objectiveIndicator.wasOffscreen)
-                {
-                    Tween.LocalScale(indicatorTransform, new Vector3(3, 3, 1), 0.25f, 0, Tween.EaseOutBack);
-                    objectiveIndicator.wasOffscreen = false;
-                }
-            }
-            else
-            {
-                if (!objectiveIndicator.wasOffscreen)
-                {
-                    Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0, Tween.EaseOutBack);
-                    objectiveIndicator.wasOffscreen = true;
-                }
-                finalIndicatorPos = clampArea.IntersectionWithRayFromCenter(finalIndicatorPos);
-            }
-            indicatorTransform.anchoredPosition = finalIndicatorPos;
-
-            if(objectiveIndicator.objective.complete)
+            if (objectiveIndicator.objective.complete || objectiveIndicator.objective.failed)
             {
                 int completeObjectives = this.objectiveIndicators.Count(o => o.wasCompleted);
                 Tween.AnchoredPosition(indicatorTransform, new Vector2(40, 280 + completeObjectives * 40), 0.25f, 0, Tween.EaseInBack);
                 Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0, Tween.EaseInBack);
                 completeObjectives++;
                 objectiveIndicator.wasCompleted = true;
+            }
+            else
+            {
+                // position of indicator is on radius of objective ahead of player
+                var targetPosition = objectiveIndicator.objective.target.position;
+                var targetToPlayer = (playerPosition - targetPosition).normalized;
+                // Which angle to rotate the indicator out of the players way
+                float desiredAngle = Mathf.Sign(Vector2.SignedAngle(targetToPlayer, playerForward)) * 25f;
+                objectiveIndicator.angleOffset = Mathf.SmoothDampAngle(objectiveIndicator.angleOffset, desiredAngle, ref objectiveIndicator.angleOffsetVelocity, 1);
+                var rotatedRelativePosition = Quaternion.Euler(0, 0, objectiveIndicator.angleOffset) * targetToPlayer;
+
+                var worldPosIndicator = targetPosition + rotatedRelativePosition * objectiveIndicator.objective.radius;
+
+                // Set up the objective marker
+                var marker = objectiveIndicator.objective.objectiveMarker;
+                marker.transform.localEulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.right, rotatedRelativePosition);
+                // Update the size of the gap in the marker circle so it fits the indicator icon correctly
+                var markerCircle = marker.GetComponent<CircleRenderer>();
+                // Degrees required is calculated using:
+                // s = size of icon in world space
+                // d = perimeter of the circle in world space
+                //   d = 2 * PI * radius
+                // degrees = 360 * (1 - (s / d))
+
+                var indicatorWorld = canvas.GetWorldSpaceRect(indicatorTransform);
+                float indicatorSize = Vector3.Distance(indicatorWorld[0], indicatorWorld[2]);
+                markerCircle.degrees = 360f * (1 - indicatorSize * 1.5f / (2 * Mathf.PI * objectiveIndicator.objective.radius));
+                if (markerCircle.degrees < 180)
+                {
+                    marker.SetActive(false);
+                }
+                else
+                {
+                    marker.SetActive(true);
+                    markerCircle.UpdateCircle();
+                }
+
+                var canvasPosTarget = canvas.WorldToCanvasPosition(targetPosition);
+                var canvasPosIndicator = canvas.WorldToCanvasPosition(worldPosIndicator);
+                var canvasIndicatorOffset = canvasPosIndicator - canvasPosTarget;
+                var finalIndicatorPos = canvasPosTarget + canvasIndicatorOffset.normalized * canvasIndicatorOffset.magnitude;
+                if (canvasSafeArea.Contains(finalIndicatorPos))
+                {
+                    if (objectiveIndicator.wasOffscreen)
+                    {
+                        Tween.LocalScale(indicatorTransform, new Vector3(3, 3, 1), 0.25f, 0, Tween.EaseOutBack);
+                        objectiveIndicator.wasOffscreen = false;
+                    }
+                }
+                else
+                {
+                    if (!objectiveIndicator.wasOffscreen)
+                    {
+                        Tween.LocalScale(indicatorTransform, new Vector3(1, 1, 1), 0.25f, 0, Tween.EaseOutBack);
+                        objectiveIndicator.wasOffscreen = true;
+                    }
+                    finalIndicatorPos = clampArea.IntersectionWithRayFromCenter(finalIndicatorPos);
+                }
+                indicatorTransform.anchoredPosition = finalIndicatorPos;
             }
         }
     }
