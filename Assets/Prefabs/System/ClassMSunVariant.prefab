@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 6039441407903207753, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_Name
-      value: ClassMSunPrefab
+      value: ClassMSunVariant
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}

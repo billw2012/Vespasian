@@ -27,6 +27,8 @@ public struct OrbitParameters
     [Tooltip("Fraction of orbit to start at"), Range(0, 1)]
     public float offset;
 
+    public static readonly OrbitParameters Zero = new OrbitParameters();
+
     public bool validOrbit => this.periapsis > 0 && this.apoapsis > 0;
 
     public enum OrbitDirection
@@ -201,6 +203,11 @@ public class Orbit : MonoBehaviour
         this.RefreshValidateRecursive();
     }
 
+    void Awake()
+    {
+        this.position = this.customPosition == null ? this.transform.Find("Position") : this.customPosition;
+    }
+
     void Start()
     {
         this.RefreshValidate();
@@ -233,8 +240,6 @@ public class Orbit : MonoBehaviour
 
     void RefreshValidate()
     {
-        this.position = this.customPosition == null ? this.transform.Find("Position") : this.customPosition;
-
         if (!this.isActiveAndEnabled)
         {
             this.position.localPosition = Vector3.zero;

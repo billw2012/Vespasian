@@ -82,24 +82,24 @@ public class RayShadow : MonoBehaviour
     void Update()
     {
         var heightOffset = Vector3.back * 10f;
-        var ourPos = this.geometry.transform.position + heightOffset;
+        var rayStartPos = this.geometry.transform.position + heightOffset;
         foreach (var ray in this.rays)
         {
             // Set start and end
-            if (ray.lineRenderer.GetPosition(0) != ourPos)
+            if (ray.lineRenderer.GetPosition(0) != rayStartPos)
             {
-                ray.lineRenderer.SetPosition(0, ourPos);
+                ray.lineRenderer.SetPosition(0, rayStartPos);
             }
             var lightPos = ray.light.transform.position;
-            var lightRay = (ourPos - lightPos).normalized;
+            var lightRay = (this.geometry.transform.position - lightPos).normalized;
 
-            var rayMid = ourPos + lightRay * this.localExtents.magnitude * this.shadowFadeInFactor;
+            var rayMid = rayStartPos + lightRay * this.localExtents.magnitude * this.shadowFadeInFactor;
             if (ray.lineRenderer.GetPosition(1) != rayMid)
             {
                 ray.lineRenderer.SetPosition(1, rayMid);
             }
 
-            var rayEnd = ourPos + lightRay * this.shadowLength;
+            var rayEnd = rayStartPos + lightRay * this.shadowLength;
             if (ray.lineRenderer.GetPosition(2) != rayEnd)
             {
                 ray.lineRenderer.SetPosition(2, rayEnd);
