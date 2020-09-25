@@ -11,6 +11,8 @@ public class GameLogic : ScriptableObject {
     public float collectedGas = 0;
 
     GUILayerManager uiManager;
+    MapComponent mapComponent;
+    PlayerController player;
 
     void OnEnable()
     {
@@ -20,16 +22,18 @@ public class GameLogic : ScriptableObject {
     void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
         this.uiManager = FindObjectOfType<GUILayerManager>();
+        this.mapComponent = FindObjectOfType<MapComponent>();
+        this.player = FindObjectOfType<PlayerController>();
     }
 
-    public void NextLevel()
+    public bool CanJump()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        return this.mapComponent.CanJump();
     }
 
-    public void RestartLevel()
+    public void Jump()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        _ = this.mapComponent.JumpAsyc();
     }
 
     public void WinGame()
@@ -38,27 +42,35 @@ public class GameLogic : ScriptableObject {
 
         GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = $"{this.CalculateScore()} points";
 
-        FindObjectOfType<PlayerController>().gameObject.SetActive(false);
+        this.player.gameObject.SetActive(false);
+    }
+
+    public void OpenMap()
+    {
+        this.uiManager.ShowMapUI();
+    }
+
+    public void CloseMap()
+    {
+        this.uiManager.ShowPlayUI();
     }
 
     public void LoseGame()
     {
         this.uiManager.ShowLoseUI();
 
-        FindObjectOfType<PlayerController>().gameObject.SetActive(false);
+        this.player.gameObject.SetActive(false);
     }
 
     int CalculateScore()
     {
         int score = 0;
 
-        var player = FindObjectOfType<PlayerController>().gameObject;
-
         // 1 point for each % of fuel remaining
-        score += Mathf.FloorToInt(player.GetComponent<EngineComponent>().fuelCurrent * 100f);
+        score += Mathf.FloorToInt(this.player.GetComponent<EngineComponent>().fuelCurrent * 100f);
 
         // 1 point for each % of health remaining
-        score += Mathf.FloorToInt(player.GetComponent<HealthComponent>().hull * 100f);
+        score += Mathf.FloorToInt(this.player.GetComponent<HealthComponent>().hull * 100f);
 
         // 0.2 point for each % of planets scanned
         score += Mathf.FloorToInt(FindObjectsOfType<Scannable>().Select(e => e.scanProgress).Sum() * 20f);

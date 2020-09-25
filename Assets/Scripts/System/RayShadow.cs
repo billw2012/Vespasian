@@ -30,20 +30,33 @@ public class RayShadow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(this.geometry == null)
+        if (this.geometry == null)
         {
             this.geometry = this.GetComponent<MeshFilter>();
         }
-        
+
         // We need the extents to decide the length of the shadow
         var relativeMatrix = this.transform.worldToLocalMatrix * this.geometry.transform.localToWorldMatrix;
 
         this.localExtents = Vector2.Scale(this.shadowCasterSize, relativeMatrix.lossyScale);
         this.shadowLength = this.localExtents.magnitude * this.shadowLengthScale;
 
+        this.Refresh();
+    }
+
+    void Refresh()
+    {
         float darkestPoint = this.localExtents.magnitude * this.shadowFadeInFactor / this.shadowLength;
 
-        var suns = GameObject.FindObjectsOfType<SunLogic>();
+        if(this.rays != null)
+        {
+            foreach(var r in this.rays)
+            {
+                Destroy(r.shadow);
+            }
+        }
+
+        var suns = FindObjectsOfType<SunLogic>();
         this.rays = suns.Select(light =>
             {
                 var shadow = new GameObject($"Shadow ({light.name})");
@@ -81,6 +94,12 @@ public class RayShadow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Remove 
+        if(this.rays.Any(r => r.light == null))
+        {
+            this.Refresh();
+        }
+
         var heightOffset = Vector3.back * 10f;
         var rayStartPos = this.geometry.transform.position + heightOffset;
         foreach (var ray in this.rays)

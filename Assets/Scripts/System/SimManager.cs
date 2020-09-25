@@ -16,7 +16,7 @@ public class SimManager : MonoBehaviour
 
     SimMovement[] simulatedObjects;
 
-    readonly SimModel model = new SimModel();
+    SimModel model;
 
     void OnValidate()
     {
@@ -26,8 +26,7 @@ public class SimManager : MonoBehaviour
     void Start()
     {
         Assert.IsNotNull(this.constants);
-
-        this.simulatedObjects = FindObjectsOfType<SimMovement>();
+        this.Refresh();
     }
 
     void FixedUpdate()
@@ -48,6 +47,16 @@ public class SimManager : MonoBehaviour
             .Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
         {
             s.SimUpdate(this.simTick);
+        }
+    }
+
+    public void Refresh()
+    {
+        this.model = new SimModel();
+        this.simulatedObjects = FindObjectsOfType<SimMovement>();
+        foreach(var s in this.simulatedObjects)
+        {
+            s.SimRefresh();
         }
     }
 
@@ -176,7 +185,6 @@ public class SimPath
         }
     }
 }
-
 
 public class SimModel
 {
@@ -630,10 +638,16 @@ public class SectionedSimPath
         {
             // Hopefully we will never hit this for more than a frame
             var forceInfo = this.model.CalculateForce(this.simTick * this.dt, this.position, this.gravitationalConstant, this.gravitationalRescaling);
-            this.velocity += forceInfo.rescaledTotalForce * this.dt;
+            if (forceInfo.valid)
+            {
+                this.velocity += forceInfo.rescaledTotalForce * this.dt;
+            }
             this.velocity += force * this.dt;
             this.position += this.velocity * this.dt;
-            this.relativeVelocity = this.velocity - forceInfo.velocities[forceInfo.primaryIndex];
+            if (forceInfo.valid)
+            {
+                this.relativeVelocity = this.velocity - forceInfo.velocities[forceInfo.primaryIndex];
+            }
             // Start recreating the path sections
             this.restartPath = true;
         }

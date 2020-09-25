@@ -51,9 +51,7 @@ public class SimMovement : MonoBehaviour
 
     void Start()
     {
-        var simManager = FindObjectOfType<SimManager>();
-
-        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
+        this.SimRefresh();
 
         if (this.pathRendererAsset != null)
         {
@@ -72,6 +70,13 @@ public class SimMovement : MonoBehaviour
     public void AddForce(Vector3 force)
     {
         this.force += force;
+    }
+
+    public void SimRefresh()
+    {
+        var simManager = FindObjectOfType<SimManager>();
+
+        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
     }
 
     public void SimUpdate(int simTick)
