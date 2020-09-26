@@ -95,7 +95,7 @@ public class FollowCameraController : MonoBehaviour
             if (this.simMovement != null)
             {
                 pointsOfInterest = pointsOfInterest.Concat(
-                    this.simMovement.sois.Select(i => (
+                    this.simMovement.sois.Where(i => i.g != null).Select(i => (
                         position: i.g.position,
                         size: i.g.transform.localScale,
                         distance: Vector3.Distance(i.g.position, this.target.position)

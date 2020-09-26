@@ -77,6 +77,8 @@ public class SimMovement : MonoBehaviour
         var simManager = FindObjectOfType<SimManager>();
 
         this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
+
+        this.sois = new List<SimModel.SphereOfInfluence>();
     }
 
     public void SimUpdate(int simTick)
@@ -95,9 +97,9 @@ public class SimMovement : MonoBehaviour
             // (perhaps even limiting them to the same magnitude?)
             // Smooth rotation slightly to avoid random flipping. Smoothing should not be noticeable in
             // normal play.
-            var desiredRot = Quaternion.FromToRotation(Vector3.up, this.relativeVelocity).eulerAngles.z;
-            var currentRot = rigidBody.rotation.eulerAngles.z;
-            var smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 360);
+            float desiredRot = Quaternion.FromToRotation(Vector3.up, this.relativeVelocity).eulerAngles.z;
+            float currentRot = rigidBody.rotation.eulerAngles.z;
+            float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 360);
             rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
 
             //rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.relativeVelocity));

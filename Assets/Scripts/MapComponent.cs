@@ -123,7 +123,10 @@ public class MapComponent : MonoBehaviour
     void Awake()
     {
         this.map = Generate(this.bodySpecs, 50);
+    }
 
+    void Start()
+    {
         this.LoadRandomSystem();
     }
 
@@ -166,13 +169,39 @@ public class MapComponent : MonoBehaviour
             ;
 
         // Send player into warp
-        this.player.GetComponent<SimMovement>().AddForce(travelVec * 10000);
+        var playerSimMovement = this.player.GetComponent<SimMovement>();
+        var playerWarpController = this.player.GetComponent<WarpController>();
+        playerSimMovement.enabled = false;
+        playerWarpController.enabled = true;
 
-        // Warp for a while
-        await Task.Delay(3000);
+        foreach (var collider in this.player.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = false;
+        }
+
+        await playerWarpController.EnterWarpAsync(playerSimMovement.velocity, 50);
+
+        // Set this before refreshing the sim so it is applied correctly
+
+        Vector2 landingPosition;
+        Vector2 landingVelocity;
+        if (this.currentSystem != null)
+        {
+            var inTravelVec = (target.position - this.currentSystem.position).normalized;
+            // var positionVec = Vector2.Perpendicular(inTravelVec) * (Random.value > 0.5f ? -1 : 1);
+
+            landingPosition = inTravelVec * -Random.Range(30f, 50f) + Vector2.Perpendicular(inTravelVec) * Random.Range(-20f, +20f);
+            landingVelocity = inTravelVec * Random.Range(0.5f, 1f);
+        }
+        else
+        {
+            landingPosition = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector2.one * Random.Range(30f, 50f);
+            landingVelocity = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector2.one * Random.Range(0.5f, 1f);
+        }
+
+        await playerWarpController.TurnInWarpAsync(landingVelocity.normalized);
 
         // Destroy old system, update player position and create new one
-        var previousSystem = this.currentSystem;
         this.currentSystem = target;
         this.currentSystem.Load(this.gameObject);
 
@@ -183,25 +212,21 @@ public class MapComponent : MonoBehaviour
                 .ToList();
         });
 
-        // Set this before refreshing the sim so it is applied correctly
+        await playerWarpController.ExitWarpAsync(landingPosition, landingVelocity.normalized, landingVelocity.magnitude);
 
-        if (previousSystem != null)
+        // Safe to turn collision back on hopefully
+        foreach (var collider in this.player.GetComponentsInChildren<Collider>())
         {
-            var inTravelVec = (this.currentSystem.position - previousSystem.position).normalized;
-            // var positionVec = Vector2.Perpendicular(inTravelVec) * (Random.value > 0.5f ? -1 : 1);
-
-            this.player.transform.position = inTravelVec * -Random.Range(30f, 50f) + Vector2.Perpendicular(inTravelVec) * Random.Range(-20f, +20f);
-
-            this.player.GetComponent<SimMovement>().startVelocity = inTravelVec * Random.Range(0.5f, 1f);
+            collider.enabled = true;
         }
-        else
-        {
-            this.player.transform.position = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector3.one * Random.Range(30f, 50f);
 
-            this.player.GetComponent<SimMovement>().startVelocity = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector3.one * Random.Range(0.5f, 1f);
-        }
+        playerWarpController.enabled = false;
+
+        playerSimMovement.startVelocity = landingVelocity;
+        playerSimMovement.enabled = true;
 
         FindObjectOfType<SimManager>().Refresh();
+
 
         // Re-eable player input
         this.player.GetComponent<PlayerController>().enabled = true;
@@ -263,7 +288,7 @@ public class MapComponent : MonoBehaviour
             }
 
             char RandomLetter() => (char)((int)'A' + Random.Range(0, 'Z' - 'A'));
-            var name = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
+            string name = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
 
             map.systems.Add(GenerateSystem(bodySpecs, name, position));
         }

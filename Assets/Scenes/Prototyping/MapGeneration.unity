@@ -199,6 +199,16 @@ PrefabInstance:
       propertyPath: m_AspectRatio
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1257070501191445676, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: acceleration
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257070501191445676, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: warpSpeed
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 1454103272182280145, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AspectRatio
@@ -228,6 +238,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355768129320098924, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 0.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_CameraVelocityScale
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_VelocityScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4538521788195604900, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
