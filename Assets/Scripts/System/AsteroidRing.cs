@@ -61,18 +61,15 @@ public class AsteroidRing : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (this.simManager == null || this.simManager.enabled)
+        float t = this.simManager == null ? Time.time : this.simManager.time;
+
+        this.transform.localRotation = Quaternion.Euler(0, 0, t * this.orbitalAngularVelocity);
+
+        for (int i = 0; i < this.shadows.Length; i++)
         {
-            float t = this.simManager == null ? Time.time : this.simManager.time;
-
-            this.transform.localRotation = Quaternion.Euler(0, 0, t * this.orbitalAngularVelocity);
-
-            for (int i = 0; i < this.shadows.Length; i++)
-            {
-                this.shadows[i].localRotation = Quaternion.Euler(0, 0, i * 71f + t * this.shadowAngularVelocities[i] * this.shadowRateVariance);
-            }
+            this.shadows[i].localRotation = Quaternion.Euler(0, 0, i * 71f + t * this.shadowAngularVelocities[i] * this.shadowRateVariance);
         }
     }
 

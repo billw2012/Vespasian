@@ -17,6 +17,8 @@ public class MapComponent : MonoBehaviour
 
     Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
 
+    Lazy<SolarSystem> jumpTarget = new Lazy<SolarSystem>(() => null);
+
     PlayerController player => FindObjectOfType<PlayerController>();
 
     // Start is called before the first frame update
@@ -30,20 +32,22 @@ public class MapComponent : MonoBehaviour
         this.LoadRandomSystem();
     }
 
-    public SolarSystem GetJumpTarget()
+    void Update()
     {
-        if(this.player != null)
+        if (this.player != null)
         {
             var playerDirection = this.player.transform.position;
 
-            return this.jumpTargets.Value
-                .OrderBy(t => Vector2.Angle(t.position - this.currentSystem.position, playerDirection)).FirstOrDefault();
+            this.jumpTarget = new Lazy<SolarSystem>(() => this.jumpTargets.Value
+                .OrderBy(t => Vector2.Angle(t.position - this.currentSystem.position, playerDirection)).FirstOrDefault());
         }
         else
         {
-            return null;
+            this.jumpTarget = new Lazy<SolarSystem>(() => null);
         }
     }
+
+    public SolarSystem GetJumpTarget() => this.jumpTarget.Value;
 
     public bool CanJump()
     {

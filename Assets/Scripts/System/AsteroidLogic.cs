@@ -24,6 +24,8 @@ public class AsteroidLogic : MonoBehaviour
     // Axis around which we are rotating
     Vector3 rotationAxis;
     float rotationVelocity;
+    float rotationOffset;
+
     SimManager simManager;
 
     MaterialPropertyBlock asteroidPb;
@@ -40,22 +42,25 @@ public class AsteroidLogic : MonoBehaviour
         this.rotationAxis = Random.onUnitSphere;
         this.rotationVelocity = 50; // Random.Range(-40, 40);
         this.meshRenderer = this.asteroidModelTransform.GetComponentInChildren<MeshRenderer>();
-        this.asteroidModelTransform.Rotate(this.rotationAxis, Random.Range(0, 360));
+        this.rotationOffset = Random.Range(0, 360);
+        //this.asteroidModelTransform.Rotate(this.rotationAxis, Random.Range(0, 360));
     }
 
     // Update is called once per frame
+    void FixedUpdate()
+    {
+        float time = this.simManager == null ? Time.time : this.simManager.time;
+        this.asteroidModelTransform.localRotation = Quaternion.AngleAxis(this.rotationOffset + time * this.rotationVelocity, this.rotationAxis);
+    }
+
     void Update()
     {
-        if (this.simManager == null || this.simManager.enabled)
+        if(this.meshRenderer.HasPropertyBlock())
         {
-            this.asteroidModelTransform.Rotate(this.rotationAxis, Time.deltaTime * this.rotationVelocity);
-            if(this.meshRenderer.HasPropertyBlock())
-            {
-                this.meshRenderer.GetPropertyBlock(this.asteroidPb);
-            }
-            this.asteroidPb.SetColor("_EmissionColor", Color.Lerp(this.coldColor, this.hotColor, this.temperature));
-            this.meshRenderer.SetPropertyBlock(this.asteroidPb);
+            this.meshRenderer.GetPropertyBlock(this.asteroidPb);
         }
+        this.asteroidPb.SetColor("_EmissionColor", Color.Lerp(this.coldColor, this.hotColor, this.temperature));
+        this.meshRenderer.SetPropertyBlock(this.asteroidPb);
     }
 
     void OnCollisionEnter(Collision collision)

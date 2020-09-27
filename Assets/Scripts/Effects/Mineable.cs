@@ -22,7 +22,7 @@ public class Mineable : EffectSource
 
     AsteroidLogic asteroidLogic;
     Miner[] miners;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -60,9 +60,7 @@ public class Mineable : EffectSource
             }
         }
 
-        this.asteroidLogic.temperature = Mathf.Clamp01(
-            this.asteroidLogic.temperature + (this.beingMined ? 1 : -1) * Time.deltaTime * 0.2f
-            );
+        this.asteroidLogic.temperature = Mathf.Clamp01(this.asteroidLogic.temperature + (this.beingMined ? 1 : -1) * this.timeMultipler * Time.deltaTime * 0.2f);
         this.beingMined = false;
     }
 
@@ -70,7 +68,7 @@ public class Mineable : EffectSource
     // If something is mining this, then it must call this method each frame
     public void Mine(Miner miner)
     {
-        this.miningProgress = Mathf.Clamp01(this.miningProgress + miner.miningRate * Time.deltaTime);
+        this.miningProgress = Mathf.Clamp01(this.miningProgress + miner.miningRate * this.timeMultipler * Time.deltaTime);
 
         this.beingMined = true;
         this.miningDamageEffect.transform.rotation = Quaternion.FromToRotation(Vector3.left, miner.transform.position - this.transform.position);

@@ -9,19 +9,17 @@ public class PlanetLogic : MonoBehaviour
     [Tooltip("Time to complete a full axial rotation (0 = no rotation)"), Range(-100, 100)]
     public float dayPeriod = 0;
 
-    public bool ringEnabled = false;
-    public float ringRadiusFactor = 1.5f;
-    public float ringWidthFactor = 0.5f;
-
     public Transform geometry;
 
     public GameLogic gameLogic;
 
+    float rotationOffset;
     SimManager simManager;
 
     void Awake()
     {
         this.simManager = FindObjectOfType<SimManager>();
+        this.rotationOffset = Random.Range(0, 360f);
     }
 
     void OnValidate()
@@ -34,13 +32,12 @@ public class PlanetLogic : MonoBehaviour
         this.UpdateScale();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (this.dayPeriod != 0 && (this.simManager == null || this.simManager.enabled))
+        if (this.dayPeriod != 0)
         {
-            var rot = this.geometry.rotation.eulerAngles;
-            this.geometry.rotation = Quaternion.Euler(rot + 360f * Vector3.forward * Time.deltaTime / this.dayPeriod);
-            // this.position.localRotation  this.dayPeriod * simTime;
+            float time = this.simManager == null ? Time.time : this.simManager.time;
+            this.geometry.localRotation = Quaternion.Euler(0, 0, this.rotationOffset + 360f * time / this.dayPeriod);
         }
     }
 

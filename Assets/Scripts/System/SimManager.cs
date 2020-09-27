@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +11,13 @@ public class SimManager : MonoBehaviour
 {
     public GameConstants constants;
 
+    public int timeStep { get; set; } = 1;
+
     int simTick = 0;
 
     public float time => this.simTick * Time.fixedDeltaTime;
+
+    public float dt => this.timeStep * Time.fixedDeltaTime;
 
     SimMovement[] simulatedObjects;
 
@@ -33,7 +38,7 @@ public class SimManager : MonoBehaviour
     {
         this.model.DelayedInit();
 
-        this.simTick++;
+        this.simTick += this.timeStep;
 
         // Update game objects from model (we use the simModels orbit list so we keep consistent ordering)
         foreach (var o in this.model.orbits

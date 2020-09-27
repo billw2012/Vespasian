@@ -11,10 +11,11 @@ public class DamageReceiver : MonoBehaviour
     {
         var damageSources = EffectSource.AllInRange<DamageSource>(this.transform);
         var healthComponent = this.GetComponent<HealthComponent>();
+
         foreach (var source in damageSources)
         {
             //float fieldStrength = source.GetEffectStrengthNormalized(this.transform);
-            float damagePerTime = Time.deltaTime * 0.2f;
+            float damagePerTime = source.timeMultipler * Time.deltaTime * 0.2f;
             var direction = Vector3.Normalize(this.transform.position - source.transform.position);
             healthComponent.AddDamage(damagePerTime, direction);
         }
@@ -25,10 +26,11 @@ public class DamageReceiver : MonoBehaviour
             var relativePos = source.transform.worldToLocalMatrix.MultiplyPoint(this.transform.position);
             if (this.previousRelativePosMap.TryGetValue(source, out var prevRelativePos))
             {
-                var relativeVelocity = (prevRelativePos - relativePos) / Time.deltaTime;
+                float dt = source.timeMultipler * Time.deltaTime;
+                var relativeVelocity = (prevRelativePos - relativePos) / dt;
                 float damagePerTime 
                     = 0.01f 
-                    * Time.deltaTime 
+                    * dt
                     * Mathf.Pow(Mathf.Max(0, relativeVelocity.magnitude - 1f), 5)
                     * source.damageMultiplier
                     ;

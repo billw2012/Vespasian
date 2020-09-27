@@ -14,7 +14,7 @@ public class FuelScoop : MonoBehaviour
             var engine = this.GetComponent<EngineComponent>();
             if (engine != null)
             {
-                float fuelIncrease = Time.deltaTime * this.refuelRate;
+                float fuelIncrease = fuelSource.timeMultipler * Time.deltaTime * this.refuelRate;
                 engine.AddFuel(fuelIncrease);
             }
 

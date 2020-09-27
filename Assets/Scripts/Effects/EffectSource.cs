@@ -14,7 +14,16 @@ public abstract class EffectSource : MonoBehaviour
     [Tooltip("Transform to use as the effect source")]
     public Transform originTransform;
 
-    // Virtual functions, must be overidden in derived effect sources
+    SimManager simManager;
+    public float timeMultipler => this.simManager == null ? 1 : this.simManager.timeStep;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        this.simManager = FindObjectOfType<SimManager>();
+    }
+
+    // Virtual functions, must be overridden in derived effect sources
 
     // Must return true when this has no more resource (fully mined, fully scanned, etc)
     // It is essential to mark effect sources as complete so we don't keep focus on them and switch to next one instead

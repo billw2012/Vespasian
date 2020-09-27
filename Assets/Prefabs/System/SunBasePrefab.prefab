@@ -19301,9 +19301,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 4
   dayPeriod: 100
-  ringEnabled: 0
-  ringRadiusFactor: 1.5
-  ringWidthFactor: 0.5
   geometry: {fileID: 8649645052135855122}
   gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
 --- !u!114 &5627716558633760033

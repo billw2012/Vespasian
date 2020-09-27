@@ -67,6 +67,22 @@ public class SimMovement : MonoBehaviour
         this.UpdatePathWidth();
     }
 
+    void OnDisable()
+    {
+        if (this.pathRenderer != null)
+        {
+            this.pathRenderer.gameObject.SetActive(false);
+        }
+    }
+
+    void OnEnable()
+    {
+        if (this.pathRenderer != null)
+        {
+            this.pathRenderer.gameObject.SetActive(true);
+        }
+    }
+
     public void AddForce(Vector3 force)
     {
         this.force += force;

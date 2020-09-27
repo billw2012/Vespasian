@@ -13,7 +13,7 @@ public class DragReceiver : MonoBehaviour
 
             var simMovement = this.GetComponent<SimMovement>();
             float velocityAbs = simMovement.velocity.magnitude;
-            float value = Time.deltaTime * 3.0f * velocityAbs * velocityAbs * fieldStrength;
+            float value = source.timeMultipler * Time.deltaTime * 3.0f * velocityAbs * velocityAbs * fieldStrength;
             if (simMovement != null && velocityAbs > 0)
             {
                 simMovement.AddForce(-simMovement.velocity.normalized * value);
