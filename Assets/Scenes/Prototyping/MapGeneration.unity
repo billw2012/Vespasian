@@ -468,6 +468,11 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 0.0000001
       objectReference: {fileID: 0}
+    - target: {fileID: 4438045895016877242, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4462646743225880512, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_RenderMode
@@ -662,6 +667,11 @@ PrefabInstance:
         type: 3}
       propertyPath: minDistanceFactor
       value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140712277901674447, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7532287019565315768, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
