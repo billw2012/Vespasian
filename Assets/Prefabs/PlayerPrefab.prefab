@@ -354,8 +354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1212ea7f191b0b546b057e1b59ff1c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warpSpeed: 100
-  acceleration: 25
+  warpSpeed: 500
+  acceleration: 100
 --- !u!54 &3664154167166374825
 Rigidbody:
   m_ObjectHideFlags: 0

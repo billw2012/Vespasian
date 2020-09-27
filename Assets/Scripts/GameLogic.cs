@@ -45,6 +45,11 @@ public class GameLogic : ScriptableObject {
         this.player.gameObject.SetActive(false);
     }
 
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void OpenMap()
     {
         this.uiManager.ShowMapUI();
