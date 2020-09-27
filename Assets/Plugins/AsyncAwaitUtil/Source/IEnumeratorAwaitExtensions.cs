@@ -64,7 +64,9 @@ public static class IEnumeratorAwaitExtensions
     }
 
     // Return itself so you can do things like (await new WWW(url)).bytes
+#pragma warning disable CS0618 // Type or member is obsolete
     public static SimpleCoroutineAwaiter<WWW> GetAwaiter(this WWW instruction)
+#pragma warning restore CS0618 // Type or member is obsolete
     {
         return GetAwaiterReturnSelf(instruction);
     }

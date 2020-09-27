@@ -1,9 +1,11 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 
 // Roughly based on this: http://guidohenkel.com/2018/05/endless_starfield_unity/
 public class StarField : MonoBehaviour
@@ -35,6 +37,9 @@ public class StarField : MonoBehaviour
 
     public List<Color> colors;
 
+    [NonSerialized]
+    public float fade = 1;
+
     ParticleSystem.Particle[] stars;
     float[] baseSizes;
 
@@ -42,6 +47,11 @@ public class StarField : MonoBehaviour
     //Vector2 offset;
 
     float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
+
+    ParticleSystem pfx;
+    PinchZoomCamera pinchZoom;
+    ParticleSystemRenderer pfxRenderer;
+    MaterialPropertyBlock pfxPb;
 
     void Awake()
     {
@@ -77,7 +87,14 @@ public class StarField : MonoBehaviour
             this.stars[i].rotation = Random.Range(0f, 360f);
             this.stars[i].axisOfRotation = Vector3.forward;
         }
-        this.GetComponent<ParticleSystem>().SetParticles(this.stars, this.stars.Length);
+
+        this.pfx = this.GetComponent<ParticleSystem>();
+        this.pfx.SetParticles(this.stars, this.stars.Length);
+
+        this.pfxPb = new MaterialPropertyBlock();
+        this.pfxRenderer = this.GetComponent<ParticleSystemRenderer>();
+
+        this.pinchZoom = FindObjectOfType<PinchZoomCamera>();
     }
 
 
@@ -85,13 +102,11 @@ public class StarField : MonoBehaviour
 
     void LateUpdate()
     {
-        var pinchZoom = FindObjectOfType<PinchZoomCamera>();
-
         float cameraRatio = (float)Camera.main.pixelWidth / Camera.main.pixelHeight;
-        float minCameraSize = Mathf.Max(pinchZoom.sizeMin * cameraRatio, pinchZoom.sizeMin);
-        float maxCameraSize = Mathf.Max(pinchZoom.sizeMax * cameraRatio, pinchZoom.sizeMax);
+        float minCameraSize = Mathf.Max(this.pinchZoom.sizeMin * cameraRatio, this.pinchZoom.sizeMin);
+        float maxCameraSize = Mathf.Max(this.pinchZoom.sizeMax * cameraRatio, this.pinchZoom.sizeMax);
 
-        float zoomAmount = (Camera.main.orthographicSize - pinchZoom.sizeMin) / (pinchZoom.sizeMax - pinchZoom.sizeMin);
+        float zoomAmount = (Camera.main.orthographicSize - this.pinchZoom.sizeMin) / (this.pinchZoom.sizeMax - this.pinchZoom.sizeMin);
 
         float adjustedScaleEffect = Mathf.Pow(this.scaleEffect, 1f/3f);
         float desiredSize = Mathf.Lerp(minCameraSize, maxCameraSize, zoomAmount * adjustedScaleEffect + (1 - adjustedScaleEffect));
@@ -147,6 +162,25 @@ public class StarField : MonoBehaviour
                 this.stars[i].rotation = 360f * this.rotationAnim.Evaluate(0.3f * this.animationSpeed * Time.time + i * 3.21f);
             }
         }
-        this.GetComponent<ParticleSystem>().SetParticles(this.stars, this.stars.Length);
+        this.pfx.SetParticles(this.stars, this.stars.Length);
+
+        if(this.pfxRenderer.HasPropertyBlock())
+        {
+            this.pfxRenderer.GetPropertyBlock(this.pfxPb);
+        }
+        
+        this.pfxPb.SetColor("_BaseColor", this.pfxRenderer.sharedMaterial.GetColor("_BaseColor").SetA(this.fade));
+
+        this.pfxRenderer.SetPropertyBlock(this.pfxPb);
+    }
+
+    public void ResetPosition()
+    {
+        this.lastPosition = this.transform.position;
+    }
+
+    public void ApplyPositionOffset(Vector2 offset)
+    {
+        this.lastPosition += offset;
     }
 }

@@ -30,6 +30,16 @@ public class FollowCameraController : MonoBehaviour
     [Tooltip("Camera position will always be clamped to include target into the view")]
     public bool clampToCameraInnerArea = true;
 
+    // Returns true when camera has (sort of) arrived to the target position
+    public bool atTargetPosition
+    {
+        get
+        {
+            float dist = Vector2.Distance(this.transform.position, this.target.transform.position);
+            return (dist < 2.0f);
+        }
+    }
+
     Vector2 currentOffset;
     Vector2 offsetVelocity; // Modified by SmoothDamp on each update
     Vector2 smoothedOffset; // Smoothed offset value without clamping
@@ -37,15 +47,6 @@ public class FollowCameraController : MonoBehaviour
 
     CameraPointOfInterest[] scenePointsOfInterest;
 
-    // Camera shake effect
-    int shakeNCycles = 0;
-    Vector3 shakeTargetOffset;
-    Vector3 shakePrevOffset;
-    Vector3 shakeCurrentOffset; // current = prev + (target-prev)*transitionFunction(progress)
-    float shakeCycleProgress = 0; // Progress of one cycle of shake
-    float shakeSeriesProgess = 0; // Progress of whole shake series
-    float shakeSeriesDuration = 0; // Total duration of this shake sequence
-    const float shakeCycleDuration = 0.05f; // How long it takes camera to animate from one place to another
 
     void Start()
     {
@@ -72,11 +73,8 @@ public class FollowCameraController : MonoBehaviour
         return new Rect(center - tr, (tr - center) * 2);
     }
 
-    void Update()
+    public void Update()
     {
-        // Update shake effect
-        this.UpdateShake();
-
         var bounds = new Bounds((Vector2)this.target.position, Vector2.one * this.margin);
 
         // Include other points of interested only if this is enabled
@@ -128,8 +126,7 @@ public class FollowCameraController : MonoBehaviour
 
         // Don't modify the z coordinate
         this.transform.position = (this.target.transform.position + (Vector3)clampedOffset).xy0()
-                                    + this.transform.position._00z()
-                                    + this.shakeCurrentOffset;
+                                    + this.transform.position._00z();
         this.currentOffset = clampedOffset;
     }
 
@@ -151,63 +148,5 @@ public class FollowCameraController : MonoBehaviour
         this.currentOffset = this.transform.position - newTarget.transform.position;
         this.smoothedOffset = this.currentOffset;
         this.offsetVelocity = Vector2.zero;
-    }
-
-    // Returns true when camera has (sort of) arrived to the target position
-    public bool atTargetPosition
-    {
-        get
-        {
-            float dist = Vector2.Distance(this.transform.position, this.target.transform.position);
-            return (dist < 2.0f);
-        }
-    }
-
-    // Shaking
-
-    // Cos-like transition function, take input 0..1, returns value 0..1
-    float CosTransition(float valueNormalized)
-    {
-        var valueClamped = Mathf.Clamp(valueNormalized, 0, 1);
-        return (0.5f - 0.5f * Mathf.Cos(valueClamped * Mathf.PI));
-    }
-
-    // Returns decaying value 1..0, input is 0..1
-    float ShakeAmplitude(float timeNormalized)
-    {
-        //float decayValue = Mathf.Abs(Mathf.Pow(timeNormalized - 1.0f, 2.0f));
-        //return Mathf.Clamp(0.8f*decayValue + 0.1f, 0, 1);
-        return Mathf.Clamp(Mathf.Pow(20.0f, -timeNormalized), 0, 1);
-    }
-
-    public void StartShake(float duration)
-    {
-        this.shakeNCycles = Mathf.CeilToInt(duration / FollowCameraController.shakeCycleDuration);
-        this.shakeSeriesProgess = 0;
-        this.shakeCycleProgress = 0;
-        this.shakeSeriesDuration = this.shakeNCycles * FollowCameraController.shakeCycleDuration;
-    }
-
-    void UpdateShake()
-    {
-        // Increase progress to next point
-        this.shakeCycleProgress = Mathf.Clamp(this.shakeCycleProgress + Time.deltaTime / FollowCameraController.shakeCycleDuration, 0, 1);
-        this.shakeSeriesProgess = Mathf.Clamp(this.shakeSeriesProgess + Time.deltaTime / this.shakeSeriesDuration, 0, 1);
-
-        if (this.shakeCycleProgress >= 1.0f && this.shakeNCycles != 0)
-        {
-            this.shakeNCycles--;
-            this.shakePrevOffset = this.shakeTargetOffset;
-            this.shakeTargetOffset = this.shakeNCycles == 0 ? Vector3.zero : Random.insideUnitSphere;
-            this.shakeCycleProgress = 0;            
-        }
-
-        // Update position
-        float shakeScale = 1.0f;
-        float shakeAmplitude = shakeScale * this.ShakeAmplitude(this.shakeSeriesProgess);
-        var targetPrevDifference = this.shakeTargetOffset - this.shakePrevOffset;
-        this.shakeCurrentOffset = shakeAmplitude * (this.shakePrevOffset + this.CosTransition(this.shakeCycleProgress) * targetPrevDifference);
-        this.shakeCurrentOffset.z = 0;
-        //Debug.Log($"ShakeNCycles: {this.shakeNCycles}, shakeProgress: {this.shakeCycleProgress}, prev offset: {this.shakePrevOffset}, targetOffset: {this.shakeTargetOffset}, currentOffset: {this.shakeCurrentOffset}");
     }
 }

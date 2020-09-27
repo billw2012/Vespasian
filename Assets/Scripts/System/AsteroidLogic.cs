@@ -68,7 +68,12 @@ public class AsteroidLogic : MonoBehaviour
         if (collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {
             this.Explode();
-            FindObjectOfType<FollowCameraController>().StartShake(1f);
+
+            var shakeEffect = FindObjectOfType<CameraShakeEffect>();
+            if(shakeEffect != null)
+            {
+                shakeEffect.StartShake(1f);
+            }
         }
     }
 

@@ -147,7 +147,9 @@ namespace UnityAsyncAwaitUtil
         async Task RunWwwAsync()
         {
             Debug.Log("Downloading asset bundle using WWW");
+#pragma warning disable CS0618 // Type or member is obsolete
             var bytes = (await new WWW(AssetBundleSampleUrl)).bytes;
+#pragma warning restore CS0618 // Type or member is obsolete
             Debug.Log("Downloaded " + (bytes.Length / 1024) + " kb");
         }
 
@@ -210,7 +212,9 @@ namespace UnityAsyncAwaitUtil
         async Task<byte[]> DownloadRawDataAsync(string url)
         {
             var request = UnityWebRequest.Get(url);
+#pragma warning disable CS0618 // Type or member is obsolete
             await request.Send();
+#pragma warning restore CS0618 // Type or member is obsolete
             return request.downloadHandler.data;
         }
 

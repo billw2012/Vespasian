@@ -121,6 +121,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &2087623827 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4538521788297379502, guid: 744ad02f3404f3b42aa9f779c1288a76,
+    type: 3}
+  m_PrefabInstance: {fileID: 4538521788500040430}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ca439c66cbadd40bfcd9c0992cf483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4538521788500040430
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -178,6 +190,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1257070501191445676, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 2087623827}
     - target: {fileID: 1454103272182280145, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AspectRatio
@@ -228,6 +245,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2199970727676054249, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: VelocityModule.orbitalZ.scalar
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2231085320622145556, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -251,22 +273,22 @@ PrefabInstance:
     - target: {fileID: 2377984665154261830, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2377984665154261830, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2377984665154261830, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2377984665154261830, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2824150975649377058, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
@@ -536,22 +558,22 @@ PrefabInstance:
     - target: {fileID: 5621502266107712519, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5621502266107712519, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5621502266107712519, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5621502266107712519, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
@@ -732,6 +754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SceneCommon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8498031703155474054, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: effectBaseSize
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8550543836589524218, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
