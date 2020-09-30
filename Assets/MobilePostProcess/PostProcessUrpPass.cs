@@ -316,7 +316,9 @@
                 hideFlags = HideFlags.HideAndDontSave,
                 wrapMode = TextureWrapMode.Clamp
             };
+#pragma warning disable UNT0017 // SetPixels invocation is slow
             converted3D.SetPixels(newCol);
+#pragma warning restore UNT0017 // SetPixels invocation is slow
             converted3D.Apply();
         }
     }

@@ -12,150 +12,82 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa0b569c06dce84b9fda8c6737fd636, type: 3}
   m_Name: Prototype Body Specs
   m_EditorClassIdentifier: 
-  suns:
-  - prefab: {fileID: 2701212258563464304, guid: 3f743803e9badd9458b4c4f0c93826d1,
-      type: 3}
-    probability: 0.117
-    sumWeight: 0.038550247
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-    brightness: 0
-    brightnessRange: 0
-  - prefab: {fileID: 2701212258563464304, guid: a30fdbaa752437941b0a1aa85656f1d8,
-      type: 3}
-    probability: 0.233
-    sumWeight: 0.11532125
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-    brightness: 0
-    brightnessRange: 0
-  - prefab: {fileID: 2701212258563464304, guid: 9ef3eb1dc7be1e84397eddc2571cc1c8,
-      type: 3}
-    probability: 0.497
-    sumWeight: 0.2790774
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-    brightness: 0
-    brightnessRange: 0
-  - prefab: {fileID: 2701212258563464304, guid: 5d0ca9ab15a69804190bf4d27a3c6232,
-      type: 3}
-    probability: 0.607
-    sumWeight: 0.4790774
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-    brightness: 0
-    brightnessRange: 0
-  - prefab: {fileID: 2701212258563464304, guid: 10d3e5655e8d93a4e996159662f3f21c,
-      type: 3}
-    probability: 0.714
-    sumWeight: 0.71433276
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-    brightness: 0
-    brightnessRange: 0
+  stars:
   - prefab: {fileID: 3489891667375578539, guid: 864c0faceb7b1724b873346327c126d5,
       type: 3}
-    probability: 0.757
-    sumWeight: 0.96375614
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-    brightness: 0
-    brightnessRange: 0
+    probabilityModifier: 1
+    tempMean: 0.25
+    tempStdDev: 0.5
+    massMean: 11.3
+    massStdDev: 10.2
+  - prefab: {fileID: 2701212258563464304, guid: 10d3e5655e8d93a4e996159662f3f21c,
+      type: 3}
+    probabilityModifier: 1
+    tempMean: 0.4
+    tempStdDev: 1
+    massMean: 11.3
+    massStdDev: 10.2
+  - prefab: {fileID: 2701212258563464304, guid: 5d0ca9ab15a69804190bf4d27a3c6232,
+      type: 3}
+    probabilityModifier: 1
+    tempMean: 0.52
+    tempStdDev: 1
+    massMean: 11.3
+    massStdDev: 10.2
+  - prefab: {fileID: 2701212258563464304, guid: 9ef3eb1dc7be1e84397eddc2571cc1c8,
+      type: 3}
+    probabilityModifier: 1
+    tempMean: 0.68
+    tempStdDev: 1
+    massMean: 11.3
+    massStdDev: 10.2
+  - prefab: {fileID: 2701212258563464304, guid: 3f743803e9badd9458b4c4f0c93826d1,
+      type: 3}
+    probabilityModifier: 1
+    tempMean: 0.82
+    tempStdDev: 1
+    massMean: 11.3
+    massStdDev: 10.2
+  - prefab: {fileID: 2701212258563464304, guid: a30fdbaa752437941b0a1aa85656f1d8,
+      type: 3}
+    probabilityModifier: 1
+    tempMean: 1.7
+    tempStdDev: 2
+    massMean: 11.3
+    massStdDev: 10.2
   - prefab: {fileID: 2701212258563464304, guid: 3aec86a1195a2ae4ab4ca5e9447427ec,
       type: 3}
-    probability: 0.11
-    sumWeight: 0.99999994
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-    brightness: 0
-    brightnessRange: 0
+    probabilityModifier: 1
+    tempMean: 3
+    tempStdDev: 3
+    massMean: 11.3
+    massStdDev: 10.2
   planets:
+  - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
+      type: 3}
+    probabilityModifier: 0.526
+    tempMean: 0
+    tempStdDev: 30
+    massMean: 5
+    massStdDev: 5
   - prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
       type: 3}
-    probability: 0.161
-    sumWeight: 0.09149553
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-  - prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
-      type: 3}
-    probability: 0.239
-    sumWeight: 0.22731808
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-  - prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
-      type: 3}
-    probability: 0.3156488
-    sumWeight: 0.40669978
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
+    probabilityModifier: 0.361
+    tempMean: 10
+    tempStdDev: 10
+    massMean: 7
+    massStdDev: 5
   - prefab: {fileID: 7573446184434855522, guid: d5af50c1da4da70498e66886a06aa79d,
       type: 3}
-    probability: 0.295
-    sumWeight: 0.57434684
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-  - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
+    probabilityModifier: 1
+    tempMean: 0
+    tempStdDev: 10
+    massMean: 12.6
+    massStdDev: 7.7
+  - prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
       type: 3}
-    probability: 0.749
-    sumWeight: 0.99999994
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
-  moons:
-  - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
-      type: 3}
-    probability: 1
-    sumWeight: 1
-    distance: 0
-    distanceRange: 0
-    radius: 0
-    radiusRange: 0
-    density: 0
-    densityRange: 0
+    probabilityModifier: 1
+    tempMean: 100
+    tempStdDev: 20
+    massMean: 12.6
+    massStdDev: 7.7

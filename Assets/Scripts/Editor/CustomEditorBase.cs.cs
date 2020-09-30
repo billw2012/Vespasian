@@ -24,17 +24,19 @@ public class CustomEditorBase : Editor
     public override void OnInspectorGUI()
     {
         EditorGUILayout.LabelField("Custom Editor", EditorStyles.centeredGreyMiniLabel);
-        Color cachedGuiColor = GUI.color;
-        serializedObject.Update();
-        var property = serializedObject.GetIterator();
-        var next = property.NextVisible(true);
+        var cachedGuiColor = GUI.color;
+        this.serializedObject.Update();
+        var property = this.serializedObject.GetIterator();
+        bool next = property.NextVisible(true);
         if (next)
+        {
             do
             {
                 GUI.color = cachedGuiColor;
                 this.HandleProperty(property);
             } while (property.NextVisible(false));
-        serializedObject.ApplyModifiedProperties();
+        }
+        this.serializedObject.ApplyModifiedProperties();
     }
 
     protected void HandleProperty(SerializedProperty property)
@@ -57,7 +59,7 @@ public class CustomEditorBase : Editor
     {
         var listData = this.GetReorderableList(property);
         listData.IsExpanded.target = property.isExpanded;
-        if ((!listData.IsExpanded.value && !listData.IsExpanded.isAnimating) || (!listData.IsExpanded.value && listData.IsExpanded.isAnimating))
+        if (!listData.IsExpanded.value && !listData.IsExpanded.isAnimating || !listData.IsExpanded.value && listData.IsExpanded.isAnimating)
         {
             EditorGUILayout.BeginHorizontal();
             property.isExpanded = EditorGUILayout.ToggleLeft(string.Format("{0}[]", property.displayName), property.isExpanded, EditorStyles.boldLabel);
@@ -79,7 +81,7 @@ public class CustomEditorBase : Editor
 
     protected object[] GetPropertyAttributes<T>(SerializedProperty property) where T : System.Attribute
     {
-        System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.GetField
+        var bindingFlags = System.Reflection.BindingFlags.GetField
             | System.Reflection.BindingFlags.GetProperty
             | System.Reflection.BindingFlags.IgnoreCase
             | System.Reflection.BindingFlags.Instance
@@ -89,15 +91,12 @@ public class CustomEditorBase : Editor
             return null;
         var targetType = property.serializedObject.targetObject.GetType();
         var field = targetType.GetField(property.name, bindingFlags);
-        if (field != null)
-            return field.GetCustomAttributes(typeof(T), true);
-        return null;
+        return field != null ? field.GetCustomAttributes(typeof(T), true) : null;
     }
 
     private ReorderableListProperty GetReorderableList(SerializedProperty property)
     {
-        ReorderableListProperty ret = null;
-        if (this.reorderableLists.TryGetValue(property.name, out ret))
+        if (this.reorderableLists.TryGetValue(property.name, out var ret))
         {
             ret.Property = property;
             return ret;
@@ -120,7 +119,7 @@ public class CustomEditorBase : Editor
         private SerializedProperty _property;
         public SerializedProperty Property
         {
-            get { return this._property; }
+            get => this._property;
             set
             {
                 this._property = value;
@@ -130,8 +129,10 @@ public class CustomEditorBase : Editor
 
         public ReorderableListProperty(SerializedProperty property)
         {
-            this.IsExpanded = new AnimBool(property.isExpanded);
-            this.IsExpanded.speed = 1f;
+            this.IsExpanded = new AnimBool(property.isExpanded)
+            {
+                speed = 1f
+            };
             this._property = property;
             this.CreateList();
         }
@@ -147,20 +148,21 @@ public class CustomEditorBase : Editor
             bool dragable = true, header = true, add = true, remove = true;
             this.List = new ReorderableList(this.Property.serializedObject, this.Property, dragable, header, add, remove);
             this.List.drawHeaderCallback += rect => this._property.isExpanded = EditorGUI.ToggleLeft(rect, this._property.displayName, this._property.isExpanded, EditorStyles.boldLabel);
-            this.List.onCanRemoveCallback += (list) => { return this.List.count > 0; };
-            this.List.drawElementCallback += this.drawElement;
-            this.List.elementHeightCallback += (idx) => { return Mathf.Max(EditorGUIUtility.singleLineHeight, EditorGUI.GetPropertyHeight(this._property.GetArrayElementAtIndex(idx), GUIContent.none, true)) + 4.0f; };
+            this.List.onCanRemoveCallback += list => this.List.count > 0;
+            this.List.drawElementCallback += this.DrawElement;
+            this.List.elementHeightCallback += idx => Mathf.Max(EditorGUIUtility.singleLineHeight, EditorGUI.GetPropertyHeight(this._property.GetArrayElementAtIndex(idx), GUIContent.none, true) + 4.0f);
         }
 
-        private void drawElement(Rect rect, int index, bool active, bool focused)
+        private void DrawElement(Rect rect, int index, bool active, bool focused)
         {
             if (this._property.GetArrayElementAtIndex(index).propertyType == SerializedPropertyType.Generic)
             {
-                EditorGUI.LabelField(rect, this._property.GetArrayElementAtIndex(index).displayName);
+                EditorGUI.LabelField(new Rect(rect.x + 16, rect.y, rect.width - 16, EditorGUIUtility.singleLineHeight), this._property.GetArrayElementAtIndex(index).displayName);
             }
-            //rect.height = 16;
             rect.height = EditorGUI.GetPropertyHeight(this._property.GetArrayElementAtIndex(index), GUIContent.none, true);
             rect.y += 1;
+            rect.x += 12;
+            rect.width -= 12;
             EditorGUI.PropertyField(rect, this._property.GetArrayElementAtIndex(index), GUIContent.none, true);
             this.List.elementHeight = rect.height + 4.0f;
         }
