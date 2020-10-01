@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: PostProcessUrp
   m_Shader: {fileID: 4800000, guid: 862aeb01c5d6def4194ff0384218d8ee, type: 3}
-  m_ShaderKeywords: BLOOM CHROMA FILTER LUT
+  m_ShaderKeywords: BLOOM CHROMA DISTORTION FILTER LUT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

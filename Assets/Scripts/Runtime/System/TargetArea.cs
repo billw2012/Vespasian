@@ -22,7 +22,7 @@ public class TargetArea : MonoBehaviour
     {
         if(collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {
-            this.gameLogic.WinGame();
+            //this.gameLogic.WinGame();
         }
     }
 }

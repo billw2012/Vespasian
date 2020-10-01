@@ -32,6 +32,8 @@ public class WarpController : MonoBehaviour
 
     public FollowCameraController cameraController;
 
+    public PostEffect warpPostEffect;
+
     float rotationalSpeed;
 
     // For EnterWarp
@@ -41,6 +43,11 @@ public class WarpController : MonoBehaviour
     // For ExitWarp
     float desiredSpeed;
     Vector2 direction;
+
+    void Start()
+    {
+        this.warpPostEffect.Init();
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -79,10 +86,12 @@ public class WarpController : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(0, 0, newAngle);
         this.transform.position += this.speed * Time.deltaTime * this.transform.up;
 
-        this.warpEffect.amount = this.mode == Mode.NotInWarp ? 0 : Mathf.InverseLerp(this.warpSpeed * 0.5f, this.warpSpeed, this.speed);
+        float warpEffectAmount = this.mode == Mode.NotInWarp ? 0 : Mathf.InverseLerp(this.warpSpeed * 0.5f, this.warpSpeed, this.speed);
+        this.warpEffect.amount = warpEffectAmount;
         this.warpEffect.turningAmount = Mathf.Clamp(-angleChange / 360f, -0.05f, 0.05f);
         this.warpEffect.direction = this.transform.up;
 
+        this.warpPostEffect.Update(warpEffectAmount);
 
         this.starfield.fade = this.mode == Mode.NotInWarp ? 1 : 1 - Mathf.InverseLerp(this.warpSpeed * 0.5f, this.warpSpeed * 0.75f, this.speed);
 

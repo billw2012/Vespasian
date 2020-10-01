@@ -21,8 +21,8 @@ MonoBehaviour:
     BlurMask: {fileID: 0}
     Bloom: 1
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 3.03
-    BloomDiffuse: 0.433
+    BloomAmount: 3.48
+    BloomDiffuse: 0.418
     BloomThreshold: 0.6
     BloomSoftness: 1
     LUT: 1
@@ -40,12 +40,12 @@ MonoBehaviour:
     Offset: 0
     FishEyeDistortion: 0
     GlitchAmount: 0
-    Distortion: 0
+    Distortion: 1
     LensDistortion: 0
     Vignette: 1
     VignetteColor: {r: 0.319, g: 0.319, b: 0.319, a: 1}
-    VignetteAmount: 0
-    VignetteSoftness: 0.49
+    VignetteAmount: 0.116
+    VignetteSoftness: 0.304
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,20 +1,67 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine;
 
 public class MapSystemGeneratorTestComponent : MonoBehaviour
 {
     public BodySpecs bodySpecs;
+    public MapGenerator generator;
 
     void Start()
     {
-        this.Regenerate();
+        this.mapGeneratorHash = this.MapGeneratorHash();
+        this.Generate();
     }
 
-    public void Regenerate()
+    int key;
+    string mapGeneratorHash;
+
+    public void Generate()
     {
-        var system = MapGenerator.GenerateSystem((int)(DateTime.Now.Ticks % int.MaxValue), this.bodySpecs, "test", Vector2.zero);
-        system.Load(this.gameObject);
+        this.key = (int)(DateTime.Now.Ticks % int.MaxValue);
+        this.RegenerateAsync();
+    }
+
+    public async void RegenerateAsync()
+    {
+        var system = this.generator.GenerateSystem(this.key, this.bodySpecs, "test", Vector2.zero);
+        await system.LoadAsync(this.gameObject);
+        FindObjectOfType<SimManager>().Refresh();
+    }
+
+    string MapGeneratorHash()
+    {
+        using (var sha256Hash = SHA256.Create())
+        {
+            using (var ms = new MemoryStream())
+            {
+                var bf = new DataContractSerializer(this.generator.systemParams.GetType());
+                bf.WriteObject(ms, this.generator.systemParams);
+                ms.Seek(0, SeekOrigin.Begin);
+                byte[] data = sha256Hash.ComputeHash(ms);
+                var sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                return sBuilder.ToString();
+            }
+        }
+    }
+
+    public void Update()
+    {
+        string newMapGeneratorHash = this.MapGeneratorHash();
+        if (newMapGeneratorHash != this.mapGeneratorHash)
+        {
+            this.mapGeneratorHash = newMapGeneratorHash;
+            this.RegenerateAsync();
+        }
     }
 }

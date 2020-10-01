@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -96,13 +97,15 @@ public class SolarSystem
         }
     }
 
-    public void Load(GameObject root)
+    public async Task LoadAsync(GameObject root)
     {
+        var rootBody = this.main.InstanceHierarchy(this.danger);
+        await new WaitUntil(() => rootBody.activeSelf);
+
         Unload(root);
         var systemObject = new GameObject("System");
         systemObject.transform.SetParent(root.transform, worldPositionStays: false);
 
-        var rootBody = this.main.InstanceHierarchy(this.danger);
         rootBody.transform.SetParent(systemObject.transform, worldPositionStays: false);
     }
 }

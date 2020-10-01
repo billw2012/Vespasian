@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class CameraPostEffect : MonoBehaviour
+[Serializable]
+public class PostEffect
 {
-    [Range(0, 20)]
-    public float innerRadius = 1;
-    [Range(0, 20)]
-    public float falloffRange = 3;
-
-    public Transform cameraTransform;
     public PostProcessUrp target;
 
     public enum FloatPropertyTarget
@@ -71,14 +64,8 @@ public class CameraPostEffect : MonoBehaviour
     }
     public List<ColorProperty> colorProperties;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
-        if(this.cameraTransform == null)
-        {
-            this.cameraTransform = Camera.main.transform;
-        }
-
         AnimationCurve NormalizeAnimation(AnimationCurve curve)
         {
             if (curve.keys.Length == 0)
@@ -110,38 +97,21 @@ public class CameraPostEffect : MonoBehaviour
         }
     }
 
-    bool wasInRange = false;
-    // Update is called once per frame
-    void Update()
+    public void Update(float t)
     {
-        float distance = ((Vector2)this.transform.worldToLocalMatrix.MultiplyPoint(this.cameraTransform.position)).magnitude;
-        bool inRange = distance < this.innerRadius + this.falloffRange;
-        // This makes sure we only update when we are in range, and once to completely revert them
-        // when we move out of range
-        if (this.wasInRange || inRange)
+        foreach (var p in this.colorProperties)
         {
-            float t = Mathf.Clamp01(Mathf.InverseLerp(this.innerRadius + this.falloffRange, this.innerRadius, distance));
-
-            foreach (var p in this.colorProperties)
-            {
-                var v = Color.Lerp(p.originalValue, p.targetValue, p.curve.Evaluate(t));
-                p.field.SetValue(this.target.runtimeSettings, v);
-            }
-            foreach (var p in this.floatProperties)
-            {
-                float v = Mathf.Lerp(p.originalValue, p.targetValue, p.curve.Evaluate(t));
-                p.field.SetValue(this.target.runtimeSettings, v);
-            }
+            var v = Color.Lerp(p.originalValue, p.targetValue, p.curve.Evaluate(t));
+            p.field.SetValue(this.target.runtimeSettings, v);
         }
-        this.wasInRange = inRange;
+        foreach (var p in this.floatProperties)
+        {
+            float v = Mathf.Lerp(p.originalValue, p.targetValue, p.curve.Evaluate(t));
+            p.field.SetValue(this.target.runtimeSettings, v);
+        }
     }
 
-    void OnDestroy()
-    {
-        this.ResetSettings();
-    }
-
-    void ResetSettings()
+    public void ResetSettings()
     {
         foreach (var p in this.colorProperties)
         {
@@ -152,15 +122,4 @@ public class CameraPostEffect : MonoBehaviour
             p.field?.SetValue(this.target.runtimeSettings, p.originalValue);
         }
     }
-
-#if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        Handles.color = UnityEngine.Color.yellow;
-        Handles.matrix = this.transform.localToWorldMatrix;
-        Handles.DrawWireDisc(Vector3.zero, Vector3.forward, this.innerRadius);
-        Handles.DrawWireDisc(Vector3.zero, Vector3.forward, this.innerRadius + this.falloffRange);
-        GUIUtils.Label(Vector3.up * this.innerRadius, "Postfx");
-    }
-#endif
 }

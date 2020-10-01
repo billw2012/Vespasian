@@ -19371,7 +19371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111afeeb5aee51049a9bf888620de5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1.7
+  range: 0.8
   originTransform: {fileID: 8649645052135855122}
 --- !u!54 &2438610178736772583
 Rigidbody:
@@ -19401,7 +19401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57f01e30241c534883df6a9c7ae7f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 2.2
+  range: 1.02
   originTransform: {fileID: 8649645052135855122}
 --- !u!1 &6093582211867798575
 GameObject:
@@ -19538,20 +19538,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc5321082b8f7440af9a3189199432f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  innerRadius: 1.2
-  falloffRange: 1
+  innerRadius: 0
+  falloffRange: 1.5
   cameraTransform: {fileID: 0}
-  target: {fileID: -754972587007797143, guid: 3a37e1f9b25cc8148b0a484e209c89cc, type: 2}
-  floatProperties:
-  - target: 9
-    targetValue: -0.5
-    curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
-      m_RotationOrder: 0
-  colorProperties: []
+  effect:
+    target: {fileID: -754972587007797143, guid: 3a37e1f9b25cc8148b0a484e209c89cc,
+      type: 2}
+    floatProperties:
+    - target: 9
+      targetValue: -0.5
+      curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+    colorProperties: []
 --- !u!1 &6442401090780597286
 GameObject:
   m_ObjectHideFlags: 0

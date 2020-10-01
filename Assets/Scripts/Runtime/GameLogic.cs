@@ -36,15 +36,6 @@ public class GameLogic : ScriptableObject {
         _ = this.mapComponent.JumpAsyc();
     }
 
-    public void WinGame()
-    {
-        this.uiManager.ShowWinUI();
-
-        GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = $"{this.CalculateScore()} points";
-
-        this.player.gameObject.SetActive(false);
-    }
-
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -65,21 +56,5 @@ public class GameLogic : ScriptableObject {
         this.uiManager.ShowLoseUI();
 
         this.player.gameObject.SetActive(false);
-    }
-
-    int CalculateScore()
-    {
-        int score = 0;
-
-        // 1 point for each % of fuel remaining
-        score += Mathf.FloorToInt(this.player.GetComponent<EngineComponent>().fuelCurrent * 100f);
-
-        // 1 point for each % of health remaining
-        score += Mathf.FloorToInt(this.player.GetComponent<HealthComponent>().hull * 100f);
-
-        // 0.2 point for each % of planets scanned
-        score += Mathf.FloorToInt(FindObjectsOfType<Scannable>().Select(e => e.scanProgress).Sum() * 20f);
-
-        return score;
     }
 }

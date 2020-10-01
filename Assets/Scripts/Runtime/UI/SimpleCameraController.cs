@@ -10,10 +10,10 @@ using UnityEngine;
 public class SimpleCameraController : MonoBehaviour
 {
     public float boost = 3.5f;
-    [Tooltip("Minimum view size"), Range(5, 40)]
-    public float sizeMin = 10f;
-    [Tooltip("Maximum view size"), Range(40, 200)]
-    public float sizeMax = 100f;
+    //[Tooltip("Minimum view size"), Range(5, 40)]
+    //public float sizeMin = 10f;
+    //[Tooltip("Maximum view size"), Range(40, 200)]
+    //public float sizeMax = 100f;
     [Tooltip("Scroll wheel sensitivity"), Range(0.01f, 3f)]
     public float scrollWheelSensitivity = 1f;
 
@@ -96,7 +96,7 @@ public class SimpleCameraController : MonoBehaviour
 
             float size = this.GetComponent<Camera>().orthographicSize;
 
-            this.GetComponent<Camera>().orthographicSize = Mathf.Clamp(size + -Input.GetAxis("Mouse ScrollWheel") * size * this.scrollWheelSensitivity, this.sizeMin, this.sizeMax);
+            this.GetComponent<Camera>().orthographicSize = Mathf.Max(size + -Input.GetAxis("Mouse ScrollWheel") * size * this.scrollWheelSensitivity, 0.1f);
         }
         
         // Framerate-independent interpolation

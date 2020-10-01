@@ -45,7 +45,7 @@ public class TargetAreaTimed : MonoBehaviour
             this.spriteRenderer.color = new Color(red, green, 0);
             if (this.durationCurrent > this.duration)
             {
-                this.gameLogic.WinGame();
+                //this.gameLogic.WinGame();
             }
         } else
         {

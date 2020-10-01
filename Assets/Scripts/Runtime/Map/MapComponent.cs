@@ -13,6 +13,9 @@ public class MapComponent : MonoBehaviour
 
     public Map map;
 
+    public GUILayerManager uiManager;
+
+    [NonSerialized]
     public SolarSystem currentSystem;
 
     Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
@@ -29,7 +32,7 @@ public class MapComponent : MonoBehaviour
 
     void Start()
     {
-        this.LoadRandomSystem();
+        _ = this.LoadRandomSystemAsync();
     }
 
     void Update()
@@ -58,16 +61,18 @@ public class MapComponent : MonoBehaviour
     {
         Assert.IsNotNull(this.GetJumpTarget());
 
-        await this.Jump(this.GetJumpTarget());
+        await this.JumpAsync(this.GetJumpTarget());
     }
 
-    public async Task Jump(SolarSystem target)
+    public async Task JumpAsync(SolarSystem target)
     {
         if(this.currentSystem == target)
         {
             Debug.Log("Jumped to current system");
             return;
         }
+
+        this.uiManager.HideUI();
 
         // Player enter warp
 
@@ -113,7 +118,7 @@ public class MapComponent : MonoBehaviour
 
         // Destroy old system, update player position and create new one
         this.currentSystem = target;
-        this.currentSystem.Load(this.gameObject);
+        await this.currentSystem.LoadAsync(this.gameObject);
 
         this.jumpTargets = new Lazy<List<SolarSystem>>(() => 
             this.map.GetJumpTargets(this.currentSystem)
@@ -138,10 +143,12 @@ public class MapComponent : MonoBehaviour
 
         // Re-enable player input
         this.player.GetComponent<PlayerController>().enabled = true;
+
+        this.uiManager.ShowPlayUI();
     }
 
-    public void LoadRandomSystem()
+    public async Task LoadRandomSystemAsync()
     {
-        _ = this.Jump(this.map.systems[Random.Range(0, this.map.systems.Count)]);
+        await this.JumpAsync(this.map.systems[Random.Range(0, this.map.systems.Count)]);
     }
 }

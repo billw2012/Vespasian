@@ -1,0 +1,17 @@
+{
+    "name": "CatlikeCoding.SDFToolkit.Editor",
+    "references": [
+        "GUID:400f46b7799e52a47bcd2aaeced499fd"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

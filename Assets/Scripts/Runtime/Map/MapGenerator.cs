@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu]
 public class MapGenerator : ScriptableObject
 {
-
     [Range(1, 200)]
     public int numberOfSystems = 50;
     //public int relaxIterations = 100;
@@ -28,15 +27,75 @@ public class MapGenerator : ScriptableObject
     [Range(0.1f, 1f)]
     public float heightRatio = 1;
 
-    public static SolarSystem GenerateSystem(int randomKey, BodySpecs bodySpecs, string name, Vector2 position)
+    [Serializable]
+    public class WeightedRandom
+    {
+        public AnimationCurve weighting = AnimationCurve.Linear(0, 0, 1, 1);
+        public bool gaussian = false;
+        public float min;
+        public float max;
+        public float Evaluate(float randomValue) => this.gaussian ? MathX.RandomGaussian(this.min, this.max) : Mathf.Lerp(this.min, this.max, this.weighting.Evaluate(randomValue));
+    }
+
+    [Serializable]
+    public class SystemGeneratorParameters
+    {
+        public float massDistributionFunctionSampleRange = 10f;
+        [Tooltip("Mass distribution function median")]
+        public WeightedRandom massDistributionMedianRandom = new WeightedRandom { min = 0.1f, max = 2.5f };
+        [Tooltip("Mass distribution function spread")]
+        public WeightedRandom massDistributionSpreadRandom = new WeightedRandom { min = 0.1f, max = 0.9f };
+
+        [Tooltip("Star radius")]
+        public WeightedRandom starRadiusRandom = new WeightedRandom { min = 5, max = 30 };
+        [Tooltip("Star temperature in units of 10000 kelvin")]
+        public WeightedRandom starTempRandom = new WeightedRandom { min = 0.4f, max = 5f };
+        [Tooltip("Ratio of star mass to star radius")]
+        public WeightedRandom starMassRadiusRatioRandom = new WeightedRandom { min = 0.5f, max = 1.5f, gaussian = true };
+        [Tooltip("Ratio of system size to star mass")]
+        public WeightedRandom systemSizeStarMassRatioRandom = new WeightedRandom { min = 1f, max = 15f, gaussian = true };
+        [Tooltip("Ratio of system mass to star mass")]
+        public WeightedRandom systemMassStarMassRatioRandom = new WeightedRandom { min = 0f, max = 1f, gaussian = true };
+
+        public int maxPlanets = 10;
+        [Tooltip("Start orbit ratio")]
+        public WeightedRandom startOrbitRatioRandom = new WeightedRandom { min = 0f, max = 0.1f };
+        [Tooltip("Next orbit radius base"), Range(0.5f, 3f)]
+        public float nextOrbitRadiusBase = 2f;
+        [Tooltip("Next orbit radius power")]
+        public WeightedRandom nextOrbitRadiusPowerRandom = new WeightedRandom { min = 0.5f, max = 1.25f, gaussian = true };
+
+        [Tooltip("How much gravitational force effects eccentricity"), Range(0, 3)]
+        public float eccentricityForceFactor = 1;
+        [Tooltip("How much nearness to the system rim effects eccentricity"), Range(0, 3)]
+        public float eccentricityRimOrbitFactor = 1;
+        [Tooltip("How eccentric an orbit can be")]
+        public WeightedRandom eccentricityAmountRandom = new WeightedRandom { min = 0f, max = 1f };
+
+        [Tooltip("How much mass varies from the exact amount described by the mass distribution function")]
+        public WeightedRandom massVarianceRandom = new WeightedRandom { min = 0.75f, max = 1.25f, gaussian = true };
+
+        [Range(0.1f, 20f)]
+        public float minPlanetRadius = 3;
+        [Tooltip("Ratio of planet mass to planet radius")]
+        public WeightedRandom planetMassRadiusRatioRandom = new WeightedRandom { min = 0.5f, max = 1.5f, gaussian = true };
+        [Tooltip("Ratio of moon system size to planet mass")]
+        public WeightedRandom moonSystemSizePlanetMassRatioRandom = new WeightedRandom { min = 0.5f, max = 1.5f, gaussian = true };
+        [Tooltip("Ratio of moon system mass to planet mass")]
+        public WeightedRandom moonSystemMassPlanetMassRatioRandom = new WeightedRandom { min = 0f, max = 1f, gaussian = true };
+    };
+
+    public SystemGeneratorParameters systemParams;
+
+    public SolarSystem GenerateSystem(int randomKey, BodySpecs bodySpecs, string name, Vector2 position)
     {
         Random.InitState(randomKey);
 
         var sys = new SolarSystem { name = name, position = position };
 
-        float starRadius = MathX.RandomGaussian(5, 30); // What is the actual correct weighting function for star mass? Probably log normal?
-        float starTemp = MathX.RandomGaussian(0.4f, 5); // 4000K to 50000K
-        float starMass = starRadius * MathX.RandomGaussian(0.5f, 1.5f);
+        float starRadius = this.systemParams.starRadiusRandom.Evaluate(Random.value);
+        float starTemp = this.systemParams.starTempRandom.Evaluate(Random.value); //MathX.RandomGaussian(starTempMin, starTempMax); // 4000K to 50000K
+        float starMass = starRadius * this.systemParams.starMassRadiusRatioRandom.Evaluate(Random.value);
 
         var mainSpec = bodySpecs.RandomStar(starTemp, starMass);
         sys.main = new Body
@@ -47,14 +106,14 @@ public class MapGenerator : ScriptableObject
             temp = starTemp,
             mass = starMass,
         };
-        GenerateBodies(
+        this.GenerateBodies(
             bodySpecs,
             sys.main,
             sys.main,
-            systemSize: sys.main.mass * MathX.RandomGaussian(1f, 15f),
-            desiredTotalMass: sys.main.mass * MathX.RandomGaussian(0f, 1f),
-            massDistributionMedian: Random.Range(0.1f, 2.5f),
-            massDistributionSpread: Random.Range(0.1f, 0.9f));
+            systemSize: sys.main.mass * this.systemParams.systemSizeStarMassRatioRandom.Evaluate(Random.value),
+            desiredTotalMass: sys.main.mass * this.systemParams.systemMassStarMassRatioRandom.Evaluate(Random.value),
+            massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(Random.value),
+            massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(Random.value));
 
         //int planets = Random.Range(0, 10);
 
@@ -94,27 +153,37 @@ public class MapGenerator : ScriptableObject
     // Bodies are created by assuming a Log Normal distribution of mass wrt distance from their primary.
     // We use the CDF to slice the mass function into sections for each planet
     // See https://www.desmos.com/calculator/xfskhgkr9l
-    private static void GenerateBodies(BodySpecs bodySpecs, Body primaryStar, Body primary, float systemSize, float desiredTotalMass, float massDistributionMedian, float massDistributionSpread, bool allowMoons = true)
+    private void GenerateBodies(BodySpecs bodySpecs, Body primaryStar, Body primary, float systemSize, float desiredTotalMass, float massDistributionMedian, float massDistributionSpread, bool allowMoons = true)
     {
         // We will sample this in a range of 0 - 10
         var massDistribution = new MathX.LogNormal(massDistributionMedian, massDistributionSpread);
 
-        float orbitalDistance = primary.radius + systemSize * MathX.RandomGaussian(0, 0.1f);
+        float orbitalDistance = primary.radius + systemSize * this.systemParams.startOrbitRatioRandom.Evaluate(Random.value);
         float totalMass = 0;
 
-        while (orbitalDistance < systemSize && totalMass < desiredTotalMass)
+        for (int i = 0; i < this.systemParams.maxPlanets && orbitalDistance < systemSize && totalMass < desiredTotalMass; i++)
         {
-            float planetMass = massDistribution.CDF(10f * orbitalDistance * MathX.RandomGaussian(0.75f, 1.25f) / systemSize) * desiredTotalMass - totalMass;
+            float planetMass = massDistribution.CDF(this.systemParams.massDistributionFunctionSampleRange * orbitalDistance * this.systemParams.massVarianceRandom.Evaluate(Random.value) / systemSize) * desiredTotalMass - totalMass;
             float planetTemp = BodySpecs.PlanetTemp(orbitalDistance, primaryStar.radius, primaryStar.temp);
             var planetSpec = bodySpecs.RandomPlanet(planetTemp, planetMass);
 
 
-            float radius = 3 + planetMass * MathX.RandomGaussian(0.5f, 1.5f);
+            float radius = 3 + planetMass * this.systemParams.planetMassRadiusRatioRandom.Evaluate(Random.value);
             orbitalDistance += radius;
-            float moonSystemSize = planetMass * MathX.RandomGaussian(0f, 2.5f);
+            float moonSystemSize = allowMoons? planetMass * this.systemParams.moonSystemSizePlanetMassRatioRandom.Evaluate(Random.value) : 0;
             orbitalDistance += moonSystemSize;
 
-            float orbitalDistance2 = orbitalDistance * MathX.RandomGaussian(1, 1 + Mathf.Pow(1 - (systemSize - orbitalDistance) / systemSize, 4));
+            // Eccentricity of orbit controlled by gravitational force (higher = less eccentric) and own mass (higher = less eccentric), and distance from edge of system (higher = less eccentric
+            // eccentricity = (apoapsis - periapsis) / (apoapsis + periapsis)
+            // apoapsis = eccentricity * periapsis / (1 - eccentricity)
+            float EccentricChance()
+            {
+                float force = primary.mass * planetMass / Mathf.Pow(orbitalDistance, 2);
+                float distanceFromEdgeOfSystem = (systemSize - orbitalDistance) / systemSize;
+                return Mathf.Clamp01(1 - Mathf.Pow(this.systemParams.eccentricityForceFactor * force + this.systemParams.eccentricityRimOrbitFactor * distanceFromEdgeOfSystem, 1f / 3f));
+            }
+
+            float orbitalDistance2 = orbitalDistance * (1 + this.systemParams.eccentricityAmountRandom.Evaluate(Random.value) * EccentricChance());
 
             var planet = new Body
             {
@@ -133,17 +202,20 @@ public class MapGenerator : ScriptableObject
                 temp = planetTemp
             };
 
-            GenerateBodies(
-                bodySpecs,
-                primaryStar,
-                planet,
-                systemSize: moonSystemSize,
-                desiredTotalMass: planet.mass * MathX.RandomGaussian(0f, 0.5f),
-                massDistributionMedian: Random.Range(0.1f, 2.5f),
-                massDistributionSpread: Random.Range(0.1f, 0.9f),
-                allowMoons: false);
+            if (allowMoons)
+            {
+                this.GenerateBodies(
+                    bodySpecs,
+                    primaryStar,
+                    planet,
+                    systemSize: moonSystemSize,
+                    desiredTotalMass: planet.mass * this.systemParams.moonSystemMassPlanetMassRatioRandom.Evaluate(Random.value),
+                    massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(Random.value),
+                    massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(Random.value),
+                    allowMoons: false);
+            }
 
-            orbitalDistance = (orbitalDistance2 + radius + moonSystemSize) * Mathf.Pow(2, MathX.RandomGaussian(0.5f, 1.25f));
+            orbitalDistance = (orbitalDistance2 + radius + moonSystemSize) * Mathf.Max(1, Mathf.Pow(this.systemParams.nextOrbitRadiusBase, this.systemParams.nextOrbitRadiusPowerRandom.Evaluate(Random.value)));
             primary.children.Add(planet);
             totalMass += planetMass;
         }
@@ -171,7 +243,7 @@ public class MapGenerator : ScriptableObject
             char RandomLetter() => (char)((int)'A' + Random.Range(0, 'Z' - 'A'));
             string name = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
 
-            map.systems.Add(GenerateSystem(Random.Range(0, int.MaxValue), bodySpecs, name, position));
+            map.systems.Add(this.GenerateSystem(Random.Range(0, int.MaxValue), bodySpecs, name, position));
         }
 
         // Add the links
