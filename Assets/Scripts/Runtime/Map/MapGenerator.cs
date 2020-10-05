@@ -28,16 +28,6 @@ public class MapGenerator : ScriptableObject
     public float heightRatio = 1;
 
     [Serializable]
-    public class WeightedRandom
-    {
-        public AnimationCurve weighting = AnimationCurve.Linear(0, 0, 1, 1);
-        public bool gaussian = false;
-        public float min;
-        public float max;
-        public float Evaluate(float randomValue) => this.gaussian ? MathX.RandomGaussian(this.min, this.max) : Mathf.Lerp(this.min, this.max, this.weighting.Evaluate(randomValue));
-    }
-
-    [Serializable]
     public class SystemGeneratorParameters
     {
         public float massDistributionFunctionSampleRange = 10f;
@@ -97,7 +87,7 @@ public class MapGenerator : ScriptableObject
         float starTemp = this.systemParams.starTempRandom.Evaluate(Random.value); //MathX.RandomGaussian(starTempMin, starTempMax); // 4000K to 50000K
         float starMass = starRadius * this.systemParams.starMassRadiusRatioRandom.Evaluate(Random.value);
 
-        var mainSpec = bodySpecs.RandomStar(starTemp, starMass);
+        var mainSpec = bodySpecs.RandomStar();
         sys.main = new Body
         {
             randomKey = Random.Range(0, int.MaxValue),
@@ -114,39 +104,6 @@ public class MapGenerator : ScriptableObject
             desiredTotalMass: sys.main.mass * this.systemParams.systemMassStarMassRatioRandom.Evaluate(Random.value),
             massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(Random.value),
             massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(Random.value));
-
-        //int planets = Random.Range(0, 10);
-
-        ////float radius = 
-        //for (int i = 0; i < planets; i++)
-        //{
-        //    massDistribution.
-        //}
-
-        //// Place holder system generation.
-        //// TODO: make this way better lol
-        //// Probably we want a set of different generators for certain types of systems?
-        //int planets = Random.Range(0, 7);
-        //float minRadius = mainSpec.distance + mainSpec.distanceRange + 10;
-        //float orbitDistance = Random.Range(minRadius, minRadius * 2);
-        //for (int i = 0; i < planets; i++)
-        //{
-        //    var planetSpec = bodySpecs.RandomPlanet();
-        //    var planet = new Body
-        //    {
-        //        prefab = planetSpec.prefab,
-        //        parameters = new OrbitParameters
-        //        {
-        //            periapsis = orbitDistance,
-        //            apoapsis = orbitDistance
-        //        }
-        //    };
-
-        //    sys.main.children.Add(planet);
-
-        //    orbitDistance *= Random.Range(1.25f, 2.25f);
-        //}
-
         return sys;
     }
 
@@ -161,21 +118,18 @@ public class MapGenerator : ScriptableObject
         float orbitalDistance = primary.radius + systemSize * this.systemParams.startOrbitRatioRandom.Evaluate(Random.value);
         float totalMass = 0;
 
+        var direction = Random.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise;
+
         for (int i = 0; i < this.systemParams.maxPlanets && orbitalDistance < systemSize && totalMass < desiredTotalMass; i++)
         {
             float planetMass = massDistribution.CDF(this.systemParams.massDistributionFunctionSampleRange * orbitalDistance * this.systemParams.massVarianceRandom.Evaluate(Random.value) / systemSize) * desiredTotalMass - totalMass;
-            float planetTemp = BodySpecs.PlanetTemp(orbitalDistance, primaryStar.radius, primaryStar.temp);
-            var planetSpec = bodySpecs.RandomPlanet(planetTemp, planetMass);
 
-
-            float radius = 3 + planetMass * this.systemParams.planetMassRadiusRatioRandom.Evaluate(Random.value);
+            float radius = this.systemParams.minPlanetRadius + planetMass * this.systemParams.planetMassRadiusRatioRandom.Evaluate(Random.value);
             orbitalDistance += radius;
             float moonSystemSize = allowMoons? planetMass * this.systemParams.moonSystemSizePlanetMassRatioRandom.Evaluate(Random.value) : 0;
-            orbitalDistance += moonSystemSize;
 
+            orbitalDistance += moonSystemSize;
             // Eccentricity of orbit controlled by gravitational force (higher = less eccentric) and own mass (higher = less eccentric), and distance from edge of system (higher = less eccentric
-            // eccentricity = (apoapsis - periapsis) / (apoapsis + periapsis)
-            // apoapsis = eccentricity * periapsis / (1 - eccentricity)
             float EccentricChance()
             {
                 float force = primary.mass * planetMass / Mathf.Pow(orbitalDistance, 2);
@@ -185,17 +139,18 @@ public class MapGenerator : ScriptableObject
 
             float orbitalDistance2 = orbitalDistance * (1 + this.systemParams.eccentricityAmountRandom.Evaluate(Random.value) * EccentricChance());
 
+            float planetTemp = bodySpecs.PlanetTemp(orbitalDistance + primary.parameters.semiMajorAxis, primaryStar.radius, primaryStar.temp);
             var planet = new Body
             {
                 randomKey = Random.Range(0, int.MaxValue),
-                prefab = planetSpec.prefab,
+                prefab = bodySpecs.RandomPlanet(planetMass, planetTemp).prefab,
                 parameters = new OrbitParameters
                 {
                     apoapsis = orbitalDistance2,
                     periapsis = orbitalDistance,
                     angle = Random.Range(0f, 360f),
                     offset = Random.Range(0f, 360f),
-                    direction = Random.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise,
+                    direction = direction,
                 },
                 radius = radius,
                 mass = planetMass,

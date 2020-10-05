@@ -12,82 +12,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa0b569c06dce84b9fda8c6737fd636, type: 3}
   m_Name: Prototype Body Specs
   m_EditorClassIdentifier: 
+  planetTempMultiplier: 100
+  planetMassMultiplier: 3.96
+  tempFalloffRate: 1
   stars:
-  - prefab: {fileID: 3489891667375578539, guid: 864c0faceb7b1724b873346327c126d5,
-      type: 3}
-    probabilityModifier: 1
-    tempMean: 0.25
-    tempStdDev: 0.5
-    massMean: 11.3
-    massStdDev: 10.2
-  - prefab: {fileID: 2701212258563464304, guid: 10d3e5655e8d93a4e996159662f3f21c,
-      type: 3}
-    probabilityModifier: 1
-    tempMean: 0.4
-    tempStdDev: 1
-    massMean: 11.3
-    massStdDev: 10.2
-  - prefab: {fileID: 2701212258563464304, guid: 5d0ca9ab15a69804190bf4d27a3c6232,
-      type: 3}
-    probabilityModifier: 1
-    tempMean: 0.52
-    tempStdDev: 1
-    massMean: 11.3
-    massStdDev: 10.2
-  - prefab: {fileID: 2701212258563464304, guid: 9ef3eb1dc7be1e84397eddc2571cc1c8,
-      type: 3}
-    probabilityModifier: 1
-    tempMean: 0.68
-    tempStdDev: 1
-    massMean: 11.3
-    massStdDev: 10.2
-  - prefab: {fileID: 2701212258563464304, guid: 3f743803e9badd9458b4c4f0c93826d1,
-      type: 3}
-    probabilityModifier: 1
-    tempMean: 0.82
-    tempStdDev: 1
-    massMean: 11.3
-    massStdDev: 10.2
-  - prefab: {fileID: 2701212258563464304, guid: a30fdbaa752437941b0a1aa85656f1d8,
-      type: 3}
-    probabilityModifier: 1
-    tempMean: 1.7
-    tempStdDev: 2
-    massMean: 11.3
-    massStdDev: 10.2
-  - prefab: {fileID: 2701212258563464304, guid: 3aec86a1195a2ae4ab4ca5e9447427ec,
-      type: 3}
-    probabilityModifier: 1
-    tempMean: 3
-    tempStdDev: 3
-    massMean: 11.3
-    massStdDev: 10.2
+  - prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
+    probability: 1
   planets:
-  - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
+  - prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
       type: 3}
-    probabilityModifier: 0.526
-    tempMean: 0
-    tempStdDev: 30
-    massMean: 5
-    massStdDev: 5
+    priority: 0
+    probability: 1
+    minMass: 0
+    maxMass: 6
+    minTemp: -Infinity
+    maxTemp: Infinity
   - prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
       type: 3}
-    probabilityModifier: 0.361
-    tempMean: 10
-    tempStdDev: 10
-    massMean: 7
-    massStdDev: 5
-  - prefab: {fileID: 7573446184434855522, guid: d5af50c1da4da70498e66886a06aa79d,
+    priority: 0
+    probability: 0.106
+    minMass: 0
+    maxMass: 6
+    minTemp: 6.53
+    maxTemp: 40.4
+  - prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
       type: 3}
-    probabilityModifier: 1
-    tempMean: 0
-    tempStdDev: 10
-    massMean: 12.6
-    massStdDev: 7.7
+    priority: 0
+    probability: 1
+    minMass: 6
+    maxMass: Infinity
+    minTemp: -Infinity
+    maxTemp: Infinity
   - prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
       type: 3}
-    probabilityModifier: 1
-    tempMean: 100
-    tempStdDev: 20
-    massMean: 12.6
-    massStdDev: 7.7
+    priority: 1
+    probability: 1
+    minMass: 6
+    maxMass: Infinity
+    minTemp: 67.6
+    maxTemp: Infinity
+  - prefab: {fileID: 7573446184434855522, guid: a90148a3f88063548bd7166c9acc32cc,
+      type: 3}
+    priority: 0
+    probability: 1
+    minMass: 6
+    maxMass: Infinity
+    minTemp: 100
+    maxTemp: Infinity
+  - prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
+      type: 3}
+    priority: 0
+    probability: 1
+    minMass: 6
+    maxMass: Infinity
+    minTemp: -Infinity
+    maxTemp: Infinity

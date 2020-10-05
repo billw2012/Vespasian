@@ -15,12 +15,12 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
 
     void Start()
     {
-        this.mapGeneratorHash = this.MapGeneratorHash();
+        this.dataHash = HashObject(this.bodySpecs) + HashObject(this.generator);
         this.Generate();
     }
 
     int key;
-    string mapGeneratorHash;
+    string dataHash;
 
     public void Generate()
     {
@@ -35,14 +35,14 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
         FindObjectOfType<SimManager>().Refresh();
     }
 
-    string MapGeneratorHash()
+    static string HashObject(object o)
     {
         using (var sha256Hash = SHA256.Create())
         {
             using (var ms = new MemoryStream())
             {
-                var bf = new DataContractSerializer(this.generator.systemParams.GetType());
-                bf.WriteObject(ms, this.generator.systemParams);
+                var bf = new DataContractSerializer(o.GetType());
+                bf.WriteObject(ms, o);
                 ms.Seek(0, SeekOrigin.Begin);
                 byte[] data = sha256Hash.ComputeHash(ms);
                 var sBuilder = new StringBuilder();
@@ -57,10 +57,10 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
 
     public void Update()
     {
-        string newMapGeneratorHash = this.MapGeneratorHash();
-        if (newMapGeneratorHash != this.mapGeneratorHash)
+        string newHash = HashObject(this.bodySpecs) + HashObject(this.generator);
+        if (newHash != this.dataHash)
         {
-            this.mapGeneratorHash = newMapGeneratorHash;
+            this.dataHash = newHash;
             this.RegenerateAsync();
         }
     }

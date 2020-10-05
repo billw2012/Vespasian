@@ -47,15 +47,31 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 07e4c8a5145fa5b44bc597a32c8d47b6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0a4925556ad74844a8c918c73429054a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4fcde08f1ac2ca741990aa05a5d58ae8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudAlbedo:
+        m_Texture: {fileID: 2800000, guid: 3d9f9474b16f7fe4fa7b27395a592c76, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudEmissive:
+        m_Texture: {fileID: 2800000, guid: 8e2dd3df2bfa5224b9d7dfaa63bc7e2e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudMetallic:
+        m_Texture: {fileID: 2800000, guid: aa4e507bcdc41e54382fee9fe18895b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudNormal:
+        m_Texture: {fileID: 2800000, guid: b5c0fa572f9e9854692e8e94ed929a8e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 913fcb509f1208843bd158e459383a0a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9ec0e5893d0906d4eb2febefa5caa9ea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -63,11 +79,31 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: f8c9a3454d965e84ca2ec690f0159ce5, type: 3}
+        m_Texture: {fileID: 2800000, guid: eb6000d26d06607468f558c3cb1fcbb9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowAlbedo:
+        m_Texture: {fileID: 2800000, guid: 8df98613fc40d3a43a147826904a226b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowEmissive:
+        m_Texture: {fileID: 2800000, guid: 72b8739a22f05a348afc3d3d37b12f76, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowMap:
+        m_Texture: {fileID: 2800000, guid: 0badff25e70a87a4f92f6dd440bcedb0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowMetallic:
+        m_Texture: {fileID: 2800000, guid: 6ce1a8a3b1f101041925f531b01c1de3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowNormal:
+        m_Texture: {fileID: 2800000, guid: 7054322291345814585cd317fe3d8b56, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -79,15 +115,17 @@ Material:
     - Vector1_5318E3EE: 5.36
     - Vector1_E5DF01C7: 0.62
     - Vector1_EFC38F4A: 4.71
+    - _AlbedoHue: 0
     - _AlphaClip: 0
+    - _AtmosphereEmissiveStrength: 0.094
     - _Blend: 0
-    - _BumpScale: 1
+    - _BumpScale: 0.268
     - _Cull: 2
     - _Cutoff: 0.515
     - _DstBlend: 0
     - _EnvironmentReflections: 0
-    - _FresnelFalloff: 5.97
-    - _FresnelStrength: 2.22
+    - _FresnelFalloff: 3.24
+    - _FresnelStrength: 1.94
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -95,8 +133,10 @@ Material:
     - _OcclusionStrength: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.29
+    - _Smoothness: 0.102
     - _SmoothnessTextureChannel: 1
+    - _SnowAmount: 0.472
+    - _SnowCover: 0.5
     - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _Surface: 0
@@ -104,8 +144,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_4B1F1401: {r: 2.7064166, g: 3.2388265, b: 4.237095, a: 1}
-    - _AtmosphereColor: {r: 1.5392668, g: 1.8638742, b: 1.9999998, a: 1}
+    - _AtmosphereColor: {r: 1.3993074, g: 1.6924057, b: 1.8058629, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.213, g: 0.213, b: 0.213, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}

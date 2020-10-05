@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class BodyGenerator : MonoBehaviour
 {
@@ -14,8 +16,13 @@ public abstract class BodyGenerator : MonoBehaviour
     //[Tooltip("Density range"), Range(0, 5)]
     //public float densityRange = 1.4f;
 
+    [NonSerialized]
+    public Body body;
+
     public void Init(Body body, float danger)
     {
+        this.body = body;
+
         Random.InitState(body.randomKey);
 
         // Orbit setup
@@ -24,8 +31,7 @@ public abstract class BodyGenerator : MonoBehaviour
         // Body characteristics
         var bodyLogic = this.GetComponent<BodyLogic>();
         bodyLogic.radius = body.radius;
-        bodyLogic.dayPeriod = MathX.RandomGaussian(1, 5 * body.mass) * Mathf.Sign(Random.value - 0.5f);
-        bodyLogic.geometry.localRotation = Quaternion.Euler(MathX.RandomGaussian(-90f, 90f), 0, 0);
+        bodyLogic.dayPeriod = MathX.RandomGaussian(1, 10 * body.mass) * Mathf.Sign(Random.value - 0.5f);
 
         // Gravity
         var gravitySource = this.GetComponent<GravitySource>();

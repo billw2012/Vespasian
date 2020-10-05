@@ -1,4 +1,12 @@
-﻿
+﻿#ifdef UNIVERSAL_LIGHTING_INCLUDED
+half3 BackLightingPhysicallyBased(BRDFData brdfData, half3 lightColor, half3 lightDirectionWS, half lightAttenuation, half3 normalWS, half3 viewDirectionWS)
+{
+	half NdotL = saturate(dot(normalWS, -lightDirectionWS));
+	half3 radiance = lightColor * half3(0.5, 0.5, 1) * (lightAttenuation * NdotL);
+	return DirectBDRF(brdfData, normalWS, -lightDirectionWS, viewDirectionWS) * radiance;
+}
+#endif
+
 void PBR_ZeroAttenuation_half(half3 Albedo,
 	half Metallic,
 	half3 Specular,
@@ -22,6 +30,7 @@ void PBR_ZeroAttenuation_half(half3 Albedo,
 	{
 		Light light = GetAdditionalLight(lightIndex, PositionWS);
 		color += LightingPhysicallyBased(brdfData, light.color, light.direction, 1, NormalWS, ViewDirectionWS);
+		color += BackLightingPhysicallyBased(brdfData, light.color, light.direction, 1, NormalWS, ViewDirectionWS);
 	}
 
 	color += Emission;

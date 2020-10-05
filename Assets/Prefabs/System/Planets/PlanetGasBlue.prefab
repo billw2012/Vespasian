@@ -1,30 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3271822821825398960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8532019853912812199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c4a7dd0e8f2804896625e20817ee3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  innerRadius: 0.63
-  width: 0.5
-  quality: 1
-  material: {fileID: 2100000, guid: 7e20976ff349c55479de67d151f1419f, type: 2}
-  color: {r: 2.0026178, g: 2.0993075, b: 2.670157, a: 1}
-  emissive: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-  saturation: 1
-  contrast: 1
-  coloration: 0.5
-  patternSelect: 0.357
-  patternOffset: 0.203
-  ringParticlePrefab: {fileID: 5665445626997498490, guid: d5400803bb5e34a4ca182e8ccd3784c0,
-    type: 3}
 --- !u!1001 &4236249919827869483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,7 +69,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 5099f8b1c8ec50741b7017127c732a90, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2318905709148006584, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -108,8 +83,13 @@ PrefabInstance:
     - target: {fileID: 3768597765047173929, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: radius
-      value: 3.94
+      value: 1.9
       objectReference: {fileID: 0}
+    - target: {fileID: 5076257171360282820, guid: bb7acb2ed8858c243ae801a3c0997461,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 522ee3b65454d4242995dde2f8baa1fd, type: 2}
     - target: {fileID: 5180877544364183350, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -185,21 +165,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6213087166863147947, guid: bb7acb2ed8858c243ae801a3c0997461,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6213087166863147947, guid: bb7acb2ed8858c243ae801a3c0997461,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6213087166863147947, guid: bb7acb2ed8858c243ae801a3c0997461,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.9
+      objectReference: {fileID: 0}
     - target: {fileID: 6317706341708199001, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aecb9f98999854d46b2e5f5bb9ea596d, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8256936986849645567, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: parameters.mass
-      value: 12.192207
+      value: 2.8352873
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb7acb2ed8858c243ae801a3c0997461, type: 3}
---- !u!1 &8532019853912812199 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5525349402334483852, guid: bb7acb2ed8858c243ae801a3c0997461,
-    type: 3}
-  m_PrefabInstance: {fileID: 4236249919827869483}
-  m_PrefabAsset: {fileID: 0}

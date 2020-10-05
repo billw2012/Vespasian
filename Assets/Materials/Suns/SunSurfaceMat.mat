@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_29A5517E:
-        m_Texture: {fileID: 2800000, guid: 543c22296a23f554c81a9dbf51428893, type: 3}
+        m_Texture: {fileID: 2800000, guid: bcccc136069f27240be73a44f3d454c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_4CEC9766:
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveTexture:
-        m_Texture: {fileID: 2800000, guid: 70e9b7462e94977428fdf079d573e87c, type: 3}
+        m_Texture: {fileID: 2800000, guid: bcccc136069f27240be73a44f3d454c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -64,14 +64,14 @@ Material:
     - Vector1_1EC2EDF7: 1.62
     - Vector1_5B42EA71: 3
     - Vector1_7CDE5BC2: 1
-    - Vector1_9E1C62F7: 0.3
+    - Vector1_9E1C62F7: 0.5
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
     - _DstBlend: 0
-    - _EmissiveFactor: 1.68
+    - _EmissiveFactor: 3
     - _EnvironmentReflections: 0
     - _FresnelFactor: 1.25
     - _FresnelPower: 1
