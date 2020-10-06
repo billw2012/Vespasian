@@ -124,8 +124,8 @@ Material:
     - _Cutoff: 0.515
     - _DstBlend: 0
     - _EnvironmentReflections: 0
-    - _FresnelFalloff: 3.24
-    - _FresnelStrength: 1.94
+    - _FresnelFalloff: 8.33
+    - _FresnelStrength: 5.64
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -144,7 +144,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_4B1F1401: {r: 2.7064166, g: 3.2388265, b: 4.237095, a: 1}
-    - _AtmosphereColor: {r: 1.3993074, g: 1.6924057, b: 1.8058629, a: 1}
+    - _AtmosphereColor: {r: 1.3007118, g: 1.5800593, b: 1.6673553, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

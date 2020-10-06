@@ -12,58 +12,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa0b569c06dce84b9fda8c6737fd636, type: 3}
   m_Name: Prototype Body Specs
   m_EditorClassIdentifier: 
-  planetTempMultiplier: 100
-  planetMassMultiplier: 3.96
-  tempFalloffRate: 1
+  planetTempMultiplier: 1
+  planetMassMultiplier: 4
   stars:
   - prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
     probability: 1
   planets:
-  - prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
+  - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
       type: 3}
     priority: 0
     probability: 1
     minMass: 0
-    maxMass: 6
+    maxMass: 5
+    minTemp: -Infinity
+    maxTemp: Infinity
+  - prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
+      type: 3}
+    priority: 0
+    probability: 0.145
+    minMass: 3
+    maxMass: 5
     minTemp: -Infinity
     maxTemp: Infinity
   - prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
       type: 3}
     priority: 0
     probability: 0.106
+    minMass: 3
+    maxMass: 5
+    minTemp: 270
+    maxTemp: 300
+  - prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
+      type: 3}
+    priority: 0
+    probability: 1
     minMass: 0
-    maxMass: 6
-    minTemp: 6.53
-    maxTemp: 40.4
+    maxMass: 5
+    minTemp: -Infinity
+    maxTemp: 270
+  - prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
+      type: 3}
+    priority: 0
+    probability: 1
+    minMass: 0
+    maxMass: 5
+    minTemp: 500
+    maxTemp: Infinity
   - prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
       type: 3}
     priority: 0
     probability: 1
-    minMass: 6
+    minMass: 5
     maxMass: Infinity
     minTemp: -Infinity
-    maxTemp: Infinity
+    maxTemp: 550
+  - prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
+      type: 3}
+    priority: 0
+    probability: 1
+    minMass: 5
+    maxMass: Infinity
+    minTemp: -Infinity
+    maxTemp: 550
   - prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
       type: 3}
     priority: 1
     probability: 1
-    minMass: 6
+    minMass: 5
     maxMass: Infinity
-    minTemp: 67.6
+    minTemp: 500
     maxTemp: Infinity
   - prefab: {fileID: 7573446184434855522, guid: a90148a3f88063548bd7166c9acc32cc,
       type: 3}
     priority: 0
     probability: 1
-    minMass: 6
+    minMass: 5
     maxMass: Infinity
-    minTemp: 100
-    maxTemp: Infinity
-  - prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
-      type: 3}
-    priority: 0
-    probability: 1
-    minMass: 6
-    maxMass: Infinity
-    minTemp: -Infinity
+    minTemp: 500
     maxTemp: Infinity

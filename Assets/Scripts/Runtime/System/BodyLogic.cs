@@ -36,9 +36,9 @@ public class BodyLogic : MonoBehaviour
     {
         if (this.dayPeriod != 0)
         {
-            float time = this.simManager == null ? Time.time : this.simManager.time;
-            var currEulers = this.geometry.localRotation.eulerAngles;
-            this.geometry.localRotation = Quaternion.Euler(currEulers.x, currEulers.y, this.rotationOffset + 360f * time / this.dayPeriod);
+            float dt = this.simManager == null ? Time.deltaTime : this.simManager.dt;
+            //var currEulers = this.geometry.localRotation.eulerAngles;
+            this.geometry.localRotation *= Quaternion.Euler(0, 0, 360f * dt / this.dayPeriod);
         }
     }
 

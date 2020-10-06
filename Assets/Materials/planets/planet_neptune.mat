@@ -96,7 +96,7 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FresnelFalloff: 2.37
-    - _FresnelStrength: 8.2
+    - _FresnelStrength: 1.45
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -113,7 +113,7 @@ Material:
     - _WorkflowMode: 0
     - _ZWrite: 1
     m_Colors:
-    - _AtmosphereColor: {r: 0.22845627, g: 0.18102525, b: 0.33962262, a: 1}
+    - _AtmosphereColor: {r: 0.68233967, g: 0.5529412, b: 1, a: 1}
     - _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

@@ -69,12 +69,12 @@ public class BodySpecs : ScriptableObject
     //    //}
     //}
 
-    [Range(1, 100)]
-    public float planetTempMultiplier = 30f;
-    [Range(0.0001f, 10)]
+    //[Range(0, 1)]
+    public float planetTempMultiplier = 1f;
+    //[Range(0.0001f, 10)]
     public float planetMassMultiplier = 1f;
-    [Range(1, 5)]
-    public float tempFalloffRate = 3f;
+    //[Range(1, 5)]
+    public float tempFalloffRate = 4f;
 
     public List<StarSpec> stars;
     public List<PlanetSpec> planets;
@@ -98,7 +98,7 @@ public class BodySpecs : ScriptableObject
 
     float Power(float distance, float starLum) => starLum / (4f * Mathf.PI * Mathf.Pow(distance, this.tempFalloffRate));
 
-    public float PlanetTemp(float distance, float starLum) => this.planetTempMultiplier * Mathf.Pow(this.Power(distance, starLum), 0.25f);
+    public float PlanetTemp(float distance, float starLum) => this.planetTempMultiplier * 2500f * Mathf.Pow(this.Power(distance, starLum), 0.25f);
 
     public float PlanetTemp(float distance, float starRadius, float starTemp) => this.PlanetTemp(distance, this.Lum(starRadius, starTemp));
 
