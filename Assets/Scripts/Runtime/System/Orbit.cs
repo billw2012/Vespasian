@@ -200,6 +200,7 @@ public class Orbit : MonoBehaviour
 
     void OnValidate()
     {
+        this.Awake();
         this.RefreshValidateRecursive();
     }
 
