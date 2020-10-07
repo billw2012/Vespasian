@@ -132,8 +132,8 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 1
-    maxPlanets: 11
-    startOrbitMinFromPrimary: 0.48
+    maxPlanets: 8
+    startOrbitMinFromPrimary: 5
     minOrbitSeperation: 3
     startOrbitRatioRandom:
       weighting:
@@ -278,7 +278,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       gaussian: 1
       min: 0
-      max: 9.04
+      max: 5
     moonSystemMassPlanetMassRatioRandom:
       weighting:
         serializedVersion: 2
