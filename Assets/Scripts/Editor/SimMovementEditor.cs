@@ -73,7 +73,7 @@ public class SimMovementEditor : Editor
                 Undo.RecordObject(this.target, "Changed velocity");
                 if (Event.current.control)
                 {
-                    simMovement.startVelocity = newValue.normalized * simMovement.startVelocity.magnitude;
+                    simMovement.startVelocity = newValue.normalized * Mathf.Max(1, simMovement.startVelocity.magnitude);
                     if (simMovement.alignToVelocity)
                     {
                         simMovement.transform.localRotation = Quaternion.FromToRotation(Vector3.up, newValue);
