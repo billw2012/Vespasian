@@ -43,8 +43,9 @@ public abstract class BodyGenerator : MonoBehaviour
         var gravitySource = this.GetComponent<GravitySource>();
         gravitySource.autoMass = false;
         gravitySource.parameters.mass = body.mass;
-        float volume = 4f * Mathf.PI * Mathf.Pow(body.radius, 3) / 3f;
-        gravitySource.parameters.density = body.mass / volume;
+        gravitySource.parameters.density = body.density;
+        //float volume = 4f * Mathf.PI * Mathf.Pow(body.density, 3) / 3f;
+        //gravitySource.parameters.density = body.mass / volume;
 
         this.InitInternal(body, danger);
     }
@@ -55,7 +56,7 @@ public abstract class BodyGenerator : MonoBehaviour
         if(this.body != null && this.GetComponent<GravitySource>() != null)
         {
             Handles.color = Color.yellow;
-            GUIUtils.Label(this.GetComponent<GravitySource>().target.position + Vector3.down * this.radius, $"{this.tempK:0}°K\n{this.radius:0.00}R\n{this.mass:0.00}M");
+            GUIUtils.Label(this.GetComponent<GravitySource>().target.position + Vector3.down * this.radius * 1.25f, $"{this.tempK:0}°K\n{this.radius:0.00}R\n{this.mass:0.00}M");
         }
     }
 #endif

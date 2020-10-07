@@ -12,16 +12,129 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa0b569c06dce84b9fda8c6737fd636, type: 3}
   m_Name: Prototype Body Specs
   m_EditorClassIdentifier: 
-  planetTempMultiplier: 1
-  planetMassMultiplier: 4
+  planetTempMultiplier: 4.28
+  planetMassMultiplier: 1
+  tempFalloffRate: 4.37
   stars:
   - prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
     probability: 1
+    massRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 5
+      max: 30
+    tempRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: -0.0015869141
+          inSlope: 0.02911117
+          outSlope: 0.02911117
+          tangentMode: 0
+          weightedMode: 2
+          inWeight: 0
+          outWeight: 0.43378273
+        - serializedVersion: 3
+          time: 1
+          value: 0.99842453
+          inSlope: 2.673787
+          outSlope: 2.673787
+          tangentMode: 0
+          weightedMode: 3
+          inWeight: 0.26486915
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0.2
+      max: 3
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0.75
+      max: 1.25
   planets:
   - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
       type: 3}
     priority: 0
     probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 0
     maxMass: 5
     minTemp: -Infinity
@@ -30,6 +143,34 @@ MonoBehaviour:
       type: 3}
     priority: 0
     probability: 0.145
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 3
     maxMass: 5
     minTemp: -Infinity
@@ -38,22 +179,106 @@ MonoBehaviour:
       type: 3}
     priority: 0
     probability: 0.106
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 3
     maxMass: 5
     minTemp: 270
     maxTemp: 300
   - prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
       type: 3}
-    priority: 0
+    priority: 1
     probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 0
     maxMass: 5
     minTemp: -Infinity
     maxTemp: 270
   - prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
       type: 3}
-    priority: 0
+    priority: 1
     probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 0
     maxMass: 5
     minTemp: 500
@@ -62,6 +287,34 @@ MonoBehaviour:
       type: 3}
     priority: 0
     probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 5
     maxMass: Infinity
     minTemp: -Infinity
@@ -70,6 +323,34 @@ MonoBehaviour:
       type: 3}
     priority: 0
     probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 5
     maxMass: Infinity
     minTemp: -Infinity
@@ -78,6 +359,34 @@ MonoBehaviour:
       type: 3}
     priority: 1
     probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 5
     maxMass: Infinity
     minTemp: 500
@@ -86,6 +395,34 @@ MonoBehaviour:
       type: 3}
     priority: 0
     probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
     minMass: 5
     maxMass: Infinity
     minTemp: 500

@@ -14,6 +14,7 @@ public class Body
 
     public int randomKey;
     public float temp;
+    public float density;
     public float radius;
     public float mass;
 

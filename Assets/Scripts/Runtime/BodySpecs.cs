@@ -24,6 +24,11 @@ public class BodySpecs : ScriptableObject
 
         [Tooltip("Chance of this body type occurring"), Range(0, 1)]
         public float probability;
+
+        public WeightedRandom massRandom = new WeightedRandom { min = 5, max = 30 };
+        [Tooltip("Temperature in units of 10000 kelvin")]
+        public WeightedRandom tempRandom = new WeightedRandom { min = 0.4f, max = 5f };
+        public WeightedRandom densityRandom = new WeightedRandom { min = 1f, max = 1f, gaussian = true };
     }
 
     [Serializable]
@@ -36,6 +41,8 @@ public class BodySpecs : ScriptableObject
 
         [Tooltip("When planets have the same priority they are randomly selected based on this"), Range(0, 1)]
         public float probability = 1;
+
+        public WeightedRandom densityRandom = new WeightedRandom { min = 2f, max = 2f, gaussian = true };
 
         public float minMass = 0;
         public float maxMass = Mathf.Infinity;

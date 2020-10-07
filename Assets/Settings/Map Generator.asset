@@ -76,99 +76,6 @@ MonoBehaviour:
       gaussian: 0
       min: 0.1
       max: 1
-    starRadiusRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.18883003
-          value: 0.1965006
-          inSlope: 1.3494811
-          outSlope: 1.3494811
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.040948205
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 3.2412682
-          outSlope: 3.2412682
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.026395945
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 5
-      max: 30
-    starTempRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1.0007324
-          value: 0.99842453
-          inSlope: 5.480444
-          outSlope: 5.480444
-          tangentMode: 0
-          weightedMode: 1
-          inWeight: 0.18636006
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 0
-      min: 0.2
-      max: 3
-    starMassRadiusRatioRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 0.5
-      max: 0.5
     systemSizeStarMassRatioRandom:
       weighting:
         serializedVersion: 2
@@ -196,7 +103,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       gaussian: 1
       min: 0
-      max: 100
+      max: 20
     systemMassStarMassRatioRandom:
       weighting:
         serializedVersion: 2
@@ -225,7 +132,9 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 1
-    maxPlanets: 20
+    maxPlanets: 11
+    startOrbitMinFromPrimary: 0.48
+    minOrbitSeperation: 3
     startOrbitRatioRandom:
       weighting:
         serializedVersion: 2
@@ -253,8 +162,8 @@ MonoBehaviour:
         m_RotationOrder: 4
       gaussian: 1
       min: 0.01
-      max: 0.1
-    nextOrbitRadiusBase: 1.16
+      max: 0.07
+    nextOrbitRadiusBase: 1.05
     nextOrbitRadiusPowerRandom:
       weighting:
         serializedVersion: 2
@@ -280,7 +189,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
+      gaussian: 0
       min: 0.5
       max: 1
     eccentricityForceFactor: 0.5
@@ -341,35 +250,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0.75
       max: 1.25
-    minPlanetRadius: 3
-    planetMassRadiusRatioRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 0
-      min: 1
-      max: 1
+    minPlanetRadius: 2
     moonSystemSizePlanetMassRatioRandom:
       weighting:
         serializedVersion: 2
@@ -378,7 +259,7 @@ MonoBehaviour:
           time: 0
           value: 0
           inSlope: 0
-          outSlope: 1
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -386,18 +267,18 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 1
-          outSlope: 0
+          inSlope: 7.3507714
+          outSlope: 7.3507714
           tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
+          weightedMode: 1
+          inWeight: 0.13236058
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
       gaussian: 1
-      min: 0.12
-      max: 2.23
+      min: 0
+      max: 9.04
     moonSystemMassPlanetMassRatioRandom:
       weighting:
         serializedVersion: 2
@@ -425,4 +306,4 @@ MonoBehaviour:
         m_RotationOrder: 4
       gaussian: 0
       min: 0
-      max: 0.57
+      max: 0.61
