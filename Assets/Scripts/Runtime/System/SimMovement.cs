@@ -83,6 +83,12 @@ public class SimMovement : MonoBehaviour
         }
     }
 
+    public void SetVelocity(Vector3 velocityNew)
+    {
+        this.startVelocity = velocityNew;
+        this.SimRefresh();
+    }
+
     public void AddForce(Vector3 force)
     {
         this.force += force;

@@ -82,7 +82,7 @@ public abstract class EffectSource : MonoBehaviour
     public abstract string debugName { get; }
 
 #if UNITY_EDITOR
-    void OnDrawGizmosSelected()
+    public virtual void OnDrawGizmosSelected()
     {
         // Display the explosion radius when selected
         Handles.color = this.gizmoColor;
