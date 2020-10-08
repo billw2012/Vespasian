@@ -101,6 +101,14 @@ public class SolarSystem
     public async Task LoadAsync(GameObject root)
     {
         var rootBody = this.main.InstanceHierarchy(this.danger);
+        foreach (var belt in this.belts)
+        {
+            var beltObject = Object.Instantiate(belt.prefab, rootBody.transform);
+            var asteroidRing = beltObject.GetComponent<AsteroidRing>();
+            asteroidRing.radius = belt.radius;
+            asteroidRing.width = belt.width;
+        }
+
         await new WaitUntil(() => rootBody.activeSelf);
 
         Unload(root);

@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
-public class SimMovement : MonoBehaviour
+public class SimMovement : MonoBehaviour, ISimUpdate
 {
     public GameConstants constants;
 
@@ -94,15 +94,7 @@ public class SimMovement : MonoBehaviour
         this.force += force;
     }
 
-    public void SimRefresh()
-    {
-        var simManager = FindObjectOfType<SimManager>();
-
-        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
-
-        this.sois = new List<SimModel.SphereOfInfluence>();
-    }
-
+    #region ISimUpdate
     public void SimUpdate(int simTick)
     {
         this.path.Step(simTick, this.force);
@@ -127,6 +119,15 @@ public class SimMovement : MonoBehaviour
             //rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.relativeVelocity));
         }
     }
+    public void SimRefresh()
+    {
+        var simManager = FindObjectOfType<SimManager>();
+
+        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
+
+        this.sois = new List<SimModel.SphereOfInfluence>();
+    }
+    #endregion
 
     void UpdatePathWidth()
     {

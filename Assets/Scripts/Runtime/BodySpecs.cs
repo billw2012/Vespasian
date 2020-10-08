@@ -86,6 +86,9 @@ public class BodySpecs : ScriptableObject
     public List<StarSpec> stars;
     public List<PlanetSpec> planets;
 
+    public GameObject beltPrefab;
+    public GameObject cometPrefab;
+
     //static BodySpec MatchSpec(IEnumerable<BodySpec> specs, Func<BodySpec, float> criteria, float value)
     //{
     //    return specs.OrderBy(s => Mathf.Abs(criteria(s) - value)).FirstOrDefault();

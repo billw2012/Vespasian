@@ -19402,7 +19402,6 @@ MonoBehaviour:
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
   customPosition: {fileID: 0}
-  position: {fileID: 8927440856455040385}
   velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &7639369803563321502
 MonoBehaviour:

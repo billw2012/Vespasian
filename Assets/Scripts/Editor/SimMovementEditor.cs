@@ -7,8 +7,6 @@ using UnityEngine;
 [CustomEditor(typeof(SimMovement))]
 public class SimMovementEditor : Editor
 {
-    SimModel simModel;
-
     bool editing = false;
     float scale;
 
@@ -96,41 +94,6 @@ public class SimMovementEditor : Editor
             return false;
         };
         VelocityHandle();
-
-
-        //if(this.simTask?.Status == TaskStatus.RanToCompletion)
-        //{
-        //    var path = this.simTask.Result.path.AsEnumerable();
-        //    if(path.Count() % 2 == 1)
-        //    {
-        //        path = path.Take(path.Count() - 1);
-        //    }
-        //    this.currPath = path.ToArray();
-        //    this.crashed = this.simTask.Result.crashed; // this.simTask.Result.crashed;
-        //    this.simTask = null;
-        //}
-        //else if(this.simTask?.Status == TaskStatus.Faulted)
-        //{
-        //    this.currPath = null;
-        //}
-
-        //if (this.simTask == null)
-        //{
-        //    if(this.simModel == null)
-        //    {
-        //        this.simModel = new SimModel();
-        //    }
-        //    this.simTask = this.simModel.CalculateSimPath(
-        //        simMovement.transform.position,
-        //        simMovement.startVelocity,
-        //        0,
-        //        Time.fixedDeltaTime,
-        //        5000,
-        //        1,
-        //        simMovement.constants.GravitationalConstant,
-        //        simMovement.constants.GravitationalRescaling
-        //    );
-        //}
     }
 
     static double lastUpdate = 0;

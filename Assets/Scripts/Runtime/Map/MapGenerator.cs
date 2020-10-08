@@ -74,6 +74,12 @@ public class MapGenerator : ScriptableObject
         public WeightedRandom moonSystemSizePlanetMassRatioRandom = new WeightedRandom { min = 0.5f, max = 1.5f, gaussian = true };
         [Tooltip("Ratio of moon system mass to planet mass")]
         public WeightedRandom moonSystemMassPlanetMassRatioRandom = new WeightedRandom { min = 0f, max = 1f, gaussian = true };
+
+        [Range(0, 1)]
+        public float beltChance = 0.25f;
+
+        [Range(0, 200)]
+        public float maxBeltOrbit = 100f;
     };
 
     public SystemGeneratorParameters systemParams;
@@ -99,6 +105,24 @@ public class MapGenerator : ScriptableObject
             desiredTotalMass: starMass * this.systemParams.systemMassStarMassRatioRandom.Evaluate(Random.value),
             massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(Random.value),
             massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(Random.value));
+
+        if(Random.value <= this.systemParams.beltChance)
+        {
+            var randomPlanet = planets.Where(p => p.parameters.periapsis < this.systemParams.maxBeltOrbit).Shuffle().FirstOrDefault();
+
+            float orbit = 0;
+            if (randomPlanet != null)
+            {
+                planets.Remove(randomPlanet);
+                orbit = randomPlanet.parameters.periapsis;
+            }
+            else
+            {
+                orbit = Random.Range(starRadius * 2, this.systemParams.maxBeltOrbit);
+            }
+
+            sys.belts.Add(new Belt { prefab = bodySpecs.beltPrefab, radius = orbit, width = Random.Range(1f, 5f) });
+        }
 
         sys.main = new Body
         {
@@ -142,6 +166,7 @@ public class MapGenerator : ScriptableObject
         for (int i = 0; i < this.systemParams.maxPlanets && orbitalDistance < systemSize && totalMass < desiredTotalMass; i++)
         {
             float planetMass = massDistribution.CDF(this.systemParams.massDistributionFunctionSampleRange * orbitalDistance * this.systemParams.massVarianceRandom.Evaluate(Random.value) / systemSize) * desiredTotalMass - totalMass;
+
             float planetTemp = bodySpecs.PlanetTemp(starDistance + orbitalDistance, starRadius, starTemp);
             var planetSpec = bodySpecs.RandomPlanet(planetMass, planetTemp);
 

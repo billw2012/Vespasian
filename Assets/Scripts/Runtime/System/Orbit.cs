@@ -188,7 +188,8 @@ public class Orbit : MonoBehaviour
 
     [Tooltip("Transform to apply the position to, defaults to any child called 'Position'")]
     public Transform customPosition;
-    [HideInInspector]
+
+    [NonSerialized]
     public Transform position;
 
     [NonSerialized]
@@ -243,30 +244,14 @@ public class Orbit : MonoBehaviour
     {
         if (!this.isActiveAndEnabled)
         {
-            this.position.localPosition = Vector3.zero;
+            if (this.position != null)
+            {
+                this.position.localPosition = Vector3.zero;
+            }
             return;
         }
 
-        bool ValidateParents()
-        {
-            // Only game objects being controlled by Orbit component are allowed to have non-identity transforms
-            var orbitControlled = GameObject.FindObjectsOfType<Orbit>().Where(o => o.isActiveAndEnabled).Select(o => o.position.gameObject);
-            var invalidParents = this.GetAllParents()
-                .Where(p => !orbitControlled.Contains(p) && !p.transform.IsIdentity());
-            if (invalidParents.Any())
-            {
-                foreach (var p in invalidParents)
-                {
-                    Debug.LogError($"{this}: parent {p.name} is invalid, it has none zero transform", p);
-                }
-                return false;
-            }
-            return true;
-        }
-
         this.parameters.Validate();
-
-        Debug.Assert(ValidateParents());
 
         // Scale must be 1
         this.transform.localScale = Vector3.one;
@@ -293,7 +278,10 @@ public class Orbit : MonoBehaviour
 
     void UpdatePosition(float time)
     {
-        (this.position.localPosition, this.velocity) = this.orbitPath.GetPositionVelocity(time);
+        if (this.position != null)
+        {
+            (this.position.localPosition, this.velocity) = this.orbitPath.GetPositionVelocity(time);
+        }
     }
 
     void CreateOrbitPath()

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MultipleAsteroids : MonoBehaviour
+public class MultipleAsteroids : MonoBehaviour, ISimUpdate
 {
     public GameObject asteroidPrefab;
 
@@ -33,12 +33,21 @@ public class MultipleAsteroids : MonoBehaviour
         this.simManager = FindObjectOfType<SimManager>();
     }
 
-    void FixedUpdate()
+    #region ISimUpdate
+    public void SimUpdate(int _)
     {
         this.DelayedStart();
+        this.UpdatePositions();
+    }
 
-        if (this.simManager == null || this.simManager.enabled)
+    public void SimRefresh() { }
+    #endregion
+
+    void FixedUpdate()
+    {
+        if (this.simManager == null)
         {
+            this.DelayedStart();
             this.UpdatePositions();
         }
     }

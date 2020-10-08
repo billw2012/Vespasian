@@ -22,4 +22,9 @@ public static class LINQExtensions
 
         return prob.LastOrDefault().obj;
     }
+
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> @this)
+    {
+        return @this.OrderBy(t => UnityEngine.Random.value);
+    }
 }

@@ -7,6 +7,14 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 using static SimModel;
 
+
+public interface ISimUpdate
+{
+    void SimUpdate(int simTick);
+    void SimRefresh();
+}
+
+
 public class SimManager : MonoBehaviour
 {
     public GameConstants constants;
@@ -19,7 +27,8 @@ public class SimManager : MonoBehaviour
 
     public float dt => this.timeStep * Time.fixedDeltaTime;
 
-    SimMovement[] simulatedObjects;
+    List<MonoBehaviour> simulatedObjects;
+    // SimMovement[] simulatedObjects;
 
     SimModel model;
 
@@ -51,17 +60,17 @@ public class SimManager : MonoBehaviour
             .Where(s => s != null)
             .Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
         {
-            s.SimUpdate(this.simTick);
+            ((ISimUpdate)s).SimUpdate(this.simTick);
         }
     }
 
     public void Refresh()
     {
         this.model = new SimModel();
-        this.simulatedObjects = FindObjectsOfType<SimMovement>();
-        foreach(var s in this.simulatedObjects)
+        this.simulatedObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISimUpdate>().OfType<MonoBehaviour>().ToList();
+        foreach (var s in this.simulatedObjects)
         {
-            s.SimRefresh();
+            ((ISimUpdate)s).SimRefresh();
         }
     }
 
