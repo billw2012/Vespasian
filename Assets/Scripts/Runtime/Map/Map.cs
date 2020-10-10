@@ -42,6 +42,7 @@ public class Belt
     public GameObject prefab;
     public float radius;
     public float width;
+    public OrbitParameters.OrbitDirection direction;
 }
 
 public class Link : IEquatable<Link>
@@ -107,6 +108,7 @@ public class SolarSystem
             var asteroidRing = beltObject.GetComponent<AsteroidRing>();
             asteroidRing.radius = belt.radius;
             asteroidRing.width = belt.width;
+            asteroidRing.direction = belt.direction;
         }
         foreach (var comet in this.comets)
         {

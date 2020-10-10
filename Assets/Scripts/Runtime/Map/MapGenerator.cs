@@ -94,12 +94,13 @@ public class MapGenerator : ScriptableObject
 
         var sys = new SolarSystem { name = name, position = position };
 
-
         var mainSpec = bodySpecs.RandomStar();
         float starMass = mainSpec.massRandom.Evaluate(Random.value);
         float starTemp = mainSpec.tempRandom.Evaluate(Random.value);
         float starDensity = mainSpec.densityRandom.Evaluate(Random.value);
         float starRadius = starMass / starDensity; // obviously not the correct formula...
+
+        var direction = Random.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise;
 
         float systemSize = starMass * this.systemParams.systemSizeStarMassRatioRandom.Evaluate(Random.value);
         var planets = this.GenerateBodies(
@@ -107,6 +108,7 @@ public class MapGenerator : ScriptableObject
             starTemp, starRadius, 0,
             starRadius, starMass,
             systemSize: systemSize,
+            direction: direction,
             desiredTotalMass: starMass * this.systemParams.systemMassStarMassRatioRandom.Evaluate(Random.value),
             massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(Random.value),
             massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(Random.value));
@@ -126,7 +128,12 @@ public class MapGenerator : ScriptableObject
                 orbit = Random.Range(starRadius * 2, this.systemParams.maxBeltOrbit);
             }
 
-            sys.belts.Add(new Belt { prefab = bodySpecs.beltPrefab, radius = orbit, width = Random.Range(3f, 10f) });
+            sys.belts.Add(new Belt { 
+                prefab = bodySpecs.beltPrefab,
+                radius = orbit, 
+                width = Random.Range(3f, 10f),
+                direction = direction,
+            });
         }
 
         int cometCount = Mathf.FloorToInt(this.systemParams.cometCountRandom.Evaluate(Random.value));
@@ -189,6 +196,7 @@ public class MapGenerator : ScriptableObject
         float primaryRadius,
         float primaryMass,
         float systemSize,
+        OrbitParameters.OrbitDirection direction,
         float desiredTotalMass,
         float massDistributionMedian,
         float massDistributionSpread,
@@ -199,8 +207,6 @@ public class MapGenerator : ScriptableObject
 
         float orbitalDistance = primaryRadius + this.systemParams.startOrbitMinFromPrimary + systemSize * this.systemParams.startOrbitRatioRandom.Evaluate(Random.value);
         float totalMass = 0;
-
-        var direction = Random.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise;
 
         var bodies = new List<Body>();
 
@@ -222,6 +228,7 @@ public class MapGenerator : ScriptableObject
                 starTemp, starRadius, starDistance + orbitalDistance,
                 planetRadius, planetMass,
                 systemSize: moonSystemSize,
+                direction: Random.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise,
                 desiredTotalMass: planetMass * this.systemParams.moonSystemMassPlanetMassRatioRandom.Evaluate(Random.value),
                 massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(Random.value),
                 massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(Random.value),

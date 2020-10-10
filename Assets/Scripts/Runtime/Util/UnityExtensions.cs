@@ -120,4 +120,11 @@ public static class UnityExtensions
     {
         return task.ContinueWith(continuationFunction, TaskScheduler.FromCurrentSynchronizationContext());
     }
+
+    public static Rect WorldSpaceRect(this Camera @this)
+    {
+        var bl = @this.ScreenToWorldPoint(Vector3.zero);
+        var size = @this.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)) - bl;
+        return new Rect(bl, size);
+    }
 }

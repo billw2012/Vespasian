@@ -16,18 +16,6 @@ public class DockActive : MonoBehaviour
     bool docked = false;
     DockPassive passiveDockingPort = null; // Passive docking port component, if docked
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnDrawGizmos()
     {
         float arrowLength = 0.5f;
@@ -37,7 +25,7 @@ public class DockActive : MonoBehaviour
             this.dockingPortTransform.TransformPoint(Vector3.zero));
     }
 
-    List<TweenBase> dockAnim = new List<TweenBase>();
+    readonly List<TweenBase> dockAnim = new List<TweenBase>();
 
     // This port will try to dock to any passive port nearby
     public void ToggleDock()

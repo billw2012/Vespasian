@@ -29,12 +29,6 @@ public class DockPassive : EffectSource
         this.dockingRadiusRenderer.transform.localScale = this.range * 2 * Vector3.one;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override Color gizmoColor => Color.red;
     public override string debugName => "DockPassive";
 

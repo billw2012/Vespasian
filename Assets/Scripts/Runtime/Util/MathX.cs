@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 public static class MathX
 {
@@ -81,5 +82,75 @@ public static class MathX
         float mean = (minValue + maxValue) / 2.0f;
         float sigma = (maxValue - mean) / 3.0f;
         return Mathf.Clamp(std * sigma + mean, minValue, maxValue);
+    }
+
+    public static float RectCircleOverlap(Rect r, Vector2 circlePos, float circleRadius) => RectCircleOverlap(r.xMin, r.xMax, r.yMin, r.yMax, circlePos.x, circlePos.y, circleRadius);
+
+    // area of the intersection of a general box with a general circle
+    // Converted from https://stackoverflow.com/a/32698993/6402065
+    public static float RectCircleOverlap(float xMin, float xMax, float yMin, float yMax, float circleX, float circleY, float circleRadius) 
+    {
+        Assert.IsTrue(circleRadius >= 0);
+
+        // returns the positive root of intersection of line y = h with circle centered at the origin and radius r
+        float Section(float h)
+        {
+            // http://www.wolframalpha.com/input/?i=r+*+sin%28acos%28x+%2F+r%29%29+%3D+h
+            return (h < circleRadius) ? Mathf.Sqrt(circleRadius * circleRadius - h * h) : 0; 
+        }
+
+        // indefinite integral of circle segment
+        float g(float x, float h)
+        {
+            // http://www.wolframalpha.com/input/?i=r+*+sin%28acos%28x+%2F+r%29%29+-+h
+            return .5f * (Mathf.Sqrt(1 - x * x / (circleRadius * circleRadius)) * x * circleRadius + circleRadius * circleRadius * Mathf.Asin(x / circleRadius) - 2 * h * x);
+        }
+
+        // area of intersection of an infinitely tall box with left edge at x0, right edge at x1, bottom edge at h and top edge at infinity, with circle centered at the origin with radius r
+        float Area(float x0, float x1, float h) 
+        {
+            if (x0 > x1)
+            {
+                // this must be sorted otherwise we get negative area
+                (x0, x1) = (x1, x0);
+            }
+            float s = Section(h);
+            // integrate the area
+            return g(Mathf.Clamp(x1, -s, s), h) - g(Mathf.Clamp(x0, -s, s), h);
+        }
+
+        // area of the intersection of a finite box with a circle centered at the origin with radius r
+        float Area2(float x0, float x1, float y0, float y1) 
+        {
+            if (y0 > y1)
+            {
+                // this will simplify the reasoning
+                (y0, y1) = (y1, y0);
+            }
+            if (y0 < 0)
+            {
+                if (y1 < 0)
+                {
+                    // the box is completely under, just flip it above and try again
+                    return Area2(x0, x1, -y0, -y1);
+                }
+                else
+                {
+                    // the box is both above and below, divide it to two boxes and go again
+                    return Area2(x0, x1, 0, -y0) + Area2(x0, x1, 0, y1);
+                }
+            }
+            else
+            {
+                Assert.IsTrue(y1 >= 0); // y0 >= 0, which means that y1 >= 0 also (y1 >= y0) because of the swap at the beginning
+                return Area(x0, x1, y0) - Area(x0, x1, y1); // area of the lower box minus area of the higher box
+            }
+        }
+
+        // get rid of the circle center
+        xMin -= circleX; xMax -= circleX;
+        yMin -= circleY; yMax -= circleY;
+
+        return Area2(xMin, xMax, yMin, yMax);
     }
 }
