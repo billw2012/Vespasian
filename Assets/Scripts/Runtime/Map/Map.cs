@@ -108,6 +108,11 @@ public class SolarSystem
             asteroidRing.radius = belt.radius;
             asteroidRing.width = belt.width;
         }
+        foreach (var comet in this.comets)
+        {
+            var cometObject = comet.InstanceHierarchy(this.danger);
+            cometObject.transform.SetParent(rootBody.transform);
+        }
 
         await new WaitUntil(() => rootBody.activeSelf);
 

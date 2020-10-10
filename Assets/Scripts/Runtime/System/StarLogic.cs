@@ -25,7 +25,7 @@ public class StarLogic : MonoBehaviour
     [Tooltip("How intense the sun glow is"), Range(0, 1)]
     public float glowIntensity = 0.25f;
 
-    [Tooltip("How far the sun glow spreads"), Range(0, 5)]
+    [Tooltip("How far the sun glow spreads")]
     public float glowSpread = 1f;
 
     void OnValidate()

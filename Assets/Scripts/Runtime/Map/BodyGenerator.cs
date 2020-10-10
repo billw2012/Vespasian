@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public abstract class BodyGenerator : MonoBehaviour
+public class BodyGenerator : MonoBehaviour
 {
     //[Tooltip("Radius min"), Range(0, 20)]
     //public float radiusMin = 1;
@@ -32,20 +32,30 @@ public abstract class BodyGenerator : MonoBehaviour
         Random.InitState(body.randomKey);
 
         // Orbit setup
-        this.GetComponent<Orbit>().parameters = body.parameters;
+        var orbit = this.GetComponent<Orbit>();
+        if (orbit != null)
+        {
+            orbit.parameters = body.parameters;
+        }
 
         // Body characteristics
         var bodyLogic = this.GetComponent<BodyLogic>();
-        bodyLogic.radius = body.radius;
-        bodyLogic.dayPeriod = MathX.RandomGaussian(5, 30 * body.mass) * Mathf.Sign(Random.value - 0.5f);
+        if (bodyLogic != null)
+        {
+            bodyLogic.radius = body.radius;
+            bodyLogic.dayPeriod = MathX.RandomGaussian(5, 30 * body.mass) * Mathf.Sign(Random.value - 0.5f);
+        }
 
         // Gravity
         var gravitySource = this.GetComponent<GravitySource>();
-        gravitySource.autoMass = false;
-        gravitySource.parameters.mass = body.mass;
-        gravitySource.parameters.density = body.density;
-        //float volume = 4f * Mathf.PI * Mathf.Pow(body.density, 3) / 3f;
-        //gravitySource.parameters.density = body.mass / volume;
+        if (gravitySource)
+        {
+            gravitySource.autoMass = false;
+            gravitySource.parameters.mass = body.mass;
+            gravitySource.parameters.density = body.density;
+            //float volume = 4f * Mathf.PI * Mathf.Pow(body.density, 3) / 3f;
+            //gravitySource.parameters.density = body.mass / volume;
+        }
 
         this.InitInternal(body, danger);
     }
@@ -61,5 +71,5 @@ public abstract class BodyGenerator : MonoBehaviour
     }
 #endif
 
-    protected abstract void InitInternal(Body body, float danger);
+    protected virtual void InitInternal(Body body, float danger) { }
 }

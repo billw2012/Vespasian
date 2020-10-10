@@ -516,5 +516,5 @@ MonoBehaviour:
     maxTemp: Infinity
   beltPrefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de,
     type: 3}
-  cometPrefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de,
+  cometPrefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8,
     type: 3}
