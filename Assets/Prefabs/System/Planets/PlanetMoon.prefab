@@ -7,29 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 270560365, guid: bb7acb2ed8858c243ae801a3c0997461, type: 3}
-      propertyPath: parameters.periapsis
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 270560365, guid: bb7acb2ed8858c243ae801a3c0997461, type: 3}
-      propertyPath: parameters.apoapsis
-      value: 10.2
-      objectReference: {fileID: 0}
     - target: {fileID: 1807812450412322112, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 46450526b66a0174e911a528a8ff45ee, type: 2}
-    - target: {fileID: 2318905709148006584, guid: bb7acb2ed8858c243ae801a3c0997461,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3768597765047173929, guid: bb7acb2ed8858c243ae801a3c0997461,
-        type: 3}
-      propertyPath: radius
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5076257171360282820, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -110,30 +92,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6213087166863147947, guid: bb7acb2ed8858c243ae801a3c0997461,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213087166863147947, guid: bb7acb2ed8858c243ae801a3c0997461,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213087166863147947, guid: bb7acb2ed8858c243ae801a3c0997461,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6317706341708199001, guid: bb7acb2ed8858c243ae801a3c0997461,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 46450526b66a0174e911a528a8ff45ee, type: 2}
-    - target: {fileID: 8256936986849645567, guid: bb7acb2ed8858c243ae801a3c0997461,
-        type: 3}
-      propertyPath: parameters.mass
-      value: 0.19634955
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb7acb2ed8858c243ae801a3c0997461, type: 3}

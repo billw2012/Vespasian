@@ -45,20 +45,20 @@ public class PlanetRingRenderer : MonoBehaviour
         {
             this.meshObject = new GameObject("Ring", typeof(MeshRenderer), typeof(MeshFilter));
             this.meshObject.transform.SetParent(this.transform, worldPositionStays: false);
-            this.meshObject.hideFlags = HideFlags.NotEditable | HideFlags.DontSaveInEditor | HideFlags.DontSaveInBuild;
+            //this.meshObject.hideFlags = HideFlags.NotEditable | HideFlags.DontSaveInEditor | HideFlags.DontSaveInBuild;
             this.meshObject.GetComponent<MeshFilter>().sharedMesh = new Mesh();
         }
         if(this.particleObject == null && this.ringParticlePrefab != null)
         {
             this.particleObject = Instantiate(this.ringParticlePrefab, this.transform);
             this.particleObject.name = "Ring Particles";
-            this.particleObject.hideFlags = HideFlags.NotEditable | HideFlags.DontSaveInEditor | HideFlags.DontSaveInBuild;
+            //this.particleObject.hideFlags = HideFlags.NotEditable | HideFlags.DontSaveInEditor | HideFlags.DontSaveInBuild;
         }
         if (this.particleObject != null)
         {
             var pfxShape = this.particleObject.GetComponent<ParticleSystem>().shape;
-            pfxShape.radius = this.innerRadius + this.width * 0.75f;
-            pfxShape.radiusThickness = this.width * 0.5f;
+            pfxShape.radius = this.innerRadius + this.width * 0.9f;
+            pfxShape.radiusThickness = 1 - (this.innerRadius + this.width * 0.1f) / pfxShape.radius;
         }
 
         // Update renderer

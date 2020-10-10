@@ -5,7 +5,10 @@ using UnityEngine;
 public class PlanetGenerator : BodyGenerator
 {
     [Tooltip("Chance this planet has a ring"), Range(0, 1)]
-    public float ringChance = 0.1f;
+    public float ringChance = 0.66f;
+    public float ringMassMin = 4.5f;
+
+    public MeshRenderer planetRenderer;
 
     public WeightedRandom ringInnerRadiusRandom = new WeightedRandom { min = 0.5f, max = 1f, gaussian = true };
     public WeightedRandom ringWidthRandom = new WeightedRandom { min = 0, max = 1.5f };
@@ -22,7 +25,7 @@ public class PlanetGenerator : BodyGenerator
 
         // Ring
         var ring = this.GetComponentInChildren<PlanetRingRenderer>();
-        if(ring != null && Random.value <= this.ringChance)
+        if(ring != null && body.mass >= this.ringMassMin && Random.value <= this.ringChance)
         {
             ring.enabled = true;
             ring.innerRadius = this.ringInnerRadiusRandom.Evaluate(Random.value);
@@ -40,7 +43,7 @@ public class PlanetGenerator : BodyGenerator
         }
 
         // Color
-        var material = bodyLogic.geometry.GetComponent<Renderer>().material;
+        var material = this.planetRenderer.material;
         material.SetFloat("_AlbedoHue", this.hueRandom.Evaluate(Random.value));
     }
 }
