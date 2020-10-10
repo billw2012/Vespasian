@@ -102,6 +102,93 @@ MonoBehaviour:
       gaussian: 1
       min: 0.75
       max: 1.25
+  - prefab: {fileID: 6712538652355592438, guid: 787a92d05373ab246b5e935d8c0c2c64,
+      type: 3}
+    probability: 1
+    massRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 15
+      max: 20
+    tempRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: -0.0015869141
+          inSlope: 0.02911117
+          outSlope: 0.02911117
+          tangentMode: 0
+          weightedMode: 2
+          inWeight: 0
+          outWeight: 0.43378273
+        - serializedVersion: 3
+          time: 1
+          value: 0.99842453
+          inSlope: 2.673787
+          outSlope: 2.673787
+          tangentMode: 0
+          weightedMode: 3
+          inWeight: 0.26486915
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 5
+      max: 5
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 50
+      max: 50
   planets:
   - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
       type: 3}

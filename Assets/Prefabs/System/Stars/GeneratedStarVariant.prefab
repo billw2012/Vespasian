@@ -87,5 +87,10 @@ PrefabInstance:
       propertyPath: glowSpread
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7614524655931929166, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: effect.floatProperties.Array.data[0].targetValue
+      value: -0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4c510226c1baa1408c3d36050fc87f1, type: 3}

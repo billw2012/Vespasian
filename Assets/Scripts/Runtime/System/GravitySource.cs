@@ -9,7 +9,7 @@ using UnityEngine.Assertions;
 [Serializable]
 public struct GravityParameters
 {
-    [Tooltip("Density used if auto-calculating the mass from the radius"), Range(0, 1)]
+    [Tooltip("Density used if auto-calculating the mass from the radius")]
     public float density;
     [Tooltip("Mass, if less than zero then it will be automatically calculated based on density and radius"), Range(0, 500)]
     public float mass;

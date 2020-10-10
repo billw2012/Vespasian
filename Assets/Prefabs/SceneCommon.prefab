@@ -3384,26 +3384,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4741171058214613415}
     m_Modifications:
-    - target: {fileID: 2321598608546094312, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321598608546094312, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: m_VelocityScale
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321598608546094312, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: m_LengthScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321598608546094312, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: m_CameraVelocityScale
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2532546598166257852, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: m_Enabled
@@ -3416,38 +3396,13 @@ PrefabInstance:
       objectReference: {fileID: 4538521788195604900}
     - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
-      propertyPath: trackedPath
-      value: 
-      objectReference: {fileID: 4538521789459465360}
-    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: smoothTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: simManager
-      value: 
-      objectReference: {fileID: 4538521789459465363}
-    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
       propertyPath: simMovement
       value: 
       objectReference: {fileID: 5889573712058656243}
     - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: searchPointsOfInterest
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532546599120530822, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: clampToCameraInnerArea
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532546599120530936, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 311
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
@@ -3508,31 +3463,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679563936346561954, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: twinkleAlphaAnim.m_PreInfinity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679563936346561954, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: rotationAnim.m_PostInfinity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679563936346561954, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: rotationAnim.m_PreInfinity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6946838896639316914, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: sizeMin
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8739342087039653797, guid: 74647e47a25362544b444dcfa26a90bf,
-        type: 3}
-      propertyPath: m_Name
-      value: World UI Camera
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8380396357931695548, guid: 74647e47a25362544b444dcfa26a90bf, type: 3}
