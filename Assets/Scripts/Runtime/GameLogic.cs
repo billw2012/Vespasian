@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,8 @@ public class GameLogic : ScriptableObject {
     GUILayerManager uiManager;
     MapComponent mapComponent;
     PlayerController player;
+
+    int saveIndex;
 
     public struct SaveGameData
     {
@@ -35,7 +38,7 @@ public class GameLogic : ScriptableObject {
         }
     }
 
-    public async void NewGameAsync()
+    async Task NewGameAsync()
     {
         await this.mapComponent.GenerateMapAsync();
         await this.mapComponent.LoadRandomSystemAsync();
@@ -46,18 +49,33 @@ public class GameLogic : ScriptableObject {
 
     public async void LoadGameAsync(int index)
     {
-        using (var ms = new FileStream(GetSaveFilePath(index), FileMode.Open))
+        this.saveIndex = index;
+
+        string path = GetSaveFilePath(index);
+        if (File.Exists(path))
         {
-            //var bf = new DataContractSerializer(o.GetType());
-            //bf.WriteObject(ms, o);
+            using (var ms = new FileStream(path, FileMode.Open))
+            {
+                //var bf = new DataContractSerializer(o.GetType());
+                //bf.WriteObject(ms, o);
+            }
+        }
+        else
+        {
+            await NewGameAsync();
         }
 
         //var txt = File.ReadAllText(GetSaveFilePath(index));
     }
 
-    public async void SaveGameAsync(int index)
+    public async void SaveGameAsync()
     {
-
+        string path = GetSaveFilePath(this.saveIndex);
+        using (var ms = new FileStream(path, FileMode.OpenOrCreate))
+        {
+            //var bf = new DataContractSerializer(o.GetType());
+            //bf.WriteObject(ms, o);
+        }
     }
 
     public bool CanJump()

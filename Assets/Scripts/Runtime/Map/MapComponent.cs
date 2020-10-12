@@ -122,6 +122,8 @@ public class MapComponent : MonoBehaviour
         this.currentSystem = target;
         await this.currentSystem.LoadAsync(this.bodySpecs, this.gameObject);
 
+        FindObjectOfType<SimManager>().Refresh();
+
         this.jumpTargets = new Lazy<List<SolarSystem>>(() => 
             this.map.GetJumpTargets(this.currentSystem)
                 .Select(t => t.system)
@@ -138,10 +140,8 @@ public class MapComponent : MonoBehaviour
 
         playerWarpController.enabled = false;
 
-        playerSimMovement.startVelocity = landingVelocity;
+        playerSimMovement.SetVelocity(landingVelocity);
         playerSimMovement.enabled = true;
-
-        FindObjectOfType<SimManager>().Refresh();
 
         // Re-enable player input
         this.player.GetComponent<PlayerController>().enabled = true;
