@@ -3,6 +3,10 @@ using UnityEditor;
 using UnityEditorInternal;
 using System.Collections.Generic;
 using UnityEditor.AnimatedValues;
+using System.Reflection;
+using Assets.Scripts.Editor;
+using System;
+using System.Linq;
 
 [CustomEditor(typeof(UnityEngine.Object), true, isFallback = true)]
 [CanEditMultipleObjects]
@@ -143,6 +147,32 @@ public class CustomEditorBase : Editor
             this.List = null;
         }
 
+        static void CopyValues(object source, object dest)
+        {
+            var sourceProps = source.GetType().GetProperties()
+                .Where(x => x.CanRead)
+                ;
+            var propPairs = dest.GetType().GetProperties()
+                .Where(d => d.CanWrite)
+                .Select(d => (d, s: sourceProps.FirstOrDefault(s => s.Name == d.Name)))
+                .Where(ds => ds.s != null)
+                ;
+            foreach (var (d, s) in propPairs)
+            {
+                d.SetValue(dest, s.GetValue(source));
+            }
+
+            var sourceFields = source.GetType().GetFields();
+            var fieldPairs = dest.GetType().GetFields()
+                .Select(d => (d, s: sourceFields.FirstOrDefault(s => s.Name == d.Name)))
+                .Where(ds => ds.s != null)
+                ;
+            foreach (var (d, s) in fieldPairs)
+            {
+                d.SetValue(dest, s.GetValue(source));
+            }
+        }
+
         private void CreateList()
         {
             bool dragable = true, header = true, add = true, remove = true;
@@ -150,6 +180,15 @@ public class CustomEditorBase : Editor
             this.List.drawHeaderCallback += rect => this._property.isExpanded = EditorGUI.ToggleLeft(rect, this._property.displayName, this._property.isExpanded, EditorStyles.boldLabel);
             this.List.onCanRemoveCallback += list => this.List.count > 0;
             this.List.drawElementCallback += this.DrawElement;
+            this.List.onAddCallback += list => {
+                this._property.InsertArrayElementAtIndex(this._property.arraySize);
+                var item = this._property.GetArrayElementAtIndex(this._property.arraySize - 1);
+                this._property.serializedObject.ApplyModifiedProperties();
+                var (field, obj) = item.GetRealValue();
+                // Construct a proper new instance
+                var newInstance = Activator.CreateInstance(obj.GetType());
+                CopyValues(newInstance, obj);
+            };
             this.List.elementHeightCallback += idx => Mathf.Max(EditorGUIUtility.singleLineHeight, EditorGUI.GetPropertyHeight(this._property.GetArrayElementAtIndex(idx), GUIContent.none, true) + 4.0f);
         }
 

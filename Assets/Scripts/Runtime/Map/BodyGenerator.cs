@@ -20,56 +20,20 @@ public class BodyGenerator : MonoBehaviour
     [NonSerialized]
     public Body body;
 
-    public virtual float tempK => this.body.temp;
-    public float mass => this.body.mass;
-    public float radius => this.body.radius;
-
+    [NonSerialized]
+    public float danger;
 
     public void Init(Body body, float danger)
     {
         this.body = body;
+        this.danger = danger;
 
         Random.InitState(body.randomKey);
 
-        // Orbit setup
-        var orbit = this.GetComponent<Orbit>();
-        if (orbit != null)
-        {
-            orbit.parameters = body.parameters;
-        }
+        this.body.Apply(this.gameObject);
 
-        // Body characteristics
-        var bodyLogic = this.GetComponent<BodyLogic>();
-        if (bodyLogic != null)
-        {
-            bodyLogic.radius = body.radius;
-            bodyLogic.dayPeriod = MathX.RandomGaussian(5, 30 * body.mass) * Mathf.Sign(Random.value - 0.5f);
-        }
-
-        // Gravity
-        var gravitySource = this.GetComponent<GravitySource>();
-        if (gravitySource)
-        {
-            gravitySource.autoMass = false;
-            gravitySource.parameters.mass = body.mass;
-            gravitySource.parameters.density = body.density;
-            //float volume = 4f * Mathf.PI * Mathf.Pow(body.density, 3) / 3f;
-            //gravitySource.parameters.density = body.mass / volume;
-        }
-
-        this.InitInternal(body, danger);
+        this.InitInternal();
     }
 
-#if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        if(this.body != null && this.GetComponent<GravitySource>() != null)
-        {
-            Handles.color = Color.yellow;
-            GUIUtils.Label(this.GetComponent<GravitySource>().target.position + Vector3.down * this.radius * 1.25f, $"{this.tempK:0}°K\n{this.radius:0.00}R\n{this.mass:0.00}M");
-        }
-    }
-#endif
-
-    protected virtual void InitInternal(Body body, float danger) { }
+    protected virtual void InitInternal() { }
 }

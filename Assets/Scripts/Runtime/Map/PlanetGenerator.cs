@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlanetGenerator : BodyGenerator
@@ -17,7 +18,9 @@ public class PlanetGenerator : BodyGenerator
 
     public WeightedRandom hueRandom = new WeightedRandom { min = 0, max = 1f };
 
-    protected override void InitInternal(Body body, float danger)
+    StarOrPlanet planet => this.body as StarOrPlanet;
+
+    protected override void InitInternal()
     {
         // Body characteristics
         var bodyLogic = this.GetComponent<BodyLogic>();
@@ -25,7 +28,7 @@ public class PlanetGenerator : BodyGenerator
 
         // Ring
         var ring = this.GetComponentInChildren<PlanetRingRenderer>();
-        if(ring != null && body.mass >= this.ringMassMin && Random.value <= this.ringChance)
+        if(ring != null && planet.mass >= this.ringMassMin && Random.value <= this.ringChance)
         {
             ring.enabled = true;
             ring.innerRadius = this.ringInnerRadiusRandom.Evaluate(Random.value);
@@ -46,4 +49,15 @@ public class PlanetGenerator : BodyGenerator
         var material = this.planetRenderer.material;
         material.SetFloat("_AlbedoHue", this.hueRandom.Evaluate(Random.value));
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        if (this.body != null && this.GetComponent<GravitySource>() != null)
+        {
+            Handles.color = Color.yellow;
+            GUIUtils.Label(this.GetComponent<GravitySource>().target.position + Vector3.down * this.planet.radius * 1.25f, $"{this.planet.temp:0}°K\n{this.planet.radius:0.00}R\n{this.planet.mass:0.00}M");
+        }
+    }
+#endif
 }

@@ -1,18 +1,22 @@
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [CreateAssetMenu]
 public class GameLogic : ScriptableObject {
-    [HideInInspector]
-    public float collectedMinerals = 0;
-    [HideInInspector]
-    public float collectedGas = 0;
-
     GUILayerManager uiManager;
     MapComponent mapComponent;
     PlayerController player;
+
+    public struct SaveGameData
+    {
+        public Map map;
+        //public List<>
+    }
 
     void OnEnable()
     {
@@ -24,6 +28,31 @@ public class GameLogic : ScriptableObject {
         this.uiManager = FindObjectOfType<GUILayerManager>();
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.player = FindObjectOfType<PlayerController>();
+
+        this.uiManager.ShowMainMenu();
+    }
+
+    public void NewGame()
+    {
+        this.mapComponent.GenerateMap();
+    }
+
+    static string GetSaveFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.xml");
+
+    public void LoadGame(int index)
+    {
+        using (var ms = new FileStream(GetSaveFilePath(index), FileMode.Open))
+        {
+            //var bf = new DataContractSerializer(o.GetType());
+            //bf.WriteObject(ms, o);
+        }
+
+        //var txt = File.ReadAllText(GetSaveFilePath(index));
+    }
+
+    public void SaveGame(int index)
+    {
+
     }
 
     public bool CanJump()

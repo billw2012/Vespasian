@@ -77,13 +77,10 @@ public class MapGenerator : ScriptableObject
 
         [Range(0, 1)]
         public float beltChance = 0.25f;
-        [Range(0, 500)]
-        public float maxBeltOrbit = 150f;
+
+        public WeightedRandom beltRelativeSystemDistance = new WeightedRandom { min = 0.1f, max = 0.4f, gaussian = true };
 
         public WeightedRandom cometCountRandom = new WeightedRandom { min = 0f, max = 5f };
-        public WeightedRandom cometRelativePeriapsisRandom = new WeightedRandom { min = 0f, max = 0.1f };
-        public WeightedRandom cometEccentricityRandom = new WeightedRandom { min = 0.6f, max = 0.95f };
-        public float cometMinApproach = 10f;
     };
 
     public SystemGeneratorParameters systemParams;
@@ -115,22 +112,25 @@ public class MapGenerator : ScriptableObject
 
         if(Random.value <= this.systemParams.beltChance)
         {
-            var randomPlanet = planets.Where(p => p.parameters.periapsis < this.systemParams.maxBeltOrbit).Shuffle().FirstOrDefault();
+            float beltDist = this.systemParams.beltRelativeSystemDistance.Evaluate(Random.value) * systemSize;
 
-            float orbit = 0;
-            if (randomPlanet != null)
-            {
-                planets.Remove(randomPlanet);
-                orbit = randomPlanet.parameters.periapsis;
-            }
-            else
-            {
-                orbit = Random.Range(starRadius * 2, this.systemParams.maxBeltOrbit);
-            }
+            var belt = bodySpecs.RandomBelt(beltDist);
+            //var randomPlanet = planets.Shuffle().FirstOrDefault();
 
-            sys.belts.Add(new Belt { 
-                prefab = bodySpecs.beltPrefab,
-                radius = orbit, 
+            //float orbit = 0;
+            //if (randomPlanet != null)
+            //{
+            //    planets.Remove(randomPlanet);
+            //    orbit = randomPlanet.parameters.periapsis;
+            //}
+            //else
+            //{
+            //    orbit = Random.Range(starRadius * 2, this.systemParams.maxBeltOrbit);
+            //}
+
+            sys.belts.Add(new Belt {
+                specId = belt.id,
+                radius = beltDist,
                 width = Random.Range(3f, 10f),
                 direction = direction,
             });
@@ -139,10 +139,10 @@ public class MapGenerator : ScriptableObject
         int cometCount = Mathf.FloorToInt(this.systemParams.cometCountRandom.Evaluate(Random.value));
         sys.comets.AddRange(this.GenerateComets(bodySpecs, cometCount, starRadius, systemSize));
 
-        sys.main = new Body
+        sys.main = new StarOrPlanet
         {
             randomKey = Random.Range(0, int.MaxValue),
-            prefab = mainSpec.prefab,
+            specId = mainSpec.id,
             density = starDensity,
             radius = starRadius,
             temp = starTemp,
@@ -153,24 +153,25 @@ public class MapGenerator : ScriptableObject
         return sys;
     }
 
-    private List<Body> GenerateComets(BodySpecs bodySpecs, int cometCount, float starRadius, float systemSize)
+    private List<Comet> GenerateComets(BodySpecs bodySpecs, int cometCount, float starRadius, float systemSize)
     {
-        var comets = new List<Body>();
+        var comets = new List<Comet>();
 
         for (int i = 0; i < cometCount; i++)
         {
-            float periapsis = Mathf.Max(starRadius * 2, this.systemParams.cometMinApproach, this.systemParams.cometRelativePeriapsisRandom.Evaluate(Random.value) * systemSize);
+            var spec = bodySpecs.RandomComet();
+            float periapsis = Mathf.Max(starRadius * 2, spec.minApproach, spec.relativePeriapsisRandom.Evaluate(Random.value) * systemSize);
 
-            float ecc = this.systemParams.cometEccentricityRandom.Evaluate(Random.value);
+            float ecc = spec.eccentricityRandom.Evaluate(Random.value);
             float apoapsis = (1f + ecc) * periapsis / (1f - ecc);
 
             // float apoapsis = Mathf.Max(periapsis * 3, this.systemParams.cometRelativeApoapsisRandom.Evaluate(Random.value) * systemSize);
 
             var direction = Random.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise;
-            var comet = new Body
+            var comet = new Comet
             {
                  randomKey = Random.Range(0, int.MaxValue),
-                 prefab = bodySpecs.cometPrefab,
+                 specId = spec.id,
                  parameters = new OrbitParameters
                  {
                      periapsis = periapsis,
@@ -189,7 +190,7 @@ public class MapGenerator : ScriptableObject
     // Bodies are created by assuming a Log Normal distribution of mass wrt distance from their primary.
     // We use the CDF to slice the mass function into sections for each planet
     // See https://www.desmos.com/calculator/xfskhgkr9l
-    private List<Body> GenerateBodies(BodySpecs bodySpecs, 
+    private List<StarOrPlanet> GenerateBodies(BodySpecs bodySpecs, 
         float starTemp,
         float starRadius,
         float starDistance,
@@ -208,7 +209,7 @@ public class MapGenerator : ScriptableObject
         float orbitalDistance = primaryRadius + this.systemParams.startOrbitMinFromPrimary + systemSize * this.systemParams.startOrbitRatioRandom.Evaluate(Random.value);
         float totalMass = 0;
 
-        var bodies = new List<Body>();
+        var bodies = new List<StarOrPlanet>();
 
         for (int i = 0; i < this.systemParams.maxPlanets && orbitalDistance < systemSize && totalMass < desiredTotalMass; i++)
         {
@@ -232,7 +233,7 @@ public class MapGenerator : ScriptableObject
                 desiredTotalMass: planetMass * this.systemParams.moonSystemMassPlanetMassRatioRandom.Evaluate(Random.value),
                 massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(Random.value),
                 massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(Random.value),
-                allowMoons: false) : new List<Body>();
+                allowMoons: false) : new List<StarOrPlanet>();
 
             // Adjust orbital distance by moon system actual size and planet radius, so we don't waste space
             moonSystemSize = moons.Any()? moons.Max(c => c.parameters.apoapsis) : 0;
@@ -250,10 +251,10 @@ public class MapGenerator : ScriptableObject
             float orbitalDistance2 = orbitalDistance * (1 + this.systemParams.eccentricityAmountRandom.Evaluate(Random.value) * EccentricChance());
 
 
-            var planet = new Body
+            var planet = new StarOrPlanet
             {
                 randomKey = Random.Range(0, int.MaxValue),
-                prefab = bodySpecs.RandomPlanet(planetMass, planetTemp).prefab,
+                specId = bodySpecs.RandomPlanet(planetMass, planetTemp).id,
                 parameters = new OrbitParameters
                 {
                     periapsis = orbitalDistance,
@@ -271,8 +272,7 @@ public class MapGenerator : ScriptableObject
             bodies.Add(planet);
 
             // Move to next orbital distance
-            orbitalDistance = Mathf.Max(orbitalDistance2 + planetRadius + moonSystemSize + this.systemParams.minOrbitSeperation, orbitalDistance2 * Mathf.Max(1, Mathf.Pow(this.systemParams.nextOrbitRadiusBase, this.systemParams.nextOrbitRadiusPowerRandom.Evaluate(Random.value))))
-;
+            orbitalDistance = Mathf.Max(orbitalDistance2 + planetRadius + moonSystemSize + this.systemParams.minOrbitSeperation, orbitalDistance2 * Mathf.Max(1, Mathf.Pow(this.systemParams.nextOrbitRadiusBase, this.systemParams.nextOrbitRadiusPowerRandom.Evaluate(Random.value))));
             totalMass += planetMass;
         }
         return bodies;

@@ -9,7 +9,7 @@ public class CameraPostEffectRadius : MonoBehaviour
     [Tooltip("Ratio of effect area to screen at which effects will be completely on"), Range(0, 1)]
     public float maxCoverage = 0.5f;
 
-    public Camera camera;
+    public new Camera camera;
 
     public PostEffect effect;
 

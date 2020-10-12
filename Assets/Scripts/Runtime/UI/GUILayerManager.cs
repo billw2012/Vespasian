@@ -1,4 +1,5 @@
 ﻿using Pixelplacement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,4 +49,6 @@ public class GUILayerManager : MonoBehaviour
             ui.SetActive(ui == uiToEnable);
         }
     }
+
+    public void ShowMainMenu() { }
 }

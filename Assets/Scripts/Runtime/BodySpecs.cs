@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,30 +19,30 @@ public class BodySpecs : ScriptableObject
     // Total system mass can determine star and planets
 
     [Serializable]
-    public class StarSpec
+    public class BodySpec
     {
+        public string id = Guid.NewGuid().ToString();
         public GameObject prefab;
 
-        [Tooltip("Chance of this body type occurring"), Range(0, 1)]
-        public float probability;
+        [Tooltip("Higher priority will always replace lower priority when all criteria match")]
+        public int priority = 0;
 
+        [Tooltip("Chance of this body type occurring"), Range(0, 1)]
+        public float probability = 1;
+    }
+
+    [Serializable][KnownType(typeof(StarSpec))]
+    public class StarSpec : BodySpec
+    {
         public WeightedRandom massRandom = new WeightedRandom { min = 5, max = 30 };
         [Tooltip("Temperature in units of 10000 kelvin")]
         public WeightedRandom tempRandom = new WeightedRandom { min = 0.4f, max = 5f };
         public WeightedRandom densityRandom = new WeightedRandom { min = 1f, max = 1f, gaussian = true };
     }
 
-    [Serializable]
-    public class PlanetSpec
+    [Serializable][KnownType(typeof(PlanetSpec))]
+    public class PlanetSpec : BodySpec
     {
-        public GameObject prefab;
-
-        [Tooltip("Higher priority will always replace lower priority")]
-        public int priority = 0;
-
-        [Tooltip("When planets have the same priority they are randomly selected based on this"), Range(0, 1)]
-        public float probability = 1;
-
         public WeightedRandom densityRandom = new WeightedRandom { min = 2f, max = 2f, gaussian = true };
 
         public float minMass = 0;
@@ -53,72 +54,61 @@ public class BodySpecs : ScriptableObject
         public bool Matches(float mass, float temp) => this.minMass <= mass && mass <= this.maxMass && this.minTemp <= temp && temp <= this.maxTemp;
     }
 
-    //[Serializable]
-    //public class PlanetSpec
-    //{
-    //    //[Tooltip("Mean relative distance this body can be at"), Range(0, 1)]
-    //    //public float distanceMean;
-    //    //// See https://www.desmos.com/calculator/2kmx0enkkz for normal distribution
-    //    //[Tooltip("Standard deviation of the relative distance this body can appear in (as per normal distribution)"), Range(0, 1)]
-    //    //public float distanceStdDev;
-
-    //    [Range(0, 100)]
-    //    public float mass = 20f;
-
-
-    //    public GameObject[] variants;
-
-    //    //public float CalcProbability(float temp, float mass)
-    //    //{
-    //    //    float tempP = MathX.NormalDistribution(temp, this.tempMean, this.tempStdDev);
-    //    //    float massP = MathX.NormalDistribution(mass, this.massMean, this.massStdDev);
-    //    //    return tempP * massP * this.probabilityModifier;
-    //    //}
-    //}
-
-    //[Range(0, 1)]
-    public float planetTempMultiplier = 1f;
-    //[Range(0.0001f, 10)]
-    public float planetMassMultiplier = 1f;
-    //[Range(1, 5)]
-    public float tempFalloffRate = 4f;
-
-    public List<StarSpec> stars;
-    public List<PlanetSpec> planets;
-
-    public GameObject beltPrefab;
-    public GameObject cometPrefab;
-
-    //static BodySpec MatchSpec(IEnumerable<BodySpec> specs, Func<BodySpec, float> criteria, float value)
-    //{
-    //    return specs.OrderBy(s => Mathf.Abs(criteria(s) - value)).FirstOrDefault();
-    //}
-
-    //static BodySpec MatchSpec(List<BodySpec> specs, float temp, float mass, float radius)
-    //{
-
-    //}
-
-    public StarSpec RandomStar()
+    [Serializable][KnownType(typeof(BeltSpec))]
+    public class BeltSpec : BodySpec
     {
-        return this.stars.SelectWeighted(Random.value, s => s.probability);
+        public float minDistance = 0f;
+        public float maxDistance = Mathf.Infinity;
+
+        public bool Matches(float distance) => this.minDistance <= distance && distance <= this.maxDistance;
     }
 
-    float Lum(float radius, float temp) => 4f * Mathf.PI * Mathf.Pow(radius, 2) * Mathf.Pow(temp, 4);
+    [Serializable][KnownType(typeof(CometSpec))]
+    public class CometSpec : BodySpec
+    {
+        public WeightedRandom relativePeriapsisRandom = new WeightedRandom { min = 0f, max = 0.1f };
+        public WeightedRandom eccentricityRandom = new WeightedRandom { min = 0.6f, max = 0.95f };
+        public float minApproach = 10f;
+    }
 
-    float Power(float distance, float starLum) => starLum / (4f * Mathf.PI * Mathf.Pow(distance, this.tempFalloffRate));
+    public List<StarSpec> stars;
+
+    public float planetTempMultiplier = 1f;
+    public float planetMassMultiplier = 1f;
+    public float tempFalloffRate = 4f;
+    public List<PlanetSpec> planets;
+
+    public List<BeltSpec> belts;
+
+    public List<CometSpec> comets;
+
+    public IEnumerable<BodySpec> all => this.stars.OfType<BodySpec>().Concat(this.planets).Concat(this.belts).Concat(this.comets);
+
+    public StarSpec RandomStar() => this.stars.SelectWeighted(Random.value, s => s.probability);
+
+    public PlanetSpec RandomPlanet(float mass, float temp) => MatchedRandom(this.planets, p => p.Matches(mass * this.planetMassMultiplier, temp));
+
+    public BeltSpec RandomBelt(float distance) => MatchedRandom(this.belts, b => b.Matches(distance));
+
+    public CometSpec RandomComet() => MatchedRandom(this.comets, c => true);
+
+    public BodySpec GetSpecById(string id) => this.all.FirstOrDefault(b => b.id == id);
 
     public float PlanetTemp(float distance, float starLum) => this.planetTempMultiplier * 2500f * Mathf.Pow(this.Power(distance, starLum), 0.25f);
 
     public float PlanetTemp(float distance, float starRadius, float starTemp) => this.PlanetTemp(distance, this.Lum(starRadius, starTemp));
 
-    public PlanetSpec RandomPlanet(float mass, float temp)
+    float Lum(float radius, float temp) => 4f * Mathf.PI * Mathf.Pow(radius, 2) * Mathf.Pow(temp, 4);
+
+    float Power(float distance, float starLum) => starLum / (4f * Mathf.PI * Mathf.Pow(distance, this.tempFalloffRate));
+
+    static T MatchedRandom<T>(IEnumerable<T> specs, Func<T, bool> matchFunc) where T : BodySpec
     {
-        var matches = this.planets.Where(p => p.Matches(mass * this.planetMassMultiplier, temp));
-        if(!matches.Any())
+        var matches = specs.Where(matchFunc);
+        if (!matches.Any())
         {
-            Debug.LogWarning($"No planet found matching adjusted mass {mass * this.planetMassMultiplier} and temp {temp}");
-            return this.planets.First();
+            Debug.LogWarning($"No body found matching criteria");
+            return specs.First();
         }
         int toppriority = matches.Max(p => p.priority);
         return matches

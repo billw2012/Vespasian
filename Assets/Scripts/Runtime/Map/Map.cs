@@ -4,45 +4,127 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
-public class Body
+public abstract class Body
 {
-    public GameObject prefab;
+    public string specId;
+    public int randomKey;
+
+    public abstract GameObject Instance(BodySpecs bodySpecs, float systemDanger);
+
+    public abstract void Apply(GameObject target);
+}
+
+public class StarOrPlanet : Body
+{
     public OrbitParameters parameters = OrbitParameters.Zero;
 
-    public List<Body> children = new List<Body>();
+    public List<StarOrPlanet> children = new List<StarOrPlanet>();
 
-    public int randomKey;
     public float temp;
     public float density;
     public float radius;
     public float mass;
 
-    public GameObject InstanceHierarchy(float systemDanger)
+    public override GameObject Instance(BodySpecs bodySpecs, float systemDanger)
     {
-        var self = this.Instance(systemDanger);
+        var self = this.InstanceSelf(bodySpecs, systemDanger);
         foreach (var child in this.children)
         {
-            var childInstance = child.InstanceHierarchy(systemDanger);
+            var childInstance = child.Instance(bodySpecs, systemDanger);
             childInstance.transform.SetParent(self.GetComponent<Orbit>().position.transform, worldPositionStays: false);
         }
         return self;
     }
 
-    GameObject Instance(float systemDanger)
+    public override void Apply(GameObject target)
     {
-        var obj = Object.Instantiate(this.prefab);
+        // Orbit setup
+        var orbit = target.GetComponent<Orbit>();
+        if (orbit != null)
+        {
+            orbit.parameters = this.parameters;
+        }
+
+        // Body characteristics
+        var bodyLogic = target.GetComponent<BodyLogic>();
+        if (bodyLogic != null)
+        {
+            bodyLogic.radius = this.radius;
+            bodyLogic.dayPeriod = MathX.RandomGaussian(5, 30 * this.mass) * Mathf.Sign(Random.value - 0.5f);
+        }
+
+        // Gravity
+        var gravitySource = target.GetComponent<GravitySource>();
+        if (gravitySource)
+        {
+            gravitySource.autoMass = false;
+            gravitySource.parameters.mass = this.mass;
+            gravitySource.parameters.density = this.density;
+            //float volume = 4f * Mathf.PI * Mathf.Pow(body.density, 3) / 3f;
+            //gravitySource.parameters.density = body.mass / volume;
+        }
+    }
+
+    GameObject InstanceSelf (BodySpecs bodySpecs, float systemDanger)
+    {
+        var spec = bodySpecs.GetSpecById(this.specId);
+        var obj = Object.Instantiate(spec.prefab);
         obj.GetComponent<BodyGenerator>().Init(this, systemDanger);
         return obj;
     }
 }
 
-public class Belt
+public class Belt : Body
 {
-    public GameObject prefab;
     public float radius;
     public float width;
     public OrbitParameters.OrbitDirection direction;
+
+    public override GameObject Instance(BodySpecs bodySpecs, float systemDanger)
+    {
+        var spec = bodySpecs.GetSpecById(this.specId);
+
+        var obj = Object.Instantiate(spec.prefab);
+
+        obj.GetComponent<BodyGenerator>().Init(this, systemDanger);
+
+        return obj;
+    }
+
+    public override void Apply(GameObject target)
+    {
+        var asteroidRing = target.GetComponent<AsteroidRing>();
+        asteroidRing.radius = this.radius;
+        asteroidRing.width = this.width;
+        asteroidRing.direction = this.direction;
+    }
+}
+
+public class Comet : Body
+{
+    public string prefabId;
+
+    public OrbitParameters parameters = OrbitParameters.Zero;
+
+    public override GameObject Instance(BodySpecs bodySpecs, float systemDanger)
+    {
+        var spec = bodySpecs.GetSpecById(this.specId);
+        var obj = Object.Instantiate(spec.prefab);
+        obj.GetComponent<BodyGenerator>().Init(this, systemDanger);
+        return obj;
+    }
+
+    public override void Apply(GameObject target)
+    {
+        // Orbit setup
+        var orbit = target.GetComponent<Orbit>();
+        if (orbit != null)
+        {
+            orbit.parameters = this.parameters;
+        }
+    }
 }
 
 public class Link : IEquatable<Link>
@@ -81,13 +163,13 @@ public class SolarSystem
 {
     public Vector2 position;
 
-    public Body main;
+    public StarOrPlanet main;
 
     public string name;
 
     public float danger;
 
-    public List<Body> comets = new List<Body>();
+    public List<Comet> comets = new List<Comet>();
     public List<Belt> belts = new List<Belt>();
 
     public static void Unload(GameObject root)
@@ -99,26 +181,24 @@ public class SolarSystem
         }
     }
 
-    public async Task LoadAsync(GameObject root)
+    public async Task LoadAsync(BodySpecs bodySpecs, GameObject root)
     {
-        var rootBody = this.main.InstanceHierarchy(this.danger);
+        var rootBody = this.main.Instance(bodySpecs, this.danger);
         foreach (var belt in this.belts)
         {
-            var beltObject = Object.Instantiate(belt.prefab, rootBody.transform);
-            var asteroidRing = beltObject.GetComponent<AsteroidRing>();
-            asteroidRing.radius = belt.radius;
-            asteroidRing.width = belt.width;
-            asteroidRing.direction = belt.direction;
+            var beltObject = belt.Instance(bodySpecs, this.danger);
+            beltObject.transform.SetParent(rootBody.transform);
         }
         foreach (var comet in this.comets)
         {
-            var cometObject = comet.InstanceHierarchy(this.danger);
+            var cometObject = comet.Instance(bodySpecs, this.danger);
             cometObject.transform.SetParent(rootBody.transform);
         }
-
+        // We load the new system first and wait for it before unloading the previous one
         await new WaitUntil(() => rootBody.activeSelf);
 
         Unload(root);
+
         var systemObject = new GameObject("System");
         systemObject.transform.SetParent(root.transform, worldPositionStays: false);
 

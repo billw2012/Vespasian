@@ -31,7 +31,7 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
     public async void RegenerateAsync()
     {
         var system = this.generator.GenerateSystem(this.key, this.bodySpecs, "test", Vector2.zero);
-        await system.LoadAsync(this.gameObject);
+        await system.LoadAsync(this.bodySpecs, this.gameObject);
         FindObjectOfType<SimManager>().Refresh();
     }
 

@@ -8,12 +8,12 @@ using Random = UnityEngine.Random;
 
 public class MapComponent : MonoBehaviour
 {
+    public GUILayerManager uiManager;
     public BodySpecs bodySpecs;
     public MapGenerator generator;
 
+    [NonSerialized]
     public Map map;
-
-    public GUILayerManager uiManager;
 
     [NonSerialized]
     public SolarSystem currentSystem;
@@ -24,16 +24,18 @@ public class MapComponent : MonoBehaviour
 
     PlayerController player => FindObjectOfType<PlayerController>();
 
-    // Start is called before the first frame update
-    void Awake()
-    {
-        this.map = this.generator.Generate(this.bodySpecs);
-    }
+    //// Start is called before the first frame update
+    //void Awake()
+    //{
+    //    this.map = this.generator.Generate(this.bodySpecs);
+    //}
 
     void Start()
     {
         _ = this.LoadRandomSystemAsync();
     }
+
+    internal void GenerateMap() => throw new NotImplementedException();
 
     void Update()
     {
@@ -118,7 +120,7 @@ public class MapComponent : MonoBehaviour
 
         // Destroy old system, update player position and create new one
         this.currentSystem = target;
-        await this.currentSystem.LoadAsync(this.gameObject);
+        await this.currentSystem.LoadAsync(this.bodySpecs, this.gameObject);
 
         this.jumpTargets = new Lazy<List<SolarSystem>>(() => 
             this.map.GetJumpTargets(this.currentSystem)

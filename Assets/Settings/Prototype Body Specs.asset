@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa0b569c06dce84b9fda8c6737fd636, type: 3}
   m_Name: Prototype Body Specs
   m_EditorClassIdentifier: 
-  planetTempMultiplier: 4.28
-  planetMassMultiplier: 1
-  tempFalloffRate: 4.37
   stars:
-  - prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
+  - id: 7d8b3e84-c97a-4a4a-8dee-ae16e3a79f50
+    prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
+    priority: 0
     probability: 1
     massRandom:
       weighting:
@@ -102,8 +101,10 @@ MonoBehaviour:
       gaussian: 1
       min: 0.75
       max: 1.25
-  - prefab: {fileID: 6712538652355592438, guid: 787a92d05373ab246b5e935d8c0c2c64,
+  - id: fcc9d033-939c-490d-9e28-ac66d66a0d89
+    prefab: {fileID: 6712538652355592438, guid: 787a92d05373ab246b5e935d8c0c2c64,
       type: 3}
+    priority: 0
     probability: 1
     massRandom:
       weighting:
@@ -189,8 +190,12 @@ MonoBehaviour:
       gaussian: 1
       min: 50
       max: 50
+  planetTempMultiplier: 4.28
+  planetMassMultiplier: 1
+  tempFalloffRate: 4.37
   planets:
-  - prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
+  - id: 9511b178-ae18-4d25-8858-b4f75cee8c83
+    prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
       type: 3}
     priority: 0
     probability: 1
@@ -226,7 +231,8 @@ MonoBehaviour:
     maxMass: 5
     minTemp: -Infinity
     maxTemp: Infinity
-  - prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
+  - id: 47b1a776-c40d-4c41-be4c-2fffaece12fe
+    prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
       type: 3}
     priority: 0
     probability: 0.145
@@ -262,7 +268,8 @@ MonoBehaviour:
     maxMass: 5
     minTemp: -Infinity
     maxTemp: Infinity
-  - prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
+  - id: f3c1a7dc-03e6-4266-bd89-d154ac18d3e9
+    prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
       type: 3}
     priority: 0
     probability: 0.106
@@ -298,7 +305,8 @@ MonoBehaviour:
     maxMass: 5
     minTemp: 270
     maxTemp: 300
-  - prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
+  - id: 15c068e7-5166-4033-bd7c-a30ec51327be
+    prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
       type: 3}
     priority: 1
     probability: 1
@@ -334,7 +342,8 @@ MonoBehaviour:
     maxMass: 5
     minTemp: -Infinity
     maxTemp: 270
-  - prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
+  - id: 0e2a306e-1046-46b1-81b6-03a88513f4a9
+    prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
       type: 3}
     priority: 1
     probability: 1
@@ -370,7 +379,8 @@ MonoBehaviour:
     maxMass: 5
     minTemp: 500
     maxTemp: Infinity
-  - prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
+  - id: 3c2f575c-cd62-49d2-a56b-5413055c2225
+    prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
       type: 3}
     priority: 0
     probability: 1
@@ -406,7 +416,8 @@ MonoBehaviour:
     maxMass: Infinity
     minTemp: -Infinity
     maxTemp: 550
-  - prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
+  - id: 9df16a60-bf08-4d2f-a242-509ddc8196ee
+    prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
       type: 3}
     priority: 0
     probability: 1
@@ -442,7 +453,8 @@ MonoBehaviour:
     maxMass: Infinity
     minTemp: -Infinity
     maxTemp: 550
-  - prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
+  - id: 3dfa6224-84c0-449f-9837-65d669cd0901
+    prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
       type: 3}
     priority: 1
     probability: 1
@@ -478,11 +490,19 @@ MonoBehaviour:
     maxMass: Infinity
     minTemp: 500
     maxTemp: Infinity
-  - prefab: {fileID: 7573446184434855522, guid: a90148a3f88063548bd7166c9acc32cc,
-      type: 3}
+  belts:
+  - id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9
+    prefab: {fileID: 676661824646031810, guid: 5ea3989bdff690444940403f15f9f38f, type: 3}
     priority: 0
     probability: 1
-    densityRandom:
+    minDistance: 0
+    maxDistance: Infinity
+  comets:
+  - id: 44c24eeb-61ab-4587-9ce5-09d9579f9bbb
+    prefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8, type: 3}
+    priority: 0
+    probability: 1
+    relativePeriapsisRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -507,14 +527,35 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 5
-    maxMass: Infinity
-    minTemp: 500
-    maxTemp: Infinity
-  beltPrefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de,
-    type: 3}
-  cometPrefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8,
-    type: 3}
+      gaussian: 0
+      min: 0
+      max: 0.1
+    eccentricityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0.6
+      max: 0.95
+    minApproach: 10
