@@ -8,5 +8,5 @@ public class WeightedRandom
     public bool gaussian = false;
     public float min;
     public float max;
-    public float Evaluate(float randomValue) => this.gaussian ? MathX.RandomGaussian(this.min, this.max) : Mathf.Lerp(this.min, this.max, this.weighting.Evaluate(randomValue));
+    public float Evaluate(RandomX rng) => this.gaussian ? rng.RandomGaussian(this.min, this.max) : Mathf.Lerp(this.min, this.max, this.weighting.Evaluate(rng.value));
 }

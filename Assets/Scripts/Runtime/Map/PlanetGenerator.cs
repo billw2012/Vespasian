@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 public class PlanetGenerator : BodyGenerator
@@ -20,25 +18,25 @@ public class PlanetGenerator : BodyGenerator
 
     StarOrPlanet planet => this.body as StarOrPlanet;
 
-    protected override void InitInternal()
+    protected override void InitInternal(RandomX rng)
     {
         // Body characteristics
         var bodyLogic = this.GetComponent<BodyLogic>();
-        bodyLogic.geometry.localRotation = Quaternion.Euler(MathX.RandomGaussian(-90f, 90f), 0, 0);
+        bodyLogic.geometry.localRotation = Quaternion.Euler(rng.RandomGaussian(-90f, 90f), 0, 0);
 
         // Ring
         var ring = this.GetComponentInChildren<PlanetRingRenderer>();
-        if(ring != null && planet.mass >= this.ringMassMin && Random.value <= this.ringChance)
+        if(ring != null && this.planet.mass >= this.ringMassMin && rng.value <= this.ringChance)
         {
             ring.enabled = true;
-            ring.innerRadius = this.ringInnerRadiusRandom.Evaluate(Random.value);
-            ring.width = this.ringWidthRandom.Evaluate(Random.value);
-            ring.color = Random.ColorHSV();
-            ring.emissive = Random.ColorHSV();
-            ring.saturation = this.ringSaturationRandom.Evaluate(Random.value);
-            ring.contrast = this.ringContrastRandom.Evaluate(Random.value);
-            ring.patternSelect = Random.value;
-            ring.patternOffset = Random.value;
+            ring.innerRadius = this.ringInnerRadiusRandom.Evaluate(rng);
+            ring.width = this.ringWidthRandom.Evaluate(rng);
+            ring.color = rng.ColorHSV();
+            ring.emissive = rng.ColorHSV();
+            ring.saturation = this.ringSaturationRandom.Evaluate(rng);
+            ring.contrast = this.ringContrastRandom.Evaluate(rng);
+            ring.patternSelect = rng.value;
+            ring.patternOffset = rng.value;
         }
         else if (ring != null)
         {
@@ -47,7 +45,7 @@ public class PlanetGenerator : BodyGenerator
 
         // Color
         var material = this.planetRenderer.material;
-        material.SetFloat("_AlbedoHue", this.hueRandom.Evaluate(Random.value));
+        material.SetFloat("_AlbedoHue", this.hueRandom.Evaluate(rng));
     }
 
 #if UNITY_EDITOR

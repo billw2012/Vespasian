@@ -29,17 +29,22 @@ public class GameLogic : ScriptableObject {
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.player = FindObjectOfType<PlayerController>();
 
-        this.uiManager.ShowMainMenu();
+        if(this.mapComponent != null && this.player != null)
+        {
+            this.uiManager.ShowMainMenuUI();
+        }
     }
 
-    public void NewGame()
+    public async void NewGameAsync()
     {
-        this.mapComponent.GenerateMap();
+        await this.mapComponent.GenerateMapAsync();
+        await this.mapComponent.LoadRandomSystemAsync();
+        //this.uiManager.ShowPlayUI();
     }
 
     static string GetSaveFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.xml");
 
-    public void LoadGame(int index)
+    public async void LoadGameAsync(int index)
     {
         using (var ms = new FileStream(GetSaveFilePath(index), FileMode.Open))
         {
@@ -50,7 +55,7 @@ public class GameLogic : ScriptableObject {
         //var txt = File.ReadAllText(GetSaveFilePath(index));
     }
 
-    public void SaveGame(int index)
+    public async void SaveGameAsync(int index)
     {
 
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 [CreateAssetMenu]
 public class BodySpecs : ScriptableObject
@@ -84,13 +83,13 @@ public class BodySpecs : ScriptableObject
 
     public IEnumerable<BodySpec> all => this.stars.OfType<BodySpec>().Concat(this.planets).Concat(this.belts).Concat(this.comets);
 
-    public StarSpec RandomStar() => this.stars.SelectWeighted(Random.value, s => s.probability);
+    public StarSpec RandomStar(RandomX rng) => this.stars.SelectWeighted(rng.value, s => s.probability);
 
-    public PlanetSpec RandomPlanet(float mass, float temp) => MatchedRandom(this.planets, p => p.Matches(mass * this.planetMassMultiplier, temp));
+    public PlanetSpec RandomPlanet(RandomX rng, float mass, float temp) => MatchedRandom(rng, this.planets, p => p.Matches(mass * this.planetMassMultiplier, temp));
 
-    public BeltSpec RandomBelt(float distance) => MatchedRandom(this.belts, b => b.Matches(distance));
+    public BeltSpec RandomBelt(RandomX rng, float distance) => MatchedRandom(rng, this.belts, b => b.Matches(distance));
 
-    public CometSpec RandomComet() => MatchedRandom(this.comets, c => true);
+    public CometSpec RandomComet(RandomX rng) => MatchedRandom(rng, this.comets, c => true);
 
     public BodySpec GetSpecById(string id) => this.all.FirstOrDefault(b => b.id == id);
 
@@ -102,7 +101,7 @@ public class BodySpecs : ScriptableObject
 
     float Power(float distance, float starLum) => starLum / (4f * Mathf.PI * Mathf.Pow(distance, this.tempFalloffRate));
 
-    static T MatchedRandom<T>(IEnumerable<T> specs, Func<T, bool> matchFunc) where T : BodySpec
+    static T MatchedRandom<T>(RandomX rng, IEnumerable<T> specs, Func<T, bool> matchFunc) where T : BodySpec
     {
         var matches = specs.Where(matchFunc);
         if (!matches.Any())
@@ -113,6 +112,6 @@ public class BodySpecs : ScriptableObject
         int toppriority = matches.Max(p => p.priority);
         return matches
             .Where(p => p.priority == toppriority)
-            .SelectWeighted(Random.value, p => p.probability);
+            .SelectWeighted(rng.value, p => p.probability);
     }
 }

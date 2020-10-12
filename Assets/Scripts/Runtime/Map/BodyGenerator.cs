@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -28,12 +25,12 @@ public class BodyGenerator : MonoBehaviour
         this.body = body;
         this.danger = danger;
 
-        Random.InitState(body.randomKey);
+        var rng = new RandomX(body.randomKey);
 
-        this.body.Apply(this.gameObject);
+        this.body.Apply(this.gameObject, rng);
 
-        this.InitInternal();
+        this.InitInternal(rng);
     }
 
-    protected virtual void InitInternal() { }
+    protected virtual void InitInternal(RandomX rng) { }
 }

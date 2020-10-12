@@ -11,7 +11,7 @@ public class SunGenerator : BodyGenerator
 
     public float temp => this.star.temp * 10000;
 
-    protected override void InitInternal()
+    protected override void InitInternal(RandomX rng)
     {
         var starLogic = this.GetComponent<StarLogic>();
         var color = Mathf.CorrelatedColorTemperatureToRGB(this.temp);

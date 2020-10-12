@@ -10,7 +10,7 @@ public class MapComponent : MonoBehaviour
 {
     public GUILayerManager uiManager;
     public BodySpecs bodySpecs;
-    public MapGenerator generator;
+    public MapGenerator mapGenerator;
 
     [NonSerialized]
     public Map map;
@@ -30,12 +30,10 @@ public class MapComponent : MonoBehaviour
     //    this.map = this.generator.Generate(this.bodySpecs);
     //}
 
-    void Start()
-    {
-        _ = this.LoadRandomSystemAsync();
-    }
-
-    internal void GenerateMap() => throw new NotImplementedException();
+    //void Start()
+    //{
+    //    _ = this.LoadRandomSystemAsync();
+    //}
 
     void Update()
     {
@@ -51,6 +49,8 @@ public class MapComponent : MonoBehaviour
             this.jumpTarget = new Lazy<SolarSystem>(() => null);
         }
     }
+
+    public async Task GenerateMapAsync() => this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs);
 
     public SolarSystem GetJumpTarget() => this.jumpTarget.Value;
 

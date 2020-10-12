@@ -13,7 +13,7 @@ public abstract class Body
 
     public abstract GameObject Instance(BodySpecs bodySpecs, float systemDanger);
 
-    public abstract void Apply(GameObject target);
+    public abstract void Apply(GameObject target, RandomX rng);
 }
 
 public class StarOrPlanet : Body
@@ -38,7 +38,7 @@ public class StarOrPlanet : Body
         return self;
     }
 
-    public override void Apply(GameObject target)
+    public override void Apply(GameObject target, RandomX rng)
     {
         // Orbit setup
         var orbit = target.GetComponent<Orbit>();
@@ -52,7 +52,7 @@ public class StarOrPlanet : Body
         if (bodyLogic != null)
         {
             bodyLogic.radius = this.radius;
-            bodyLogic.dayPeriod = MathX.RandomGaussian(5, 30 * this.mass) * Mathf.Sign(Random.value - 0.5f);
+            bodyLogic.dayPeriod = rng.RandomGaussian(5, 30 * this.mass) * Mathf.Sign(rng.value - 0.5f);
         }
 
         // Gravity
@@ -93,7 +93,7 @@ public class Belt : Body
         return obj;
     }
 
-    public override void Apply(GameObject target)
+    public override void Apply(GameObject target, RandomX rng)
     {
         var asteroidRing = target.GetComponent<AsteroidRing>();
         asteroidRing.radius = this.radius;
@@ -116,7 +116,7 @@ public class Comet : Body
         return obj;
     }
 
-    public override void Apply(GameObject target)
+    public override void Apply(GameObject target, RandomX rng)
     {
         // Orbit setup
         var orbit = target.GetComponent<Orbit>();
@@ -151,7 +151,7 @@ public class Link : IEquatable<Link>
     public override int GetHashCode()
     {
         int hashCode = -1951484959;
-        hashCode = hashCode * -1521134295 + (EqualityComparer<SolarSystem>.Default.GetHashCode(this.from) + EqualityComparer<SolarSystem>.Default.GetHashCode(this.to));
+        hashCode = hashCode * -1521134295 + EqualityComparer<SolarSystem>.Default.GetHashCode(this.from) + EqualityComparer<SolarSystem>.Default.GetHashCode(this.to);
         return hashCode;
     }
 

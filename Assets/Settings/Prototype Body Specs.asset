@@ -492,7 +492,7 @@ MonoBehaviour:
     maxTemp: Infinity
   belts:
   - id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9
-    prefab: {fileID: 676661824646031810, guid: 5ea3989bdff690444940403f15f9f38f, type: 3}
+    prefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de, type: 3}
     priority: 0
     probability: 1
     minDistance: 0
