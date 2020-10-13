@@ -54,16 +54,27 @@ public class MapComponent : MonoBehaviour
 
     public SolarSystem GetJumpTarget() => this.jumpTarget.Value;
 
-    public bool CanJump()
-    {
-        return this.GetJumpTarget() != null;
-    }
+    public bool CanJump() => this.GetJumpTarget() != null;
 
     public async Task JumpAsyc()
     {
         Assert.IsNotNull(this.GetJumpTarget());
 
         await this.JumpAsync(this.GetJumpTarget());
+    }
+
+    public async Task LoadSystemAsync(SolarSystem target)
+    {
+        this.currentSystem = target;
+        await this.currentSystem.LoadAsync(this.bodySpecs, this.gameObject);
+
+        FindObjectOfType<SimManager>().Refresh();
+
+        this.jumpTargets = new Lazy<List<SolarSystem>>(() =>
+            this.map.GetJumpTargets(this.currentSystem)
+                .Select(t => t.system)
+                .ToList()
+            );
     }
 
     public async Task JumpAsync(SolarSystem target)
@@ -80,11 +91,6 @@ public class MapComponent : MonoBehaviour
 
         // Disable player input
         this.player.GetComponent<PlayerController>().enabled = false;
-
-        var travelVec = this.currentSystem != null
-            ? (target.position - this.currentSystem.position).normalized
-            : (Vector2)(Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector3.one)
-            ;
 
         // Send player into warp
         var playerSimMovement = this.player.GetComponent<SimMovement>();
@@ -118,17 +124,7 @@ public class MapComponent : MonoBehaviour
 
         await playerWarpController.TurnInWarpAsync(landingVelocity.normalized);
 
-        // Destroy old system, update player position and create new one
-        this.currentSystem = target;
-        await this.currentSystem.LoadAsync(this.bodySpecs, this.gameObject);
-
-        FindObjectOfType<SimManager>().Refresh();
-
-        this.jumpTargets = new Lazy<List<SolarSystem>>(() => 
-            this.map.GetJumpTargets(this.currentSystem)
-                .Select(t => t.system)
-                .ToList()
-            );
+        await this.LoadSystemAsync(target);
 
         await playerWarpController.ExitWarpAsync(landingPosition, landingVelocity.normalized, landingVelocity.magnitude);
 
@@ -149,8 +145,5 @@ public class MapComponent : MonoBehaviour
         this.uiManager.ShowPlayUI();
     }
 
-    public async Task LoadRandomSystemAsync()
-    {
-        await this.JumpAsync(this.map.systems[Random.Range(0, this.map.systems.Count)]);
-    }
+    public async Task LoadRandomSystemAsync() => await this.JumpAsync(this.map.systems[Random.Range(0, this.map.systems.Count)]);
 }

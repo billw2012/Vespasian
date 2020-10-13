@@ -21,7 +21,7 @@ public class SimManager : MonoBehaviour
 
     public int timeStep { get; set; } = 1;
 
-    int simTick = 0;
+    public int simTick { get; set; } = 0;
 
     public float time => this.simTick * Time.fixedDeltaTime;
 

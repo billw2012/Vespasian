@@ -1018,6 +1018,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneCommon
       objectReference: {fileID: 0}
+    - target: {fileID: 8108878487979212086, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: JumpAsync
+      objectReference: {fileID: 0}
     - target: {fileID: 8498031703155474054, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: effectBaseSize

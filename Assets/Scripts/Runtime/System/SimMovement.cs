@@ -83,10 +83,17 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
     }
 
-    public void SetVelocity(Vector3 velocityNew)
+    public void SetVelocity(Vector3 velocity)
     {
-        this.startVelocity = velocityNew;
+        this.startVelocity = velocity;
         this.SimRefresh();
+    }
+
+    public void SetPositionVelocity(Vector3 position, Quaternion rotation, Vector3 velocity)
+    {
+        this.transform.position = position;
+        this.transform.rotation = rotation;
+        this.SetVelocity(velocity);
     }
 
     public void AddForce(Vector3 force)
