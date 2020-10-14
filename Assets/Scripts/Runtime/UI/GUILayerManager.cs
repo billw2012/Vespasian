@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GUILayerManager : MonoBehaviour
@@ -11,7 +13,11 @@ public class GUILayerManager : MonoBehaviour
     public DisplayObject loseUI;
     public DisplayObject mapUI;
 
+    public GameObject dialogPrefab;
+
     DisplayObject[] all;
+
+    public DisplayObject activeUI => this.all.FirstOrDefault(ui => ui.isActiveAndEnabled);
 
     void Awake() => this.all = new[] { this.playUI, this.loseUI, this.mapUI, this.mainMenuUI };
 
@@ -31,4 +37,16 @@ public class GUILayerManager : MonoBehaviour
         }
     }
 
+    public async Task<DialogUI.Buttons> ShowDialogAsync(string content, DialogUI.Buttons buttons = DialogUI.Buttons.Okay)
+    {
+        var prevUI = this.activeUI;
+        this.HideUI();
+        var dialog = Instantiate(this.dialogPrefab, this.transform);
+        dialog.SetActive(true);
+        var result = await dialog.GetComponent<DialogUI>().Show(content, buttons);
+        dialog.SetActive(false);
+        Destroy(dialog);
+        this.Enable(prevUI);
+        return result;
+    }
 }
