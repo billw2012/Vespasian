@@ -18,6 +18,9 @@ public class HealthComponent : MonoBehaviour
     [Tooltip("Hull strength"), Range(0, 3)]
     public float maxHullHP = 1f;
 
+    [Tooltip("Is damage allowed?")]
+    public bool allowDamage = true;
+
     public float hull => this.hullHP / this.maxHullHP;
     public float shield => this.shieldHP / this.maxShieldHP;
 
@@ -102,6 +105,11 @@ public class HealthComponent : MonoBehaviour
 
     public void AddDamage(float amount, Vector3 direction)
     {
+        if(!this.allowDamage)
+        {
+            return;
+        }
+
         if (amount > 0)
         {
             this.lastDamageTime = Time.time;

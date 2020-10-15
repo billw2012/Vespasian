@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SimMovement))]
 public class PlayerController : MonoBehaviour
 {
-    
-    [HideInInspector]
+    [NonSerialized]
     // NORMALIZED dimensionless thrust input for joystick
     // x is -1...1 <=> +right/-left, y is -1...1 <=> +forward/-backward
     public Vector2 thrustInputJoystick = Vector2.zero;
@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         // Add thrust from keyboard
         var kbInput = new Vector2(0, 0);
         if (Input.GetKey("w"))
@@ -37,5 +36,14 @@ public class PlayerController : MonoBehaviour
         // Convert normalized inputs into final values in (kind of) Newtons
         engine.thrust.y = engine.constants.ThrustForward * Mathf.Clamp(this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y, -1, 1);
         engine.thrust.x = engine.constants.ThrustRight * Mathf.Clamp(this.thrustInputRight + this.thrustInputJoystick.x + kbInput.x, -1, 1); ;
+    }
+
+    public void SetAllowDamageAndCollision(bool allow)
+    {
+        foreach (var collider in this.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = allow;
+        }
+        this.GetComponent<HealthComponent>().allowDamage = allow;
     }
 }

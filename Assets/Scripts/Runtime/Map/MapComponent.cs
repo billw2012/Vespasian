@@ -90,18 +90,16 @@ public class MapComponent : MonoBehaviour
         // Player enter warp
 
         // Disable player input
-        this.player.GetComponent<PlayerController>().enabled = false;
+        var playerController = this.player.GetComponent<PlayerController>();
+        playerController.enabled = false;
+        playerController.SetAllowDamageAndCollision(false);
 
         // Send player into warp
         var playerSimMovement = this.player.GetComponent<SimMovement>();
-        var playerWarpController = this.player.GetComponent<WarpController>();
         playerSimMovement.enabled = false;
-        playerWarpController.enabled = true;
 
-        foreach (var collider in this.player.GetComponentsInChildren<Collider>())
-        {
-            collider.enabled = false;
-        }
+        var playerWarpController = this.player.GetComponent<WarpController>();
+        playerWarpController.enabled = true;
 
         // Set this before refreshing the sim so it is applied correctly
         Vector2 landingPosition;
@@ -128,19 +126,18 @@ public class MapComponent : MonoBehaviour
 
         await playerWarpController.ExitWarpAsync(landingPosition, landingVelocity.normalized, landingVelocity.magnitude);
 
-        // Safe to turn collision back on hopefully
-        foreach (var collider in this.player.GetComponentsInChildren<Collider>())
-        {
-            collider.enabled = true;
-        }
-
         playerWarpController.enabled = false;
 
+        // Re-enable player input
+        playerController.enabled = true;
+
+        // Safe to turn collision back on hopefully
+        // TODO: make sure we never collide with something
+        playerController.SetAllowDamageAndCollision(true);
+
+        // Finally set the player velocity and re-enable simulation
         playerSimMovement.SetVelocity(landingVelocity);
         playerSimMovement.enabled = true;
-
-        // Re-enable player input
-        this.player.GetComponent<PlayerController>().enabled = true;
 
         this.uiManager.ShowPlayUI();
     }
