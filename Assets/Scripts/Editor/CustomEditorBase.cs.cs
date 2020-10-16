@@ -185,9 +185,12 @@ public class CustomEditorBase : Editor
                 var item = this._property.GetArrayElementAtIndex(this._property.arraySize - 1);
                 this._property.serializedObject.ApplyModifiedProperties();
                 var (field, obj) = item.GetRealValue();
-                // Construct a proper new instance
-                var newInstance = Activator.CreateInstance(obj.GetType());
-                CopyValues(newInstance, obj);
+                if (obj != null)
+                {
+                    // Construct a proper new instance
+                    var newInstance = Activator.CreateInstance(obj.GetType());
+                    CopyValues(newInstance, obj);
+                }
             };
             this.List.elementHeightCallback += idx => Mathf.Max(EditorGUIUtility.singleLineHeight, EditorGUI.GetPropertyHeight(this._property.GetArrayElementAtIndex(idx), GUIContent.none, true) + 4.0f);
         }
