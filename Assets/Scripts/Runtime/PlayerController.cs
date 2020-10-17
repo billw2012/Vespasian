@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(SimMovement))]
+/// <summary>
+/// Converts player input into thrust applied to the EngineController
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
     [NonSerialized]
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKey("a"))
             kbInput.x = -1.0f;
 
-        var engine = this.GetComponent<EngineComponent>();
+        var engine = this.GetComponent<EngineController>();
 
         // Convert normalized inputs into final values in (kind of) Newtons
         engine.thrust.y = engine.constants.ThrustForward * Mathf.Clamp(this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y, -1, 1);

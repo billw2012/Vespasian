@@ -38,7 +38,8 @@ public class GameLogic : ScriptableObject {
 
     public async Task SaveGameAsync()
     {
-        var playerSimMovement = this.player.gameObject.GetComponent<SimMovement>();
+        var playerSimMovement = this.player.GetComponent<SimMovement>();
+        var playerUpgrades = this.player.GetComponent<UpgradeManager>();
         var simManager = FindObjectOfType<SimManager>();
         var saveData = new SaveSystem.SaveGameData
         {
@@ -48,6 +49,7 @@ public class GameLogic : ScriptableObject {
             playerRotation = playerSimMovement.transform.rotation,
             playerVelocity = playerSimMovement.velocity,
             simTick = simManager.simTick,
+            installedUpgrades = playerUpgrades.SaveUpgrades(),
         };
 
         await SaveSystem.SaveAsync(this.saveIndex, saveData);
@@ -61,11 +63,13 @@ public class GameLogic : ScriptableObject {
         var saveData = await SaveSystem.LoadAsync(this.saveIndex);
         if(saveData != null)
         {
-            var playerSimMovement = this.player.gameObject.GetComponent<SimMovement>();
+            var playerSimMovement = this.player.GetComponent<SimMovement>();
+            var playerUpgrades = this.player.GetComponent<UpgradeManager>();
             var simManager = FindObjectOfType<SimManager>();
 
             this.mapComponent.map = saveData.map;
             simManager.simTick = saveData.simTick;
+            playerUpgrades.LoadUpgrades(saveData.installedUpgrades);
             playerSimMovement.SetPositionVelocity(saveData.playerPosition, saveData.playerRotation, saveData.playerVelocity);
             await this.mapComponent.LoadSystemAsync(saveData.system);
             this.uiManager.ShowPlayUI();

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
+  m_Name: FuelScoopMk2
+  m_EditorClassIdentifier: 
+  cost: 0
+  mass: 0
+  shipPartPrefab: {fileID: 8180715979238593668, guid: 3433c37956e0ff44390f3774d40ddc0d,
+    type: 3}
+  shopUIPrefab: {fileID: 0}
+  replaces:
+  - {fileID: 11400000, guid: 37d1e30bf8aa9fa4eab3caa691b41487, type: 2}
+  requires: []

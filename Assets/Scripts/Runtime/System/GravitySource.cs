@@ -30,7 +30,7 @@ public class GravitySource : MonoBehaviour {
     public Transform target;
 
     [HideInInspector]
-    public float radius => this.target.localScale.x * 0.5f; // The sphere model generally has radius 0.5, so scale 1 means size 0.5..
+    public float radius => this.target.localScale.x;
 
     [HideInInspector]
     public Vector3 position => this.target.position;

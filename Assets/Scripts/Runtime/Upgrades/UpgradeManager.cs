@@ -41,6 +41,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void LoadUpgrades(List<(string name, object data)> saveData)
     {
+        this.UninstallAllUpgrades();
         foreach (var (name, data) in saveData)
         {
             var upgradeDef = this.fullUpgradeSet.GetUpgradeDef(name);
@@ -51,21 +52,34 @@ public class UpgradeManager : MonoBehaviour
 
     public List<(string name, object data)> SaveUpgrades() => this.GetInstalledUpgrades().Select(u => (u.upgradeDef.name, u.Save())).ToList();
 
+    public void UninstallAllUpgrades()
+    {
+        foreach (var upgrade in this.GetInstalledUpgrades())
+        {
+            Uninstall(upgrade);
+        }
+    }
+
+    public void Uninstall(IUpgradeLogic upgradeLogic)
+    {
+        upgradeLogic.Uninstall();
+        var obj = (upgradeLogic as MonoBehaviour).gameObject;
+        // obj.transform.SetParent(null);
+        Debug.Log($"Uninstalled upgrade {upgradeLogic.upgradeDef.name} from ship {this.gameObject.name}");
+
+        Destroy(obj);
+    }
+
     public void Uninstall(UpgradeDef upgrade)
     {
         var upgradeLogic = this.FindUpgrade(upgrade.name);
         if (upgradeLogic != null)
         {
-            upgradeLogic.Uninstall();
-            var obj = (upgradeLogic as MonoBehaviour).gameObject;
-            obj.transform.SetParent(null);
-            Destroy(obj);
-
-            Debug.Log($"Uninstalled upgrade {this.name} from ship {this.gameObject.name}");
+            this.Uninstall(upgradeLogic);
         }
         else
         {
-            Debug.LogWarning($"Could not uninstall upgrade {this.name} as it didn't exist on ship {this.gameObject.name}");
+            Debug.LogWarning($"Could not uninstall upgrade {upgrade.name} as it didn't exist on ship {this.gameObject.name}");
         }
     }
 }

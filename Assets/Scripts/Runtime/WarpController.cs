@@ -6,22 +6,6 @@ using UnityEngine;
 
 public class WarpController : MonoBehaviour
 {
-    public enum Mode
-    {
-        NotInWarp,
-        EnterWarp,
-        AtWarp,
-        TurnInWarp,
-        ExitWarp
-    }
-
-    [NonSerialized]
-    public Mode mode = Mode.NotInWarp;
-
-
-    [NonSerialized]
-    public float speed;
-
     public float warpSpeed = 100;
     public float acceleration = 25;
 
@@ -33,6 +17,19 @@ public class WarpController : MonoBehaviour
     public FollowCameraController cameraController;
 
     public PostEffect warpPostEffect;
+
+    enum Mode
+    {
+        NotInWarp,
+        EnterWarp,
+        AtWarp,
+        TurnInWarp,
+        ExitWarp
+    }
+
+    Mode mode = Mode.NotInWarp;
+
+    float speed;
 
     float rotationalSpeed;
 

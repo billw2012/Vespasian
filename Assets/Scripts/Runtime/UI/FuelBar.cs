@@ -7,11 +7,19 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class FuelBar : MonoBehaviour
 {
-    public GameObject fill;
-    public EngineComponent engine;
+    public PlayerController player;
 
     void Update()
     {
-        this.GetComponent<Slider>().value = this.engine.fuelCurrent;
+        var engine = this.player.GetComponentInChildren<EngineComponent>();
+        foreach (Transform child in this.transform)
+        {
+            child.gameObject.SetActive(engine != null);
+        }
+
+        if (engine != null)
+        {
+            this.GetComponent<Slider>().value = engine.fuel;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ public static class SaveSystem
         public Quaternion playerRotation;
         public Vector3 playerVelocity;
         public int simTick;
-        //public List<>
+        public List<(string name, object data)> installedUpgrades;
     }
 
     public static async Task<bool> SaveExistsAsync(int index) => await FileExistsAsync(GetSaveMetaFilePath(index));

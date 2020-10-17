@@ -1,17 +1,24 @@
 ﻿using UnityEngine;
 
-public class FuelScoop : MonoBehaviour
+public class FuelScoop : MonoBehaviour, IUpgradeLogic
 {
     public ParticleSystem particleEffect;
     public float refuelRate = 0.3f;
 
-    private void Update()
+    UpgradeManager upgradeManager;
+
+    void Start()
+    {
+        this.upgradeManager = this.GetComponentInParent<UpgradeManager>();
+    }
+
+    void Update()
     {
         var fuelSource = EffectSource.GetNearest<FuelSource>(this.transform);
 
         if (fuelSource != null)
         {
-            var engine = this.GetComponent<EngineComponent>();
+            var engine = this.upgradeManager.GetComponentInChildren<EngineComponent>();
             if (engine != null)
             {
                 float fuelIncrease = fuelSource.timeMultipler * Time.deltaTime * this.refuelRate;
@@ -36,4 +43,12 @@ public class FuelScoop : MonoBehaviour
             this.particleEffect.SetEmissionEnabled(false);
         }
     }
+
+    #region IUpgradeLogic
+    public UpgradeDef upgradeDef { get; private set; }
+    public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
+    public void Load(object obj) { }
+    public object Save() => null;
+    public void Uninstall() { }
+    #endregion IUpgradeLogic
 };

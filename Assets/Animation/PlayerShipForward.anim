@@ -1183,7 +1183,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: thruster_R
+    path: thruster_L
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1193,7 +1193,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: thruster_R
+    path: thruster_L
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1203,7 +1203,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: thruster_R
+    path: thruster_L
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1213,7 +1213,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: thruster_L
+    path: thruster_R
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1223,7 +1223,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: thruster_L
+    path: thruster_R
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1233,7 +1233,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: thruster_L
+    path: thruster_R
     classID: 4
     script: {fileID: 0}
   - curve:

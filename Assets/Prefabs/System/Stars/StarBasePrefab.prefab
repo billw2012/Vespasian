@@ -19375,7 +19375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameters:
     density: 0.2
-    mass: 0.15707964
+    mass: 0.62831855
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   customTarget: {fileID: 8649645052135855122}
   target: {fileID: 8649645052135855122}

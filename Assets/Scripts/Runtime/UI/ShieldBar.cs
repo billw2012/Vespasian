@@ -5,10 +5,18 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class ShieldBar : MonoBehaviour
 {
-    public HealthComponent target;
+    public PlayerController player;
 
     void Update()
     {
-        this.GetComponent<Slider>().value = this.target.shield;
+        var shield = this.player.GetComponentInChildren<ShieldComponent>();
+        foreach(Transform child in this.transform)
+        {
+            child.gameObject.SetActive(shield != null);
+        }
+        if (shield != null)
+        {
+            this.GetComponent<Slider>().value = shield.shield;
+        }
     }
 }
