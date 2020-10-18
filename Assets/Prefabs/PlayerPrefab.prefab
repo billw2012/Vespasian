@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 3664154167166374825}
   - component: {fileID: 5787854961690867618}
   - component: {fileID: 245438755032496346}
+  - component: {fileID: 5440636405066318774}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -415,6 +416,18 @@ MonoBehaviour:
   fullUpgradeSet: {fileID: 11400000, guid: 5824f4960e16fb04ea6b6c1c66c2bb62, type: 2}
   initialUpgrades: {fileID: 11400000, guid: c5a44c7b05f0c55458b549865e904ead, type: 2}
   upgradeRoot: {fileID: 8305778554408092314}
+--- !u!114 &5440636405066318774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a607aeffe2e2b144ead629e9f6c177a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7620224552652236272
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,9 +979,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2606851887782247715}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &76821276654727174 stripped
+--- !u!4 &509352080489584845 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -6539919962303935195, guid: dd47bfc5b923a0b46988604009b7e318,
+  m_CorrespondingSourceObject: {fileID: -6684202771897309714, guid: dd47bfc5b923a0b46988604009b7e318,
     type: 3}
   m_PrefabInstance: {fileID: 2606851887782247715}
   m_PrefabAsset: {fileID: 0}
@@ -990,9 +1003,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2606851887782247715}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &509352080489584845 stripped
+--- !u!4 &76821276654727174 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -6684202771897309714, guid: dd47bfc5b923a0b46988604009b7e318,
+  m_CorrespondingSourceObject: {fileID: -6539919962303935195, guid: dd47bfc5b923a0b46988604009b7e318,
     type: 3}
   m_PrefabInstance: {fileID: 2606851887782247715}
   m_PrefabAsset: {fileID: 0}

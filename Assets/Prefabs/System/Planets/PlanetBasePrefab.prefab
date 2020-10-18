@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 1992624584283286723}
   - component: {fileID: 270560364}
   - component: {fileID: 2438610178736772583}
+  - component: {fileID: 6935095417760010546}
   m_Layer: 8
   m_Name: PlanetBasePrefab
   m_TagString: Untagged
@@ -277,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameters:
     density: 1
-    mass: 0.7853982
+    mass: 3.1415927
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   customTarget: {fileID: 2726752591905956686}
   target: {fileID: 2726752591905956686}
@@ -410,6 +411,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &6935095417760010546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58efbb1ceb86e284b86afb2b72c83a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  discoveryRadius: 10
+  originTransform: {fileID: 2318905709148006584}
 --- !u!1 &6595095681025090445
 GameObject:
   m_ObjectHideFlags: 0
