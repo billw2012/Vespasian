@@ -23,13 +23,6 @@ class Discoverable : MonoBehaviour
 
     private void Start()
     {
-        this.renderers = this.GetComponentsInChildren<Renderer>();
-        Debug.Log($"Object: {this}, Renderers {this.renderers.Length}:");
-        foreach (var r in this.renderers)
-            Debug.Log($"     {r}");
-
-        this.EnableAllRenderers(false);
-
         // Estimate discovery radius by object's size
         var planetLogic = this.GetComponent<BodyLogic>();
         if (planetLogic != null)
@@ -39,18 +32,36 @@ class Discoverable : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        // Other components often add renderers in dynamic way,
+        // Such as shadow renderer, or ring renderer, or maybe others in the future
+        // Thus we update this every frame
+        // todo: improve it if it affects performance
+
+        this.renderers = this.GetComponentsInChildren<Renderer>();
+        //Debug.Log($"Object: {this}, Renderers {this.renderers.Length}:");
+        //foreach (var r in this.renderers)
+        //Debug.Log($"     {r}");
+
+        this.EnableAllRenderers(this.discovered);
+    }
+
     public void Discover()
     {
         this._discovered = true;
-        this.EnableAllRenderers(true);
     }
 
     void EnableAllRenderers(bool enable)
     {
+        //Debug.Log($"EnableAllRenderers: {this}");
         foreach (var rendererComponent in this.renderers)
         {
-            rendererComponent.enabled = enable;
-            Debug.Log($"Renderer {rendererComponent} enabled: {enable}");
+            if (rendererComponent != null)
+            {
+                rendererComponent.enabled = enable;
+                //Debug.Log($"Renderer {rendererComponent} enabled: {enable}");
+            }
         }
     }
 }
