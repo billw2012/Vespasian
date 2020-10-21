@@ -32,5 +32,6 @@ public class EngineComponent : MonoBehaviour, IUpgradeLogic
     public void Uninstall() { }
     public object Save() => this.fuel;
     public void Load(object obj) => this.fuel = (float)obj;
+    public void TestFire() { }
     #endregion IUpdateLogic
 }

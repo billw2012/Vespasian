@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Scanner : MonoBehaviour
+public class Scanner : MonoBehaviour, IUpgradeLogic
 {
     public ParticleSystem laserScanner;
     public float scanRate = 0.1f;
@@ -37,13 +37,9 @@ public class Scanner : MonoBehaviour
             else // Update effects
             {
                 this.laserScanner.gameObject.SetActive(true);
-                var vectorToTarget = this.target.originTransform.position - this.transform.position;
-                this.laserScanner.transform.rotation =
-                    Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget)) *
-                    Quaternion.Euler(0, 45f, 0)
-                    ;
+
                 float targetWidth = this.target.originTransform.gameObject.GetFullMeshRendererBounds().extents.magnitude * 2f;
-                this.laserScanner.transform.localScale = new Vector3(vectorToTarget.magnitude * 1.5f, targetWidth, 1);
+                this.SetScanEffect(this.target.originTransform.position - this.transform.position, targetWidth);
             }
         }
         else
@@ -51,4 +47,37 @@ public class Scanner : MonoBehaviour
             this.laserScanner.gameObject.SetActive(false);
         }
     }
+
+    void SetScanEffect(Vector2 vectorToTarget, float targetWidth)
+    {
+        this.laserScanner.transform.rotation =
+            Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget)) *
+            Quaternion.Euler(0, 45f, 0)
+            ;
+        this.laserScanner.transform.localScale = new Vector3(vectorToTarget.magnitude * 1.5f, targetWidth, 1);
+    }
+
+    #region IUpgradeLogic
+    public UpgradeDef upgradeDef { get; private set; }
+    public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
+    public void Load(object obj) { }
+    public object Save() => null;
+    public async void TestFire()
+    {
+        this.enabled = false;
+        this.laserScanner.gameObject.SetActive(true);
+        float startT = Time.time;
+        const float duration = 3;
+        var anim = Tween.EaseWobble;
+        while (Time.time < startT + duration)
+        {
+            float val = anim.Evaluate((Time.time - startT) / duration);
+            var rot = Quaternion.Euler(0, 0, val * 45f);
+            this.SetScanEffect(rot * this.transform.up * 4, 4);
+            await new WaitForUpdate();
+        }
+        this.enabled = true;
+    }
+    public void Uninstall() { }
+    #endregion IUpgradeLogic
 }

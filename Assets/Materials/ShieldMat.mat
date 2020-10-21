@@ -71,6 +71,7 @@ Material:
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
+    - _Damage: 0
     - _DstBlend: 0
     - _EmissiveFactor: 1
     - _EnvironmentReflections: 1
@@ -80,6 +81,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Intensity: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _QueueOffset: 0
@@ -94,6 +96,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DamagedColor: {r: 1, g: 0.25, b: 0, a: 0}
     - _EmissionColor: {r: 0.3066038, g: 0.7525525, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
 --- !u!114 &2719295671150205385

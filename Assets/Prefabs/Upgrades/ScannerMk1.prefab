@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2325435738678829018, guid: 482efdde990ad7245a7b53f654512ce9,
         type: 3}
       propertyPath: m_Name
-      value: ScannerBase
+      value: ScannerMk1
       objectReference: {fileID: 0}
     - target: {fileID: 7837068467186012798, guid: 482efdde990ad7245a7b53f654512ce9,
         type: 3}
@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 7837068467186012798, guid: 482efdde990ad7245a7b53f654512ce9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7837068467186012798, guid: 482efdde990ad7245a7b53f654512ce9,
         type: 3}

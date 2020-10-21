@@ -106,5 +106,7 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic
     {
         (this.shieldHP, this.previousShield, this.lastDamageTime) = ((float, float, float))obj;
     }
+
+    public void TestFire() => this.shieldFade = 1f;
     #endregion
 }

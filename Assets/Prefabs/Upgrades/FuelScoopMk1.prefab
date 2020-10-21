@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 8484852665415131218, guid: 488df7b4e77655a45a79f57d5756d7f8,
         type: 3}
       propertyPath: m_Name
-      value: FuelScoopBase
+      value: FuelScoopMk1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 488df7b4e77655a45a79f57d5756d7f8, type: 3}

@@ -50,5 +50,6 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
     public void Load(object obj) { }
     public object Save() => null;
     public void Uninstall() { }
+    public void TestFire() { }
     #endregion IUpgradeLogic
 };

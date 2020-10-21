@@ -92,6 +92,10 @@ public class GameLogic : ScriptableObject {
 
     public void CloseMap() => this.uiManager.ShowPlayUI();
 
+    public void OpenUpgrades() => this.uiManager.ShowUpgradeUI();
+
+    public void CloseUpgrades() => this.uiManager.ShowPlayUI();
+
     public bool CanJump() => this.mapComponent.CanJump();
 
     public async void JumpAsync()

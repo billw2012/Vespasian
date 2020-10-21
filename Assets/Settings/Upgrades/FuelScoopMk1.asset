@@ -17,5 +17,6 @@ MonoBehaviour:
   shipPartPrefab: {fileID: 8180715979238593668, guid: 2f821ee19e6d2ad46a918d791a8cb37c,
     type: 3}
   shopUIPrefab: {fileID: 0}
-  replaces: []
+  replaces:
+  - {fileID: 11400000, guid: e908e15732a38b447aa2459146f78b67, type: 2}
   requires: []
