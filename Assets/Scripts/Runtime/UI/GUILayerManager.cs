@@ -13,6 +13,8 @@ public class GUILayerManager : MonoBehaviour
     public DisplayObject loseUI;
     public DisplayObject mapUI;
     public DisplayObject upgradeUI;
+    public DisplayObject starSystemUI;
+
 
     public GameObject dialogPrefab;
 
@@ -20,7 +22,7 @@ public class GUILayerManager : MonoBehaviour
 
     public DisplayObject activeUI => this.all.FirstOrDefault(ui => ui.isActiveAndEnabled);
 
-    void Awake() => this.all = new[] { this.playUI, this.loseUI, this.mapUI, this.mainMenuUI, this.upgradeUI };
+    void Awake() => this.all = new[] { this.playUI, this.loseUI, this.mapUI, this.mainMenuUI, this.upgradeUI, this.starSystemUI };
 
     // void Start() => this.ShowMainMenuUI();
 
@@ -29,6 +31,7 @@ public class GUILayerManager : MonoBehaviour
     public void ShowMapUI() => this.Enable(this.mapUI);
     public void ShowUpgradeUI() => this.Enable(this.upgradeUI);
     public void ShowLoseUI() => this.Enable(this.loseUI);
+    public void ShowStarSystemUI() => this.Enable(this.starSystemUI);
     public void HideUI() => this.Enable(null);
 
     void Enable(DisplayObject uiToEnable)
