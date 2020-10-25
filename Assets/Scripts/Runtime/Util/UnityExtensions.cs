@@ -127,4 +127,34 @@ public static class UnityExtensions
         var size = @this.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)) - bl;
         return new Rect(bl, size);
     }
+
+    //public static async Task FadeOutAsync(this AudioSource audioSource, float duration)
+    //{
+    //    float currentTime = 0;
+    //    float startVolume = audioSource.volume;
+
+    //    while (currentTime < duration)
+    //    {
+    //        currentTime += Time.deltaTime;
+    //        audioSource.volume = Mathf.Lerp(startVolume, 0, currentTime / duration);
+    //        await new WaitForFixedUpdate();
+    //    }
+    //    audioSource.Stop();
+    //    audioSource.volume = startVolume;
+    //}
+
+    //public static async void FadeInAsync(this AudioSource audioSource, float duration, float targetVolume)
+    //{
+    //    float currentTime = 0;
+    //    float start = 0;
+    //    float target = targetVolume;
+
+    //    audioSource.Play();
+    //    while (currentTime < duration)
+    //    {
+    //        currentTime += Time.deltaTime;
+    //        audioSource.volume = Mathf.Lerp(start, target, currentTime / duration);
+    //        await new WaitForFixedUpdate();
+    //    }
+    //}
 }
