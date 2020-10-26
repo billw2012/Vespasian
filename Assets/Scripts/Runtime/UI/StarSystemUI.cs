@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Class which manages the star system UI
 public class StarSystemUI : MonoBehaviour
@@ -11,6 +13,9 @@ public class StarSystemUI : MonoBehaviour
 
     [Tooltip("Prefab which will be used to generate the star system scheme")]
     public GameObject schemeBodyPrefab;
+
+    public TextMeshProUGUI selectedBodyDescription_tmp;
+    public TextMeshProUGUI selectedBodyName_tmp;
 
     MapComponent mapComponent;
 
@@ -121,6 +126,29 @@ public class StarSystemUI : MonoBehaviour
     {
         var bodyComponent = schemeElement.GetComponent<StarSystemUIBody>();
         bodyComponent.bodyName = bodyData.randomKey.ToString(); // Read the body name here when we have it
+        bodyComponent.starSystemUI = this; // It must point back to call functions when clicked
+        bodyComponent.actualBody = bodyData;
     }
 
+    // Called when we click on scheme body
+    // body - the body which was clicked
+    public void OnSchemeBodyClick(StarSystemUIBody body)
+    {
+        //Debug.Log($"OnSchemeBodyClick: {body}");
+
+        // Enable selector only on one of the elements
+        foreach (var element in this.schemeElements)
+        {
+            var uiBodyComponent = element.GetComponent<StarSystemUIBody>();
+            bool enable = uiBodyComponent == body;
+            //Debug.Log($"Enable: {enable}");
+            uiBodyComponent.selectorImage.enabled = enable;
+        }
+
+        // Fill the data in the info panel
+        var actualBody = body.actualBody;
+        this.selectedBodyName_tmp.text = actualBody.randomKey.ToString();
+        string descriptionText = $"Type: Planet\nMass: {actualBody.mass}\nRadius: {actualBody.radius}\nSurface Gravity: 1.23G";
+        this.selectedBodyDescription_tmp.text = descriptionText;
+    }
 }
