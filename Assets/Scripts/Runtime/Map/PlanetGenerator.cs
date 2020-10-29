@@ -46,6 +46,12 @@ public class PlanetGenerator : BodyGenerator
         // Color
         var material = this.planetRenderer.material;
         material.SetFloat("_AlbedoHue", this.hueRandom.Evaluate(rng));
+
+        // Extend radius effect range by our radius (-1 because that is the default radius that is already considered in the effect range)
+        foreach(var effect in this.GetComponents<EffectSource>())
+        {
+            effect.range += this.planet.radius - 1;
+        }
     }
 
 #if UNITY_EDITOR

@@ -19,6 +19,13 @@ public class SunGenerator : BodyGenerator
         var normalizedColor = color * this.brightness / (color.r + color.g + color.b);
 
         starLogic.color = normalizedColor;
+
+        // Extend radius effect range by our radius (-1 because that is the default radius that is already considered in the effect range)
+        foreach (var effect in this.GetComponents<EffectSource>())
+        {
+            effect.range += this.star.radius - 1;
+        }
+
         // starLogic.glowIntensity = 
     }
 

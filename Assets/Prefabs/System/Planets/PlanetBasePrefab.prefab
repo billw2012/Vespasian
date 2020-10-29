@@ -44,10 +44,11 @@ GameObject:
   - component: {fileID: 3768597765047173929}
   - component: {fileID: 270560365}
   - component: {fileID: 8256936986849645567}
+  - component: {fileID: 6935095417760010546}
   - component: {fileID: 1992624584283286723}
   - component: {fileID: 270560364}
   - component: {fileID: 2438610178736772583}
-  - component: {fileID: 6935095417760010546}
+  - component: {fileID: 6756723599568914903}
   m_Layer: 8
   m_Name: PlanetBasePrefab
   m_TagString: Untagged
@@ -283,6 +284,20 @@ MonoBehaviour:
   customTarget: {fileID: 2726752591905956686}
   target: {fileID: 2726752591905956686}
   autoMass: 1
+--- !u!114 &6935095417760010546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039441407903207753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58efbb1ceb86e284b86afb2b72c83a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  discoveryRadius: 10
+  originTransform: {fileID: 2318905709148006584}
 --- !u!114 &1992624584283286723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,7 +426,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &6935095417760010546
+--- !u!114 &6756723599568914903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -420,11 +435,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6039441407903207753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58efbb1ceb86e284b86afb2b72c83a79, type: 3}
+  m_Script: {fileID: 11500000, guid: e61f4196fdf5e584ca0129d840d3ef75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  discoveryRadius: 10
+  range: 3
   originTransform: {fileID: 2318905709148006584}
+  scanProgress: 0
+  scanning: 0
 --- !u!1 &6595095681025090445
 GameObject:
   m_ObjectHideFlags: 0
