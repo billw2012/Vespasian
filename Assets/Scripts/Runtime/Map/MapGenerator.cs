@@ -216,7 +216,7 @@ public class MapGenerator : ScriptableObject
 
         for (int i = 0; i < this.systemParams.maxPlanets && orbitalDistance < systemSize && totalMass < desiredTotalMass; i++)
         {
-            float planetMass = massDistribution.CDF(this.systemParams.massDistributionFunctionSampleRange * orbitalDistance * this.systemParams.massVarianceRandom.Evaluate(rng) / systemSize) * desiredTotalMass - totalMass;
+            float planetMass = massDistribution.CDF(this.systemParams.massDistributionFunctionSampleRange * orbitalDistance * this.systemParams.massVarianceRandom.Evaluate(rng) / systemSize) * (desiredTotalMass - totalMass);
 
             float planetTemp = bodySpecs.PlanetTemp(starDistance + orbitalDistance, starRadius, starTemp);
             var planetSpec = bodySpecs.RandomPlanet(rng, planetMass, planetTemp);
