@@ -25,7 +25,8 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         None,
         Global,
         Local,
-        Lerped
+        Lerped,
+        Split
     }
     public PathMode pathMode = PathMode.Lerped;
     public float pathQuality = 0.1f;
@@ -44,21 +45,13 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     SectionedSimPath path;
     Vector3 force = Vector3.zero;
 
-    LineRenderer pathRenderer;
-    MaterialPropertyBlock pathRendererUVScaling;
+    readonly List<(LineRenderer renderer, MaterialPropertyBlock mb)> pathRenderers = new List<(LineRenderer renderer, MaterialPropertyBlock mb)>();
 
     float rotVelocity;
 
     void Start()
     {
         this.SimRefresh();
-
-        if (this.pathRendererAsset != null)
-        {
-            this.pathRenderer = Instantiate(this.pathRendererAsset).GetComponent<LineRenderer>();
-
-            this.pathRendererUVScaling = new MaterialPropertyBlock();
-        }
     }
 
     void Update()
@@ -69,17 +62,17 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     void OnDisable()
     {
-        if (this.pathRenderer != null)
+        foreach (var (renderer, _) in this.pathRenderers)
         {
-            this.pathRenderer.gameObject.SetActive(false);
+            renderer.gameObject.SetActive(false);
         }
     }
 
     void OnEnable()
     {
-        if (this.pathRenderer != null)
+        foreach (var (renderer, _) in this.pathRenderers)
         {
-            this.pathRenderer.gameObject.SetActive(true);
+            renderer.gameObject.SetActive(true);
         }
     }
 
@@ -138,13 +131,13 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     void UpdatePathWidth()
     {
-        if (this.pathRenderer != null)
+        foreach(var (renderer, mb) in this.pathRenderers)
         {
-            this.pathRenderer.startWidth = this.pathRenderer.endWidth = this.constants.SimLineWidth * this.pathWidthScale;
-            float ratio = (float)this.pathRenderer.sharedMaterial.mainTexture.height / this.pathRenderer.sharedMaterial.mainTexture.width;
+            renderer.startWidth = renderer.endWidth = this.constants.SimLineWidth * this.pathWidthScale;
+            float ratio = (float)renderer.sharedMaterial.mainTexture.height / renderer.sharedMaterial.mainTexture.width;
 
-            this.pathRendererUVScaling.SetVector("_UVScaling", new Vector2(ratio / (this.constants.SimLineWidth * this.pathWidthScale), 1));
-            this.pathRenderer.SetPropertyBlock(this.pathRendererUVScaling);
+            mb.SetVector("_UVScaling", new Vector2(ratio / (this.constants.SimLineWidth * this.pathWidthScale), 1));
+            renderer.SetPropertyBlock(mb);
         }
     }
 
@@ -161,12 +154,12 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         return finalPath;
     }
 
-    Vector3[] GetPath()
+    IEnumerable<Vector3[]> GetPath()
     {
         switch (this.pathMode)
         {
             case PathMode.Global:
-                return Reduce(this.path.GetFullPath().ToArray(), this.pathQuality);
+                return new[] { Reduce(this.path.GetFullPath().ToArray(), this.pathQuality) };
             case PathMode.Local:
                 if (this.sois.Any() && !this.path.crashed)
                 {
@@ -176,16 +169,19 @@ public class SimMovement : MonoBehaviour, ISimUpdate
                     {
                         relativePath[i] += g.position;
                     }
-                    return relativePath;
+                    return new[] { relativePath };
                 }
                 else
                 {
-                    return Reduce(this.path.GetFullPath(), this.pathQuality);
+                    return new[] { Reduce(this.path.GetFullPath(), this.pathQuality) };
                 }
             case PathMode.Lerped:
-                return Reduce(this.path.GetWeightedPath(), this.pathQuality);
+                return new[] { Reduce(this.path.GetWeightedPath(), this.pathQuality) };
+            case PathMode.Split:
+                var soiSplitPaths = this.path.GetSplitLocalPath();
+                return soiSplitPaths.Select(s => s.path);
             default:
-                return EmptyPath;
+                return new[] { EmptyPath };
         }
     }
 
@@ -195,27 +191,47 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         this.isPrimaryRelative = this.sois.Count > 0;
 
         var endPosition = Vector3.zero;
-        if (this.pathRenderer != null)
+        if (this.pathRendererAsset != null)
         {
-            var finalPath = this.GetPath();
+            var finalPathSections = this.GetPath().ToList();
 
-            this.pathRenderer.transform.SetParent(null, worldPositionStays: false);
-            this.pathRenderer.useWorldSpace = true;
+            // If we aren't predicted to crash and we only pass one soi, then we 
+            // can clip the path to only a single orbit of that soi for neatness
             if (!this.path.crashed && this.sois.Count == 1)
             {
                 var soiPos = this.sois.First().g.position;
                 float totalAngle = 0;
                 int range = 1;
+                var finalPath = finalPathSections[0];
                 for (; range < finalPath.Length && totalAngle < 360f; range++)
                 {
                     totalAngle += Vector2.Angle(finalPath[range - 1] - soiPos, finalPath[range] - soiPos);
                 }
-                finalPath = finalPath.Take(range).ToArray();
+                finalPathSections[0] = finalPath.Take(range).ToArray();
             }
 
-            endPosition = this.pathRenderer.transform.localToWorldMatrix.MultiplyPoint(finalPath.LastOrDefault());
-            this.pathRenderer.positionCount = finalPath.Length;
-            this.pathRenderer.SetPositions(finalPath);
+            // Update the renderers, adding new ones if necessary
+            for (int i = 0; i < finalPathSections.Count; i++)
+            {
+                if(this.pathRenderers.Count <= i)
+                {
+                    var newRenderer = Instantiate(this.pathRendererAsset).GetComponent<LineRenderer>();
+                    var mb = new MaterialPropertyBlock();
+                    this.pathRenderers.Add((newRenderer, mb));
+                }
+                var renderer = this.pathRenderers[i].renderer;
+                var finalPath = finalPathSections[i];
+                renderer.transform.SetParent(null, worldPositionStays: false);
+                renderer.useWorldSpace = true;
+                endPosition = renderer.transform.localToWorldMatrix.MultiplyPoint(finalPath.LastOrDefault());
+                renderer.positionCount = finalPath.Length;
+                renderer.SetPositions(finalPath);
+            }
+            // Disable any superfluous renderers
+            for (int i = finalPathSections.Count(); i < this.pathRenderers.Count; i++)
+            {
+                this.pathRenderers[i].renderer.enabled = false;
+            }
         }
 
         if (this.warningSign != null)

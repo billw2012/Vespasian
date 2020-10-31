@@ -210,6 +210,8 @@ public class SimModel
         public int startTick;
         public int endTick;
 
+        public int duration => this.endTick - this.startTick;
+
         public SphereOfInfluence(GravitySource g, int startTick)
         {
             this.g = g;
@@ -616,6 +618,36 @@ public class SectionedSimPath
         }
 
         return weightedPath;
+    }
+
+    public IEnumerable<(SphereOfInfluence soi, Vector3[] path)> GetSplitLocalPath()
+    {
+        if (this.simPath == null || !this.simPath.relativePaths.Any())
+            return new (SphereOfInfluence soi, Vector3[] path)[] { };
+
+        var splitPaths = new List<(SphereOfInfluence soi, Vector3[] path)>();
+        //int baseStartTick = -1;
+        foreach (var soi in this.simPath.sois)
+        {
+            var rp = this.simPath.relativePaths[soi.g];
+            //if(baseStartTick == -1)
+            //{
+            //    baseStartTick = rp.startTick;
+            //}
+            int soiStartTick = Mathf.Max(this.simTick, soi.startTick);
+            int soiOffsetStartTick = soiStartTick - rp.startTick;
+            int soiOffsetDuration = soi.endTick - soiStartTick;
+            if (soiOffsetDuration > 0)
+            {
+                var soiLocalPath = new Vector3[soiOffsetDuration];
+                for (int i = 0; i < soiLocalPath.Length; i++)
+                {
+                    soiLocalPath[i] = soi.g.position + rp.positions[soiOffsetStartTick + i];
+                }
+                splitPaths.Add((soi, soiLocalPath));
+            }
+        }
+        return splitPaths;
     }
 
     public IEnumerable<SphereOfInfluence> GetFullPathSOIs()
