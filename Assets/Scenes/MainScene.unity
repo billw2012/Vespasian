@@ -2088,6 +2088,12 @@ PrefabInstance:
       propertyPath: startVelocity.y
       value: 1.6547124
       objectReference: {fileID: 0}
+    - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: soiMarkerAsset
+      value: 
+      objectReference: {fileID: 5328351541723600180, guid: 8430562055167c447b0a277c12a8cbbd,
+        type: 3}
     - target: {fileID: 5962837657640472753, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMax.x

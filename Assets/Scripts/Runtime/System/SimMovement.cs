@@ -14,21 +14,14 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     public Vector3 startVelocity;
     public bool alignToVelocity = true;
 
-    [Tooltip("Used to render the global simulated path")]
+    [Tooltip("Used to render the simulated path sections")]
     public GameObject pathRendererAsset;
+    [Tooltip("Used to render markers to show soi closest approaches")]
+    public GameObject soiMarkerAsset;
+
     [Range(0, 5)]
     public float pathWidthScale = 1f;
 
-    [Serializable]
-    public enum PathMode
-    {
-        None,
-        Global,
-        Local,
-        Lerped,
-        Split
-    }
-    public PathMode pathMode = PathMode.Lerped;
     public float pathQuality = 0.1f;
 
     [Tooltip("Used to indicate a predicted crash")]
@@ -36,8 +29,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     public Vector3 simPosition => this.path.position;
     public Vector3 velocity => this.path.velocity;
-    public bool isPrimaryRelative;
-    public Vector3 relativeVelocity => this.isPrimaryRelative ? this.path.relativeVelocity : this.path.velocity;
+    public Vector3 relativeVelocity => this.path.relativeVelocity;
 
     [HideInInspector]
     public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
@@ -45,7 +37,66 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     SectionedSimPath path;
     Vector3 force = Vector3.zero;
 
-    readonly List<(LineRenderer renderer, MaterialPropertyBlock mb)> pathRenderers = new List<(LineRenderer renderer, MaterialPropertyBlock mb)>();
+    class SoiPathSectionRenderer
+    {
+        public LineRenderer lineRenderer;
+        public MaterialPropertyBlock lineRendererMB;
+        public Renderer soiMarker;
+        public MaterialPropertyBlock soiMarkerMB;
+
+        public bool valid => this.lineRenderer != null && this.soiMarker != null;
+
+        public SoiPathSectionRenderer(GameObject lineRendererPrefab, GameObject soiMarkerPrefab)
+        {
+            this.lineRenderer = Instantiate(lineRendererPrefab).GetComponent<LineRenderer>();
+            this.soiMarker = Instantiate(soiMarkerPrefab).GetComponentInChildren<Renderer>();
+            this.lineRendererMB = new MaterialPropertyBlock();
+            this.soiMarkerMB = new MaterialPropertyBlock();
+            this.SetActive(false);
+        }
+
+        public void SetActive(bool active)
+        {
+            this.lineRenderer.gameObject.SetActive(active);
+            this.soiMarker.gameObject.SetActive(active);
+        }
+
+        public void UpdatePathWidth(float width)
+        {
+            this.lineRenderer.startWidth = this.lineRenderer.endWidth = width;
+            float ratio = (float)this.lineRenderer.sharedMaterial.mainTexture.height / this.lineRenderer.sharedMaterial.mainTexture.width;
+
+            this.lineRendererMB.SetVector("_UVScaling", new Vector2(ratio / width, 1));
+            this.lineRenderer.SetPropertyBlock(this.lineRendererMB);
+            this.soiMarker.transform.localScale = Vector3.one * width;
+        }
+
+        public void Update(SimModel.SphereOfInfluence soi, Vector3[] path)
+        {
+
+            this.lineRenderer.gameObject.SetActive(true);
+            this.lineRenderer.positionCount = path.Length;
+            this.lineRenderer.SetPositions(path);
+            if (soi != null)
+            {
+                this.lineRendererMB.SetVector("_BorderColor", soi.g.color);
+                this.lineRenderer.SetPropertyBlock(this.lineRendererMB);
+                this.soiMarkerMB.SetVector("_BorderColor", soi.g.color);
+                this.soiMarker.SetPropertyBlock(this.soiMarkerMB);
+
+                this.soiMarker.transform.position = soi.maxForcePosition;
+                this.soiMarker.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.lineRendererMB.SetVector("_BorderColor", Color.white);
+                this.lineRenderer.SetPropertyBlock(this.lineRendererMB);
+                this.soiMarker.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    readonly List<SoiPathSectionRenderer> pathRenderers = new List<SoiPathSectionRenderer>();
 
     float rotVelocity;
 
@@ -62,17 +113,17 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     void OnDisable()
     {
-        foreach (var (renderer, _) in this.pathRenderers)
+        foreach (var spr in this.pathRenderers.Where(p => p.valid))
         {
-            renderer.gameObject.SetActive(false);
+            spr.SetActive(false);
         }
     }
 
     void OnEnable()
     {
-        foreach (var (renderer, _) in this.pathRenderers)
+        foreach (var spr in this.pathRenderers.Where(p => p.valid))
         {
-            renderer.gameObject.SetActive(true);
+            spr.SetActive(true);
         }
     }
 
@@ -115,8 +166,6 @@ public class SimMovement : MonoBehaviour, ISimUpdate
             float currentRot = rigidBody.rotation.eulerAngles.z;
             float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 360);
             rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
-
-            //rigidBody.MoveRotation(Quaternion.FromToRotation(Vector3.up, this.relativeVelocity));
         }
     }
     public void SimRefresh()
@@ -131,13 +180,9 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     void UpdatePathWidth()
     {
-        foreach(var (renderer, mb) in this.pathRenderers)
+        foreach(var sr in this.pathRenderers.Where(p => p.valid))
         {
-            renderer.startWidth = renderer.endWidth = this.constants.SimLineWidth * this.pathWidthScale;
-            float ratio = (float)renderer.sharedMaterial.mainTexture.height / renderer.sharedMaterial.mainTexture.width;
-
-            mb.SetVector("_UVScaling", new Vector2(ratio / (this.constants.SimLineWidth * this.pathWidthScale), 1));
-            renderer.SetPropertyBlock(mb);
+            sr.UpdatePathWidth(this.constants.SimLineWidth * this.pathWidthScale);
         }
     }
 
@@ -154,83 +199,112 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         return finalPath;
     }
 
-    IEnumerable<Vector3[]> GetPath()
+    static Vector3[] ReduceRange(IList<Vector3> fullPath, int start, int end, float quality)
     {
-        switch (this.pathMode)
+        int scaling = (int)(1f / quality);
+        var finalPath = new Vector3[Mathf.FloorToInt((float)(end - start) / scaling)];
+        for (int i = 0; i < finalPath.Length; i++)
         {
-            case PathMode.Global:
-                return new[] { Reduce(this.path.GetFullPath().ToArray(), this.pathQuality) };
-            case PathMode.Local:
-                if (this.sois.Any() && !this.path.crashed)
-                {
-                    var g = this.sois.First().g;
-                    var relativePath = Reduce(this.path.GetRelativePath(g), this.pathQuality);
-                    for (int i = 0; i < relativePath.Length; i++)
-                    {
-                        relativePath[i] += g.position;
-                    }
-                    return new[] { relativePath };
-                }
-                else
-                {
-                    return new[] { Reduce(this.path.GetFullPath(), this.pathQuality) };
-                }
-            case PathMode.Lerped:
-                return new[] { Reduce(this.path.GetWeightedPath(), this.pathQuality) };
-            case PathMode.Split:
-                var soiSplitPaths = this.path.GetSplitLocalPath();
-                return soiSplitPaths.Select(s => s.path);
-            default:
-                return new[] { EmptyPath };
+            finalPath[i] = fullPath[start + i * scaling];
         }
+        return finalPath;
+    }
+
+    Vector3[] GetPath()
+    {
+        if (this.sois.Any())
+        {
+            var g = this.sois.First().g;
+            var relativePath = this.path.GetRelativePath(g);
+            if(relativePath == null)
+            {
+                return EmptyPath;
+            }
+
+            var relativePathReduced = Reduce(relativePath.positions, this.pathQuality);
+            for (int i = 0; i < relativePathReduced.Length; i++)
+            {
+                relativePathReduced[i] += g.position;
+            }
+            return relativePathReduced;
+        }
+        else
+        {
+            return Reduce(this.path.GetAbsolutePath(), this.pathQuality);
+        }
+    }
+
+    IEnumerable<(SimModel.SphereOfInfluence soi, Vector3[] path)> GetSOIPaths()
+    {
+        var soiPaths = new List<(SimModel.SphereOfInfluence soi, Vector3[] path)>();
+        if (this.sois.Any())
+        {
+            var primaryGravitySource = this.sois.First().g;
+            var primaryRelativePath = this.path.GetRelativePath(primaryGravitySource);
+
+            foreach (var soi in this.sois)
+            {
+                // Sometimes soi can start before the existing path does, so we need to ensure we don't try and index negative values
+                int soiStartTick = Mathf.Max(primaryRelativePath.startTick, soi.startTick);
+                // 0 based offset of the (clamped) soi start in the path positions array
+                int soiOffset = soiStartTick - primaryRelativePath.startTick;
+                int soiDuration = soi.endTick - soiStartTick;
+                var relativePath = ReduceRange(primaryRelativePath.positions, soiOffset, soiOffset + soiDuration, this.pathQuality);
+                for (int i = 0; i < relativePath.Count(); i++)
+                {
+                    relativePath[i] += primaryGravitySource.position;
+                }
+                soiPaths.Add((soi, relativePath));
+            }
+        }
+        else
+        {
+            soiPaths.Add((null, Reduce(this.path.GetAbsolutePath(), this.pathQuality)));
+        }
+        return soiPaths;
     }
 
     void UpdatePath()
     {
         this.sois = this.path.GetFullPathSOIs().ToList();
-        this.isPrimaryRelative = this.sois.Count > 0;
 
         var endPosition = Vector3.zero;
         if (this.pathRendererAsset != null)
         {
-            var finalPathSections = this.GetPath().ToList();
+            var soiPaths = this.GetSOIPaths().ToList();
 
             // If we aren't predicted to crash and we only pass one soi, then we 
             // can clip the path to only a single orbit of that soi for neatness
             if (!this.path.crashed && this.sois.Count == 1)
             {
-                var soiPos = this.sois.First().g.position;
+                var primarySoi = soiPaths[0];
+                var soiPos = primarySoi.soi.g.position;
                 float totalAngle = 0;
                 int range = 1;
-                var finalPath = finalPathSections[0];
-                for (; range < finalPath.Length && totalAngle < 360f; range++)
+                for (; range < primarySoi.path.Length && totalAngle < 360f; range++)
                 {
-                    totalAngle += Vector2.Angle(finalPath[range - 1] - soiPos, finalPath[range] - soiPos);
+                    totalAngle += Vector2.Angle(primarySoi.path[range - 1] - soiPos, primarySoi.path[range] - soiPos);
                 }
-                finalPathSections[0] = finalPath.Take(range).ToArray();
+                soiPaths[0] = (primarySoi.soi, primarySoi.path.Take(range).ToArray());
             }
 
             // Update the renderers, adding new ones if necessary
-            for (int i = 0; i < finalPathSections.Count; i++)
+            for (int i = 0; i < soiPaths.Count; i++)
             {
                 if(this.pathRenderers.Count <= i)
                 {
-                    var newRenderer = Instantiate(this.pathRendererAsset).GetComponent<LineRenderer>();
-                    var mb = new MaterialPropertyBlock();
-                    this.pathRenderers.Add((newRenderer, mb));
+                    this.pathRenderers.Add(new SoiPathSectionRenderer(this.pathRendererAsset, this.soiMarkerAsset));
                 }
-                var renderer = this.pathRenderers[i].renderer;
-                var finalPath = finalPathSections[i];
-                renderer.transform.SetParent(null, worldPositionStays: false);
-                renderer.useWorldSpace = true;
-                endPosition = renderer.transform.localToWorldMatrix.MultiplyPoint(finalPath.LastOrDefault());
-                renderer.positionCount = finalPath.Length;
-                renderer.SetPositions(finalPath);
+                var finalPath = soiPaths[i].path;
+                this.pathRenderers[i].Update(soiPaths[i].soi, finalPath);
             }
+
+            endPosition = soiPaths.Last().path.LastOrDefault();
+
             // Disable any superfluous renderers
-            for (int i = finalPathSections.Count(); i < this.pathRenderers.Count; i++)
+            for (int i = soiPaths.Count(); i < this.pathRenderers.Count; i++)
             {
-                this.pathRenderers[i].renderer.enabled = false;
+                this.pathRenderers[i].SetActive(false);
             }
         }
 

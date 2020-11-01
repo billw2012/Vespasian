@@ -120,6 +120,11 @@ public struct OrbitParameters
             float frac = fIdx - Mathf.FloorToInt(fIdx);
             var position = Vector3.Lerp(this.path[idx0], this.path[idx1], frac);
             var velocity = (Vector3.Lerp(this.path[idx1], this.path[(idx1 + 1) % this.path.Length], frac) - position) / this.dt;
+            // If we are going in the opposite direction then reverse the velocity of course
+            if(this.direction == OrbitDirection.Clockwise)
+            {
+                velocity *= -1;
+            }
             return (position, velocity);
         }
     }
@@ -197,7 +202,13 @@ public class Orbit : MonoBehaviour
 
     public Vector3[] pathPositions => this.orbitPath.path;
 
-    public Vector3 velocity;
+    [NonSerialized]
+    public Vector3 relativeVelocity;
+
+    [NonSerialized]
+    public Vector3 absoluteVelocity;
+
+    Orbit parentOrbit;
 
     void OnValidate()
     {
@@ -258,9 +269,11 @@ public class Orbit : MonoBehaviour
         // Rotation must be 0
         this.transform.localRotation = Quaternion.identity;
 
+        this.parentOrbit = this.GetComponentInParentOnly<Orbit>();
+
         // If we are not parented to another orbit then position must be 0,
         // otherwise our position will be set by the orbit
-        if (this.GetComponentInParentOnly<Orbit>() == null)
+        if (parentOrbit == null)
         {
             this.transform.localPosition = Vector3.zero;
         }
@@ -280,7 +293,10 @@ public class Orbit : MonoBehaviour
     {
         if (this.position != null)
         {
-            (this.position.localPosition, this.velocity) = this.orbitPath.GetPositionVelocity(time);
+            (this.position.localPosition, this.relativeVelocity) = this.orbitPath.GetPositionVelocity(time);
+            this.absoluteVelocity = this.parentOrbit != null 
+                ? this.parentOrbit.absoluteVelocity + this.relativeVelocity 
+                : this.relativeVelocity;
         }
     }
 

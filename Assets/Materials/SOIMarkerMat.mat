@@ -20,10 +20,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PathGlobalMat
+  m_Name: SOIMarkerMat
   m_Shader: {fileID: -6465566751694194690, guid: d2166c58da5d7a34f85503e2c160a849,
     type: 3}
-  m_ShaderKeywords: OUTLINE_ON _EMISSION
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA OUTLINE_ON _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0.51, y: 0.45}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 15e482d747c454140bf0d5912951d944, type: 3}
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -133,7 +133,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Reflectivity: 10
-    - _SDFThreshold: 0
+    - _SDFThreshold: 0.088
     - _SDF_Threshold: 0.085
     - _SampleGI: 0
     - _ScaleRatioA: 1
@@ -142,7 +142,7 @@ Material:
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
-    - _ShadowThickness: 0.405
+    - _ShadowThickness: 0.395
     - _Sharpness: -0.08
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -186,7 +186,7 @@ Material:
     - _OutlineColor: {r: 0.16666651, g: 0, b: 1, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 0.85443336, g: 1, b: 0.20599997, a: 1}
+    - _ShadowColor: {r: 1, g: 0.98214674, b: 0.5613208, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

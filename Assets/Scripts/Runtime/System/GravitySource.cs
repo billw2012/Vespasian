@@ -26,17 +26,18 @@ public class GravitySource : MonoBehaviour {
     [Tooltip("Transform to use as the gravity source origin")]
     public Transform customTarget;
 
-    [HideInInspector]
+    [NonSerialized]
     public Transform target;
 
-    [HideInInspector]
     public float radius => this.target.localScale.x;
 
-    [HideInInspector]
     public Vector3 position => this.target.position;
 
     [Tooltip("Mass will be automatically calculated from radius and density")]
     public bool autoMass = true;
+
+    [NonSerialized]
+    public Color color;
 
     void OnValidate()
     {
@@ -46,6 +47,7 @@ public class GravitySource : MonoBehaviour {
     void Start()
     {
         this.RefreshValidate();
+        this.color = UnityEngine.Random.ColorHSV(0, 1, 0.75f, 0.75f, 1, 1);
     }
 
     public static List<GravitySource> All()

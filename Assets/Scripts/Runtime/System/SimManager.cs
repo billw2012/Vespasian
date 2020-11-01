@@ -186,7 +186,12 @@ public class SimPath
         {
             var ourLastSoi = this.sois.Last();
             var otherFirstSoi = other.sois.First();
-            ourLastSoi.maxForce = Mathf.Max(ourLastSoi.maxForce, otherFirstSoi.maxForce);
+            if (otherFirstSoi.maxForce > ourLastSoi.maxForce)
+            {
+                ourLastSoi.maxForce = otherFirstSoi.maxForce;
+                ourLastSoi.maxForcePosition = otherFirstSoi.maxForcePosition;
+                ourLastSoi.maxForceTick = otherFirstSoi.maxForceTick;
+            }
             ourLastSoi.endTick = otherFirstSoi.endTick;
             // ourLastSoi.relativePath.Append(otherFirstSoi.relativePath);
             // We merged the first soi of the others so we skip it and append the remaining ones
@@ -206,6 +211,9 @@ public class SimModel
     {
         public GravitySource g;
         public float maxForce;
+
+        public Vector3 maxForcePosition;
+        public int maxForceTick;
 
         public int startTick;
         public int endTick;
@@ -294,6 +302,7 @@ public class SimModel
             {
                 int maxIndex = 0;
                 float maxForce = 0;
+                Vector3 maxForcePosition = Vector3.zero;
                 for (int i = 0; i < forceInfo.forces.Length; i++)
                 {
                     float forceMag = forceInfo.forces[i].magnitude;
@@ -301,21 +310,24 @@ public class SimModel
                     {
                         maxIndex = i;
                         maxForce = forceMag;
+                        maxForcePosition = forceInfo.positions[i];
                     }
                 }
 
                 var bestG = this.owner.simGravitySources[maxIndex].from;
                 var lastSoi = this.sois.LastOrDefault();
-                if (lastSoi?.g == bestG)
+                if (lastSoi?.g != bestG)
                 {
-                    lastSoi.maxForce = Mathf.Max(lastSoi.maxForce, maxForce);
-                    lastSoi.endTick = this.tick;
+                    lastSoi = new SphereOfInfluence(bestG, this.tick);
+                    this.sois.Add(lastSoi);
                 }
-                else
+                if (lastSoi.maxForce < maxForce)
                 {
-                    this.sois.Add(new SphereOfInfluence(bestG, this.tick));
-                    // lastSoi = this.sois.Last();
+                    lastSoi.maxForce = maxForce;
+                    lastSoi.maxForceTick = this.tick;
+                    lastSoi.maxForcePosition = maxForcePosition;
                 }
+                lastSoi.endTick = this.tick;
 
                 this.velocity += forceInfo.rescaledTotalForce * this.dt;
 
@@ -590,64 +602,14 @@ public class SectionedSimPath
 
     static readonly List<Vector3> Empty = new List<Vector3>();
 
-    public List<Vector3> GetFullPath()
+    public List<Vector3> GetAbsolutePath()
     {
         return this.simPath?.pathSection.positions ?? Empty;
     }
 
-    public List<Vector3> GetRelativePath(GravitySource g)
+    public PathSection GetRelativePath(GravitySource g)
     {
-        return this.simPath?.relativePaths[g].positions ?? Empty;
-    }
-
-    public Vector3[] GetWeightedPath()
-    {
-        if (this.simPath == null || !this.simPath.relativePaths.Any())
-            return Empty.ToArray();
-
-        var weightedPath = new Vector3[this.simPath.relativePaths.First().Value.durationTicks];
-        foreach(var p in this.simPath.relativePaths)
-        {
-            var gpos = p.Key.position;
-            var gpath = p.Value.positions;
-            var gweights = p.Value.weights;
-            for (int i = 0; i < weightedPath.Length; i++)
-            {
-                weightedPath[i] += (gpath[i] + gpos) * gweights[i];
-            }
-        }
-
-        return weightedPath;
-    }
-
-    public IEnumerable<(SphereOfInfluence soi, Vector3[] path)> GetSplitLocalPath()
-    {
-        if (this.simPath == null || !this.simPath.relativePaths.Any())
-            return new (SphereOfInfluence soi, Vector3[] path)[] { };
-
-        var splitPaths = new List<(SphereOfInfluence soi, Vector3[] path)>();
-        //int baseStartTick = -1;
-        foreach (var soi in this.simPath.sois)
-        {
-            var rp = this.simPath.relativePaths[soi.g];
-            //if(baseStartTick == -1)
-            //{
-            //    baseStartTick = rp.startTick;
-            //}
-            int soiStartTick = Mathf.Max(this.simTick, soi.startTick);
-            int soiOffsetStartTick = soiStartTick - rp.startTick;
-            int soiOffsetDuration = soi.endTick - soiStartTick;
-            if (soiOffsetDuration > 0)
-            {
-                var soiLocalPath = new Vector3[soiOffsetDuration];
-                for (int i = 0; i < soiLocalPath.Length; i++)
-                {
-                    soiLocalPath[i] = soi.g.position + rp.positions[soiOffsetStartTick + i];
-                }
-                splitPaths.Add((soi, soiLocalPath));
-            }
-        }
-        return splitPaths;
+        return this.simPath?.relativePaths[g];
     }
 
     public IEnumerable<SphereOfInfluence> GetFullPathSOIs()
@@ -671,7 +633,7 @@ public class SectionedSimPath
                 var firstSoi = this.simPath.sois.First();
                 var orbitComponent = firstSoi.g.GetComponent<Orbit>();
                 this.relativeVelocity = orbitComponent != null ?
-                    this.velocity - orbitComponent.velocity
+                    this.velocity - orbitComponent.absoluteVelocity
                     :
                     this.velocity;
             }
@@ -690,10 +652,10 @@ public class SectionedSimPath
             }
             this.velocity += force * this.dt;
             this.position += this.velocity * this.dt;
-            if (forceInfo.valid)
-            {
-                this.relativeVelocity = this.velocity - forceInfo.velocities[forceInfo.primaryIndex];
-            }
+            this.relativeVelocity = forceInfo.valid 
+                ? this.velocity - forceInfo.velocities[forceInfo.primaryIndex] 
+                : this.velocity;
+
             // Start recreating the path sections
             this.restartPath = true;
         }

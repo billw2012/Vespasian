@@ -28,12 +28,17 @@ public class DamageReceiver : MonoBehaviour
             {
                 float dt = source.timeMultipler * Time.deltaTime;
                 var relativeVelocity = (prevRelativePos - relativePos) / dt;
-                float damagePerTime 
-                    = 0.01f 
+
+                float damagePerTime = MathX.Sigmoid(relativeVelocity.magnitude, 10, -3.9f, 1f)
+                    * 0.5f
                     * dt
-                    * Mathf.Pow(Mathf.Max(0, relativeVelocity.magnitude - 1f), 5)
                     * source.damageMultiplier
                     ;
+                    //= 0.001f 
+                    //* dt
+                    //* Mathf.Pow(Mathf.Max(0, relativeVelocity.magnitude - 1f), 5)
+                    //* source.damageMultiplier
+                    //;
 
                 healthComponent.AddDamage(damagePerTime, source.transform.localToWorldMatrix.MultiplyVector(relativeVelocity));
             }

@@ -131,4 +131,7 @@ public static class MathX
 
         return Area2(xMin, xMax, yMin, yMax);
     }
+
+    // As per: https://www.desmos.com/calculator/skjkarsia1
+    public static float Sigmoid(float x, float a, float b, float k) => k / (1f + Mathf.Exp(a + b * x));
 }

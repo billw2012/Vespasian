@@ -715,7 +715,7 @@ MonoBehaviour:
   alignToVelocity: 1
   pathRendererAsset: {fileID: 0}
   pathWidthScale: 1
-  pathMode: 3
+  pathMode: 2
   pathQuality: 0.1
   warningSign: {fileID: 0}
   isPrimaryRelative: 0

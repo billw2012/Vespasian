@@ -19379,7 +19379,6 @@ MonoBehaviour:
     mass: 0.62831855
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   customTarget: {fileID: 8649645052135855122}
-  target: {fileID: 8649645052135855122}
   autoMass: 1
 --- !u!114 &56469765501527648
 MonoBehaviour:
@@ -19403,7 +19402,6 @@ MonoBehaviour:
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
   customPosition: {fileID: 0}
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &7639369803563321502
 MonoBehaviour:
   m_ObjectHideFlags: 0
