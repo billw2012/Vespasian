@@ -77,18 +77,22 @@ public static class UnityExtensions
         }
     }
 
+    public static Bounds GetFullMeshRendererBounds(this IEnumerable<MeshRenderer> allRenderers)
+    {
+        var fullBounds = allRenderers.First().bounds;
+        foreach (var r in allRenderers)
+        {
+            fullBounds.Encapsulate(r.bounds);
+        }
+        return fullBounds;
+    }
+
     public static Bounds GetFullMeshRendererBounds(this GameObject ob)
     {
         var allRenderers = ob.GetComponentsInChildren<MeshRenderer>();
         if (!allRenderers.Any())
             return new Bounds(ob.transform.position, Vector3.zero);
-
-        var fullBounds = allRenderers.First().bounds;
-        foreach(var r in allRenderers)
-        {
-            fullBounds.Encapsulate(r.bounds);
-        }
-        return fullBounds;
+        return allRenderers.GetFullMeshRendererBounds();
     }
 
     public static bool IsIdentity(this Transform transform)

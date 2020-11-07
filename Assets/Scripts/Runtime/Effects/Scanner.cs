@@ -38,8 +38,17 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
             {
                 this.laserScanner.gameObject.SetActive(true);
 
-                float targetWidth = this.target.originTransform.gameObject.GetFullMeshRendererBounds().extents.magnitude * 2f;
-                this.SetScanEffect(this.target.originTransform.position - this.transform.position, targetWidth);
+                (Vector2 vec, float width) ScannerParams(Vector2 target, Vector2 from, float targetRadius)
+                {
+                    var fromVec = from - target;
+                    float angle = Mathf.Min(90f, Mathf.Cos(targetRadius / fromVec.magnitude) * Mathf.Rad2Deg);
+                    var A = (Vector2)(Quaternion.AngleAxis(angle, Vector3.forward) * fromVec.normalized) * targetRadius;
+                    var B = (Vector2)(Quaternion.AngleAxis(-angle, Vector3.forward) * fromVec.normalized) * targetRadius;
+                    return ((A + B) * 0.5f + target - from, (A - B).magnitude);
+                }
+
+                var (vec, width) = ScannerParams(this.target.originTransform.position, this.transform.position, this.target.scannedObjectRadius);
+                this.SetScanEffect(vec, width);
             }
         }
         else
@@ -54,7 +63,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
             Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget)) *
             Quaternion.Euler(0, 45f, 0)
             ;
-        this.laserScanner.transform.localScale = new Vector3(vectorToTarget.magnitude * 1.5f, targetWidth, 1);
+        this.laserScanner.transform.localScale = new Vector3(vectorToTarget.magnitude, 2.1f * targetWidth, 1);
     }
 
     #region IUpgradeLogic

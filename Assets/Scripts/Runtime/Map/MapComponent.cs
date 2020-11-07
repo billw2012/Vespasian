@@ -22,7 +22,9 @@ public class MapComponent : MonoBehaviour
 
     Lazy<SolarSystem> jumpTarget = new Lazy<SolarSystem>(() => null);
 
-    PlayerController player => FindObjectOfType<PlayerController>();
+    PlayerController player;
+
+    WarpComponent warpComponent => this.player.GetComponentInChildren<WarpComponent>();
 
     //// Start is called before the first frame update
     //void Awake()
@@ -34,6 +36,11 @@ public class MapComponent : MonoBehaviour
     //{
     //    _ = this.LoadRandomSystemAsync();
     //}
+
+    void Start()
+    {
+        this.player = FindObjectOfType<PlayerController>();
+    }
 
     void Update()
     {
@@ -54,7 +61,7 @@ public class MapComponent : MonoBehaviour
 
     public SolarSystem GetJumpTarget() => this.jumpTarget.Value;
 
-    public bool CanJump() => this.GetJumpTarget() != null;
+    public bool CanJump() => this.GetJumpTarget() != null && this.warpComponent.CanJump(this.currentSystem, this.GetJumpTarget());
 
     public async Task JumpAsyc()
     {
@@ -98,35 +105,7 @@ public class MapComponent : MonoBehaviour
         var playerSimMovement = this.player.GetComponent<SimMovement>();
         playerSimMovement.enabled = false;
 
-        var playerWarpController = this.player.GetComponent<WarpController>();
-        playerWarpController.enabled = true;
-
-        // Set this before refreshing the sim so it is applied correctly
-        Vector2 landingPosition;
-        Vector2 landingVelocity;
-        if (this.currentSystem != null)
-        {
-            var inTravelVec = (target.position - this.currentSystem.position).normalized;
-            // var positionVec = Vector2.Perpendicular(inTravelVec) * (Random.value > 0.5f ? -1 : 1);
-
-            landingPosition = inTravelVec * -Random.Range(30f, 50f) + Vector2.Perpendicular(inTravelVec) * Random.Range(-20f, +20f);
-            landingVelocity = inTravelVec * Random.Range(0.5f, 1f);
-        }
-        else
-        {
-            landingPosition = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector2.one * Random.Range(30f, 50f);
-            landingVelocity = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector2.one * Random.Range(0.5f, 1f);
-        }
-
-        await playerWarpController.EnterWarpAsync(landingVelocity.normalized, 50);
-
-        await playerWarpController.TurnInWarpAsync(landingVelocity.normalized);
-
-        await this.LoadSystemAsync(target);
-
-        await playerWarpController.ExitWarpAsync(landingPosition, landingVelocity.normalized, landingVelocity.magnitude);
-
-        playerWarpController.enabled = false;
+        await this.warpComponent.Warp(this.currentSystem, target, this.LoadSystemAsync);
 
         // Re-enable player input
         playerController.enabled = true;
@@ -136,7 +115,7 @@ public class MapComponent : MonoBehaviour
         playerController.SetAllowDamageAndCollision(true);
 
         // Finally set the player velocity and re-enable simulation
-        playerSimMovement.SetVelocity(landingVelocity);
+        playerSimMovement.SimRefresh();
         playerSimMovement.enabled = true;
 
         this.uiManager.ShowPlayUI();

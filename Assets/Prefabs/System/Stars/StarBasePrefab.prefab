@@ -19414,7 +19414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111afeeb5aee51049a9bf888620de5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3.1
+  range: 8.23
   originTransform: {fileID: 8927440856455040385}
 --- !u!54 &2438610178736772583
 Rigidbody:
@@ -19444,7 +19444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57f01e30241c534883df6a9c7ae7f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3.5
+  range: 9.97
   originTransform: {fileID: 8927440856455040385}
 --- !u!114 &5602780869510119643
 MonoBehaviour:
@@ -19458,10 +19458,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61f4196fdf5e584ca0129d840d3ef75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 4.6
+  range: 13.61
   originTransform: {fileID: 8927440856455040385}
-  scanProgress: 0
-  scanning: 0
+  scannedObjectRadius: 0
 --- !u!1 &6093582211867798575
 GameObject:
   m_ObjectHideFlags: 0
@@ -19605,8 +19604,8 @@ MonoBehaviour:
     target: {fileID: -754972587007797143, guid: 3a37e1f9b25cc8148b0a484e209c89cc,
       type: 2}
     floatProperties:
-    - target: 9
-      targetValue: -0.5
+    - target: 16
+      targetValue: 0.27
       curve:
         serializedVersion: 2
         m_Curve: []

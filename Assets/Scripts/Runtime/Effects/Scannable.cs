@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Scannable : EffectSource
 {
-    [HideInInspector]
+    public float scannedObjectRadius;
+
+    [NonSerialized]
     public float scanProgress = 0;
 
-    [HideInInspector]
+    [NonSerialized]
     public bool scanning = false;
 
-    public override bool IsEmpty()
-    {
-        return this.scanProgress >= 1.0f;
-    }
+    public override bool IsEmpty() => this.scanProgress >= 1.0f;
 
     void LateUpdate()
     {

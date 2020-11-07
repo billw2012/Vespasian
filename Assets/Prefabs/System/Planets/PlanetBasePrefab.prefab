@@ -264,7 +264,6 @@ MonoBehaviour:
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
   customPosition: {fileID: 0}
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &8256936986849645567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +281,6 @@ MonoBehaviour:
     mass: 3.1415927
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   customTarget: {fileID: 2726752591905956686}
-  target: {fileID: 2726752591905956686}
   autoMass: 1
 --- !u!114 &6935095417760010546
 MonoBehaviour:
@@ -438,10 +436,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61f4196fdf5e584ca0129d840d3ef75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3
+  range: 8.09
   originTransform: {fileID: 2318905709148006584}
-  scanProgress: 0
-  scanning: 0
+  scannedGeometry:
+  - {fileID: 5076257171360282820}
 --- !u!1 &6595095681025090445
 GameObject:
   m_ObjectHideFlags: 0

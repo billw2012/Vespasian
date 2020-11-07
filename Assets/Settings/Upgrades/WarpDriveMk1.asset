@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
+  m_Name: WarpDriveMk1
+  m_EditorClassIdentifier: 
+  cost: 0
+  mass: 0
+  shipPartPrefab: {fileID: 8851948593646386530, guid: 25fba7bd04832234290e8a424b69b79d,
+    type: 3}
+  shopUIPrefab: {fileID: 0}
+  replaces:
+  - {fileID: 11400000, guid: 9d1a2bdc51f79a8419384867e77de5cc, type: 2}
+  requires: []

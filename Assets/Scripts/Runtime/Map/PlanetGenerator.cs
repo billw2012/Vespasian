@@ -52,6 +52,12 @@ public class PlanetGenerator : BodyGenerator
         {
             effect.range += this.planet.radius - 1;
         }
+
+        var scannable = this.GetComponent<Scannable>();
+        if (scannable != null)
+        {
+            this.GetComponent<Scannable>().scannedObjectRadius = this.planet.radius;
+        }
     }
 
 #if UNITY_EDITOR

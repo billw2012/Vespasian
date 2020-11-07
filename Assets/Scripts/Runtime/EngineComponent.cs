@@ -20,11 +20,11 @@ public class EngineComponent : MonoBehaviour, IUpgradeLogic
     {
         this.fuel = Mathf.Clamp01(this.fuel + amount);
     }
+
     public void UseFuel(float amount)
     {
         this.fuel = Mathf.Clamp01(this.fuel - amount * this.fuelUsageRate);
     }
-
 
     #region IUpdateLogic
     public UpgradeDef upgradeDef { get; private set; }

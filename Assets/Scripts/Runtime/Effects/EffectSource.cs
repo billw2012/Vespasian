@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public abstract class EffectSource : MonoBehaviour
 {
-    [Tooltip("Max range the effect will work at"), Range(0, 10)]
+    [Tooltip("Max range the effect will work at")]
     public float range = 3.0f;
 
     //[Tooltip("Strength of the effect"), Range(0, 100)]

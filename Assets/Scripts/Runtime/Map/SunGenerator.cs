@@ -26,6 +26,12 @@ public class SunGenerator : BodyGenerator
             effect.range += this.star.radius - 1;
         }
 
+        var scannable = this.GetComponent<Scannable>();
+        if (scannable != null)
+        {
+            this.GetComponent<Scannable>().scannedObjectRadius = this.star.radius;
+        }
+
         // starLogic.glowIntensity = 
     }
 

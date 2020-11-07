@@ -2,6 +2,37 @@
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 using System.Linq;
+using System;
+
+public interface IUpgradeComponentProxy
+{
+    void Invalidate();
+}
+
+/// <summary>
+/// Used to accelerate lookup of components inside upgrades, avoiding a 
+/// hierarchical Component search on every access (uses lazy evaluation).
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class UpgradeComponentProxy<T> : IUpgradeComponentProxy
+{
+    public T value => this.component.Value;
+
+    readonly UpgradeManager owner;
+    Lazy<T> component = new Lazy<T>(() => default(T));
+
+    public UpgradeComponentProxy(UpgradeManager owner)
+    {
+        this.owner = owner;
+        owner.RegisterProxy(this);
+        this.Invalidate();
+    }
+
+    public void Invalidate()
+    {
+        this.component = new Lazy<T>(() => this.owner.upgradeRoot.GetComponentInChildren<T>());
+    }
+}
 
 /// <summary>
 /// Manages the set of upgrades on a ship, e.g. install, uninstall, save and load.
@@ -12,9 +43,29 @@ public class UpgradeManager : MonoBehaviour
     public UpgradeSet initialUpgrades;
     public Transform upgradeRoot;
 
+    readonly List<IUpgradeComponentProxy> proxies = new List<IUpgradeComponentProxy>();
+
     void Start()
     {
         this.InstallInitialUpgrades();
+    }
+
+    public UpgradeComponentProxy<T> GetProxy<T>()
+    {
+        return new UpgradeComponentProxy<T>(this);
+    }
+
+    public void RegisterProxy(IUpgradeComponentProxy proxy)
+    {
+        this.proxies.Add(proxy);
+    }
+
+    void InvalidateProxies()
+    {
+        foreach(var proxy in this.proxies)
+        {
+            proxy.Invalidate();
+        }
     }
 
     public void InstallInitialUpgrades()
@@ -36,6 +87,8 @@ public class UpgradeManager : MonoBehaviour
 
     public IUpgradeLogic Install(UpgradeDef upgradeDef, bool testFire = false)
     {
+        this.InvalidateProxies();
+
         foreach (var replaced in upgradeDef.replaces)
         {
             this.Uninstall(replaced);
@@ -50,11 +103,15 @@ public class UpgradeManager : MonoBehaviour
         }
 
         Debug.Log($"Installed upgrade {upgradeDef.name} on ship {this.gameObject.name}");
+
+
         return upgradeLogic;
     }
 
     public void Uninstall(IUpgradeLogic upgradeLogic)
     {
+        this.InvalidateProxies();
+
         upgradeLogic.Uninstall();
         var obj = (upgradeLogic as MonoBehaviour).gameObject;
         // obj.transform.SetParent(null);
@@ -94,7 +151,7 @@ public class UpgradeManager : MonoBehaviour
     {
         foreach (var upgrade in this.GetInstalledUpgrades())
         {
-            Uninstall(upgrade);
+            this.Uninstall(upgrade);
         }
     }
 
