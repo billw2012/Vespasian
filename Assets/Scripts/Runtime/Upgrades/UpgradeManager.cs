@@ -14,7 +14,7 @@ public interface IUpgradeComponentProxy
 /// hierarchical Component search on every access (uses lazy evaluation).
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class UpgradeComponentProxy<T> : IUpgradeComponentProxy
+public class UpgradeComponentProxy<T> : IUpgradeComponentProxy where T: MonoBehaviour, IUpgradeLogic
 {
     public T value => this.component.Value;
 
@@ -50,7 +50,7 @@ public class UpgradeManager : MonoBehaviour
         this.InstallInitialUpgrades();
     }
 
-    public UpgradeComponentProxy<T> GetProxy<T>()
+    public UpgradeComponentProxy<T> GetProxy<T>() where T : MonoBehaviour, IUpgradeLogic
     {
         return new UpgradeComponentProxy<T>(this);
     }

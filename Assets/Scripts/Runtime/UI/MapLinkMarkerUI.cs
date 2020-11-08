@@ -10,7 +10,7 @@ public class MapLinkMarkerUI : MonoBehaviour
     public Color color = Color.white;
     public Color jumpRouteColor = Color.green;
 
-    public bool jumpRoute => this.link.Match(this.mapComponent.currentSystem, this.mapComponent.GetJumpTarget());
+    public bool isJumpRoute => this.link.Match(this.mapComponent.currentSystem, this.mapComponent.jumpTarget);
 
     UILineRenderer line;
 
@@ -25,6 +25,6 @@ public class MapLinkMarkerUI : MonoBehaviour
 
     void Update()
     {
-        this.line.color = this.jumpRoute ? this.jumpRouteColor : this.color;
+        this.line.color = this.isJumpRoute ? this.jumpRouteColor : this.color;
     }
 }

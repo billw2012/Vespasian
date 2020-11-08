@@ -14,7 +14,7 @@ public class MapAStar : AStar<SolarSystem>
         this.links = new Dictionary<Cell, IEnumerable<Cell>>();
         foreach(var cell in this.cells.Values)
         {
-            this.links[cell] = map.GetJumpTargets(cell.position).Select(s => this.cells[s.system]);
+            this.links[cell] = map.GetConnected(cell.position).Select(s => this.cells[s.system]);
         }
     }
 

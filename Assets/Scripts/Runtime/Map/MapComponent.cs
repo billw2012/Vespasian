@@ -20,11 +20,11 @@ public class MapComponent : MonoBehaviour
 
     Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
 
-    Lazy<SolarSystem> jumpTarget = new Lazy<SolarSystem>(() => null);
+    public SolarSystem jumpTarget { get; private set; }
 
     PlayerController player;
 
-    WarpComponent warpComponent => this.player.GetComponentInChildren<WarpComponent>();
+    UpgradeComponentProxy<WarpComponent> warpComponent;
 
     //// Start is called before the first frame update
     //void Awake()
@@ -40,34 +40,50 @@ public class MapComponent : MonoBehaviour
     void Start()
     {
         this.player = FindObjectOfType<PlayerController>();
+        this.warpComponent = this.player.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
     }
 
-    void Update()
-    {
-        if (this.player != null)
-        {
-            var playerDirection = this.player.transform.position;
+    //void Update()
+    //{
+    //    if (this.player != null)
+    //    {
+    //        var playerDirection = this.player.transform.position;
 
-            this.jumpTarget = new Lazy<SolarSystem>(() => this.jumpTargets.Value
-                .OrderBy(t => Vector2.Angle(t.position - this.currentSystem.position, playerDirection)).FirstOrDefault());
+    //        //this.jumpTarget = new Lazy<SolarSystem>(() => this.jumpTargets.Value
+    //        //    .OrderBy(t => Vector2.Angle(t.position - this.currentSystem.position, playerDirection)).FirstOrDefault());
+    //    }
+    //    else
+    //    {
+    //        //this.jumpTarget = new Lazy<SolarSystem>(() => null);
+    //    }
+    //}
+
+    public IEnumerable<SolarSystem> GetValidJumpTargets() => this.jumpTargets.Value;
+
+    public bool TrySetJumpTarget(SolarSystem system)
+    {
+        if(this.jumpTargets.Value.Contains(system))
+        {
+            this.jumpTarget = system;
+            return true;
         }
         else
         {
-            this.jumpTarget = new Lazy<SolarSystem>(() => null);
+            return false;
         }
     }
 
     public async Task GenerateMapAsync() => this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs);
 
-    public SolarSystem GetJumpTarget() => this.jumpTarget.Value;
+    public bool CanJump() => this.jumpTarget != null && this.warpComponent.value.CanJump(this.currentSystem, this.jumpTarget);
 
-    public bool CanJump() => this.GetJumpTarget() != null && this.warpComponent.CanJump(this.currentSystem, this.GetJumpTarget());
+    public float GetJumpFuelRequired() => this.warpComponent.value.GetJumpFuelRequired(this.currentSystem, this.jumpTarget);
 
     public async Task JumpAsyc()
     {
-        Assert.IsNotNull(this.GetJumpTarget());
+        Assert.IsNotNull(this.jumpTarget);
 
-        await this.JumpAsync(this.GetJumpTarget());
+        await this.JumpAsync(this.jumpTarget);
     }
 
     public async Task LoadSystemAsync(SolarSystem target)
@@ -78,7 +94,7 @@ public class MapComponent : MonoBehaviour
         FindObjectOfType<SimManager>().Refresh();
 
         this.jumpTargets = new Lazy<List<SolarSystem>>(() =>
-            this.map.GetJumpTargets(this.currentSystem)
+            this.map.GetConnected(this.currentSystem)
                 .Select(t => t.system)
                 .ToList()
             );
@@ -105,7 +121,7 @@ public class MapComponent : MonoBehaviour
         var playerSimMovement = this.player.GetComponent<SimMovement>();
         playerSimMovement.enabled = false;
 
-        await this.warpComponent.Warp(this.currentSystem, target, this.LoadSystemAsync);
+        await this.warpComponent.value.Warp(this.currentSystem, target, this.LoadSystemAsync);
 
         // Re-enable player input
         playerController.enabled = true;

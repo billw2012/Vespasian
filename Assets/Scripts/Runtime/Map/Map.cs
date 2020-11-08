@@ -211,7 +211,7 @@ public class Map
     public List<Link> links = new List<Link>();
     public List<SolarSystem> systems = new List<SolarSystem>();
 
-    public IEnumerable<(SolarSystem system, Link link)> GetJumpTargets(SolarSystem system)
+    public IEnumerable<(SolarSystem system, Link link)> GetConnected(SolarSystem system)
     {
         return this.links
             .Where(l => l.from == system || l.to == system)

@@ -22,10 +22,10 @@ public class FadeableAudio : MonoBehaviour
         this.audioSource.volume = 0;
     }
 
-    void Start()
-    {
-        //this.audioSource.Play();
-    }
+    //void Start()
+    //{
+    //    //this.audioSource.Play();
+    //}
 
     public void FadeIn(float duration)
     {

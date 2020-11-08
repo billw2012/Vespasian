@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +16,9 @@ public class MapSystemMarkerUI : MonoBehaviour
 
     public TextMeshProUGUI label;
 
-    public bool current => this.system == this.mapComponent.currentSystem;
-    public bool jumpTarget => this.system == this.mapComponent.GetJumpTarget();
+    public bool isCurrent => this.system == this.mapComponent.currentSystem;
+    public bool isJumpTarget => this.system == this.mapComponent.jumpTarget;
+    public bool isValidJumpTarget => this.mapComponent.GetValidJumpTargets().Contains(this.system);
 
     Image image;
 
@@ -36,12 +38,17 @@ public class MapSystemMarkerUI : MonoBehaviour
 
     void Update()
     {
-        this.image.color = this.current
+        this.image.color = this.isCurrent
             ? this.currentColor
-            : this.jumpTarget
+            : this.isJumpTarget
             ? this.jumpTargetColor
             : this.color;
 
-        this.currentMarker.SetActive(this.current);
+        this.currentMarker.SetActive(this.isCurrent);
+    }
+
+    public void Clicked()
+    {
+        this.mapComponent.TrySetJumpTarget(this.system);
     }
 }

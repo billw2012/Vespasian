@@ -369,7 +369,7 @@ public class MapGenerator : ScriptableObject
 
             foreach (var s in map.systems)
             {
-                var links = map.GetJumpTargets(s).OrderBy(l => Vector2.SignedAngle(Vector2.right, l.system.position - s.position)).ToList();
+                var links = map.GetConnected(s).OrderBy(l => Vector2.SignedAngle(Vector2.right, l.system.position - s.position)).ToList();
                 float Angle(Vector2 a, Vector2 b, Vector2 c) => Vector2.Angle(a - b, c - b);
                 for (int j = 0; j < links.Count; j++)
                 {
