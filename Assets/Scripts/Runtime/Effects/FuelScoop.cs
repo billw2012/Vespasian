@@ -18,6 +18,8 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
 
         if (fuelSource != null)
         {
+            fuelSource.discovered = true;
+
             var engine = this.upgradeManager.GetComponentInChildren<EngineComponent>();
             if (engine != null)
             {

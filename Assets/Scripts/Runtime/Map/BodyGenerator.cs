@@ -20,14 +20,10 @@ public class BodyGenerator : MonoBehaviour
     [NonSerialized]
     public float danger;
 
-    public void Init(Body body, float danger)
+    public void Init(Body body, RandomX rng, float danger)
     {
         this.body = body;
         this.danger = danger;
-
-        var rng = new RandomX(body.randomKey);
-
-        this.body.Apply(this.gameObject, rng);
 
         this.InitInternal(rng);
     }

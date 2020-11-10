@@ -1,19 +1,198 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+
+
+public interface ISaved
+{
+}
+
+public interface ISerializer
+{
+    void Add(string key, object value);
+}
+
+public interface IDeserializer
+{
+    T Get<T>(string key);
+}
+
+
+public interface ISavedCustomSerialization
+{
+    void Serialize(ISerializer serializer);
+    void Deserialize(IDeserializer deserializer);
+}
+
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+public class SavedAttribute : Attribute {}
+
+public class SaveData : ISerializer, IDeserializer
+{
+    public Dictionary<string, object> data = new Dictionary<string, object>();
+
+    public void Add(string key, object value) => this.data.Add(key, value);
+
+    public T Get<T>(string key) => (T)this.data[key];
+    public object Get(string key) => this.data[key];
+}
+
+public static class Save
+{
+    static void ForEachField(object obj, Action<FieldInfo> op)
+    {
+        const BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+        foreach (var field in obj.GetType()
+            .GetFields(flag)
+            .Where(f => f.CustomAttributes.Any(a => a.AttributeType == typeof(SavedAttribute))))
+        {
+            op(field);
+        }
+    }
+    static void ForEachProperty(object obj, Action<PropertyInfo> op)
+    {
+        const BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+        foreach (var property in obj.GetType()
+            .GetProperties(flag)
+            .Where(f => f.CustomAttributes.Any(a => a.AttributeType == typeof(SavedAttribute))))
+        {
+            op(property);
+        }
+    }
+
+    public static SaveData SaveObject(object obj)
+    {
+        var data = new SaveData();
+        if(obj is ISaved)
+        {
+            ForEachField(obj, f => data.Add(f.Name, f.GetValue(obj)));
+            ForEachProperty(obj, f => data.data.Add(f.Name, f.GetValue(obj)));
+        }
+
+        if(obj is ISavedCustomSerialization)
+        {
+            (obj as ISavedCustomSerialization).Serialize(data);
+        }
+        return data;
+    }
+
+    public static void LoadObject(object obj, SaveData data)
+    {
+        if (obj is ISaved)
+        {
+            ForEachField(obj, f => f.SetValue(obj, data.Get(f.Name)));
+            ForEachProperty(obj, f => f.SetValue(obj, data.Get(f.Name)));
+        }
+
+        if (obj is ISavedCustomSerialization)
+        {
+            (obj as ISavedCustomSerialization).Deserialize(data);
+        }
+    }
+}
 
 public abstract class Body
 {
     public string specId;
     public int randomKey;
 
-    public abstract GameObject Instance(BodySpecs bodySpecs, float systemDanger);
+    public Dictionary<string, SaveData> savedComponents;
 
-    public abstract void Apply(GameObject target, RandomX rng);
+    IEnumerable<(ISaved component, string key)> savables;
+    GameObject activeInstance;
+
+    /// <summary>
+    /// This is called by the Map system when loading a system.
+    /// </summary>
+    /// <param name="bodySpecs"></param>
+    /// <param name="systemDanger"></param>
+    /// <returns></returns>
+    public GameObject Instance(BodySpecs bodySpecs, float systemDanger)
+    {
+        this.activeInstance = this.InstanceInternal(bodySpecs, systemDanger);
+        return this.activeInstance;
+    }
+
+    /// <summary>
+    /// This is called by the BodyGenerator init function, with an rng it supplies.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="rng"></param>
+    public void Apply(GameObject target, RandomX rng)
+    {
+        this.ApplyInternal(target, rng);
+        this.LoadComponents();
+    }
+
+    /// <summary>
+    /// This is called by the Map system when unloading a system
+    /// </summary>
+    public virtual void Unloading()
+    {
+        this.SaveComponents();
+        this.activeInstance = null;
+        this.savables = null;
+    }
+
+    protected virtual GameObject InstanceInternal(BodySpecs bodySpecs, float systemDanger)
+    {
+        var spec = bodySpecs.GetSpecById(this.specId);
+        var obj = Object.Instantiate(spec.prefab);
+
+        // Need to do this before any further initialization occurs to ensure we don't capture a bunch of child objects that aren't part of the prefab
+        this.savables = obj.GetComponentsInChildren<ISaved>()
+            .Select(c => (c, GetFullKey(c as MonoBehaviour)))
+            .ToList();
+
+        var rng = new RandomX(this.randomKey);
+        this.Apply(obj, rng);
+        obj.GetComponent<BodyGenerator>().Init(this, rng, systemDanger);
+
+        return obj;
+    }
+
+    protected abstract void ApplyInternal(GameObject target, RandomX rng);
+
+    public void LoadComponents()
+    {
+        if(this.savedComponents != null)
+        {
+            foreach(var (savable, key) in this.savables)
+            {
+                if(this.savedComponents.TryGetValue(key, out var data))
+                {
+                    Save.LoadObject(savable, data);
+                }
+            }
+        }
+    }
+
+    public void SaveComponents()
+    {
+        this.savedComponents = new Dictionary<string, SaveData>();
+
+        foreach (var (savable, key) in this.savables)
+        {
+            this.savedComponents.Add(key, Save.SaveObject(savable));
+        }
+    }
+
+    static string GetFullKey(MonoBehaviour component)
+    {
+        IList<string> names = new List<string> { component.ToString() };
+        var obj = component.transform;
+        while (obj != null)
+        {
+            names.Add(obj.gameObject.ToString());
+            obj = obj.transform.parent;
+        }
+        return string.Join("/", names.Reverse());
+    }
 }
 
 public class StarOrPlanet : Body
@@ -27,9 +206,9 @@ public class StarOrPlanet : Body
     public float radius;
     public float mass;
 
-    public override GameObject Instance(BodySpecs bodySpecs, float systemDanger)
+    protected override GameObject InstanceInternal(BodySpecs bodySpecs, float systemDanger)
     {
-        var self = this.InstanceSelf(bodySpecs, systemDanger);
+        var self = base.InstanceInternal(bodySpecs, systemDanger);
         foreach (var child in this.children)
         {
             var childInstance = child.Instance(bodySpecs, systemDanger);
@@ -38,7 +217,16 @@ public class StarOrPlanet : Body
         return self;
     }
 
-    public override void Apply(GameObject target, RandomX rng)
+    public override void Unloading()
+    {
+        foreach(var child in this.children)
+        {
+            child.Unloading();
+        }
+        base.Unloading();
+    }
+
+    protected override void ApplyInternal(GameObject target, RandomX rng)
     {
         // Orbit setup
         var orbit = target.GetComponent<Orbit>();
@@ -66,14 +254,6 @@ public class StarOrPlanet : Body
             //gravitySource.parameters.density = body.mass / volume;
         }
     }
-
-    GameObject InstanceSelf (BodySpecs bodySpecs, float systemDanger)
-    {
-        var spec = bodySpecs.GetSpecById(this.specId);
-        var obj = Object.Instantiate(spec.prefab);
-        obj.GetComponent<BodyGenerator>().Init(this, systemDanger);
-        return obj;
-    }
 }
 
 public class Belt : Body
@@ -82,18 +262,7 @@ public class Belt : Body
     public float width;
     public OrbitParameters.OrbitDirection direction;
 
-    public override GameObject Instance(BodySpecs bodySpecs, float systemDanger)
-    {
-        var spec = bodySpecs.GetSpecById(this.specId);
-
-        var obj = Object.Instantiate(spec.prefab);
-
-        obj.GetComponent<BodyGenerator>().Init(this, systemDanger);
-
-        return obj;
-    }
-
-    public override void Apply(GameObject target, RandomX rng)
+    protected override void ApplyInternal(GameObject target, RandomX rng)
     {
         var asteroidRing = target.GetComponent<AsteroidRing>();
         asteroidRing.radius = this.radius;
@@ -108,15 +277,7 @@ public class Comet : Body
 
     public OrbitParameters parameters = OrbitParameters.Zero;
 
-    public override GameObject Instance(BodySpecs bodySpecs, float systemDanger)
-    {
-        var spec = bodySpecs.GetSpecById(this.specId);
-        var obj = Object.Instantiate(spec.prefab);
-        obj.GetComponent<BodyGenerator>().Init(this, systemDanger);
-        return obj;
-    }
-
-    public override void Apply(GameObject target, RandomX rng)
+    protected override void ApplyInternal(GameObject target, RandomX rng)
     {
         // Orbit setup
         var orbit = target.GetComponent<Orbit>();
@@ -172,16 +333,23 @@ public class SolarSystem
     public List<Comet> comets = new List<Comet>();
     public List<Belt> belts = new List<Belt>();
 
-    public static void Unload(GameObject root)
+    public void Unload(GameObject root)
     {
         var systemObjectTransform = root.transform.Find("System");
         if (systemObjectTransform != null)
         {
+            foreach (var body in this.main
+                .Yield<Body>()
+                .Concat(this.belts)
+                .Concat(this.comets))
+            {
+                body.Unloading();
+            }
             Object.Destroy(systemObjectTransform.gameObject);
         }
     }
 
-    public async Task LoadAsync(BodySpecs bodySpecs, GameObject root)
+    public async Task LoadAsync(SolarSystem current, BodySpecs bodySpecs, GameObject root)
     {
         var rootBody = this.main.Instance(bodySpecs, this.danger);
         foreach (var belt in this.belts)
@@ -197,7 +365,10 @@ public class SolarSystem
         // We load the new system first and wait for it before unloading the previous one
         await new WaitUntil(() => rootBody.activeSelf);
 
-        Unload(root);
+        if (current != null)
+        {
+            current.Unload(root);
+        }
 
         var systemObject = new GameObject("System");
         systemObject.transform.SetParent(root.transform, worldPositionStays: false);

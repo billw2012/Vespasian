@@ -6,12 +6,13 @@ public class Scannable : EffectSource
     public float scannedObjectRadius;
 
     [NonSerialized]
+    [Saved]
     public float scanProgress = 0;
 
     [NonSerialized]
     public bool scanning = false;
 
-    public override bool IsEmpty() => this.scanProgress >= 1.0f;
+    public override bool IsComplete() => this.scanProgress >= 1.0f;
 
     void LateUpdate()
     {
@@ -24,8 +25,12 @@ public class Scannable : EffectSource
         float scanAdd = this.timeMultipler * Time.deltaTime * 0.2f;
         this.scanProgress = Mathf.Clamp(this.scanProgress + scanAdd, 0, 1);
         this.scanning = true;
+        this.discovered = true;
     }
 
     public override Color gizmoColor => Color.yellow;
     public override string debugName => "Scannable";
+
+    public object Save() => this.scanProgress;
+    public void Load(object data) { this.scanProgress = (float)data; }
 };

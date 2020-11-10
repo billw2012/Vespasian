@@ -88,8 +88,8 @@ public class MapComponent : MonoBehaviour
 
     public async Task LoadSystemAsync(SolarSystem target)
     {
+        await target.LoadAsync(this.currentSystem, this.bodySpecs, this.gameObject);
         this.currentSystem = target;
-        await this.currentSystem.LoadAsync(this.bodySpecs, this.gameObject);
 
         FindObjectOfType<SimManager>().Refresh();
 

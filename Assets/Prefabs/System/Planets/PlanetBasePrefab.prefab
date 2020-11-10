@@ -438,8 +438,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 8.09
   originTransform: {fileID: 2318905709148006584}
-  scannedGeometry:
-  - {fileID: 5076257171360282820}
+  areaMarkerAsset: {fileID: 2472012875729438161, guid: d9f92eefffe30e2409e25438f657e8e1,
+    type: 3}
+  scannedObjectRadius: 0
 --- !u!1 &6595095681025090445
 GameObject:
   m_ObjectHideFlags: 0

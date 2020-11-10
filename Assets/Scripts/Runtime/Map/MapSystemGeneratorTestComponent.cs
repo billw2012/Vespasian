@@ -13,6 +13,8 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
     public BodySpecs bodySpecs;
     public MapGenerator generator;
 
+    SolarSystem current;
+
     void Start()
     {
         this.dataHash = HashObject(this.bodySpecs) + HashObject(this.generator);
@@ -31,7 +33,8 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
     public async void RegenerateAsync()
     {
         var system = this.generator.GenerateSystem(this.key, this.bodySpecs, "test", Vector2.zero);
-        await system.LoadAsync(this.bodySpecs, this.gameObject);
+        await system.LoadAsync(this.current, this.bodySpecs, this.gameObject);
+        this.current = system;
         FindObjectOfType<SimManager>().Refresh();
     }
 

@@ -13,6 +13,7 @@ public class Mineable : EffectSource
     public SpriteRenderer miningRadiusRenderer;
 
     [NonSerialized]
+    [Saved]
     public float miningProgress = 0; // Ranges 0..1
 
     [NonSerialized]
@@ -42,7 +43,7 @@ public class Mineable : EffectSource
         // Check if any miners are close enough. If so, enable the circle indicator
         bool AnyMinersNearby() => this.miners.Any(obj => obj != null && this.range * 3 >= this.GetDistance(obj.transform));
 
-        this.miningRadiusRenderer.enabled = !this.IsEmpty() && AnyMinersNearby();
+        this.miningRadiusRenderer.enabled = !this.IsComplete() && AnyMinersNearby();
     }
 
     void LateUpdate()
@@ -75,7 +76,7 @@ public class Mineable : EffectSource
     }
 
     // Returns true if it still makes sense to mine this
-    public override bool IsEmpty()
+    public override bool IsComplete()
     {
         return this.miningProgress >= 1f || this.destroyed;
     }

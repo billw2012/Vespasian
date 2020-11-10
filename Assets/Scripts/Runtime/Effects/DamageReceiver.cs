@@ -14,6 +14,8 @@ public class DamageReceiver : MonoBehaviour
 
         foreach (var source in damageSources)
         {
+            source.discovered = true;
+
             //float fieldStrength = source.GetEffectStrengthNormalized(this.transform);
             float damagePerTime = source.timeMultipler * Time.deltaTime * 0.2f;
             var direction = Vector3.Normalize(this.transform.position - source.transform.position);

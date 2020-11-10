@@ -14,9 +14,12 @@ public class CircleRenderer : MonoBehaviour
     [Range(0, 360)]
     public float degrees = 360f;
 
+    public Color color = Color.white;
+    public float uvStretch = 1f;
+
     public MeshFilter bakeMeshFilter;
 
-    MaterialPropertyBlock uvScalingPropertyBlock;
+    MaterialPropertyBlock propertyBlock;
 
     void Awake()
     {
@@ -26,7 +29,7 @@ public class CircleRenderer : MonoBehaviour
         }
         this.lineRenderer.useWorldSpace = false;
 
-        this.uvScalingPropertyBlock = new MaterialPropertyBlock();
+        this.propertyBlock = new MaterialPropertyBlock();
     }
 
     void Start()
@@ -46,10 +49,11 @@ public class CircleRenderer : MonoBehaviour
 
             if(this.lineRenderer.HasPropertyBlock())
             {
-                this.lineRenderer.GetPropertyBlock(this.uvScalingPropertyBlock);
+                this.lineRenderer.GetPropertyBlock(this.propertyBlock);
             }
-            this.uvScalingPropertyBlock.SetVector("_UVScaling", new Vector2(ratio / size, 1));
-            this.lineRenderer.SetPropertyBlock(this.uvScalingPropertyBlock);
+            this.propertyBlock.SetVector("_UVScaling", new Vector2(uvStretch * ratio / size, 1));
+            this.propertyBlock.SetColor("_BaseColor", this.color);
+            this.lineRenderer.SetPropertyBlock(this.propertyBlock);
         }
     }
 

@@ -30,7 +30,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
             this.target.Scan(this);
 
             // End scan of this target if it's fully scanned or too far away
-            if (this.target.IsEmpty() || !this.target.IsInRange(this.transform))
+            if (this.target.IsComplete() || !this.target.IsInRange(this.transform))
             {
                 this.target = null;
             }

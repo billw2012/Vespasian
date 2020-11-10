@@ -18,10 +18,10 @@ public class Miner : MonoBehaviour
         // Mine the target
         if (this.miningActive)
         {
-            if (this.target.IsInRange(this.transform) && !this.target.IsEmpty())
+            if (this.target.IsInRange(this.transform) && !this.target.IsComplete())
             {
                 this.target.Mine(this); // It's mine!!
-                if (this.target.IsEmpty())
+                if (this.target.IsComplete())
                 {
                     // Mining is done, decide what to do
                     var asteroidLogic = this.target.GetComponent<AsteroidLogic>();

@@ -78,31 +78,26 @@ public class FollowCameraController : MonoBehaviour
         var bounds = new Bounds((Vector2)this.target.position, Vector2.one * this.margin);
 
         // Include other points of interested only if this is enabled
-        if (this.searchPointsOfInterest)
+        if (this.searchPointsOfInterest && this.simMovement != null)
         {
             // Combine spheres of influence from sim path and points of interest from scene
             // Both use distance metric, but distance for SOIs is measured along the simulated path
             // and distance for basic POIs is measured from player
-            var pointsOfInterest = this.scenePointsOfInterest
-                .Where(i => i != null)
-                .Select(i => (
-                    position: i.transform.position,
-                    size: i.size,
-                    distance: Vector3.Distance(i.transform.position, this.target.position)
-                 ));
-            if (this.simMovement != null)
-            {
-                pointsOfInterest = pointsOfInterest.Concat(
-                    this.simMovement.sois.Where(i => i.g != null).Select(i => (
-                        position: i.g.position,
-                        size: i.g.transform.localScale,
-                        distance: Vector3.Distance(i.g.position, this.target.position)
-                    )));
-            }
+            //var pointsOfInterest = this.scenePointsOfInterest
+            //    .Where(i => i != null)
+            //    .Select(i => (
+            //        position: i.transform.position,
+            //        size: i.size,
+            //        distance: Vector3.Distance(i.transform.position, this.target.position)
+            //     ));
+            var pointsOfInterest = this.simMovement.sois.Where(i => i.g != null).Select(i => (
+                    position: i.g.position,
+                    size: i.g.transform.localScale,
+                    distance: Vector3.Distance(i.g.position, this.target.position)
+                ));
 
             // Determining which pois to use:
             // keep adding pois until their bounding box exceeds the camera inner area available
-
             var cameraArea = WorldCameraArea();
             foreach (var poi in pointsOfInterest.OrderBy(i => i.distance))
             {

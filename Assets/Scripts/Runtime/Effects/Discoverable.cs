@@ -5,23 +5,19 @@ using UnityEngine;
 
 // Attach it to something which can be discovered by player.
 
-class Discoverable : MonoBehaviour
+class Discoverable : MonoBehaviour, ISaved
 {
-    private bool _discovered = false;
-
-    private Renderer[] renderers;
+    Renderer[] renderers;
 
     public float discoveryRadius = 10.0f;
 
     [Tooltip("Transform to use as the effect source")]
     public Transform originTransform;
 
-    public bool discovered
-    {
-        get { return this._discovered; }
-    }
+    [Saved]
+    public bool discovered { get; private set; } = false;
 
-    private void Start()
+    void Start()
     {
         // Estimate discovery radius by object's size
         var planetLogic = this.GetComponent<BodyLogic>();
@@ -32,7 +28,7 @@ class Discoverable : MonoBehaviour
 
     }
 
-    private void Update()
+    void Update()
     {
         // Other components often add renderers in dynamic way,
         // Such as shadow renderer, or ring renderer, or maybe others in the future
@@ -49,7 +45,7 @@ class Discoverable : MonoBehaviour
 
     public void Discover()
     {
-        this._discovered = true;
+        this.discovered = true;
     }
 
     void EnableAllRenderers(bool enable)

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 1.66
   originTransform: {fileID: 1937751458560186259}
+  areaMarkerAsset: {fileID: 5999684077056866640, guid: e56537500d1435848bbd0d4edacdd7f9,
+    type: 3}
 --- !u!1001 &4236249919827869483
 PrefabInstance:
   m_ObjectHideFlags: 0
