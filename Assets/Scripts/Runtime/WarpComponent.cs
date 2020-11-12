@@ -24,7 +24,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
     SimMovement playerMovement;
     UpgradeComponentProxy<EngineComponent> engine;
     
-    void Start()
+    void Awake()
     {
         this.player = FindObjectOfType<PlayerController>();
         this.playerMovement = this.player.GetComponent<SimMovement>();

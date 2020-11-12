@@ -37,7 +37,7 @@ public class MapComponent : MonoBehaviour
     //    _ = this.LoadRandomSystemAsync();
     //}
 
-    void Start()
+    void Awake()
     {
         this.player = FindObjectOfType<PlayerController>();
         this.warpComponent = this.player.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();

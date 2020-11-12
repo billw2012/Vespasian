@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -364,6 +365,10 @@ public class SolarSystem
         }
         // We load the new system first and wait for it before unloading the previous one
         await new WaitUntil(() => rootBody.activeSelf);
+        int beforeYieldFrame = Time.frameCount;
+        await Task.Yield();
+        await Task.Yield();
+        Assert.IsFalse(beforeYieldFrame == Time.frameCount);
 
         if (current != null)
         {

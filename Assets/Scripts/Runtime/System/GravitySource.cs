@@ -44,7 +44,7 @@ public class GravitySource : MonoBehaviour {
         this.RefreshValidate();
     }
 
-    void Start()
+    void Awake()
     {
         this.RefreshValidate();
         this.color = UnityEngine.Random.ColorHSV(0, 1, 0.75f, 0.75f, 1, 1);

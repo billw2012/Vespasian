@@ -30,6 +30,12 @@ public class MapGenerator : ScriptableObject
     [Serializable]
     public class SystemGeneratorParameters
     {
+        [Tooltip("Final orbits are all scaled by this amount"), Range(1, 10)]
+        public float finalOrbitScaling = 1f;
+        [Tooltip("Final masses are all scaled by this amount"), Range(0, 100)]
+        public float finalMassScaling = 1f;
+
+
         public float massDistributionFunctionSampleRange = 10f;
         [Tooltip("Mass distribution function median")]
         public WeightedRandom massDistributionMedianRandom = new WeightedRandom { min = 0.1f, max = 2.5f };
@@ -147,7 +153,7 @@ public class MapGenerator : ScriptableObject
             density = starDensity,
             radius = starRadius,
             temp = starTemp,
-            mass = starMass,
+            mass = starMass * this.systemParams.finalMassScaling,
             children = planets
         };
 
@@ -175,8 +181,8 @@ public class MapGenerator : ScriptableObject
                  specId = spec.id,
                  parameters = new OrbitParameters
                  {
-                     periapsis = periapsis,
-                     apoapsis = apoapsis,
+                     periapsis = periapsis * this.systemParams.finalOrbitScaling,
+                     apoapsis = apoapsis * this.systemParams.finalOrbitScaling,
                      angle = rng.Range(0f, 360f),
                      offset = rng.Range(0f, 360f),
                      direction = direction,
@@ -261,8 +267,8 @@ public class MapGenerator : ScriptableObject
                 specId = bodySpecs.RandomPlanet(rng, planetMass, planetTemp).id,
                 parameters = new OrbitParameters
                 {
-                    periapsis = orbitalDistance,
-                    apoapsis = orbitalDistance2,
+                    periapsis = orbitalDistance * this.systemParams.finalOrbitScaling,
+                    apoapsis = orbitalDistance2 * this.systemParams.finalOrbitScaling,
                     angle = rng.Range(0f, 360f),
                     offset = rng.Range(0f, 360f),
                     direction = direction,
@@ -270,7 +276,7 @@ public class MapGenerator : ScriptableObject
                 children = moons,
                 density = planetDensity,
                 radius = planetRadius,
-                mass = planetMass,
+                mass = planetMass * this.systemParams.finalMassScaling,
                 temp = planetTemp
             };
             bodies.Add(planet);

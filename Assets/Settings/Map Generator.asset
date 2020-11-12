@@ -19,6 +19,8 @@ MonoBehaviour:
   linkReductionRatio: 0
   heightRatio: 1
   systemParams:
+    finalOrbitScaling: 2
+    finalMassScaling: 2
     massDistributionFunctionSampleRange: 10
     massDistributionMedianRandom:
       weighting:
@@ -308,7 +310,34 @@ MonoBehaviour:
       min: 0
       max: 0.61
     beltChance: 0.25
-    maxBeltOrbit: 200
+    beltRelativeSystemDistance:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0.15
+      max: 0.5
     cometCountRandom:
       weighting:
         serializedVersion: 2
@@ -337,60 +366,3 @@ MonoBehaviour:
       gaussian: 0
       min: 0
       max: 5
-    cometRelativePeriapsisRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 0
-      min: 0
-      max: 0.1
-    cometEccentricityRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 0
-      min: 0.5
-      max: 0.9
-    cometMinApproach: 10

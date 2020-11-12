@@ -14,8 +14,7 @@ public class DamageReceiver : MonoBehaviour
 
         foreach (var source in damageSources)
         {
-            source.discovered = true;
-
+            source.Reveal();
             //float fieldStrength = source.GetEffectStrengthNormalized(this.transform);
             float damagePerTime = source.timeMultipler * Time.deltaTime * 0.2f;
             var direction = Vector3.Normalize(this.transform.position - source.transform.position);
@@ -31,10 +30,11 @@ public class DamageReceiver : MonoBehaviour
                 float dt = source.timeMultipler * Time.deltaTime;
                 var relativeVelocity = (prevRelativePos - relativePos) / dt;
 
-                float damagePerTime = MathX.Sigmoid(relativeVelocity.magnitude, 10, -3.9f, 1f)
-                    * 0.5f
+                float damagePerTime = MathX.Sigmoid(relativeVelocity.magnitude, 8, -0.6f, 1f)
+                    * 2f
                     * dt
                     * source.damageMultiplier
+                    * source.GetEffectStrengthNormalized(this.transform)
                     ;
                     //= 0.001f 
                     //* dt

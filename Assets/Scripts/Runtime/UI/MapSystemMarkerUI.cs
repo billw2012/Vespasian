@@ -22,18 +22,19 @@ public class MapSystemMarkerUI : MonoBehaviour
 
     Image image;
 
+    void Awake()
+    {
+        this.image = this.GetComponent<Image>();
+        this.label.enabled = false;
+        this.currentMarker.SetActive(false);
+    }
+
     void Start()
     {
         var instTransform = this.transform as RectTransform;
         instTransform.anchorMin = this.system.position;
         instTransform.anchorMax = this.system.position;
-
-        this.image = this.GetComponent<Image>();
-
         this.label.text = this.system.name;
-
-        this.label.enabled = false;
-        this.currentMarker.SetActive(false);
     }
 
     void Update()

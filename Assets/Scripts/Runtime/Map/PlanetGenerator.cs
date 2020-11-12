@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public class PlanetGenerator : BodyGenerator
+public class PlanetGenerator : StarOrPlanetGenerator
 {
     [Tooltip("Chance this planet has a ring"), Range(0, 1)]
     public float ringChance = 0.66f;
@@ -16,17 +16,17 @@ public class PlanetGenerator : BodyGenerator
 
     public WeightedRandom hueRandom = new WeightedRandom { min = 0, max = 1f };
 
-    StarOrPlanet planet => this.body as StarOrPlanet;
-
     protected override void InitInternal(RandomX rng)
     {
+        base.InitInternal(rng);
+
         // Body characteristics
         var bodyLogic = this.GetComponent<BodyLogic>();
         bodyLogic.geometry.localRotation = Quaternion.Euler(rng.RandomGaussian(-90f, 90f), 0, 0);
 
         // Ring
         var ring = this.GetComponentInChildren<PlanetRingRenderer>();
-        if(ring != null && this.planet.mass >= this.ringMassMin && rng.value <= this.ringChance)
+        if(ring != null && this.starOrPlanet.mass >= this.ringMassMin && rng.value <= this.ringChance)
         {
             ring.enabled = true;
             ring.innerRadius = this.ringInnerRadiusRandom.Evaluate(rng);
@@ -46,18 +46,6 @@ public class PlanetGenerator : BodyGenerator
         // Color
         var material = this.planetRenderer.material;
         material.SetFloat("_AlbedoHue", this.hueRandom.Evaluate(rng));
-
-        // Extend radius effect range by our radius (-1 because that is the default radius that is already considered in the effect range)
-        foreach(var effect in this.GetComponents<EffectSource>())
-        {
-            effect.range += this.planet.radius - 1;
-        }
-
-        var scannable = this.GetComponent<Scannable>();
-        if (scannable != null)
-        {
-            this.GetComponent<Scannable>().scannedObjectRadius = this.planet.radius;
-        }
     }
 
 #if UNITY_EDITOR
@@ -66,7 +54,7 @@ public class PlanetGenerator : BodyGenerator
         if (this.body != null && this.GetComponent<GravitySource>() != null)
         {
             Handles.color = Color.yellow;
-            GUIUtils.Label(this.GetComponent<GravitySource>().target.position + Vector3.down * this.planet.radius * 1.25f, $"{this.planet.temp:0}°K\n{this.planet.radius:0.00}R\n{this.planet.mass:0.00}M");
+            GUIUtils.Label(this.GetComponent<GravitySource>().target.position + Vector3.down * this.starOrPlanet.radius * 1.25f, $"{this.starOrPlanet.temp:0}°K\n{this.starOrPlanet.radius:0.00}R\n{this.starOrPlanet.mass:0.00}M");
         }
     }
 #endif

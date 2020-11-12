@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 6449413626403717035, guid: d9f92eefffe30e2409e25438f657e8e1,
         type: 3}
       propertyPath: pixelWidth
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6449413626403717035, guid: d9f92eefffe30e2409e25438f657e8e1,
         type: 3}

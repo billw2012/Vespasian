@@ -21,14 +21,15 @@ public abstract class EffectSource : MonoBehaviour, ISaved
     [Saved]
     public bool discovered;
 
+    float revealedTime;
+
     public float timeMultipler => this.simManager == null ? 1 : this.simManager.timeStep;
     
     GameObject areaMarker;
 
     SimManager simManager;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         this.simManager = FindObjectOfType<SimManager>();
         if (this.areaMarkerAsset != null)
@@ -43,8 +44,15 @@ public abstract class EffectSource : MonoBehaviour, ISaved
     {
         if (this.areaMarker != null)
         {
-            this.areaMarker.SetActive(this.discovered && !this.IsComplete());
+            // Show the marker only if the effect is discovered, not complete and revealed by something recently (scanner, observation etc.)
+            this.areaMarker.SetActive(this.discovered && !this.IsComplete() && Time.time < this.revealedTime + 1f);
         }
+    }
+
+    public void Reveal()
+    {
+        this.discovered = true;
+        this.revealedTime = Time.time;
     }
 
     // Virtual functions, must be overridden in derived effect sources
@@ -54,23 +62,16 @@ public abstract class EffectSource : MonoBehaviour, ISaved
     // Proximity methods below use this method
     public virtual bool IsComplete() => false;
 
-    public virtual float GetDistance(Transform other)
-    {
-        return this.originTransform.worldToLocalMatrix.MultiplyPoint(other.position).xy0().magnitude;
-    }
+    public virtual float GetDistance(Transform other) => this.originTransform.worldToLocalMatrix.MultiplyPoint(other.position).xy0().magnitude;
 
     // Various helper functions
     // Returns true if other transform is in range of this effect source
-    public bool IsInRange(Transform other)
-    {
-        return this.GetDistance(other) < this.range;
-    }
+    public bool IsInRange(Transform other) => this.GetDistance(other) < this.range;
+
+    public bool IsInDetectionRange(Transform other, float detectionRange) => this.GetDistance(other) < this.range + detectionRange;
 
     // Returns value where 1 corresponds to max distance
-    public float GetDistanceNormalized(Transform from)
-    {
-        return this.GetDistance(from) / this.range;
-    }
+    public float GetDistanceNormalized(Transform from) => this.GetDistance(from) / this.range;
 
     // Returns 0 if tFrom is beyond range
     // Returns 1 if tFrom is at closest range
@@ -100,6 +101,12 @@ public abstract class EffectSource : MonoBehaviour, ISaved
     {
          return (sources ?? FindObjectsOfType<T>()).Where(i => i != null)
             .Where(i => !i.IsComplete() && i.IsInRange(tFrom));
+    }
+
+    public static IEnumerable<T> AllInDetectionRange<T>(Transform tFrom, float detectionRange, IEnumerable<T> sources = null) where T : EffectSource
+    {
+        return (sources ?? FindObjectsOfType<T>()).Where(i => i != null)
+           .Where(i => !i.IsComplete() && i.IsInDetectionRange(tFrom, detectionRange));
     }
 
     public abstract Color gizmoColor { get; }

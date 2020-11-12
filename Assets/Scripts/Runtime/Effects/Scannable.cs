@@ -25,7 +25,7 @@ public class Scannable : EffectSource
         float scanAdd = this.timeMultipler * Time.deltaTime * 0.2f;
         this.scanProgress = Mathf.Clamp(this.scanProgress + scanAdd, 0, 1);
         this.scanning = true;
-        this.discovered = true;
+        this.Reveal();
     }
 
     public override Color gizmoColor => Color.yellow;

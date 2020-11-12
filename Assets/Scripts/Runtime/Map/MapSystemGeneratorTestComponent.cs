@@ -6,7 +6,10 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapSystemGeneratorTestComponent : MonoBehaviour
 {
@@ -30,12 +33,26 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
         this.RegenerateAsync();
     }
 
+    readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
+
     public async void RegenerateAsync()
     {
-        var system = this.generator.GenerateSystem(this.key, this.bodySpecs, "test", Vector2.zero);
-        await system.LoadAsync(this.current, this.bodySpecs, this.gameObject);
-        this.current = system;
-        FindObjectOfType<SimManager>().Refresh();
+        await this.semaphore.WaitAsync();
+        try
+        {
+            var system = this.generator.GenerateSystem(this.key, this.bodySpecs, "test", Vector2.zero);
+            await system.LoadAsync(this.current, this.bodySpecs, this.gameObject);
+            foreach (var discoverable in this.GetComponentsInChildren<Discoverable>())
+            {
+                discoverable.Discover();
+            }
+            this.current = system;
+            FindObjectOfType<SimManager>().Refresh();
+        }
+        finally
+        {
+            this.semaphore.Release();
+        }
     }
 
     static string HashObject(object o)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111afeeb5aee51049a9bf888620de5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 4.51
+  range: 4
   originTransform: {fileID: 1937751458560186259}
   areaMarkerAsset: {fileID: 5999684077056866640, guid: 73653c8090470164e80ebd27d4365f36,
     type: 3}

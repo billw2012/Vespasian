@@ -20,7 +20,9 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
     {
         // Try to find a target to scan
         if (this.target == null)
+        {
             this.target = EffectSource.GetNearest<Scannable>(this.transform);
+        }
 
         //Debug.Log($"Scanner target: {this.target}");
 
