@@ -19,8 +19,6 @@ public class Sensors : MonoBehaviour, IUpgradeLogic
     #region IUpgradeLogic
     public UpgradeDef upgradeDef { get; private set; }
     public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
-    public void Load(object obj) { }
-    public object Save() => null;
     public void Uninstall() { }
     public void TestFire() { }
     #endregion IUpgradeLogic

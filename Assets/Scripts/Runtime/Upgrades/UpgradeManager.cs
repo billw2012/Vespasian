@@ -37,7 +37,7 @@ public class UpgradeComponentProxy<T> : IUpgradeComponentProxy where T: MonoBeha
 /// <summary>
 /// Manages the set of upgrades on a ship, e.g. install, uninstall, save and load.
 /// </summary>
-public class UpgradeManager : MonoBehaviour
+public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
 {
     public UpgradeSet fullUpgradeSet;
     public UpgradeSet initialUpgrades;
@@ -47,6 +47,8 @@ public class UpgradeManager : MonoBehaviour
 
     void Start()
     {
+        FindObjectOfType<SaveSystem>().RegisterForSaving("upgrades", this);
+
         this.InstallInitialUpgrades();
     }
 
@@ -134,19 +136,6 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    public void LoadUpgrades(List<(string name, object data)> saveData)
-    {
-        this.UninstallAllUpgrades();
-        foreach (var (name, data) in saveData)
-        {
-            var upgradeDef = this.fullUpgradeSet.GetUpgradeDef(name);
-            var upgradeLogic = this.Install(upgradeDef);
-            upgradeLogic.Load(data);
-        }
-    }
-
-    public List<(string name, object data)> SaveUpgrades() => this.GetInstalledUpgrades().Select(u => (u.upgradeDef.name, u.Save())).ToList();
-
     public void UninstallAllUpgrades()
     {
         foreach (var upgrade in this.GetInstalledUpgrades())
@@ -155,6 +144,36 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    #region ISavableCustom
+    [RegisterSavableType(typeof(List<string>))]
+    public void Save(ISaver saver)
+    {
+        var upgrades = this.GetInstalledUpgrades();
+        // save a list of the upgrade names
+        saver.SaveValue("UpgradeList", upgrades.Select(u => u.upgradeDef.name).ToList());
+        // save any data they want to save
+        foreach (var upgrade in upgrades.OfType<ISavable>())
+        {
+            saver.SaveObject("Upgrade." + (upgrade as IUpgradeLogic).upgradeDef.name, upgrade);
+        }
+    }
+
+    public void Load(ILoader loader)
+    {
+        this.UninstallAllUpgrades();
+
+        var upgradeNames = loader.LoadValue<List<string>>("UpgradeList");
+        foreach(string upgradeName in upgradeNames)
+        {
+            var upgradeDef = this.fullUpgradeSet.GetUpgradeDef(upgradeName);
+            var upgradeLogic = this.Install(upgradeDef);
+            if(upgradeLogic is ISavable)
+            {
+                loader.LoadObject("Upgrade." + upgradeLogic.upgradeDef.name, upgradeLogic as ISavable);
+            }
+        }
+    }
+    #endregion ISavableCustom
 }
 
 /// <summary>
@@ -188,16 +207,4 @@ public interface IUpgradeLogic
     /// Implement any custom behavior for uninstalling an upgrade here.
     /// </summary>
     void Uninstall();
-
-    /// <summary>
-    /// Serialize any data that should be saved and return it.
-    /// </summary>
-    /// <returns>Any serializable object.</returns>
-    object Save();
-
-    /// <summary>
-    /// Deserialize previously saved data from the obj.
-    /// </summary>
-    /// <param name="obj">Object of the same type as is created in Save.</param>
-    void Load(object obj);
 }

@@ -6,13 +6,14 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
-public class MapComponent : MonoBehaviour
+public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAsync
 {
     public GUILayerManager uiManager;
     public BodySpecs bodySpecs;
     public MapGenerator mapGenerator;
 
     [NonSerialized]
+    [Saved]
     public Map map;
 
     [NonSerialized]
@@ -41,6 +42,12 @@ public class MapComponent : MonoBehaviour
     {
         this.player = FindObjectOfType<PlayerController>();
         this.warpComponent = this.player.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
+
+        var saveSystem = FindObjectOfType<SaveSystem>();
+        if (saveSystem != null)
+        {
+            saveSystem.RegisterForSaving("map", this);
+        }
     }
 
     //void Update()
@@ -88,16 +95,7 @@ public class MapComponent : MonoBehaviour
 
     public async Task LoadSystemAsync(SolarSystem target)
     {
-        await target.LoadAsync(this.currentSystem, this.bodySpecs, this.gameObject);
-        this.currentSystem = target;
-
-        FindObjectOfType<SimManager>().Refresh();
-
-        this.jumpTargets = new Lazy<List<SolarSystem>>(() =>
-            this.map.GetConnected(this.currentSystem)
-                .Select(t => t.system)
-                .ToList()
-            );
+        await LoadSystemAsync(this.currentSystem, target);
     }
 
     public async Task JumpAsync(SolarSystem target)
@@ -138,4 +136,40 @@ public class MapComponent : MonoBehaviour
     }
 
     public async Task LoadRandomSystemAsync() => await this.JumpAsync(this.map.systems[Random.Range(0, this.map.systems.Count)]);
+
+    async Task LoadSystemAsync(SolarSystem from, SolarSystem to)
+    {
+        await to.LoadAsync(from, this.bodySpecs, this.gameObject);
+        this.currentSystem = to;
+
+        FindObjectOfType<SimManager>().Refresh();
+
+        this.jumpTargets = new Lazy<List<SolarSystem>>(() =>
+            this.map.GetConnected(this.currentSystem)
+                .Select(t => t.system)
+                .ToList()
+            );
+    }
+
+    #region ISavableCustom
+    public void Save(ISaver serializer)
+    {
+        //serializer.SaveObject("map", this.map);
+        serializer.SaveValue("currentIdx", this.map.systems.IndexOf(this.currentSystem));
+    }
+
+    public void Load(ILoader deserializer)
+    {
+        //deserializer.LoadObject("map", this.map);
+        this.currentSystem = this.map.systems[deserializer.LoadValue<int>("currentIdx")];
+    }
+    #endregion
+
+    #region IPostLoadAsync
+    public async Task OnPostLoadAsync()
+    {
+        // We need to load into the current system after game save load is complete
+        await this.LoadSystemAsync(null, this.currentSystem);
+    }
+    #endregion
 }

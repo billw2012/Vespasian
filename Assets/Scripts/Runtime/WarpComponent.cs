@@ -99,8 +99,6 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
     public UpgradeDef upgradeDef { get; private set; }
     public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
     public void Uninstall() { }
-    public object Save() => null;
-    public void Load(object obj) { }
     public void TestFire() { }
     #endregion IUpdateLogic
 }

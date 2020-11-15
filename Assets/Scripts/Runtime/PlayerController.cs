@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Converts player input into thrust applied to the EngineController
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ISavable, ISavableCustom
 {
     [NonSerialized]
     // NORMALIZED dimensionless thrust input for joystick
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         this.thrustInputJoystick = Vector2.zero;
+        FindObjectOfType<SaveSystem>().RegisterForSaving("player", this);
     }
 
     void Update()
@@ -48,4 +49,26 @@ public class PlayerController : MonoBehaviour
         }
         this.GetComponent<HealthComponent>().allowDamage = allow;
     }
+
+    #region ISavableCustom
+    [RegisterSavableType(typeof(Vector3))]
+    [RegisterSavableType(typeof(Quaternion))]
+    public void Save(ISaver serializer)
+    {
+        var simComponent = this.GetComponent<SimMovement>();
+        serializer.SaveValue("position", simComponent.transform.position);
+        serializer.SaveValue("rotation", simComponent.transform.rotation);
+        serializer.SaveValue("velocity", simComponent.velocity);
+    }
+
+    public void Load(ILoader deserializer)
+    {
+        var simComponent = this.GetComponent<SimMovement>();
+        simComponent.SetPositionVelocity(
+            deserializer.LoadValue<Vector3>("position"),
+            deserializer.LoadValue<Quaternion>("rotation"),
+            deserializer.LoadValue<Vector3>("velocity")
+        );
+    }
+    #endregion ISavableCustom
 }

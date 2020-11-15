@@ -11,7 +11,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
 
     Scannable target = null;
 
-    void Start()
+    void Awake()
     {
         this.laserScanner.gameObject.SetActive(false);
     }
@@ -71,8 +71,6 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
     #region IUpgradeLogic
     public UpgradeDef upgradeDef { get; private set; }
     public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
-    public void Load(object obj) { }
-    public object Save() => null;
     public async void TestFire()
     {
         this.enabled = false;

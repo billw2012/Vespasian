@@ -7,7 +7,7 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
 
     UpgradeManager upgradeManager;
 
-    void Start()
+    void Awake()
     {
         this.upgradeManager = this.GetComponentInParent<UpgradeManager>();
     }
@@ -49,8 +49,6 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
     #region IUpgradeLogic
     public UpgradeDef upgradeDef { get; private set; }
     public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
-    public void Load(object obj) { }
-    public object Save() => null;
     public void Uninstall() { }
     public void TestFire() { }
     #endregion IUpgradeLogic

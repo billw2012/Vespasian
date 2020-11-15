@@ -4,7 +4,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 
-public abstract class EffectSource : MonoBehaviour, ISaved
+public abstract class EffectSource : MonoBehaviour, ISavable
 {
     [Tooltip("Max range the effect will work at")]
     public float range = 3.0f;

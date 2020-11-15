@@ -5,7 +5,7 @@ using UnityEngine;
 
 // Attach it to something which can be discovered by player.
 
-class Discoverable : MonoBehaviour, ISaved
+class Discoverable : MonoBehaviour, ISavable
 {
     Renderer[] renderers;
 

@@ -2,100 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
-
-
-public interface ISaved
-{
-}
-
-public interface ISerializer
-{
-    void Add(string key, object value);
-}
-
-public interface IDeserializer
-{
-    T Get<T>(string key);
-}
-
-
-public interface ISavedCustomSerialization
-{
-    void Serialize(ISerializer serializer);
-    void Deserialize(IDeserializer deserializer);
-}
-
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-public class SavedAttribute : Attribute {}
-
-public class SaveData : ISerializer, IDeserializer
-{
-    public Dictionary<string, object> data = new Dictionary<string, object>();
-
-    public void Add(string key, object value) => this.data.Add(key, value);
-
-    public T Get<T>(string key) => (T)this.data[key];
-    public object Get(string key) => this.data[key];
-}
-
-public static class Save
-{
-    static void ForEachField(object obj, Action<FieldInfo> op)
-    {
-        const BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-        foreach (var field in obj.GetType()
-            .GetFields(flag)
-            .Where(f => f.CustomAttributes.Any(a => a.AttributeType == typeof(SavedAttribute))))
-        {
-            op(field);
-        }
-    }
-    static void ForEachProperty(object obj, Action<PropertyInfo> op)
-    {
-        const BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-        foreach (var property in obj.GetType()
-            .GetProperties(flag)
-            .Where(f => f.CustomAttributes.Any(a => a.AttributeType == typeof(SavedAttribute))))
-        {
-            op(property);
-        }
-    }
-
-    public static SaveData SaveObject(object obj)
-    {
-        var data = new SaveData();
-        if(obj is ISaved)
-        {
-            ForEachField(obj, f => data.Add(f.Name, f.GetValue(obj)));
-            ForEachProperty(obj, f => data.data.Add(f.Name, f.GetValue(obj)));
-        }
-
-        if(obj is ISavedCustomSerialization)
-        {
-            (obj as ISavedCustomSerialization).Serialize(data);
-        }
-        return data;
-    }
-
-    public static void LoadObject(object obj, SaveData data)
-    {
-        if (obj is ISaved)
-        {
-            ForEachField(obj, f => f.SetValue(obj, data.Get(f.Name)));
-            ForEachProperty(obj, f => f.SetValue(obj, data.Get(f.Name)));
-        }
-
-        if (obj is ISavedCustomSerialization)
-        {
-            (obj as ISavedCustomSerialization).Deserialize(data);
-        }
-    }
-}
 
 public abstract class Body
 {
@@ -104,7 +16,7 @@ public abstract class Body
 
     public Dictionary<string, SaveData> savedComponents;
 
-    IEnumerable<(ISaved component, string key)> savables;
+    IEnumerable<(ISavable component, string key)> savables;
     GameObject activeInstance;
 
     /// <summary>
@@ -146,7 +58,7 @@ public abstract class Body
         var obj = Object.Instantiate(spec.prefab);
 
         // Need to do this before any further initialization occurs to ensure we don't capture a bunch of child objects that aren't part of the prefab
-        this.savables = obj.GetComponentsInChildren<ISaved>()
+        this.savables = obj.GetComponentsInChildren<ISavable>()
             .Select(c => (c, GetFullKey(c as MonoBehaviour)))
             .ToList();
 
@@ -167,7 +79,7 @@ public abstract class Body
             {
                 if(this.savedComponents.TryGetValue(key, out var data))
                 {
-                    Save.LoadObject(savable, data);
+                    SaveData.LoadObject(savable, data);
                 }
             }
         }
@@ -179,7 +91,7 @@ public abstract class Body
 
         foreach (var (savable, key) in this.savables)
         {
-            this.savedComponents.Add(key, Save.SaveObject(savable));
+            this.savedComponents.Add(key, SaveData.SaveObject(savable));
         }
     }
 
@@ -382,7 +294,8 @@ public class SolarSystem
     }
 }
 
-public class Map
+[RegisterSavableType]
+public class Map : ISavable
 {
     public List<Link> links = new List<Link>();
     public List<SolarSystem> systems = new List<SolarSystem>();

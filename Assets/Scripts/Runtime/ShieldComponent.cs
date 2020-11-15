@@ -2,7 +2,7 @@
 using Pixelplacement.TweenSystem;
 using UnityEngine;
 
-public class ShieldComponent : MonoBehaviour, IUpgradeLogic
+public class ShieldComponent : MonoBehaviour, IUpgradeLogic, ISavable
 {
     [Tooltip("Time to fully recharge shield"), Range(1, 30)]
     public float shieldRechargeTime = 10f;
@@ -12,26 +12,36 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic
     [Tooltip("Shield strength"), Range(0, 3)]
     public float maxShieldHP = 0.5f;
 
+    [Saved]
+    public float shieldHP = 1;
+
+    [Saved]
+    public float previousShield = 1;
+
+    [Saved]
+    public float rechargeCountdown = 0;
+
     public float shield => this.shieldHP / this.maxShieldHP;
 
     public Transform shieldTransform;
     public MeshRenderer shieldRenderer;
 
-    float shieldHP;
-    float previousShield = 1;
-    float lastDamageTime = float.MinValue;
-
     TweenBase activeShieldAnim;
     float shieldFade = 0f;
 
-    void Start()
+    SimManager simManager;
+
+    void Awake()
     {
+        this.simManager = FindObjectOfType<SimManager>();
         this.shieldHP = this.maxShieldHP;
     }
 
     void Update()
     {
-        if (Time.time - this.lastDamageTime > this.shieldRechargeDelay)
+        this.rechargeCountdown -= this.simManager.timeStep * Time.deltaTime;
+
+        if (this.rechargeCountdown <= 0)
         {
             this.shieldHP = Mathf.Clamp(this.shieldHP + Time.deltaTime / this.shieldRechargeTime, 0, this.maxShieldHP);
         }
@@ -78,7 +88,7 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic
     {
         if (amount > 0)
         {
-            this.lastDamageTime = Time.time;
+            this.rechargeCountdown = this.shieldRechargeDelay;
         }
 
         float healthDamage = Mathf.Max(0, amount - this.shieldHP);
@@ -96,16 +106,6 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic
     }
 
     public void Uninstall() { }
-
-    public object Save()
-    {
-        return (this.shieldHP, this.previousShield, this.lastDamageTime);
-    }
-
-    public void Load(object obj)
-    {
-        (this.shieldHP, this.previousShield, this.lastDamageTime) = ((float, float, float))obj;
-    }
 
     public void TestFire() => this.shieldFade = 1f;
     #endregion

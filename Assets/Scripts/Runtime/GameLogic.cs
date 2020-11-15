@@ -11,6 +11,7 @@ public class GameLogic : ScriptableObject {
 
     MapComponent mapComponent;
     PlayerController player;
+    SaveSystem saveSystem;
 
     int saveIndex;
 
@@ -21,8 +22,8 @@ public class GameLogic : ScriptableObject {
         this.uiManager = FindObjectOfType<GUILayerManager>();
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.player = FindObjectOfType<PlayerController>();
-
-        if(this.mapComponent != null && this.player != null)
+        this.saveSystem = FindObjectOfType<SaveSystem>();
+        if (this.mapComponent != null && this.player != null)
         {
             this.uiManager.ShowMainMenuUI();
         }
@@ -33,45 +34,20 @@ public class GameLogic : ScriptableObject {
         await this.mapComponent.GenerateMapAsync();
         await this.mapComponent.LoadRandomSystemAsync();
         await this.SaveGameAsync();
-        //this.uiManager.ShowPlayUI();
     }
 
     public async Task SaveGameAsync()
     {
-        var playerSimMovement = this.player.GetComponent<SimMovement>();
-        var playerUpgrades = this.player.GetComponent<UpgradeManager>();
-        var simManager = FindObjectOfType<SimManager>();
-        var saveData = new SaveSystem.SaveGameData
-        {
-            map = this.mapComponent.map,
-            system = this.mapComponent.currentSystem,
-            playerPosition = playerSimMovement.transform.position,
-            playerRotation = playerSimMovement.transform.rotation,
-            playerVelocity = playerSimMovement.velocity,
-            simTick = simManager.simTick,
-            installedUpgrades = playerUpgrades.SaveUpgrades(),
-        };
-
-        await SaveSystem.SaveAsync(this.saveIndex, saveData);
+        await this.saveSystem.SaveAsync(this.saveIndex);
     }
 
-    public async Task<SaveSystem.SaveGameMetadata> LoadMetadataAsync(int index) => await SaveSystem.LoadMetadataAsync(index);
+    public async Task<SaveSystem.SaveGameMetadata> LoadMetadataAsync(int index) => await this.saveSystem.LoadMetadataAsync(index);
 
     public async Task LoadGameAsync(int index)
     {
         this.saveIndex = index;
-        var saveData = await SaveSystem.LoadAsync(this.saveIndex);
-        if(saveData != null)
+        if(await this.saveSystem.LoadAsync(this.saveIndex))
         {
-            var playerSimMovement = this.player.GetComponent<SimMovement>();
-            var playerUpgrades = this.player.GetComponent<UpgradeManager>();
-            var simManager = FindObjectOfType<SimManager>();
-
-            this.mapComponent.map = saveData.map;
-            simManager.simTick = saveData.simTick;
-            playerUpgrades.LoadUpgrades(saveData.installedUpgrades);
-            playerSimMovement.SetPositionVelocity(saveData.playerPosition, saveData.playerRotation, saveData.playerVelocity);
-            await this.mapComponent.LoadSystemAsync(saveData.system);
             this.uiManager.ShowPlayUI();
         }
         else
