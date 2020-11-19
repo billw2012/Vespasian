@@ -44,7 +44,7 @@ public class CameraIntro : MonoBehaviour
             }
         }
 
-        var simManager = FindObjectOfType<SimManager>();
+        var simManager = FindObjectOfType<Simulation>();
         if (simManager != null)
         {
             simManager.enabled = false;
@@ -93,7 +93,7 @@ public class CameraIntro : MonoBehaviour
         this.camController.searchPointsOfInterest = true;
         this.camController.clampToCameraInnerArea = true;
 
-        var simManager = FindObjectOfType<SimManager>();
+        var simManager = FindObjectOfType<Simulation>();
         if (simManager != null)
         {
             simManager.enabled = true;

@@ -27,11 +27,11 @@ public abstract class EffectSource : MonoBehaviour, ISavable
     
     GameObject areaMarker;
 
-    SimManager simManager;
+    Simulation simManager;
 
     void Awake()
     {
-        this.simManager = FindObjectOfType<SimManager>();
+        this.simManager = FindObjectOfType<Simulation>();
         if (this.areaMarkerAsset != null)
         {
             this.areaMarker = Instantiate(this.areaMarkerAsset, this.originTransform);

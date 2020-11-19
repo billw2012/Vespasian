@@ -26,14 +26,14 @@ public class AsteroidLogic : MonoBehaviour
     float rotationVelocity;
     float rotationOffset;
 
-    SimManager simManager;
+    Simulation simManager;
 
     MaterialPropertyBlock asteroidPb;
     MeshRenderer meshRenderer;
 
     void Awake()
     {
-        this.simManager = FindObjectOfType<SimManager>();
+        this.simManager = FindObjectOfType<Simulation>();
         this.asteroidPb = new MaterialPropertyBlock();
     }
 

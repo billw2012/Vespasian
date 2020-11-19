@@ -14,8 +14,12 @@ public interface ISimUpdate
     void SimRefresh();
 }
 
-
-public class SimManager : MonoBehaviour
+/// <summary>
+/// All our custom simulation is updated by this class.
+/// It allows for time warping (by integer multipliers only).
+/// It ensures order of update is strict.
+/// </summary>
+public class Simulation : MonoBehaviour
 {
     public GameConstants constants;
 

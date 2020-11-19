@@ -47,7 +47,7 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
                 discoverable.Discover();
             }
             this.current = system;
-            FindObjectOfType<SimManager>().Refresh();
+            FindObjectOfType<Simulation>().Refresh();
         }
         finally
         {

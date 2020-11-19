@@ -70,7 +70,7 @@ public class HealthComponent : MonoBehaviour
 
         if (this.hull == 0)
         {
-            this.gameLogic.LoseGame();
+            this.gameLogic.LoseGameAsync();
         }
     }
 

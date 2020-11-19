@@ -46,7 +46,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         var saveSystem = FindObjectOfType<SaveSystem>();
         if (saveSystem != null)
         {
-            saveSystem.RegisterForSaving("map", this);
+            saveSystem.RegisterForSaving(this);
         }
     }
 
@@ -132,7 +132,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         playerSimMovement.SimRefresh();
         playerSimMovement.enabled = true;
 
-        this.uiManager.ShowPlayUI();
+        this.uiManager.ShowUI();
     }
 
     public async Task LoadRandomSystemAsync() => await this.JumpAsync(this.map.systems[Random.Range(0, this.map.systems.Count)]);
@@ -142,7 +142,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         await to.LoadAsync(from, this.bodySpecs, this.gameObject);
         this.currentSystem = to;
 
-        FindObjectOfType<SimManager>().Refresh();
+        FindObjectOfType<Simulation>().Refresh();
 
         this.jumpTargets = new Lazy<List<SolarSystem>>(() =>
             this.map.GetConnected(this.currentSystem)

@@ -29,11 +29,11 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic, ISavable
     TweenBase activeShieldAnim;
     float shieldFade = 0f;
 
-    SimManager simManager;
+    Simulation simManager;
 
     void Awake()
     {
-        this.simManager = FindObjectOfType<SimManager>();
+        this.simManager = FindObjectOfType<Simulation>();
         this.shieldHP = this.maxShieldHP;
     }
 

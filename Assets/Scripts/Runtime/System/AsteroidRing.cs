@@ -26,11 +26,11 @@ public class AsteroidRing : MonoBehaviour
     float orbitalAngularVelocity;
     readonly List<float> shadowAngularVelocities = new List<float>();
 
-    SimManager simManager;
+    Simulation simManager;
 
     void Awake()
     {
-        this.simManager = FindObjectOfType<SimManager>();
+        this.simManager = FindObjectOfType<Simulation>();
     }
 
     void Start()

@@ -25,11 +25,11 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
 
     Orbit orbit;
 
-    SimManager simManager;
+    Simulation simManager;
 
     void Awake()
     {
-        this.simManager = FindObjectOfType<SimManager>();
+        this.simManager = FindObjectOfType<Simulation>();
     }
 
     #region ISimUpdate

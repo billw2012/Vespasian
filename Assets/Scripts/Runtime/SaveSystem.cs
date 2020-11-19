@@ -194,7 +194,8 @@ public class SaveSystem : MonoBehaviour
             .Where(t => t != null)
             .ToList()
             ;
-        Debug.Log($"{Time.realtimeSinceStartup - startTime}s to enumerate all Savable types");
+        // var allTypeNames = string.Join("\n  ", this.knownTypes.Select(t => t.Name));
+        Debug.Log($"{Time.realtimeSinceStartup - startTime}s to enumerate all Savable types:\n{string.Join("\n", this.knownTypes.Select(t => t.ToString()))}");
     }
 
     /// <summary>
@@ -204,6 +205,15 @@ public class SaveSystem : MonoBehaviour
     /// <param name="id"></param>
     /// <param name="savable"></param>
     public void RegisterForSaving(string id, ISavable savable) => this.saveables.Add(id, savable);
+
+    /// <summary>
+    /// Call this for registering a static scene object / component for saving,
+    /// using its type name as the key automatically (this implies it is a singleton).
+    /// ONLY registered objects will be saved, unless they are handled by a custom save
+    /// function of a registered object.
+    /// </summary>
+    /// <param name="savable"></param>
+    public void RegisterForSaving(ISavable savable) => this.saveables.Add(savable.GetType().ToString(), savable);
 
     /// <summary>
     /// Check if save at index exists. Doesn't guarantee it can be loaded though...
@@ -225,7 +235,7 @@ public class SaveSystem : MonoBehaviour
         {
             await DeleteFileAsync(metadataPath);
         }
-        var simManager = FindObjectOfType<SimManager>();
+        var simManager = FindObjectOfType<Simulation>();
         var mapComponent = FindObjectOfType<MapComponent>();
 
         await this.SerializeObjectAsync(metadataPath, new SaveGameMetadata {

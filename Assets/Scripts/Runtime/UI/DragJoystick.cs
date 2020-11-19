@@ -35,7 +35,7 @@ public class DragJoystick : MonoBehaviour
             if (Mathf.Abs(offset.y) < DragJoystick.deadZone)
                 offset.y = 0;
 
-            playerLogic.thrustInputJoystick = offset;
+            this.playerLogic.thrustInputJoystick = offset;
         }
         else
         {
@@ -43,7 +43,7 @@ public class DragJoystick : MonoBehaviour
             {
                 this.dragging = false;
             }
-            playerLogic.thrustInputJoystick = Vector2.zero;
+            this.playerLogic.thrustInputJoystick = Vector2.zero;
         }
     }
 }

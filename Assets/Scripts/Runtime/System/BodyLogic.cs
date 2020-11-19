@@ -14,11 +14,11 @@ public class BodyLogic : MonoBehaviour
     public GameLogic gameLogic;
 
     float rotationOffset;
-    SimManager simManager;
+    Simulation simManager;
 
     void Awake()
     {
-        this.simManager = FindObjectOfType<SimManager>();
+        this.simManager = FindObjectOfType<Simulation>();
         this.rotationOffset = Random.Range(0, 360f);
     }
 
@@ -46,7 +46,7 @@ public class BodyLogic : MonoBehaviour
     {
         if (collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {
-            this.gameLogic.LoseGame();
+            this.gameLogic.LoseGameAsync();
         }
     }
 

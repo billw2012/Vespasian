@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour, ISavable, ISavableCustom
     void Awake()
     {
         this.thrustInputJoystick = Vector2.zero;
-        FindObjectOfType<SaveSystem>().RegisterForSaving("player", this);
+        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
     }
 
     void Update()

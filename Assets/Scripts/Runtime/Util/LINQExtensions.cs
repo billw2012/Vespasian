@@ -23,10 +23,9 @@ public static class LINQExtensions
         return prob.LastOrDefault().obj;
     }
 
-    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> @this)
-    {
-        return @this.OrderBy(t => UnityEngine.Random.value);
-    }
+    public static T SelectRandom<T>(this IEnumerable<T> @this) => @this.ElementAtOrDefault(UnityEngine.Random.Range(0, @this.Count()));
+
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> @this) => @this.OrderBy(t => UnityEngine.Random.value);
 
     /// <summary>
     /// Wraps this object instance into an IEnumerable&lt;T&gt;

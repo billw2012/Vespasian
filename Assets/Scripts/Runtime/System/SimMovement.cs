@@ -170,7 +170,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     }
     public void SimRefresh()
     {
-        var simManager = FindObjectOfType<SimManager>();
+        var simManager = FindObjectOfType<Simulation>();
 
         this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
 

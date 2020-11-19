@@ -47,7 +47,7 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
 
     void Start()
     {
-        FindObjectOfType<SaveSystem>().RegisterForSaving("upgrades", this);
+        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
 
         this.InstallInitialUpgrades();
     }
@@ -91,7 +91,7 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
     {
         this.InvalidateProxies();
 
-        foreach (var replaced in upgradeDef.replaces)
+        foreach (var replaced in upgradeDef.replaces.Where(u => this.IsInstalled(u.name)))
         {
             this.Uninstall(replaced);
         }

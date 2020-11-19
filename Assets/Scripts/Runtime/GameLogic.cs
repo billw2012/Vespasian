@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class GameLogic : ScriptableObject {
     SaveSystem saveSystem;
 
     int saveIndex;
+    readonly SemaphoreSlim loadingSemaphore = new SemaphoreSlim(1, 1);
 
     void OnEnable() => SceneManager.sceneLoaded += this.SceneManager_sceneLoaded;
 
@@ -23,10 +25,6 @@ public class GameLogic : ScriptableObject {
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.player = FindObjectOfType<PlayerController>();
         this.saveSystem = FindObjectOfType<SaveSystem>();
-        if (this.mapComponent != null && this.player != null)
-        {
-            this.uiManager.ShowMainMenuUI();
-        }
     }
 
     async Task NewGameAsync()
@@ -46,13 +44,22 @@ public class GameLogic : ScriptableObject {
     public async Task LoadGameAsync(int index)
     {
         this.saveIndex = index;
-        if(await this.saveSystem.LoadAsync(this.saveIndex))
+
+        // Scoped lock to block other state changes while we load / start a new game
+        this.loadingSemaphore.Wait();
+        try
         {
-            this.uiManager.ShowPlayUI();
+            this.uiManager.ClearUI();
+            if (!await this.saveSystem.LoadAsync(this.saveIndex))
+            {
+                await this.NewGameAsync();
+            }
+
+            this.uiManager.SwitchToPlay();
         }
-        else
+        finally
         {
-            await this.NewGameAsync();
+            this.loadingSemaphore.Release();
         }
     }
 
@@ -64,18 +71,6 @@ public class GameLogic : ScriptableObject {
         }
     }
 
-    public void OpenMap() => this.uiManager.ShowMapUI();
-
-    public void CloseMap() => this.uiManager.ShowPlayUI();
-
-    public void OpenUpgrades() => this.uiManager.ShowUpgradeUI();
-
-    public void CloseUpgrades() => this.uiManager.ShowPlayUI();
-
-    public void OpenStarSystemUI() => this.uiManager.ShowStarSystemUI();
-
-    public void CloseStarSystemUI() => this.uiManager.ShowPlayUI();
-
     public bool CanJump() => this.mapComponent.CanJump();
 
     public async void JumpAsync()
@@ -86,11 +81,20 @@ public class GameLogic : ScriptableObject {
 
     public void RestartLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-    public void LoseGame()
+    public async void LoseGameAsync()
     {
-        this.uiManager.ShowLoseUI();
+        // Make sure we don't trigger lose screen while we are in some other transitional state
+        await this.loadingSemaphore.WaitAsync();
+        try
+        {
+            this.uiManager.SwitchToLose();
 
-        this.player.gameObject.SetActive(false);
+            this.player.gameObject.SetActive(false);
+        }
+        finally
+        {
+            this.loadingSemaphore.Release();
+        }
     }
 
 }
