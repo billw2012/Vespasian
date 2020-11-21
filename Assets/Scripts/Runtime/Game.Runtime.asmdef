@@ -12,9 +12,9 @@
         "UnityEngine.UI",
         "Unity.TextMeshPro",
         "MobilePostProcess",
-        "Pixelplacement.Surge",
         "CatlikeCoding.SDFToolkit.Runtime",
-        "AsyncAwaitUtil.Runtime"
+        "AsyncAwaitUtil.Runtime",
+        "Pixelplacement.Surge.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

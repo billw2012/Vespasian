@@ -1,0 +1,18 @@
+{
+    "name": "Pixelplacement.Surge.Editor",
+    "references": [
+        "GUID:cddd3c23b6755974fae3ecf732ba355c",
+        "GUID:3792fda2b5e48f74bbefb6c1ed9dd457"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

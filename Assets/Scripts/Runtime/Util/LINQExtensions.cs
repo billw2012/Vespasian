@@ -11,12 +11,12 @@ public static class LINQExtensions
 
         float randomP = rnd * totalProb;
         float sum = 0;
-        foreach (var o in prob)
+        foreach ((var obj, float p) in prob)
         {
-            sum += o.P;
+            sum += p;
             if (sum >= randomP)
             {
-                return o.obj;
+                return obj;
             }
         }
 
@@ -38,4 +38,67 @@ public static class LINQExtensions
     {
         yield return item;
     }
+    
+    // public static SerializableDict<TKey, TElement> ToSerializableDict<TSource, TKey, TElement>(
+    //     this IEnumerable<TSource> source,
+    //     Func<TSource, TKey> keySelector,
+    //     Func<TSource, TElement> elementSelector) =>
+    //     source.ToSerializableDict(keySelector, elementSelector, (IEqualityComparer<TKey>) null);
+    //
+    // public static SerializableDict<TKey, TElement> ToSerializableDict<TSource, TKey, TElement>(
+    //     this IEnumerable<TSource> source,
+    //     Func<TSource, TKey> keySelector,
+    //     Func<TSource, TElement> elementSelector,
+    //     IEqualityComparer<TKey> comparer)
+    // {
+    //     if (source == null)
+    //         throw new ArgumentNullException(nameof (source));
+    //     if (keySelector == null)
+    //         throw new ArgumentNullException(nameof (keySelector));
+    //     if (elementSelector == null)
+    //         throw new ArgumentNullException(nameof (elementSelector));
+    //     int capacity = 0;
+    //     if (source is ICollection<TSource> sources)
+    //     {
+    //         capacity = sources.Count;
+    //         if (capacity == 0)
+    //             return new SerializableDict<TKey, TElement>(comparer);
+    //         switch (sources)
+    //         {
+    //             case TSource[] source1:
+    //                 return ToSerializableDict(source1, keySelector, elementSelector, comparer);
+    //             case List<TSource> source1:
+    //                 return ToSerializableDict(source1, keySelector, elementSelector, comparer);
+    //         }
+    //     }
+    //     var dictionary = new SerializableDict<TKey, TElement>(capacity, comparer);
+    //     foreach (var source1 in source)
+    //         dictionary.Add(keySelector(source1), elementSelector(source1));
+    //     return dictionary;
+    // }
+    //
+    //
+    // private static SerializableDict<TKey, TElement> ToSerializableDict<TSource, TKey, TElement>(
+    //     TSource[] source,
+    //     Func<TSource, TKey> keySelector,
+    //     Func<TSource, TElement> elementSelector,
+    //     IEqualityComparer<TKey> comparer)
+    // {
+    //     var dictionary = new SerializableDict<TKey, TElement>(source.Length, comparer);
+    //     for (int index = 0; index < source.Length; ++index)
+    //         dictionary.Add(keySelector(source[index]), elementSelector(source[index]));
+    //     return dictionary;
+    // }
+    //
+    // private static SerializableDict<TKey, TElement> ToSerializableDict<TSource, TKey, TElement>(
+    //     List<TSource> source,
+    //     Func<TSource, TKey> keySelector,
+    //     Func<TSource, TElement> elementSelector,
+    //     IEqualityComparer<TKey> comparer)
+    // {
+    //     var dictionary = new SerializableDict<TKey, TElement>(source.Count, comparer);
+    //     foreach (var source1 in source)
+    //         dictionary.Add(keySelector(source1), elementSelector(source1));
+    //     return dictionary;
+    // }
 }

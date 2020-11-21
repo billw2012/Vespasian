@@ -12,7 +12,7 @@ public class MissionSimpleFactory : MonoBehaviour, IMissionFactory, ISavable
     [Saved]
     public int missionCounter = 0;
 
-    public MissionSimpleFactory()
+    void Awake()
     {
         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
     }

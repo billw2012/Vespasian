@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public static class GUIUtils
 {
     public static void Label(Vector2 pos, string text)
@@ -15,3 +16,4 @@ public static class GUIUtils
         Handles.Label(pos, text, labelStyle);
     }
 }
+#endif

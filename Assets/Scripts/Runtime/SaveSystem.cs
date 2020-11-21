@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -75,7 +76,7 @@ public class RegisterSavableTypeAttribute : Attribute
 /// <summary>
 /// A simple dictionary based save/load implementation.
 /// </summary>
-[KnownType(typeof(SaveData))]
+[RegisterSavableType]
 public class SaveData : ISaver, ILoader
 {
     public Dictionary<string, object> data = new Dictionary<string, object>();
@@ -222,6 +223,60 @@ public class SaveSystem : MonoBehaviour
     /// <returns></returns>
     public async Task<bool> SaveExistsAsync(int index) => await FileExistsAsync(GetSaveMetaFilePath(index));
 
+    [RegisterSavableType]
+    public class KeyValueWrapper
+    {
+        public object Key;
+        public object Value;
+    }
+
+    [RegisterSavableType]
+    public class DictionaryWrapper : List<KeyValueWrapper> {}
+    
+    public class DictionarySurrogate : ISerializationSurrogateProvider //IDataContractSurrogate
+    {
+        public object GetObjectToSerialize(object obj, Type targetType)
+        {
+            // Look for any Dictionary<> regardless of generic parameters
+            if(obj.GetType().IsGenericType && obj.GetType().GetGenericTypeDefinition() == typeof(Dictionary<,>))
+            {
+                var wrapper = new DictionaryWrapper();
+                foreach (DictionaryEntry kv in (IDictionary)obj)
+                {
+                    wrapper.Add(new KeyValueWrapper{Key = kv.Key, Value = kv.Value});
+                }
+                return wrapper;
+            }
+            return obj;
+        }
+        
+        public object GetDeserializedObject(object obj, Type targetType)
+        {
+            if(obj.GetType() == typeof(DictionaryWrapper))
+            {
+                // We can just use the non-generic interface, which makes things a lot easier
+                var target = (IDictionary)Activator.CreateInstance(targetType);
+                foreach (var kv in (DictionaryWrapper)obj)
+                {
+                    target.Add(kv.Key, kv.Value);
+                }
+                return target;
+            }
+            return obj;
+        }
+
+        public Type GetSurrogateType(Type type)
+        {
+            // Look for any Dictionary<> regardless of generic parameters, then return a DictionaryWrapper
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+            {
+                return typeof(DictionaryWrapper);
+            }
+
+            return type;
+        }
+    }
+
     /// <summary>
     /// Save to slot at index, overwriting anything present
     /// </summary>
@@ -251,7 +306,11 @@ public class SaveSystem : MonoBehaviour
         }
 
         // Save all registered objects into our save data structures
-        var data = this.saveables.ToDictionary(kv => kv.Key, kv => SaveData.SaveObject(kv.Value));
+        var data = this.saveables
+            .ToDictionary(
+                kv => kv.Key,
+                kv => SaveData.SaveObject(kv.Value))
+            ;
 
         // Write out the save data structures to the file
         await this.SerializeObjectAsync(path, data);
@@ -349,6 +408,7 @@ public class SaveSystem : MonoBehaviour
             using (var ms = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 var bf = new DataContractSerializer(typeof(T), this.knownTypes);
+                bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
                 return (T)bf.ReadObject(ms);
             }
         });
@@ -359,14 +419,14 @@ public class SaveSystem : MonoBehaviour
         await Task.Run(() =>
         {
             var settings = new XmlWriterSettings { Indent = true };
-            // using (var ms = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
             using (var xmlWriter = XmlWriter.Create(path, settings))
             {
                 var dcsSettings = new DataContractSerializerSettings {
                     PreserveObjectReferences = true,
-                    KnownTypes = this.knownTypes
+                    KnownTypes = this.knownTypes,
                 };
                 var bf = new DataContractSerializer(typeof(T), dcsSettings);
+                bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
                 bf.WriteObject(xmlWriter, obj);
             }
         });

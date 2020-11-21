@@ -1,0 +1,1 @@
+﻿System.Runtime.Serialization.XmlObjectSerializerWriteContext::IncrementCollectionCountGeneric<System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[SaveData, Game.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]>

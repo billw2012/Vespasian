@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class StarSystemUIBody : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI bodyName_tmp;
+    TextMeshProUGUI bodyName_tmp = default;
 
     public Image selectorImage;             // Link to selector image
 
@@ -36,19 +36,10 @@ public class StarSystemUIBody : MonoBehaviour
     // Sets/gets the shown name above the body model
     public string bodyName
     {
-        set
-        {
-            this.bodyName_tmp.text = value;
-        }
+        set => this.bodyName_tmp.text = value;
 
-        get
-        {
-            return this.bodyName_tmp.text;
-        }
+        get => this.bodyName_tmp.text;
     }
 
-    public void OnClick()
-    {
-        this.starSystemUI.OnSchemeBodyClick(this);
-    }
+    public void OnClick() => this.starSystemUI.OnSchemeBodyClick(this);
 }

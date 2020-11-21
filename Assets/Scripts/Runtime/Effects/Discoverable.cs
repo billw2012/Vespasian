@@ -12,7 +12,7 @@ class Discoverable : MonoBehaviour, ISavable
     public float discoveryRadius = 10.0f;
 
     [Tooltip("Transform to use as the effect source")]
-    public Transform originTransform;
+    public Transform originTransform = default;
 
     [Saved]
     public bool discovered { get; private set; } = false;
