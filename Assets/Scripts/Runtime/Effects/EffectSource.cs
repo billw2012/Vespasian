@@ -24,7 +24,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
     float revealedTime;
 
     public float timeMultipler => this.simManager == null ? 1 : this.simManager.timeStep;
-    
+
     GameObject areaMarker;
 
     Simulation simManager;
@@ -35,7 +35,6 @@ public abstract class EffectSource : MonoBehaviour, ISavable
         if (this.areaMarkerAsset != null)
         {
             this.areaMarker = Instantiate(this.areaMarkerAsset, this.originTransform);
-            this.areaMarker.transform.localScale = Vector3.one * this.range;
             this.areaMarker.SetActive(false);
         }
     }
@@ -46,6 +45,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
         {
             // Show the marker only if the effect is discovered, not complete and revealed by something recently (scanner, observation etc.)
             this.areaMarker.SetActive(this.discovered && !this.IsComplete() && Time.time < this.revealedTime + 1f);
+            this.areaMarker.transform.localScale = Vector3.one * this.range;
         }
     }
 
