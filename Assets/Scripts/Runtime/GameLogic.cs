@@ -8,18 +8,18 @@ using UnityEngine.SceneManagement;
 
 [CreateAssetMenu]
 public class GameLogic : ScriptableObject {
-    GUILayerManager uiManager;
+    private GUILayerManager uiManager;
 
-    MapComponent mapComponent;
-    PlayerController player;
-    SaveSystem saveSystem;
+    private MapComponent mapComponent;
+    private PlayerController player;
+    private SaveSystem saveSystem;
 
-    int saveIndex;
-    readonly SemaphoreSlim loadingSemaphore = new SemaphoreSlim(1, 1);
+    private int saveIndex;
+    private readonly SemaphoreSlim loadingSemaphore = new SemaphoreSlim(1, 1);
 
-    void OnEnable() => SceneManager.sceneLoaded += this.SceneManager_sceneLoaded;
+    private void OnEnable() => SceneManager.sceneLoaded += this.SceneManager_sceneLoaded;
 
-    void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
+    private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
         this.uiManager = FindObjectOfType<GUILayerManager>();
         this.mapComponent = FindObjectOfType<MapComponent>();
@@ -27,7 +27,7 @@ public class GameLogic : ScriptableObject {
         this.saveSystem = FindObjectOfType<SaveSystem>();
     }
 
-    async Task NewGameAsync()
+    private async Task NewGameAsync()
     {
         await this.mapComponent.GenerateMapAsync();
         await this.mapComponent.LoadRandomSystemAsync();

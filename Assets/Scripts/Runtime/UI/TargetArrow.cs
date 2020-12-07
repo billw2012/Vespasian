@@ -10,9 +10,9 @@ public class TargetArrow : MonoBehaviour
 {
     public GameObject target;
 
-    TextMeshProUGUI image;
+    private TextMeshProUGUI image;
 
-    void Start()
+    private void Start()
     {
         if(this.target == null)
         {
@@ -24,7 +24,7 @@ public class TargetArrow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if(this.target == null)
         {

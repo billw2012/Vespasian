@@ -82,7 +82,7 @@ public struct OrbitParameters
         public OrbitDirection direction;
         public float period => this.path != null? this.dt * (this.path.Length + 1) : 0;
 
-        static int ModPositive(int x, int m)
+        private static int ModPositive(int x, int m)
         {
             return (x % m + m) % m;
         }
@@ -174,6 +174,9 @@ public struct OrbitParameters
     }
 }
 
+/// <summary>
+/// Describes and simulates the orbit of a Body around a parent GravitySource (determined automatically)
+/// </summary>
 public class Orbit : MonoBehaviour
 {
     public OrbitParameters parameters = new OrbitParameters
@@ -208,31 +211,31 @@ public class Orbit : MonoBehaviour
     [NonSerialized]
     public Vector3 absoluteVelocity;
 
-    Orbit parentOrbit;
+    private Orbit parentOrbit;
 
-    void OnValidate()
+    private void OnValidate()
     {
         this.Awake();
         this.RefreshValidateRecursive();
     }
 
-    void Awake()
+    private void Awake()
     {
         this.position = this.customPosition == null ? this.transform.Find("Position") : this.customPosition;
     }
 
-    void Start()
+    private void Start()
     {
         this.RefreshValidate();
         this.CreateOrbitPath();
     }
 
-    void Update()
+    private void Update()
     {
         this.UpdateOrbitWidth();
     }
 
-    float FindParentsMass()
+    private float FindParentsMass()
     {
         var directParent = this.gameObject.GetComponentInParentOnly<GravitySource>();
         if (directParent != null)
@@ -251,7 +254,7 @@ public class Orbit : MonoBehaviour
         }
     }
 
-    void RefreshValidate()
+    private void RefreshValidate()
     {
         if (!this.isActiveAndEnabled)
         {
@@ -289,7 +292,7 @@ public class Orbit : MonoBehaviour
         this.UpdatePosition(simTick * Time.fixedDeltaTime);
     }
 
-    void UpdatePosition(float time)
+    private void UpdatePosition(float time)
     {
         if (this.position != null)
         {
@@ -300,7 +303,7 @@ public class Orbit : MonoBehaviour
         }
     }
 
-    void CreateOrbitPath()
+    private void CreateOrbitPath()
     {
         var lineRenderer = this.GetComponent<LineRenderer>();
         if (lineRenderer == null)
@@ -318,7 +321,7 @@ public class Orbit : MonoBehaviour
         }
     }
 
-    void UpdateOrbitWidth()
+    private void UpdateOrbitWidth()
     {
         var lineRenderer = this.GetComponent<LineRenderer>();
         if (lineRenderer == null)

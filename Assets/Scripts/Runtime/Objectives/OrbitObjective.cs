@@ -14,9 +14,9 @@ public class OrbitObjective : PositionalObjective
 
     public GravitySource orbitTarget;
 
-    bool isOrbit;
-    Vector2 lastRelativePosition;
-    float performedOrbits = 0;
+    private bool isOrbit;
+    private Vector2 lastRelativePosition;
+    private float performedOrbits = 0;
 
     protected override void UpdateObjective()
     {

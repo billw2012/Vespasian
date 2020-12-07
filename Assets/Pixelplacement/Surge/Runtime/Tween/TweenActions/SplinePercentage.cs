@@ -16,10 +16,10 @@ namespace Pixelplacement.TweenSystem
         public float EndValue {get; private set;}
 
         //Private Variables:
-        Transform _target;
-        Spline _spline;
-        float _startPercentage;
-        bool _faceDirection;
+        private Transform _target;
+        private Spline _spline;
+        private float _startPercentage;
+        private bool _faceDirection;
 
         //Constructor:
         public SplinePercentage (Spline spline, Transform target, float startPercentage, float endPercentage, bool faceDirection, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

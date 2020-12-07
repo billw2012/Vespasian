@@ -7,7 +7,7 @@ public class ShieldBar : MonoBehaviour
 {
     public PlayerController player;
 
-    void Update()
+    private void Update()
     {
         var shield = this.player.GetComponentInChildren<ShieldComponent>();
         foreach(Transform child in this.transform)

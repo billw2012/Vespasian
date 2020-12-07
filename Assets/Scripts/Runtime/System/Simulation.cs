@@ -31,23 +31,23 @@ public class Simulation : MonoBehaviour
 
     public float dt => this.timeStep * Time.fixedDeltaTime;
 
-    List<MonoBehaviour> simulatedObjects;
+    private List<MonoBehaviour> simulatedObjects;
     // SimMovement[] simulatedObjects;
 
-    SimModel model;
+    private SimModel model;
 
-    void OnValidate()
+    private void OnValidate()
     {
         Assert.IsNotNull(this.constants);
     }
 
-    void Start()
+    private void Start()
     {
         Assert.IsNotNull(this.constants);
         this.Refresh();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         this.model.DelayedInit();
 
@@ -231,14 +231,14 @@ public class SimModel
         }
     }
 
-    struct SimOrbit
+    private struct SimOrbit
     {
         public Orbit from;
         public int parent;
         public OrbitParameters.OrbitPath orbit;
     }
 
-    struct SimGravity
+    private struct SimGravity
     {
         public GravitySource from;
         public int orbitIndex;
@@ -252,14 +252,14 @@ public class SimModel
     public List<Orbit> orbits;
 
     // Orbit parameters of all simulated bodies
-    List<SimOrbit> simOrbits;
+    private List<SimOrbit> simOrbits;
 
     // Gravity parameters of all simulated bodies
-    List<SimGravity> simGravitySources;
+    private List<SimGravity> simGravitySources;
 
     #region SimState
     // Represents the current state of a simulation
-    class SimState
+    private class SimState
     {
         public PathSection path;
         public List<PathSection> relativePaths;
@@ -272,16 +272,17 @@ public class SimModel
         // It can refer to the same GravitySource more than once.
         public readonly List<SphereOfInfluence> sois = new List<SphereOfInfluence>();
 
-        readonly SimModel owner;
-        readonly float collisionRadius;
-        readonly float gravitationalConstant;
-        readonly float gravitationalRescaling;
+        private readonly SimModel owner;
+        private readonly float collisionRadius;
+        private readonly float gravitationalConstant;
+
+        private readonly float gravitationalRescaling;
         //readonly float startTime;
         //readonly float dt;
 
-        Vector3 position;
-        readonly float dt;
-        int tick;
+        private Vector3 position;
+        private readonly float dt;
+        private int tick;
 
         public SimState(SimModel owner, Vector3 startPosition, Vector3 startVelocity, int startTick, float collisionRadius, float gravitationalConstant, float gravitationalRescaling, float dt)
         {
@@ -576,18 +577,18 @@ public class SectionedSimPath
     public Vector3 relativeVelocity;
     public bool crashed => this.simPath?.crashed == true;
 
-    readonly SimModel model;
-    readonly int targetTicks;
-    readonly int sectionTicks;
-    readonly float dt;
-    readonly float gravitationalConstant;
-    readonly float gravitationalRescaling;
-    readonly float proximityWarningRange;
+    private readonly SimModel model;
+    private readonly int targetTicks;
+    private readonly int sectionTicks;
+    private readonly float dt;
+    private readonly float gravitationalConstant;
+    private readonly float gravitationalRescaling;
+    private readonly float proximityWarningRange;
 
-    SimPath simPath;
-    int simTick;
-    bool sectionIsQueued = false;
-    bool restartPath = true;
+    private SimPath simPath;
+    private int simTick;
+    private bool sectionIsQueued = false;
+    private bool restartPath = true;
 
     public SectionedSimPath(SimModel model, int startSimTick, Vector3 startPosition, Vector3 startVelocity, int targetTicks, float dt, float gravitationalConstant, float gravitationalRescaling, float proximityWarningRange, int sectionTicks = 200)
     {
@@ -604,7 +605,7 @@ public class SectionedSimPath
         this.simTick = startSimTick;
     }
 
-    static readonly List<Vector3> Empty = new List<Vector3>();
+    private static readonly List<Vector3> Empty = new List<Vector3>();
 
     public List<Vector3> GetAbsolutePath()
     {
@@ -675,7 +676,7 @@ public class SectionedSimPath
 
     // float GetTotalPathDuration() => this.path?..Select(p => p.duration).Sum();
 
-    async void GenerateNewSection()
+    private async void GenerateNewSection()
     {
         this.sectionIsQueued = true;
 

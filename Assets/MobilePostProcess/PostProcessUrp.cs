@@ -147,14 +147,14 @@ namespace UnityEngine.Rendering.Universal
         [System.NonSerialized]
         public PostProcessSettings runtimeSettings = new PostProcessSettings();
 
-        PostProcessUrpPass ppsUrpPass;
+        private PostProcessUrpPass ppsUrpPass;
 
-        void Awake()
+        private void Awake()
         {
             this.ResetRuntimeSettings();
         }
 
-        void OnValidate()
+        private void OnValidate()
         {
             this.ResetRuntimeSettings();
         }

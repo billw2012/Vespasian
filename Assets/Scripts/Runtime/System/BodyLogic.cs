@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
+/// <summary>
+/// Basic behaviour of a body in space, with a radius, axial rotation, and collision.
+/// TODO: these features aren't really related, why are they in one component? Perhaps they always go together?
+/// </summary>
 public class BodyLogic : MonoBehaviour
 {
-    [Tooltip("Planet Radius (use this instead of scaling)"), Range(0, 20)]
+    [Tooltip("Body Radius (use this instead of scaling)"), Range(0, 20)]
     public float radius = 0.5f;
 
     [Tooltip("Time to complete a full axial rotation (0 = no rotation)"), Range(-100, 100)]
@@ -13,36 +17,36 @@ public class BodyLogic : MonoBehaviour
 
     public GameLogic gameLogic;
 
-    float rotationOffset;
-    Simulation simManager;
+    private float rotationOffset;
+    private Simulation simulation;
 
-    void Awake()
+    private void Awake()
     {
-        this.simManager = FindObjectOfType<Simulation>();
+        this.simulation = FindObjectOfType<Simulation>();
         this.rotationOffset = Random.Range(0, 360f);
     }
 
-    void OnValidate()
+    private void OnValidate()
     {
         this.UpdateScale();
     }
 
-    void Start()
+    private void Start()
     {
         this.UpdateScale();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (this.dayPeriod != 0)
         {
-            float dt = this.simManager == null ? Time.deltaTime : this.simManager.dt;
+            float dt = this.simulation == null ? Time.deltaTime : this.simulation.dt;
             //var currEulers = this.geometry.localRotation.eulerAngles;
             this.geometry.localRotation *= Quaternion.Euler(0, 0, 360f * dt / this.dayPeriod);
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {
@@ -50,7 +54,7 @@ public class BodyLogic : MonoBehaviour
         }
     }
 
-    void UpdateScale()
+    private void UpdateScale()
     {
         this.geometry.localScale = Vector3.one * this.radius;
         // Make sure to update auto mass

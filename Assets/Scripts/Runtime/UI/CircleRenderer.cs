@@ -19,9 +19,9 @@ public class CircleRenderer : MonoBehaviour
 
     public MeshFilter bakeMeshFilter;
 
-    MaterialPropertyBlock propertyBlock;
+    private MaterialPropertyBlock propertyBlock;
 
-    void Awake()
+    private void Awake()
     {
         if(this.lineRenderer == null)
         {
@@ -32,12 +32,12 @@ public class CircleRenderer : MonoBehaviour
         this.propertyBlock = new MaterialPropertyBlock();
     }
 
-    void Start()
+    private void Start()
     {
         this.UpdateCircle();
     }
 
-    void Update()
+    private void Update()
     {
         if(this.screenSpaceWidth)
         {
@@ -80,7 +80,7 @@ public class CircleRenderer : MonoBehaviour
         }
     }
 
-    static float GetWorldFromScreenSpaceSize(float pixels)
+    private static float GetWorldFromScreenSpaceSize(float pixels)
     {
         return Camera.main.orthographicSize * pixels / Screen.width;
     }

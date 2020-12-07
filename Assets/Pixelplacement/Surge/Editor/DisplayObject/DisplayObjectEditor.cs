@@ -17,10 +17,10 @@ namespace Pixelplacement
     public class DisplayObjectEditor : Editor 
     {
         //Private Variables:
-        DisplayObject _target;
+        private DisplayObject _target;
         
         //Init:
-        void OnEnable()
+        private void OnEnable()
         {
             _target = target as DisplayObject;
         }
@@ -39,7 +39,7 @@ namespace Pixelplacement
         }
         
         //GUI Draw Methods:
-        void DrawShowButton ()
+        private void DrawShowButton ()
         {
             GUI.color = Color.yellow;
             if (GUILayout.Button ("Show"))
@@ -48,8 +48,8 @@ namespace Pixelplacement
                 _target.SetActive (true);
             }
         }
-        
-        void DrawSoloButton ()
+
+        private void DrawSoloButton ()
         {
             GUI.color = Color.green;
             if (GUILayout.Button ("Solo"))
@@ -58,8 +58,8 @@ namespace Pixelplacement
                 _target.Solo ();
             }
         }
-        
-        void DrawHideButton ()
+
+        private void DrawHideButton ()
         {
             GUI.color = new Color (1, 0.5f, 0, 1);
             if (GUILayout.Button ("Hide"))
@@ -68,8 +68,8 @@ namespace Pixelplacement
                 _target.SetActive (false);
             }
         }
-        
-        void DrawHideAllButton ()
+
+        private void DrawHideAllButton ()
         {
             GUI.color = Color.red;
             if (GUILayout.Button ("Hide All"))

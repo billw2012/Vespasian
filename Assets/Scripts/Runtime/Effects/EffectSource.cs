@@ -21,15 +21,15 @@ public abstract class EffectSource : MonoBehaviour, ISavable
     [Saved]
     public bool discovered;
 
-    float revealedTime;
+    private float revealedTime;
 
     public float timeMultipler => this.simManager == null ? 1 : this.simManager.timeStep;
 
-    GameObject areaMarker;
+    private GameObject areaMarker;
 
-    Simulation simManager;
+    private Simulation simManager;
 
-    void Awake()
+    private void Awake()
     {
         this.simManager = FindObjectOfType<Simulation>();
         if (this.areaMarkerAsset != null)
@@ -39,7 +39,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (this.areaMarker != null)
         {

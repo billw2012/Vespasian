@@ -24,7 +24,7 @@ public class SunGenerator : StarOrPlanetGenerator
     }
 
 #if UNITY_EDITOR
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (this.body != null && this.GetComponent<GravitySource>() != null)
         {

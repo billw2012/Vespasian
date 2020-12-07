@@ -17,10 +17,10 @@ namespace Pixelplacement
     public class StateEditor : Editor 
     {
         //Private Variables:
-        State _target;
+        private State _target;
         
         //Init:
-        void OnEnable()
+        private void OnEnable()
         {
             _target = target as State;
         }
@@ -43,7 +43,7 @@ namespace Pixelplacement
         }
 
         //GUI Draw Methods:
-        void DrawChangeStateButton ()
+        private void DrawChangeStateButton ()
         {
             GUI.color = Color.green;
             if (GUILayout.Button("Change State"))
@@ -52,7 +52,7 @@ namespace Pixelplacement
             }
         }
 
-        void DrawHideAllButton ()
+        private void DrawHideAllButton ()
         {
             GUI.color = Color.red;
             if (GUILayout.Button ("Hide All"))
@@ -65,7 +65,7 @@ namespace Pixelplacement
             }
         }
 
-        void DrawSoloButton ()
+        private void DrawSoloButton ()
         {
             GUI.color = Color.green;
             if (GUILayout.Button ("Solo"))

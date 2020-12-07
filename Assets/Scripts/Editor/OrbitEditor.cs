@@ -5,7 +5,7 @@ using UnityEngine;
 [CustomEditor(typeof(Orbit))]
 public class OrbitEditor : Editor
 {
-    void OnSceneGUI()
+    private void OnSceneGUI()
     {
         if (Application.isPlaying)
             return;
@@ -142,10 +142,10 @@ public class OrbitEditor : Editor
         OffsetHandle();
     }
 
-    static double lastUpdate = 0;
+    private static double lastUpdate = 0;
 
     [DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.InSelectionHierarchy)]
-    static void RenderCustomGizmo(Orbit orbit, GizmoType gizmoType)
+    private static void RenderCustomGizmo(Orbit orbit, GizmoType gizmoType)
     {
         // Draw orbit
         Handles.color = new Color(0.33f, 0.33f, 0.33f);

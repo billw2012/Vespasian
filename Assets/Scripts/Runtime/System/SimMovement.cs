@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+/// <summary>
+/// Describes and updates a simulated path for an object moving under external forces.
+/// It generates the path ahead of time as long as no direct force is applied.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class SimMovement : MonoBehaviour, ISimUpdate
 {
@@ -34,10 +38,10 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     [HideInInspector]
     public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
 
-    SectionedSimPath path;
-    Vector3 force = Vector3.zero;
+    private SectionedSimPath path;
+    private Vector3 force = Vector3.zero;
 
-    class SoiPathSectionRenderer
+    private class SoiPathSectionRenderer
     {
         public LineRenderer lineRenderer;
         public MaterialPropertyBlock lineRendererMB;
@@ -96,22 +100,22 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
     }
 
-    readonly List<SoiPathSectionRenderer> pathRenderers = new List<SoiPathSectionRenderer>();
+    private readonly List<SoiPathSectionRenderer> pathRenderers = new List<SoiPathSectionRenderer>();
 
-    float rotVelocity;
+    private float rotVelocity;
 
-    void Start()
+    private void Start()
     {
         this.SimRefresh();
     }
 
-    void Update()
+    private void Update()
     {
         this.UpdatePath();
         this.UpdatePathWidth();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         foreach (var spr in this.pathRenderers.Where(p => p.valid))
         {
@@ -119,7 +123,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         foreach (var spr in this.pathRenderers.Where(p => p.valid))
         {
@@ -178,7 +182,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     }
     #endregion
 
-    void UpdatePathWidth()
+    private void UpdatePathWidth()
     {
         foreach(var sr in this.pathRenderers.Where(p => p.valid))
         {
@@ -186,9 +190,9 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
     }
 
-    static readonly Vector3[] EmptyPath = new Vector3[0];
+    private static readonly Vector3[] EmptyPath = new Vector3[0];
 
-    static Vector3[] Reduce(IList<Vector3> fullPath, float quality)
+    private static Vector3[] Reduce(IList<Vector3> fullPath, float quality)
     {
         int scaling = (int)(1f / quality);
         var finalPath = new Vector3[Mathf.FloorToInt((float)fullPath.Count / scaling)];
@@ -199,7 +203,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         return finalPath;
     }
 
-    static Vector3[] ReduceRange(IList<Vector3> fullPath, int start, int end, float quality)
+    private static Vector3[] ReduceRange(IList<Vector3> fullPath, int start, int end, float quality)
     {
         int scaling = (int)(1f / quality);
         var finalPath = new Vector3[Mathf.FloorToInt((float)(end - start) / scaling)];
@@ -210,7 +214,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         return finalPath;
     }
 
-    Vector3[] GetPath()
+    private Vector3[] GetPath()
     {
         if (this.sois.Any())
         {
@@ -234,7 +238,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
     }
 
-    IEnumerable<(SimModel.SphereOfInfluence soi, Vector3[] path)> GetSOIPaths()
+    private IEnumerable<(SimModel.SphereOfInfluence soi, Vector3[] path)> GetSOIPaths()
     {
         var soiPaths = new List<(SimModel.SphereOfInfluence soi, Vector3[] path)>();
         if (this.sois.Any())
@@ -264,7 +268,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         return soiPaths;
     }
 
-    void UpdatePath()
+    private void UpdatePath()
     {
         this.sois = this.path.GetFullPathSOIs().ToList();
 

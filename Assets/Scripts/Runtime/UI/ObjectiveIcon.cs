@@ -6,16 +6,16 @@ public class ObjectiveIcon : MonoBehaviour
 {
     public Objective target;
 
-    Image fill;
-    Slider slider;
+    private Image fill;
+    private Slider slider;
 
-    void Start()
+    private void Start()
     {
         this.fill = this.transform.Find("Fill Area/Fill").GetComponent<Image>();
         this.slider = this.GetComponent<Slider>();
     }
 
-    void Update()
+    private void Update()
     {
         if (this.target.complete)
         {

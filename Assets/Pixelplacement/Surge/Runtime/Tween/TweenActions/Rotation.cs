@@ -16,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public Vector3 EndValue {get; private set;}
 
         //Private Variables:
-        Transform _target;
-        Vector3 _start;
+        private Transform _target;
+        private Vector3 _start;
 
         //Constructor:
         public Rotation (Transform target, Vector3 endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

@@ -19,10 +19,10 @@ namespace Pixelplacement
     public class ColliderButtonEditor : Editor
     {
         //Private Variables:
-        ColliderButton _target;
+        private ColliderButton _target;
 
         //Init:
-        void OnEnable()
+        private void OnEnable()
         {
             _target = target as ColliderButton;
         }

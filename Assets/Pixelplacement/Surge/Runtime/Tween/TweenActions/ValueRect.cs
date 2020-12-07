@@ -16,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public Rect EndValue {get; private set;}
 
         //Private Variables:
-        Action<Rect> _valueUpdatedCallback;
-        Rect _start;
+        private Action<Rect> _valueUpdatedCallback;
+        private Rect _start;
 
         //Constructor:
         public ValueRect (Rect startValue, Rect endValue, Action<Rect> valueUpdatedCallback, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

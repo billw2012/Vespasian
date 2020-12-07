@@ -27,11 +27,11 @@ public class EngineController : MonoBehaviour
     [NonSerialized]
     public Vector2 thrust = Vector2.zero;
 
-    SimMovement movement;
-    Vector2 prevThrust;
+    private SimMovement movement;
+    private Vector2 prevThrust;
 
 
-    void Start()
+    private void Start()
     {
         this.movement = this.GetComponentInParent<SimMovement>();
 
@@ -44,7 +44,7 @@ public class EngineController : MonoBehaviour
     }
 
     // Use LateUpdate to ensure the thrust is calculated already
-    void LateUpdate()
+    private void LateUpdate()
     {
         var engineComponent = this.GetComponentInChildren<EngineComponent>();
         bool canThrust = engineComponent != null && engineComponent.canThrust;
@@ -111,7 +111,7 @@ public class EngineController : MonoBehaviour
         this.prevThrust = this.thrust;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         var engineComponent = this.GetComponentInChildren<EngineComponent>();
         if (engineComponent != null && engineComponent.canThrust)

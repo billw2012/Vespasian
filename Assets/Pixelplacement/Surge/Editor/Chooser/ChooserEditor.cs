@@ -19,10 +19,10 @@ namespace Pixelplacement
     public class ChooserEditor : Editor
     {
         //Private Variables:
-        Chooser _target;
+        private Chooser _target;
 
         //Flow:
-        void OnEnable()
+        private void OnEnable()
         {
             _target = target as Chooser;
         }

@@ -5,19 +5,19 @@ using UnityEngine.EventSystems;
 
 public class DragJoystick : MonoBehaviour
 {
-    PlayerController playerLogic;
-    Vector2 posStart;
-    bool dragging = false;
+    private PlayerController playerLogic;
+    private Vector2 posStart;
+    private bool dragging = false;
 
-    const float deadZone = 0.25f;
-    const float JoystickSizePx = 200;
+    private const float deadZone = 0.25f;
+    private const float JoystickSizePx = 200;
 
-    void Start()
+    private void Start()
     {
         this.playerLogic = FindObjectOfType<PlayerController>();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.touchCount == 1)
         {

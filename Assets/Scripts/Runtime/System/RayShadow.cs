@@ -5,6 +5,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+/// <summary>
+/// Generates and renders a simple geometry based shadow for an object and light source 
+/// </summary>
 public class RayShadow : MonoBehaviour
 {
     public float shadowLengthScale = 30.0f;
@@ -15,20 +18,20 @@ public class RayShadow : MonoBehaviour
     [Range(0, 1)]
     public float shadowIntensity = 0.5f;
 
-    struct LightAndShadow
+    private struct LightAndShadow
     {
         public Transform light;
         public GameObject shadow;
         public LineRenderer lineRenderer;
     }
 
-    List<LightAndShadow> rays;
+    private List<LightAndShadow> rays;
 
-    Vector3 localExtents;
-    float shadowLength;
+    private Vector3 localExtents;
+    private float shadowLength;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if (this.geometry == null)
         {
@@ -44,7 +47,7 @@ public class RayShadow : MonoBehaviour
         this.Refresh();
     }
 
-    void Refresh()
+    private void Refresh()
     {
         float darkestPoint = this.localExtents.magnitude * this.shadowFadeInFactor / this.shadowLength;
 
@@ -92,7 +95,7 @@ public class RayShadow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // Remove 
         if(this.rays.Any(r => r.light == null))

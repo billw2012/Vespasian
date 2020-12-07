@@ -4,6 +4,10 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Generates an orbiting ring of full asteroid objects (as opposed to vfx like AsteroidRing)
+/// based on a single Orbit
+/// </summary>
 public class MultipleAsteroids : MonoBehaviour, ISimUpdate
 {
     public GameObject asteroidPrefab;
@@ -15,19 +19,20 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
     [Range(0, 1)]
     public float orbitRandomization = 0.2f;
 
-    struct Asteroid
+    private struct Asteroid
     {
         public GameObject obj;
         public float radiusOffset;
         public float timeOffset;
     }
-    List<Asteroid> asteroids;
 
-    Orbit orbit;
+    private List<Asteroid> asteroids;
 
-    Simulation simManager;
+    private Orbit orbit;
 
-    void Awake()
+    private Simulation simManager;
+
+    private void Awake()
     {
         this.simManager = FindObjectOfType<Simulation>();
     }
@@ -42,7 +47,7 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
     public void SimRefresh() { }
     #endregion
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (this.simManager == null)
         {
@@ -51,7 +56,7 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
         }
     }
 
-    void UpdatePositions()
+    private void UpdatePositions()
     {
         float t = this.simManager == null ? Time.time : this.simManager.time;
 
@@ -63,7 +68,7 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
         }
     }
 
-    void DelayedStart()
+    private void DelayedStart()
     {
         if (this.orbit != null)
             return;

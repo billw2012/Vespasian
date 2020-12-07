@@ -17,8 +17,8 @@ namespace Pixelplacement.TweenSystem
         public Color EndValue {get; private set;}
 
         //Private Variables:
-        RawImage _target;
-        Color _start;
+        private RawImage _target;
+        private Color _start;
 
         //Constructor:
         public RawImageColor (RawImage target, Color endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

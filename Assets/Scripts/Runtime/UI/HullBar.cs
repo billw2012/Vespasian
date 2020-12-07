@@ -7,7 +7,7 @@ public class HullBar : MonoBehaviour
 {
     public HealthComponent target;
 
-    void Update()
+    private void Update()
     {
         this.GetComponent<Slider>().value = this.target.hull;
     }

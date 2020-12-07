@@ -59,7 +59,7 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        StateMachine _stateMachine;
+        private StateMachine _stateMachine;
 
         //Public Methods
         /// <summary>

@@ -11,8 +11,8 @@ public class UpgradeItemUI : MonoBehaviour
     public GameObject installedTick;
     public TMP_Text label;
 
-    UpgradeDef upgradeDef;
-    UpgradeUI upgradeUI;
+    private UpgradeDef upgradeDef;
+    private UpgradeUI upgradeUI;
 
     public void Init(UpgradeUI upgradeUI, UpgradeDef upgradeDef)
     {

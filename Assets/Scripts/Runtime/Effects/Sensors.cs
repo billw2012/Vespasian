@@ -7,7 +7,7 @@ public class Sensors : MonoBehaviour, IUpgradeLogic
     public float range = 20f;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var detectedEffects = EffectSource.AllInDetectionRange<EffectSource>(this.transform, this.range);
         foreach (var source in detectedEffects)

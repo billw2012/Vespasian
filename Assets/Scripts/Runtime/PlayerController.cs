@@ -14,13 +14,13 @@ public class PlayerController : MonoBehaviour, ISavable, ISavableCustom
     public float thrustInputForward { get; set; }
     public float thrustInputRight { get; set; }
 
-    void Awake()
+    private void Awake()
     {
         this.thrustInputJoystick = Vector2.zero;
         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
     }
 
-    void Update()
+    private void Update()
     {
         // Add thrust from keyboard
         var kbInput = new Vector2(0, 0);

@@ -19,13 +19,13 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
     [NonSerialized]
     public SolarSystem currentSystem;
 
-    Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
+    private Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
 
     public SolarSystem jumpTarget { get; private set; }
 
-    PlayerController player;
+    private PlayerController player;
 
-    UpgradeComponentProxy<WarpComponent> warpComponent;
+    private UpgradeComponentProxy<WarpComponent> warpComponent;
 
     //// Start is called before the first frame update
     //void Awake()
@@ -38,7 +38,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
     //    _ = this.LoadRandomSystemAsync();
     //}
 
-    void Awake()
+    private void Awake()
     {
         this.player = FindObjectOfType<PlayerController>();
         this.warpComponent = this.player.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
@@ -137,7 +137,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
 
     public async Task LoadRandomSystemAsync() => await this.JumpAsync(this.map.systems[Random.Range(0, this.map.systems.Count)]);
 
-    async Task LoadSystemAsync(SolarSystem from, SolarSystem to)
+    private async Task LoadSystemAsync(SolarSystem from, SolarSystem to)
     {
         await to.LoadAsync(from, this.bodySpecs, this.gameObject);
         this.currentSystem = to;

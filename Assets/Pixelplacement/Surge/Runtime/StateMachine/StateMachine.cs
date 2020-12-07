@@ -109,9 +109,9 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        bool _initialized;
-        bool _atFirst;
-        bool _atLast;
+        private bool _initialized;
+        private bool _atFirst;
+        private bool _atLast;
 
         //Public Methods:
         /// <summary>
@@ -240,7 +240,7 @@ namespace Pixelplacement
         }
 
         //Private Methods:
-        void Enter (GameObject state)
+        private void Enter (GameObject state)
         {
             currentState = state;
             int index = currentState.transform.GetSiblingIndex ();
@@ -262,7 +262,7 @@ namespace Pixelplacement
             currentState.SetActive (true);
         }
 
-        void Log (string message)
+        private void Log (string message)
         {
             if (!verbose) return;
             Debug.Log (message, gameObject);

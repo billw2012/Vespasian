@@ -16,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public Color EndValue {get; private set;}
 
         //Private Variables:
-        Action<Color> _valueUpdatedCallback;
-        Color _start;
+        private Action<Color> _valueUpdatedCallback;
+        private Color _start;
 
         //Constructor:
         public ValueColor (Color startValue, Color endValue, Action<Color> valueUpdatedCallback, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

@@ -7,14 +7,14 @@ public abstract class MissionListUIBase : MonoBehaviour
 
     protected Missions missions;
 
-    void OnEnable()
+    private void OnEnable()
     {
         this.missions = FindObjectOfType<Missions>();
         this.missions.OnMissionsChanged += this.UpdateList;
         this.UpdateList();
     }
 
-    void UpdateList()
+    private void UpdateList()
     {
         foreach (Transform itemUI in this.grid.transform)
         {

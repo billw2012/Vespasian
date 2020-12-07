@@ -98,7 +98,7 @@ namespace Pixelplacement.TweenSystem
 
         //Private Methods:
         //use to handle rotational lerping so values that wrap around 360 don't spin in the wrong direction:
-        static float CylindricalLerp (float from, float to, float percentage)
+        private static float CylindricalLerp (float from, float to, float percentage)
         {
             float min = 0f;
             float max = 360f;

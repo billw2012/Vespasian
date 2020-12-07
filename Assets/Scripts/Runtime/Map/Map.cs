@@ -11,13 +11,21 @@ using Random = UnityEngine.Random;
 
 public abstract class Body
 {
+    public int id;
     public string specId;
     public int randomKey;
 
     public Dictionary<string, SaveData> savedComponents;
 
-    IEnumerable<(ISavable component, string key)> savables;
-    GameObject activeInstance;
+    private IEnumerable<(ISavable component, string key)> savables;
+    private GameObject activeInstance;
+
+    public static int NextId = 0;
+
+    protected Body()
+    {
+        this.id = NextId++;
+    }
 
     /// <summary>
     /// This is called by the Map system when loading a system.
@@ -25,9 +33,9 @@ public abstract class Body
     /// <param name="bodySpecs"></param>
     /// <param name="systemDanger"></param>
     /// <returns></returns>
-    public GameObject Instance(BodySpecs bodySpecs, float systemDanger)
+    public GameObject Instance(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
-        this.activeInstance = this.InstanceInternal(bodySpecs, systemDanger);
+        this.activeInstance = this.InstanceInternal(bodySpecs, solarSystem);
         return this.activeInstance;
     }
 
@@ -52,7 +60,7 @@ public abstract class Body
         this.savables = null;
     }
 
-    protected virtual GameObject InstanceInternal(BodySpecs bodySpecs, float systemDanger)
+    protected virtual GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
         var spec = bodySpecs.GetSpecById(this.specId);
         var obj = Object.Instantiate(spec.prefab);
@@ -64,7 +72,7 @@ public abstract class Body
 
         var rng = new RandomX(this.randomKey);
         this.Apply(obj, rng);
-        obj.GetComponent<BodyGenerator>().Init(this, rng, systemDanger);
+        obj.GetComponent<BodyGenerator>().Init(this, rng, solarSystem);
 
         return obj;
     }
@@ -95,7 +103,7 @@ public abstract class Body
         }
     }
 
-    static string GetFullKey(MonoBehaviour component)
+    private static string GetFullKey(MonoBehaviour component)
     {
         IList<string> names = new List<string> { component.ToString() };
         var obj = component.transform;
@@ -119,12 +127,12 @@ public class StarOrPlanet : Body
     public float radius;
     public float mass;
 
-    protected override GameObject InstanceInternal(BodySpecs bodySpecs, float systemDanger)
+    protected override GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
-        var self = base.InstanceInternal(bodySpecs, systemDanger);
+        var self = base.InstanceInternal(bodySpecs, solarSystem);
         foreach (var child in this.children)
         {
-            var childInstance = child.Instance(bodySpecs, systemDanger);
+            var childInstance = child.Instance(bodySpecs, solarSystem);
             childInstance.transform.SetParent(self.GetComponent<Orbit>().position.transform, worldPositionStays: false);
         }
         return self;
@@ -235,6 +243,8 @@ public class Link : IEquatable<Link>
 
 public class SolarSystem
 {
+    public int id;
+
     public Vector2 position;
 
     public StarOrPlanet main;
@@ -264,15 +274,15 @@ public class SolarSystem
 
     public async Task LoadAsync(SolarSystem current, BodySpecs bodySpecs, GameObject root)
     {
-        var rootBody = this.main.Instance(bodySpecs, this.danger);
+        var rootBody = this.main.Instance(bodySpecs, this);
         foreach (var belt in this.belts)
         {
-            var beltObject = belt.Instance(bodySpecs, this.danger);
+            var beltObject = belt.Instance(bodySpecs, this);
             beltObject.transform.SetParent(rootBody.transform);
         }
         foreach (var comet in this.comets)
         {
-            var cometObject = comet.Instance(bodySpecs, this.danger);
+            var cometObject = comet.Instance(bodySpecs, this);
             cometObject.transform.SetParent(rootBody.transform);
         }
         // We load the new system first and wait for it before unloading the previous one
@@ -298,8 +308,15 @@ public class SolarSystem
 public class Map : ISavable
 {
     public List<Link> links = new List<Link>();
+    
     public List<SolarSystem> systems = new List<SolarSystem>();
 
+    public void AddSystem(SolarSystem system)
+    {
+        system.id = this.systems.Count;
+        this.systems.Add(system);
+    }
+    
     public IEnumerable<(SolarSystem system, Link link)> GetConnected(SolarSystem system)
     {
         return this.links
@@ -310,25 +327,5 @@ public class Map : ISavable
     public void RemoveLink(Link link)
     {
         this.links.Remove(link);
-    }
-
-    public void RemoveSystem(SolarSystem system)
-    {
-        this.RemoveSystems(new[] { system });
-    }
-
-    public void RemoveSystems(IEnumerable<SolarSystem> toRemove)
-    {
-        foreach(var system in toRemove)
-        {
-            this.systems.Remove(system);
-        }
-        foreach (var link in this.links
-            .Where(l => toRemove.Contains(l.from) || toRemove.Contains(l.to))
-            .ToList()
-            )
-        {
-            this.links.Remove(link);
-        }
     }
 }

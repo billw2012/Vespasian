@@ -12,9 +12,9 @@ public class MapLinkMarkerUI : MonoBehaviour
 
     public bool isJumpRoute => this.link.Match(this.mapComponent.currentSystem, this.mapComponent.jumpTarget);
 
-    UILineRenderer line;
+    private UILineRenderer line;
 
-    void Start()
+    private void Start()
     {
         this.line = this.GetComponent<UILineRenderer>();
         this.line.Points = new[] {
@@ -23,7 +23,7 @@ public class MapLinkMarkerUI : MonoBehaviour
         };
     }
 
-    void Update()
+    private void Update()
     {
         this.line.color = this.isJumpRoute ? this.jumpRouteColor : this.color;
     }

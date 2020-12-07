@@ -19,7 +19,7 @@ public class DockPassive : EffectSource
     public Orbit orbit;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         this.dockingRadiusRenderer.transform.localScale = this.range * 2 * Vector3.one;
     }

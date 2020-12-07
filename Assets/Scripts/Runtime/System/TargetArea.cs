@@ -7,18 +7,18 @@ public class TargetArea : MonoBehaviour
 {
     public GameLogic gameLogic;
 
-    void OnValidate()
+    private void OnValidate()
     {
         Assert.IsNotNull(this.gameLogic);
     }
 
-    void Start()
+    private void Start()
     {
         this.OnValidate();
     }
 
     // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {

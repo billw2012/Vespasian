@@ -14,7 +14,7 @@ public abstract class RingEffectSource : EffectSource
     }
 
 #if UNITY_EDITOR
-    new void OnDrawGizmosSelected()
+    private new void OnDrawGizmosSelected()
     {
         // Display the explosion radius when selected
         Handles.color = this.gizmoColor;

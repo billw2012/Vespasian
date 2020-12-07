@@ -19,12 +19,12 @@ public abstract class PositionalObjective : Objective
     [NonSerialized]
     public GameObject objectiveMarker;
 
-    bool completed = false;
+    private bool completed = false;
 
-    MaterialPropertyBlock objectiveMarkerPb;
-    LineRenderer lineRenderer;
+    private MaterialPropertyBlock objectiveMarkerPb;
+    private LineRenderer lineRenderer;
 
-    void Start()
+    private void Start()
     {
         this.objectiveMarker = Instantiate(this.objectiveMarkerAsset);
         this.objectiveMarker.transform.localScale = Vector3.one * this.radius;
@@ -35,7 +35,7 @@ public abstract class PositionalObjective : Objective
     }
 
     // Use FixedUpdate as we are tracking position of objects that are updated in FixedUpdate
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (this.objectiveMarker.transform != null && this.target != null)
         {
@@ -142,7 +142,7 @@ public abstract class PositionalObjective : Objective
     public abstract float radius { get; }
 
 #if UNITY_EDITOR
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (this.target != null)
         {

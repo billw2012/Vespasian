@@ -6,14 +6,14 @@ public class BodyGenerator : MonoBehaviour
 {
     [NonSerialized]
     public Body body;
-
+    
     [NonSerialized]
-    public float danger;
+    public SolarSystem system;
 
-    public void Init(Body body, RandomX rng, float danger)
+    public void Init(Body body, RandomX rng, SolarSystem system)
     {
         this.body = body;
-        this.danger = danger;
+        this.system = system;
 
         this.InitInternal(rng);
     }

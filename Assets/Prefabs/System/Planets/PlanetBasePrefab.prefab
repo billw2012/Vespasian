@@ -296,6 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   discoveryRadius: 10
   originTransform: {fileID: 2318905709148006584}
+  discovered: 0
 --- !u!114 &1992624584283286723
 MonoBehaviour:
   m_ObjectHideFlags: 0

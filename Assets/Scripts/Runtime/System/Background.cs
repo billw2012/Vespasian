@@ -2,23 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Parallax, wrapping background texture.
+/// </summary>
 public class Background : MonoBehaviour
 {
     public float speedMultiplier = 0.1f;
 
     // LateUpdate used as we need the ensure the background is always fitted to the final camera size and position
-    Vector2 lastPosition;
-    Vector2 offset;
-    
-    MeshFilter meshFilter;
-    MeshRenderer meshRenderer;
+    private Vector2 lastPosition;
+    private Vector2 offset;
 
-    MaterialPropertyBlock pfxPb;
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
 
-    float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
+    private MaterialPropertyBlock pfxPb;
+
+    private float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
 
 
-    void Start()
+    private void Start()
     {
         this.lastPosition = this.transform.position;
         this.offset = this.transform.position * -this.parallaxSpeed;
@@ -28,7 +31,7 @@ public class Background : MonoBehaviour
         this.pfxPb = new MaterialPropertyBlock();
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         // Do this every time, as screen size can change, and its a very cheap calculation
         var bl = Camera.main.ScreenToWorldPoint(Vector3.zero);

@@ -10,14 +10,14 @@ public class CameraIntro : MonoBehaviour
     [Tooltip("Targets for the camera flyby, in order (leave empty to automatically use Objectives in the scene)")]
     public List<Transform> targets;
 
-    FollowCameraController camController;
-    int currentTargetID;
-    float smoothTimeStart;
-    float nextTargetTime = 0;
+    private FollowCameraController camController;
+    private int currentTargetID;
+    private float smoothTimeStart;
+    private float nextTargetTime = 0;
 
-    const float PauseTime = 1f;
+    private const float PauseTime = 1f;
 
-    void Start()
+    private void Start()
     {
         this.camController = this.GetComponent<FollowCameraController>();
 
@@ -59,7 +59,7 @@ public class CameraIntro : MonoBehaviour
         this.nextTargetTime = 0;
     }
 
-    void Update()
+    private void Update()
     {
         // Iterate all targets till there are no targets
         if (this.camController.atTargetPosition)
@@ -86,7 +86,7 @@ public class CameraIntro : MonoBehaviour
         }
     }
 
-    void StartGame()
+    private void StartGame()
     {
         //this.camController.SetTarget(this.player);
         this.camController.smoothTime = this.smoothTimeStart;

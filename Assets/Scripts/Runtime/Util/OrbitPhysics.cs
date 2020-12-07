@@ -100,12 +100,12 @@ public static class ODE
 // https://evgenii.com/blog/earth-orbit-simulation/
 public class OrbitPhysics
 {
-    readonly float periapsis; // nearest distance to primary
-    readonly float apoapsis; // farthest distance to primary
-    readonly float mass; // mass of primary
-    readonly float G; // gravitational constant
+    private readonly float periapsis; // nearest distance to primary
+    private readonly float apoapsis; // farthest distance to primary
+    private readonly float mass; // mass of primary
+    private readonly float G; // gravitational constant
 
-    float semiMajorAxis => OrbitalUtils.SemiMajorAxis(this.periapsis, this.apoapsis);
+    private float semiMajorAxis => OrbitalUtils.SemiMajorAxis(this.periapsis, this.apoapsis);
     public float period => OrbitalUtils.OrbitalPeriod(this.semiMajorAxis, this.mass, this.G);
 
     public bool valid => this.periapsis > 0 && this.apoapsis >= this.periapsis && this.mass > 0 && this.G > 0;
@@ -116,13 +116,13 @@ public class OrbitPhysics
     public float angle => this.u[Angle] * Mathf.Rad2Deg;
     public float da => this.u[AngularVelocity];
 
-    const int Angle = 0;
-    const int Distance = 1;
-    const int AngularVelocity = 2;
-    const int Speed = 3;
+    private const int Angle = 0;
+    private const int Distance = 1;
+    private const int AngularVelocity = 2;
+    private const int Speed = 3;
 
     // Variables to be integrated, representing current position in orbit, and its derivative
-    readonly float[] u;
+    private readonly float[] u;
 
     public OrbitPhysics(float periapsis, float apoapsis, float angle, float mass, float G)
     {

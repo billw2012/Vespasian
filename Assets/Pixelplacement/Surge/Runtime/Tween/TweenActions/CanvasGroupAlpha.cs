@@ -17,8 +17,8 @@ namespace Pixelplacement.TweenSystem
         public float EndValue {get; private set;}
 
         //Private Variables:
-        CanvasGroup _target;
-        float _start;
+        private CanvasGroup _target;
+        private float _start;
 
         //Constructor:
         public CanvasGroupAlpha (CanvasGroup target, float endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

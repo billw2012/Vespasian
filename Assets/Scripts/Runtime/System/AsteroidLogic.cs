@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Core asteroid state and behaviour
+/// </summary>
 public class AsteroidLogic : MonoBehaviour
 {
     // Objects to set in editor
@@ -22,22 +25,22 @@ public class AsteroidLogic : MonoBehaviour
     public Color hotColor = new Color(1, 0.13f, 0);
 
     // Axis around which we are rotating
-    Vector3 rotationAxis;
-    float rotationVelocity;
-    float rotationOffset;
+    private Vector3 rotationAxis;
+    private float rotationVelocity;
+    private float rotationOffset;
 
-    Simulation simManager;
+    private Simulation simManager;
 
-    MaterialPropertyBlock asteroidPb;
-    MeshRenderer meshRenderer;
+    private MaterialPropertyBlock asteroidPb;
+    private MeshRenderer meshRenderer;
 
-    void Awake()
+    private void Awake()
     {
         this.simManager = FindObjectOfType<Simulation>();
         this.asteroidPb = new MaterialPropertyBlock();
     }
 
-    void Start()
+    private void Start()
     {
         this.rotationAxis = Random.onUnitSphere;
         this.rotationVelocity = 50; // Random.Range(-40, 40);
@@ -47,13 +50,13 @@ public class AsteroidLogic : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         float time = this.simManager == null ? Time.time : this.simManager.time;
         this.asteroidModelTransform.localRotation = Quaternion.AngleAxis(this.rotationOffset + time * this.rotationVelocity, this.rotationAxis);
     }
 
-    void Update()
+    private void Update()
     {
         if(this.meshRenderer.HasPropertyBlock())
         {
@@ -63,7 +66,7 @@ public class AsteroidLogic : MonoBehaviour
         this.meshRenderer.SetPropertyBlock(this.asteroidPb);
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponentInParent<PlayerController>() != null)
         {

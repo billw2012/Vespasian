@@ -21,18 +21,18 @@ public class HealthComponent : MonoBehaviour
     }
 
 
-    float hullHP;
-    float previousHull = 1;
-    Vector3 lastDamageDirection;
+    private float hullHP;
+    private float previousHull = 1;
+    private Vector3 lastDamageDirection;
 
-    void Start()
+    private void Start()
     {
         this.hullHP = this.maxHullHP;
 
         this.damageDebris.SetEmissionEnabled(false);
     }
 
-    void Update()
+    private void Update()
     {
         this.SetTakingDamage((this.previousHull - this.hull) / Time.deltaTime, this.lastDamageDirection);
         this.previousHull = this.hull;

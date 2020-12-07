@@ -13,10 +13,10 @@ public class CameraPostEffectRadius : MonoBehaviour
 
     public PostEffect effect;
 
-    bool wasInRange = false;
+    private bool wasInRange = false;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if(this.camera == null)
         {
@@ -27,7 +27,7 @@ public class CameraPostEffectRadius : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var screenRect = this.camera.WorldSpaceRect();
         float coverage = MathX.RectCircleOverlap(screenRect, this.transform.position, this.radius * this.transform.lossyScale.x);
@@ -42,14 +42,14 @@ public class CameraPostEffectRadius : MonoBehaviour
         this.wasInRange = inRange;
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         this.effect.ResetSettings();
     }
 
 
 #if UNITY_EDITOR
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Handles.color = UnityEngine.Color.yellow;
         Handles.matrix = this.transform.localToWorldMatrix;

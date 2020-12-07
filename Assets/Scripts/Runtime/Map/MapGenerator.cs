@@ -313,7 +313,7 @@ public class MapGenerator : ScriptableObject
                 char RandomLetter() => (char)((int)'A' + rng.Range(0, 'Z' - 'A'));
                 string name = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
 
-                map.systems.Add(this.GenerateSystem(rng.Range(0, int.MaxValue), bodySpecs, name, position));
+                map.AddSystem(this.GenerateSystem(rng.Range(0, int.MaxValue), bodySpecs, name, position));
             }
 
             // Add the links

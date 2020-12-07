@@ -9,13 +9,13 @@ public class ObjectiveManager : MonoBehaviour
     public GameObject nextButton;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         this.nextButton.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if(!this.nextButton.activeSelf && FindObjectsOfType<Objective>().Where(o => o.required).All(o => o.complete))
         {

@@ -26,8 +26,8 @@ public abstract class AStar<T>
     protected abstract float CalcHeuristic(T from, T to);
 
     // We make these members as opposed to local variables so we can keep reallocation to a minimum
-    readonly List<Cell> openList = new List<Cell>();
-    readonly List<Cell> closedList = new List<Cell>();
+    private readonly List<Cell> openList = new List<Cell>();
+    private readonly List<Cell> closedList = new List<Cell>();
 
     public IEnumerable<T> AStarSearch(T start, T goal)
     {

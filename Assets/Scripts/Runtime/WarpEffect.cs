@@ -20,7 +20,7 @@ public class WarpEffect : MonoBehaviour
     public float turningAmount;
 
 
-    class Pfx
+    private class Pfx
     {
         public ParticleSystem pfx;
         public ParticleSystemRenderer renderer;
@@ -49,16 +49,16 @@ public class WarpEffect : MonoBehaviour
         }
     }
 
-    List<Pfx> effects;
+    private List<Pfx> effects;
 
 
-    void Start()
+    private void Start()
     {
         this.effects = this.GetComponentsInChildren<ParticleSystem>().Select(pfx => new Pfx(pfx)).ToList();
         //this.previousPosition = this.transform.position;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         //this.velocity = (this.transform.position - this.previousPosition) / Time.deltaTime;
         //this.previousPosition = this.transform.position;
@@ -67,7 +67,7 @@ public class WarpEffect : MonoBehaviour
     }
 
     // Do this late to make sure all camera updates are done already
-    void LateUpdate()
+    private void LateUpdate()
     {
         // Do this every time, as screen size can change, and its a very cheap calculation
         var bl = Camera.main.ScreenToWorldPoint(Vector3.zero);

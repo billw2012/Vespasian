@@ -12,18 +12,18 @@ public class PinchZoomCamera : MonoBehaviour
     [Tooltip("Scroll wheel sensitivity"), Range(0.01f, 3f)]
     public float scrollWheelSensitivity = 1f;
 
-    bool pinching = false;
-    float distStart = 0;    // Distance between fingers when we started pinching
-    float distCurrent = 0;  // Current distance between fingers
+    private bool pinching = false;
+    private float distStart = 0;    // Distance between fingers when we started pinching
+    private float distCurrent = 0;  // Current distance between fingers
 
-    float targetSize; // Target camera size
-    float camSizeStart = 1;  // Camera size when we started pinching
+    private float targetSize; // Target camera size
+    private float camSizeStart = 1;  // Camera size when we started pinching
 
 
-    Camera cameraComponent;
+    private Camera cameraComponent;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         this.cameraComponent = this.GetComponent<Camera>();
         this.targetSize = this.cameraComponent.orthographicSize;
@@ -31,7 +31,7 @@ public class PinchZoomCamera : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // Handle screen touches.
         if (Input.touchCount == 2)

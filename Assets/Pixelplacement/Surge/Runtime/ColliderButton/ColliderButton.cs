@@ -74,26 +74,26 @@ namespace Pixelplacement
         public bool interactable = true;
 
         //Private Variables:
-        bool _clicking;
-        int _selectedCount;
-        bool _colliderSelected;
-        bool _pressed;
-        bool _released;
-        bool _vrRunning;
-        RectTransform _rectTransform;
-        EventTrigger _eventTrigger;
-        EventTrigger.Entry _pressedEventTrigger;
-        EventTrigger.Entry _releasedEventTrigger;
-        EventTrigger.Entry _enterEventTrigger;
-        EventTrigger.Entry _exitEventTrigger;
-        int _colliderCount;
-        BoxCollider _boxCollider;
-        TweenBase _colorTweenImage = null;
-        TweenBase _colorTweenMaterial;
-        TweenBase _scaleTween;
-        Color _normalColorRenderer;
-        Color _normalColorImage;
-        bool _interactableStatus = true;
+        private bool _clicking;
+        private int _selectedCount;
+        private bool _colliderSelected;
+        private bool _pressed;
+        private bool _released;
+        private bool _vrRunning;
+        private RectTransform _rectTransform;
+        private EventTrigger _eventTrigger;
+        private EventTrigger.Entry _pressedEventTrigger;
+        private EventTrigger.Entry _releasedEventTrigger;
+        private EventTrigger.Entry _enterEventTrigger;
+        private EventTrigger.Entry _exitEventTrigger;
+        private int _colliderCount;
+        private BoxCollider _boxCollider;
+        private TweenBase _colorTweenImage = null;
+        private TweenBase _colorTweenMaterial;
+        private TweenBase _scaleTween;
+        private Color _normalColorRenderer;
+        private Color _normalColorImage;
+        private bool _interactableStatus = true;
 
         //Init:
         private void Reset()

@@ -16,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public float EndValue {get; private set;}
 
         //Private Variables:
-        Action<float> _valueUpdatedCallback;
-        float _start;
+        private Action<float> _valueUpdatedCallback;
+        private float _start;
 
         //Constructor:
         public ValueFloat (float startValue, float endValue, Action<float> valueUpdatedCallback, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

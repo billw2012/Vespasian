@@ -16,9 +16,9 @@ namespace Pixelplacement.TweenSystem
         public Vector4 EndValue {get; private set;}
 
         //Private Variables:
-        Material _target;
-        Vector4 _start;
-        string _propertyName;
+        private Material _target;
+        private Vector4 _start;
+        private string _propertyName;
         
         //Constructor:
         public ShaderVector (Material target, string propertyName, Vector4 endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

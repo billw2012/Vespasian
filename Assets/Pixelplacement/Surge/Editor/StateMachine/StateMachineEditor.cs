@@ -18,10 +18,10 @@ namespace Pixelplacement
     public class StateMachineEditor : Editor 
     {
         //Private Variables:
-        StateMachine _target;
+        private StateMachine _target;
 
         //Init:
-        void OnEnable()
+        private void OnEnable()
         {
             _target = target as StateMachine;
         }
@@ -86,7 +86,7 @@ namespace Pixelplacement
         }
 
         //GUI Draw Methods:
-        void DrawStateChangeButtons()
+        private void DrawStateChangeButtons()
         {
             if (_target.transform.childCount == 0) return;
             Color currentColor = GUI.color;
@@ -109,7 +109,7 @@ namespace Pixelplacement
             if (GUILayout.Button("Exit")) _target.Exit();
         }
 
-        void DrawHideAllButton()
+        private void DrawHideAllButton()
         {
             GUI.color = Color.red;
             GUILayout.BeginHorizontal();
@@ -125,7 +125,7 @@ namespace Pixelplacement
             GUI.color = Color.white;
         }
 
-        void DrawNotification(string message, Color color)
+        private void DrawNotification(string message, Color color)
         {
             Color currentColor = GUI.color;
             GUI.color = color;

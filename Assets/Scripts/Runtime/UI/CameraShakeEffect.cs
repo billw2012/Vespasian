@@ -6,15 +6,16 @@ public class CameraShakeEffect : MonoBehaviour
     public float shakeCycleDuration = 0.05f;
 
     // Camera shake effect
-    int shakeNCycles = 0;
-    Vector3 shakeTargetOffset;
-    Vector3 shakePrevOffset;
+    private int shakeNCycles = 0;
+    private Vector3 shakeTargetOffset;
+
+    private Vector3 shakePrevOffset;
     // Progress of one cycle of shake
-    float shakeCycleProgress = 0;
+    private float shakeCycleProgress = 0;
     // Progress of whole shake series
-    float shakeSeriesProgess = 0;
+    private float shakeSeriesProgess = 0;
     // Total duration of this shake sequence
-    float shakeSeriesDuration = 0;
+    private float shakeSeriesDuration = 0;
 
     public void StartShake(float duration)
     {
@@ -24,7 +25,7 @@ public class CameraShakeEffect : MonoBehaviour
         this.shakeSeriesDuration = this.shakeNCycles * this.shakeCycleDuration;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         // Increase progress to next point
         this.shakeCycleProgress = Mathf.Clamp(this.shakeCycleProgress + Time.deltaTime / this.shakeCycleDuration, 0, 1);
@@ -50,14 +51,14 @@ public class CameraShakeEffect : MonoBehaviour
     }
 
     // Cos-like transition function, take input 0..1, returns value 0..1
-    static float CosTransition(float valueNormalized)
+    private static float CosTransition(float valueNormalized)
     {
         var valueClamped = Mathf.Clamp(valueNormalized, 0, 1);
         return (0.5f - 0.5f * Mathf.Cos(valueClamped * Mathf.PI));
     }
 
     // Returns decaying value 1..0, input is 0..1
-    static float ShakeAmplitude(float timeNormalized)
+    private static float ShakeAmplitude(float timeNormalized)
     {
         //float decayValue = Mathf.Abs(Mathf.Pow(timeNormalized - 1.0f, 2.0f));
         //return Mathf.Clamp(0.8f*decayValue + 0.1f, 0, 1);

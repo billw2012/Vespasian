@@ -33,8 +33,8 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        [SerializeField] bool _dontDestroyOnLoad = false;
-        static T _instance;
+        [SerializeField] private bool _dontDestroyOnLoad = false;
+        private static T _instance;
 
         //Virtual Methods:
         /// <summary>

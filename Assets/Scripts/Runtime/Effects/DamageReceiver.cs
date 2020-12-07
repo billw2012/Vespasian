@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class DamageReceiver : MonoBehaviour
 {
-    readonly Dictionary<RingDamageSource, Vector3> previousRelativePosMap = new Dictionary<RingDamageSource, Vector3>();
+    private readonly Dictionary<RingDamageSource, Vector3> previousRelativePosMap = new Dictionary<RingDamageSource, Vector3>();
 
-    void Update()
+    private void Update()
     {
         var damageSources = EffectSource.AllInRange<DamageSource>(this.transform);
         var healthComponent = this.GetComponent<HealthComponent>();

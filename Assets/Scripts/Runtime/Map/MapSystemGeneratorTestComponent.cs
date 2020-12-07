@@ -16,16 +16,16 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
     public BodySpecs bodySpecs;
     public MapGenerator generator;
 
-    SolarSystem current;
+    private SolarSystem current;
 
-    void Start()
+    private void Start()
     {
         this.dataHash = HashObject(this.bodySpecs) + HashObject(this.generator);
         this.Generate();
     }
 
-    int key;
-    string dataHash;
+    private int key;
+    private string dataHash;
 
     public void Generate()
     {
@@ -33,7 +33,7 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
         this.RegenerateAsync();
     }
 
-    readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
+    private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
 
     public async void RegenerateAsync()
     {
@@ -44,7 +44,7 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
             await system.LoadAsync(this.current, this.bodySpecs, this.gameObject);
             foreach (var discoverable in this.GetComponentsInChildren<Discoverable>())
             {
-                discoverable.Discover();
+                discoverable.discovered = true;
             }
             this.current = system;
             FindObjectOfType<Simulation>().Refresh();
@@ -55,7 +55,7 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
         }
     }
 
-    static string HashObject(object o)
+    private static string HashObject(object o)
     {
         using (var sha256Hash = SHA256.Create())
         {

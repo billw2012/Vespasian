@@ -74,26 +74,26 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        bool _initialized;
-        [SerializeField][HideInInspector] Transform _masterTangent;
-        [SerializeField][HideInInspector] Transform _slaveTangent;
-        TangentMode _previousTangentMode;
-        Vector3 _previousInPosition;
-        Vector3 _previousOutPosition;
-        Vector3 _previousAnchorPosition;
-        Bounds _skinnedBounds;
-        Transform _anchor;
-        Transform _inTangent;
-        Transform _outTangent;
+        private bool _initialized;
+        [SerializeField][HideInInspector] private Transform _masterTangent;
+        [SerializeField][HideInInspector] private Transform _slaveTangent;
+        private TangentMode _previousTangentMode;
+        private Vector3 _previousInPosition;
+        private Vector3 _previousOutPosition;
+        private Vector3 _previousAnchorPosition;
+        private Bounds _skinnedBounds;
+        private Transform _anchor;
+        private Transform _inTangent;
+        private Transform _outTangent;
 
         //Init:
-        void Awake ()
+        private void Awake ()
         {
             Initialize ();
         }
 
         //Loop:
-        void Update ()
+        private void Update ()
         {
             //don't let an anchor scale:
             transform.localScale = Vector3.one;
@@ -149,7 +149,7 @@ namespace Pixelplacement
         }
 
         //Private Methods:
-        void TangentChanged ()
+        private void TangentChanged ()
         {
             //calculate tangent positions:
             switch (tangentMode)
@@ -175,7 +175,7 @@ namespace Pixelplacement
         }
 
         //Private Methods:
-        void Initialize ()
+        private void Initialize ()
         {
             _initialized = true;
 

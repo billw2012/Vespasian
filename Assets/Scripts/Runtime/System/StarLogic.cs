@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Basic Star description.
+/// </summary>
 [RequireComponent(typeof(BodyLogic))]
 public class StarLogic : MonoBehaviour
 {
@@ -28,17 +31,11 @@ public class StarLogic : MonoBehaviour
     [Tooltip("How far the sun glow spreads")]
     public float glowSpread = 1f;
 
-    void OnValidate()
-    {
-        this.Refresh();
-    }
+    private void OnValidate() => this.Refresh();
 
-    void Start()
-    {
-        this.Refresh();
-    }
+    private void Start() => this.Refresh();
 
-    void Refresh()
+    private void Refresh()
     {
         float radius = this.GetComponent<BodyLogic>().radius;
         this.childLight.color = Color.Lerp(Color.white, this.color, this.lightTintFactor);
@@ -47,19 +44,19 @@ public class StarLogic : MonoBehaviour
         this.glowTransform.localScale = Vector3.forward + (Vector3)(Vector2.one * 40f * radius * this.glowSpread);
         this.glowTransform.localPosition = new Vector3(0, 0, 10f + radius);
 
-        foreach (var renderer in this.renderers)
+        foreach (var r in this.renderers)
         {
             var pb = new MaterialPropertyBlock();
-            TweakColor(pb, renderer.sharedMaterial, new[] {
+            TweakColor(pb, r.sharedMaterial, new[] {
                 "_BaseColor",
                 "_SpecColor",
                 "_EmissionColor",
             }, this.color);
-            renderer.SetPropertyBlock(pb);
+            r.SetPropertyBlock(pb);
         }
     }
 
-    static Color TweakH(Color color, float newH, float newAlpha = 1)
+    private static Color TweakH(Color color, float newH, float newAlpha = 1)
     {
         Color.RGBToHSV(color, out _, out float s, out float v);
         var result = Color.HSVToRGB(newH, s, v);
@@ -67,14 +64,15 @@ public class StarLogic : MonoBehaviour
         return result;
     }
 
-    static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, float newH, float newAlpha = 1)
+    private static void TweakH(MaterialPropertyBlock matPB, Material baseMaterial, IEnumerable<string> colorProps, float newH, float newAlpha = 1)
     {
         foreach (string colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
         {
             matPB.SetColor(colorProp, TweakH(baseMaterial.GetColor(colorProp), newH, newAlpha));
         }
     }
-    static void TweakColor(MaterialPropertyBlock matPB, Material baseMaterial, string[] colorProps, Color newColor)
+
+    private static void TweakColor(MaterialPropertyBlock matPB, Material baseMaterial, IEnumerable<string> colorProps, Color newColor)
     {
         foreach (string colorProp in colorProps.Where(c => baseMaterial.HasProperty(c)))
         {

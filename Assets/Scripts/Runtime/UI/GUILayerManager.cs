@@ -20,14 +20,14 @@ public class GUILayerManager : MonoBehaviour
     public GameObject dialogPrefab;
 
     //GameObject[] all;
-    readonly List<GameObject> layerStack = new List<GameObject>();
+    private readonly List<GameObject> layerStack = new List<GameObject>();
 
     //void Awake()
     //{
     //    this.all = this.GetComponentsInChildren<DisplayObject>(includeInactive: true).Select(d => d.gameObject).ToArray();
     //}
 
-    void Start()
+    private void Start()
     {
         this.SwitchToMainMenu();
     }

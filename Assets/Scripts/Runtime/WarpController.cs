@@ -18,7 +18,7 @@ public class WarpController : MonoBehaviour
 
     public PostEffect warpPostEffect;
 
-    enum Mode
+    private enum Mode
     {
         NotInWarp,
         EnterWarp,
@@ -27,27 +27,27 @@ public class WarpController : MonoBehaviour
         ExitWarp
     }
 
-    Mode mode = Mode.NotInWarp;
+    private Mode mode = Mode.NotInWarp;
 
-    float speed;
+    private float speed;
 
-    float rotationalSpeed;
+    private float rotationalSpeed;
 
     // For EnterWarp
-    Vector2 startPosition;
-    float desiredDistance;
+    private Vector2 startPosition;
+    private float desiredDistance;
 
     // For ExitWarp
-    float desiredSpeed;
-    Vector2 direction;
+    private float desiredSpeed;
+    private Vector2 direction;
 
-    void Start()
+    private void Start()
     {
         this.warpPostEffect.Init();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         switch (this.mode)
         {

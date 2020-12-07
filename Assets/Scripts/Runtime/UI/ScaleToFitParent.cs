@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class ScaleToFitParent : MonoBehaviour
 {
-    RectTransform ourTransform;
-    RectTransform parentTransform;
+    private RectTransform ourTransform;
+    private RectTransform parentTransform;
 
-    void Start()
+    private void Start()
     {
         this.ourTransform = this.GetComponent<RectTransform>();
         this.parentTransform = this.ourTransform.parent as RectTransform;
     }
 
-    void Update()
+    private void Update()
     {
         var parentRect = this.parentTransform.GetWorldRect();
         var ourRect = this.ourTransform.GetWorldRect();

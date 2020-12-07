@@ -7,15 +7,15 @@ using UnityEngine;
 
 public class FadeableAudio : MonoBehaviour
 {
-    AudioSource audioSource;
-    float initialVolume;
+    private AudioSource audioSource;
+    private float initialVolume;
 
-    float duration;
-    float startTime;
-    float startVolume;
-    float targetVolume;
+    private float duration;
+    private float startTime;
+    private float startVolume;
+    private float targetVolume;
 
-    void Awake()
+    private void Awake()
     {
         this.audioSource = this.GetComponent<AudioSource>();
         this.initialVolume = this.audioSource.volume;
@@ -43,7 +43,7 @@ public class FadeableAudio : MonoBehaviour
         this.targetVolume = 0;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         this.audioSource.volume = Mathf.Lerp(this.startVolume, this.targetVolume, (Time.time - this.startTime) / this.duration);
         if (this.audioSource.volume > 0 && !this.audioSource.isPlaying)

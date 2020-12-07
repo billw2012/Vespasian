@@ -11,16 +11,16 @@ public class MapUI : MonoBehaviour
     public GameObject systemMarkerPrefab;
     public GameObject linkMarkerPrefab;
 
-    MapComponent mapComponent;
+    private MapComponent mapComponent;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.CreateMap();
     }
 
-    void CreateMap()
+    private void CreateMap()
     {
         foreach (var s in this.mapComponent.map.links)
         {
@@ -39,7 +39,7 @@ public class MapUI : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         this.jumpButton.interactable = this.mapComponent.CanJump();
     }

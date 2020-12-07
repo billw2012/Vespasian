@@ -13,8 +13,8 @@ public class DockActive : MonoBehaviour
     [Tooltip("Transform of the docking port")]
     public Transform dockingPortTransform;
 
-    bool docked = false;
-    DockPassive passiveDockingPort = null; // Passive docking port component, if docked
+    private bool docked = false;
+    private DockPassive passiveDockingPort = null; // Passive docking port component, if docked
 
     public void OnDrawGizmos()
     {
@@ -25,7 +25,7 @@ public class DockActive : MonoBehaviour
             this.dockingPortTransform.TransformPoint(Vector3.zero));
     }
 
-    readonly List<TweenBase> dockAnim = new List<TweenBase>();
+    private readonly List<TweenBase> dockAnim = new List<TweenBase>();
 
     // This port will try to dock to any passive port nearby
     public void ToggleDock()
@@ -94,7 +94,7 @@ public class DockActive : MonoBehaviour
         }
     }
 
-    void EnableSimMovement(bool en)
+    private void EnableSimMovement(bool en)
     {
         var simMovement = this.GetComponent<SimMovement>();
         if (simMovement != null)

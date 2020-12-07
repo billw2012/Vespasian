@@ -10,9 +10,9 @@ public class SaveButton : MonoBehaviour
     public TMP_Text saveDescription;
     public Button deleteButton;
 
-    int saveIndex;
+    private int saveIndex;
 
-    void Start()
+    private void Start()
     {
         this.saveIndex = Array.IndexOf(this.gameObject.transform.parent.GetComponentsInChildren<SaveButton>(), this);
         _ = this.UpdateStateAsync();

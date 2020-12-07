@@ -13,10 +13,10 @@ public static class MathX
     // See https://www.desmos.com/calculator/pf7nrgjci8
     public class LogNormal
     {
-        readonly float m;
-        readonly float s;
-        readonly float a;
-        readonly float b;
+        private readonly float m;
+        private readonly float s;
+        private readonly float a;
+        private readonly float b;
 
         public LogNormal(float median, float spread)
         {
@@ -42,7 +42,7 @@ public static class MathX
 
         // Abramowitz and Stegun 7.1.26 formula for calculating Erf
         // Implementation from https://www.johndcook.com/blog/csharp_erf/
-        static float Erf(float x)
+        private static float Erf(float x)
         {
             const float a1 = 0.254829592f;
             const float a2 = -0.284496736f;

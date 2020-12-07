@@ -10,11 +10,11 @@ public class Miner : MonoBehaviour, IUpgradeLogic
 
     public float miningRate = 0.01f;
 
-    Mineable target = null;
+    private Mineable target = null;
 
-    bool miningActive => this.target != null;
+    private bool miningActive => this.target != null;
 
-    void Update()
+    private void Update()
     {
         // Mine the target
         if (this.miningActive)
@@ -58,7 +58,7 @@ public class Miner : MonoBehaviour, IUpgradeLogic
         }
     }
 
-    void SetMiningEffect(Vector2 vectorToTarget)
+    private void SetMiningEffect(Vector2 vectorToTarget)
     {
         this.miningEffect.transform.rotation =
             Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget));

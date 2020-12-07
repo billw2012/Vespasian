@@ -21,19 +21,19 @@ public class SplineControlledParticleSystem : MonoBehaviour
     public float endRadius;
 
     //Private Variables:
-    [SerializeField] ParticleSystem _particleSystem = null;
-    Spline _spline;
-    ParticleSystem.Particle[] _particles;
-    const float _previousDiff = .01f;
+    [SerializeField] private ParticleSystem _particleSystem = null;
+    private Spline _spline;
+    private ParticleSystem.Particle[] _particles;
+    private const float _previousDiff = .01f;
 
     //Init:
-    void Awake ()
+    private void Awake ()
     {
         _spline = GetComponent<Spline> ();
     }
 
     //Loops:
-    void LateUpdate ()
+    private void LateUpdate ()
     {
         if (_particleSystem == null) return;
 

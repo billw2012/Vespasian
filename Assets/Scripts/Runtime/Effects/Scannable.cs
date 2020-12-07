@@ -14,7 +14,7 @@ public class Scannable : EffectSource
 
     public override bool IsComplete() => this.scanProgress >= 1.0f;
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         this.scanning = false;
     }

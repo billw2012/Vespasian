@@ -5,7 +5,7 @@ using UnityEngine;
 public class CloneCamera : MonoBehaviour
 {
     // Update is called once per frame
-    void LateUpdate()
+    private void LateUpdate()
     {
         var parentCamera = this.GetComponentInParentOnly<Camera>();
         var thisCamera = this.GetComponent<Camera>();

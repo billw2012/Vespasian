@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2847909503754473096}
   - component: {fileID: 9140831024749694019}
+  - component: {fileID: 9124565047722134287}
   - component: {fileID: 7633585186946594794}
   - component: {fileID: 2542922555221905093}
   - component: {fileID: 1397814607820441531}
@@ -129,6 +130,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e898f5384125c7e43937e36d1c82eb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9124565047722134287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676661824646031810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58efbb1ceb86e284b86afb2b72c83a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  discoveryRadius: 10
+  originTransform: {fileID: 6554809053307727112}
+  discovered: 0
 --- !u!114 &7633585186946594794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +188,6 @@ MonoBehaviour:
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   pathQuality: 1
   customPosition: {fileID: 6554809053307727112}
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &1397814607820441531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 3
   originTransform: {fileID: 6554809053307727112}
+  areaMarkerAsset: {fileID: 0}
   miningDamageEffect: {fileID: 2580875555549323670}
   miningRadiusRenderer: {fileID: 5291217975693580884}
 --- !u!120 &8724799607868245734

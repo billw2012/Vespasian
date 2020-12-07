@@ -8,15 +8,18 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
 {
     public ParticleSystem laserScanner;
     public float scanRate = 0.1f;
+    public DataMask dataRevealed;
 
-    Scannable target = null;
+    private Scannable target = null;
+    private DataCatalog dataCatalog;
 
-    void Awake()
+    private void Awake()
     {
         this.laserScanner.gameObject.SetActive(false);
+        this.dataCatalog = this.GetComponentInParent<DataCatalog>();
     }
 
-    void Update()
+    private void Update()
     {
         // Try to find a target to scan
         if (this.target == null)
@@ -34,6 +37,10 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
             // End scan of this target if it's fully scanned or too far away
             if (this.target.IsComplete() || !this.target.IsInRange(this.transform))
             {
+                if (this.target.IsComplete())
+                {
+                    this.dataCatalog.AddData(this.target.gameObject, this.dataRevealed);
+                }
                 this.target = null;
             }
             else // Update effects
@@ -59,7 +66,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
         }
     }
 
-    void SetScanEffect(Vector2 vectorToTarget, float targetWidth)
+    private void SetScanEffect(Vector2 vectorToTarget, float targetWidth)
     {
         this.laserScanner.transform.rotation =
             Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget)) *

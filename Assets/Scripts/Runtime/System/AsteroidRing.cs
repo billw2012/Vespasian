@@ -4,15 +4,14 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// An orbiting ring of asteroids built from particle vfx. Can only orbit in a circle.
+/// </summary>
 public class AsteroidRing : MonoBehaviour
 {
-    [Range(3, 30)]
     public float radius;
-    [Range(0, 5)]
     public float width;
     public OrbitParameters.OrbitDirection direction;
-    [Range(0, 5)]
-    public float damageModifier = 1f;
 
     public ParticleSystem[] systems;
 
@@ -23,17 +22,17 @@ public class AsteroidRing : MonoBehaviour
     public RingDamageSource damageSource;
 
     // Degrees per second
-    float orbitalAngularVelocity;
-    readonly List<float> shadowAngularVelocities = new List<float>();
+    private float orbitalAngularVelocity;
+    private readonly List<float> shadowAngularVelocities = new List<float>();
 
-    Simulation simManager;
+    private Simulation simulation;
 
-    void Awake()
+    private void Awake()
     {
-        this.simManager = FindObjectOfType<Simulation>();
+        this.simulation = FindObjectOfType<Simulation>();
     }
 
-    void Start()
+    private void Start()
     {
         var parentGravitySource = this.GetComponentInParentOnly<GravitySource>();
         this.orbitalAngularVelocity = OrbitalUtils.OrbitalVelocityToAngularVelocity(this.radius, OrbitalUtils.Vp(this.radius, this.radius, parentGravitySource.parameters.mass, parentGravitySource.constants.GravitationalConstant)) * Mathf.Rad2Deg * (this.direction == OrbitParameters.OrbitDirection.Clockwise? -1f : 1f);
@@ -61,9 +60,9 @@ public class AsteroidRing : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        float t = this.simManager == null ? Time.time : this.simManager.time;
+        float t = this.simulation == null ? Time.time : this.simulation.time;
 
         this.transform.localRotation = Quaternion.Euler(0, 0, t * this.orbitalAngularVelocity);
 
@@ -74,7 +73,7 @@ public class AsteroidRing : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         // Display the explosion radius when selected
         // Handles.color = this.gizmoColor;

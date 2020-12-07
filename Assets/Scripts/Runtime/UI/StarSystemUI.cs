@@ -17,13 +17,13 @@ public class StarSystemUI : MonoBehaviour
     public TextMeshProUGUI selectedBodyDescription_tmp;
     public TextMeshProUGUI selectedBodyName_tmp;
 
-    MapComponent mapComponent;
+    private MapComponent mapComponent;
 
     // List with star system scheme elements
-    List<GameObject> schemeElements = null;
+    private List<GameObject> schemeElements = null;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         this.mapComponent = FindObjectOfType<MapComponent>();
     }
@@ -41,7 +41,7 @@ public class StarSystemUI : MonoBehaviour
 
 
     // Generates elements of this UI from a solar system
-    void GenerateSchemeFromSystem(SolarSystem system)
+    private void GenerateSchemeFromSystem(SolarSystem system)
     {
         Debug.Log("GenerateSchemeFromSystem");
 
@@ -122,7 +122,7 @@ public class StarSystemUI : MonoBehaviour
 
     // Sets generic body properties in the scheme view, such as...
     // Body's displayed name, appearence, ...
-    void InitSchemeBodyProperties(GameObject schemeElement, StarOrPlanet bodyData)
+    private void InitSchemeBodyProperties(GameObject schemeElement, StarOrPlanet bodyData)
     {
         var bodyComponent = schemeElement.GetComponent<StarSystemUIBody>();
         bodyComponent.bodyName = bodyData.randomKey.ToString(); // Read the body name here when we have it

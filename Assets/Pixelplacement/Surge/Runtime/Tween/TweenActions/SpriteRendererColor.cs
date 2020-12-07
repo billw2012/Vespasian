@@ -16,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public Color EndValue {get; private set;}
 
         //Private Variables:
-        SpriteRenderer _target;
-        Color _start;
+        private SpriteRenderer _target;
+        private Color _start;
 
         //Constructor:
         public SpriteRendererColor (SpriteRenderer target, Color endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

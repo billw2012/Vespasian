@@ -18,8 +18,8 @@ public class UpgradeComponentProxy<T> : IUpgradeComponentProxy where T: MonoBeha
 {
     public T value => this.component.Value;
 
-    readonly UpgradeManager owner;
-    Lazy<T> component = new Lazy<T>(() => default(T));
+    private readonly UpgradeManager owner;
+    private Lazy<T> component = new Lazy<T>(() => default(T));
 
     public UpgradeComponentProxy(UpgradeManager owner)
     {
@@ -43,9 +43,9 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
     public UpgradeSet initialUpgrades;
     public Transform upgradeRoot;
 
-    readonly List<IUpgradeComponentProxy> proxies = new List<IUpgradeComponentProxy>();
+    private readonly List<IUpgradeComponentProxy> proxies = new List<IUpgradeComponentProxy>();
 
-    void Start()
+    private void Start()
     {
         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
 
@@ -62,7 +62,7 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
         this.proxies.Add(proxy);
     }
 
-    void InvalidateProxies()
+    private void InvalidateProxies()
     {
         foreach(var proxy in this.proxies)
         {

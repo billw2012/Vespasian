@@ -10,9 +10,9 @@ public class FlybyObjective : PositionalObjective
     public float flybyMaxDistance = 5f;
     public bool makeRequired;
 
-    float traversed = 0;
-    bool traversing = false;
-    Vector3 lastPos;
+    private float traversed = 0;
+    private bool traversing = false;
+    private Vector3 lastPos;
 
     public Transform flybyTarget;
 

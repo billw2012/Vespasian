@@ -17,11 +17,11 @@ namespace Pixelplacement
     public class Initialization : MonoBehaviour
     {
         //Private Variables:
-        StateMachine _stateMachine;
-        DisplayObject _displayObject;
+        private StateMachine _stateMachine;
+        private DisplayObject _displayObject;
 
         //Init:
-        void Awake()
+        private void Awake()
         {
             //singleton initialization:
             InitializeSingleton();
@@ -37,14 +37,14 @@ namespace Pixelplacement
             if (_stateMachine != null) _stateMachine.Initialize();
         }
 
-        void Start()
+        private void Start()
         {
             //state machine start:
             if (_stateMachine != null) _stateMachine.StartMachine();
         }
 
         //Deinit:
-        void OnDisable()
+        private void OnDisable()
         {
             if (_stateMachine != null)
             {
@@ -64,7 +64,7 @@ namespace Pixelplacement
         }
 
         //Private Methods:
-        void InitializeSingleton()
+        private void InitializeSingleton()
         {
             foreach (Component item in GetComponents<Component>())
             {

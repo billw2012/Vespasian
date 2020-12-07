@@ -16,12 +16,12 @@ public class OffScreenIndicatorManager : MonoBehaviour
     public GameObject indicatorPrefab;
 
     // Amount of indicators
-    const int nIndicators = 2;
+    private const int nIndicators = 2;
 
     // List of indicators, indicators are created at start
-    readonly List<GameObject> indicators = new List<GameObject>();
+    private readonly List<GameObject> indicators = new List<GameObject>();
 
-    class ObjectiveIndicator
+    private class ObjectiveIndicator
     {
         public PositionalObjective objective;
         public GameObject indicator;
@@ -32,12 +32,12 @@ public class OffScreenIndicatorManager : MonoBehaviour
         public float markerGapScale = 0;
     }
 
-    readonly List<ObjectiveIndicator> objectiveIndicators = new List<ObjectiveIndicator>();
+    private readonly List<ObjectiveIndicator> objectiveIndicators = new List<ObjectiveIndicator>();
 
-    PlayerController player;
+    private PlayerController player;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         this.player = FindObjectOfType<PlayerController>();
         // Make indicators in advance
@@ -58,7 +58,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var canvas = this.GetComponentInParent<Canvas>();
         var canvasSafeArea = canvas.ScreenToCanvasRect(Screen.safeArea);

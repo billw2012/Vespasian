@@ -57,7 +57,7 @@ public interface IMissionBase
 public class Missions : MonoBehaviour, ISavable
 {
     public List<GameObject> missionFactoryObjects;
-    IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
+    private IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
 
     [NonSerialized]
     [Saved]
@@ -75,7 +75,7 @@ public class Missions : MonoBehaviour, ISavable
     public event MissionsChanged OnMissionsChanged;
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         // HACK: DEBUG CODE
         for (int i = 0; i < 10; i++)
@@ -87,7 +87,7 @@ public class Missions : MonoBehaviour, ISavable
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         foreach(var mission in this.activeMissions)
         {

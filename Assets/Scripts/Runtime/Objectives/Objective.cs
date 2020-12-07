@@ -15,7 +15,7 @@ public abstract class Objective : MonoBehaviour
         this.active ? this.activeStyle :
         this.inactiveStyle;
 
-    void Awake()
+    private void Awake()
     {
         var baseStyle = new GUIStyle {
             fontSize = 30,

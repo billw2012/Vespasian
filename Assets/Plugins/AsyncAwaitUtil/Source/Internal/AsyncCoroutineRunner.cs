@@ -8,7 +8,7 @@ namespace UnityAsyncAwaitUtil
 {
     public class AsyncCoroutineRunner : MonoBehaviour
     {
-        static AsyncCoroutineRunner _instance;
+        private static AsyncCoroutineRunner _instance;
 
         public static AsyncCoroutineRunner Instance
         {
@@ -24,7 +24,7 @@ namespace UnityAsyncAwaitUtil
             }
         }
 
-        void Awake()
+        private void Awake()
         {
             // Don't show in scene hierarchy
             gameObject.hideFlags = HideFlags.HideAndDontSave;

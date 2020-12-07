@@ -9,7 +9,7 @@ public class SmokeVFX : MonoBehaviour
     // Transform of the planet itself, including scale
     public Transform planet;
 
-    void Update()
+    private void Update()
     {
         var direction = this.planet.position - this.orbitOrigin.position;
         this.transform.rotation = Quaternion.FromToRotation(Vector2.right, direction);

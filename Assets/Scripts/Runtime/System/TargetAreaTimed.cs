@@ -14,19 +14,19 @@ public class TargetAreaTimed : MonoBehaviour
     public GameObject circle;
 
     public float duration = 1.0f;
-    float durationCurrent = 0;
+    private float durationCurrent = 0;
 
     [Tooltip("Radius of the area"), Range(0.1f, 10)]
     public float radius = 1.0f;
 
-    SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
 
-    void OnValidate()
+    private void OnValidate()
     {
         this.circle.transform.localScale = Vector3.one * 2.0f * this.radius;
     }
 
-    void Start()
+    private void Start()
     {
         Assert.IsNotNull(this.gameLogic);
         Assert.IsTrue(this.player != null, "Player is null");

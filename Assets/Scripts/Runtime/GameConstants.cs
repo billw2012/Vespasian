@@ -28,7 +28,7 @@ public class GameConstants : ScriptableObject
     [HideInInspector]
     public float SimLineWidth => GetWorldFromScreenSpaceSize(this.SimPathLineWidthPixels);
 
-    static float GetWorldFromScreenSpaceSize(float pixels)
+    private static float GetWorldFromScreenSpaceSize(float pixels)
     {
         return Camera.main.orthographicSize * pixels / Screen.width;
     }

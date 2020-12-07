@@ -14,7 +14,7 @@
         private bool maskSet = false;
         private int numberOfPasses = 3;
         private readonly string tag;
-        readonly PostProcessUrp.PostProcessSettings settings;
+        private readonly PostProcessUrp.PostProcessSettings settings;
 
         private bool blur => settings.Blur;
         private float blurAmount => settings.BlurAmount;
@@ -52,38 +52,38 @@
         private float vignetteAmount => this.settings.VignetteAmount;
         private float vignetteSoftness => this.settings.VignetteSoftness;
 
-        static readonly int blurTexString = Shader.PropertyToID("_BlurTex");
-        static readonly int maskTextureString = Shader.PropertyToID("_MaskTex");
-        static readonly int blurAmountString = Shader.PropertyToID("_BlurAmount");
-        static readonly int bloomColorString = Shader.PropertyToID("_BloomColor");
-        static readonly int blDiffuseString = Shader.PropertyToID("_BloomDiffuse");
-        static readonly int blDataString = Shader.PropertyToID("_BloomData");
-        static readonly int lutTextureString = Shader.PropertyToID("_LutTex");
-        static readonly int lutAmountString = Shader.PropertyToID("_LutAmount");
-        static readonly int colorString = Shader.PropertyToID("_Color");
-        static readonly int contrastString = Shader.PropertyToID("_Contrast");
-        static readonly int brightnessString = Shader.PropertyToID("_Brightness");
-        static readonly int saturationString = Shader.PropertyToID("_Saturation");
-        static readonly int centralFactorString = Shader.PropertyToID("_CentralFactor");
-        static readonly int sideFactorString = Shader.PropertyToID("_SideFactor");
-        static readonly int offsetString = Shader.PropertyToID("_Offset");
-        static readonly int fishEyeString = Shader.PropertyToID("_FishEye");
-        static readonly int lensdistortionString = Shader.PropertyToID("_LensDistortion");
-        static readonly int vignetteColorString = Shader.PropertyToID("_VignetteColor");
-        static readonly int vignetteAmountString = Shader.PropertyToID("_VignetteAmount");
-        static readonly int vignetteSoftnessString = Shader.PropertyToID("_VignetteSoftness");
+        private static readonly int blurTexString = Shader.PropertyToID("_BlurTex");
+        private static readonly int maskTextureString = Shader.PropertyToID("_MaskTex");
+        private static readonly int blurAmountString = Shader.PropertyToID("_BlurAmount");
+        private static readonly int bloomColorString = Shader.PropertyToID("_BloomColor");
+        private static readonly int blDiffuseString = Shader.PropertyToID("_BloomDiffuse");
+        private static readonly int blDataString = Shader.PropertyToID("_BloomData");
+        private static readonly int lutTextureString = Shader.PropertyToID("_LutTex");
+        private static readonly int lutAmountString = Shader.PropertyToID("_LutAmount");
+        private static readonly int colorString = Shader.PropertyToID("_Color");
+        private static readonly int contrastString = Shader.PropertyToID("_Contrast");
+        private static readonly int brightnessString = Shader.PropertyToID("_Brightness");
+        private static readonly int saturationString = Shader.PropertyToID("_Saturation");
+        private static readonly int centralFactorString = Shader.PropertyToID("_CentralFactor");
+        private static readonly int sideFactorString = Shader.PropertyToID("_SideFactor");
+        private static readonly int offsetString = Shader.PropertyToID("_Offset");
+        private static readonly int fishEyeString = Shader.PropertyToID("_FishEye");
+        private static readonly int lensdistortionString = Shader.PropertyToID("_LensDistortion");
+        private static readonly int vignetteColorString = Shader.PropertyToID("_VignetteColor");
+        private static readonly int vignetteAmountString = Shader.PropertyToID("_VignetteAmount");
+        private static readonly int vignetteSoftnessString = Shader.PropertyToID("_VignetteSoftness");
 
-        static readonly int blurTempString = Shader.PropertyToID("_BlurTemp");
-        static readonly int blurTemp1String = Shader.PropertyToID("_BlurTemp1");
-        static readonly int tempCopyString = Shader.PropertyToID("_TempCopy");
+        private static readonly int blurTempString = Shader.PropertyToID("_BlurTemp");
+        private static readonly int blurTemp1String = Shader.PropertyToID("_BlurTemp1");
+        private static readonly int tempCopyString = Shader.PropertyToID("_TempCopy");
 
-        static readonly string bloomKeyword = "BLOOM";
-        static readonly string blurKeyword = "BLUR";
-        static readonly string chromaKeyword = "CHROMA";
-        static readonly string lutKeyword = "LUT";
-        static readonly string filterKeyword = "FILTER";
-        static readonly string shaprenKeyword = "SHARPEN";
-        static readonly string distortionKeyword = "DISTORTION";
+        private static readonly string bloomKeyword = "BLOOM";
+        private static readonly string blurKeyword = "BLUR";
+        private static readonly string chromaKeyword = "CHROMA";
+        private static readonly string lutKeyword = "LUT";
+        private static readonly string filterKeyword = "FILTER";
+        private static readonly string shaprenKeyword = "SHARPEN";
+        private static readonly string distortionKeyword = "DISTORTION";
 
         private Texture2D previous;
         private Texture3D converted3D = null;

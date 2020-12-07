@@ -147,7 +147,7 @@ public class CustomEditorBase : Editor
             this.List = null;
         }
 
-        static void CopyValues(object source, object dest)
+        private static void CopyValues(object source, object dest)
         {
             var sourceProps = source.GetType().GetProperties()
                 .Where(x => x.CanRead)

@@ -7,10 +7,10 @@ using UnityEngine;
 [CustomEditor(typeof(SimMovement))]
 public class SimMovementEditor : Editor
 {
-    bool editing = false;
-    float scale;
+    private bool editing = false;
+    private float scale;
 
-    void OnSceneGUI()
+    private void OnSceneGUI()
     {
         if (Application.isPlaying)
             return;
@@ -96,10 +96,10 @@ public class SimMovementEditor : Editor
         VelocityHandle();
     }
 
-    static double lastUpdate = 0;
+    private static double lastUpdate = 0;
 
     [DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.InSelectionHierarchy)]
-    static async void RenderCustomGizmo(SimMovement simMovement, GizmoType gizmoType)
+    private static async void RenderCustomGizmo(SimMovement simMovement, GizmoType gizmoType)
     {
         // Draw existing paths
         Handles.color = new Color(0.33f, 0.66f, 0.66f);

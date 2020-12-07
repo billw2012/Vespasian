@@ -254,11 +254,10 @@ namespace GK
 
     public class DelaunayCalculator
     {
-
-        int highest = -1;
-        IList<Vector2> verts;
-        readonly List<int> indices;
-        readonly List<TriangleNode> triangles;
+        private int highest = -1;
+        private IList<Vector2> verts;
+        private readonly List<int> indices;
+        private readonly List<TriangleNode> triangles;
 
         /// <summary>
         /// Creates a new Delaunay triangulation calculator
@@ -326,7 +325,7 @@ namespace GK
             this.verts = null;
         }
 
-        bool Higher(int pi0, int pi1)
+        private bool Higher(int pi0, int pi1)
         {
             if (pi0 == -2)
             {
@@ -356,7 +355,7 @@ namespace GK
         /// <summary>
         /// Run the algorithm
         /// </summary>
-        void RunBowyerWatson()
+        private void RunBowyerWatson()
         {
             // For each point, find the containing triangle, split it into three
             // new triangles, call LegalizeEdge on all edges opposite the newly
@@ -424,7 +423,7 @@ namespace GK
         /// <summary>
         /// Filter the points array and triangle tree into a readable result.
         /// </summary>
-        void GenerateResult(ref DelaunayTriangulation result)
+        private void GenerateResult(ref DelaunayTriangulation result)
         {
             if (result == null)
             {
@@ -456,7 +455,7 @@ namespace GK
         /// Shuffle the indices array. Optimal runtime depends on shuffled
         /// input.
         /// </summary>
-        void ShuffleIndices()
+        private void ShuffleIndices()
         {
             this.indices.Clear();
             this.indices.Capacity = this.verts.Count;
@@ -488,7 +487,7 @@ namespace GK
         /// If they aren't, they're going to be the ancestor of the correct
         /// leaf, so this method goes down the tree finding the right leaf.
         /// </summary>
-        int LeafWithEdge(int ti, int e0, int e1)
+        private int LeafWithEdge(int ti, int e0, int e1)
         {
             Debug.Assert(this.triangles[ti].HasEdge(e0, e1));
 
@@ -521,7 +520,7 @@ namespace GK
         /// <summary>
         /// Is the edge legal, or does it need to be flipped?
         /// </summary>
-        bool LegalEdge(int k, int l, int i, int j)
+        private bool LegalEdge(int k, int l, int i, int j)
         {
             Debug.Assert(k != this.highest && k >= 0);
 
@@ -583,7 +582,7 @@ namespace GK
         /// creates two new triangles, and recurses to check if the newly
         /// created triangles need flipping.
         /// <summary>
-        void LegalizeEdge(int ti0, int ti1, int pi, int li0, int li1)
+        private void LegalizeEdge(int ti0, int ti1, int pi, int li0, int li1)
         {
             // ti1 might not be a leaf node (ti0 is guaranteed to be, it was
             // just created), so find the current correct leaf.
@@ -645,7 +644,7 @@ namespace GK
         /// <summary>
         /// Find the leaf triangle in the triangle tree containing a certain point.
         /// </summary>
-        int FindTriangleNode(int pi)
+        private int FindTriangleNode(int pi)
         {
             int curr = 0;
 
@@ -666,7 +665,7 @@ namespace GK
         /// <summary>
         /// Convenience method to check if a point is inside a certain triangle.
         /// </summary>
-        bool PointInTriangle(int pi, int ti)
+        private bool PointInTriangle(int pi, int ti)
         {
             var t = this.triangles[ti];
             return this.ToTheLeft(pi, t.P0, t.P1)
@@ -677,7 +676,7 @@ namespace GK
         /// <summary>
         /// Is the point to the left of the edge?
         /// </summary>
-        bool ToTheLeft(int pi, int li0, int li1)
+        private bool ToTheLeft(int pi, int li0, int li1)
         {
             if (li0 == -2)
             {
@@ -709,7 +708,7 @@ namespace GK
         ///
         /// All parameters are indexes.
         /// </summary>
-        struct TriangleNode
+        private struct TriangleNode
         {
             // The points of the triangle
             public int P0;

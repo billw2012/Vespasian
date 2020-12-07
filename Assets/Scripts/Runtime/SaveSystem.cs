@@ -121,7 +121,7 @@ public class SaveData : ISaver, ILoader
     public void LoadObject(string key, ISavable value) => SaveData.LoadObject(value, this.data[key] as SaveData);
     #endregion ILoader
 
-    static void ForEachField(object obj, Action<FieldInfo> op)
+    private static void ForEachField(object obj, Action<FieldInfo> op)
     {
         const BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
         foreach (var field in obj.GetType()
@@ -131,7 +131,8 @@ public class SaveData : ISaver, ILoader
             op(field);
         }
     }
-    static void ForEachProperty(object obj, Action<PropertyInfo> op)
+
+    private static void ForEachProperty(object obj, Action<PropertyInfo> op)
     {
         const BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
         foreach (var property in obj.GetType()
@@ -160,10 +161,10 @@ public class SaveSystem : MonoBehaviour
         // health, progress, whatever
     }
 
-    readonly Dictionary<string, ISavable> saveables = new Dictionary<string, ISavable>();
-    IEnumerable<Type> knownTypes;
+    private readonly Dictionary<string, ISavable> saveables = new Dictionary<string, ISavable>();
+    private IEnumerable<Type> knownTypes;
 
-    void Awake()
+    private void Awake()
     {
         float startTime = Time.realtimeSinceStartup;
         // Find all registered savable types
@@ -394,14 +395,15 @@ public class SaveSystem : MonoBehaviour
     }
 
     #region Save Helpers
-    static string GetSaveMetaFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.meta.xml");
-    static string GetSaveFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.xml");
 
-    static async Task<bool> FileExistsAsync(string path) => await Task.Run(() => File.Exists(path));
+    private static string GetSaveMetaFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.meta.xml");
+    private static string GetSaveFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.xml");
 
-    static async Task DeleteFileAsync(string path) => await Task.Run(() => File.Delete(path));
+    private static async Task<bool> FileExistsAsync(string path) => await Task.Run(() => File.Exists(path));
 
-    async Task<T> DeserializeObjectAsync<T>(string path)
+    private static async Task DeleteFileAsync(string path) => await Task.Run(() => File.Delete(path));
+
+    private async Task<T> DeserializeObjectAsync<T>(string path)
     {
         return await Task.Run(() =>
         {
@@ -414,7 +416,7 @@ public class SaveSystem : MonoBehaviour
         });
     }
 
-    async Task SerializeObjectAsync<T>(string path, T obj)
+    private async Task SerializeObjectAsync<T>(string path, T obj)
     {
         await Task.Run(() =>
         {

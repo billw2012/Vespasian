@@ -3,7 +3,7 @@ using Random = System.Random;
 
 public class RandomX
 {
-    readonly Random random;
+    private readonly Random random;
 
     public RandomX(int seed)
     {

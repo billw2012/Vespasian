@@ -7,15 +7,15 @@ public class UpgradeUI : MonoBehaviour
     public GameObject grid;
     public GameObject defaultUpgradeUIPrefab;
 
-    UpgradeManager upgradeManager;
+    private UpgradeManager upgradeManager;
 
-    void OnEnable()
+    private void OnEnable()
     {
         this.upgradeManager = FindObjectOfType<UpgradeManager>();
         this.UpdateGrid();
     }
 
-    void UpdateGrid()
+    private void UpdateGrid()
     {
         foreach(Transform upgradeUI in this.grid.transform)
         {

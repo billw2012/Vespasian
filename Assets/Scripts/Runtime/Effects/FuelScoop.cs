@@ -5,28 +5,27 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
     public ParticleSystem particleEffect;
     public float refuelRate = 0.3f;
 
-    UpgradeManager upgradeManager;
+    private UpgradeManager upgradeManager;
 
-    void Awake()
+    private void Awake()
     {
         this.upgradeManager = this.GetComponentInParent<UpgradeManager>();
     }
 
-    void Update()
+    private void Update()
     {
         var fuelSource = EffectSource.GetNearest<FuelSource>(this.transform);
 
         if (fuelSource != null)
         {
             fuelSource.Reveal();
-
-            var engine = this.upgradeManager.GetComponentInChildren<EngineComponent>();
-            if (engine != null)
-            {
-                float fuelIncrease = fuelSource.timeMultipler * Time.deltaTime * this.refuelRate;
-                engine.AddFuel(fuelIncrease);
-            }
-
+        }
+        var engine = this.upgradeManager.GetComponentInChildren<EngineComponent>();
+        if(fuelSource != null && engine != null && !engine.fullTank)
+        {
+            float fuelIncrease = fuelSource.timeMultipler * Time.deltaTime * this.refuelRate;
+            engine.AddFuel(fuelIncrease); 
+            
             // Set emission amount based on height ratio
             this.particleEffect.SetEmissionEnabled(true);
             float effectStrength = fuelSource.GetEffectStrengthNormalized(this.transform);
@@ -38,7 +37,9 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
             float distance = offset.magnitude;
             float scale = distance / 5.0f;
             var sourcePosInThisSpace = this.transform.InverseTransformDirection(offset);
-            this.particleEffect.transform.localScale = sourcePosInThisSpace.x > 0 ? scale * new Vector3(1, 1, 1) : scale * new Vector3(-1, 1, 1);
+            this.particleEffect.transform.localScale = sourcePosInThisSpace.x > 0
+                ? scale * new Vector3(1, 1, 1)
+                : scale * new Vector3(-1, 1, 1);
         }
         else
         {

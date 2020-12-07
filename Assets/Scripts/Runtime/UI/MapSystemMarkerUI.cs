@@ -20,16 +20,16 @@ public class MapSystemMarkerUI : MonoBehaviour
     public bool isJumpTarget => this.system == this.mapComponent.jumpTarget;
     public bool isValidJumpTarget => this.mapComponent.GetValidJumpTargets().Contains(this.system);
 
-    Image image;
+    private Image image;
 
-    void Awake()
+    private void Awake()
     {
         this.image = this.GetComponent<Image>();
         this.label.enabled = false;
         this.currentMarker.SetActive(false);
     }
 
-    void Start()
+    private void Start()
     {
         var instTransform = this.transform as RectTransform;
         instTransform.anchorMin = this.system.position;
@@ -37,7 +37,7 @@ public class MapSystemMarkerUI : MonoBehaviour
         this.label.text = this.system.name;
     }
 
-    void Update()
+    private void Update()
     {
         this.image.color = this.isCurrent
             ? this.currentColor

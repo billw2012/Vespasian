@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MapAStar : AStar<SolarSystem>
 {
-    readonly Dictionary<SolarSystem, Cell> cells;
-    readonly Dictionary<Cell, IEnumerable<Cell>> links;
+    private readonly Dictionary<SolarSystem, Cell> cells;
+    private readonly Dictionary<Cell, IEnumerable<Cell>> links;
 
     public MapAStar(Map map)
     {

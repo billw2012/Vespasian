@@ -10,19 +10,19 @@ public class FuelBar : MonoBehaviour
     public Slider mainSlider;
     public Slider usageSlider;
 
-    PlayerController player;
+    private PlayerController player;
 
-    UpgradeComponentProxy<EngineComponent> engine;
-    MapComponent map;
+    private UpgradeComponentProxy<EngineComponent> engine;
+    private MapComponent map;
 
-    void Start()
+    private void Start()
     {
         this.player = FindObjectOfType<PlayerController>();
         this.engine = this.player.GetComponent<UpgradeManager>().GetProxy<EngineComponent>();
         this.map = FindObjectOfType<MapComponent>();
     }
 
-    void Update()
+    private void Update()
     {
         this.mainSlider.value = this.engine.value.fuel;
         this.usageSlider.value = 1 - Mathf.Clamp(this.map.GetJumpFuelRequired() / this.engine.value.fuel, 0, 1);

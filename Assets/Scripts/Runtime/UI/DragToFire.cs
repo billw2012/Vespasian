@@ -11,13 +11,13 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [Tooltip("How much force to apply")]
     public float forceCoefficient = 1.0f;
 
-    PlayerController playerLogic;
-    SimMovement playerMovement;
+    private PlayerController playerLogic;
+    private SimMovement playerMovement;
 
-    Vector2 dragStart;
-    Vector2 dragCurrent;
+    private Vector2 dragStart;
+    private Vector2 dragCurrent;
 
-    void Start()
+    private void Start()
     {
         Assert.IsNotNull(this.constants);
         this.playerLogic = FindObjectOfType<PlayerController>();
@@ -40,7 +40,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         this.dragStart = eventData.position;
     }
 
-    Vector3 GetVelocity()
+    private Vector3 GetVelocity()
     {
         // We always recalculate this as the camera might move
         var vec = (this.dragCurrent - this.dragStart) / Screen.width;
@@ -52,7 +52,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         this.dragCurrent = eventData.position;
     }
 
-    void Update()
+    private void Update()
     {
         this.playerMovement.startVelocity = this.GetVelocity();
         this.playerMovement.transform.rotation = Quaternion.FromToRotation(Vector3.up, this.playerMovement.startVelocity);

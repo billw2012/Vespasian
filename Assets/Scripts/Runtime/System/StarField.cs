@@ -7,7 +7,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
-// Roughly based on this: http://guidohenkel.com/2018/05/endless_starfield_unity/
+/// <summary>
+/// Describes, generates, and updates a wrapping parallax star field
+/// Roughly based on this: http://guidohenkel.com/2018/05/endless_starfield_unity/
+/// </summary>
 public class StarField : MonoBehaviour
 {
     [Range(1, 500)]
@@ -40,20 +43,20 @@ public class StarField : MonoBehaviour
     [NonSerialized]
     public float fade = 1;
 
-    ParticleSystem.Particle[] stars;
-    float[] baseSizes;
+    private ParticleSystem.Particle[] stars;
+    private float[] baseSizes;
 
-    Vector2 lastPosition;
+    private Vector2 lastPosition;
     //Vector2 offset;
 
-    float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
+    private float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
 
-    ParticleSystem pfx;
-    PinchZoomCamera pinchZoom;
-    ParticleSystemRenderer pfxRenderer;
-    MaterialPropertyBlock pfxPb;
+    private ParticleSystem pfx;
+    private PinchZoomCamera pinchZoom;
+    private ParticleSystemRenderer pfxRenderer;
+    private MaterialPropertyBlock pfxPb;
 
-    void Awake()
+    private void Awake()
     {
         if(this.colors.Count == 0)
         {
@@ -98,9 +101,9 @@ public class StarField : MonoBehaviour
     }
 
 
-    static Color SetAlpha(Color col, float alpha) => new Color(col.r, col.g, col.b, alpha);
+    private static Color SetAlpha(Color col, float alpha) => new Color(col.r, col.g, col.b, alpha);
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         float cameraRatio = (float)Camera.main.pixelWidth / Camera.main.pixelHeight;
         float minCameraSize = Mathf.Max(this.pinchZoom.sizeMin * cameraRatio, this.pinchZoom.sizeMin);

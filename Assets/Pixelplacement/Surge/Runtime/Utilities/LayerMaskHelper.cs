@@ -43,7 +43,7 @@ namespace Pixelplacement
             return (layerMask.value & 1 << layer) != 0;
         }
 
-        static int MakeMask(params int[] layers)
+        private static int MakeMask(params int[] layers)
         {
             int mask = 0;
             foreach (int item in layers)

@@ -18,13 +18,13 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
     [Tooltip("Multiplier for total effect of the accuracy"), Range(0f, 1.25f)]
     public float accuracyRequirementScaling = 0.79f;
 
-    const float FuelUsageBaseRate = 5;
+    private const float FuelUsageBaseRate = 5;
 
-    PlayerController player;
-    SimMovement playerMovement;
-    UpgradeComponentProxy<EngineComponent> engine;
-    
-    void Awake()
+    private PlayerController player;
+    private SimMovement playerMovement;
+    private UpgradeComponentProxy<EngineComponent> engine;
+
+    private void Awake()
     {
         this.player = FindObjectOfType<PlayerController>();
         this.playerMovement = this.player.GetComponent<SimMovement>();

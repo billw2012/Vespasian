@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DragReceiver : MonoBehaviour
 {
-    void Update()
+    private void Update()
     {
         var dragSources = EffectSource.AllInRange<DragSource>(this.transform);
         foreach (var source in dragSources)

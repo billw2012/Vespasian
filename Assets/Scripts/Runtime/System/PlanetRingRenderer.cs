@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Generates and renders a saturn like planetary ring
+/// </summary>
 public class PlanetRingRenderer : MonoBehaviour
 {
     [Range(0, 3)]
@@ -31,15 +34,15 @@ public class PlanetRingRenderer : MonoBehaviour
 
     public GameObject ringParticlePrefab;
 
-    GameObject meshObject;
-    GameObject particleObject;
+    private GameObject meshObject;
+    private GameObject particleObject;
 
-    void Start()
+    private void Start()
     {
         this.UpdateRing();
     }
 
-    void UpdateRing()
+    private void UpdateRing()
     {
         if (this.meshObject == null)
         {
@@ -115,7 +118,7 @@ public class PlanetRingRenderer : MonoBehaviour
     }
 
 
-    void OnValidate()
+    private void OnValidate()
     {
         if (!string.IsNullOrEmpty(this.gameObject.scene.path))
         {

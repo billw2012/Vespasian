@@ -21,14 +21,14 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 		public static void OpenWindow () {
 			EditorWindow.GetWindow<SDFTextureGeneratorWindow>(true, "SDF Texture Generator");
 		}
-		
-		static string
+
+        private static string
 			rgbModeKey = "SDFToolkit.rgbFillMode",
 			insideDistanceKey = "SDFToolkit.insideDistance",
 			outsideDistanceKey = "SDFToolkit.outsideDistance",
 			postProcessDistanceKey = "SDFToolkit.postProcessDistance";
 
-		static GUIContent
+        private static GUIContent
 			sourceTextureContent = new GUIContent(
 				"Source Texture",
 				"The alpha channel of this texture is used to compute distances."),
@@ -44,15 +44,15 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 			postprocessContent = new GUIContent(
 				"Post-process Distance",
 				"Pixel range in which post-processing is performed. This might improve quality close to the contour.");
-		
-		Texture2D source, destination;
-		RGBFillMode rgbFillMode;
-		float insideDistance = 3f, outsideDistance = 3f;
-		float postProcessDistance = 0f;
-		bool allowSave;
-		Vector2 scrollPosition;
-		
-		void OnEnable () {
+
+        private Texture2D source, destination;
+        private RGBFillMode rgbFillMode;
+        private float insideDistance = 3f, outsideDistance = 3f;
+        private float postProcessDistance = 0f;
+        private bool allowSave;
+        private Vector2 scrollPosition;
+
+        private void OnEnable () {
 			source = Selection.activeObject as Texture2D;
 			rgbFillMode = (RGBFillMode)EditorPrefs.GetInt(rgbModeKey);
 			insideDistance = EditorPrefs.GetFloat(insideDistanceKey, 3f);
@@ -60,11 +60,11 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 			postProcessDistance = EditorPrefs.GetFloat(postProcessDistanceKey);
 		}
 
-		void OnDisable () {
+        private void OnDisable () {
 			DestroyImmediate(destination);
 		}
-		
-		void OnGUI () {
+
+        private void OnGUI () {
 			GUILayout.BeginArea(new Rect(2f, 2f, 220f, position.height - 4f));
 
 			EditorGUI.BeginChangeCheck();
@@ -122,7 +122,7 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 			}
 		}
 
-		void SaveTexture () {
+        private void SaveTexture () {
 			string filePath = EditorUtility.SaveFilePanel(
 				"Save Signed Distance Field",
 				new FileInfo(AssetDatabase.GetAssetPath(source)).DirectoryName,
@@ -152,7 +152,7 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 			}
 		}
 
-		void Generate () {
+        private void Generate () {
 			if (destination == null) {
 				destination = new Texture2D(source.width, source.height, TextureFormat.ARGB32, false);
 				destination.hideFlags = HideFlags.HideAndDontSave;

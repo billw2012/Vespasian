@@ -16,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public Color EndValue {get; private set;}
 
         //Private Variables:
-        TextMesh _target;
-        Color _start;
+        private TextMesh _target;
+        private Color _start;
 
         //Constructor:
         public TextMeshColor (TextMesh target, Color endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

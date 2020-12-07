@@ -114,7 +114,7 @@ namespace Pixelplacement
         }
 
         //Init:
-        void Reset()
+        private void Reset()
         {
             //if we don't have at least 2 anchors, fix it:
             if (Anchors.Length < 2)
@@ -124,7 +124,7 @@ namespace Pixelplacement
         }
 
         //Loop:
-        void Update()
+        private void Update()
         {
             //place followers (if supplied and something relavent changed):
             if (followers != null && followers.Length > 0 && Anchors.Length >= 2)

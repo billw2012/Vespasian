@@ -8,8 +8,7 @@ using UnityEngine.UI;
 
 public class StarSystemUIBody : MonoBehaviour
 {
-    [SerializeField]
-    TextMeshProUGUI bodyName_tmp = default;
+    [SerializeField] private TextMeshProUGUI bodyName_tmp = default;
 
     public Image selectorImage;             // Link to selector image
 

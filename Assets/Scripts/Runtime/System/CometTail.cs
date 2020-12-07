@@ -3,17 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls a comets tail vfx behaviour, based on distance from the star they orbit 
+/// </summary>
 public class CometTail : MonoBehaviour
 {
     public float minDistance = 10f;
     public float maxDistance = 300f;
     public AnimationCurve falloff = Tween.EaseOut;
 
-    Transform star;
-    ParticleSystem[] pfx;
+    private Transform star;
+    private ParticleSystem[] pfx;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         this.star = this.GetComponentInParentOnly<StarLogic>().geometryTransform;
         this.pfx = this.GetComponentsInChildren<ParticleSystem>();
@@ -25,7 +28,7 @@ public class CometTail : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var starVec = this.transform.position - this.star.position;
         this.transform.rotation = Quaternion.FromToRotation(Vector3.up, starVec);

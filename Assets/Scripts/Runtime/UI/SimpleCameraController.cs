@@ -18,7 +18,7 @@ public class SimpleCameraController : MonoBehaviour
     public float scrollWheelSensitivity = 1f;
 
 
-    Vector3 GetInputTranslationDirection()
+    private Vector3 GetInputTranslationDirection()
     {
         Vector3 direction = new Vector3();
         if (Input.GetKey(KeyCode.W))
@@ -40,11 +40,11 @@ public class SimpleCameraController : MonoBehaviour
         return direction;
     }
 
-    Vector3 startPos = Vector3.zero;
-    Vector2 startMousePos = Vector2.zero;
-    bool dragging = false;
+    private Vector3 startPos = Vector3.zero;
+    private Vector2 startMousePos = Vector2.zero;
+    private bool dragging = false;
 
-    void Update()
+    private void Update()
     {
 
         // Exit Sample  

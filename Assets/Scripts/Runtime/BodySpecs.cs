@@ -97,11 +97,11 @@ public class BodySpecs : ScriptableObject
 
     public float PlanetTemp(float distance, float starRadius, float starTemp) => this.PlanetTemp(distance, this.Lum(starRadius, starTemp));
 
-    float Lum(float radius, float temp) => 4f * Mathf.PI * Mathf.Pow(radius, 2) * Mathf.Pow(temp, 4);
+    private float Lum(float radius, float temp) => 4f * Mathf.PI * Mathf.Pow(radius, 2) * Mathf.Pow(temp, 4);
 
-    float Power(float distance, float starLum) => starLum / (4f * Mathf.PI * Mathf.Pow(distance, this.tempFalloffRate));
+    private float Power(float distance, float starLum) => starLum / (4f * Mathf.PI * Mathf.Pow(distance, this.tempFalloffRate));
 
-    static T MatchedRandom<T>(RandomX rng, IEnumerable<T> specs, Func<T, bool> matchFunc) where T : BodySpec
+    private static T MatchedRandom<T>(RandomX rng, IEnumerable<T> specs, Func<T, bool> matchFunc) where T : BodySpec
     {
         var matches = specs.Where(matchFunc);
         if (!matches.Any())

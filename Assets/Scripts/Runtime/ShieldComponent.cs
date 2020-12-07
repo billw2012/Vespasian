@@ -26,18 +26,18 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic, ISavable
     public Transform shieldTransform;
     public MeshRenderer shieldRenderer;
 
-    TweenBase activeShieldAnim;
-    float shieldFade = 0f;
+    private TweenBase activeShieldAnim;
+    private float shieldFade = 0f;
 
-    Simulation simManager;
+    private Simulation simManager;
 
-    void Awake()
+    private void Awake()
     {
         this.simManager = FindObjectOfType<Simulation>();
         this.shieldHP = this.maxShieldHP;
     }
 
-    void Update()
+    private void Update()
     {
         this.rechargeCountdown -= this.simManager.timeStep * Time.deltaTime;
 

@@ -40,15 +40,15 @@ public class FollowCameraController : MonoBehaviour
         }
     }
 
-    Vector2 currentOffset;
-    Vector2 offsetVelocity; // Modified by SmoothDamp on each update
-    Vector2 smoothedOffset; // Smoothed offset value without clamping
-    float initialCameraSize;
+    private Vector2 currentOffset;
+    private Vector2 offsetVelocity; // Modified by SmoothDamp on each update
+    private Vector2 smoothedOffset; // Smoothed offset value without clamping
+    private float initialCameraSize;
 
-    CameraPointOfInterest[] scenePointsOfInterest;
+    private CameraPointOfInterest[] scenePointsOfInterest;
 
 
-    void Start()
+    private void Start()
     {
         Assert.IsNotNull(this.target);
 
@@ -57,7 +57,7 @@ public class FollowCameraController : MonoBehaviour
         this.scenePointsOfInterest = GameObject.FindObjectsOfType<CameraPointOfInterest>();
     }
 
-    Vector2 ClampToCameraInnerArea(Vector2 vec)
+    private Vector2 ClampToCameraInnerArea(Vector2 vec)
     {
         var center = this.transform.position;
         var tr = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, this.transform.position.z));
@@ -66,7 +66,7 @@ public class FollowCameraController : MonoBehaviour
         return Vector3.ClampMagnitude(vec, maxOffset.magnitude);
     }
 
-    static Rect WorldCameraArea()
+    private static Rect WorldCameraArea()
     {
         var center = Camera.main.transform.position;
         var tr = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, center.z));

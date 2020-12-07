@@ -255,6 +255,7 @@
               <e p="Background.cs" t="Include" />
               <e p="BodyLogic.cs" t="Include" />
               <e p="CometTail.cs" t="Include" />
+              <e p="DataCatalog.cs" t="Include" />
               <e p="GravitySource.cs" t="Include" />
               <e p="MultipleAsteroids.cs" t="Include" />
               <e p="Orbit.cs" t="Include" />

@@ -18,7 +18,7 @@ namespace Pixelplacement
     public class DisplayObject : MonoBehaviour 
     {
         //Private Variables:
-        bool _activated;
+        private bool _activated;
         
         //Public Methods:
         /// <summary>

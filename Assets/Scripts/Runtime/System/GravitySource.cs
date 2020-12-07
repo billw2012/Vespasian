@@ -15,6 +15,9 @@ public struct GravityParameters
     public float mass;
 }
 
+/// <summary>
+/// Describes parameters related to gravity for a body.
+/// </summary>
 public class GravitySource : MonoBehaviour {
     public GravityParameters parameters = new GravityParameters {
         density = 1,
@@ -39,21 +42,18 @@ public class GravitySource : MonoBehaviour {
     [NonSerialized]
     public Color color;
 
-    void OnValidate()
+    private void OnValidate()
     {
         this.RefreshValidate();
     }
 
-    void Awake()
+    private void Awake()
     {
         this.RefreshValidate();
         this.color = UnityEngine.Random.ColorHSV(0, 1, 0.75f, 0.75f, 1, 1);
     }
 
-    public static List<GravitySource> All()
-    {
-        return GameObject.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToList();
-    }
+    public static List<GravitySource> All() => GameObject.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToList();
 
     public void RefreshValidate()
     {

@@ -8,6 +8,8 @@ public class EngineComponent : MonoBehaviour, IUpgradeLogic, ISavable
     [Saved]
     public float fuel { get; private set; } = 1;
 
+    public bool fullTank => this.fuel == 1;
+
     public bool canThrust => this.fuel > 0;
 
     public void AddFuel(float amount)

@@ -9,10 +9,10 @@ namespace UnityAsyncAwaitUtil
 {
     public class TestButtonHandler
     {
-        readonly Settings _settings;
+        private readonly Settings _settings;
 
-        int _buttonVCount;
-        int _buttonHCount;
+        private int _buttonVCount;
+        private int _buttonHCount;
 
         public TestButtonHandler(Settings settings)
         {

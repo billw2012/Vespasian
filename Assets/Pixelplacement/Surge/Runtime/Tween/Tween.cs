@@ -970,7 +970,7 @@ namespace Pixelplacement
         }
 
         //Private Methods:
-        static void StopInstanceTarget(int id)
+        private static void StopInstanceTarget(int id)
         {
             for (int i = 0; i < activeTweens.Count; i++)
             {
@@ -981,7 +981,7 @@ namespace Pixelplacement
             }
         }
 
-        static void StopInstanceTargetType(int id, TweenType type)
+        private static void StopInstanceTargetType(int id, TweenType type)
         {
             for (int i = 0; i < activeTweens.Count; i++)
             {
@@ -992,7 +992,7 @@ namespace Pixelplacement
             }
         }
 
-        static void FinishInstanceTarget(int id)
+        private static void FinishInstanceTarget(int id)
         {
             for (int i = 0; i < activeTweens.Count; i++)
             {
@@ -1003,7 +1003,7 @@ namespace Pixelplacement
             }
         }
 
-        static void CancelInstanceTarget(int id)
+        private static void CancelInstanceTarget(int id)
         {
             for (int i = 0; i < activeTweens.Count; i++)
             {
@@ -1014,7 +1014,7 @@ namespace Pixelplacement
             }
         }
 
-        static void SendTweenForProcessing(TweenSystem.TweenBase tween, bool interrupt = false)
+        private static void SendTweenForProcessing(TweenSystem.TweenBase tween, bool interrupt = false)
         {
             if (!Application.isPlaying) 
             {
