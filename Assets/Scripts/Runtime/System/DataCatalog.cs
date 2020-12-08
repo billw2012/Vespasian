@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents data about a body.
+/// </summary>
 [Flags]
 public enum DataMask : uint
 {
-    None,
+    None = 0,
     Orbit = 1 << 0,
-    Basic = 1 << 2,
-    Composition = 1 << 3,
-    Resources = 1 << 4,
-    Habitability = 1 << 5,
+    Basic = 1 << 1,
+    Composition = 1 << 2,
+    Resources = 1 << 3,
+    Habitability = 1 << 4,
+    All = Orbit | Basic | Composition | Resources | Habitability,
+    __Fix = 1 << 5, // Work around for Unity bug (https://forum.unity.com/threads/enum-flags-everything-option-not-working-with-unsigned-integers.953979/)
 }
 
+/// <summary>
+/// Store a set of data related to system bodies, keyed by system ID and body ID
+/// </summary>
 public class DataCatalog : MonoBehaviour, ISavable
 {
     // Each body in the universe is looked up by <system index n universe, body index in system>.

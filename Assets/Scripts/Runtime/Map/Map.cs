@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,6 +12,7 @@ using Random = UnityEngine.Random;
 
 public abstract class Body
 {
+    private static int NextId = 0;
     public int id;
     public string specId;
     public int randomKey;
@@ -19,8 +21,6 @@ public abstract class Body
 
     private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;
-
-    public static int NextId = 0;
 
     protected Body()
     {
@@ -114,6 +114,22 @@ public abstract class Body
         }
         return string.Join("/", names.Reverse());
     }
+
+    public class DataValue
+    {
+        public DataMask mask;
+        public string name;
+        public object value;
+
+        public DataValue(DataMask mask, string name, object value)
+        {
+            this.mask = mask;
+            this.name = name;
+            this.value = value;
+        }
+    }
+
+    public virtual ICollection<DataValue> GetData(DataMask mask) => Enumerable.Empty<DataValue>().ToList();
 }
 
 public class StarOrPlanet : Body
@@ -126,6 +142,46 @@ public class StarOrPlanet : Body
     public float density;
     public float radius;
     public float mass;
+
+    public float resources;
+    public float habitability;
+
+    public override ICollection<DataValue> GetData(DataMask mask)
+    {
+        // TODO: cache all this in a dict instead? Maybe Lazy<>?
+        var result = base.GetData(mask);
+
+        if (mask.HasFlag(DataMask.Orbit))
+        {
+            // TODO: localize later
+            result.Add(new DataValue(DataMask.Orbit, "Semi Major Axis", this.parameters.semiMajorAxis));
+            result.Add(new DataValue(DataMask.Orbit, "Eccentricity", this.parameters.eccentricity));
+        }
+
+        if (mask.HasFlag(DataMask.Basic))
+        {
+            result.Add(new DataValue(DataMask.Basic, "Temp", this.temp));
+            result.Add(new DataValue(DataMask.Basic, "Radius", this.radius));
+        }
+        
+        if (mask.HasFlag(DataMask.Composition))
+        {
+            result.Add(new DataValue(DataMask.Composition, "Density", this.density));
+            result.Add(new DataValue(DataMask.Composition, "Mass", this.mass));
+        }
+        
+        if (mask.HasFlag(DataMask.Habitability))
+        {
+            result.Add(new DataValue(DataMask.Habitability, "Resources", this.resources));
+        }        
+        
+        if (mask.HasFlag(DataMask.Habitability))
+        {
+            result.Add(new DataValue(DataMask.Habitability, "Habitability", this.habitability));
+        }
+
+        return result;
+    }
 
     protected override GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
     {

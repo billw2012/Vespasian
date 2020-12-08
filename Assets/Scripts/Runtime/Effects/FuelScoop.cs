@@ -15,7 +15,6 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
     private void Update()
     {
         var fuelSource = EffectSource.GetNearest<FuelSource>(this.transform);
-
         if (fuelSource != null)
         {
             fuelSource.Reveal();

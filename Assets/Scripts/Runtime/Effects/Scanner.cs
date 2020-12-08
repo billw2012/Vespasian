@@ -8,7 +8,6 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
 {
     public ParticleSystem laserScanner;
     public float scanRate = 0.1f;
-    public DataMask dataRevealed;
 
     private Scannable target = null;
     private DataCatalog dataCatalog;
@@ -39,7 +38,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
             {
                 if (this.target.IsComplete())
                 {
-                    this.dataCatalog.AddData(this.target.gameObject, this.dataRevealed);
+                    this.dataCatalog.AddData(this.target.gameObject, DataMask.All);
                 }
                 this.target = null;
             }

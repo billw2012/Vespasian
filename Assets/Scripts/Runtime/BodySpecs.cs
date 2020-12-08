@@ -50,6 +50,9 @@ public class BodySpecs : ScriptableObject
         public float minTemp = Mathf.NegativeInfinity;
         public float maxTemp = Mathf.Infinity;
 
+        public WeightedRandom resourcesRandom = new WeightedRandom { min = 0f, max = 0f };
+        public WeightedRandom habitabilityRandom = new WeightedRandom { min = 0f, max = 0f };
+
         public bool Matches(float mass, float temp) => this.minMass <= mass && mass <= this.maxMass && this.minTemp <= temp && temp <= this.maxTemp;
     }
 

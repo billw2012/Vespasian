@@ -20,181 +20,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34dc3ac5-4e2c-4b9d-9ef0-fe6516a2fa8b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MobilePostProcess/PostProcessUrp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MobilePostProcess/PostProcessUrp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MobilePostProcess/PostProcessUrpPass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MobilePostProcess/PostProcessUrpPass.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Chooser/ChooserEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Chooser/ChooserEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/ColliderButton/ColliderButtonEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/ColliderButton/ColliderButtonEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/DisplayObject/DisplayObjectEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/DisplayObject/DisplayObjectEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Spline/SplineAnchorEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Spline/SplineAnchorEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Spline/SplineEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Spline/SplineEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Spline/SplineTangentEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/Spline/SplineTangentEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/StateMachine/StateEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/StateMachine/StateEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/StateMachine/StateMachineEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Editor/StateMachine/StateMachineEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Chooser/Chooser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Chooser/Chooser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/ColliderButton/ColliderButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/ColliderButton/ColliderButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/DisplayObject/DisplayObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/DisplayObject/DisplayObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Singleton/Singleton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Singleton/Singleton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Objects/Spline.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Objects/Spline.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Objects/SplineAnchor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Objects/SplineAnchor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Objects/SplineFollower.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Objects/SplineFollower.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Utilities/SplineControlledParticleSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Utilities/SplineControlledParticleSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Utilities/SplineRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Spline/Utilities/SplineRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/StateMachine/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/StateMachine/State.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/StateMachine/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/StateMachine/StateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/Helpers/TweenUtilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/Helpers/TweenUtilities.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/Tween.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/Tween.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/AnchoredPosition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/AnchoredPosition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/CameraBackgroundColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/CameraBackgroundColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/CanvasGroupAlpha.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/CanvasGroupAlpha.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/FieldOfView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/FieldOfView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ImageColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ImageColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightIntensity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightIntensity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightRange.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalPosition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalPosition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalRotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalRotation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalScale.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalScale.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/PanStereo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/PanStereo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Pitch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Pitch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Position.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Position.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/RawImageColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/RawImageColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Rotate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Rotate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Rotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Rotation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderFloat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderFloat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderInt.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderInt.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderVector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderVector.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShakePosition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShakePosition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Size.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Size.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/SplinePercentage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/SplinePercentage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/SpriteRendererColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/SpriteRendererColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/TextColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/TextColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/TextMeshColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/TextMeshColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueColor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueColor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueFloat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueFloat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueInt.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueInt.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueRect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueRect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector3.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector3.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector4.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector4.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Volume.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Tween/TweenActions/Volume.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Utilities/Initialization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Utilities/Initialization.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Utilities/LayerMaskHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Pixelplacement/Surge/Runtime/Utilities/LayerMaskHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/Awaiters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/Awaiters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/IEnumeratorAwaitExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/IEnumeratorAwaitExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/Internal/AsyncCoroutineRunner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/Internal/AsyncCoroutineRunner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/Internal/SyncContextUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Source/Internal/SyncContextUtil.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Tests/AsyncUtilTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Tests/AsyncUtilTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Tests/Util/TestButtonHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/AsyncAwaitUtil/Tests/Util/TestButtonHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/Catlike Coding/SDF Toolkit/SDFTextureGeneratorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/Catlike Coding/SDF Toolkit/SDFTextureGeneratorWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PlayerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/PlayerPrefab.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneCommon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneCommon.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/System/CometOrbitingPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/System/CometOrbitingPrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/System/Planets/PlanetBasePrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/System/Planets/PlanetBasePrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/System/Stars/StarBasePrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/System/Stars/StarBasePrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Upgrades/FuelScoopBase.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Upgrades/FuelScoopBase.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Upgrades/ScannerBase.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Upgrades/ScannerBase.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Upgrades/ScannerMk1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Upgrades/ScannerMk1.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/CustomEditorBase.cs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/CustomEditorBase.cs.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/OrbitEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/OrbitEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/SimMovementEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/SimMovementEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/MapSystemMarkerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/MapSystemMarkerPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/StarSystemUI/StarSystemUISchemeBodyPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/StarSystemUI/StarSystemUISchemeBodyPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/BodySpecs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/BodySpecs.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DamageReceiver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DamageReceiver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Discoverable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Discoverable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DiscoverableScanner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DiscoverableScanner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockPassive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockPassive.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DragReceiver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DragReceiver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/EffectSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/EffectSource.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/FuelScoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/FuelScoop.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Mineable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Mineable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Miner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Miner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/RingEffectSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/RingEffectSource.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Scannable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Scannable.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Scanner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Scanner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Sensors.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Sensors.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/EngineComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/EngineComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/EngineController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/EngineController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/GameConstants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/GameConstants.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/GameLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/GameLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/HealthComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/HealthComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/BodyGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/BodyGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapAStar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapAStar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapComponent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapSystemGeneratorTestComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapSystemGeneratorTestComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/PlanetGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/PlanetGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/SunGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/SunGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionListUIBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionListUIBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionSimpleFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionSimpleFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/FlybyObjective.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/FlybyObjective.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/Objective.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/Objective.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/ObjectiveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/ObjectiveManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/OrbitObjective.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/OrbitObjective.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/PositionalObjectiveBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Objectives/PositionalObjectiveBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/SaveSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/ShieldComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/ShieldComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/AsteroidLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/AsteroidLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/AsteroidRing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/AsteroidRing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Background.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Background.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/BodyLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/BodyLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/CometTail.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/CometTail.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/GravitySource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/GravitySource.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/MultipleAsteroids.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/MultipleAsteroids.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Orbit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Orbit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/PlanetRingRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/PlanetRingRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/RayShadow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/RayShadow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/SimMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/SimMovement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Simulation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Simulation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/SmokeVFX.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/SmokeVFX.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarField.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarField.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/TargetArea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/TargetArea.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/TargetAreaTimed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/TargetAreaTimed.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CameraIntro.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CameraIntro.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CameraShakeEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CameraShakeEffect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CircleRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CircleRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/DragJoystick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/DragJoystick.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/DragToFire.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/DragToFire.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/FollowCameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/FollowCameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/FuelBar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/FuelBar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/GUILayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/GUILayerManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/HullBar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/HullBar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/MapLinkMarkerUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/MapLinkMarkerUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/MapSystemMarkerUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/MapSystemMarkerUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/MapUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/MapUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/ObjectiveIcon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/ObjectiveIcon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/OffScreenIndicatorManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/OffScreenIndicatorManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/PinchZoomCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/PinchZoomCamera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/SaveButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/SaveButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/ScaleToFitParent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/ScaleToFitParent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/ShieldBar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/ShieldBar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/SimpleCameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/SimpleCameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUIBody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUIBody.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/TargetArrow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/TargetArrow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeItemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeItemUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Upgrades/UpgradeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Upgrades/UpgradeManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/AStar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/AStar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/CameraPostEffectRadius.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/CameraPostEffectRadius.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/CloneCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/CloneCamera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/Delaunay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/Delaunay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/FadeableAudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/FadeableAudio.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/MathX.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/MathX.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/OrbitPhysics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/OrbitPhysics.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/RandomX.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/RandomX.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/WarpComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/WarpComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/WarpController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/WarpController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/WarpEffect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/WarpEffect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Prototype Body Specs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Prototype Body Specs.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/ScannerMk1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/ScannerMk1.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,7 +69,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/BodySpecs.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionSimpleFactory.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUIBody.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Util/GUIUtils.cs" />
@@ -256,18 +94,20 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarLogic.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/CometTail.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DiscoverableData.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapGenerator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/StarOrPlanetGenerator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapSystemGeneratorTestComponent.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Discoverable.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/PlanetGenerator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/BodyGenerator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DiscoverableScanner.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Scanner.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/EngineComponent.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/FuelScoop.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapGenerator.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/BodySpecs.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUI.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Scanner.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" />
       </list>
     </option>
   </component>
@@ -300,10 +140,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="12760">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="12760" />
+      <option name="pid" />
       <option name="selectedOptions">
         <set />
       </option>
@@ -337,6 +177,7 @@
       <workItem from="1606066160709" duration="835000" />
       <workItem from="1607196101237" duration="4244000" />
       <workItem from="1607264453556" duration="22352000" />
+      <workItem from="1607372546480" duration="7931000" />
     </task>
     <servers />
   </component>
@@ -462,10 +303,10 @@
       <screen x="0" y="0" width="2690" height="1152" />
     </state>
     <state x="1126" y="278" key="RiderGenerateDialog/0.0.2690.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2690.1152" timestamp="1605985295899" />
-    <state x="995" y="137" width="1426" height="709" key="SettingsEditor" timestamp="1607279785010">
+    <state x="781" y="346" width="1426" height="709" key="SettingsEditor" timestamp="1607375605106">
       <screen x="0" y="0" width="2684" height="1152" />
     </state>
-    <state x="995" y="137" width="1426" height="709" key="SettingsEditor/0.0.2684.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2684.1152" timestamp="1607279785010" />
+    <state x="781" y="346" width="1426" height="709" key="SettingsEditor/0.0.2684.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2684.1152" timestamp="1607375605106" />
     <state x="1489" y="224" key="SettingsEditor/0.0.2690.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2690.1152" timestamp="1607207179236" />
     <state x="1342" y="100" width="1249" height="958" key="VCS.FileHistoryDialog" timestamp="1607268571053">
       <screen x="0" y="0" width="2684" height="1152" />
@@ -489,10 +330,10 @@
     </state>
     <state x="1118" y="169" width="709" height="801" key="find.popup/0.0.2684.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2684.1152" timestamp="1607267862197" />
     <state x="1120" y="169" width="709" height="801" key="find.popup/0.0.2690.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2690.1152" timestamp="1607206628730" />
-    <state x="1746" y="258" width="672" height="678" key="search.everywhere.popup" timestamp="1607301106024">
+    <state x="1746" y="258" width="672" height="678" key="search.everywhere.popup" timestamp="1607386728463">
       <screen x="0" y="0" width="2684" height="1152" />
     </state>
-    <state x="1746" y="258" width="672" height="678" key="search.everywhere.popup/0.0.2684.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2684.1152" timestamp="1607301106024" />
+    <state x="1746" y="258" width="672" height="678" key="search.everywhere.popup/0.0.2684.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2684.1152" timestamp="1607386728463" />
     <state x="1750" y="258" width="672" height="678" key="search.everywhere.popup/0.0.2690.1152/3440.0.2048.1122/-2560.0.2048.1122@0.0.2690.1152" timestamp="1605991588651" />
     <state x="4773" y="250" width="672" height="661" key="search.everywhere.popup/0.0.2690.1152/3440.0.2048.1122/-2560.0.2048.1122@3440.0.2048.1122" timestamp="1605876981989" />
   </component>

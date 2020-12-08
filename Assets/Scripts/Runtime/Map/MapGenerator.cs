@@ -277,7 +277,9 @@ public class MapGenerator : ScriptableObject
                 density = planetDensity,
                 radius = planetRadius,
                 mass = planetMass * this.systemParams.finalMassScaling,
-                temp = planetTemp
+                temp = planetTemp,
+                resources = planetSpec.resourcesRandom.Evaluate(rng),
+                habitability = planetSpec.habitabilityRandom.Evaluate(rng),
             };
             bodies.Add(planet);
 
