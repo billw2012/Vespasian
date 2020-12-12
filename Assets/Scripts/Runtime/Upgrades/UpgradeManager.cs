@@ -48,7 +48,6 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
     private void Start()
     {
         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
-
         this.InstallInitialUpgrades();
     }
 
@@ -106,7 +105,7 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
 
         Debug.Log($"Installed upgrade {upgradeDef.name} on ship {this.gameObject.name}");
 
-
+        NotificationsUI.Add($"<color=#DB69FF>Installed upgrade <b>{upgradeDef.name}</b></color>");
         return upgradeLogic;
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 
 /*
@@ -42,7 +43,7 @@ using UnityEngine;
 
 public interface IMissionFactory
 {
-    IMissionBase Generate();
+    IMissionBase Generate(RandomX rng);
     GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent);
     GameObject CreateActiveUI(Missions missions, IMissionBase mission, Transform parent);
 }
@@ -51,13 +52,30 @@ public interface IMissionBase
 {
     string Factory { get; }
     bool IsComplete { get; }
-    void Update();
+    string Name { get; }
+    void Update(Missions missions);
+}
+
+public interface IBodyMission
+{
+    /// <summary>
+    /// Try and assign the body to this mission (mission can check it matches requirements). 
+    /// </summary>
+    /// <param name="bodyRef"></param>
+    /// <param name="body"></param>
+    /// <param name="data"></param>
+    /// <returns>Whether the body was assigned to this mission. If so it cannot be assigned to another one.</returns>
+    /// TODO: Perhaps we should support a body assigned to multiple missions if they are for the same agent?
+    bool TryAssign(BodyRef bodyRef, Body body, DataMask data);
+    /// <summary>
+    /// </summary>
+    /// <returns>A list of all bodies assigned to this mission.</returns>
+    IEnumerable<BodyRef> AssignedBodies();
 }
 
 public class Missions : MonoBehaviour, ISavable
 {
     public List<GameObject> missionFactoryObjects;
-    private IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
 
     [NonSerialized]
     [Saved]
@@ -70,20 +88,59 @@ public class Missions : MonoBehaviour, ISavable
     [RegisterSavableType]
     public List<IMissionBase> availableMissions = new List<IMissionBase>();
 
+    // Data already used to complete missions
+    public DataCatalog dataCatalog;
+    
+    // Data the player knows
+    public DataCatalog playerDataCatalog;
+
+    public MapComponent mapComponent;
 
     public delegate void MissionsChanged();
     public event MissionsChanged OnMissionsChanged;
 
+    private IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
+    
+    private List<IMissionBase> completedMissions;
+
     // Start is called before the first frame update
     private void Awake()
     {
+        var rng = new RandomX();
+
         // HACK: DEBUG CODE
         for (int i = 0; i < 10; i++)
         {
-            this.availableMissions.Add(this.missionFactories.SelectRandom().Generate());
+            this.availableMissions.Add(this.missionFactories.SelectRandom().Generate(rng));
         }
 
         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        
+        this.playerDataCatalog.OnDataAdded += this.PlayerDataCatalogOnDataAdded;
+    }
+
+    private void Start()
+    {
+        this.completedMissions = this.activeMissions.Where(m => m.IsComplete).ToList();
+    }
+
+    private void PlayerDataCatalogOnDataAdded(BodyRef bodyRef, DataMask oldData, DataMask newData)
+    {
+        var bodyMissions = this.activeMissions.OfType<IBodyMission>();
+        var allocatedBodies = bodyMissions
+            .SelectMany(m => m.AssignedBodies())
+            .Concat(this.dataCatalog.KnownBodies);
+
+        if (!allocatedBodies.Contains(bodyRef))
+        {
+            var body = this.mapComponent.map.Find(bodyRef);
+            Assert.IsNotNull(body);
+            foreach (var mission in bodyMissions)
+            {
+                if (mission.TryAssign(bodyRef, body, newData))
+                    break;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -91,7 +148,12 @@ public class Missions : MonoBehaviour, ISavable
     {
         foreach(var mission in this.activeMissions)
         {
-            mission.Update();
+            mission.Update(this);
+            if (mission.IsComplete && !this.completedMissions.Contains(mission))
+            {
+                NotificationsUI.Add($"<color=#00C1FF>Mission <b>{mission.Name}</b> complete!</color>");
+                this.completedMissions.Add(mission);
+            }
         }
 
         // Cull available missions

@@ -146,6 +146,18 @@ public class StarOrPlanet : Body
     public float resources;
     public float habitability;
 
+    public IEnumerable<StarOrPlanet> ChildrenRecursive()
+    {
+        foreach (var child in this.children)
+        {
+            yield return child;
+            foreach (var gchild in child.ChildrenRecursive())
+            {
+                yield return gchild;
+            }
+        }
+    }
+
     public override ICollection<DataValue> GetData(DataMask mask)
     {
         // TODO: cache all this in a dict instead? Maybe Lazy<>?
@@ -270,21 +282,13 @@ public class Link : IEquatable<Link>
     public SolarSystem from;
     public SolarSystem to;
 
-    public bool Match(SolarSystem from, SolarSystem to)
-    {
-        return this.from == from && this.to == to ||
-            this.from == to && this.to == from;
-    }
+    public bool Match(SolarSystem from, SolarSystem to) =>
+        this.from == from && this.to == to ||
+        this.from == to && this.to == from;
 
-    public override bool Equals(object obj)
-    {
-        return this.Match(((Link)obj).from, ((Link)obj).to);
-    }
+    public override bool Equals(object obj) => this.Match(((Link)obj).from, ((Link)obj).to);
 
-    public bool Equals(Link other)
-    {
-        return other != null && this.Match(other.from, other.to);
-    }
+    public bool Equals(Link other) => other != null && this.Match(other.from, other.to);
 
     public override int GetHashCode()
     {
@@ -295,6 +299,54 @@ public class Link : IEquatable<Link>
 
     public static bool operator ==(Link left, Link right) => EqualityComparer<Link>.Default.Equals(left, right);
     public static bool operator !=(Link left, Link right) => !(left == right);
+}
+
+/// <summary>
+/// References a body by system and body ids
+/// </summary>
+public class BodyRef 
+{
+    public int systemId;
+    public int bodyId;
+
+    public BodyRef()
+    {
+        this.systemId = -1;
+        this.bodyId = -1;
+    }
+    
+    public BodyRef(int systemId, int bodyId)
+    {
+        this.systemId = systemId;
+        this.bodyId = bodyId;
+    }
+        
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(null, obj))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        return obj.GetType() == this.GetType() && this.Equals((BodyRef) obj);
+    }
+
+    private bool Equals(BodyRef other) => this.systemId == other.systemId && this.bodyId == other.bodyId;
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            return (this.systemId * 397) ^ this.bodyId;
+        }
+    }
+
+    public override string ToString() => $"{this.systemId}:{this.bodyId}";
 }
 
 public class SolarSystem
@@ -311,6 +363,25 @@ public class SolarSystem
 
     public List<Comet> comets = new List<Comet>();
     public List<Belt> belts = new List<Belt>();
+
+    public IEnumerable<Body> AllBodies()
+    {
+        yield return this.main;
+        foreach (var child in this.main.ChildrenRecursive())
+        {
+            yield return child;
+        }
+
+        foreach (var comet in this.comets)
+        {
+            yield return comet;
+        }
+        
+        foreach (var belt in this.belts)
+        {
+            yield return belt;
+        }
+    }
 
     public void Unload(GameObject root)
     {
@@ -373,15 +444,13 @@ public class Map : ISavable
         this.systems.Add(system);
     }
     
-    public IEnumerable<(SolarSystem system, Link link)> GetConnected(SolarSystem system)
-    {
-        return this.links
+    public IEnumerable<(SolarSystem system, Link link)> GetConnected(SolarSystem system) =>
+        this.links
             .Where(l => l.from == system || l.to == system)
             .Select(l => (system: l.from == system ? l.to : l.from, link: l));
-    }
 
-    public void RemoveLink(Link link)
-    {
-        this.links.Remove(link);
-    }
+    public void RemoveLink(Link link) => this.links.Remove(link);
+
+    // TODO: optimize?
+    public Body Find(BodyRef bodyRef) => this.systems[bodyRef.systemId].AllBodies().FirstOrDefault(b => b.id == bodyRef.bodyId);
 }

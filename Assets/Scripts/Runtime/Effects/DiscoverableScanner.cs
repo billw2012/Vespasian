@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 class DiscoverableScanner : MonoBehaviour
 {
     private DataCatalog dataCatalog;
-    
+
     private void Awake()
     {
         this.dataCatalog = this.GetComponent<DataCatalog>();
@@ -16,6 +16,7 @@ class DiscoverableScanner : MonoBehaviour
 
     private void Update()
     {
+        // TODO: optimize, need to detect when system changes...
         // Clean up any already discovered
         foreach (var obj in Object.FindObjectsOfType<Discoverable>()
             .Where(u => 
@@ -28,9 +29,13 @@ class DiscoverableScanner : MonoBehaviour
         {
             Debug.Log($"{obj} was discovered");
             obj.discovered = true;
-
-            // We only discover orbit by default
-            this.dataCatalog.AddData(obj.gameObject, DataMask.Orbit);
+            var bodyGenerator = obj.GetComponent<BodyGenerator>();
+            if(bodyGenerator)
+            {
+                // We only discover orbit by default
+                this.dataCatalog.AddData(obj.gameObject, DataMask.Orbit);
+                NotificationsUI.Add($"<color=#00FFC3><b>{bodyGenerator.BodyRef}</b> was discovered!</color>");
+            }  
         }
     }
 }

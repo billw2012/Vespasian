@@ -11,8 +11,8 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
 
     private Scannable target = null;
     private DataCatalog dataCatalog;
-
-    private void Awake()
+    
+    private void Start()
     {
         this.laserScanner.gameObject.SetActive(false);
         this.dataCatalog = this.GetComponentInParent<DataCatalog>();
@@ -38,7 +38,12 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
             {
                 if (this.target.IsComplete())
                 {
-                    this.dataCatalog.AddData(this.target.gameObject, DataMask.All);
+                    var bodyGenerator = this.target.GetComponent<BodyGenerator>();
+                    if(bodyGenerator)
+                    {
+                        this.dataCatalog.AddData(this.target.gameObject, DataMask.All);
+                        NotificationsUI.Add($"<color=#53FF36><b>{bodyGenerator.BodyRef}</b> was scanned!</color>");
+                    }
                 }
                 this.target = null;
             }

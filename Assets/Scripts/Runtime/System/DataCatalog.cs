@@ -1,6 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+/*
+ * How does data work?
+ * Requirements:
+ *  - Player gathers data that completes missions, perhaps they can sell it raw as well
+ *  - Therefore other agents also have data sets, possibly multiple ones
+ *  - For each transaction (mission completion, data trading) we need to know what data the player
+ *    has that the agent doesn't, so we need to diff it.
+ *    For one off trading of data this can be slow, but for missions we need to update them quickly.
+ *    The operation we want to be fast is determining the list of new data wrt any specific agent.
+ *    If all agents are known then we can accumulate new data into separate lists for each one.
+ *    Do we know all agents? Yes we must, if an agent can have a persistent list of what it DOES know then
+ *    we must "know" the agent.
+ *    Ergo we could register all agents directly with a central data discovery manager, then as the player discovers
+ *    data it is added to a pending list for each agent that can separately consume data (probably only 2 of them).
+ *    Then it can work like this:
+ *    - Missions are of course directly associated with an agent (probably just a general mission agent to begin with)
+ *    - When mission updates it can check for a matching piece of data in the pending list and complete it using the
+ *      data, immediately moving it to the discovered list for the agent. The mission remains in the players list
+ *      until it is handed in to get the reward.
+ *      OKAY that seems a bit weird. Would be nicer if the mission takes the data itself, and the agent only gets it
+ *      when its handed in...
+ *
+ * TODO:
+ * - Any body can only be assigned to complete one mission, and must not be discovered at all yet
+ * - DataCatalog in Missions
+ * - Events in DataCatalog
+ * - 
+ */
 
 /// <summary>
 /// Represents data about a body.
@@ -25,16 +55,28 @@ public class DataCatalog : MonoBehaviour, ISavable
 {
     // Each body in the universe is looked up by <system index n universe, body index in system>.
     // Each one can have 0-n bits of known data in the catalog.
-    private Dictionary<int, Dictionary<int, DataMask>> data = new Dictionary<int, Dictionary<int, DataMask>>();
+    
+    // TODO: optimization
+    // Requirements are to be able to list all data for a specific system, hence a nested dict. However perhaps jagged array
+    // could work better if body indices are made to be 0 based for each system (currently they aren't).
+    // Or even just Array<Array<(id, data)>>, as body count in systems is low enough for linear search to be fast
+    // (could do binary actually, just sort ids)
+    //private Dictionary<int, Dictionary<int, DataMask>> data = new Dictionary<int, Dictionary<int, DataMask>>();
+    private Dictionary<BodyRef, DataMask> data = new Dictionary<BodyRef, DataMask>();
 
-    public bool HaveData(int systemId, int bodyId, DataMask dataMask) =>
-        this.data.TryGetValue(systemId, out var systemData)
-        && systemData.TryGetValue(bodyId, out var foundMask)
+    public IEnumerable<BodyRef> KnownBodies => this.data.Keys;
+    
+    public delegate void DataAdded(BodyRef bodyRef, DataMask oldData, DataMask newData);
+
+    public event DataAdded OnDataAdded;
+    
+    public bool HaveData(BodyRef bodyRef, DataMask dataMask) =>
+        this.data.TryGetValue(bodyRef, out var foundMask)
         && (dataMask & foundMask) == dataMask;
 
-    public DataMask GetData(int systemId, int bodyId)
+    public DataMask GetData(BodyRef bodyRef)
     {
-        if (this.data.TryGetValue(systemId, out var systemData) && systemData.TryGetValue(bodyId, out var existingDataMask))
+        if (this.data.TryGetValue(bodyRef, out var existingDataMask))
         {
             return existingDataMask;
         }
@@ -44,13 +86,15 @@ public class DataCatalog : MonoBehaviour, ISavable
         }
     }
 
+    public DataMask GetData(int systemId, int bodyId) => this.GetData(new BodyRef(systemId, bodyId));
+
     public bool AddData(GameObject obj, DataMask newDataMask)
     {
         var bodyGenerator = obj.GetComponent<BodyGenerator>();
         if (bodyGenerator != null)
         {
             // We only discover orbit by default
-            this.AddData(bodyGenerator.system.id, bodyGenerator.body.id, newDataMask);
+            this.AddData(bodyGenerator.BodyRef, newDataMask);
             return true;
         }
         else
@@ -59,23 +103,20 @@ public class DataCatalog : MonoBehaviour, ISavable
         }
     }
 
-    public void AddData(int systemId, int bodyId, DataMask newDataMask)
+    public void AddData(BodyRef bodyRef, DataMask newDataMask)
     {
-        if (!this.data.TryGetValue(systemId, out var systemData))
+        if (!this.data.TryGetValue(bodyRef, out var existingDataMask))
         {
-            systemData = new Dictionary<int, DataMask>();
-            this.data.Add(systemId, systemData);
-        }
-        if (!systemData.TryGetValue(bodyId, out var existingDataMask))
-        {
-            systemData.Add(bodyId, newDataMask);
+            this.data.Add(bodyRef, newDataMask);
+            this.OnDataAdded?.Invoke(bodyRef, DataMask.None, newDataMask);
         }
         else
         {
-            existingDataMask |= newDataMask;
-            systemData[bodyId] = existingDataMask;
+            newDataMask |= existingDataMask;
+            this.data[bodyRef] = newDataMask;
+            this.OnDataAdded?.Invoke(bodyRef, existingDataMask, newDataMask);
         }
-        Debug.Log($"{newDataMask} was added to DataCatalog of {this.gameObject.name}");
+        Debug.Log($"{bodyRef}:{newDataMask} was added to DataCatalog of {this.gameObject.name}");
     }
 
     /// <summary>
@@ -85,19 +126,16 @@ public class DataCatalog : MonoBehaviour, ISavable
     /// <param name="bodyId"></param>
     /// <param name="baseCatalog"></param>
     /// <returns></returns>
-    public DataMask GetNewDataDiff(int systemId, int bodyId, DataCatalog baseCatalog) => ~baseCatalog.GetData(systemId, bodyId) & this.GetData(systemId, bodyId);
+    public DataMask GetNewDataDiff(BodyRef bodyRef, DataCatalog baseCatalog) => ~baseCatalog.GetData(bodyRef) & this.GetData(bodyRef);
 
     public void MergeFrom(DataCatalog from, DataMask dataMask)
     {
-        foreach (var systemData in from.data)
+        foreach (var bodyData in from.data)
         {
-            foreach (var bodyData in systemData.Value)
+            var newDataMasked = bodyData.Value & dataMask;
+            if(newDataMasked != DataMask.None)
             {
-                var newDataMasked = bodyData.Value & dataMask;
-                if(newDataMasked != DataMask.None)
-                {
-                    this.AddData(systemData.Key, bodyData.Key, newDataMasked);
-                }
+                this.AddData(bodyData.Key, newDataMasked);
             }
         }
     }

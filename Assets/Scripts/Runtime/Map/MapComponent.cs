@@ -95,7 +95,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
 
     public async Task LoadSystemAsync(SolarSystem target)
     {
-        await LoadSystemAsync(this.currentSystem, target);
+        await this.LoadSystemAsync(this.currentSystem, target);
     }
 
     public async Task JumpAsync(SolarSystem target)

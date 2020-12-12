@@ -233,9 +233,10 @@
             <e p="Missions" t="Include">
               <e p="MissionActiveUI.cs" t="Include" />
               <e p="MissionBoardUI.cs" t="Include" />
+              <e p="MissionFindFactory.cs" t="Include" />
               <e p="MissionListUIBase.cs" t="Include" />
+              <e p="MissionMapSystemFactory.cs" t="Include" />
               <e p="Missions.cs" t="Include" />
-              <e p="MissionSimpleFactory.cs" t="Include" />
             </e>
             <e p="Objectives" t="Include">
               <e p="FlybyObjective.cs" t="Include" />
@@ -284,6 +285,7 @@
               <e p="MapLinkMarkerUI.cs" t="Include" />
               <e p="MapSystemMarkerUI.cs" t="Include" />
               <e p="MapUI.cs" t="Include" />
+              <e p="NotificationsUI.cs" t="Include" />
               <e p="ObjectiveIcon.cs" t="Include" />
               <e p="OffScreenIndicatorManager.cs" t="Include" />
               <e p="PinchZoomCamera.cs" t="Include" />

@@ -5,6 +5,11 @@ public class RandomX
 {
     private readonly Random random;
 
+    public RandomX()
+    {
+        this.random = new Random();
+    }
+
     public RandomX(int seed)
     {
         this.random = new Random(seed);
@@ -16,6 +21,8 @@ public class RandomX
 
     public int Range(int min, int max) => this.random.Next(min, max);
 
+    public bool Decide(float chanceTrue = 0.5f) => this.value >= chanceTrue;
+    
     public float RandomGaussian(float minValue = 0.0f, float maxValue = 1.0f)
     {
         float u, v, S;
