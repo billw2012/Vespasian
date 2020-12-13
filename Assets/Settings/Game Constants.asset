@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf985b73e330134bbb740bcff5c2451, type: 3}
   m_Name: Game Constants
   m_EditorClassIdentifier: 
-  GravitationalConstant: 10
+  GravitationalConstant: 5
   GravitationalRescaling: 5
   GameSpeedBase: 1
   SimDistanceLimit: 100

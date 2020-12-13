@@ -9,6 +9,7 @@ public class Sensors : MonoBehaviour, IUpgradeLogic
     // Update is called once per frame
     private void Update()
     {
+        // Reveal effects
         var detectedEffects = EffectSource.AllInDetectionRange<EffectSource>(this.transform, this.range);
         foreach (var source in detectedEffects)
         {

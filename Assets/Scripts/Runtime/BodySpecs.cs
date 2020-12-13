@@ -23,6 +23,9 @@ public class BodySpecs : ScriptableObject
         public string id = Guid.NewGuid().ToString();
         public GameObject prefab;
 
+        public string name;
+        public string description;
+
         [Tooltip("Higher priority will always replace lower priority when all criteria match")]
         public int priority = 0;
 

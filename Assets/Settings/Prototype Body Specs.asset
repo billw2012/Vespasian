@@ -15,6 +15,8 @@ MonoBehaviour:
   stars:
   - id: 7d8b3e84-c97a-4a4a-8dee-ae16e3a79f50
     prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
+    name: Star
+    description: 
     priority: 0
     probability: 1
     massRandom:
@@ -57,15 +59,33 @@ MonoBehaviour:
           tangentMode: 0
           weightedMode: 2
           inWeight: 0
-          outWeight: 0.43378273
+          outWeight: 0.36068922
+        - serializedVersion: 3
+          time: 0.3993224
+          value: 0.064693764
+          inSlope: 0.44722763
+          outSlope: 0.44722763
+          tangentMode: 0
+          weightedMode: 3
+          inWeight: 0.30785123
+          outWeight: 0.36636662
+        - serializedVersion: 3
+          time: 0.81285614
+          value: 0.20687097
+          inSlope: 1.2994801
+          outSlope: 1.2994801
+          tangentMode: 0
+          weightedMode: 3
+          inWeight: 0.30414146
+          outWeight: 0.3610923
         - serializedVersion: 3
           time: 1
           value: 0.99842453
-          inSlope: 2.673787
-          outSlope: 2.673787
+          inSlope: 5.6053123
+          outSlope: 5.6053123
           tangentMode: 0
           weightedMode: 3
-          inWeight: 0.26486915
+          inWeight: 0.19096096
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -104,8 +124,10 @@ MonoBehaviour:
   - id: fcc9d033-939c-490d-9e28-ac66d66a0d89
     prefab: {fileID: 6712538652355592438, guid: 787a92d05373ab246b5e935d8c0c2c64,
       type: 3}
+    name: Neutron Star
+    description: 
     priority: 0
-    probability: 1
+    probability: 0.05
     massRandom:
       weighting:
         serializedVersion: 2
@@ -190,13 +212,15 @@ MonoBehaviour:
       gaussian: 1
       min: 50
       max: 50
-  planetTempMultiplier: 4.28
-  planetMassMultiplier: 1
-  tempFalloffRate: 4.37
+  planetTempMultiplier: 5
+  planetMassMultiplier: 3
+  tempFalloffRate: 4
   planets:
   - id: 9511b178-ae18-4d25-8858-b4f75cee8c83
     prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
       type: 3}
+    name: Rocky
+    description: 
     priority: 0
     probability: 1
     densityRandom:
@@ -290,6 +314,8 @@ MonoBehaviour:
   - id: 47b1a776-c40d-4c41-be4c-2fffaece12fe
     prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
       type: 3}
+    name: Dead
+    description: 
     priority: 0
     probability: 0.145
     densityRandom:
@@ -383,6 +409,8 @@ MonoBehaviour:
   - id: f3c1a7dc-03e6-4266-bd89-d154ac18d3e9
     prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
       type: 3}
+    name: Living
+    description: 
     priority: 0
     probability: 0.106
     densityRandom:
@@ -476,6 +504,8 @@ MonoBehaviour:
   - id: 15c068e7-5166-4033-bd7c-a30ec51327be
     prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
       type: 3}
+    name: Ice
+    description: 
     priority: 1
     probability: 1
     densityRandom:
@@ -569,6 +599,8 @@ MonoBehaviour:
   - id: 0e2a306e-1046-46b1-81b6-03a88513f4a9
     prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
       type: 3}
+    name: Lava
+    description: 
     priority: 1
     probability: 1
     densityRandom:
@@ -601,7 +633,7 @@ MonoBehaviour:
       max: 2
     minMass: 0
     maxMass: 5
-    minTemp: 500
+    minTemp: 800
     maxTemp: Infinity
     resourcesRandom:
       weighting:
@@ -662,6 +694,8 @@ MonoBehaviour:
   - id: 3c2f575c-cd62-49d2-a56b-5413055c2225
     prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
       type: 3}
+    name: Gas Giant
+    description: 
     priority: 0
     probability: 1
     densityRandom:
@@ -755,6 +789,8 @@ MonoBehaviour:
   - id: 9df16a60-bf08-4d2f-a242-509ddc8196ee
     prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
       type: 3}
+    name: Ice Giant
+    description: 
     priority: 0
     probability: 1
     densityRandom:
@@ -848,6 +884,8 @@ MonoBehaviour:
   - id: 3dfa6224-84c0-449f-9837-65d669cd0901
     prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
       type: 3}
+    name: Hot Gas Giant
+    description: 
     priority: 1
     probability: 1
     densityRandom:
@@ -880,7 +918,7 @@ MonoBehaviour:
       max: 2
     minMass: 5
     maxMass: Infinity
-    minTemp: 500
+    minTemp: 800
     maxTemp: Infinity
     resourcesRandom:
       weighting:
@@ -941,6 +979,8 @@ MonoBehaviour:
   belts:
   - id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9
     prefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de, type: 3}
+    name: 
+    description: 
     priority: 0
     probability: 1
     minDistance: 0
@@ -948,6 +988,8 @@ MonoBehaviour:
   comets:
   - id: 44c24eeb-61ab-4587-9ce5-09d9579f9bbb
     prefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8, type: 3}
+    name: 
+    description: 
     priority: 0
     probability: 1
     relativePeriapsisRandom:

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6108569af9f90c04db5757888192bc30, type: 3}
   m_Name: Map Generator
   m_EditorClassIdentifier: 
-  numberOfSystems: 200
+  numberOfSystems: 100
   minDistanceFactor: 0.75
   linkAcuteRemoveScore: 0.1
   linkObtuseRemoveScore: 0.5
