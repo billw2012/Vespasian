@@ -13,18 +13,20 @@ using Random = UnityEngine.Random;
 public abstract class Body
 {
     private static int NextId = 0;
-    public int id;
     public string specId;
     public int randomKey;
+    public BodyRef bodyRef;
 
     public Dictionary<string, SaveData> savedComponents;
 
     private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;
 
-    protected Body()
+    public Body() {}
+
+    public Body(int systemId)
     {
-        this.id = NextId++;
+        this.bodyRef = new BodyRef(systemId, NextId++);
     }
 
     /// <summary>
@@ -63,8 +65,9 @@ public abstract class Body
     protected virtual GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
         var spec = bodySpecs.GetSpecById(this.specId);
+        Assert.IsNotNull(spec, $"Spec {this.specId} not found");
         var obj = Object.Instantiate(spec.prefab);
-
+        Assert.IsNotNull(obj, $"Spec {spec.name}.prefab couldn't bin instantiated");
         // Need to do this before any further initialization occurs to ensure we don't capture a bunch of child objects that aren't part of the prefab
         this.savables = obj.GetComponentsInChildren<ISavable>()
             .Select(c => (c, GetFullKey(c as MonoBehaviour)))
@@ -72,7 +75,7 @@ public abstract class Body
 
         var rng = new RandomX(this.randomKey);
         this.Apply(obj, rng);
-        obj.GetComponent<BodyGenerator>().Init(this, rng, solarSystem);
+        obj.GetComponent<BodyGenerator>()?.Init(this, rng, solarSystem);
 
         return obj;
     }
@@ -132,31 +135,13 @@ public abstract class Body
     public virtual ICollection<DataValue> GetData(DataMask mask) => Enumerable.Empty<DataValue>().ToList();
 }
 
-public class StarOrPlanet : Body
+public abstract class OrbitingBody : Body
 {
     public OrbitParameters parameters = OrbitParameters.Zero;
+    public List<OrbitingBody> children = new List<OrbitingBody>();
 
-    public List<StarOrPlanet> children = new List<StarOrPlanet>();
-
-    public float temp;
-    public float density;
-    public float radius;
-    public float mass;
-
-    public float resources;
-    public float habitability;
-
-    public IEnumerable<StarOrPlanet> ChildrenRecursive()
-    {
-        foreach (var child in this.children)
-        {
-            yield return child;
-            foreach (var gchild in child.ChildrenRecursive())
-            {
-                yield return gchild;
-            }
-        }
-    }
+    public OrbitingBody() { }
+    public OrbitingBody(int systemId) : base(systemId) { }
 
     public override ICollection<DataValue> GetData(DataMask mask)
     {
@@ -169,6 +154,71 @@ public class StarOrPlanet : Body
             result.Add(new DataValue(DataMask.Orbit, "Semi Major Axis", this.parameters.semiMajorAxis));
             result.Add(new DataValue(DataMask.Orbit, "Eccentricity", this.parameters.eccentricity));
         }
+        
+        return result;
+    }
+
+    protected override void ApplyInternal(GameObject target, RandomX rng)
+    {
+        // Orbit setup
+        var orbit = target.GetComponent<Orbit>();
+        if (orbit != null)
+        {
+            orbit.parameters = this.parameters;
+        }
+    }
+    
+    public IEnumerable<OrbitingBody> ChildrenRecursive()
+    {
+        foreach (var child in this.children)
+        {
+            yield return child;
+            foreach (var gchild in child.ChildrenRecursive())
+            {
+                yield return gchild;
+            }
+        }
+    }
+    
+    protected override GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
+    {
+        var self = base.InstanceInternal(bodySpecs, solarSystem);
+        foreach (var child in this.children)
+        {
+            var childInstance = child.Instance(bodySpecs, solarSystem);
+            childInstance.transform.SetParent(self.GetComponent<Orbit>().position.transform, worldPositionStays: false);
+        }
+        return self;
+    }
+
+    public override void Unloading()
+    {
+        foreach(var child in this.children)
+        {
+            child.Unloading();
+        }
+        base.Unloading();
+    }
+}
+
+[RegisterSavableType]
+public class StarOrPlanet : OrbitingBody
+{
+    public float temp;
+    public float density;
+    public float radius;
+    public float mass;
+
+    public float resources;
+    public float habitability;
+
+    public StarOrPlanet() { }
+    public StarOrPlanet(int systemId) : base(systemId) { }
+    
+    public override ICollection<DataValue> GetData(DataMask mask)
+    {
+        // TODO: cache all this in a dict instead? Maybe Lazy<>?
+        var result = base.GetData(mask);
 
         if (mask.HasFlag(DataMask.Basic))
         {
@@ -195,34 +245,10 @@ public class StarOrPlanet : Body
         return result;
     }
 
-    protected override GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
-    {
-        var self = base.InstanceInternal(bodySpecs, solarSystem);
-        foreach (var child in this.children)
-        {
-            var childInstance = child.Instance(bodySpecs, solarSystem);
-            childInstance.transform.SetParent(self.GetComponent<Orbit>().position.transform, worldPositionStays: false);
-        }
-        return self;
-    }
-
-    public override void Unloading()
-    {
-        foreach(var child in this.children)
-        {
-            child.Unloading();
-        }
-        base.Unloading();
-    }
 
     protected override void ApplyInternal(GameObject target, RandomX rng)
     {
-        // Orbit setup
-        var orbit = target.GetComponent<Orbit>();
-        if (orbit != null)
-        {
-            orbit.parameters = this.parameters;
-        }
+        base.ApplyInternal(target, rng);
 
         // Body characteristics
         var bodyLogic = target.GetComponent<BodyLogic>();
@@ -245,12 +271,23 @@ public class StarOrPlanet : Body
     }
 }
 
+[RegisterSavableType]
+public class Station : OrbitingBody
+{
+    public Station() { }
+    public Station(int systemId) : base(systemId) { }
+}
+
+[RegisterSavableType]
 public class Belt : Body
 {
     public float radius;
     public float width;
     public OrbitParameters.OrbitDirection direction;
 
+    public Belt() { }
+    public Belt(int systemId) : base(systemId) { }
+    
     protected override void ApplyInternal(GameObject target, RandomX rng)
     {
         var asteroidRing = target.GetComponent<AsteroidRing>();
@@ -260,23 +297,14 @@ public class Belt : Body
     }
 }
 
-public class Comet : Body
+[RegisterSavableType]
+public class Comet : OrbitingBody
 {
-    public string prefabId;
-
-    public OrbitParameters parameters = OrbitParameters.Zero;
-
-    protected override void ApplyInternal(GameObject target, RandomX rng)
-    {
-        // Orbit setup
-        var orbit = target.GetComponent<Orbit>();
-        if (orbit != null)
-        {
-            orbit.parameters = this.parameters;
-        }
-    }
+    public Comet() { }
+    public Comet(int systemId) : base(systemId) { }
 }
 
+[RegisterSavableType]
 public class Link : IEquatable<Link>
 {
     public SolarSystem from;
@@ -333,7 +361,12 @@ public class BodyRef
             return true;
         }
 
-        return obj.GetType() == this.GetType() && this.Equals((BodyRef) obj);
+        if (obj.GetType() != this.GetType())
+        {
+            return false;
+        }
+
+        return Equals((BodyRef) obj);
     }
 
     private bool Equals(BodyRef other) => this.systemId == other.systemId && this.bodyId == other.bodyId;
@@ -346,6 +379,10 @@ public class BodyRef
         }
     }
 
+    public static bool operator ==(BodyRef left, BodyRef right) => Equals(left, right);
+
+    public static bool operator !=(BodyRef left, BodyRef right) => !Equals(left, right);
+
     public override string ToString() => $"{this.systemId}:{this.bodyId}";
 }
 
@@ -353,9 +390,16 @@ public class SolarSystem
 {
     public int id;
 
+    /// <summary>
+    /// Primary direction the bodies orbit, rarely a body will orbit in the opposite direction.
+    /// </summary>
+    public OrbitParameters.OrbitDirection direction;
+
     public Vector2 position;
 
     public StarOrPlanet main;
+
+    public float size;
 
     public string name;
 
@@ -383,6 +427,13 @@ public class SolarSystem
         }
     }
 
+    public SolarSystem() { }
+
+    public SolarSystem(int id)
+    {
+        this.id = id;
+    }
+    
     public void Unload(GameObject root)
     {
         var systemObjectTransform = root.transform.Find("System");
@@ -412,6 +463,15 @@ public class SolarSystem
             var cometObject = comet.Instance(bodySpecs, this);
             cometObject.transform.SetParent(rootBody.transform);
         }
+
+        // var factions = Object.FindObjectsOfType<Faction>();
+        // foreach (var faction in factions)
+        // {
+        //     foreach (var station in faction.stations.Where(s => s.systemId == this.id))
+        //     {
+        //         var stationObject = Object.Instantiate(faction.stationPrefab);
+        //     }
+        // }
         // We load the new system first and wait for it before unloading the previous one
         await new WaitUntil(() => rootBody.activeSelf);
         int beforeYieldFrame = Time.frameCount;
@@ -419,28 +479,29 @@ public class SolarSystem
         await Task.Yield();
         Assert.IsFalse(beforeYieldFrame == Time.frameCount);
 
-        if (current != null)
-        {
-            current.Unload(root);
-        }
+        current?.Unload(root);
 
         var systemObject = new GameObject("System");
         systemObject.transform.SetParent(root.transform, worldPositionStays: false);
 
         rootBody.transform.SetParent(systemObject.transform, worldPositionStays: false);
     }
+
+    public static BodyGenerator FindBody(GameObject root, BodyRef bodyRef) => root.GetComponentsInChildren<BodyGenerator>().FirstOrDefault(b => b.BodyRef == bodyRef);
 }
 
 [RegisterSavableType]
 public class Map : ISavable
 {
     public List<Link> links = new List<Link>();
-    
+
     public List<SolarSystem> systems = new List<SolarSystem>();
+
+    public int NextSystemId => this.systems.Count;
 
     public void AddSystem(SolarSystem system)
     {
-        system.id = this.systems.Count;
+        Assert.AreEqual(system.id, NextSystemId);
         this.systems.Add(system);
     }
     
@@ -452,5 +513,5 @@ public class Map : ISavable
     public void RemoveLink(Link link) => this.links.Remove(link);
 
     // TODO: optimize?
-    public Body Find(BodyRef bodyRef) => this.systems[bodyRef.systemId].AllBodies().FirstOrDefault(b => b.id == bodyRef.bodyId);
+    public Body Find(BodyRef bodyRef) => this.systems[bodyRef.systemId].AllBodies().FirstOrDefault(b => b.bodyRef.bodyId == bodyRef.bodyId);
 }

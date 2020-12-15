@@ -192,6 +192,9 @@
             <e p="SimMovementEditor.cs" t="Include" />
           </e>
           <e p="Runtime" t="Include">
+            <e p="AI" t="Include">
+              <e p="Faction.cs" t="Include" />
+            </e>
             <e p="BodySpecs.cs" t="Include" />
             <e p="Effects" t="Include">
               <e p="DamageReceiver.cs" t="Include" />
@@ -267,6 +270,7 @@
               <e p="SmokeVFX.cs" t="Include" />
               <e p="StarField.cs" t="Include" />
               <e p="StarLogic.cs" t="Include" />
+              <e p="StationLogic.cs" t="Include" />
               <e p="TargetArea.cs" t="Include" />
               <e p="TargetAreaTimed.cs" t="Include" />
             </e>
@@ -323,6 +327,7 @@
               <e p="RandomX.cs" t="Include" />
               <e p="RectTransformExtensions.cs" t="Include" />
               <e p="SerializableDict.cs" t="Include" />
+              <e p="ThreadingX.cs" t="Include" />
               <e p="UnityExtensions.cs" t="Include" />
               <e p="VectorExtensions.cs" t="Include" />
               <e p="WeightedRandom.cs" t="Include" />

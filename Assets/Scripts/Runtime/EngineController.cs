@@ -113,12 +113,14 @@ public class EngineController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Engine is an upgrade so we don't cache it.
+        // TODO: optimize by using UpgradeManager upgrades changed event and caching the EngineComponent.
         var engineComponent = this.GetComponentInChildren<EngineComponent>();
         if (engineComponent != null && engineComponent.canThrust)
         {
             var force = Vector3.zero;
-            var forward = this.movement.velocity.normalized;
-            var right = -(Vector3)Vector2.Perpendicular(forward);
+            var forward = this.transform.up; //this.movement.velocity.normalized;
+            var right = this.transform.right; //-(Vector3)Vector2.Perpendicular(forward);
 
             force += forward * this.thrust.y;
             force += right * this.thrust.x;

@@ -35,11 +35,12 @@ public class WarpController : MonoBehaviour
 
     // For EnterWarp
     private Vector2 startPosition;
-    private float desiredDistance;
+    private float minDistanceBeforeWarp;
 
     // For ExitWarp
     private float desiredSpeed;
     private Vector2 direction;
+    private Vector2 targetPosition;
 
     private void Start()
     {
@@ -49,6 +50,30 @@ public class WarpController : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        float SimulatedUpdate()
+        {
+            float targetAngle = Vector2.SignedAngle(Vector2.up, this.direction);
+            float newAngle =
+                Mathf.SmoothDampAngle(this.transform.rotation.eulerAngles.z, targetAngle, ref this.rotationalSpeed, 3f);
+            float f = (newAngle - this.transform.rotation.eulerAngles.z) / Time.deltaTime;
+            this.transform.rotation = Quaternion.Euler(0, 0, newAngle);
+            this.transform.position += this.speed * Time.deltaTime * this.transform.up;
+            return f;
+        }
+        
+        void InterpolatedUpdate()
+        {
+            // float targetAngle = Vector2.SignedAngle(Vector2.up, this.direction);
+            // float newAngle =
+            //     Mathf.SmoothDampAngle(this.transform.rotation.eulerAngles.z, targetAngle, ref this.rotationalSpeed, 3f);
+            // float f = (newAngle - this.transform.rotation.eulerAngles.z) / Time.deltaTime;
+            var targetDir = (this.targetPosition - (Vector2)this.transform.position).normalized;
+            this.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, targetDir));
+            this.transform.position += this.speed * Time.deltaTime * (Vector3)targetDir;
+            //return f;
+        }
+
+        float angleChange = 0;
         switch (this.mode)
         {
             case Mode.EnterWarp:
@@ -56,32 +81,36 @@ public class WarpController : MonoBehaviour
                 {
                     this.speed = Mathf.Min(this.speed + this.acceleration * Time.deltaTime, this.warpSpeed);
                 }
-                if (Vector2.Distance(this.startPosition, this.transform.position) >= this.desiredDistance && this.speed >= this.warpSpeed)
+
+                float distance = Vector2.Distance(this.startPosition, this.transform.position);
+                if (distance >= this.minDistanceBeforeWarp && this.speed >= this.warpSpeed)
                 {
+                    Debug.Log($"Entered warp at distance {distance} speed {this.speed}");
                     this.mode = Mode.AtWarp;
                 }
+                
+                angleChange = SimulatedUpdate();
                 break;
             case Mode.TurnInWarp:
                 if (Vector2.Angle(this.direction, this.transform.up) < 5f)
                 {
                     this.mode = Mode.AtWarp;
                 }
+                
+                angleChange = SimulatedUpdate();
                 break;
             case Mode.ExitWarp:
                 this.speed = Mathf.Max(0, this.speed - this.acceleration * Time.deltaTime);
 
                 if (this.speed <= this.desiredSpeed)
                 {
+                    Debug.Log($"Exited warp at pos {this.transform.position} dir {this.direction} speed {this.speed}");
                     this.mode = Mode.NotInWarp;
                 }
+
+                InterpolatedUpdate();
                 break;
         }
-
-        float targetAngle = Vector2.SignedAngle(Vector2.up, this.direction);
-        float newAngle = Mathf.SmoothDampAngle(this.transform.rotation.eulerAngles.z, targetAngle, ref this.rotationalSpeed, 3f);
-        float angleChange = (newAngle - this.transform.rotation.eulerAngles.z) / Time.deltaTime;
-        this.transform.rotation = Quaternion.Euler(0, 0, newAngle);
-        this.transform.position += this.speed * Time.deltaTime * this.transform.up;
 
         float warpEffectAmount = this.mode == Mode.NotInWarp ? 0 : Mathf.InverseLerp(this.warpSpeed * 0.5f, this.warpSpeed, this.speed);
         this.warpEffect.amount = warpEffectAmount;
@@ -97,31 +126,37 @@ public class WarpController : MonoBehaviour
         //rigidBody.MovePosition(rigidBody.position + this.speed * Time.deltaTime * this.transform.up);
     }
 
-    public async Task EnterWarpAsync(Vector2 direction, float desiredDistance)
+    public async Task EnterWarpAsync(Vector2 direction, float minDistanceBeforeWarp)
     {
+        Debug.Log($"Requested enter warp at dir {direction} min distance {minDistanceBeforeWarp}");
+        
         this.mode = Mode.EnterWarp;
         this.direction = direction;
         this.rotationalSpeed = 0;
         this.speed = 0;
         this.startPosition = this.transform.position;
-        this.desiredDistance = desiredDistance;
+        this.minDistanceBeforeWarp = minDistanceBeforeWarp;
         
         await new WaitUntil(() => this.mode == Mode.AtWarp);
     }
 
     public async Task TurnInWarpAsync(Vector2 direction)
     {
+        Debug.Log($"Requested turn in warp to dir {direction}");
+        
         this.mode = Mode.TurnInWarp;
         this.direction = direction;
 
         await new WaitUntil(() => this.mode == Mode.AtWarp);
     }
 
-    public async Task ExitWarpAsync(Vector2 atPosition, Vector2 direction, float finalSpeed)
+    public async Task ExitWarpAsync(Vector2 atPosition, float finalSpeed)
     {
+        Debug.Log($"Requested exit warp at {atPosition} speed {finalSpeed}");
+
         this.mode = Mode.ExitWarp;
-        this.direction = direction;
-        //this.targetPosition = atPosition;
+        //this.direction = direction;
+        this.targetPosition = atPosition;
         this.rotationalSpeed = 0;
         float stoppingDistance = Mathf.Pow(this.speed - finalSpeed, 2) / (2f * this.acceleration);
 

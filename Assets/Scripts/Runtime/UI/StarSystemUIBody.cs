@@ -14,7 +14,7 @@ public class StarSystemUIBody : MonoBehaviour
 
     public StarSystemUI starSystemUI;       // Link back to star system UI
 
-    public StarOrPlanet actualBody;     // Link to the body from which this is generated
+    public OrbitingBody actualBody;     // Link to the body from which this is generated
 
     /*
     // Start is called before the first frame update

@@ -27,15 +27,7 @@ class DiscoverableScanner : MonoBehaviour
                     ) < u.discoveryRadius
                 ))
         {
-            Debug.Log($"{obj} was discovered");
-            obj.discovered = true;
-            var bodyGenerator = obj.GetComponent<BodyGenerator>();
-            if(bodyGenerator)
-            {
-                // We only discover orbit by default
-                this.dataCatalog.AddData(obj.gameObject, DataMask.Orbit);
-                NotificationsUI.Add($"<color=#00FFC3><b>{bodyGenerator.BodyRef}</b> was discovered!</color>");
-            }  
+            obj.Discover();
         }
     }
 }

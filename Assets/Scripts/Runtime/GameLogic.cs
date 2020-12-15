@@ -30,7 +30,7 @@ public class GameLogic : ScriptableObject {
     private async Task NewGameAsync()
     {
         await this.mapComponent.GenerateMapAsync();
-        await this.mapComponent.LoadRandomSystemAsync();
+        await this.mapComponent.LoadStartingSystemAsync();
         await this.SaveGameAsync();
     }
 

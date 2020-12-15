@@ -174,9 +174,9 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     }
     public void SimRefresh()
     {
-        var simManager = FindObjectOfType<Simulation>();
+        var sim = FindObjectOfType<Simulation>();
 
-        this.path = simManager.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
+        this.path = sim.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
 
         this.sois = new List<SimModel.SphereOfInfluence>();
     }

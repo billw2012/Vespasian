@@ -75,6 +75,11 @@ public class BodySpecs : ScriptableObject
         public WeightedRandom eccentricityRandom = new WeightedRandom { min = 0.6f, max = 0.95f };
         public float minApproach = 10f;
     }
+    
+    [Serializable][KnownType(typeof(StationSpec))]
+    public class StationSpec : BodySpec
+    {
+    }
 
     public List<StarSpec> stars;
 
@@ -86,8 +91,10 @@ public class BodySpecs : ScriptableObject
     public List<BeltSpec> belts;
 
     public List<CometSpec> comets;
+    
+    public List<StationSpec> stations;
 
-    public IEnumerable<BodySpec> all => this.stars.OfType<BodySpec>().Concat(this.planets).Concat(this.belts).Concat(this.comets);
+    public IEnumerable<BodySpec> all => this.stars.OfType<BodySpec>().Concat(this.planets).Concat(this.belts).Concat(this.comets).Concat(this.stations);
 
     public StarSpec RandomStar(RandomX rng) => this.stars.SelectWeighted(rng.value, s => s.probability);
 

@@ -35,7 +35,7 @@ public class AsteroidRing : MonoBehaviour
     private void Start()
     {
         var parentGravitySource = this.GetComponentInParentOnly<GravitySource>();
-        this.orbitalAngularVelocity = OrbitalUtils.OrbitalVelocityToAngularVelocity(this.radius, OrbitalUtils.Vp(this.radius, this.radius, parentGravitySource.parameters.mass, parentGravitySource.constants.GravitationalConstant)) * Mathf.Rad2Deg * (this.direction == OrbitParameters.OrbitDirection.Clockwise? -1f : 1f);
+        this.orbitalAngularVelocity = OrbitalUtils.OrbitalVelocityToAngularVelocity(this.radius, OrbitalUtils.SpeedAtPeriapsis(this.radius, this.radius, parentGravitySource.parameters.mass, parentGravitySource.constants.GravitationalConstant)) * Mathf.Rad2Deg * (this.direction == OrbitParameters.OrbitDirection.Clockwise? -1f : 1f);
 
         foreach(var shadow in this.shadows)
         {

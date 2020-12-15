@@ -7,7 +7,7 @@ public class PinchZoomCamera : MonoBehaviour
     // Camera size (zoom) limits
     [Tooltip("Minimum view size"), Range(5, 40)]
     public float sizeMin = 10f;
-    [Tooltip("Maximum view size"), Range(40, 200)]
+    [Tooltip("Maximum view size"), Range(40, 1000)]
     public float sizeMax = 100f;
     [Tooltip("Scroll wheel sensitivity"), Range(0.01f, 3f)]
     public float scrollWheelSensitivity = 1f;

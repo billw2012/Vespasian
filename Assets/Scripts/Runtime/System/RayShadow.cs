@@ -30,8 +30,7 @@ public class RayShadow : MonoBehaviour
     private Vector3 localExtents;
     private float shadowLength;
 
-    // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         if (this.geometry == null)
         {
@@ -94,7 +93,6 @@ public class RayShadow : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     private void Update()
     {
         // Remove 

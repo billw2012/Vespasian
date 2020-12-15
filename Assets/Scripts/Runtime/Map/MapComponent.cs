@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAsync
@@ -19,6 +20,9 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
     [NonSerialized]
     public SolarSystem currentSystem;
 
+    //public delegate void MapGenerated();
+    public event Action MapGenerated;
+    
     private Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
 
     public SolarSystem jumpTarget { get; private set; }
@@ -80,7 +84,11 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         }
     }
 
-    public async Task GenerateMapAsync() => this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs);
+    public async Task GenerateMapAsync()
+    {
+        this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs);
+        this.MapGenerated?.Invoke();
+    }
 
     public bool CanJump() => this.jumpTarget != null && this.warpComponent.value.CanJump(this.currentSystem, this.jumpTarget);
 
@@ -98,7 +106,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         await this.LoadSystemAsync(this.currentSystem, target);
     }
 
-    public async Task JumpAsync(SolarSystem target)
+    public async Task JumpAsync(SolarSystem target, Func<Vector2?> landingPositionCallback = default)
     {
         if(this.currentSystem == target)
         {
@@ -114,12 +122,10 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         var playerController = this.player.GetComponent<PlayerController>();
         playerController.enabled = false;
         playerController.SetAllowDamageAndCollision(false);
-
-        // Send player into warp
         var playerSimMovement = this.player.GetComponent<SimMovement>();
         playerSimMovement.enabled = false;
 
-        await this.warpComponent.value.Warp(this.currentSystem, target, this.LoadSystemAsync);
+        await this.warpComponent.value.WarpAsync(this.currentSystem, target, this.LoadSystemAsync, landingPositionCallback);
 
         // Re-enable player input
         playerController.enabled = true;
@@ -135,7 +141,31 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         this.uiManager.ShowUI();
     }
 
-    public async Task LoadRandomSystemAsync() => await this.JumpAsync(this.map.systems[Random.Range(0, this.map.systems.Count)]);
+    public async Task LoadStartingSystemAsync()
+    {
+        var faction = Object.FindObjectOfType<Faction>();
+        if(faction && faction.stations.Any())
+        {
+            var randomFactionStation = faction.stations.SelectRandom();
+            StationLogic stationToDockAt = null;
+            await this.JumpAsync(this.map.systems[randomFactionStation.systemId], () =>
+            {
+                // If there is a station in the system then land near it
+                stationToDockAt = FindObjectsOfType<StationLogic>().SelectRandom();
+                return stationToDockAt?.transform.position;
+            });
+            if (stationToDockAt != null)
+            {
+                this.player.GetComponent<DockActive>().DockAt(stationToDockAt.GetComponentsInChildren<DockPassive>().SelectRandom());
+            }
+        }
+        else
+        {
+            await this.LoadRandomSystemAsync();
+        }
+    }
+    
+    public async Task LoadRandomSystemAsync() => await this.JumpAsync(this.map.systems.SelectRandom());
 
     private async Task LoadSystemAsync(SolarSystem from, SolarSystem to)
     {

@@ -66,26 +66,7 @@ public class DockActive : MonoBehaviour
             var passivePort = DockPassive.GetNearest<DockPassive>(this.transform);
             if (passivePort != null)
             {
-                this.EnableSimMovement(false);
-                // Transform we will parent the ship to
-                var dockParent = passivePort.transform.parent;
-                this.gameObject.transform.SetParent(dockParent, worldPositionStays: true);
-
-                // Relative transform from the parent to its docking port
-                var dockTargetM = dockParent.worldToLocalMatrix * passivePort.transform.localToWorldMatrix;
-                // Relative transform from the ship to its docking port
-                var shipDockM = this.transform.worldToLocalMatrix * this.dockingPortTransform.transform.localToWorldMatrix;
-                // Relative transform from the ship docking port, rotated 180 degrees, to the target docking port, in target coordinate system
-                var relativeTransform = dockTargetM * Matrix4x4.Rotate(Quaternion.Euler(0, 0, 180)) * shipDockM.inverse;
-
-                var targetPosition = new Vector3(relativeTransform.m03, relativeTransform.m13, relativeTransform.m23);
-
-                this.dockAnim.Add(Tween.LocalPosition(this.transform, targetPosition, 1, 0, Tween.EaseOut));
-                this.dockAnim.Add(Tween.LocalRotation(this.transform, relativeTransform.rotation, 1, 0, Tween.EaseOut));
-
-                Debug.Log($"Docked to {passivePort}");
-                this.passiveDockingPort = passivePort;
-                this.docked = true;
+                this.DockAt(passivePort);
             }
             else
             {
@@ -94,13 +75,38 @@ public class DockActive : MonoBehaviour
         }
     }
 
+    public void DockAt(DockPassive passivePort)
+    {
+        this.EnableSimMovement(false);
+        // Transform we will parent the ship to
+        var dockParent = passivePort.transform.parent;
+        this.gameObject.transform.SetParent(dockParent, worldPositionStays: true);
+
+        // Relative transform from the parent to its docking port
+        var dockTargetM = dockParent.worldToLocalMatrix * passivePort.transform.localToWorldMatrix;
+        // Relative transform from the ship to its docking port
+        var shipDockM = this.transform.worldToLocalMatrix * this.dockingPortTransform.transform.localToWorldMatrix;
+        // Relative transform from the ship docking port, rotated 180 degrees, to the target docking port, in target coordinate system
+        var relativeTransform = dockTargetM * Matrix4x4.Rotate(Quaternion.Euler(0, 0, 180)) * shipDockM.inverse;
+
+        var targetPosition = new Vector3(relativeTransform.m03, relativeTransform.m13, relativeTransform.m23);
+
+        //this.transform.localPosition = targetPosition;
+        //this.transform.localRotation = relativeTransform.rotation;
+        this.dockAnim.Add(Tween.LocalPosition(this.transform, targetPosition, 1, 0, Tween.EaseIn));
+        this.dockAnim.Add(Tween.LocalRotation(this.transform, relativeTransform.rotation, 1, 0));
+
+        Debug.Log($"Docked to {passivePort}");
+        this.passiveDockingPort = passivePort;
+        this.docked = true;
+    }
+
     private void EnableSimMovement(bool en)
     {
-        var simMovement = this.GetComponent<SimMovement>();
-        if (simMovement != null)
-        {
-            simMovement.enabled = en;
-            Debug.Log("Disabled SimManager");
-        }
+        var playerController = this.GetComponent<PlayerController>();
+        playerController.enabled = en;
+        playerController.SetAllowDamageAndCollision(en);
+        var playerSimMovement = this.GetComponent<SimMovement>();
+        playerSimMovement.enabled = en;
     }
 }

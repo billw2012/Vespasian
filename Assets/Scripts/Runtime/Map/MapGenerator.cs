@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 [CreateAssetMenu]
 public class MapGenerator : ScriptableObject
@@ -91,11 +92,10 @@ public class MapGenerator : ScriptableObject
 
     public SystemGeneratorParameters systemParams;
 
-    public SolarSystem GenerateSystem(int randomKey, BodySpecs bodySpecs, string name, Vector2 position)
+    public SolarSystem GenerateSystem(int systemId, int randomKey, BodySpecs bodySpecs, string name, Vector2 position)
     {
         var rng = new RandomX(randomKey);
 
-        var sys = new SolarSystem { name = name, position = position };
 
         var mainSpec = bodySpecs.RandomStar(rng);
         float starMass = mainSpec.massRandom.Evaluate(rng);
@@ -103,19 +103,26 @@ public class MapGenerator : ScriptableObject
         float starDensity = mainSpec.densityRandom.Evaluate(rng);
         float starRadius = starMass / starDensity; // obviously not the correct formula...
 
-        var direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise;
+        var sys = new SolarSystem(systemId) { 
+            name = name, 
+            position = position,
+            direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise,
+        };
 
         float systemSize = starMass * this.systemParams.systemSizeStarMassRatioRandom.Evaluate(rng);
         var planets = this.GenerateBodies(
+            systemId,
             rng,
             bodySpecs, 
             starTemp, starRadius, 0,
             starRadius, starMass,
             systemSize: systemSize,
-            direction: direction,
+            direction: sys.direction,
             desiredTotalMass: starMass * this.systemParams.systemMassStarMassRatioRandom.Evaluate(rng),
             massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(rng),
             massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(rng));
+
+        sys.size = planets.Any()? planets.Select(p => p.parameters.apoapsis).Max() : 50f + starRadius * 2f;
 
         if(rng.value <= this.systemParams.beltChance)
         {
@@ -135,18 +142,18 @@ public class MapGenerator : ScriptableObject
             //    orbit = Random.Range(starRadius * 2, this.systemParams.maxBeltOrbit);
             //}
 
-            sys.belts.Add(new Belt {
+            sys.belts.Add(new Belt(systemId) {
                 specId = belt.id,
                 radius = beltDist,
                 width = rng.Range(3f, 10f),
-                direction = direction,
+                direction = sys.direction,
             });
         }
 
         int cometCount = Mathf.FloorToInt(this.systemParams.cometCountRandom.Evaluate(rng));
-        sys.comets.AddRange(this.GenerateComets(rng, bodySpecs, cometCount, starRadius, systemSize));
+        sys.comets.AddRange(this.GenerateComets(systemId, rng, bodySpecs, cometCount, starRadius, systemSize));
 
-        sys.main = new StarOrPlanet
+        sys.main = new StarOrPlanet(systemId)
         {
             randomKey = rng.Range(0, int.MaxValue),
             specId = mainSpec.id,
@@ -160,7 +167,7 @@ public class MapGenerator : ScriptableObject
         return sys;
     }
 
-    private List<Comet> GenerateComets(RandomX rng, BodySpecs bodySpecs, int cometCount, float starRadius, float systemSize)
+    private List<Comet> GenerateComets(int systemId, RandomX rng, BodySpecs bodySpecs, int cometCount, float starRadius, float systemSize)
     {
         var comets = new List<Comet>();
 
@@ -175,7 +182,7 @@ public class MapGenerator : ScriptableObject
             // float apoapsis = Mathf.Max(periapsis * 3, this.systemParams.cometRelativeApoapsisRandom.Evaluate(Random.value) * systemSize);
 
             var direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise;
-            var comet = new Comet
+            var comet = new Comet(systemId)
             {
                  randomKey = rng.Range(0, int.MaxValue),
                  specId = spec.id,
@@ -197,7 +204,8 @@ public class MapGenerator : ScriptableObject
     // Bodies are created by assuming a Log Normal distribution of mass wrt distance from their primary.
     // We use the CDF to slice the mass function into sections for each planet
     // See https://www.desmos.com/calculator/xfskhgkr9l
-    private List<StarOrPlanet> GenerateBodies(
+    private List<OrbitingBody> GenerateBodies(
+        int systemId,
         RandomX rng,
         BodySpecs bodySpecs, 
         float starTemp,
@@ -218,7 +226,7 @@ public class MapGenerator : ScriptableObject
         float orbitalDistance = primaryRadius + this.systemParams.startOrbitMinFromPrimary + systemSize * this.systemParams.startOrbitRatioRandom.Evaluate(rng);
         float totalMass = 0;
 
-        var bodies = new List<StarOrPlanet>();
+        var bodies = new List<OrbitingBody>();
 
         for (int i = 0; i < this.systemParams.maxPlanets && orbitalDistance < systemSize && totalMass < desiredTotalMass; i++)
         {
@@ -234,6 +242,7 @@ public class MapGenerator : ScriptableObject
             float moonSystemSize = allowMoons? planetMass * this.systemParams.moonSystemSizePlanetMassRatioRandom.Evaluate(rng) : 0;
 
             var moons = allowMoons? this.GenerateBodies(
+                systemId,
                 rng,
                 bodySpecs, 
                 starTemp, starRadius, starDistance + orbitalDistance,
@@ -243,12 +252,11 @@ public class MapGenerator : ScriptableObject
                 desiredTotalMass: planetMass * this.systemParams.moonSystemMassPlanetMassRatioRandom.Evaluate(rng),
                 massDistributionMedian: this.systemParams.massDistributionMedianRandom.Evaluate(rng),
                 massDistributionSpread: this.systemParams.massDistributionSpreadRandom.Evaluate(rng),
-                allowMoons: false) : new List<StarOrPlanet>();
+                allowMoons: false) : new List<OrbitingBody>();
 
             // Adjust orbital distance by moon system actual size and planet radius, so we don't waste space
             moonSystemSize = moons.Any()? moons.Max(c => c.parameters.apoapsis) : 0;
             orbitalDistance = orbitalDistance + planetRadius + moonSystemSize + this.systemParams.minOrbitSeperation;
-
 
             // Eccentricity of orbit controlled by gravitational force (higher = less eccentric) and own mass (higher = less eccentric), and distance from edge of system (higher = less eccentric
             float EccentricChance()
@@ -260,8 +268,7 @@ public class MapGenerator : ScriptableObject
 
             float orbitalDistance2 = orbitalDistance * (1 + this.systemParams.eccentricityAmountRandom.Evaluate(rng) * EccentricChance());
 
-
-            var planet = new StarOrPlanet
+            var planet = new StarOrPlanet(systemId)
             {
                 randomKey = rng.Range(0, int.MaxValue),
                 specId = bodySpecs.RandomPlanet(rng, planetMass, planetTemp).id,
@@ -292,120 +299,154 @@ public class MapGenerator : ScriptableObject
 
     public async Task<Map> GenerateAsync(BodySpecs bodySpecs)
     {
+        var factions = Object.FindObjectsOfType<Faction>();
         return await Task.Run(() =>
         {
             var rng = new RandomX((int)(DateTime.Now.Ticks % int.MaxValue));
+
             // Random.InitState((int)(DateTime.Now.Ticks % int.MaxValue));
             var map = new Map();
+            this.GenerateSystems(map, bodySpecs, rng);
+            this.GenerateLinks(map, rng);
+            GenerateFactions(map, factions);
+            this.DumpStats(map, bodySpecs);
+            return map;
+        });
+    }
 
-            float minDistance = this.minDistanceFactor / Mathf.Sqrt(this.numberOfSystems);
+    private void DumpStats(Map map, BodySpecs bodySpecs)
+    {
+        string specCounts = string.Join("\n", map.systems
+            .SelectMany(s => s.AllBodies())
+            .GroupBy(b => b.specId)
+            .Select(g => $"{g.Count()} {bodySpecs.GetSpecById(g.First().specId).name}"));
+        Debug.Log($":: Map Generator Stats ::\n{specCounts}");
+    }
 
-            float heightOffset = (1 - this.heightRatio) * 0.5f;
+    private static void GenerateFactions(Map map, IEnumerable<Faction> factions)
+    {
+        foreach (var faction in factions)
+        {
+            faction.PopulateMap(map);
+        }
+    }
 
-            // Generate the systems
-            for (int i = 0; i < this.numberOfSystems; i++)
+    private void GenerateSystems(Map map, BodySpecs bodySpecs, RandomX rng)
+    {
+        float minDistance = this.minDistanceFactor / Mathf.Sqrt(this.numberOfSystems);
+
+        float heightOffset = (1 - this.heightRatio) * 0.5f;
+
+        for (int i = 0; i < this.numberOfSystems; i++)
+        {
+            var position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
+
+            for (int j = 0; j < 100 && map.systems.Any(s => Vector2.Distance(s.position, position) < minDistance); j++)
             {
-                var position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
-
-                for (int j = 0; j < 100 && map.systems.Any(s => Vector2.Distance(s.position, position) < minDistance); j++)
-                {
-                    position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
-                }
-
-                char RandomLetter() => (char)((int)'A' + rng.Range(0, 'Z' - 'A'));
-                string name = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
-
-                map.AddSystem(this.GenerateSystem(rng.Range(0, int.MaxValue), bodySpecs, name, position));
+                position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
             }
 
-            // Add the links
-            var connectionTriangles = DelaunayCalculator.CalculateTriangulation(map.systems.Select(s => s.position).ToList());
+            char RandomLetter() => (char) ((int) 'A' + rng.Range(0, 'Z' - 'A'));
+            string name = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
 
-            var acuteLinks = new List<(Link link, float score)>();
-            for (int i = 0; i < connectionTriangles.Triangles.Count / 3; i++)
+            map.AddSystem(this.GenerateSystem(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, name, position));
+        }
+    }
+
+    private void GenerateLinks(Map map, RandomX rng)
+    {
+        var connectionTriangles = DelaunayCalculator.CalculateTriangulation(map.systems.Select(s => s.position).ToList());
+
+        var acuteLinks = new List<(Link link, float score)>();
+        for (int i = 0; i < connectionTriangles.Triangles.Count / 3; i++)
+        {
+            int SystemIndex(int pIndex) => connectionTriangles.Triangles[i * 3 + pIndex];
+            Link MakeLink(int p0, int p1) => new Link {@from = map.systems[p0], to = map.systems[p1]};
+
+            // If the triangle has two small angles then remove the side that connects them,
+            // if it has one small angle then 
+            var links = new[]
             {
-                int SystemIndex(int pIndex) => connectionTriangles.Triangles[i * 3 + pIndex];
-                Link MakeLink(int p0, int p1) => new Link { from = map.systems[p0], to = map.systems[p1] };
-
-                // If the triangle has two small angles then remove the side that connects them,
-                // if it has one small angle then 
-                var links = new[] {
                 MakeLink(SystemIndex(0), SystemIndex(1)),
                 MakeLink(SystemIndex(1), SystemIndex(2)),
                 MakeLink(SystemIndex(2), SystemIndex(0))
             };
 
-                float area = Vector3.Cross(links[0].from.position - links[0].to.position, links[1].to.position - links[0].to.position).magnitude * 0.5f;
+            float area =
+                Vector3.Cross(links[0].@from.position - links[0].to.position, links[1].to.position - links[0].to.position)
+                    .magnitude * 0.5f;
 
-                IEnumerable<(Link link, float score)> LinkRemoveScores()
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        float len = (links[j].from.position - links[j].to.position).magnitude;
-                        yield return (link: links[j], score: 2f * area / (len * len));
-                    }
-                }
-
-                acuteLinks.AddRange(LinkRemoveScores());
-
-                map.links.AddRange(links.Except(map.links));
-            }
-            Assert.IsFalse(map.links.Any(l => map.links.Any(l2 => l.from == l2.to && l.to == l2.from)));
-            // Trim acute links
-            void TrimLinks(IEnumerable<Link> candidates)
+            IEnumerable<(Link link, float score)> LinkRemoveScores()
             {
-                foreach (var link in candidates)
+                for (int j = 0; j < 3; j++)
                 {
-                    // Test removing the link
-                    map.RemoveLink(link);
-                    var mapAStar = new MapAStar(map);
-                    if (mapAStar.AStarSearch(link.from, link.to) == null)
-                    {
-                        map.links.Add(link);
-                    }
+                    float len = (links[j].@from.position - links[j].to.position).magnitude;
+                    yield return (link: links[j], score: 2f * area / (len * len));
                 }
             }
 
-            TrimLinks(acuteLinks.Where(l => l.score < this.linkAcuteRemoveScore).OrderBy(l => l.score).Select(l => l.link));
+            acuteLinks.AddRange(LinkRemoveScores());
 
-            // Trim obtuse links
-            var linkSum = new Dictionary<Link, float>();
-            void AddLinkAngle(Link link, float angle)
-            {
-                linkSum[link] = linkSum.ContainsKey(link) ? Mathf.Max(linkSum[link], angle) : angle;
-            }
+            map.links.AddRange(links.Except(map.links));
+        }
 
-            foreach (var s in map.systems)
+        Assert.IsFalse(map.links.Any(l => map.links.Any(l2 => l.@from == l2.to && l.to == l2.@from)));
+
+        // Trim acute links
+        void TrimLinks(IEnumerable<Link> candidates)
+        {
+            foreach (var link in candidates)
             {
-                var links = map.GetConnected(s).OrderBy(l => Vector2.SignedAngle(Vector2.right, l.system.position - s.position)).ToList();
-                float Angle(Vector2 a, Vector2 b, Vector2 c) => Vector2.Angle(a - b, c - b);
-                for (int j = 0; j < links.Count; j++)
+                // Test removing the link
+                map.RemoveLink(link);
+                var mapAStar = new MapAStar(map);
+                if (mapAStar.AStarSearch(link.@from, link.to) == null)
                 {
-                    float angle = Angle(links[j].system.position,
-                        s.position,
-                        links[(j + 1) % links.Count].system.position);
-                    AddLinkAngle(links[j].link, angle);
-                    AddLinkAngle(links[(j + 1) % links.Count].link, angle);
+                    map.links.Add(link);
                 }
             }
+        }
 
-            var scoreLinks = linkSum.Select(kv => (link: kv.Key, score: 360f - kv.Value)).ToList();
-            TrimLinks(scoreLinks.Where(ls => ls.score < 360f * this.linkObtuseRemoveScore).OrderBy(l => l.score).Select(l => l.link));
+        TrimLinks(acuteLinks.Where(l => l.score < this.linkAcuteRemoveScore).OrderBy(l => l.score).Select(l => l.link));
 
-            // Reduce number of links by the reduction ratio
-            int targetCount = (int)(map.links.Count * this.linkReductionRatio);
+        // Trim obtuse links
+        var linkSum = new Dictionary<Link, float>();
 
-            while (map.links.Count > targetCount)
+        void AddLinkAngle(Link link, float angle)
+        {
+            linkSum[link] = linkSum.ContainsKey(link) ? Mathf.Max(linkSum[link], angle) : angle;
+        }
+
+        foreach (var s in map.systems)
+        {
+            var links = map.GetConnected(s).OrderBy(l => Vector2.SignedAngle(Vector2.right, l.system.position - s.position))
+                .ToList();
+            float Angle(Vector2 a, Vector2 b, Vector2 c) => Vector2.Angle(a - b, c - b);
+            for (int j = 0; j < links.Count; j++)
             {
-                var randomLinks = map.links.OrderBy(a => rng.value).Take(map.links.Count - targetCount).ToList();
-                int prevCount = map.links.Count;
-                TrimLinks(randomLinks);
-                // If we didn't manage to remove any more then quit
-                if (prevCount == map.links.Count)
-                    break;
+                float angle = Angle(links[j].system.position,
+                    s.position,
+                    links[(j + 1) % links.Count].system.position);
+                AddLinkAngle(links[j].link, angle);
+                AddLinkAngle(links[(j + 1) % links.Count].link, angle);
             }
+        }
 
-            return map;
-        });
+        var scoreLinks = linkSum.Select(kv => (link: kv.Key, score: 360f - kv.Value)).ToList();
+        TrimLinks(scoreLinks.Where(ls => ls.score < 360f * this.linkObtuseRemoveScore).OrderBy(l => l.score)
+            .Select(l => l.link));
+
+        // Reduce number of links by the reduction ratio
+        int targetCount = (int) (map.links.Count * this.linkReductionRatio);
+
+        while (map.links.Count > targetCount)
+        {
+            var randomLinks = map.links.OrderBy(a => rng.value).Take(map.links.Count - targetCount).ToList();
+            int prevCount = map.links.Count;
+            TrimLinks(randomLinks);
+            // If we didn't manage to remove any more then quit
+            if (prevCount == map.links.Count)
+                break;
+        }
     }
 }

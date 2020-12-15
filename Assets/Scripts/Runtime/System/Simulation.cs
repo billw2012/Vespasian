@@ -62,19 +62,21 @@ public class Simulation : MonoBehaviour
 
         foreach (var s in this.simulatedObjects
             .Where(s => s != null)
-            .Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled))
+            .Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled)
+            .OfType<ISimUpdate>())
         {
-            ((ISimUpdate)s).SimUpdate(this.simTick);
+            s.SimUpdate(this.simTick);
         }
     }
 
     public void Refresh()
     {
         this.model = new SimModel();
+        this.model.DelayedInit();
         this.simulatedObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISimUpdate>().OfType<MonoBehaviour>().ToList();
-        foreach (var s in this.simulatedObjects)
+        foreach (var s in this.simulatedObjects.OfType<ISimUpdate>())
         {
-            ((ISimUpdate)s).SimRefresh();
+            s.SimRefresh();
         }
     }
 

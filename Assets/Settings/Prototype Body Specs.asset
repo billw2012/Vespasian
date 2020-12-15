@@ -316,8 +316,8 @@ MonoBehaviour:
       type: 3}
     name: Dead
     description: 
-    priority: 0
-    probability: 0.145
+    priority: 1
+    probability: 1
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -346,7 +346,7 @@ MonoBehaviour:
       gaussian: 1
       min: 2
       max: 2
-    minMass: 3
+    minMass: 2
     maxMass: 5
     minTemp: -Infinity
     maxTemp: Infinity
@@ -411,8 +411,8 @@ MonoBehaviour:
       type: 3}
     name: Living
     description: 
-    priority: 0
-    probability: 0.106
+    priority: 2
+    probability: 1
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -441,10 +441,10 @@ MonoBehaviour:
       gaussian: 1
       min: 2
       max: 2
-    minMass: 3
+    minMass: 2
     maxMass: 5
-    minTemp: 270
-    maxTemp: 300
+    minTemp: 220
+    maxTemp: 350
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -979,7 +979,7 @@ MonoBehaviour:
   belts:
   - id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9
     prefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de, type: 3}
-    name: 
+    name: Asteroid Belt
     description: 
     priority: 0
     probability: 1
@@ -988,7 +988,7 @@ MonoBehaviour:
   comets:
   - id: 44c24eeb-61ab-4587-9ce5-09d9579f9bbb
     prefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8, type: 3}
-    name: 
+    name: Icy Comet
     description: 
     priority: 0
     probability: 1
@@ -1049,3 +1049,11 @@ MonoBehaviour:
       min: 0.6
       max: 0.95
     minApproach: 10
+  stations:
+  - id: be9ff418-58da-4a88-b405-fd4a58110f6d
+    prefab: {fileID: 6031893901637196809, guid: 9d0fa1a051305f749ac266c469dbdd7e,
+      type: 3}
+    name: Space Station
+    description: 
+    priority: 0
+    probability: 1

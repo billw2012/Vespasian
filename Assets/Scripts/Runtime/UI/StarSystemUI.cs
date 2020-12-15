@@ -96,7 +96,7 @@ public class StarSystemUI : MonoBehaviour
         InitSchemeBodyTransform(starGameObject, currentXPos, currentYPos);
         
         // Setup its visuals
-        this.InitSchemeBodyProperties(starGameObject, mainBody);                 
+        this.InitSchemeBodyProperties(starGameObject, mainBody);
         currentXPos += (starGameObject.GetComponent<RectTransform>().rect.width + 100.0f);
 
         // Iterate star's planets
@@ -130,10 +130,10 @@ public class StarSystemUI : MonoBehaviour
 
     // Sets generic body properties in the scheme view, such as...
     // Body's displayed name, appearence, ...
-    private void InitSchemeBodyProperties(GameObject schemeElement, StarOrPlanet bodyData)
+    private void InitSchemeBodyProperties(GameObject schemeElement, OrbitingBody bodyData)
     {
         var bodyComponent = schemeElement.GetComponent<StarSystemUIBody>();
-        bodyComponent.bodyName = bodyData.randomKey.ToString(); // Read the body name here when we have it
+        bodyComponent.bodyName = bodyData.bodyRef.ToString(); // Read the body name here when we have it
         bodyComponent.starSystemUI = this; // It must point back to call functions when clicked
         bodyComponent.actualBody = bodyData;
     }
@@ -157,7 +157,7 @@ public class StarSystemUI : MonoBehaviour
         var actualBody = body.actualBody;
         this.selectedBodyName_tmp.text = actualBody.randomKey.ToString();
         
-        var knownDataMask = this.playerData.GetData(this.system.id, actualBody.id);
+        var knownDataMask = this.playerData.GetData(actualBody.bodyRef);
         //var knownDataStr = new List<string>{"Type: Planet"};
         var knownData = actualBody.GetData(knownDataMask);
         this.selectedBodyDescription_tmp.text = string.Join("\n", knownData.Select(d => $"{d.name}: {d.value}"));

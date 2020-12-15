@@ -84,30 +84,30 @@ public class SaveData : ISaver, ILoader
     public static SaveData SaveObject(ISavable obj)
     {
         var data = new SaveData();
-        if (obj is ISavable)
+        if (obj != null)
         {
             ForEachField(obj, f => data.SaveValue(f.Name, f.GetValue(obj)));
             ForEachProperty(obj, f => data.data.Add(f.Name, f.GetValue(obj)));
         }
 
-        if (obj is ISavableCustom)
+        if (obj is ISavableCustom savableCustom)
         {
-            (obj as ISavableCustom).Save(data);
+            savableCustom.Save(data);
         }
         return data;
     }
 
     public static void LoadObject(ISavable obj, SaveData data)
     {
-        if (obj is ISavable)
+        if (obj != null)
         {
             ForEachField(obj, f => f.SetValue(obj, data.LoadValue<object>(f.Name)));
             ForEachProperty(obj, f => f.SetValue(obj, data.LoadValue<object>(f.Name)));
         }
 
-        if (obj is ISavableCustom)
+        if (obj is ISavableCustom savableCustom)
         {
-            (obj as ISavableCustom).Load(data);
+            savableCustom.Load(data);
         }
     }
 

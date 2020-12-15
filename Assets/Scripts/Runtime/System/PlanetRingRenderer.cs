@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -34,12 +35,31 @@ public class PlanetRingRenderer : MonoBehaviour
 
     public GameObject ringParticlePrefab;
 
+    private Renderer planetRenderer;
     private GameObject meshObject;
     private GameObject particleObject;
+
+    private void Awake()
+    {
+        this.planetRenderer = this.GetComponentInParentOnly<Renderer>();
+    }
 
     private void Start()
     {
         this.UpdateRing();
+    }
+
+    private void Update()
+    {
+        if (this.meshObject != null)
+        {
+            this.meshObject.SetActive(this.planetRenderer.enabled);
+        }
+
+        if (this.particleObject != null)
+        {
+            this.particleObject.SetActive(this.planetRenderer.enabled);
+        }
     }
 
     private void UpdateRing()

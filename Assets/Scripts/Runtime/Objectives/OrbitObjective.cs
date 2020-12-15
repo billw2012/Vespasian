@@ -39,7 +39,7 @@ public class OrbitObjective : PositionalObjective
             // In range
             newRelativePosition.magnitude < this.radius &&
             // In an elliptical orbit (must check this before checking semi major axis or we might get divide by zero)
-            OrbitalUtils.OrbitDescriminator(velocity.magnitude, newRelativePosition.magnitude, gravity.parameters.mass, gravity.constants.GravitationalConstant) > 0 &&
+            OrbitalUtils.OrbitDiscriminator(velocity.magnitude, newRelativePosition.magnitude, gravity.parameters.mass, gravity.constants.GravitationalConstant) > 0 &&
             // Orbital major axis is okay
             OrbitalUtils.SemiMajorAxis(velocity.magnitude, newRelativePosition.magnitude, gravity.parameters.mass, gravity.constants.GravitationalConstant) < this.radius;
 
