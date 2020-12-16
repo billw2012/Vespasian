@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2532546599120530937}
   - component: {fileID: 2532546599120530822}
-  - component: {fileID: 6946838896639316914}
   - component: {fileID: 2532546599120530936}
   - component: {fileID: 2532546599120530939}
   - component: {fileID: 2532546599120530938}
@@ -59,21 +58,6 @@ MonoBehaviour:
   simMovement: {fileID: 0}
   searchPointsOfInterest: 0
   clampToCameraInnerArea: 0
---- !u!114 &6946838896639316914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2532546599120530941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdb91809c9a4ec34f9d131d4f6df7775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sizeMin: 5
-  sizeMax: 100
-  scrollWheelSensitivity: 1
 --- !u!20 &2532546599120530936
 Camera:
   m_ObjectHideFlags: 0

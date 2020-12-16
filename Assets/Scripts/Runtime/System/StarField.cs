@@ -43,6 +43,8 @@ public class StarField : MonoBehaviour
     [NonSerialized]
     public float fade = 1;
 
+    public PinchZoomCamera pinchZoom;
+
     private ParticleSystem.Particle[] stars;
     private float[] baseSizes;
 
@@ -52,7 +54,6 @@ public class StarField : MonoBehaviour
     private float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
 
     private ParticleSystem pfx;
-    private PinchZoomCamera pinchZoom;
     private ParticleSystemRenderer pfxRenderer;
     private MaterialPropertyBlock pfxPb;
 
@@ -96,8 +97,6 @@ public class StarField : MonoBehaviour
 
         this.pfxPb = new MaterialPropertyBlock();
         this.pfxRenderer = this.GetComponent<ParticleSystemRenderer>();
-
-        this.pinchZoom = FindObjectOfType<PinchZoomCamera>();
     }
 
 

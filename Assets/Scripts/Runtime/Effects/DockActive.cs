@@ -12,8 +12,8 @@ public class DockActive : MonoBehaviour
 {
     [Tooltip("Transform of the docking port")]
     public Transform dockingPortTransform;
+    public bool docked { get; private set; }
 
-    private bool docked = false;
     private DockPassive passiveDockingPort = null; // Passive docking port component, if docked
 
     public void OnDrawGizmos()

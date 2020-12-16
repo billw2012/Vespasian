@@ -14,9 +14,12 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
     [NonSerialized]
     public int missionCounter = 0;
 
+    private PlayerController player;
+
     private void Awake()
     {
         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        this.player = FindObjectOfType<PlayerController>();
     }
 
     private enum FindType
@@ -80,7 +83,8 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
         ui.transform.Find("Description").GetComponent<TMP_Text>().text = $"{missionTyped.Name}\n{ missionTyped.Description}";
         var handInButton = ui.transform.Find("Hand In").GetComponent<Button>();
         handInButton.onClick.AddListener(() => missions.HandIn(mission));
-        handInButton.gameObject.SetActive(mission.IsComplete);
+        bool docked = this.player.GetComponentInChildren<DockActive>()?.docked ?? false;
+        handInButton.gameObject.SetActive(mission.IsComplete && docked);
         return ui;
     }
 }

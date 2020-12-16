@@ -17,6 +17,8 @@ public abstract class EffectSource : MonoBehaviour, ISavable
 
     public GameObject areaMarkerAsset;
 
+    public bool alwaysRevealed = false;
+
     [NonSerialized]
     [Saved]
     public bool discovered;
@@ -29,7 +31,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
 
     private Simulation simManager;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         this.simManager = FindObjectOfType<Simulation>();
         if (this.areaMarkerAsset != null)
@@ -39,12 +41,12 @@ public abstract class EffectSource : MonoBehaviour, ISavable
         }
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (this.areaMarker != null)
         {
             // Show the marker only if the effect is discovered, not complete and revealed by something recently (scanner, observation etc.)
-            this.areaMarker.SetActive(this.discovered && !this.IsComplete() && Time.time < this.revealedTime + 1f);
+            this.areaMarker.SetActive(this.alwaysRevealed || (this.discovered && !this.IsComplete() && Time.time < this.revealedTime + 1f));
             this.areaMarker.transform.localScale = Vector3.one * this.range;
         }
     }

@@ -19,16 +19,13 @@ public class PinchZoomCamera : MonoBehaviour
     private float targetSize; // Target camera size
     private float camSizeStart = 1;  // Camera size when we started pinching
 
-
-    private Camera cameraComponent;
+    public Camera cameraComponent;
 
     // Start is called before the first frame update
     private void Start()
     {
-        this.cameraComponent = this.GetComponent<Camera>();
         this.targetSize = this.cameraComponent.orthographicSize;
     }
-
 
     // Update is called once per frame
     private void Update()

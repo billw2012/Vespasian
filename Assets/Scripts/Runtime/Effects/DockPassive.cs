@@ -18,6 +18,12 @@ public class DockPassive : EffectSource
     public override Color gizmoColor => Color.red;
     public override string debugName => "DockPassive";
 
+    protected override void Awake()
+    {
+        base.Awake();
+        this.alwaysRevealed = true;
+    }
+
     public void OnDrawGizmos()
     {
         float arrowLength = 0.5f;
