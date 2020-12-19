@@ -18,6 +18,8 @@ public class RayShadow : MonoBehaviour
     [Range(0, 1)]
     public float shadowIntensity = 0.5f;
 
+    private Renderer masterRenderer;
+    
     private struct LightAndShadow
     {
         public Transform light;
@@ -30,12 +32,14 @@ public class RayShadow : MonoBehaviour
     private Vector3 localExtents;
     private float shadowLength;
 
-    private void Awake()
+    private void Start()
     {
         if (this.geometry == null)
         {
             this.geometry = this.GetComponent<MeshFilter>();
         }
+
+        this.masterRenderer = this.geometry.GetComponent<Renderer>();
 
         // We need the extents to decide the length of the shadow
         var relativeMatrix = this.transform.worldToLocalMatrix * this.geometry.transform.localToWorldMatrix;
@@ -148,6 +152,7 @@ public class RayShadow : MonoBehaviour
             ray.lineRenderer.startWidth = width;
             ray.lineRenderer.endWidth = width * 0.5f;
 
+            ray.lineRenderer.enabled = this.masterRenderer.enabled;
         }
     }
 }

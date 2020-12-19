@@ -296,7 +296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   discoveryRadius: 10
   originTransform: {fileID: 2318905709148006584}
-  discovered: 0
 --- !u!114 &1992624584283286723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +440,7 @@ MonoBehaviour:
   originTransform: {fileID: 2318905709148006584}
   areaMarkerAsset: {fileID: 2472012875729438161, guid: d9f92eefffe30e2409e25438f657e8e1,
     type: 3}
+  alwaysRevealed: 0
   scannedObjectRadius: 0
 --- !u!1 &6595095681025090445
 GameObject:
@@ -500,6 +500,7 @@ MonoBehaviour:
   patternOffset: 0
   ringParticlePrefab: {fileID: 5665445626997498490, guid: d5400803bb5e34a4ca182e8ccd3784c0,
     type: 3}
+  planetRenderer: {fileID: 5076257171360282820}
 --- !u!135 &8699038643083201507
 SphereCollider:
   m_ObjectHideFlags: 0

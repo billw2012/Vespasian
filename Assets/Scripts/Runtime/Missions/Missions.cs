@@ -53,6 +53,8 @@ public interface IMissionBase
     string Factory { get; }
     bool IsComplete { get; }
     string Name { get; }
+    string Description { get; }
+    int Reward { get; }
     void Update(Missions missions);
 }
 
@@ -88,6 +90,10 @@ public class Missions : MonoBehaviour, ISavable
     [RegisterSavableType]
     public List<IMissionBase> availableMissions = new List<IMissionBase>();
 
+    [NonSerialized]
+    [Saved]
+    public int playerCredits;
+
     // Data already used to complete missions
     public DataCatalog dataCatalog;
     
@@ -99,6 +105,7 @@ public class Missions : MonoBehaviour, ISavable
     public delegate void MissionsChanged();
     public event MissionsChanged OnMissionsChanged;
 
+    
     private IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
     
     private List<IMissionBase> completedMissions;
@@ -126,7 +133,7 @@ public class Missions : MonoBehaviour, ISavable
 
     private void PlayerDataCatalogOnDataAdded(BodyRef bodyRef, DataMask oldData, DataMask newData)
     {
-        var bodyMissions = this.activeMissions.OfType<IBodyMission>();
+        var bodyMissions = this.activeMissions.OrderByDescending(m => m.Reward).OfType<IBodyMission>();
         var allocatedBodies = bodyMissions
             .SelectMany(m => m.AssignedBodies())
             .Concat(this.dataCatalog.KnownBodies);
@@ -173,5 +180,15 @@ public class Missions : MonoBehaviour, ISavable
     {
         this.activeMissions.Remove(mission);
         this.OnMissionsChanged?.Invoke();
+
+        this.playerCredits += mission.Reward;
+        NotificationsUI.Add($"<color=#B550FF>Mission <b>{mission.Name}</b> completed,</color> <color=#FFFB00><b>+{mission.Reward} credits</b></color>");
+    }
+
+    public void SubtractFunds(int amount)
+    {
+        Assert.IsTrue(this.playerCredits >= amount, "Not enough credits!");
+        this.playerCredits -= amount;
+        NotificationsUI.Add($"<color=#FFFB00><b>-{amount} credits</b></color>");
     }
 }

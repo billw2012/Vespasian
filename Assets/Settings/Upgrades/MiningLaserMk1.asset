@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: MiningLaserMk1
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 500
   mass: 0
   shipPartPrefab: {fileID: 3126060976930726319, guid: 48b13468bd27e0a4bb9d59173dbcc62d,
     type: 3}

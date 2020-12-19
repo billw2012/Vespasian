@@ -23,21 +23,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34dc3ac5-4e2c-4b9d-9ef0-fe6516a2fa8b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/DockedOptions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/DockedOptions.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Credit Label Prefab.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Credit Label Prefab.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Mission Item UI.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Mission Item UI.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Upgrade Item UI Prefab.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Upgrade Item UI Prefab.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionItemUI.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionItemUI.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CreditDisplayUI.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CreditDisplayUI.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Main Camera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Main Camera.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneCommon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneCommon.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/System/SpaceStationPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/System/SpaceStationPrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Button.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/Button.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockPassive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockPassive.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/EffectSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/EffectSource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/System/Planets/PlanetBasePrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/System/Planets/PlanetBasePrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/System/Stars/StarBasePrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/System/Stars/StarBasePrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Mission Board Item UI.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/Mission Board Item UI.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/UpgradeItemUIPrefab.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/UpgradeItemUIPrefab.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Mineable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Mineable.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionFindFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionFindFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarField.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarField.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/PinchZoomCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/PinchZoomCamera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/PlanetRingRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/PlanetRingRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/RayShadow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/RayShadow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeItemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeItemUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/EngineMk2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/EngineMk2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/EngineMk3.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/EngineMk3.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/FuelScoopMk1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/FuelScoopMk1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/FuelScoopMk2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/FuelScoopMk2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/MiningLaserMk1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/MiningLaserMk1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/SensorsMk1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/SensorsMk1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/SensorsMk2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/SensorsMk2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/ShieldMk1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/ShieldMk1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/ShieldMk2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/ShieldMk2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/ShieldMk3.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/ShieldMk3.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Upgrades/WarpDriveMk2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Upgrades/WarpDriveMk2.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,34 +71,40 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/351E49E2-A5BF-4FD6-BEAB-B458CE2255F3/ce/38842077/Error.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/57/93227c93/IDictionary.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/74/b128d6d4/List`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/10/cd40abfa/IDictionaryEnumerator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/38/d1f56046/ArgumentNullException.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/54/d64ca0f6/DictionaryEntry.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/04/cd6eed5d/DataContractSurrogateCaller.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/billw/Documents/GitHub/Vespasian/Assets/Scripts/Runtime/Missions/Missions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/f9/bfd9a43c/Debug.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/9D92EEE6-443E-438B-B5FA-72272C361E22/b3/01c7da8e/0200007A.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/billw/Documents/GitHub/Vespasian/Assets/Scripts/Runtime/Missions/Missions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/c2/3aa75b5d/Behaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/351E49E2-A5BF-4FD6-BEAB-B458CE2255F3/f2/a50ce978/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/9b/bf07f7f9/DataContractSerializer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/40/548f1fdb/DataContractResolver.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/94/4c5d4126/CustomYieldInstruction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/73/25ec3d3c/Task.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/70/fe26f246/XmlDictionaryString.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/08/4db70696/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/billw/Documents/GitHub/Vespasian/Assets/Scripts/Runtime/Missions/Missions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/cb/636654e7/Random.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/cb/abbb1f14/Color.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/billw/Documents/GitHub/Vespasian/Assets/Scripts/Runtime/Missions/Missions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/c8/aff3603e/DataContractSerializerSettings.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/36/363a7f7a/ISerializationSurrogateProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/57/93227c93/IDictionary.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/billw/Documents/GitHub/Vespasian/Assets/Scripts/Runtime/Missions/Missions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/10/cd40abfa/IDictionaryEnumerator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/54/d64ca0f6/DictionaryEntry.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/billw/Documents/GitHub/Vespasian/Assets/Scripts/Runtime/Missions/Missions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/9D92EEE6-443E-438B-B5FA-72272C361E22/b3/01c7da8e/0200007A.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/351E49E2-A5BF-4FD6-BEAB-B458CE2255F3/f2/a50ce978/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/40/548f1fdb/DataContractResolver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/70/fe26f246/XmlDictionaryString.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/65/03a6f5b0/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/cc/1edbfa23/Component.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/cb/636654e7/Random.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/d0/89df4cea/DataContractSerializer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/c8/aff3603e/DataContractSerializerSettings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/1c/dab7ca58/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/36/363a7f7a/ISerializationSurrogateProvider.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionFindFactory.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/DockedOptions.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/IInput.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/PinchZoomCamera.cs" />
@@ -84,6 +112,15 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/StarField.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/EffectSource.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockPassive.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/Mineable.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/PlanetRingRenderer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeUI.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/CreditDisplayUI.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UpgradeItemUI.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionItemUI.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionFindFactory.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/RayShadow.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kWV1JZ0xKQwHZxOu2hygmssbkP" />
@@ -96,8 +133,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.47644445" />
-    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.045333333" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.47693646" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -119,10 +156,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="9792">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="9792" />
       <option name="selectedOptions">
         <list />
       </option>
@@ -165,7 +202,8 @@
       <workItem from="1607372546480" duration="41411000" />
       <workItem from="1607808022894" duration="56897000" />
       <workItem from="1608072021223" duration="70000" />
-      <workItem from="1608072146492" duration="8135000" />
+      <workItem from="1608072146492" duration="8728000" />
+      <workItem from="1608135385206" duration="16804000" />
     </task>
     <servers />
   </component>
@@ -174,6 +212,16 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>

@@ -7,8 +7,7 @@ using UnityEngine.UI;
 
 public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
 {
-    public GameObject boardUIPrefab;
-    public GameObject activeUIPrefab;
+    public GameObject itemPrefab;
 
     [Saved]
     [NonSerialized]
@@ -70,21 +69,18 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
     public GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent)
     {
         var missionTyped = mission as MissionFind;
-        var ui = Instantiate(this.boardUIPrefab, parent);
-        ui.transform.Find("Description").GetComponent<TMP_Text>().text = $"{missionTyped.Name}\n{ missionTyped.Description}";
-        ui.transform.Find("Take").GetComponent<Button>().onClick.AddListener(() => missions.Take(mission));
+        var ui = Instantiate(this.itemPrefab, parent);
+        var missionItemUI = ui.GetComponent<MissionItemUI>();
+        missionItemUI.Init(missions, mission, activeMission: false);
         return ui;
     }
 
     public GameObject CreateActiveUI(Missions missions, IMissionBase mission, Transform parent)
     {
         var missionTyped = mission as MissionFind;
-        var ui = Instantiate(this.activeUIPrefab, parent);
-        ui.transform.Find("Description").GetComponent<TMP_Text>().text = $"{missionTyped.Name}\n{ missionTyped.Description}";
-        var handInButton = ui.transform.Find("Hand In").GetComponent<Button>();
-        handInButton.onClick.AddListener(() => missions.HandIn(mission));
-        bool docked = this.player.GetComponentInChildren<DockActive>()?.docked ?? false;
-        handInButton.gameObject.SetActive(mission.IsComplete && docked);
+        var ui = Instantiate(this.itemPrefab, parent);
+        var missionItemUI = ui.GetComponent<MissionItemUI>();
+        missionItemUI.Init(missions, mission, activeMission: true);
         return ui;
     }
 }
@@ -97,6 +93,8 @@ public class MissionFind : IMissionBase, IBodyMission
     public string Description { get; set; }
 
     public string Name { get; set; }
+
+    public int Reward => 20 + Mathf.CeilToInt(this.MinHabitability * 100f + this.MinResource * 50f);
 
     public float MinResource { get; set; }
 

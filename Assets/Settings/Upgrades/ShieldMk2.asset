@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: ShieldMk2
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 500
   mass: 0
   shipPartPrefab: {fileID: 2263943538660112896, guid: 6cc210d46305c8b4e977a9123ddf3920,
     type: 3}

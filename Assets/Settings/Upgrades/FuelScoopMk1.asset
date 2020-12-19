@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: FuelScoopMk1
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 200
   mass: 0
   shipPartPrefab: {fileID: 8180715979238593668, guid: 2f821ee19e6d2ad46a918d791a8cb37c,
     type: 3}

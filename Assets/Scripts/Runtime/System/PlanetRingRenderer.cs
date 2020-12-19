@@ -34,15 +34,10 @@ public class PlanetRingRenderer : MonoBehaviour
     public float patternOffset = 0f;
 
     public GameObject ringParticlePrefab;
-
-    private Renderer planetRenderer;
+    public Renderer planetRenderer;
+    
     private GameObject meshObject;
     private GameObject particleObject;
-
-    private void Awake()
-    {
-        this.planetRenderer = this.GetComponentInParentOnly<Renderer>();
-    }
 
     private void Start()
     {

@@ -38,8 +38,10 @@ public class Mineable : EffectSource
     }
 
     // Update is called once per frame
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         // Check if any miners are close enough. If so, enable the circle indicator
         bool AnyMinersNearby() => this.miners.Any(obj => obj != null && this.range * 3 >= this.GetDistance(obj.transform));
 

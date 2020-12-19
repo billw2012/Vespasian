@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: WarpDriveMk2
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 500
   mass: 0
   shipPartPrefab: {fileID: 8851948593646386530, guid: f15bfcde3dad39a4faf0ae9c2cb8e027,
     type: 3}

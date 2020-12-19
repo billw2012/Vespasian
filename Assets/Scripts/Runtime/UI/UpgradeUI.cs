@@ -8,10 +8,12 @@ public class UpgradeUI : MonoBehaviour
     public GameObject defaultUpgradeUIPrefab;
 
     private UpgradeManager upgradeManager;
+    private Missions missions;
 
     private void OnEnable()
     {
         this.upgradeManager = FindObjectOfType<UpgradeManager>();
+        this.missions = FindObjectOfType<Missions>();
         this.UpdateGrid();
     }
 
@@ -26,13 +28,14 @@ public class UpgradeUI : MonoBehaviour
         {
             var upgradeUI = Instantiate(upgradeDef.shopUIPrefab == null? this.defaultUpgradeUIPrefab : upgradeDef.shopUIPrefab, this.grid.transform);
             var upgradeItemUI = upgradeUI.GetComponent<UpgradeItemUI>();
-            upgradeItemUI.Init(this, upgradeDef);
+            upgradeItemUI.Init(this, upgradeDef, this.missions);
         }
     }
 
     public void Install(UpgradeDef upgradeDef)
     {
         this.upgradeManager.Install(upgradeDef, testFire: true);
+        this.missions.SubtractFunds(upgradeDef.cost);
         this.UpdateGrid();
     }
 

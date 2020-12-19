@@ -237,6 +237,7 @@
               <e p="MissionActiveUI.cs" t="Include" />
               <e p="MissionBoardUI.cs" t="Include" />
               <e p="MissionFindFactory.cs" t="Include" />
+              <e p="MissionItemUI.cs" t="Include" />
               <e p="MissionListUIBase.cs" t="Include" />
               <e p="MissionMapSystemFactory.cs" t="Include" />
               <e p="Missions.cs" t="Include" />
@@ -279,6 +280,7 @@
               <e p="CameraPointOfInterest.cs" t="Include" />
               <e p="CameraShakeEffect.cs" t="Include" />
               <e p="CircleRenderer.cs" t="Include" />
+              <e p="CreditDisplayUI.cs" t="Include" />
               <e p="DialogUI.cs" t="Include" />
               <e p="DockedOptions.cs" t="Include" />
               <e p="DragJoystick.cs" t="Include" />

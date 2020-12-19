@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: SensorsMk1
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 200
   mass: 0
   shipPartPrefab: {fileID: 5628546658975330783, guid: 28f2fb64d5fa40847a28e1ebe48a4fa3,
     type: 3}

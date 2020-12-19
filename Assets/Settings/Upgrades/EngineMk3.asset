@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: EngineMk3
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 1000
   mass: 0
   shipPartPrefab: {fileID: 122248102209823852, guid: e7762040080f5e54ea052cfde0e2dab3,
     type: 3}

@@ -19418,6 +19418,7 @@ MonoBehaviour:
   originTransform: {fileID: 8927440856455040385}
   areaMarkerAsset: {fileID: 5999684077056866640, guid: 73653c8090470164e80ebd27d4365f36,
     type: 3}
+  alwaysRevealed: 0
 --- !u!54 &2438610178736772583
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19450,6 +19451,7 @@ MonoBehaviour:
   originTransform: {fileID: 8927440856455040385}
   areaMarkerAsset: {fileID: 5999684077056866640, guid: bc008e289e31ace4a9d4c884e78c2884,
     type: 3}
+  alwaysRevealed: 0
 --- !u!114 &5602780869510119643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19466,6 +19468,7 @@ MonoBehaviour:
   originTransform: {fileID: 8927440856455040385}
   areaMarkerAsset: {fileID: 5999684077056866640, guid: 4099fe1b15492734688f14eb7e053557,
     type: 3}
+  alwaysRevealed: 0
   scannedObjectRadius: 0
 --- !u!1 &6093582211867798575
 GameObject:
