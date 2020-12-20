@@ -118,21 +118,23 @@ public abstract class Body
         return string.Join("/", names.Reverse());
     }
 
-    public class DataValue
+    public class DataEntry
     {
         public DataMask mask;
         public string name;
-        public object value;
+        public object entry;
 
-        public DataValue(DataMask mask, string name, object value)
+        public DataEntry(DataMask mask, string name, object entry)
         {
             this.mask = mask;
             this.name = name;
-            this.value = value;
+            this.entry = entry;
         }
     }
 
-    public virtual ICollection<DataValue> GetData(DataMask mask) => Enumerable.Empty<DataValue>().ToList();
+    public virtual ICollection<DataEntry> GetData(DataMask mask) => Enumerable.Empty<DataEntry>().ToList();
+
+    public virtual int GetDataCreditValue(DataMask data) => 0;
 }
 
 public abstract class OrbitingBody : Body
@@ -143,7 +145,7 @@ public abstract class OrbitingBody : Body
     public OrbitingBody() { }
     public OrbitingBody(int systemId) : base(systemId) { }
 
-    public override ICollection<DataValue> GetData(DataMask mask)
+    public override ICollection<DataEntry> GetData(DataMask mask)
     {
         // TODO: cache all this in a dict instead? Maybe Lazy<>?
         var result = base.GetData(mask);
@@ -151,8 +153,8 @@ public abstract class OrbitingBody : Body
         if (mask.HasFlag(DataMask.Orbit))
         {
             // TODO: localize later
-            result.Add(new DataValue(DataMask.Orbit, "Semi Major Axis", this.parameters.semiMajorAxis));
-            result.Add(new DataValue(DataMask.Orbit, "Eccentricity", this.parameters.eccentricity));
+            result.Add(new DataEntry(DataMask.Orbit, "Semi Major Axis", this.parameters.semiMajorAxis));
+            result.Add(new DataEntry(DataMask.Orbit, "Eccentricity", this.parameters.eccentricity));
         }
         
         return result;
@@ -215,34 +217,61 @@ public class StarOrPlanet : OrbitingBody
     public StarOrPlanet() { }
     public StarOrPlanet(int systemId) : base(systemId) { }
     
-    public override ICollection<DataValue> GetData(DataMask mask)
+    public override ICollection<DataEntry> GetData(DataMask mask)
     {
         // TODO: cache all this in a dict instead? Maybe Lazy<>?
         var result = base.GetData(mask);
 
         if (mask.HasFlag(DataMask.Basic))
         {
-            result.Add(new DataValue(DataMask.Basic, "Temp", this.temp));
-            result.Add(new DataValue(DataMask.Basic, "Radius", this.radius));
+            result.Add(new DataEntry(DataMask.Basic, "Temp", this.temp));
+            result.Add(new DataEntry(DataMask.Basic, "Radius", this.radius));
         }
         
         if (mask.HasFlag(DataMask.Composition))
         {
-            result.Add(new DataValue(DataMask.Composition, "Density", this.density));
-            result.Add(new DataValue(DataMask.Composition, "Mass", this.mass));
+            result.Add(new DataEntry(DataMask.Composition, "Density", this.density));
+            result.Add(new DataEntry(DataMask.Composition, "Mass", this.mass));
         }
         
         if (mask.HasFlag(DataMask.Habitability))
         {
-            result.Add(new DataValue(DataMask.Habitability, "Resources", this.resources));
+            result.Add(new DataEntry(DataMask.Habitability, "Resources", this.resources));
         }        
         
         if (mask.HasFlag(DataMask.Habitability))
         {
-            result.Add(new DataValue(DataMask.Habitability, "Habitability", this.habitability));
+            result.Add(new DataEntry(DataMask.Habitability, "Habitability", this.habitability));
         }
 
         return result;
+    }
+
+    public override int GetDataCreditValue(DataMask data)
+    {
+        int value = 0;
+        for (int i = 1; i <= (int) DataMask.Count; i++)
+        {
+            switch(data & (DataMask)(1 << i))
+            {
+                case DataMask.Orbit:
+                    value += 8;
+                    break;
+                case DataMask.Basic:
+                    value += 16;
+                    break;
+                case DataMask.Composition:
+                    value += 16;
+                    break;
+                case DataMask.Resources:
+                    value += Mathf.CeilToInt(64 * this.resources);
+                    break;
+                case DataMask.Habitability:
+                    value += Mathf.CeilToInt(128 * this.habitability);
+                    break;
+            }
+        }
+        return value;
     }
 
 

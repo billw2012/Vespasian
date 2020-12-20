@@ -49,7 +49,7 @@ public class DockActive : MonoBehaviour
             {
                 if (passiveOrbit != null)
                 {
-                    simMovement.SetVelocity(passiveOrbit.relativeVelocity);
+                    simMovement.SetVelocity(passiveOrbit.absoluteVelocity);
                 }
                 else
                 {

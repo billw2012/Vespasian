@@ -44,6 +44,8 @@ public enum DataMask : uint
     Composition = 1 << 2,
     Resources = 1 << 3,
     Habitability = 1 << 4,
+    Last = 1 << 4,
+    Count = 4,
     All = Orbit | Basic | Composition | Resources | Habitability,
     __Fix = 1 << 5, // Work around for Unity bug (https://forum.unity.com/threads/enum-flags-everything-option-not-working-with-unsigned-integers.953979/)
 }
@@ -128,7 +130,22 @@ public class DataCatalog : MonoBehaviour, ISavable
     /// <returns></returns>
     public DataMask GetNewDataDiff(BodyRef bodyRef, DataCatalog baseCatalog) => ~baseCatalog.GetData(bodyRef) & this.GetData(bodyRef);
 
-    public void MergeFrom(DataCatalog from, DataMask dataMask)
+    public Dictionary<BodyRef, DataMask> GetNewDataDiff(DataCatalog baseCatalog)
+    {
+        var newData = new Dictionary<BodyRef, DataMask>();
+        foreach (var bodyData in this.data)
+        {
+            var newDataMask = bodyData.Value & ~baseCatalog.GetData(bodyData.Key);
+            if (newDataMask != DataMask.None)
+            {
+                newData.Add(bodyData.Key, newDataMask);
+            }
+        }
+
+        return newData;
+    }
+    
+    public void MergeFrom(DataCatalog from, DataMask dataMask = DataMask.All)
     {
         foreach (var bodyData in from.data)
         {

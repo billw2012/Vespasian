@@ -107,8 +107,11 @@ public class Missions : MonoBehaviour, ISavable
 
     
     private IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
-    
+
     private List<IMissionBase> completedMissions;
+
+    public int NewDataReward { get; private set; }
+    private Dictionary<BodyRef, DataMask> newData;
 
     // Start is called before the first frame update
     private void Awake()
@@ -181,14 +184,34 @@ public class Missions : MonoBehaviour, ISavable
         this.activeMissions.Remove(mission);
         this.OnMissionsChanged?.Invoke();
 
-        this.playerCredits += mission.Reward;
-        NotificationsUI.Add($"<color=#B550FF>Mission <b>{mission.Name}</b> completed,</color> <color=#FFFB00><b>+{mission.Reward} credits</b></color>");
+        this.AddFunds(mission.Reward, $"<color=#B550FF>Mission <b>{mission.Name}</b> completed</color>");
     }
 
+    public void AddFunds(int amount, string reason)
+    {
+        Assert.IsTrue(amount > 0, "Can only add positive funds, use SubtractFunds to remove funds...");
+        this.playerCredits += amount;
+        NotificationsUI.Add($"{reason}, <color=#FFFB00><b>+{amount} cr</b></color>");
+    }
+    
     public void SubtractFunds(int amount)
     {
         Assert.IsTrue(this.playerCredits >= amount, "Not enough credits!");
         this.playerCredits -= amount;
-        NotificationsUI.Add($"<color=#FFFB00><b>-{amount} credits</b></color>");
+        NotificationsUI.Add($"<color=#FFFB00><b>-{amount} cr</b></color>");
+    }
+
+    public void UpdateNewDataReward()
+    {
+        this.newData = this.playerDataCatalog.GetNewDataDiff(this.dataCatalog);
+        this.NewDataReward = this.newData
+            .Select(bodyData => this.mapComponent.GetDataCreditValue(bodyData.Key, bodyData.Value))
+            .Sum();
+    }
+
+    public void SellNewData()
+    {
+        this.dataCatalog.MergeFrom(this.playerDataCatalog);
+        this.AddFunds(this.NewDataReward, $"All new data sold");
     }
 }

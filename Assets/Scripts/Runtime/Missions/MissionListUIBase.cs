@@ -11,6 +11,16 @@ public abstract class MissionListUIBase : MonoBehaviour
     {
         this.missions = FindObjectOfType<Missions>();
         this.missions.OnMissionsChanged += this.UpdateList;
+        this.InitUI();
+    }
+
+    protected virtual void InitUI()
+    {
+        this.UpdateUI();
+    }
+    
+    protected virtual void UpdateUI()
+    {
         this.UpdateList();
     }
 
