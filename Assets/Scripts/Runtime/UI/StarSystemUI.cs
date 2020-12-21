@@ -77,7 +77,7 @@ public class StarSystemUI : MonoBehaviour
         void InitSchemeBodyTransform(GameObject obj, float x, float y)
         {
             var rectTransform = obj.GetComponent<RectTransform>();       
-            rectTransform.SetParent(this.schemeRoot.GetComponent<RectTransform>());
+            rectTransform.SetParent(this.schemeRoot.GetComponent<RectTransform>(), worldPositionStays: false);
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.anchoredPosition = new Vector2(x, y);

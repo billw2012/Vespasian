@@ -88,8 +88,8 @@ public class Simulation : MonoBehaviour
 
 public class PathSection
 {
-    public List<Vector3> positions;
-    public List<float> weights;
+    public readonly List<Vector3> positions;
+    public readonly List<float> weights;
     public int startTick;
     public Vector3 finalVelocity;
     public int durationTicks => this.positions.Count;
@@ -120,14 +120,14 @@ public class PathSection
             (position - Vector3.Lerp(this.positions[idx0 - 1], this.positions[idx0], frac))
             :
             (Vector3.Lerp(this.positions[idx1], this.positions[idx1 + 1], frac) - position);
-        return (position, velocity / dt);
+        return (position.xy0(), velocity.xy0() / dt);
     }
 
     public void Add(Vector3 pos, Vector3 velocity, float weight)
     {
-        this.positions.Add(pos);
+        this.positions.Add(pos.xy0());
         this.weights.Add(weight);
-        this.finalVelocity = velocity;
+        this.finalVelocity = velocity.xy0();
     }
 
     //static int TrimList<T>(int beforeTick, int startTick, List<T> list)
@@ -142,7 +142,7 @@ public class PathSection
         int count = Mathf.Clamp(beforeTick - this.startTick, 0, this.positions.Count);
         this.positions.RemoveRange(0, count);
         this.weights.RemoveRange(0, count);
-        this.startTick = this.startTick + count;
+        this.startTick += count;
 
         //TrimList(beforeTick, this.startTick, this.forces);
         //this.startTick = TrimList(beforeTick, this.startTick, this.positions);
@@ -402,6 +402,9 @@ public class SimModel
                 parent = this.orbits.IndexOf(o.gameObject.GetComponentInParentOnly<Orbit>())
             }).ToList();
 
+        var invalidOrbits = this.simOrbits.Where(s => s.from.position.position.z != 0f);
+        Debug.Assert(!invalidOrbits.Any(), $"All orbits must be at z = 0, {string.Join(", ", invalidOrbits.Select(s => s.from.gameObject.name))}!");
+
         // NOTE: We assume that if the gravity source has a parent orbit then its local position is 0, 0, 0.
         var allGravitySources = GravitySource.All();
 
@@ -420,6 +423,9 @@ public class SimModel
                     position = g.position
                 };
             }).ToList();
+        
+        var invalidGravitySources = this.simGravitySources.Where(s => s.position.z != 0f);
+        Debug.Assert(!invalidGravitySources.Any(), $"All gravity sources must be at z = 0, {string.Join(", ", invalidGravitySources.Select(s => s.from.gameObject.name))}!");
     }
 
     // OPT: If required we could preallocate this and pass it as a parameter instead

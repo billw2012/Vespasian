@@ -38,6 +38,7 @@ public abstract class Body
     public GameObject Instance(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
         this.activeInstance = this.InstanceInternal(bodySpecs, solarSystem);
+        Assert.IsTrue(activeInstance.transform.position.z == 0, $"New body {activeInstance.gameObject} isn't at z = 0");
         return this.activeInstance;
     }
 
@@ -189,6 +190,7 @@ public abstract class OrbitingBody : Body
         {
             var childInstance = child.Instance(bodySpecs, solarSystem);
             childInstance.transform.SetParent(self.GetComponent<Orbit>().position.transform, worldPositionStays: false);
+            Assert.IsTrue(childInstance.transform.position.z == 0, $"New body {childInstance.gameObject} isn't at z = 0");
         }
         return self;
     }
@@ -482,15 +484,16 @@ public class SolarSystem
     public async Task LoadAsync(SolarSystem current, BodySpecs bodySpecs, GameObject root)
     {
         var rootBody = this.main.Instance(bodySpecs, this);
+        Assert.IsTrue(rootBody.transform.position.z == 0, $"New body {rootBody.gameObject} isn't at z = 0");
         foreach (var belt in this.belts)
         {
             var beltObject = belt.Instance(bodySpecs, this);
-            beltObject.transform.SetParent(rootBody.transform);
+            beltObject.transform.SetParent(rootBody.transform, worldPositionStays: false);
         }
         foreach (var comet in this.comets)
         {
             var cometObject = comet.Instance(bodySpecs, this);
-            cometObject.transform.SetParent(rootBody.transform);
+            cometObject.transform.SetParent(rootBody.transform, worldPositionStays: false);
         }
 
         // var factions = Object.FindObjectsOfType<Faction>();

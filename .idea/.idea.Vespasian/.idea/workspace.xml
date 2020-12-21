@@ -24,17 +24,10 @@
   <component name="ChangeListManager">
     <list default="true" id="34dc3ac5-4e2c-4b9d-9ef0-fe6516a2fa8b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Vespasian/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneCommon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneCommon.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/BodySpecs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/BodySpecs.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapComponent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionBoardUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionBoardUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionListUIBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionListUIBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Simulation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Simulation.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vespasian.sln.DotSettings" beforeDir="false" afterPath="$PROJECT_DIR$/Vespasian.sln.DotSettings" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,28 +41,38 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/351E49E2-A5BF-4FD6-BEAB-B458CE2255F3/ce/38842077/Error.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/74/b128d6d4/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/38/d1f56046/ArgumentNullException.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D7545A46-5169-41D4-B2F2-DEC578CD41EE/d7/2e48a33a/Toolbar.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/04/cd6eed5d/DataContractSurrogateCaller.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9183B39-766A-483C-AF86-AAA926F3554C/98/eb5e2d59/IMGUIContainer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/f9/bfd9a43c/Debug.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/c2/3aa75b5d/Behaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/9b/bf07f7f9/DataContractSerializer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/bf/6d968b6f/Thread.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/94/4c5d4126/CustomYieldInstruction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/73/25ec3d3c/Task.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9183B39-766A-483C-AF86-AAA926F3554C/1e/7c5ff50e/EventDispatcher.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/08/4db70696/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/0b/2ab1513a/TaskAwaiter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/72/1742a8b0/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/62FFEEB7-EC02-4BEA-B61E-5FBF8D44AC5B/cb/636654e7/Random.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/cb/abbb1f14/Color.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/c8/aff3603e/DataContractSerializerSettings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/36/363a7f7a/ISerializationSurrogateProvider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/57/93227c93/IDictionary.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/14E3453B-740B-4BD6-90E8-D4E5A013A715/91/de8515b9/Socket.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/10/cd40abfa/IDictionaryEnumerator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/54/d64ca0f6/DictionaryEntry.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/38/5310e057/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/9D92EEE6-443E-438B-B5FA-72272C361E22/b3/01c7da8e/0200007A.il" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/351E49E2-A5BF-4FD6-BEAB-B458CE2255F3/f2/a50ce978/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/40/548f1fdb/DataContractResolver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/58/ba8483a6/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5DB3CB57-7670-4B90-A1EE-60DFE561E643/70/fe26f246/XmlDictionaryString.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/65/03a6f5b0/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/cc/1edbfa23/Component.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/7b/60de3184/Transform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9D92EEE6-443E-438B-B5FA-72272C361E22/d0/89df4cea/DataContractSerializer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/819DE1AA-368E-45FA-A4F7-8E26C97C62B0/e7/fc1a602b/GUIUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2FEAF16E-8000-4E0C-ADAE-3F2E05F2A3FA/1c/dab7ca58/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -91,12 +94,14 @@
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/RayShadow.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionListUIBase.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/BodySpecs.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/MapComponent.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/DataCatalog.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/Missions.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Effects/DockActive.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Missions/MissionBoardUI.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/System/Simulation.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/StarSystemUI.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Runtime/Map/Map.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1kWV1JZ0xKQwHZxOu2hygmssbkP" />
@@ -109,12 +114,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.32352942" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.620867" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="XThreadsFramesViewSplitterKey" value="0.41694352" />
+    <property name="XThreadsFramesViewSplitterKey" value="0.22331461" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.build.unityPlugin" />
@@ -132,19 +137,19 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="27880">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="28056">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="27880" />
+      <option name="pid" value="28056" />
       <option name="selectedOptions">
         <list />
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="27880">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="27880" />
+      <option name="pid" />
       <option name="selectedOptions">
         <list />
       </option>
@@ -180,7 +185,8 @@
       <workItem from="1608072021223" duration="70000" />
       <workItem from="1608072146492" duration="8728000" />
       <workItem from="1608135385206" duration="23239000" />
-      <workItem from="1608422051747" duration="3872000" />
+      <workItem from="1608422051747" duration="9570000" />
+      <workItem from="1608507327301" duration="914000" />
     </task>
     <servers />
   </component>
@@ -216,11 +222,24 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="UNITY_DEBUG_RUN_CONFIGURATION">
-        <watch expression="map.systems.SelectMany(s =&gt; s.AllBodies().OfType&lt;StarOrPlanet&gt;().Select(p =&gt; p.habitability)).OrderBy(a =&gt; a).ToList()" language="C#" />
-        <watch expression="relativeTransform" language="C#" />
-      </configuration>
-    </watches-manager>
+    <breakpoint-manager>
+      <breakpoints-dialog>
+        <breakpoints-dialog>
+          <selected-grouping-rules>
+            <grouping-rule id="RiderExceptionGroupByNamespaceRule" />
+          </selected-grouping-rules>
+        </breakpoints-dialog>
+      </breakpoints-dialog>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="DotNet Exception Breakpoints">
+          <properties justMyCode="true" />
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#UnityEngine.Transform" memberName="position" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
