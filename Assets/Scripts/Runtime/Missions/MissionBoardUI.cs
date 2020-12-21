@@ -27,6 +27,6 @@ public class MissionBoardUI : MissionListUIBase
         base.UpdateUI();
         this.missions.UpdateNewDataReward();
         this.sellDataButton.gameObject.SetActive(this.missions.NewDataReward > 0);
-        this.sellDataButtonText.text = $"Sell Data for {this.missions.NewDataReward} cr";
+        this.sellDataButtonText.text = $"Sell Data for <style=credits>{this.missions.NewDataReward} cr</style>";
     }
 }

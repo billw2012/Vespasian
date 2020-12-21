@@ -1,18 +1,21 @@
 ﻿// unset
 
 using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class DockedOptions : MonoBehaviour
     {
-        public GameObject[] options;
+        private GameObject[] options;
         
         private DockActive playerDocking;
 
         private void Start()
         {
+            this.options = this.GetComponentsInChildren<Button>().Select(b => b.gameObject).ToArray();
             this.playerDocking = FindObjectOfType<PlayerController>().GetComponentInChildren<DockActive>();
         }
 

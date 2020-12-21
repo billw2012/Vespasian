@@ -12,5 +12,5 @@ public class CreditDisplayUI : MonoBehaviour
 
     private void Awake() => this.missions = FindObjectOfType<Missions>();
 
-    private void Update() => this.creditLabel.text = $"{this.missions.playerCredits} cr";
+    private void Update() => this.creditLabel.text = $"<style=credits>{this.missions.playerCredits} cr</style>";
 }

@@ -1,5 +1,6 @@
 ﻿using Pixelplacement;
 using Pixelplacement.TweenSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,9 @@ public class DockActive : MonoBehaviour
 {
     [Tooltip("Transform of the docking port")]
     public Transform dockingPortTransform;
+
+    public float refuelRate = 0.05f;
+    
     public bool docked { get; private set; }
 
     private DockPassive passiveDockingPort = null; // Passive docking port component, if docked
@@ -108,5 +112,13 @@ public class DockActive : MonoBehaviour
         playerController.SetAllowDamageAndCollision(en);
         var playerSimMovement = this.GetComponent<SimMovement>();
         playerSimMovement.enabled = en;
+    }
+
+    private void Update()
+    {
+        if (this.docked)
+        {
+            this.GetComponentInChildren<EngineComponent>()?.AddFuel(Time.deltaTime * this.refuelRate);
+        }
     }
 }

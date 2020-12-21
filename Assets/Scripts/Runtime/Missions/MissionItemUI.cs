@@ -27,7 +27,7 @@ public class MissionItemUI : MonoBehaviour
 
         this.nameText.text = mission.Name;
         this.descriptionText.text = mission.Description;
-        this.rewardText.text = $"{mission.Reward} cr";
+        this.rewardText.text = $"<style=credits>{mission.Reward} cr</style>";
 
         if (this.activeMission)
         {

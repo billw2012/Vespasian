@@ -38,7 +38,10 @@ public class UpgradeItemUI : MonoBehaviour
         this.installButton.interactable = this.upgradeUI.CanInstall(this.upgradeDef) && canAfford;
         this.installedTick.SetActive(isInstalled);
         this.nameLabel.text = this.upgradeDef.name;
-        this.costLabel.text = isInstalled? "" : $"{this.upgradeDef.cost} cr";
-        this.costLabel.color = canAfford? new Color(1f, 1f, 0.1789966f) : new Color(1f, 0.1875373f, 0f);
+        this.costLabel.text = isInstalled
+            ? ""
+            : canAfford
+                ? $"<style=credits>{this.upgradeDef.cost} cr"
+                : $"<style=credits-bad>{this.upgradeDef.cost} cr";
     }
 }

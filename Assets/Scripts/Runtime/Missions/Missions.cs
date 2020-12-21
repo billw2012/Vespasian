@@ -161,7 +161,7 @@ public class Missions : MonoBehaviour, ISavable
             mission.Update(this);
             if (mission.IsComplete && !this.completedMissions.Contains(mission))
             {
-                NotificationsUI.Add($"<color=#00C1FF>Mission <b>{mission.Name}</b> complete!</color>");
+                NotificationsUI.Add($"<style=mission>Mission <b>{mission.Name}</b> complete!</style>");
                 this.completedMissions.Add(mission);
             }
         }
@@ -184,21 +184,21 @@ public class Missions : MonoBehaviour, ISavable
         this.activeMissions.Remove(mission);
         this.OnMissionsChanged?.Invoke();
 
-        this.AddFunds(mission.Reward, $"<color=#B550FF>Mission <b>{mission.Name}</b> completed</color>");
+        this.AddFunds(mission.Reward, $"<style=mission>Mission <b>{mission.Name}</b> completed</style>");
     }
 
     public void AddFunds(int amount, string reason)
     {
         Assert.IsTrue(amount > 0, "Can only add positive funds, use SubtractFunds to remove funds...");
         this.playerCredits += amount;
-        NotificationsUI.Add($"{reason}, <color=#FFFB00><b>+{amount} cr</b></color>");
+        NotificationsUI.Add($"{reason}, +<style=credits>{amount} cr</style>");
     }
     
     public void SubtractFunds(int amount)
     {
         Assert.IsTrue(this.playerCredits >= amount, "Not enough credits!");
         this.playerCredits -= amount;
-        NotificationsUI.Add($"<color=#FFFB00><b>-{amount} cr</b></color>");
+        NotificationsUI.Add($"-<style=credits-bad>{amount} cr</style>");
     }
 
     public void UpdateNewDataReward()

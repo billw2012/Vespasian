@@ -20,6 +20,9 @@ public class HealthComponent : MonoBehaviour
         }
     }
 
+    public bool isDamaged => this.hullHP < this.maxHullHP;
+    public float damagedHP => this.maxHullHP - this.hullHP;
+    
 
     private float hullHP;
     private float previousHull = 1;
@@ -77,5 +80,10 @@ public class HealthComponent : MonoBehaviour
     public void AddHull(float amount)
     {
         this.hullHP = Mathf.Clamp(this.hullHP + amount, 0, this.maxHullHP);
+    }
+
+    public void FullyRepairHull()
+    {
+        this.hullHP = this.maxHullHP;
     }
 }

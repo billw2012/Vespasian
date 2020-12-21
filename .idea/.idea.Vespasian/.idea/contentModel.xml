@@ -285,6 +285,7 @@
               <e p="DockedOptions.cs" t="Include" />
               <e p="DragJoystick.cs" t="Include" />
               <e p="DragToFire.cs" t="Include" />
+              <e p="FixDamageButton.cs" t="Include" />
               <e p="FollowCameraController.cs" t="Include" />
               <e p="FuelBar.cs" t="Include" />
               <e p="GUILayerManager.cs" t="Include" />
