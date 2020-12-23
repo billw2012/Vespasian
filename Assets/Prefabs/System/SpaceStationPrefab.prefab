@@ -316,6 +316,7 @@ MonoBehaviour:
   originTransform: {fileID: 1691466783121985083}
   areaMarkerAsset: {fileID: 2472012875729438161, guid: d9f92eefffe30e2409e25438f657e8e1,
     type: 3}
+  alwaysRevealed: 0
   spacecraftTransform: {fileID: 1061109160353489250}
   orbit: {fileID: 3228156946031901376}
 --- !u!1 &4629247677597602736
@@ -488,6 +489,7 @@ GameObject:
   - component: {fileID: 3228156946031901376}
   - component: {fileID: 5946942986053915942}
   - component: {fileID: 470953181070086178}
+  - component: {fileID: 5300559651570263418}
   m_Layer: 0
   m_Name: SpaceStationPrefab
   m_TagString: Untagged
@@ -648,6 +650,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 1
+--- !u!114 &5300559651570263418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6031893901637196809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e898f5384125c7e43937e36d1c82eb4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6926672170418661837
 GameObject:
   m_ObjectHideFlags: 0

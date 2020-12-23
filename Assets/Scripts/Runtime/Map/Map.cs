@@ -133,7 +133,7 @@ public abstract class Body
         }
     }
 
-    public virtual ICollection<DataEntry> GetData(DataMask mask) => Enumerable.Empty<DataEntry>().ToList();
+    public virtual ICollection<DataEntry> GetData(DataMask mask, BodySpecs specs) => Enumerable.Empty<DataEntry>().ToList();
 
     public virtual int GetDataCreditValue(DataMask data) => 0;
 }
@@ -146,10 +146,10 @@ public abstract class OrbitingBody : Body
     public OrbitingBody() { }
     public OrbitingBody(int systemId) : base(systemId) { }
 
-    public override ICollection<DataEntry> GetData(DataMask mask)
+    public override ICollection<DataEntry> GetData(DataMask mask, BodySpecs specs)
     {
         // TODO: cache all this in a dict instead? Maybe Lazy<>?
-        var result = base.GetData(mask);
+        var result = base.GetData(mask, specs);
 
         if (mask.HasFlag(DataMask.Orbit))
         {
@@ -219,13 +219,17 @@ public class StarOrPlanet : OrbitingBody
     public StarOrPlanet() { }
     public StarOrPlanet(int systemId) : base(systemId) { }
     
-    public override ICollection<DataEntry> GetData(DataMask mask)
+    public override ICollection<DataEntry> GetData(DataMask mask, BodySpecs specs)
     {
         // TODO: cache all this in a dict instead? Maybe Lazy<>?
-        var result = base.GetData(mask);
+        var result = base.GetData(mask, specs);
 
         if (mask.HasFlag(DataMask.Basic))
         {
+            var spec = specs.GetSpecById(this.specId);
+
+            result.Add(new DataEntry(DataMask.Basic, "Type", spec.name));
+            result.Add(new DataEntry(DataMask.Basic, "Description", spec.description));
             result.Add(new DataEntry(DataMask.Basic, "Temp", this.temp));
             result.Add(new DataEntry(DataMask.Basic, "Radius", this.radius));
         }

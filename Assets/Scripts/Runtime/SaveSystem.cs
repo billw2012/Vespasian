@@ -9,6 +9,25 @@ using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
 
+// This might be useful to solve problems with order of init on load, but not necessary yet.
+//
+// public enum LoadOrder
+// {
+//     Any,
+//     First,
+//     PrePostLoad,  Seems weird. Can we explicitly specify types in ordering? Or just use a number for priority?
+//     PostPostLoad,
+//     Last
+// }
+//
+// [AttributeUsage(AttributeTargets.Class)]
+// public class LoadOrderAttribute : Attribute 
+// {
+//     public LoadOrder loadOrder;
+//
+//     public LoadOrderAttribute(LoadOrder loadOrder) { this.loadOrder = loadOrder; }
+// }
+
 /// <summary>
 /// Required on a type to indicate that it can be saved using this system
 /// </summary>

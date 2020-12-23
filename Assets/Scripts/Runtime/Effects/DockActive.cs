@@ -3,7 +3,9 @@ using Pixelplacement.TweenSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /*
  * Must be attached to spacecraft itself. Not to the docking port.
@@ -15,10 +17,12 @@ public class DockActive : MonoBehaviour
     public Transform dockingPortTransform;
 
     public float refuelRate = 0.05f;
-    
+
+    public GameLogic gameLogic;
+
     public bool docked { get; private set; }
 
-    private DockPassive passiveDockingPort = null; // Passive docking port component, if docked
+    public DockPassive passiveDockingPort { get; private set; }= null; // Passive docking port component, if docked
 
     public void OnDrawGizmos()
     {
@@ -71,6 +75,8 @@ public class DockActive : MonoBehaviour
             if (passivePort != null)
             {
                 this.DockAt(passivePort);
+                // We save when docking is initiated like this (we assume it is player initiated when ToggleDock is called, rather than due to new game or loaded save)
+                _ = this.gameLogic.SaveGameAsync();
             }
             else
             {

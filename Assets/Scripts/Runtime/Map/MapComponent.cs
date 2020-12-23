@@ -143,7 +143,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
 
     public async Task LoadStartingSystemAsync()
     {
-        var faction = Object.FindObjectOfType<Faction>();
+        var faction = FindObjectOfType<Faction>();
         if(faction && faction.stations.Any())
         {
             var randomFactionStation = faction.stations.SelectRandom();
@@ -190,16 +190,43 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
     }
 
     #region ISavableCustom
-    public void Save(ISaver serializer)
+    public void Save(ISaver saver)
     {
         //serializer.SaveObject("map", this.map);
-        serializer.SaveValue("currentIdx", this.map.systems.IndexOf(this.currentSystem));
+        saver.SaveValue("currentIdx", this.map.systems.IndexOf(this.currentSystem));
+
+        var dockActive = this.player.GetComponentInChildren<DockActive>();//.Save(saver);
+        saver.SaveValue("docked", dockActive.docked);
+        if (dockActive.docked)
+        {
+            // There should be a BodyGenerator in the parent chain from a passive docking port, representing the
+            // station we are docked to.
+            var dockTarget = dockActive.passiveDockingPort.GetComponentInParent<BodyGenerator>();
+            saver.SaveValue("dockTarget.BodyRef", dockTarget.BodyRef);
+            int dockingPortIndex = Array.IndexOf(
+                dockTarget.GetComponentsInChildren<DockPassive>().ToArray(),
+                dockActive.passiveDockingPort);
+            saver.SaveValue("dockTarget.Index", dockingPortIndex);
+        }
     }
 
-    public void Load(ILoader deserializer)
+    private BodyRef dockTargetBodyRef;
+    private int dockTargetIndex;
+    
+    public void Load(ILoader loader)
     {
         //deserializer.LoadObject("map", this.map);
-        this.currentSystem = this.map.systems[deserializer.LoadValue<int>("currentIdx")];
+        this.currentSystem = this.map.systems[loader.LoadValue<int>("currentIdx")];
+        
+        if (loader.LoadValue<bool>("docked"))
+        {
+            this.dockTargetBodyRef = loader.LoadValue<BodyRef>("dockTarget.BodyRef");
+            this.dockTargetIndex = loader.LoadValue<int>("dockTarget.Index");
+        }
+        else
+        {
+            this.dockTargetBodyRef = null;
+        }
     }
     #endregion
 
@@ -208,6 +235,15 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
     {
         // We need to load into the current system after game save load is complete
         await this.LoadSystemAsync(null, this.currentSystem);
+        
+        if (this.dockTargetBodyRef != null)
+        {
+            var dockTarget = FindObjectsOfType<BodyGenerator>().FirstOrDefault(b => b.BodyRef == this.dockTargetBodyRef);
+            Assert.IsNotNull(dockTarget, $"Couldn't find docking target with BodyRef {this.dockTargetBodyRef}");
+            var dockingPortTargets =
+                dockTarget.GetComponentsInChildren<DockPassive>().ToArray();
+            this.player.GetComponent<DockActive>().DockAt(dockingPortTargets[this.dockTargetIndex]);
+        }
     }
     #endregion
 }

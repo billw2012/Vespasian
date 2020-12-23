@@ -159,7 +159,7 @@ public class StarSystemUI : MonoBehaviour
         
         var knownDataMask = this.playerData.GetData(actualBody.bodyRef);
         //var knownDataStr = new List<string>{"Type: Planet"};
-        var knownData = actualBody.GetData(knownDataMask);
+        var knownData = actualBody.GetData(knownDataMask, this.mapComponent.bodySpecs);
         this.selectedBodyDescription_tmp.text = string.Join("\n", knownData.Select(d => $"{d.name}: {d.entry}"));
     }
 }

@@ -37,6 +37,7 @@ public class GameLogic : ScriptableObject {
     public async Task SaveGameAsync()
     {
         await this.saveSystem.SaveAsync(this.saveIndex);
+        NotificationsUI.Add($"<style=system>Game saved in slot {this.saveIndex + 1}");
     }
 
     public async Task<SaveSystem.SaveGameMetadata> LoadMetadataAsync(int index) => await this.saveSystem.LoadMetadataAsync(index);
@@ -53,6 +54,11 @@ public class GameLogic : ScriptableObject {
             if (!await this.saveSystem.LoadAsync(this.saveIndex))
             {
                 await this.NewGameAsync();
+                NotificationsUI.Add($"<style=system>New game started");
+            }
+            else
+            {
+                NotificationsUI.Add($"<style=system>Game loaded from slot {this.saveIndex + 1}");
             }
 
             this.uiManager.SwitchToPlay();

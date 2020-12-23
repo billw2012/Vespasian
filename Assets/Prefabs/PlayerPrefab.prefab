@@ -827,6 +827,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dockingPortTransform: {fileID: 4238201332657935412}
+  refuelRate: 0.05
+  gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
 --- !u!114 &245438755032496346
 MonoBehaviour:
   m_ObjectHideFlags: 0
