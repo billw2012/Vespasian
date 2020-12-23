@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using IngameDebugConsole;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,6 +13,11 @@ public class MissionBoardUI : MissionListUIBase
     
     protected override IEnumerable<IMissionBase> MissionList => this.missions.availableMissions;
     protected override GameObject CreateUI(IMissionFactory factory, IMissionBase mission, Transform parent) => factory.CreateBoardUI(this.missions, mission, parent);
+
+    private void Awake()
+    {
+        DebugLogConsole.AddCommand( "show-mission-board", "Shows the mission board", () => FindObjectOfType<GUILayerManager>().PushLayer(this.gameObject) );
+    }
 
     protected override void InitUI()
     {

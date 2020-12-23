@@ -42,7 +42,7 @@ namespace GK
         /// </summary>
         public static bool ToTheLeft(Vector2 p, Vector2 l0, Vector2 l1)
         {
-            return ((l1.x - l0.x) * (p.y - l0.y) - (l1.y - l0.y) * (p.x - l0.x)) >= 0;
+            return (l1.x - l0.x) * (p.y - l0.y) - (l1.y - l0.y) * (p.x - l0.x) >= 0;
         }
 
         /// <summary>
@@ -76,11 +76,9 @@ namespace GK
             float cx = c2.x - p.x;
             float cy = c2.y - p.y;
 
-            return (
-                    (ax * ax + ay * ay) * (bx * cy - cx * by) -
-                    (bx * bx + by * by) * (ax * cy - cx * ay) +
-                    (cx * cx + cy * cy) * (ax * by - bx * ay)
-            ) > 0.000001f;
+            return (ax * ax + ay * ay) * (bx * cy - cx * @by) -
+                (bx * bx + @by * @by) * (ax * cy - cx * ay) +
+                (cx * cx + cy * cy) * (ax * @by - bx * ay) > 0.000001f;
         }
 
         /// <summary>
@@ -113,7 +111,7 @@ namespace GK
         /// </summary>
         public static bool LineLineIntersection(Vector2 p0, Vector2 v0, Vector2 p1, Vector2 v1, out float m0, out float m1)
         {
-            float det = (v0.x * v1.y - v0.y * v1.x);
+            float det = v0.x * v1.y - v0.y * v1.x;
 
             if (Mathf.Abs(det) < 0.001f)
             {
@@ -166,7 +164,7 @@ namespace GK
         /// </summary>
         public static Vector2 TriangleCentroid(Vector2 c0, Vector2 c1, Vector2 c2)
         {
-            var val = (1.0f / 3.0f) * (c0 + c1 + c2);
+            var val = 1.0f / 3.0f * (c0 + c1 + c2);
             return val;
         }
 
@@ -182,7 +180,7 @@ namespace GK
 
             for (int i = 0; i < count; i++)
             {
-                int j = (i == count - 1) ? 0 : (i + 1);
+                int j = i == count - 1 ? 0 : i + 1;
 
                 var p0 = polygon[i];
                 var p1 = polygon[j];

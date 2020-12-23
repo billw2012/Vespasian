@@ -1,8 +1,13 @@
+using IngameDebugConsole;
 using System;
 using UnityEngine;
 
 /// <summary>
-/// Converts player input into thrust applied to the EngineController
+/// Represents the players control of some in game entity (typically a ship).
+/// Specifically:
+/// - converts player input into thrust applied to the EngineController
+/// - provides simplified interface to common player ship functions
+/// - registers debug console functions for player
 /// </summary>
 public class PlayerController : MonoBehaviour, ISavable, ISavableCustom
 {

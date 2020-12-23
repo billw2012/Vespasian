@@ -46,7 +46,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
         if (this.areaMarker != null)
         {
             // Show the marker only if the effect is discovered, not complete and revealed by something recently (scanner, observation etc.)
-            this.areaMarker.SetActive(this.alwaysRevealed || (this.discovered && !this.IsComplete() && Time.time < this.revealedTime + 1f));
+            this.areaMarker.SetActive(this.alwaysRevealed || this.discovered && !this.IsComplete() && Time.time < this.revealedTime + 1f);
             this.areaMarker.transform.localScale = Vector3.one * this.range;
         }
     }

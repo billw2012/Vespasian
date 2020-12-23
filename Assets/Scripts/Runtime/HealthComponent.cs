@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Assertions;
+﻿using IngameDebugConsole;
+using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
@@ -15,8 +15,8 @@ public class HealthComponent : MonoBehaviour
     public float hull => this.hullHP / this.maxHullHP;
     public float shield {
         get {
-            var shield = this.GetComponentInChildren<ShieldComponent>();
-            return shield == null ? 0 : shield.shield;
+            var shieldComponent = this.GetComponentInChildren<ShieldComponent>();
+            return shieldComponent == null ? 0 : shieldComponent.shield;
         }
     }
 
@@ -59,10 +59,10 @@ public class HealthComponent : MonoBehaviour
             return;
         }
 
-        var shield = this.GetComponentInChildren<ShieldComponent>();
-        if(shield != null)
+        var shieldComponent = this.GetComponentInChildren<ShieldComponent>();
+        if(shieldComponent != null)
         {
-            amount = shield.AddDamage(amount);
+            amount = shieldComponent.AddDamage(amount);
         }
         this.hullHP = Mathf.Clamp(this.hullHP - amount, 0, this.maxHullHP);
 
@@ -85,5 +85,18 @@ public class HealthComponent : MonoBehaviour
     public void FullyRepairHull()
     {
         this.hullHP = this.maxHullHP;
+    }
+
+    private static HealthComponent GetPlayerHealthComponent() =>
+        FindObjectOfType<PlayerController>()?.GetComponentInChildren<HealthComponent>();
+    
+    [ConsoleMethod("player.ship.sethull", "Set hull of the players ship (0 - 1)")]
+    public static void DebugSetPlayerShipHull(float newHull)
+    {
+        var playerHealthComponent = GetPlayerHealthComponent();
+        if (playerHealthComponent != null)
+        {
+            playerHealthComponent.hullHP = Mathf.Clamp(newHull, 0, 1) * playerHealthComponent.maxHullHP;
+        }
     }
 }

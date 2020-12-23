@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 // Class which manages the star system UI
@@ -15,8 +16,12 @@ public class StarSystemUI : MonoBehaviour
     [Tooltip("Prefab which will be used to generate the star system scheme")]
     public GameObject schemeBodyPrefab;
 
-    public TextMeshProUGUI selectedBodyDescription_tmp;
-    public TextMeshProUGUI selectedBodyName_tmp;
+    public TMP_Text systemLabel;
+    public TMP_Text selectedBodyDescriptionLabel;
+    public TMP_Text selectedBodyNameLabel;
+
+    public float xSpacing = 20.0f;
+    public float ySpacing = 0.0f;
 
     private MapComponent mapComponent;
     private DataCatalog playerData;
@@ -44,7 +49,6 @@ public class StarSystemUI : MonoBehaviour
         this.GenerateSchemeFromSystem(this.mapComponent.currentSystem);
     }
 
-
     // Generates elements of this UI from a solar system
     private void GenerateSchemeFromSystem(SolarSystem system)
     {
@@ -69,6 +73,8 @@ public class StarSystemUI : MonoBehaviour
 
         this.system = system;
 
+        this.systemLabel.text = this.system.name;
+
         // Generate elements from system
         var elements = new List<GameObject>();
         this.schemeElements = elements;
@@ -76,7 +82,7 @@ public class StarSystemUI : MonoBehaviour
         // Local function which initializes transform of the scheme element
         void InitSchemeBodyTransform(GameObject obj, float x, float y)
         {
-            var rectTransform = obj.GetComponent<RectTransform>();       
+            var rectTransform = obj.GetComponent<RectTransform>();
             rectTransform.SetParent(this.schemeRoot.GetComponent<RectTransform>(), worldPositionStays: false);
             rectTransform.anchorMax = Vector2.zero;
             rectTransform.anchorMin = Vector2.zero;
@@ -97,7 +103,7 @@ public class StarSystemUI : MonoBehaviour
         
         // Setup its visuals
         this.InitSchemeBodyProperties(starGameObject, mainBody);
-        currentXPos += (starGameObject.GetComponent<RectTransform>().rect.width + 100.0f);
+        currentXPos += starGameObject.GetComponent<RectTransform>().rect.width + this.xSpacing;
 
         // Iterate star's planets
         foreach (var planet in system.main.children)
@@ -107,7 +113,7 @@ public class StarSystemUI : MonoBehaviour
             InitSchemeBodyTransform(planetGameObject, currentXPos, currentYPos);
             this.InitSchemeBodyProperties(planetGameObject, planet);
 
-            currentYPos -= (planetGameObject.GetComponent<RectTransform>().rect.height + 0.0f);
+            currentYPos -= planetGameObject.GetComponent<RectTransform>().rect.height + this.ySpacing;
 
             // Iterate planet's moons
             // Todo what to do with binary systems?
@@ -123,7 +129,7 @@ public class StarSystemUI : MonoBehaviour
             }
 
             // Add some offset between them
-            currentXPos += (planetGameObject.GetComponent<RectTransform>().rect.width + 50.0f); 
+            currentXPos += planetGameObject.GetComponent<RectTransform>().rect.width + this.xSpacing; 
             currentYPos = 0;
         }
     }
@@ -155,11 +161,11 @@ public class StarSystemUI : MonoBehaviour
 
         // Fill the data in the info panel
         var actualBody = body.actualBody;
-        this.selectedBodyName_tmp.text = actualBody.randomKey.ToString();
+        this.selectedBodyNameLabel.text = actualBody.bodyRef.ToString();
         
         var knownDataMask = this.playerData.GetData(actualBody.bodyRef);
         //var knownDataStr = new List<string>{"Type: Planet"};
         var knownData = actualBody.GetData(knownDataMask, this.mapComponent.bodySpecs);
-        this.selectedBodyDescription_tmp.text = string.Join("\n", knownData.Select(d => $"{d.name}: {d.entry}"));
+        this.selectedBodyDescriptionLabel.text = string.Join("\n", knownData.Select(d => $"{d.name}: {d.entry}"));
     }
 }

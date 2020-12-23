@@ -95,8 +95,8 @@ public struct OrbitParameters
             }
 
             float fIdx = (this.direction == OrbitDirection.Clockwise
-                ? (this.path.Length - (t - this.timeOffset) / this.dt)
-                : ((t + this.timeOffset) / this.dt)) % this.path.Length;
+                ? this.path.Length - (t - this.timeOffset) / this.dt
+                : (t + this.timeOffset) / this.dt) % this.path.Length;
 
             int idx0 = ModPositive(Mathf.FloorToInt(fIdx), this.path.Length);
             int idx1 = ModPositive(idx0 + 1, this.path.Length);
@@ -112,8 +112,8 @@ public struct OrbitParameters
             }
 
             float fIdx = (this.direction == OrbitDirection.Clockwise
-                ? (this.path.Length - (t - this.timeOffset) / this.dt)
-                : ((t + this.timeOffset) / this.dt)) % this.path.Length;
+                ? this.path.Length - (t - this.timeOffset) / this.dt
+                : (t + this.timeOffset) / this.dt) % this.path.Length;
 
             int idx0 = ModPositive(Mathf.FloorToInt(fIdx), this.path.Length);
             int idx1 = ModPositive(idx0 + 1, this.path.Length);

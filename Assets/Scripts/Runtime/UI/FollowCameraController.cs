@@ -36,7 +36,7 @@ public class FollowCameraController : MonoBehaviour
         get
         {
             float dist = Vector2.Distance(this.transform.position, this.target.transform.position);
-            return (dist < 2.0f);
+            return dist < 2.0f;
         }
     }
 

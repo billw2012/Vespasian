@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using IngameDebugConsole;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +11,11 @@ public class UpgradeUI : MonoBehaviour
 
     private UpgradeManager upgradeManager;
     private Missions missions;
+
+    private void Awake()
+    {
+        DebugLogConsole.AddCommand( "show-upgrade-menu", "Shows the upgrade menu", () => FindObjectOfType<GUILayerManager>().PushLayer(this.gameObject) );
+    }
 
     private void OnEnable()
     {

@@ -74,7 +74,7 @@ public static class MathX
         float Section(float h)
         {
             // http://www.wolframalpha.com/input/?i=r+*+sin%28acos%28x+%2F+r%29%29+%3D+h
-            return (h < circleRadius) ? Mathf.Sqrt(circleRadius * circleRadius - h * h) : 0; 
+            return h < circleRadius ? Mathf.Sqrt(circleRadius * circleRadius - h * h) : 0; 
         }
 
         // indefinite integral of circle segment

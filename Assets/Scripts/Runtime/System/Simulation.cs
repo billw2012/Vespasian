@@ -117,9 +117,9 @@ public class PathSection
         var position = Vector3.Lerp(this.positions[idx0], this.positions[idx1], frac);
 
         var velocity = idx1 + 1 > this.positions.Count - 1 ?
-            (position - Vector3.Lerp(this.positions[idx0 - 1], this.positions[idx0], frac))
+            position - Vector3.Lerp(this.positions[idx0 - 1], this.positions[idx0], frac)
             :
-            (Vector3.Lerp(this.positions[idx1], this.positions[idx1 + 1], frac) - position);
+            Vector3.Lerp(this.positions[idx1], this.positions[idx1 + 1], frac) - position;
         return (position.xy0(), velocity.xy0() / dt);
     }
 

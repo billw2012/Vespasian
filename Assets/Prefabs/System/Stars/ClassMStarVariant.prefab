@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 5627716558633760033, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: parameters.mass
-      value: 2.5132742
+      value: 10.053097
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207753, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}

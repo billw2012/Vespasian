@@ -14,7 +14,8 @@
         "MobilePostProcess",
         "CatlikeCoding.SDFToolkit.Runtime",
         "AsyncAwaitUtil.Runtime",
-        "Pixelplacement.Surge.Runtime"
+        "Pixelplacement.Surge.Runtime",
+        "IngameDebugConsole.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

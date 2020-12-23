@@ -1,3 +1,4 @@
+using IngameDebugConsole;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,4 +30,17 @@ public class EngineComponent : MonoBehaviour, IUpgradeLogic, ISavable
     public void Uninstall() { }
     public void TestFire() { }
     #endregion IUpdateLogic
+    
+    private static EngineComponent GetPlayerEngineComponent() =>
+        FindObjectOfType<PlayerController>()?.GetComponentInChildren<EngineComponent>();
+    
+    [ConsoleMethod("player.ship.setfuel", "Set fuel of the players ship (0 - 1)")]
+    public static void DebugSetPlayerShipFuel(float newFuel)
+    {
+        var playerEngineComponent = GetPlayerEngineComponent();
+        if (playerEngineComponent != null)
+        {
+            playerEngineComponent.fuel = Mathf.Clamp(newFuel, 0, 1);
+        }
+    }
 }

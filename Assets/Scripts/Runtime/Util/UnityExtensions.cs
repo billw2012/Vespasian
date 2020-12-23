@@ -28,7 +28,7 @@ public static class UnityExtensions
     {
         Vector2 pointOnRay_local = pointOnRay - rect.center;
         Vector2 edgeToRayRatios = (rect.Max() - rect.center).DividedBy(pointOnRay_local.Abs());
-        return (edgeToRayRatios.x < edgeToRayRatios.y) ?
+        return edgeToRayRatios.x < edgeToRayRatios.y ?
             new Vector2(pointOnRay_local.x > 0 ? rect.xMax : rect.xMin,
                 pointOnRay_local.y * edgeToRayRatios.x + rect.center.y) :
             new Vector2(pointOnRay_local.x * edgeToRayRatios.y + rect.center.x,

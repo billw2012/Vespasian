@@ -57,9 +57,9 @@ public abstract class AStar<T>
                 float g = bestCell.cost + this.CalcHeuristic(curCell.position, bestCell.position);
                 float h = this.CalcHeuristic(curCell.position, goal);
 
-                if (this.openList.Contains(curCell) && curCell.f < (g + h))
+                if (this.openList.Contains(curCell) && curCell.f < g + h)
                     continue;
-                if (this.closedList.Contains(curCell) && curCell.f < (g + h))
+                if (this.closedList.Contains(curCell) && curCell.f < g + h)
                     continue;
 
                 curCell.cost = g;

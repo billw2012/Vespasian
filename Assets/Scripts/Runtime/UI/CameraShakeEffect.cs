@@ -54,7 +54,7 @@ public class CameraShakeEffect : MonoBehaviour
     private static float CosTransition(float valueNormalized)
     {
         var valueClamped = Mathf.Clamp(valueNormalized, 0, 1);
-        return (0.5f - 0.5f * Mathf.Cos(valueClamped * Mathf.PI));
+        return 0.5f - 0.5f * Mathf.Cos(valueClamped * Mathf.PI);
     }
 
     // Returns decaying value 1..0, input is 0..1
