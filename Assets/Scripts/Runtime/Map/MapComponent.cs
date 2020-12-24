@@ -13,9 +13,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
     public BodySpecs bodySpecs;
     public MapGenerator mapGenerator;
 
-    [NonSerialized]
-    [Saved]
-    public Map map;
+    [NonSerialized, Saved] public Map map;
 
     [NonSerialized]
     public SolarSystem currentSystem;
@@ -183,7 +181,7 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
 
     public int GetDataCreditValue(BodyRef bodyRef, DataMask data)
     {
-        var body = this.map.Find(bodyRef);
+        var body = this.map.GetBody(bodyRef);
         int baseValue = body.GetDataCreditValue(data);
         float multiplier = this.bodySpecs.GetSpecById(body.specId).dataValueMultiplier;
         return Mathf.CeilToInt(baseValue * multiplier);

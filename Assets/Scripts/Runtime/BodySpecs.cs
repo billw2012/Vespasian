@@ -35,7 +35,7 @@ public class BodySpecs : ScriptableObject
         public float probability = 1;
     }
 
-    [Serializable][KnownType(typeof(StarSpec))]
+    [Serializable, KnownType(typeof(StarSpec))]
     public class StarSpec : BodySpec
     {
         public WeightedRandom massRandom = new WeightedRandom { min = 5, max = 30 };
@@ -44,7 +44,7 @@ public class BodySpecs : ScriptableObject
         public WeightedRandom densityRandom = new WeightedRandom { min = 1f, max = 1f, gaussian = true };
     }
 
-    [Serializable][KnownType(typeof(PlanetSpec))]
+    [Serializable, KnownType(typeof(PlanetSpec))]
     public class PlanetSpec : BodySpec
     {
         public WeightedRandom densityRandom = new WeightedRandom { min = 2f, max = 2f, gaussian = true };
@@ -61,7 +61,7 @@ public class BodySpecs : ScriptableObject
         public bool Matches(float mass, float temp) => this.minMass <= mass && mass <= this.maxMass && this.minTemp <= temp && temp <= this.maxTemp;
     }
 
-    [Serializable][KnownType(typeof(BeltSpec))]
+    [Serializable, KnownType(typeof(BeltSpec))]
     public class BeltSpec : BodySpec
     {
         public float minDistance = 0f;
@@ -70,15 +70,15 @@ public class BodySpecs : ScriptableObject
         public bool Matches(float distance) => this.minDistance <= distance && distance <= this.maxDistance;
     }
 
-    [Serializable][KnownType(typeof(CometSpec))]
+    [Serializable, KnownType(typeof(CometSpec))]
     public class CometSpec : BodySpec
     {
         public WeightedRandom relativePeriapsisRandom = new WeightedRandom { min = 0f, max = 0.1f };
         public WeightedRandom eccentricityRandom = new WeightedRandom { min = 0.6f, max = 0.95f };
         public float minApproach = 10f;
     }
-    
-    [Serializable][KnownType(typeof(StationSpec))]
+
+    [Serializable, KnownType(typeof(StationSpec))]
     public class StationSpec : BodySpec
     {
     }

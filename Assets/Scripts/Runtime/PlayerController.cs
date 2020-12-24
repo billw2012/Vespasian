@@ -56,8 +56,8 @@ public class PlayerController : MonoBehaviour, ISavable, ISavableCustom
     }
 
     #region ISavableCustom
-    [RegisterSavableType(typeof(Vector3))]
-    [RegisterSavableType(typeof(Quaternion))]
+
+    [RegisterSavableType(typeof(Vector3)), RegisterSavableType(typeof(Quaternion))]
     public void Save(ISaver serializer)
     {
         var simComponent = this.GetComponent<SimMovement>();

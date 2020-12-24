@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,18 @@ public class MapUI : MonoBehaviour
     {
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.CreateMap();
+    }
+
+    private void OnEnable()
+    {
+        foreach (var linkMarker in this.mapView.GetComponentsInChildren<MapLinkMarkerUI>())
+        {
+            linkMarker.Refresh();
+        }
+        foreach (var systemMarker in this.mapView.GetComponentsInChildren<MapSystemMarkerUI>())
+        {
+            systemMarker.Refresh();
+        }
     }
 
     private void CreateMap()

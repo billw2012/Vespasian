@@ -19,9 +19,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
 
     public bool alwaysRevealed = false;
 
-    [NonSerialized]
-    [Saved]
-    public bool discovered;
+    [NonSerialized, Saved] public bool discovered;
 
     private float revealedTime;
 

@@ -19,6 +19,8 @@ public abstract class Body
 
     public Dictionary<string, SaveData> savedComponents;
 
+    public string Name => this.bodyRef.ToString();
+
     private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;
 
@@ -549,5 +551,7 @@ public class Map : ISavable
     public void RemoveLink(Link link) => this.links.Remove(link);
 
     // TODO: optimize?
-    public Body Find(BodyRef bodyRef) => this.systems[bodyRef.systemId].AllBodies().FirstOrDefault(b => b.bodyRef.bodyId == bodyRef.bodyId);
+    public Body GetBody(BodyRef bodyRef) => this.systems[bodyRef.systemId].AllBodies().FirstOrDefault(b => b.bodyRef.bodyId == bodyRef.bodyId);
+
+    public SolarSystem GetSystem(BodyRef bodyRef) => this.systems[bodyRef.systemId];
 }

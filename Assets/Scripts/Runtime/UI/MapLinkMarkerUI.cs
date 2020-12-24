@@ -27,4 +27,9 @@ public class MapLinkMarkerUI : MonoBehaviour
     {
         this.line.color = this.isJumpRoute ? this.jumpRouteColor : this.color;
     }
+
+    public void Refresh()
+    {
+        
+    }
 }

@@ -79,20 +79,14 @@ public class Missions : MonoBehaviour, ISavable
 {
     public List<GameObject> missionFactoryObjects;
 
-    [NonSerialized]
-    [Saved]
-    [RegisterSavableType]
+    [NonSerialized, Saved, RegisterSavableType]
     public List<IMissionBase> activeMissions = new List<IMissionBase>();
 
     // This should perhaps be specific to particular locations, not sure?
-    [NonSerialized]
-    [Saved]
-    [RegisterSavableType]
+    [NonSerialized, Saved, RegisterSavableType]
     public List<IMissionBase> availableMissions = new List<IMissionBase>();
 
-    [NonSerialized]
-    [Saved]
-    public int playerCredits;
+    [NonSerialized, Saved] public int playerCredits;
 
     // Data already used to complete missions
     public DataCatalog dataCatalog;
@@ -143,7 +137,7 @@ public class Missions : MonoBehaviour, ISavable
 
         if (!allocatedBodies.Contains(bodyRef))
         {
-            var body = this.mapComponent.map.Find(bodyRef);
+            var body = this.mapComponent.map.GetBody(bodyRef);
             Assert.IsNotNull(body);
             foreach (var mission in bodyMissions)
             {

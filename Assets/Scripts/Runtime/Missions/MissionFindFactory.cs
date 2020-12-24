@@ -9,9 +9,7 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
 {
     public GameObject itemPrefab;
 
-    [Saved]
-    [NonSerialized]
-    public int missionCounter = 0;
+    [Saved, NonSerialized] public int missionCounter = 0;
 
     private PlayerController player;
 

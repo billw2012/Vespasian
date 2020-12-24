@@ -5,9 +5,7 @@ public class Scannable : EffectSource
 {
     public float scannedObjectRadius;
 
-    [NonSerialized]
-    [Saved]
-    public float scanProgress = 0;
+    [NonSerialized, Saved] public float scanProgress = 0;
 
     [NonSerialized]
     public bool scanning = false;
