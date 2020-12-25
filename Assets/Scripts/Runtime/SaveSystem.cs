@@ -64,6 +64,18 @@ public interface ISavableCustom
 }
 
 /// <summary>
+/// Optionally used to provide custom pre-save code for a component. This is called before any fields are saved,
+/// allowing the object to do any updates that might be required.
+/// ISavable is still required, and any use of the [Saved] attribute is still respected. These functions are called
+/// after the [Saved] fields and properties are dealt with. They should NOT do any slow blocking operations, these
+/// should be done using IPostLoadAsync instead (obviously in a none blocking manner as well).
+/// </summary>
+public interface IPreSave
+{
+    void PreSave();
+}
+
+/// <summary>
 /// Implement this to optionally provide custom post load behaviour. This will be called once ALL 
 /// registered ISaveables are loaded
 /// </summary>
@@ -102,6 +114,11 @@ public class SaveData : ISaver, ILoader
 
     public static SaveData SaveObject(ISavable obj)
     {
+        if (obj is IPreSave preSave)
+        {
+            preSave.PreSave();
+        }
+
         var data = new SaveData();
         if (obj != null)
         {

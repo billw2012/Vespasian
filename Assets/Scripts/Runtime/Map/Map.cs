@@ -476,14 +476,19 @@ public class SolarSystem
         var systemObjectTransform = root.transform.Find("System");
         if (systemObjectTransform != null)
         {
-            foreach (var body in this.main
-                .Yield<Body>()
-                .Concat(this.belts)
-                .Concat(this.comets))
+            foreach (var body in this.AllBodies())
             {
                 body.Unloading();
             }
             Object.Destroy(systemObjectTransform.gameObject);
+        }
+    }
+
+    public void SaveAll()
+    {
+        foreach (var body in this.AllBodies())
+        {
+            body.SaveComponents();
         }
     }
 

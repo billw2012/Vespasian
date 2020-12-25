@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAsync
+public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, IPostLoadAsync
 {
     public GUILayerManager uiManager;
     public BodySpecs bodySpecs;
@@ -244,4 +244,9 @@ public class MapComponent : MonoBehaviour, ISavable, ISavableCustom, IPostLoadAs
         }
     }
     #endregion
+
+    public void PreSave()
+    {
+        this.currentSystem?.SaveAll();
+    }
 }
