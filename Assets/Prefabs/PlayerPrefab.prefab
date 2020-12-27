@@ -717,7 +717,7 @@ MonoBehaviour:
   pathRendererAsset: {fileID: 0}
   soiMarkerAsset: {fileID: 0}
   pathWidthScale: 1
-  pathQuality: 0.1
+  pathQuality: 1
   warningSign: {fileID: 0}
 --- !u!114 &1408795510517265554
 MonoBehaviour:

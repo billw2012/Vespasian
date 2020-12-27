@@ -26,7 +26,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     [Range(0, 5)]
     public float pathWidthScale = 1f;
 
-    public float pathQuality = 0.1f;
+    public float pathQuality = 1f;
 
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
@@ -134,6 +134,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     public void SetVelocity(Vector3 velocity)
     {
         this.startVelocity = velocity;
+        this.force = Vector3.zero;
         this.SimRefresh();
     }
 
@@ -150,7 +151,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     }
 
     #region ISimUpdate
-    public void SimUpdate(int simTick)
+    public void SimUpdate(int simTick, int timeStep)
     {
         this.path.Step(simTick, this.force);
 
@@ -168,7 +169,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
             // normal play.
             float desiredRot = Quaternion.FromToRotation(Vector3.up, this.relativeVelocity).eulerAngles.z;
             float currentRot = rigidBody.rotation.eulerAngles.z;
-            float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 360);
+            float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f / timeStep, 360 * timeStep);
             rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
         }
     }
@@ -176,7 +177,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     {
         var sim = FindObjectOfType<Simulation>();
 
-        this.path = sim.CreateSectionedSimPath(this.transform.position, this.startVelocity, 5000, this.transform.localScale.x, 500);
+        this.path = sim.CreateSectionedSimPath(this.transform.position, this.startVelocity, 20000, this.transform.localScale.x, 2000);
 
         this.sois = new List<SimModel.SphereOfInfluence>();
     }
@@ -207,7 +208,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     {
         int scaling = (int)(1f / quality);
         var finalPath = new Vector3[Mathf.FloorToInt((float)(end - start) / scaling)];
-        for (int i = 0; i < finalPath.Length; i++)
+        for (int i = 0; i < finalPath.Length && start + i * scaling < fullPath.Count; i++)
         {
             finalPath[i] = fullPath[start + i * scaling];
         }
@@ -251,8 +252,8 @@ public class SimMovement : MonoBehaviour, ISimUpdate
                 // Sometimes soi can start before the existing path does, so we need to ensure we don't try and index negative values
                 int soiStartTick = Mathf.Max(primaryRelativePath.startTick, soi.startTick);
                 // 0 based offset of the (clamped) soi start in the path positions array
-                int soiOffset = soiStartTick - primaryRelativePath.startTick;
-                int soiDuration = soi.endTick - soiStartTick;
+                int soiOffset = Mathf.Clamp((soiStartTick - primaryRelativePath.startTick) / primaryRelativePath.tickStep, 0, primaryRelativePath.positions.Count - 1);
+                int soiDuration = Mathf.Clamp((soi.endTick - soiStartTick) / primaryRelativePath.tickStep, 0, primaryRelativePath.positions.Count - 1);
                 var relativePath = ReduceRange(primaryRelativePath.positions, soiOffset, soiOffset + soiDuration, this.pathQuality);
                 for (int i = 0; i < relativePath.Count(); i++)
                 {
