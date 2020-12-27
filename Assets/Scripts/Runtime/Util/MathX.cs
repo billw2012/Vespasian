@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class MathX
@@ -134,4 +135,53 @@ public static class MathX
 
     // As per: https://www.desmos.com/calculator/skjkarsia1
     public static float Sigmoid(float x, float a, float b, float k) => k / (1f + Mathf.Exp(a + b * x));
+    
+    // As per: https://en.wikipedia.org/wiki/Cubic_Hermite_spline
+    public static float Hermite(float value1, float tangent1, float value2, float tangent2, float t)
+    {
+        float squared = t * t;
+        float cubed = t * squared;
+        float h00 = 2.0f * cubed - 3.0f * squared + 1.0f;
+        float h10 = cubed - 2.0f * squared + t;
+        float h01 = -2.0f * cubed + 3.0f * squared;
+        float h11 = cubed - squared;
+        
+        return value1 * h00 + tangent1 * h10 + value2 * h01 + tangent2 * h11;
+    }
+    
+    public static Vector2 Hermite(Vector2 value1, Vector2 tangent1, Vector2 value2, Vector2 tangent2, float t)
+    {
+        float squared = t * t;
+        float cubed = t * squared;
+        float h00 = 2.0f * cubed - 3.0f * squared + 1.0f;
+        float h10 = cubed - 2.0f * squared + t;
+        float h01 = -2.0f * cubed + 3.0f * squared;
+        float h11 = cubed - squared;
+        
+        return value1 * h00 + tangent1 * h10 + value2 * h01 + tangent2 * h11;
+    }
+    
+    public static Vector3 Hermite(Vector3 value1, Vector3 tangent1, Vector3 value2, Vector3 tangent2, float t)
+    {
+        float squared = t * t;
+        float cubed = t * squared;
+        float h00 = 2.0f * cubed - 3.0f * squared + 1.0f;
+        float h10 = cubed - 2.0f * squared + t;
+        float h01 = -2.0f * cubed + 3.0f * squared;
+        float h11 = cubed - squared;
+        
+        return value1 * h00 + tangent1 * h10 + value2 * h01 + tangent2 * h11;
+    }
+    
+    public static Vector4 Hermite(Vector4 value1, Vector4 tangent1, Vector4 value2, Vector4 tangent2, float t)
+    {
+        float squared = t * t;
+        float cubed = t * squared;
+        float h00 = 2.0f * cubed - 3.0f * squared + 1.0f;
+        float h10 = cubed - 2.0f * squared + t;
+        float h01 = -2.0f * cubed + 3.0f * squared;
+        float h11 = cubed - squared;
+        
+        return value1 * h00 + tangent1 * h10 + value2 * h01 + tangent2 * h11;
+    }
 }

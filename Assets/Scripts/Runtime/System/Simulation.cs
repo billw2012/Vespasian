@@ -123,7 +123,7 @@ public class PathSection
 
         int idx0 = Mathf.Clamp(Mathf.FloorToInt(fIdx), 0, this.positions.Count - 1);
         int idx1 = Mathf.Clamp(idx0 + 1, 0, this.positions.Count - 1);
-        float frac = fIdx - Mathf.FloorToInt(fIdx);
+        float t = fIdx - Mathf.FloorToInt(fIdx);
         //var position = Vector3.Lerp(this.positions[idx0], this.positions[idx1], frac);
 
         // var velocity = idx1 + 1 > this.positions.Count - 1 ?
@@ -132,11 +132,34 @@ public class PathSection
         //     Vector3.Lerp(this.positions[idx1], this.positions[idx1 + 1], frac) - position;
         // return (position.xy0(), velocity.xy0() / (dt * this.tickStep));
         return (
-            Vector3.Lerp(this.positions[idx0], this.positions[idx1], frac).xy0(),
-            Vector3.Lerp(this.velocities[idx0], this.velocities[idx1], frac).xy0()
+            Vector3.Lerp(this.positions[idx0], this.positions[idx1], t).xy0(),
+            Vector3.Lerp(this.velocities[idx0], this.velocities[idx1], t).xy0()
             );
     }
+    
+    // https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Interpolation_on_a_single_interval
+    public (Vector3, Vector3) GetPositionVelocityHermite(float tick, float dt)
+    {
+        Assert.IsTrue(this.InRange(tick));
 
+        float fIdx = (tick - this.startTick) / this.tickStep;
+
+        int idx0 = Mathf.Clamp(Mathf.FloorToInt(fIdx), 0, this.positions.Count - 1);
+        int idx1 = Mathf.Clamp(idx0 + 1, 0, this.positions.Count - 1);
+
+        float t = fIdx - Mathf.FloorToInt(fIdx);
+
+        return (
+            MathX.Hermite(
+                this.positions[idx0],
+                this.velocities[idx0] * (this.tickStep * dt), 
+                this.positions[idx1],
+                this.velocities[idx1] * (this.tickStep * dt),
+                t).xy0(),
+            Vector3.Lerp(this.velocities[idx0], this.velocities[idx1], t).xy0()
+        );
+    }
+    
     public void Add(Vector3 pos, Vector3 velocity)
     {
         this.positions.Add(pos.xy0());
@@ -643,7 +666,7 @@ public class SectionedSimPath
         // Get new position, either from the path or via dead reckoning
         if (this.simPath != null && this.simPath.pathSection.InRange(this.simTick) && force.magnitude == 0)
         {
-            (this.position, this.velocity) = this.simPath.pathSection.GetPositionVelocity(this.simTick, this.dt);
+            (this.position, this.velocity) = this.simPath.pathSection.GetPositionVelocityHermite(this.simTick, this.dt);
 
             if (this.simPath.sois.Any())
             {
