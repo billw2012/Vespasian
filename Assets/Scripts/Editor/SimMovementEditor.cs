@@ -101,6 +101,10 @@ public class SimMovementEditor : Editor
     [DrawGizmo(GizmoType.NotInSelectionHierarchy | GizmoType.InSelectionHierarchy)]
     private static async void RenderCustomGizmo(SimMovement simMovement, GizmoType gizmoType)
     {
+        // Draw collision radius
+        Handles.color = new Color(0.16f, 0.66f, 0.66f);
+        Handles.DrawWireDisc(simMovement.transform.position, Vector3.forward, simMovement.collisionRadius);
+        
         // Draw existing paths
         Handles.color = new Color(0.33f, 0.66f, 0.66f);
 

@@ -23,7 +23,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
 
     private float revealedTime;
 
-    public float timeMultipler => this.simManager == null ? 1 : this.simManager.timeStep;
+    public float timeMultipler => this.simManager == null ? 1 : this.simManager.tickStep;
 
     private GameObject areaMarker;
 

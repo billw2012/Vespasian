@@ -39,7 +39,7 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic, ISavable
 
     private void Update()
     {
-        this.rechargeCountdown -= this.simManager.timeStep * Time.deltaTime;
+        this.rechargeCountdown -= this.simManager.tickStep * Time.deltaTime;
 
         if (this.rechargeCountdown <= 0)
         {

@@ -120,10 +120,6 @@ public class WarpController : MonoBehaviour
         this.warpPostEffect.Update(warpEffectAmount);
 
         this.starfield.fade = this.mode == Mode.NotInWarp ? 1 : 1 - Mathf.InverseLerp(this.warpSpeed * 0.5f, this.warpSpeed * 0.75f, this.speed);
-
-        //var rigidBody = this.GetComponent<Rigidbody>();
-        //rigidBody.MoveRotation(Quaternion.Euler(0, 0, newAngle));
-        //rigidBody.MovePosition(rigidBody.position + this.speed * Time.deltaTime * this.transform.up);
     }
 
     public async Task EnterWarpAsync(Vector2 direction, float minDistanceBeforeWarp)

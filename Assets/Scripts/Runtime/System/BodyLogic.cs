@@ -46,14 +46,6 @@ public class BodyLogic : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponentInParent<PlayerController>() != null)
-        {
-            this.gameLogic.LoseGameAsync();
-        }
-    }
-
     private void UpdateScale()
     {
         this.geometry.localScale = Vector3.one * this.radius;

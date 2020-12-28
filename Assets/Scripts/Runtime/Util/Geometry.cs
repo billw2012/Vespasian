@@ -16,6 +16,15 @@ public static class Geometry
         public bool occurredOnSegment => this.occurred && this.t >= 0 && this.t <= 1;
     }
 
+    public static Intersect IntersectLineSegmentSphere(Vector3 l0, Vector3 l1, Vector3 center, float radius)
+    {
+        var v = l1 - l0;
+        var intersect = IntersectRaySphere(l0, v.normalized, center, radius);
+        intersect.t /= v.magnitude;
+        intersect.occurred = intersect.t >= 0 && intersect.t <= 1;
+        return intersect;
+    }
+    
     public static Intersect IntersectRaySphere(Vector3 p, Vector3 d, Vector3 center, float radius)
     {
         var m = p - center;

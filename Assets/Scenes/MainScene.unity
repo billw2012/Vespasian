@@ -7803,6 +7803,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
+      propertyPath: OnCrashed.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
       propertyPath: startVelocity.x
       value: 1.1627494
       objectReference: {fileID: 0}
@@ -7817,6 +7822,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5328351541723600180, guid: 8430562055167c447b0a277c12a8cbbd,
         type: 3}
+    - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: OnCrashed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: OnCrashed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: OnCrashed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e,
+        type: 2}
+    - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: OnCrashed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoseGameAsync
+      objectReference: {fileID: 0}
+    - target: {fileID: 5889573712058656243, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: OnCrashed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5962837657640472753, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMax.x

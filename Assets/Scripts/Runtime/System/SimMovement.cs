@@ -4,16 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
 /// Describes and updates a simulated path for an object moving under external forces.
 /// It generates the path ahead of time as long as no direct force is applied.
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
 public class SimMovement : MonoBehaviour, ISimUpdate
 {
     public GameConstants constants;
+
+    public Rigidbody controlledRigidbody;
 
     public Vector3 startVelocity;
     public bool alignToVelocity = true;
@@ -30,6 +33,10 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     [Tooltip("Used to indicate a predicted crash")]
     public GameObject warningSign;
+
+    public float collisionRadius = 0.5f;
+
+    public UnityEvent OnCrashed;
 
     public Vector3 simPosition => this.path.position;
     public Vector3 velocity => this.path.velocity;
@@ -153,12 +160,14 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     #region ISimUpdate
     public void SimUpdate(int simTick, int timeStep)
     {
-        this.path.Step(simTick, this.force);
+        if (!this.path.Step(simTick, this.force))
+        {
+            this.OnCrashed?.Invoke();
+        }
 
         this.force = Vector3.zero;
 
-        var rigidBody = this.GetComponent<Rigidbody>();
-        this.GetComponent<Rigidbody>().MovePosition(this.simPosition);
+        this.controlledRigidbody.MovePosition(this.simPosition);
 
         if (this.alignToVelocity)
         {
@@ -168,16 +177,18 @@ public class SimMovement : MonoBehaviour, ISimUpdate
             // Smooth rotation slightly to avoid random flipping. Smoothing should not be noticeable in
             // normal play.
             float desiredRot = Quaternion.FromToRotation(Vector3.up, this.relativeVelocity).eulerAngles.z;
-            float currentRot = rigidBody.rotation.eulerAngles.z;
-            float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f / timeStep, 360 * timeStep);
-            rigidBody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
+            float currentRot = this.controlledRigidbody.rotation.eulerAngles.z;
+            float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 360 * timeStep, deltaTime: Time.fixedDeltaTime * timeStep);
+            // this.controlledRigidbody.rotation = Quaternion.AngleAxis(smoothedRot, Vector3.forward);
+            this.controlledRigidbody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
         }
     }
+    
     public void SimRefresh()
     {
         var sim = FindObjectOfType<Simulation>();
 
-        this.path = sim.CreateSectionedSimPath(this.transform.position, this.startVelocity, 20000, this.transform.localScale.x, 2000);
+        this.path = sim.CreateSectionedSimPath(this.transform.position, this.startVelocity, 20000, this.collisionRadius, 2000);
 
         this.sois = new List<SimModel.SphereOfInfluence>();
     }
@@ -280,7 +291,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
             // If we aren't predicted to crash and we only pass one soi, then we 
             // can clip the path to only a single orbit of that soi for neatness
-            if (!this.path.crashed && this.sois.Count == 1)
+            if (!this.path.willCrash && this.sois.Count == 1)
             {
                 var primarySoi = soiPaths[0];
                 var soiPos = primarySoi.soi.g.position;
@@ -315,7 +326,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
         if (this.warningSign != null)
         {
-            if (this.path.crashed)
+            if (this.path.willCrash)
             {
                 var canvas = this.warningSign.GetComponent<Graphic>().canvas;
                 this.warningSign.SetActive(true);
@@ -362,7 +373,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
             path = path.Take(path.Count() - 1);
         }
         this.editorCurrPath = path.ToArray();
-        this.editorCrashed = simPath.crashed;
+        this.editorCrashed = simPath.willCrash;
     }
 #endif
 }

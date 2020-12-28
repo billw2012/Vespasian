@@ -712,6 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
+  controlledRigidbody: {fileID: 3664154167166374825}
   startVelocity: {x: 0, y: 0, z: 0}
   alignToVelocity: 1
   pathRendererAsset: {fileID: 0}
@@ -719,6 +720,10 @@ MonoBehaviour:
   pathWidthScale: 1
   pathQuality: 1
   warningSign: {fileID: 0}
+  collisionRadius: 0.83
+  OnCrashed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1408795510517265554
 MonoBehaviour:
   m_ObjectHideFlags: 0
