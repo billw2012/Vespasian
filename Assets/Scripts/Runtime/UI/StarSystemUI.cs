@@ -16,6 +16,8 @@ public class StarSystemUI : MonoBehaviour, IUILayer
     [Tooltip("Prefab which will be used to generate the star system scheme")]
     public GameObject schemeBodyPrefab;
 
+    public GameObject defaultBodyIconPrefab;
+    
     public TMP_Text systemLabel;
     public TMP_Text selectedBodyDescriptionLabel;
     public TMP_Text selectedBodyNameLabel;
@@ -135,6 +137,9 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         bodyComponent.bodyName = bodyData.bodyRef.ToString(); // Read the body name here when we have it
         bodyComponent.starSystemUI = this; // It must point back to call functions when clicked
         bodyComponent.actualBody = bodyData;
+
+        var bodySpec = this.mapComponent.bodySpecs.GetSpecById(bodyData.specId);
+        Object.Instantiate(bodySpec.uiPrefab == null? this.defaultBodyIconPrefab : bodySpec.uiPrefab, bodyComponent.iconRoot);
     }
 
     // Called when we click on scheme body

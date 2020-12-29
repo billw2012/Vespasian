@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &50378159744296704
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7084434917255913524, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7e17194855cfb5d4b8cda7235979d3de,
+        type: 3}
+    - target: {fileID: 7084434917255913524, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682833925410697351, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197981854418662044, guid: d9f06fe4933c5204aa5cc302a529308d,
+        type: 3}
+      propertyPath: m_Name
+      value: Gas Giant Planet Icon Prefab
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d9f06fe4933c5204aa5cc302a529308d, type: 3}

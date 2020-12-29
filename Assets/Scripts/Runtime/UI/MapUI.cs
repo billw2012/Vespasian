@@ -52,10 +52,7 @@ public class MapUI : MonoBehaviour, IUILayer
         }
     }
 
-    private void Update()
-    {
-        this.jumpButton.interactable = this.mapComponent.CanJump();
-    }
+    private void Update() => this.jumpButton.interactable = this.mapComponent.CanJump();
 
     #region IUILayer
     public void OnAdded() {}

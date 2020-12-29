@@ -22,6 +22,7 @@ public class BodySpecs : ScriptableObject
     {
         public string id = Guid.NewGuid().ToString();
         public GameObject prefab;
+        public GameObject uiPrefab;
 
         public string name;
         public string description;

@@ -34,6 +34,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     public SolarSystem jumpTarget { get; private set; }
 
     private PlayerController player;
+    private DockActive playerDockActive;
 
     private UpgradeComponentProxy<WarpComponent> warpComponent;
 
@@ -51,6 +52,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     private void Awake()
     {
         this.player = FindObjectOfType<PlayerController>();
+        this.playerDockActive = this.player.GetComponentInChildren<DockActive>();
         this.warpComponent = this.player.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
 
         var saveSystem = FindObjectOfType<SaveSystem>();
@@ -96,7 +98,16 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         this.MapGenerated?.Invoke();
     }
 
-    public bool CanJump() => this.jumpTarget != null && this.warpComponent.value.CanJump(this.currentSystem, this.jumpTarget);
+    /// <summary>
+    /// Can jump if:
+    /// <list type="bullet">
+    /// <item><description>a valid target is selected</description></item>  
+    /// <item><description>we aren't docked</description></item>
+    /// <item><description>the installed <see cref="WarpComponent"/> upgrade says we can (see the <c>CanJump</c> function)</description></item>
+    /// </list> 
+    /// </summary>
+    /// <returns>True if warp is currently possible</returns>
+    public bool CanJump() => this.jumpTarget != null && !this.playerDockActive.docked && this.warpComponent.value.CanJump(this.currentSystem, this.jumpTarget);
 
     public float GetJumpFuelRequired() => this.warpComponent.value.GetJumpFuelRequired(this.currentSystem, this.jumpTarget);
 

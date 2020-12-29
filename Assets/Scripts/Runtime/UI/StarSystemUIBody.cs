@@ -1,43 +1,46 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 // This object is attached to celestial body prefabs in the scheme
 
 public class StarSystemUIBody : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI bodyName_tmp = default;
+    [SerializeField]
+    private TMP_Text bodyNameLabel = default;
 
-    public Image selectorImage;             // Link to selector image
+    /// <summary>
+    /// Link to selector image
+    /// </summary>
+    public Image selectorImage;
 
-    public StarSystemUI starSystemUI;       // Link back to star system UI
+    /// <summary>
+    /// Root transform under which the bodies specific icon will be instanced
+    /// </summary>
+    public RectTransform iconRoot;
+    
+    /// <summary>
+    /// Link back to star system UI
+    /// </summary>
+    [NonSerialized]
+    public StarSystemUI starSystemUI;
 
-    public OrbitingBody actualBody;     // Link to the body from which this is generated
-
-    /*
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-    */
-
-    /*
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    */
-
-    // Sets/gets the shown name above the body model
+    /// <summary>
+    /// Link to the body from which this is generated
+    /// </summary>
+    public OrbitingBody actualBody;
+ 
+    /// <summary>
+    /// The name shown above the body model
+    /// </summary>
     public string bodyName
     {
-        set => this.bodyName_tmp.text = value;
-
-        get => this.bodyName_tmp.text;
+        set => this.bodyNameLabel.text = value;
+        get => this.bodyNameLabel.text;
     }
 
     public void OnClick() => this.starSystemUI.OnSchemeBodyClick(this);
