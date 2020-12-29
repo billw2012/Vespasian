@@ -17,6 +17,7 @@ MonoBehaviour:
     prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
     name: Star
     description: 
+    dataValueMultiplier: 1
     priority: 0
     probability: 1
     massRandom:
@@ -126,6 +127,7 @@ MonoBehaviour:
       type: 3}
     name: Neutron Star
     description: 
+    dataValueMultiplier: 1
     priority: 0
     probability: 0.05
     massRandom:
@@ -221,6 +223,7 @@ MonoBehaviour:
       type: 3}
     name: Rocky
     description: 
+    dataValueMultiplier: 1
     priority: 0
     probability: 1
     densityRandom:
@@ -316,6 +319,7 @@ MonoBehaviour:
       type: 3}
     name: Dead
     description: 
+    dataValueMultiplier: 1
     priority: 1
     probability: 1
     densityRandom:
@@ -411,6 +415,7 @@ MonoBehaviour:
       type: 3}
     name: Living
     description: 
+    dataValueMultiplier: 1
     priority: 2
     probability: 1
     densityRandom:
@@ -506,6 +511,7 @@ MonoBehaviour:
       type: 3}
     name: Ice
     description: 
+    dataValueMultiplier: 1
     priority: 1
     probability: 1
     densityRandom:
@@ -601,6 +607,7 @@ MonoBehaviour:
       type: 3}
     name: Lava
     description: 
+    dataValueMultiplier: 1
     priority: 1
     probability: 1
     densityRandom:
@@ -691,106 +698,12 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
-  - id: 3c2f575c-cd62-49d2-a56b-5413055c2225
-    prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
-      type: 3}
-    name: Gas Giant
-    description: 
-    priority: 0
-    probability: 1
-    densityRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 5
-    maxMass: Infinity
-    minTemp: -Infinity
-    maxTemp: 550
-    resourcesRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 0
-      max: 0.5
-    habitabilityRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 0
-      max: 0
   - id: 9df16a60-bf08-4d2f-a242-509ddc8196ee
     prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
       type: 3}
     name: Ice Giant
     description: 
+    dataValueMultiplier: 1
     priority: 0
     probability: 1
     densityRandom:
@@ -824,7 +737,7 @@ MonoBehaviour:
     minMass: 5
     maxMass: Infinity
     minTemp: -Infinity
-    maxTemp: 550
+    maxTemp: 270
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -881,11 +794,108 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+  - id: 3c2f575c-cd62-49d2-a56b-5413055c2225
+    prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
+      type: 3}
+    name: Gas Giant
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 5
+    maxMass: Infinity
+    minTemp: 270
+    maxTemp: 800
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0.5
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0
   - id: 3dfa6224-84c0-449f-9837-65d669cd0901
     prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
       type: 3}
     name: Hot Gas Giant
     description: 
+    dataValueMultiplier: 1
     priority: 1
     probability: 1
     densityRandom:
@@ -981,6 +991,7 @@ MonoBehaviour:
     prefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de, type: 3}
     name: Asteroid Belt
     description: 
+    dataValueMultiplier: 1
     priority: 0
     probability: 1
     minDistance: 0
@@ -990,6 +1001,7 @@ MonoBehaviour:
     prefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8, type: 3}
     name: Icy Comet
     description: 
+    dataValueMultiplier: 1
     priority: 0
     probability: 1
     relativePeriapsisRandom:
@@ -1055,5 +1067,6 @@ MonoBehaviour:
       type: 3}
     name: Space Station
     description: 
+    dataValueMultiplier: 1
     priority: 0
     probability: 1

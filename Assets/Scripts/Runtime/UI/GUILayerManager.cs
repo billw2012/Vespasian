@@ -7,6 +7,29 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
+/// Optional interface that a UILayer can implement to provide extended functionality
+/// </summary>
+interface IUILayer
+{
+    /// <summary>
+    /// When first added to the stack
+    /// </summary>
+    void OnAdded();
+    /// <summary>
+    /// When removed from the stack
+    /// </summary>
+    void OnRemoved();
+    /// <summary>
+    /// When another layer is added on top of this one
+    /// </summary>
+    void OnDemoted();
+    /// <summary>
+    /// When layer on top of this one is removed, revealing this one again
+    /// </summary>
+    void OnPromoted();
+}
+
+/// <summary>
 /// Provides functions for manipulating the default UI layers, and using custom ones, 
 /// showing dialogs.
 /// It allows a mixture of stack based UI and replacing the entire stack with a new layer.
@@ -58,6 +81,10 @@ public class GUILayerManager : MonoBehaviour
     public void SwitchTo(GameObject layer)
     {
         SetActiveOptionalDisplayObject(this.layerStack.LastOrDefault(), false);
+        foreach (var oldLayer in this.layerStack)
+        {
+            oldLayer.GetComponent<IUILayer>()?.OnRemoved();
+        }
         this.layerStack.Clear();
         if (layer != null)
         {
@@ -72,8 +99,10 @@ public class GUILayerManager : MonoBehaviour
     public void PushLayer(GameObject layer)
     {
         SetActiveOptionalDisplayObject(this.layerStack.LastOrDefault(), false);
+        this.layerStack.LastOrDefault()?.GetComponent<IUILayer>()?.OnDemoted();
         this.layerStack.Add(layer);
         SetActiveOptionalDisplayObject(layer, true);
+        layer.GetComponent<IUILayer>()?.OnAdded();
     }
 
     /// <summary>
@@ -81,9 +110,11 @@ public class GUILayerManager : MonoBehaviour
     /// </summary>
     public void PopLayer()
     {
-        SetActiveOptionalDisplayObject(this.layerStack.LastOrDefault(), false);
+        SetActiveOptionalDisplayObject(this.layerStack.Last(), false);
+        this.layerStack.Last().GetComponent<IUILayer>()?.OnRemoved();
         this.layerStack.RemoveAt(this.layerStack.Count - 1);
         SetActiveOptionalDisplayObject(this.layerStack.LastOrDefault(), true);
+        this.layerStack.LastOrDefault()?.GetComponent<IUILayer>()?.OnPromoted();
     }
 
     /// <summary>

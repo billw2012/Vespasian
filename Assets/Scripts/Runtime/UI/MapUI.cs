@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-public class MapUI : MonoBehaviour
+public class MapUI : MonoBehaviour, IUILayer
 {
     public RectTransform mapView;
     public Button jumpButton;
@@ -56,4 +56,12 @@ public class MapUI : MonoBehaviour
     {
         this.jumpButton.interactable = this.mapComponent.CanJump();
     }
+
+    #region IUILayer
+    public void OnAdded() {}
+    // When the Map is hidden, reset the selected system
+    public void OnRemoved() => this.mapComponent.selectedSystem = null;
+    public void OnDemoted() {}
+    public void OnPromoted() {}
+    #endregion IUILayer
 }

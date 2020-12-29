@@ -75,6 +75,8 @@ public class MapGenerator : ScriptableObject
 
         [Range(0.1f, 20f)]
         public float minPlanetRadius = 3;
+        [Range(0.1f, 10f)]
+        public float minPlanetMass = 0.5f;
         //[Tooltip("Ratio of planet mass to planet radius")]
         //public WeightedRandom planetMassRadiusRatioRandom = new WeightedRandom { min = 0.5f, max = 1.5f, gaussian = true };
         [Tooltip("Ratio of moon system size to planet mass")]
@@ -95,8 +97,7 @@ public class MapGenerator : ScriptableObject
     public SolarSystem GenerateSystem(int systemId, int randomKey, BodySpecs bodySpecs, string name, Vector2 position)
     {
         var rng = new RandomX(randomKey);
-
-
+        
         var mainSpec = bodySpecs.RandomStar(rng);
         float starMass = mainSpec.massRandom.Evaluate(rng);
         float starTemp = mainSpec.tempRandom.Evaluate(rng);
@@ -230,14 +231,19 @@ public class MapGenerator : ScriptableObject
 
         for (int i = 0; i < this.systemParams.maxPlanets && orbitalDistance < systemSize && totalMass < desiredTotalMass; i++)
         {
-            float planetMass = massDistribution.CDF(this.systemParams.massDistributionFunctionSampleRange * orbitalDistance * this.systemParams.massVarianceRandom.Evaluate(rng) / systemSize) * (desiredTotalMass - totalMass);
+            float planetMass = this.systemParams.minPlanetMass + massDistribution.CDF(this.systemParams.massDistributionFunctionSampleRange * orbitalDistance * this.systemParams.massVarianceRandom.Evaluate(rng) / systemSize) * (desiredTotalMass - totalMass);
 
             float planetTemp = bodySpecs.PlanetTemp(starDistance + orbitalDistance, starRadius, starTemp);
             var planetSpec = bodySpecs.RandomPlanet(rng, planetMass, planetTemp);
 
             float planetDensity = planetSpec.densityRandom.Evaluate(rng);
+            // We add to the min radius instead of clamping with it so we don't get an over representation of
+            // minPlanetRadius sized planets
             float planetRadius = this.systemParams.minPlanetRadius + planetMass / planetDensity;
-                //+ planetMass * this.systemParams.planetMassRadiusRatioRandom.Evaluate(Random.value);
+            // Hack the planet mass to make sure we have something we can orbit
+            // planetMass = Mathf.Max(this.systemParams.minPlanetMass, planetMass);
+            
+            //+ planetMass * this.systemParams.planetMassRadiusRatioRandom.Evaluate(Random.value);
 
             float moonSystemSize = allowMoons? planetMass * this.systemParams.moonSystemSizePlanetMassRatioRandom.Evaluate(rng) : 0;
 
@@ -347,9 +353,9 @@ public class MapGenerator : ScriptableObject
             }
 
             char RandomLetter() => (char) ((int) 'A' + rng.Range(0, 'Z' - 'A'));
-            string name = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
+            string systemName = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
 
-            map.AddSystem(this.GenerateSystem(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, name, position));
+            map.AddSystem(this.GenerateSystem(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, systemName, position));
         }
     }
 

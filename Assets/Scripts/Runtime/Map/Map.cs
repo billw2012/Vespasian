@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 public abstract class Body
 {
@@ -471,7 +467,8 @@ public class SolarSystem
         {
             body.Unloading();
         }
-        this.systemRoot.SetActiveRecursively(false);
+        // Deactivate the old system immediately so it is ignored from now on
+        this.systemRoot.SetActive(false);
         Object.Destroy(this.systemRoot);
         this.systemRoot = null;
     }

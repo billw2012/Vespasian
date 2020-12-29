@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 // Class which manages the star system UI
-public class StarSystemUI : MonoBehaviour
+public class StarSystemUI : MonoBehaviour, IUILayer
 {
     [Tooltip("Where system scheme will be drawn")]
     public RectTransform schemeRoot;
@@ -31,23 +31,16 @@ public class StarSystemUI : MonoBehaviour
     // List with star system scheme elements
     private List<GameObject> schemeElements = null;
 
-    // Start is called before the first frame update
     private void Awake()
     {
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.playerData = FindObjectOfType<PlayerController>().GetComponent<DataCatalog>();
     }
 
-    public void OnEnable()
-    {
-        this.mapComponent = FindObjectOfType<MapComponent>();
-        this.GenerateSchemeFromSystem(this.mapComponent.currentSystem);
-    }
-
-    public void test()
-    {
-        this.GenerateSchemeFromSystem(this.mapComponent.currentSystem);
-    }
+    // public void OnEnable()
+    // {
+    //     this.GenerateSchemeFromSystem(this.mapComponent.selectedSystem ?? this.mapComponent.currentSystem);
+    // }
 
     // Generates elements of this UI from a solar system
     private void GenerateSchemeFromSystem(SolarSystem system)
@@ -168,4 +161,14 @@ public class StarSystemUI : MonoBehaviour
         var knownData = actualBody.GetData(knownDataMask, this.mapComponent.bodySpecs);
         this.selectedBodyDescriptionLabel.text = string.Join("\n", knownData.Select(d => $"{d.name}: {d.entry}"));
     }
+
+    #region IUILayer
+    public void OnAdded() => this.GenerateSchemeFromSystem(this.mapComponent.selectedSystem ?? this.mapComponent.currentSystem);
+
+    public void OnRemoved() {}
+
+    public void OnDemoted() {}
+
+    public void OnPromoted() {}
+    #endregion IUILayer
 }

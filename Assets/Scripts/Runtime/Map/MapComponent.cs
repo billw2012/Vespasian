@@ -15,8 +15,16 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
 
     [NonSerialized, Saved] public Map map;
 
+    /// <summary>
+    /// System the player is currently in
+    /// </summary>
     [NonSerialized]
     public SolarSystem currentSystem;
+    
+    /// <summary>
+    /// System selected in the UI
+    /// </summary>
+    public SolarSystem selectedSystem { get; set; }
 
     //public delegate void MapGenerated();
     public event Action MapGenerated;
@@ -68,7 +76,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     //}
 
     public IEnumerable<SolarSystem> GetValidJumpTargets() => this.jumpTargets.Value;
-
+    
     public bool TrySetJumpTarget(SolarSystem system)
     {
         if(this.jumpTargets.Value.Contains(system))

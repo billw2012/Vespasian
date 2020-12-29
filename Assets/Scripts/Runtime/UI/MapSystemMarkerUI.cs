@@ -13,12 +13,14 @@ public class MapSystemMarkerUI : MonoBehaviour
     public Color currentColor = Color.white;
     public Color jumpTargetColor = Color.green;
     public GameObject currentMarker;
+    public GameObject selectMarker;
     public GameObject stationMarker;
     public Image starImage;
 
     public TextMeshProUGUI label;
 
     public bool isCurrent => this.system == this.mapComponent.currentSystem;
+    public bool isSelected => this.system == this.mapComponent.selectedSystem;
     public bool isJumpTarget => this.system == this.mapComponent.jumpTarget;
     public bool isValidJumpTarget => this.mapComponent.GetValidJumpTargets().Contains(this.system);
 
@@ -46,15 +48,14 @@ public class MapSystemMarkerUI : MonoBehaviour
             : this.color;
 
         this.currentMarker.SetActive(this.isCurrent);
+        this.selectMarker.SetActive(this.isSelected);
     }
 
     public void Clicked()
     {
+        this.mapComponent.selectedSystem = this.system;
         this.mapComponent.TrySetJumpTarget(this.system);
     }
 
-    public void Refresh()
-    {
-        this.stationMarker.SetActive(this.system.AllBodies().OfType<Station>().Any());
-    }
+    public void Refresh() => this.stationMarker.SetActive(this.system.AllBodies().OfType<Station>().Any());
 }

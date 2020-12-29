@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IngameDebugConsole;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -207,5 +208,19 @@ public class Missions : MonoBehaviour, ISavable
     {
         this.dataCatalog.MergeFrom(this.playerDataCatalog);
         this.AddFunds(this.NewDataReward, $"All new data sold");
+    }
+    
+    [ConsoleMethod("player.reveal-map", "Reveal all planets to the player")]
+    public static void DebugPlayerRevealMap(string dataMask = null)
+    {
+        var missions = FindObjectOfType<Missions>();
+        var map = FindObjectOfType<MapComponent>()?.map;
+        if (missions != null && map != null)
+        {
+            foreach (var body in map.systems.SelectMany(s => s.AllBodies().OfType<StarOrPlanet>()))
+            {
+                missions.playerDataCatalog.AddData(body.bodyRef, dataMask != null? (DataMask)Enum.Parse(typeof(DataMask), dataMask, ignoreCase: true) : DataMask.All);
+            }
+        }
     }
 }
