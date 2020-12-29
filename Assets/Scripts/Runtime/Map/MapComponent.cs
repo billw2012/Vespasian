@@ -133,7 +133,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         playerController.SetAllowDamageAndCollision(true);
 
         // Finally set the player velocity and re-enable simulation
-        playerSimMovement.SimRefresh();
+        // playerSimMovement.SimRefresh(FindObjectOfType<Simulation>());
         playerSimMovement.enabled = true;
 
         this.uiManager.ShowUI();

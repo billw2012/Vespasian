@@ -58,7 +58,7 @@ public abstract class Body
     /// <summary>
     /// This is called by the Map system when unloading a system
     /// </summary>
-    public virtual void Unloading()
+    public void Unloading()
     {
         this.SaveComponents();
         this.activeInstance = null;
@@ -195,15 +195,6 @@ public abstract class OrbitingBody : Body
             Assert.IsTrue(childInstance.transform.position.z == 0, $"New body {childInstance.gameObject} isn't at z = 0");
         }
         return self;
-    }
-
-    public override void Unloading()
-    {
-        foreach(var child in this.children)
-        {
-            child.Unloading();
-        }
-        base.Unloading();
     }
 }
 
@@ -445,6 +436,8 @@ public class SolarSystem
     public List<Comet> comets = new List<Comet>();
     public List<Belt> belts = new List<Belt>();
 
+    private GameObject systemRoot;
+
     public IEnumerable<Body> AllBodies()
     {
         yield return this.main;
@@ -471,17 +464,16 @@ public class SolarSystem
         this.id = id;
     }
     
-    public void Unload(GameObject root)
+    public void Unload()
     {
-        var systemObjectTransform = root.transform.Find("System");
-        if (systemObjectTransform != null)
+        Assert.IsNotNull(this.systemRoot, $"System {this} isn't loaded, so can't be unloaded");
+        foreach (var body in this.AllBodies().ToList())
         {
-            foreach (var body in this.AllBodies())
-            {
-                body.Unloading();
-            }
-            Object.Destroy(systemObjectTransform.gameObject);
+            body.Unloading();
         }
+        this.systemRoot.SetActiveRecursively(false);
+        Object.Destroy(this.systemRoot);
+        this.systemRoot = null;
     }
 
     public void SaveAll()
@@ -494,8 +486,10 @@ public class SolarSystem
 
     public async Task LoadAsync(SolarSystem current, BodySpecs bodySpecs, GameObject root)
     {
+        Assert.IsNull(this.systemRoot, $"System {this} is already loaded");
         var rootBody = this.main.Instance(bodySpecs, this);
         Assert.IsTrue(rootBody.transform.position.z == 0, $"New body {rootBody.gameObject} isn't at z = 0");
+
         foreach (var belt in this.belts)
         {
             var beltObject = belt.Instance(bodySpecs, this);
@@ -522,12 +516,11 @@ public class SolarSystem
         await Task.Yield();
         Assert.IsFalse(beforeYieldFrame == Time.frameCount);
 
-        current?.Unload(root);
+        current?.Unload();
 
-        var systemObject = new GameObject("System");
-        systemObject.transform.SetParent(root.transform, worldPositionStays: false);
-
-        rootBody.transform.SetParent(systemObject.transform, worldPositionStays: false);
+        this.systemRoot = new GameObject("System");
+        rootBody.transform.SetParent(this.systemRoot.transform, worldPositionStays: false);
+        this.systemRoot.transform.SetParent(root.transform, worldPositionStays: false);
     }
 
     public static BodyGenerator FindBody(GameObject root, BodyRef bodyRef) => root.GetComponentsInChildren<BodyGenerator>().FirstOrDefault(b => b.BodyRef == bodyRef);

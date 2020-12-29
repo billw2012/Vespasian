@@ -23,6 +23,7 @@ public class MissionBoardUI : MissionListUIBase
     {
         base.InitUI();
         
+        this.sellDataButton.onClick.RemoveAllListeners();
         this.sellDataButton.onClick.AddListener(() => {
             this.missions.SellNewData();
             this.UpdateUI();

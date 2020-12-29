@@ -286,7 +286,7 @@ public class Orbit : MonoBehaviour
         this.UpdatePosition(0);
     }
 
-    public void SimUpdate(int simTick)
+    public void SimUpdate(Simulation simulation, int simTick)
     {
         Debug.Assert(this.isActiveAndEnabled);
         this.UpdatePosition(simTick * Time.fixedDeltaTime);

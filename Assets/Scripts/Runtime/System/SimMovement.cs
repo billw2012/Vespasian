@@ -26,6 +26,8 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     [Tooltip("Used to render markers to show soi closest approaches")]
     public GameObject soiMarkerAsset;
 
+    public bool soiRelativePaths;
+
     [Range(0, 5)]
     public float pathWidthScale = 1f;
 
@@ -84,7 +86,6 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
         public void Update(SimModel.SphereOfInfluence soi, Vector3[] path)
         {
-
             this.lineRenderer.gameObject.SetActive(true);
             this.lineRenderer.positionCount = path.Length;
             this.lineRenderer.SetPositions(path);
@@ -111,10 +112,10 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     private float rotVelocity;
 
-    private void Start()
-    {
-        this.SimRefresh();
-    }
+    // private void Start()
+    // {
+    //     this.SimRefresh(FindObjectOfType<Simulation>());
+    // }
 
     private void Update()
     {
@@ -142,7 +143,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     {
         this.startVelocity = velocity;
         this.force = Vector3.zero;
-        this.SimRefresh();
+        this.SimRefresh(FindObjectOfType<Simulation>());
     }
 
     public void SetPositionVelocity(Vector3 position, Quaternion rotation, Vector3 velocity)
@@ -158,7 +159,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     }
 
     #region ISimUpdate
-    public void SimUpdate(int simTick, int timeStep)
+    public void SimUpdate(Simulation simulation, int simTick, int timeStep)
     {
         if (!this.path.Step(simTick, this.force))
         {
@@ -184,12 +185,9 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
     }
     
-    public void SimRefresh()
+    public void SimRefresh(Simulation simulation)
     {
-        var sim = FindObjectOfType<Simulation>();
-
-        this.path = sim.CreateSectionedSimPath(this.transform.position, this.startVelocity, 20000, this.collisionRadius, 2000);
-
+        this.path = simulation.CreateSectionedSimPath(this.transform.position, this.startVelocity, 20000, this.collisionRadius, 2000);
         this.sois = new List<SimModel.SphereOfInfluence>();
     }
     #endregion
@@ -226,31 +224,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         return finalPath;
     }
 
-    private Vector3[] GetPath()
-    {
-        if (this.sois.Any())
-        {
-            var g = this.sois.First().g;
-            var relativePath = this.path.GetRelativePath(g);
-            if(relativePath == null)
-            {
-                return EmptyPath;
-            }
-
-            var relativePathReduced = Reduce(relativePath.positions, this.pathQuality);
-            for (int i = 0; i < relativePathReduced.Length; i++)
-            {
-                relativePathReduced[i] += g.position;
-            }
-            return relativePathReduced;
-        }
-        else
-        {
-            return Reduce(this.path.GetAbsolutePath(), this.pathQuality);
-        }
-    }
-
-    private IEnumerable<(SimModel.SphereOfInfluence soi, Vector3[] path)> GetSOIPaths()
+    private IEnumerable<(SimModel.SphereOfInfluence soi, Vector3[] path)> GetSOIPathsPrimaryRelative()
     {
         var soiPaths = new List<(SimModel.SphereOfInfluence soi, Vector3[] path)>();
         if (this.sois.Any())
@@ -280,14 +254,49 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         return soiPaths;
     }
 
+    private IEnumerable<(SimModel.SphereOfInfluence soi, Vector3[] path)> GetSOIPathsSOIRelative()
+    {
+        var soiPaths = new List<(SimModel.SphereOfInfluence soi, Vector3[] path)>();
+        if (this.sois.Any())
+        {
+            foreach (var soi in this.sois)
+            {
+                var soiGravitySource = soi.g;
+                var soiRelativePath = this.path.GetRelativePath(soiGravitySource);
+
+                // Sometimes soi can start before the existing path does, so we need to ensure we don't try and index negative values
+                int soiStartTick = Mathf.Max(soiRelativePath.startTick, soi.startTick);
+                // 0 based offset of the (clamped) soi start in the path positions array
+                int soiOffset = Mathf.Clamp((soiStartTick - soiRelativePath.startTick) / soiRelativePath.tickStep, 0, soiRelativePath.positions.Count - 1);
+                int soiDuration = Mathf.Clamp((soi.endTick - soiStartTick) / soiRelativePath.tickStep, 0, soiRelativePath.positions.Count - 1);
+                var relativePath = ReduceRange(soiRelativePath.positions, soiOffset, soiOffset + soiDuration, this.pathQuality);
+                var relativePos = soi == this.sois.First() ? soiGravitySource.position : soi.maxForcePosition;
+                for (int i = 0; i < relativePath.Count(); i++)
+                {
+                    relativePath[i] += relativePos;
+                }
+                soiPaths.Add((soi, relativePath));
+            }
+        }
+        else
+        {
+            soiPaths.Add((null, Reduce(this.path.GetAbsolutePath(), this.pathQuality)));
+        }
+        return soiPaths;
+    }
     private void UpdatePath()
     {
+        if (this.path == null)
+        {
+            return;
+        }
+        
         this.sois = this.path.GetFullPathSOIs().ToList();
 
         var endPosition = Vector3.zero;
         if (this.pathRendererAsset != null)
         {
-            var soiPaths = this.GetSOIPaths().ToList();
+            var soiPaths = this.soiRelativePaths ? this.GetSOIPathsSOIRelative().ToList() : this.GetSOIPathsPrimaryRelative().ToList();
 
             // If we aren't predicted to crash and we only pass one soi, then we 
             // can clip the path to only a single orbit of that soi for neatness

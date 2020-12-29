@@ -38,13 +38,13 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
     }
 
     #region ISimUpdate
-    public void SimUpdate(int _, int timeStep)
+    public void SimUpdate(Simulation simulation, int _, int timeStep)
     {
         this.DelayedStart();
         this.UpdatePositions();
     }
 
-    public void SimRefresh() { }
+    public void SimRefresh(Simulation simulation) { }
     #endregion
 
     private void FixedUpdate()

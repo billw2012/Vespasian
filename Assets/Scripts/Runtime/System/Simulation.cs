@@ -10,8 +10,8 @@ using static SimModel;
 
 public interface ISimUpdate
 {
-    void SimUpdate(int simTick, int timeStep);
-    void SimRefresh();
+    void SimUpdate(Simulation simulation, int simTick, int timeStep);
+    void SimRefresh(Simulation simulation);
 }
 
 /// <summary>
@@ -32,7 +32,6 @@ public class Simulation : MonoBehaviour
     public float dt => this.tickStep * Time.fixedDeltaTime;
 
     private List<MonoBehaviour> simulatedObjects;
-    // SimMovement[] simulatedObjects;
 
     private SimModel model;
 
@@ -57,7 +56,7 @@ public class Simulation : MonoBehaviour
         foreach (var o in this.model.orbits
             .Where(o => o != null))
         {
-            o.SimUpdate(this.simTick);
+            o.SimUpdate(this, this.simTick);
         }
 
         foreach (var s in this.simulatedObjects
@@ -65,7 +64,7 @@ public class Simulation : MonoBehaviour
             .Where(s => s.gameObject.activeInHierarchy && s.isActiveAndEnabled)
             .OfType<ISimUpdate>())
         {
-            s.SimUpdate(this.simTick, this.tickStep);
+            s.SimUpdate(this, this.simTick, this.tickStep);
         }
     }
 
@@ -76,7 +75,7 @@ public class Simulation : MonoBehaviour
         this.simulatedObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISimUpdate>().OfType<MonoBehaviour>().ToList();
         foreach (var s in this.simulatedObjects.OfType<ISimUpdate>())
         {
-            s.SimRefresh();
+            s.SimRefresh(this);
         }
     }
 
@@ -363,8 +362,9 @@ public class SimModel
                 }
 
                 var bestG = this.owner.simGravitySources[maxIndex].from;
+                Assert.IsFalse(bestG == null, "Gravity source is null");
                 var lastSoi = this.sois.LastOrDefault();
-                if (lastSoi?.g != bestG)
+                if (lastSoi == null || lastSoi.g != bestG)
                 {
                     lastSoi = new SphereOfInfluence(bestG, this.tick);
                     this.sois.Add(lastSoi);

@@ -10062,6 +10062,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 470503325313159492, guid: 2155780610961ba48b4847e56576da67,
+        type: 3}
+      propertyPath: soiRelativePaths
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 651166577187582820, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
