@@ -3356,10 +3356,10 @@ RectTransform:
   m_Father: {fileID: 3912111833642757964}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.01904, y: -45}
-  m_SizeDelta: {x: 324.0381, y: 70}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4020467559490325472
 CanvasRenderer:
@@ -3809,10 +3809,10 @@ RectTransform:
   m_Father: {fileID: 3912111833642757964}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.01904, y: -90}
-  m_SizeDelta: {x: 324.0381, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4575465979418863830
 CanvasRenderer:
@@ -4309,7 +4309,7 @@ MonoBehaviour:
   m_text: System Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 8b29aaa3eec7468097ff07adfcf29ac9, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5813,7 +5813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2864650794759447798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5878,6 +5878,7 @@ MonoBehaviour:
   schemeRoot: {fileID: 5842889424102291279}
   schemeBodyPrefab: {fileID: 9158390777158423923, guid: 77f3bcd1e9229c24dae1f630d9741507,
     type: 3}
+  defaultBodyIconPrefab: {fileID: 0}
   systemLabel: {fileID: 1338848632486148078}
   selectedBodyDescriptionLabel: {fileID: 9086004688924531979}
   selectedBodyNameLabel: {fileID: 1798141651824959211}
@@ -6670,10 +6671,10 @@ RectTransform:
   m_Father: {fileID: 3912111833642757964}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -764.33276}
-  m_SizeDelta: {x: 324.0381, y: 664.33276}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &3796142723373454922
 CanvasRenderer:
@@ -12660,6 +12661,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Update Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719118065738774671, guid: f7cf5b5f0e630c2438f1e557e75a382b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6890493078025717522, guid: f7cf5b5f0e630c2438f1e557e75a382b,
         type: 3}

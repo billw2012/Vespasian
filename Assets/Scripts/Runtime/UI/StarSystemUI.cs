@@ -17,6 +17,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
     public GameObject schemeBodyPrefab;
 
     public GameObject defaultBodyIconPrefab;
+    public GameObject unknownBodyIconPrefab;
     
     public TMP_Text systemLabel;
     public TMP_Text selectedBodyDescriptionLabel;
@@ -139,7 +140,17 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         bodyComponent.actualBody = bodyData;
         bodyComponent.stationIcon.enabled = bodyData.children.OfType<Station>().Any();
         var bodySpec = this.mapComponent.bodySpecs.GetSpecById(bodyData.specId);
-        Object.Instantiate(bodySpec.uiPrefab == null? this.defaultBodyIconPrefab : bodySpec.uiPrefab, bodyComponent.iconRoot);
+
+        // Add icon representing the body type, if discovered
+        // Otherwise add icon of a question mark
+        var knownDataMask = this.playerData.GetData(bodyData.bodyRef);
+        GameObject uiPrefab = null;
+
+        if (knownDataMask.HasFlag(DataMask.Orbit))
+            uiPrefab = bodySpec.uiPrefab == null ? this.defaultBodyIconPrefab : bodySpec.uiPrefab;
+        else
+            uiPrefab = this.unknownBodyIconPrefab;
+        Object.Instantiate(uiPrefab, bodyComponent.iconRoot);
     }
 
     // Called when we click on scheme body
