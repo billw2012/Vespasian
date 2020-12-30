@@ -268,8 +268,7 @@ public class StarOrPlanet : OrbitingBody
         }
         return value;
     }
-
-
+    
     protected override void ApplyInternal(GameObject target, RandomX rng)
     {
         base.ApplyInternal(target, rng);

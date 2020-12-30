@@ -277,7 +277,7 @@ public class MapGenerator : ScriptableObject
             var planet = new StarOrPlanet(systemId)
             {
                 randomKey = rng.Range(0, int.MaxValue),
-                specId = bodySpecs.RandomPlanet(rng, planetMass, planetTemp).id,
+                specId = planetSpec.id,
                 parameters = new OrbitParameters
                 {
                     periapsis = orbitalDistance * this.systemParams.finalOrbitScaling,
