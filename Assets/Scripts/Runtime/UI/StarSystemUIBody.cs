@@ -17,6 +17,11 @@ public class StarSystemUIBody : MonoBehaviour
     /// Link to selector image
     /// </summary>
     public Image selectorImage;
+    
+    /// <summary>
+    /// Icon that can be toggled to indicate a station orbiting this body
+    /// </summary>
+    public Image stationIcon;
 
     /// <summary>
     /// Root transform under which the bodies specific icon will be instanced

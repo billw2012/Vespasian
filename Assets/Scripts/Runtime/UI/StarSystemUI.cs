@@ -101,7 +101,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         currentXPos += starGameObject.GetComponent<RectTransform>().rect.width + this.xSpacing;
 
         // Iterate star's planets
-        foreach (var planet in system.main.children)
+        foreach (var planet in system.main.children.OfType<StarOrPlanet>())
         {
             var planetGameObject = Instantiate(this.schemeBodyPrefab);
             elements.Add(planetGameObject);
@@ -112,7 +112,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
 
             // Iterate planet's moons
             // Todo what to do with binary systems?
-            foreach (var moon in planet.children)
+            foreach (var moon in planet.children.OfType<StarOrPlanet>())
             {
                 var moonGameObject = Instantiate(this.schemeBodyPrefab);
                 elements.Add(moonGameObject);
@@ -137,7 +137,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         bodyComponent.bodyName = bodyData.bodyRef.ToString(); // Read the body name here when we have it
         bodyComponent.starSystemUI = this; // It must point back to call functions when clicked
         bodyComponent.actualBody = bodyData;
-
+        bodyComponent.stationIcon.enabled = bodyData.children.OfType<Station>().Any();
         var bodySpec = this.mapComponent.bodySpecs.GetSpecById(bodyData.specId);
         Object.Instantiate(bodySpec.uiPrefab == null? this.defaultBodyIconPrefab : bodySpec.uiPrefab, bodyComponent.iconRoot);
     }
