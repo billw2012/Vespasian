@@ -6704,6 +6704,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9197981854418662044, guid: d9f06fe4933c5204aa5cc302a529308d,
         type: 3}
+    - target: {fileID: 2952283941472695603, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: unknownBodyIconPrefab
+      value: 
+      objectReference: {fileID: 6627174712320985064, guid: 94e04ca0236ff87479e81c3a2eeadd7f,
+        type: 3}
     - target: {fileID: 2991496546038892520, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMax.y
