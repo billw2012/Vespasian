@@ -9,6 +9,11 @@ public static class MathX
         const float Sqrt2PI = 2.50662827463f;
         return Mathf.Exp(-0.5f * Mathf.Pow((x - mean) / stddev, 2)) / (stddev * Sqrt2PI);
     }
+    
+    public static float NormalDistributionFixedHeight(float x, float mean, float stddev)
+    {
+        return Mathf.Exp(-Mathf.Pow(x - mean, 2)) / (2 * stddev * stddev);
+    }
 
     // Log Normal Distribution
     // See https://www.desmos.com/calculator/pf7nrgjci8

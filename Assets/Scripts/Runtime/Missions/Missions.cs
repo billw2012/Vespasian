@@ -223,4 +223,14 @@ public class Missions : MonoBehaviour, ISavable
             }
         }
     }
+    
+    [ConsoleMethod("player.give-credits", "Give specified amount of credits to player")]
+    public static void DebugPlayerGiveCredits(int amount)
+    {
+        var missions = FindObjectOfType<Missions>();
+        if (missions != null)
+        {
+            missions.AddFunds(amount, $"Cheating!");
+        }
+    }
 }

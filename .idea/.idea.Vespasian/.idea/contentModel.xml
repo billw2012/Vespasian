@@ -207,6 +207,29 @@
               </e>
             </e>
           </e>
+          <e p="SimpleSpectrum" t="Include">
+            <e p="Misc" t="Include">
+              <e p="lightweightGradientLerp.shader" t="Include" />
+              <e p="lightweightGradientLerpSprite.shader" t="Include" />
+              <e p="SurfaceGradientLerp.shader" t="Include" />
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="Editor" t="Include">
+                <e p="OutputVolumeEditor.cs" t="Include" />
+                <e p="SimpleSpectrum.Editor.asmdef" t="Include" />
+                <e p="SimpleSpectrumEditor.cs" t="Include" />
+              </e>
+              <e p="Runtime" t="Include">
+                <e p="OutputVolume.cs" t="Include" />
+                <e p="SimpleSpectrum.cs" t="Include" />
+                <e p="SimpleSpectrum.Runtime.asmdef" t="Include" />
+                <e p="SSWebInteract.cs" t="Include" />
+                <e p="WebGLInject.txt" t="Include" />
+              </e>
+            </e>
+            <e p="SimpleSpectrum_Changelog.txt" t="Include" />
+            <e p="SimpleSpectrum_DOCUMENTATION.txt" t="Include" />
+          </e>
         </e>
         <e p="Scripts" t="Include">
           <e p="Editor" t="Include">
@@ -277,6 +300,8 @@
               <e p="ScanObjective.cs" t="Include" />
             </e>
             <e p="PlayerController.cs" t="Include" />
+            <e p="RadialDetectorComponent.cs" t="Include" />
+            <e p="RadialDetectorVisualComponent.cs" t="Include" />
             <e p="SaveSystem.cs" t="Include" />
             <e p="ShieldComponent.cs" t="Include" />
             <e p="System" t="Include">
@@ -457,6 +482,8 @@
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Pixelplacement.Surge.Editor.csproj" t="IncludeRecursive" />
       <e p="Pixelplacement.Surge.Runtime.csproj" t="IncludeRecursive" />
+      <e p="SimpleSpectrum.Editor.csproj" t="IncludeRecursive" />
+      <e p="SimpleSpectrum.Runtime.csproj" t="IncludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
       <e p="Tests.csproj" t="IncludeRecursive" />
       <e p="Vespasian.sln" t="IncludeFlat" />

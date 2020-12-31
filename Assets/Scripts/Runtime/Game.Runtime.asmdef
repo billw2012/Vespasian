@@ -15,7 +15,8 @@
         "CatlikeCoding.SDFToolkit.Runtime",
         "AsyncAwaitUtil.Runtime",
         "Pixelplacement.Surge.Runtime",
-        "IngameDebugConsole.Runtime"
+        "IngameDebugConsole.Runtime",
+        "SimpleSpectrum.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

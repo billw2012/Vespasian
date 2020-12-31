@@ -40,11 +40,6 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         this.playerData = FindObjectOfType<PlayerController>().GetComponent<DataCatalog>();
     }
 
-    // public void OnEnable()
-    // {
-    //     this.GenerateSchemeFromSystem(this.mapComponent.selectedSystem ?? this.mapComponent.currentSystem);
-    // }
-
     // Generates elements of this UI from a solar system
     private void GenerateSchemeFromSystem(SolarSystem system)
     {
