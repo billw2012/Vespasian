@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57f01e30241c534883df6a9c7ae7f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1.75
+  range: 3.5
   originTransform: {fileID: 1937751458560186259}
   areaMarkerAsset: {fileID: 5999684077056866640, guid: bc008e289e31ace4a9d4c884e78c2884,
     type: 3}
+  alwaysRevealed: 0
 --- !u!1001 &4236249919827869483
 PrefabInstance:
   m_ObjectHideFlags: 0
