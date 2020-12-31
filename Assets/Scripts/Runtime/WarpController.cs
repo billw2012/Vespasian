@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 
 public class WarpController : MonoBehaviour
@@ -39,6 +36,7 @@ public class WarpController : MonoBehaviour
 
     // For ExitWarp
     private float desiredSpeed;
+    private float distanceToExit;
     private Vector2 direction;
     private Vector2 targetPosition;
 
@@ -100,15 +98,15 @@ public class WarpController : MonoBehaviour
                 angleChange = SimulatedUpdate();
                 break;
             case Mode.ExitWarp:
-                this.speed = Mathf.Max(0, this.speed - this.acceleration * Time.deltaTime);
-
-                if (this.speed <= this.desiredSpeed)
+                this.speed = Mathf.Max(this.desiredSpeed, this.speed - this.acceleration * Time.deltaTime);
+                InterpolatedUpdate();
+                this.distanceToExit -= this.speed * Time.deltaTime;
+                if (this.distanceToExit <= 0) //Vector2.Distance(this.transform.position, this.targetPosition) < 1)//this.speed <= this.desiredSpeed)
                 {
                     Debug.Log($"Exited warp at pos {this.transform.position} dir {this.direction} speed {this.speed}");
                     this.mode = Mode.NotInWarp;
                 }
 
-                InterpolatedUpdate();
                 break;
         }
 
@@ -154,10 +152,11 @@ public class WarpController : MonoBehaviour
         //this.direction = direction;
         this.targetPosition = atPosition;
         this.rotationalSpeed = 0;
+        
         float stoppingDistance = Mathf.Pow(this.speed - finalSpeed, 2) / (2f * this.acceleration);
 
         var oldPosition = this.transform.position;
-        this.transform.position = atPosition - stoppingDistance * direction;
+        this.transform.position = atPosition - stoppingDistance * this.direction;
 
         var positionOffset = this.transform.position - oldPosition;
 
@@ -165,6 +164,7 @@ public class WarpController : MonoBehaviour
         this.background.ApplyPositionOffset(positionOffset);
 
         this.desiredSpeed = finalSpeed;
+        this.distanceToExit = stoppingDistance;
 
         this.cameraController.Update();
 

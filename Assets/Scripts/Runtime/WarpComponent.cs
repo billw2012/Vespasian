@@ -19,7 +19,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
     [Tooltip("Multiplier for total effect of the accuracy"), Range(0f, 1.25f)]
     public float accuracyRequirementScaling = 0.79f;
 
-    private const float FuelUsageBaseRate = 5;
+    private const float FuelUsageBaseRate = 2.5f;
 
     private PlayerController player;
     private SimMovement playerMovement;
@@ -48,7 +48,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
             float divergence = Vector2.Angle(this.playerMovement.velocity.normalized, warpRouteVector) / 180f;
             return Mathf.Pow(divergence, this.accuracyRequirementFalloff) * this.accuracyRequirementScaling;
         }
-        return baseCost * FuelEfficiency() * this.fuelUsageRate;
+        return baseCost * (1 + FuelEfficiency()) * this.fuelUsageRate;
     }
 
     public bool CanJump(SolarSystem from, SolarSystem to) => this.player.GetComponentInChildren<EngineComponent>().fuel >= this.GetJumpFuelRequired(from, to);
@@ -68,7 +68,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
             // var positionVec = Vector2.Perpendicular(inTravelVec) * (Random.value > 0.5f ? -1 : 1);
 
             // Only use fuel when we are actually warping from somewhere of course
-            this.engine.value.UseFuel(this.GetJumpFuelRequired(from, to));
+            this.engine.value.UseFuelNoModifier(this.GetJumpFuelRequired(from, to));
         }
 
         await playerWarpController.EnterWarpAsync(exitDirection, 50);
@@ -78,7 +78,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
         Vector2 GetDefaultLandingPosition()
         {
             var entryDirection = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector2.one;
-            float entryDistance = Mathf.Max(50f, Random.Range(0f, 0.5f) * to.size + to.main.radius * 10f);
+            float entryDistance = Mathf.Max(to.main.radius * 2 + 50f, Random.Range(0f, 0.5f) * to.size);
             return Vector2.Perpendicular(entryDirection) * Mathf.Sign(Random.Range(-1, +1)) * entryDistance;
         }
 
@@ -110,7 +110,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
 
         playerWarpController.enabled = false;
 
-        this.player.GetComponent<SimMovement>().startVelocity = landingVelocity;
+        this.player.GetComponent<SimMovement>().SetVelocity(landingVelocity);
     }
 
     #region IUpdateLogic
