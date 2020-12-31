@@ -19320,7 +19320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea4a516ce809a24dbfe265134317872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brightness: 1.25
+  brightness: 1.75
 --- !u!114 &6931139407177234544
 MonoBehaviour:
   m_ObjectHideFlags: 0

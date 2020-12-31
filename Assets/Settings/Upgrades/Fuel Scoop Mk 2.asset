@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
-  m_Name: FuelScoopMk2
+  m_Name: Fuel Scoop Mk 2
   m_EditorClassIdentifier: 
   cost: 5000
   mass: 0
