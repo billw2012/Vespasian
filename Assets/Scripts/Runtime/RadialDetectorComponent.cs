@@ -7,9 +7,11 @@ using UnityEngine;
 public class RadialDetectorComponent : MonoBehaviour, IUpgradeLogic
 {
     [SerializeField]
-    private RadialDetectorVisualComponent visual;
-
-    public float pingInterval = 10;
+    private RadialDetectorVisualComponent visual = null;
+    [SerializeField]
+    private float pingInterval = 10;
+    [SerializeField] 
+    private float massScaling = 0.1f;
     
     private float nextPing = 0;
 
@@ -17,7 +19,7 @@ public class RadialDetectorComponent : MonoBehaviour, IUpgradeLogic
     {
         if (Time.time > this.nextPing)
         {
-            this.visual.UpdateDetections(GravitySource.All().Select(g => ((Vector2)g.position, g.parameters.mass)));
+            this.visual.UpdateDetections(GravitySource.All().Select(g => ((Vector2)g.position, g.parameters.mass * this.massScaling)));
             
             this.nextPing += this.pingInterval;
         }
@@ -25,6 +27,13 @@ public class RadialDetectorComponent : MonoBehaviour, IUpgradeLogic
 
     public UpgradeDef upgradeDef { get; private set; }
     public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
-    public async void TestFire() {}
+
+    public async void TestFire()
+    {
+        this.enabled = false;
+        await this.visual.TestFireAsync();
+        this.enabled = true;
+    }
+
     public void Uninstall() {}
 }

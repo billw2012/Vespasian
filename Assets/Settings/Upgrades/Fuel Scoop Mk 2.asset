@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
-  m_Name: SensorsMk1
+  m_Name: FuelScoopMk2
   m_EditorClassIdentifier: 
-  cost: 200
+  cost: 5000
   mass: 0
-  shipPartPrefab: {fileID: 5628546658975330783, guid: 28f2fb64d5fa40847a28e1ebe48a4fa3,
+  shipPartPrefab: {fileID: 8180715979238593668, guid: 3433c37956e0ff44390f3774d40ddc0d,
     type: 3}
   shopUIPrefab: {fileID: 0}
   replaces:
-  - {fileID: 11400000, guid: 58b31105227211c4bace0c4a49dfae5b, type: 2}
+  - {fileID: 11400000, guid: 37d1e30bf8aa9fa4eab3caa691b41487, type: 2}
   requires: []

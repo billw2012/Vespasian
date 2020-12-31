@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: Long Range Sensors Mk 1
   m_EditorClassIdentifier: 
-  cost: 500
+  cost: 2000
   mass: 0
   shipPartPrefab: {fileID: 1085859151826190876, guid: 5839b1643115d1f4fb1801b336eae8d0,
     type: 3}

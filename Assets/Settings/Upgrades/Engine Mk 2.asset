@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
-  m_Name: FuelScoopMk2
+  m_Name: EngineMk2
   m_EditorClassIdentifier: 
-  cost: 500
+  cost: 1000
   mass: 0
-  shipPartPrefab: {fileID: 8180715979238593668, guid: 3433c37956e0ff44390f3774d40ddc0d,
+  shipPartPrefab: {fileID: 122248102209823852, guid: 64f438a1ef870094a9e41f14d31890d0,
     type: 3}
   shopUIPrefab: {fileID: 0}
   replaces:
-  - {fileID: 11400000, guid: 37d1e30bf8aa9fa4eab3caa691b41487, type: 2}
+  - {fileID: 11400000, guid: bcf2fc9bae2050345a3f2146aaa7d3ef, type: 2}
+  - {fileID: 11400000, guid: c985ffb21a7ca4048b4ce6a933753e1d, type: 2}
   requires: []

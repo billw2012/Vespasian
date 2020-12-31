@@ -460,8 +460,11 @@ public class SimpleSpectrum : MonoBehaviour {
 				float value;
                 float trueSampleIndex;
 
+                if (this.sourceType == SourceType.Custom) {
+                    trueSampleIndex = (spectrum.Length - 1) * i / (float)(barAmount - 1);
+                }
                 //GET SAMPLES
-				if (useLogarithmicFrequency) {
+				else if (useLogarithmicFrequency) {
 					//LOGARITHMIC FREQUENCY SAMPLING
 
                     //trueSampleIndex = highFrequencyTrim * (highestLogFreq - Mathf.Log(barAmount + 1 - i, 2)) * logFreqMultiplier; //old version
@@ -480,7 +483,7 @@ public class SimpleSpectrum : MonoBehaviour {
 					//LINEAR (SCALED) FREQUENCY SAMPLING 
                     //trueSampleIndex = i * linearSampleStretch; //don't like this anymore
 
-                    trueSampleIndex = Mathf.Lerp(frequencyLimitLow, freqLim, ((float)i) / barAmount) * frequencyScaleFactor;
+                    trueSampleIndex = Mathf.Lerp(frequencyLimitLow, freqLim, ((float)i) / (barAmount - 1)) * frequencyScaleFactor;
                     //sooooo this one's gotten fancier...
                     //firstly a lerp is used between frequency limits to get the 'desired frequency', then it's divided by the outputSampleRate (/2, who knows why) to get its location in the array, then multiplied by numSamples to get an index instead of a fraction.
 

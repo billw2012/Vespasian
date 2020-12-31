@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
-  m_Name: ShieldMk3
+  m_Name: SensorsMk1
   m_EditorClassIdentifier: 
-  cost: 1200
+  cost: 2000
   mass: 0
-  shipPartPrefab: {fileID: 2263943538660112896, guid: 1934940e63fcaa04bb68c5bdd3e6a252,
+  shipPartPrefab: {fileID: 5628546658975330783, guid: 28f2fb64d5fa40847a28e1ebe48a4fa3,
     type: 3}
   shopUIPrefab: {fileID: 0}
   replaces:
-  - {fileID: 11400000, guid: 2b62f71a838d5b14d96ed249652481e7, type: 2}
-  - {fileID: 11400000, guid: ca7170553d0faff4fbc0910092be73e0, type: 2}
+  - {fileID: 11400000, guid: 58b31105227211c4bace0c4a49dfae5b, type: 2}
   requires: []

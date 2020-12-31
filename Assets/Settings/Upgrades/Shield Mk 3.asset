@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
-  m_Name: FuelScoopMk1
+  m_Name: ShieldMk3
   m_EditorClassIdentifier: 
-  cost: 200
+  cost: 12000
   mass: 0
-  shipPartPrefab: {fileID: 8180715979238593668, guid: 2f821ee19e6d2ad46a918d791a8cb37c,
+  shipPartPrefab: {fileID: 2263943538660112896, guid: 1934940e63fcaa04bb68c5bdd3e6a252,
     type: 3}
   shopUIPrefab: {fileID: 0}
   replaces:
-  - {fileID: 11400000, guid: e908e15732a38b447aa2459146f78b67, type: 2}
+  - {fileID: 11400000, guid: 2b62f71a838d5b14d96ed249652481e7, type: 2}
+  - {fileID: 11400000, guid: ca7170553d0faff4fbc0910092be73e0, type: 2}
   requires: []

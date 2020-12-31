@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
-  m_Name: WarpDriveMk2
+  m_Name: ShieldMk2
   m_EditorClassIdentifier: 
-  cost: 500
+  cost: 5000
   mass: 0
-  shipPartPrefab: {fileID: 8851948593646386530, guid: f15bfcde3dad39a4faf0ae9c2cb8e027,
+  shipPartPrefab: {fileID: 2263943538660112896, guid: 6cc210d46305c8b4e977a9123ddf3920,
     type: 3}
   shopUIPrefab: {fileID: 0}
   replaces:
-  - {fileID: 11400000, guid: 5f5691d3b66aca1428038f88c69ecf74, type: 2}
+  - {fileID: 11400000, guid: 2b62f71a838d5b14d96ed249652481e7, type: 2}
+  - {fileID: 11400000, guid: 1c838d53c91fd3d40896ec5e74c516b3, type: 2}
   requires: []

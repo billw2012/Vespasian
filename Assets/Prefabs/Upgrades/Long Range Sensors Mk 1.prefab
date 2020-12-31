@@ -7,10 +7,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3955843260942621990, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: distanceAngleRatio
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955843260942621990, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: maxDistanceAngle
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955843260942621990, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: testDist
+      value: 146
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955843260942621990, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: testValue
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955843260942621990, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: valueHeightScaling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955843260942622009, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: massScaling
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955843260942622009, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: pingInterval
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3955965379189585466, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
         type: 3}
       propertyPath: m_Name
-      value: Long Range Sensors Base
+      value: Long Range Sensors Mk 1
       objectReference: {fileID: 0}
     - target: {fileID: 3957116653903739748, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
         type: 3}
@@ -66,6 +101,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3998578842171698758, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: numSamples
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3998578842171698758, guid: 8d47b6de296dd924dbc8b1fd36d657b6,
+        type: 3}
+      propertyPath: barAmount
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d47b6de296dd924dbc8b1fd36d657b6, type: 3}
