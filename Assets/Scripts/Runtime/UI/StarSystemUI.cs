@@ -98,8 +98,13 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         var starUI = this.InitSchemeBodyProperties(starGameObject, mainBody);
         currentXPos += starGameObject.GetComponent<RectTransform>().rect.width + this.xSpacing;
 
+        var bodies = system.main.children.OfType<StarOrPlanet>()
+            .OfType<Body>()
+            .Concat(system.belts)
+            .OrderBy(b => b is OrbitingBody orbitingBody ? orbitingBody.parameters.semiMajorAxis : ((Belt) b).radius);
+
         // Iterate star's planets
-        foreach (var planet in system.main.children.OfType<StarOrPlanet>())
+        foreach (var planet in bodies)
         {
             var planetGameObject = Instantiate(this.schemeBodyPrefab);
             elements.Add(planetGameObject);
@@ -110,15 +115,18 @@ public class StarSystemUI : MonoBehaviour, IUILayer
 
             // Iterate planet's moons
             // Todo what to do with binary systems?
-            foreach (var moon in planet.children.OfType<StarOrPlanet>())
+            if (planet is OrbitingBody orbitingBody)
             {
-                var moonGameObject = Instantiate(this.schemeBodyPrefab);
-                elements.Add(moonGameObject);
-                InitSchemeBodyTransform(moonGameObject, currentXPos, currentYPos);
-                this.InitSchemeBodyProperties(moonGameObject, moon);
+                foreach (var moon in orbitingBody.children.OfType<StarOrPlanet>())
+                {
+                    var moonGameObject = Instantiate(this.schemeBodyPrefab);
+                    elements.Add(moonGameObject);
+                    InitSchemeBodyTransform(moonGameObject, currentXPos, currentYPos);
+                    this.InitSchemeBodyProperties(moonGameObject, moon);
 
-                // Right now there is some vertical gap in these prefabs itself
-                currentYPos -= moonGameObject.GetComponent<RectTransform>().rect.height; 
+                    // Right now there is some vertical gap in these prefabs itself
+                    currentYPos -= moonGameObject.GetComponent<RectTransform>().rect.height;
+                }
             }
 
             // Add some offset between them
@@ -131,24 +139,25 @@ public class StarSystemUI : MonoBehaviour, IUILayer
 
     // Sets generic body properties in the scheme view, such as...
     // Body's displayed name, appearence, ...
-    private StarSystemUIBody InitSchemeBodyProperties(GameObject schemeElement, OrbitingBody bodyData)
+    private StarSystemUIBody InitSchemeBodyProperties(GameObject schemeElement, Body bodyData)
     {
         var bodyComponent = schemeElement.GetComponent<StarSystemUIBody>();
         bodyComponent.bodyName = bodyData.bodyRef.ToString(); // Read the body name here when we have it
         bodyComponent.starSystemUI = this; // It must point back to call functions when clicked
         bodyComponent.actualBody = bodyData;
-        bodyComponent.stationIcon.enabled = bodyData.children.OfType<Station>().Any();
+        bodyComponent.stationIcon.enabled = (bodyData as OrbitingBody)?.children.OfType<Station>().Any() ?? false;
         var bodySpec = this.mapComponent.bodySpecs.GetSpecById(bodyData.specId);
 
         // Add icon representing the body type, if discovered
         // Otherwise add icon of a question mark
-        var knownDataMask = this.playerData?.GetData(bodyData.bodyRef) ?? DataMask.All;
+        var knownDataMask = (bodyData is OrbitingBody && this.playerData != null)? this.playerData.GetData(bodyData.bodyRef) : DataMask.All;
         GameObject uiPrefab = null;
 
         if (knownDataMask.HasFlag(DataMask.Orbit))
-            uiPrefab = bodySpec.uiPrefab == null ? this.defaultBodyIconPrefab : bodySpec.uiPrefab;
+            uiPrefab = bodySpec.uiPrefab ?? this.defaultBodyIconPrefab;
         else
             uiPrefab = this.unknownBodyIconPrefab;
+
         Object.Instantiate(uiPrefab, bodyComponent.iconRoot);
 
         return bodyComponent;

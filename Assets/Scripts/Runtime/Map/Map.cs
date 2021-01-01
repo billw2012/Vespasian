@@ -15,7 +15,7 @@ public abstract class Body
 
     public Dictionary<string, SaveData> savedComponents;
 
-    public string Name => this.bodyRef.ToString();
+    public virtual string Name => this.bodyRef.ToString();
 
     private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;

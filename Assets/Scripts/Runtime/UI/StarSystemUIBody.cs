@@ -37,7 +37,7 @@ public class StarSystemUIBody : MonoBehaviour
     /// <summary>
     /// Link to the body from which this is generated
     /// </summary>
-    public OrbitingBody actualBody;
+    public Body actualBody;
  
     /// <summary>
     /// The name shown above the body model
