@@ -5878,7 +5878,10 @@ MonoBehaviour:
   schemeRoot: {fileID: 5842889424102291279}
   schemeBodyPrefab: {fileID: 9158390777158423923, guid: 77f3bcd1e9229c24dae1f630d9741507,
     type: 3}
-  defaultBodyIconPrefab: {fileID: 0}
+  defaultBodyIconPrefab: {fileID: 9197981854418662044, guid: d9f06fe4933c5204aa5cc302a529308d,
+    type: 3}
+  unknownBodyIconPrefab: {fileID: 6627174712320985064, guid: 94e04ca0236ff87479e81c3a2eeadd7f,
+    type: 3}
   systemLabel: {fileID: 1338848632486148078}
   selectedBodyDescriptionLabel: {fileID: 9086004688924531979}
   selectedBodyNameLabel: {fileID: 1798141651824959211}
@@ -8252,12 +8255,12 @@ PrefabInstance:
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.81
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.74
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2532546599120530937, guid: 74647e47a25362544b444dcfa26a90bf,
         type: 3}
@@ -10599,12 +10602,12 @@ PrefabInstance:
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.81
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.74
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7620224551109491987, guid: 2155780610961ba48b4847e56576da67,
         type: 3}

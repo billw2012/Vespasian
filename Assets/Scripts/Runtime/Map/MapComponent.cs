@@ -52,8 +52,8 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     private void Awake()
     {
         this.player = FindObjectOfType<PlayerController>();
-        this.playerDockActive = this.player.GetComponentInChildren<DockActive>();
-        this.warpComponent = this.player.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
+        this.playerDockActive = this.player?.GetComponentInChildren<DockActive>();
+        this.warpComponent = this.player?.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
 
         var saveSystem = FindObjectOfType<SaveSystem>();
         if (saveSystem != null)
@@ -96,6 +96,11 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     {
         this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs);
         this.MapGenerated?.Invoke();
+    }
+
+    public void GenerateMap()
+    {
+        _ = this.GenerateMapAsync();
     }
 
     /// <summary>

@@ -37,7 +37,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
     private void Awake()
     {
         this.mapComponent = FindObjectOfType<MapComponent>();
-        this.playerData = FindObjectOfType<PlayerController>().GetComponent<DataCatalog>();
+        this.playerData = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
     }
 
     // Generates elements of this UI from a solar system
@@ -65,6 +65,8 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         this.system = system;
 
         this.systemLabel.text = this.system.name;
+        this.selectedBodyDescriptionLabel.text = "";
+        this.selectedBodyNameLabel.text = "";
 
         // Generate elements from system
         var elements = new List<GameObject>();
@@ -93,7 +95,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         InitSchemeBodyTransform(starGameObject, currentXPos, currentYPos);
         
         // Setup its visuals
-        this.InitSchemeBodyProperties(starGameObject, mainBody);
+        var starUI = this.InitSchemeBodyProperties(starGameObject, mainBody);
         currentXPos += starGameObject.GetComponent<RectTransform>().rect.width + this.xSpacing;
 
         // Iterate star's planets
@@ -123,11 +125,13 @@ public class StarSystemUI : MonoBehaviour, IUILayer
             currentXPos += planetGameObject.GetComponent<RectTransform>().rect.width + this.xSpacing; 
             currentYPos = 0;
         }
+
+        this.SelectBody(starUI);
     }
 
     // Sets generic body properties in the scheme view, such as...
     // Body's displayed name, appearence, ...
-    private void InitSchemeBodyProperties(GameObject schemeElement, OrbitingBody bodyData)
+    private StarSystemUIBody InitSchemeBodyProperties(GameObject schemeElement, OrbitingBody bodyData)
     {
         var bodyComponent = schemeElement.GetComponent<StarSystemUIBody>();
         bodyComponent.bodyName = bodyData.bodyRef.ToString(); // Read the body name here when we have it
@@ -138,7 +142,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
 
         // Add icon representing the body type, if discovered
         // Otherwise add icon of a question mark
-        var knownDataMask = this.playerData.GetData(bodyData.bodyRef);
+        var knownDataMask = this.playerData?.GetData(bodyData.bodyRef) ?? DataMask.All;
         GameObject uiPrefab = null;
 
         if (knownDataMask.HasFlag(DataMask.Orbit))
@@ -146,11 +150,13 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         else
             uiPrefab = this.unknownBodyIconPrefab;
         Object.Instantiate(uiPrefab, bodyComponent.iconRoot);
+
+        return bodyComponent;
     }
 
     // Called when we click on scheme body
     // body - the body which was clicked
-    public void OnSchemeBodyClick(StarSystemUIBody body)
+    public void SelectBody(StarSystemUIBody body)
     {
         //Debug.Log($"OnSchemeBodyClick: {body}");
 
@@ -167,10 +173,10 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         var actualBody = body.actualBody;
         this.selectedBodyNameLabel.text = actualBody.bodyRef.ToString();
         
-        var knownDataMask = this.playerData.GetData(actualBody.bodyRef);
+        var knownDataMask = this.playerData?.GetData(actualBody.bodyRef) ?? DataMask.All;
         //var knownDataStr = new List<string>{"Type: Planet"};
         var knownData = actualBody.GetData(knownDataMask, this.mapComponent.bodySpecs);
-        this.selectedBodyDescriptionLabel.text = string.Join("\n", knownData.Select(d => $"{d.name}: {d.entry}"));
+        this.selectedBodyDescriptionLabel.text = string.Join("\n", knownData.Select(d => $"{d.name}: {d.entry}{d.units}"));
     }
 
     #region IUILayer

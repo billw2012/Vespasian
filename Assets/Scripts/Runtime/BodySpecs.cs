@@ -20,11 +20,12 @@ public class BodySpecs : ScriptableObject
     [Serializable]
     public class BodySpec
     {
+        public string name;
+
         public string id = Guid.NewGuid().ToString();
         public GameObject prefab;
         public GameObject uiPrefab;
 
-        public string name;
         public string description;
 
         public float dataValueMultiplier = 1;
@@ -113,7 +114,7 @@ public class BodySpecs : ScriptableObject
 
     public float PlanetTemp(float distance, float starRadius, float starTemp) => this.PlanetTemp(distance, this.Lum(starRadius, starTemp));
 
-    private float Lum(float radius, float temp) => 4f * Mathf.PI * Mathf.Pow(radius, 2) * Mathf.Pow(temp, 4);
+    private float Lum(float radius, float temp) => 4f * Mathf.PI * Mathf.Pow(radius, 2) * Mathf.Pow(temp / 10000f, 4);
 
     private float Power(float distance, float starLum) => starLum / (4f * Mathf.PI * Mathf.Pow(distance, this.tempFalloffRate));
 

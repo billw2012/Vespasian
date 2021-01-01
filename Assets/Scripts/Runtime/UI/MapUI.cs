@@ -19,6 +19,7 @@ public class MapUI : MonoBehaviour, IUILayer
     {
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.CreateMap();
+        this.mapComponent.MapGenerated += this.CreateMap;
     }
 
     private void OnEnable()
@@ -35,20 +36,28 @@ public class MapUI : MonoBehaviour, IUILayer
 
     private void CreateMap()
     {
-        foreach (var s in this.mapComponent.map.links)
+        foreach (Transform ob in this.mapView.transform)
         {
-            var inst = Instantiate(this.linkMarkerPrefab, this.mapView);
-            var instScript = inst.GetComponent<MapLinkMarkerUI>();
-            instScript.link = s;
-            instScript.mapComponent = this.mapComponent;
+            Destroy(ob.gameObject);
         }
 
-        foreach (var s in this.mapComponent.map.systems)
+        if (this.mapComponent.map != null)
         {
-            var inst = Instantiate(this.systemMarkerPrefab, this.mapView);
-            var instScript = inst.GetComponent<MapSystemMarkerUI>();
-            instScript.system = s;
-            instScript.mapComponent = this.mapComponent;
+            foreach (var s in this.mapComponent.map.links)
+            {
+                var inst = Instantiate(this.linkMarkerPrefab, this.mapView);
+                var instScript = inst.GetComponent<MapLinkMarkerUI>();
+                instScript.link = s;
+                instScript.mapComponent = this.mapComponent;
+            }
+
+            foreach (var s in this.mapComponent.map.systems)
+            {
+                var inst = Instantiate(this.systemMarkerPrefab, this.mapView);
+                var instScript = inst.GetComponent<MapSystemMarkerUI>();
+                instScript.system = s;
+                instScript.mapComponent = this.mapComponent;
+            }
         }
     }
 

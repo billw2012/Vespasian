@@ -7,7 +7,7 @@ public class SunGenerator : StarOrPlanetGenerator
 {
     public float brightness = 1f;
 
-    public float temp => this.starOrPlanet.temp * 10000;
+    public float temp => this.starOrPlanet.temp;
 
     protected override void InitInternal(RandomX rng)
     {

@@ -122,12 +122,14 @@ public abstract class Body
         public DataMask mask;
         public string name;
         public object entry;
+        public string units;
 
-        public DataEntry(DataMask mask, string name, object entry)
+        public DataEntry(DataMask mask, string name, object entry, string units = "")
         {
             this.mask = mask;
             this.name = name;
             this.entry = entry;
+            this.units = units;
         }
     }
 
@@ -219,7 +221,7 @@ public class StarOrPlanet : OrbitingBody
 
             result.Add(new DataEntry(DataMask.Basic, "Type", spec.name));
             result.Add(new DataEntry(DataMask.Basic, "Description", spec.description));
-            result.Add(new DataEntry(DataMask.Basic, "Temp", this.temp));
+            result.Add(new DataEntry(DataMask.Basic, "Temp", this.temp, "K"));
             result.Add(new DataEntry(DataMask.Basic, "Radius", this.radius));
         }
         

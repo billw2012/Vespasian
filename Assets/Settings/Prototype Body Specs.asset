@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Prototype Body Specs
   m_EditorClassIdentifier: 
   stars:
-  - id: 7d8b3e84-c97a-4a4a-8dee-ae16e3a79f50
+  - name: Star
+    id: 7d8b3e84-c97a-4a4a-8dee-ae16e3a79f50
     prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
     uiPrefab: {fileID: 0}
-    name: Star
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -63,8 +63,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0.36068922
         - serializedVersion: 3
-          time: 0.3993224
-          value: 0.064693764
+          time: 0.39773503
+          value: 0.05362434
           inSlope: 0.44722763
           outSlope: 0.44722763
           tangentMode: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       gaussian: 0
-      min: 0.2
-      max: 3
+      min: 2000
+      max: 30000
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -123,11 +123,11 @@ MonoBehaviour:
       gaussian: 1
       min: 0.75
       max: 1.25
-  - id: fcc9d033-939c-490d-9e28-ac66d66a0d89
+  - name: Neutron Star
+    id: fcc9d033-939c-490d-9e28-ac66d66a0d89
     prefab: {fileID: 6712538652355592438, guid: 787a92d05373ab246b5e935d8c0c2c64,
       type: 3}
     uiPrefab: {fileID: 0}
-    name: Neutron Star
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -186,8 +186,8 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       gaussian: 0
-      min: 5
-      max: 5
+      min: 50000
+      max: 50000
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -220,16 +220,16 @@ MonoBehaviour:
   planetMassMultiplier: 3
   tempFalloffRate: 4
   planets:
-  - id: 9511b178-ae18-4d25-8858-b4f75cee8c83
+  - name: Rocky
+    id: 9511b178-ae18-4d25-8858-b4f75cee8c83
     prefab: {fileID: 7573446184434855522, guid: ba0794835ab021a418842c73a38633de,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: d1103c77223bdcc41b3b5c40689924bb,
       type: 3}
-    name: Rocky
     description: 
     dataValueMultiplier: 1
     priority: 0
-    probability: 1
+    probability: 0.226
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -318,12 +318,12 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.1
-  - id: 47b1a776-c40d-4c41-be4c-2fffaece12fe
+  - name: Dead
+    id: 47b1a776-c40d-4c41-be4c-2fffaece12fe
     prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: e25bd0c5c965d3b45bda1b703059e930,
       type: 3}
-    name: Dead
     description: 
     dataValueMultiplier: 1
     priority: 1
@@ -358,8 +358,8 @@ MonoBehaviour:
       max: 2
     minMass: 2
     maxMass: 5
-    minTemp: -Infinity
-    maxTemp: Infinity
+    minTemp: 180
+    maxTemp: 350
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -416,12 +416,12 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.5
-  - id: f3c1a7dc-03e6-4266-bd89-d154ac18d3e9
+  - name: Living
+    id: f3c1a7dc-03e6-4266-bd89-d154ac18d3e9
     prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: a83375431a591ea418b947017bb469b4,
       type: 3}
-    name: Living
     description: 
     dataValueMultiplier: 1
     priority: 2
@@ -457,7 +457,7 @@ MonoBehaviour:
     minMass: 2
     maxMass: 5
     minTemp: 220
-    maxTemp: 350
+    maxTemp: 300
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -514,16 +514,212 @@ MonoBehaviour:
       gaussian: 1
       min: 0.5
       max: 1
-  - id: 15c068e7-5166-4033-bd7c-a30ec51327be
+  - name: Desert
+    id: 32424bed-2f6e-4f86-8084-5fcb87752a7b
+    prefab: {fileID: 7573446184434855522, guid: 2d2ce47a7d259f040bab92c18bab1704,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: 86f30c49ca6565a4bb7a3cb70a61bfa4,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 1
+    maxMass: 7
+    minTemp: 300
+    maxTemp: 600
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0.2
+      max: 1
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0.1
+      max: 0.5
+  - name: Greenhouse
+    id: 2e995413-aa5e-49ee-b4b7-c5d5cad1e3ef
+    prefab: {fileID: 7573446184434855522, guid: ac2d24d11dba18846a5d358a1cd44f36,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: ceaacabfecc3b8b4592534e237397cec,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 2
+    maxMass: 7
+    minTemp: 350
+    maxTemp: 600
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0.3
+      max: 1
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0
+  - name: Ice
+    id: 15c068e7-5166-4033-bd7c-a30ec51327be
     prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: bd6d3bbcc9f39614c890c27645632c17,
       type: 3}
-    name: Ice
     description: 
     dataValueMultiplier: 1
-    priority: 1
-    probability: 1
+    priority: 0
+    probability: 0.5
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -555,7 +751,7 @@ MonoBehaviour:
     minMass: 0
     maxMass: 5
     minTemp: -Infinity
-    maxTemp: 270
+    maxTemp: 200
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -612,16 +808,16 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.1
-  - id: 0e2a306e-1046-46b1-81b6-03a88513f4a9
+  - name: Lava
+    id: 0e2a306e-1046-46b1-81b6-03a88513f4a9
     prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: ef70b681ed83b7c4097f4d88efb31d76,
       type: 3}
-    name: Lava
     description: 
     dataValueMultiplier: 1
-    priority: 1
-    probability: 1
+    priority: 0
+    probability: 0.5
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -710,12 +906,12 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
-  - id: 9df16a60-bf08-4d2f-a242-509ddc8196ee
+  - name: Ice Giant
+    id: 9df16a60-bf08-4d2f-a242-509ddc8196ee
     prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: e3ebac25255e040488e14d9b4aa42f5c,
       type: 3}
-    name: Ice Giant
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -808,12 +1004,12 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
-  - id: 3c2f575c-cd62-49d2-a56b-5413055c2225
+  - name: Gas Giant
+    id: 3c2f575c-cd62-49d2-a56b-5413055c2225
     prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: 3cdc3fdd2130cd9459db9d2c949cd5ce,
       type: 3}
-    name: Gas Giant
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -906,12 +1102,12 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
-  - id: 3dfa6224-84c0-449f-9837-65d669cd0901
+  - name: Hot Gas Giant
+    id: 3dfa6224-84c0-449f-9837-65d669cd0901
     prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: c5e468cdae007da45b85b0a75b3de1eb,
       type: 3}
-    name: Hot Gas Giant
     description: 
     dataValueMultiplier: 1
     priority: 1
@@ -1005,11 +1201,11 @@ MonoBehaviour:
       min: 0
       max: 0
   belts:
-  - id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9
+  - name: Asteroid Belt
+    id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9
     prefab: {fileID: 676661824646031810, guid: 84bea6ddaacc2494087035e0b19234de, type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: b1125d6e8f670b2428638b718faff69c,
       type: 3}
-    name: Asteroid Belt
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -1017,10 +1213,10 @@ MonoBehaviour:
     minDistance: 0
     maxDistance: Infinity
   comets:
-  - id: 44c24eeb-61ab-4587-9ce5-09d9579f9bbb
+  - name: Icy Comet
+    id: 44c24eeb-61ab-4587-9ce5-09d9579f9bbb
     prefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8, type: 3}
     uiPrefab: {fileID: 0}
-    name: Icy Comet
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -1083,12 +1279,12 @@ MonoBehaviour:
       max: 0.95
     minApproach: 10
   stations:
-  - id: be9ff418-58da-4a88-b405-fd4a58110f6d
+  - name: Space Station
+    id: be9ff418-58da-4a88-b405-fd4a58110f6d
     prefab: {fileID: 6031893901637196809, guid: 9d0fa1a051305f749ac266c469dbdd7e,
       type: 3}
     uiPrefab: {fileID: 9157842690579355036, guid: 3cad69b8ca277fb41acfe77bb3d1f717,
       type: 3}
-    name: Space Station
     description: 
     dataValueMultiplier: 1
     priority: 0

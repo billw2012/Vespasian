@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbitOrigin: {fileID: 7573446184434855550}
-  planet: {fileID: 0}
+  planet: {fileID: 1937751458560186259}
 --- !u!1 &2200045225237855140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4827,6 +4827,7 @@ MonoBehaviour:
   originTransform: {fileID: 1937751458560186259}
   areaMarkerAsset: {fileID: 5999684077056866640, guid: 73653c8090470164e80ebd27d4365f36,
     type: 3}
+  alwaysRevealed: 0
 --- !u!1 &7833640799950118662
 GameObject:
   m_ObjectHideFlags: 0

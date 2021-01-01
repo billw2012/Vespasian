@@ -48,5 +48,5 @@ public class StarSystemUIBody : MonoBehaviour
         get => this.bodyNameLabel.text;
     }
 
-    public void OnClick() => this.starSystemUI.OnSchemeBodyClick(this);
+    public void OnClick() => this.starSystemUI.SelectBody(this);
 }

@@ -18,13 +18,20 @@ public class FuelBar : MonoBehaviour
     private void Start()
     {
         this.player = FindObjectOfType<PlayerController>();
-        this.engine = this.player.GetComponent<UpgradeManager>().GetProxy<EngineComponent>();
+        this.engine = this.player?.GetComponent<UpgradeManager>().GetProxy<EngineComponent>();
         this.map = FindObjectOfType<MapComponent>();
     }
 
     private void Update()
     {
-        this.mainSlider.value = this.engine.value.fuel;
-        this.usageSlider.value = 1 - Mathf.Clamp(this.map.GetJumpFuelRequired() / this.engine.value.fuel, 0, 1);
+        if (this.engine != null)
+        {
+            this.mainSlider.value = this.engine.value.fuel;
+            this.usageSlider.value = 1 - Mathf.Clamp(this.map.GetJumpFuelRequired() / this.engine.value.fuel, 0, 1);
+        }
+        else
+        {
+            this.mainSlider.value = this.usageSlider.value = 0;
+        }
     }
 }
