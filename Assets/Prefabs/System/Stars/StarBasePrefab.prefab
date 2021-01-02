@@ -19591,7 +19591,7 @@ MonoBehaviour:
   radius: 30.57
   minCoverage: 0.1
   maxCoverage: 0.5
-  camera: {fileID: 0}
+  cameraTarget: {fileID: 0}
   effect:
     target: {fileID: -754972587007797143, guid: 3a37e1f9b25cc8148b0a484e209c89cc,
       type: 2}

@@ -236,7 +236,7 @@ public class SimpleSpectrum : MonoBehaviour {
     private float highestLogFreq, frequencyScaleFactor; //multiplier to ensure that the frequencies stretch to the highest record in the array.
 
     private string microphoneName;
-    private float lastMicRestartTime;
+    private float lastMicRestartTime = 0;
     private float micRestartWait = 20;
 
     private void Start () {
@@ -591,7 +591,7 @@ public class SimpleSpectrum : MonoBehaviour {
 #if UNITY_WEBGL
         Debug.LogError("Error from SimpleSpectrum: Spectrum data cannot be retrieved from a single AudioSource in WebGL!");
         return null;
-#endif
+#else
         float[] spectrum = new float[spectrumSize];
 
         channelUsed = Mathf.Clamp(channelUsed, 0, 1);
@@ -623,6 +623,7 @@ public class SimpleSpectrum : MonoBehaviour {
             spectrum[i] = value;
         }
         return spectrum;
+#endif
     }
 
     /// <summary>

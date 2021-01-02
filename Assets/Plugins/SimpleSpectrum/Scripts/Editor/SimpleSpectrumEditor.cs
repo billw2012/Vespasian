@@ -12,7 +12,7 @@ using UnityEngine.Audio;
 [CanEditMultipleObjects]
 public class SimpleSpectrumEditor : Editor {
 
-    [SerializeField] private AudioMixerGroup muteGroup;
+    [SerializeField] private AudioMixerGroup muteGroup = null;
 
     private SerializedProperty  propertyWindow;
 
