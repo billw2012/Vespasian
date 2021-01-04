@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4221186835127429968}
   - component: {fileID: 3241297414324374855}
+  - component: {fileID: 5274522520317895362}
   m_Layer: 0
-  m_Name: EngineBase
+  m_Name: Fuel Tank Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,4 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76211e7abcf34345a7d85cd10ff82e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuelUsageRate: 1
+  maxFuel: 1
+  refillable: 1
+  fuel: 1
+--- !u!114 &5274522520317895362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369574629163678514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b438418dc9ef46edaaacb903d7b62b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tank: {fileID: 3241297414324374855}

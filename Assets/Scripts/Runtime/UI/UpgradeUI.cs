@@ -41,11 +41,11 @@ public class UpgradeUI : MonoBehaviour
 
     public void Install(UpgradeDef upgradeDef)
     {
-        this.upgradeManager.Install(upgradeDef, testFire: true);
+        this.upgradeManager.Upgrade(upgradeDef, testFire: true);
         this.missions.SubtractFunds(upgradeDef.cost);
         this.UpdateGrid();
     }
 
-    public bool CanInstall(UpgradeDef upgradeDef) => this.upgradeManager.CanInstall(upgradeDef);
+    public bool CanInstall(UpgradeDef upgradeDef) => this.upgradeManager.CanInstall(upgradeDef) || this.upgradeManager.CanLevelUp(upgradeDef);
     public bool IsInstalled(UpgradeDef upgradeDef) => this.upgradeManager.IsInstalled(upgradeDef);
 }

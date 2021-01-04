@@ -12,7 +12,6 @@ using Object = UnityEngine.Object;
 public class UpgradeDef : ScriptableObject
 {
     public int cost = 0;
-    public float mass = 0;
 
     /// <summary>
     /// This prefab will be instanced into the ship UpgradeRoot.

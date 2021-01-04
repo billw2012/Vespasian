@@ -264,8 +264,10 @@
               <e p="Scanner.cs" t="Include" />
               <e p="Sensors.cs" t="Include" />
             </e>
-            <e p="EngineComponent.cs" t="Include" />
             <e p="EngineController.cs" t="Include" />
+            <e p="FuelBoosterTankComponent.cs" t="Include" />
+            <e p="FuelMainTankComponent.cs" t="Include" />
+            <e p="FuelTankComponent.cs" t="Include" />
             <e p="Game.Runtime.asmdef" t="Include" />
             <e p="GameConstants.cs" t="Include" />
             <e p="GameLogic.cs" t="Include" />
@@ -337,7 +339,8 @@
               <e p="DragToFire.cs" t="Include" />
               <e p="FixDamageButton.cs" t="Include" />
               <e p="FollowCameraController.cs" t="Include" />
-              <e p="FuelBar.cs" t="Include" />
+              <e p="FuelGauge.cs" t="Include" />
+              <e p="FuelTankBar.cs" t="Include" />
               <e p="GUILayerManager.cs" t="Include" />
               <e p="HullBar.cs" t="Include" />
               <e p="MapLinkMarkerUI.cs" t="Include" />

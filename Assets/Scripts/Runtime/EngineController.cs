@@ -1,5 +1,7 @@
+using IngameDebugConsole;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -46,12 +48,9 @@ public class EngineController : MonoBehaviour
     // Use LateUpdate to ensure the thrust is calculated already
     private void LateUpdate()
     {
-        var engineComponent = this.GetComponentInChildren<EngineComponent>();
-        bool canThrust = engineComponent != null && engineComponent.canThrust;
-
         void SetThrusterFX(ParticleSystem pfx, bool enabled, float thrust)
         {
-            pfx.SetEmissionEnabled(canThrust && enabled);
+            pfx.SetEmissionEnabled(this.canThrust && enabled);
             const float RateOverTimeMax = 100;
             pfx.SetEmissionRateOverTimeMultiplier(RateOverTimeMax * Mathf.Abs(thrust));
         }
@@ -64,34 +63,34 @@ public class EngineController : MonoBehaviour
         this.rightThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x < 0, this.thrust.x));
         this.leftThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x > 0, this.thrust.x));
 
-        this.animator.SetFloat("Forward", canThrust? this.thrust.y : 0);
-        this.animator.SetFloat("Right", canThrust? this.thrust.x : 0);
+        this.animator.SetFloat("Forward", this.canThrust? this.thrust.y : 0);
+        this.animator.SetFloat("Right", this.canThrust? this.thrust.x : 0);
 
         //bool thrusting = canThrust && this.thrust.magnitude > 0;
         //bool wasThrusting = this.prevThrust.magnitude > 0;
 
-        if (canThrust && this.thrust.y > 0 && this.prevThrust.y <= 0)
+        if (this.canThrust && this.thrust.y > 0 && this.prevThrust.y <= 0)
         {
             this.rearAudio.FadeIn(0.01f);
         }
-        else if ((!canThrust || this.thrust.y <= 0) && this.prevThrust.y > 0)
+        else if ((!this.canThrust || this.thrust.y <= 0) && this.prevThrust.y > 0)
         {
             this.rearAudio.FadeOut(0.3f);
         }
-        if (canThrust && this.thrust.y < 0 && this.prevThrust.y >= 0)
+        if (this.canThrust && this.thrust.y < 0 && this.prevThrust.y >= 0)
         {
             this.frontAudio.FadeIn(0.01f);
         }
-        else if ((!canThrust || this.thrust.y >= 0) && this.prevThrust.y < 0)
+        else if ((!this.canThrust || this.thrust.y >= 0) && this.prevThrust.y < 0)
         {
             this.frontAudio.FadeOut(0.2f);
         }
 
-        if (canThrust && this.thrust.x != 0 && this.prevThrust.x == 0)
+        if (this.canThrust && this.thrust.x != 0 && this.prevThrust.x == 0)
         {
             this.thrusterAudio.FadeIn(0.01f);
         }
-        else if ((!canThrust || this.thrust.x == 0) && this.prevThrust.x != 0)
+        else if ((!this.canThrust || this.thrust.x == 0) && this.prevThrust.x != 0)
         {
             this.thrusterAudio.FadeOut(0.1f);
         }
@@ -113,10 +112,7 @@ public class EngineController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Engine is an upgrade so we don't cache it.
-        // TODO: optimize by using UpgradeManager upgrades changed event and caching the EngineComponent.
-        var engineComponent = this.GetComponentInChildren<EngineComponent>();
-        if (engineComponent != null && engineComponent.canThrust)
+        if(this.canThrust)
         {
             var force = Vector3.zero;
             var forward = this.transform.up; //this.movement.velocity.normalized;
@@ -127,9 +123,73 @@ public class EngineController : MonoBehaviour
 
             float thrustTotal = Mathf.Abs(this.thrust.x) + Mathf.Abs(this.thrust.y);
 
-            engineComponent.UseFuel(thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
+            this.UseFuel(thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
 
             this.movement.AddForce(force);
+        }
+    }
+
+    public IEnumerable<FuelTankComponent> allTanks => this.GetComponentsInChildren<FuelTankComponent>().Where(t => t.enabled);
+    public IEnumerable<FuelTankComponent> refillableTanks => this.allTanks.Where(f => f.refillable);
+    public IEnumerable<FuelTankComponent> nonRefillableTanks => this.allTanks.Where(f => !f.refillable).Reverse();
+    
+    public float fuel => this.allTanks.Select(e => e.fuel).Sum();
+    public float refillableFuel => this.refillableTanks.Select(f => f.fuel).Sum();
+    public float refillableMaxFuel => this.refillableTanks.Select(f => f.maxFuel).Sum();
+    public bool canRefill => this.refillableFuel != this.refillableMaxFuel;
+    public bool canThrust => this.fuel > 0;
+    
+    public void AddFuel(float amount)
+    {
+        foreach (var tank in this.refillableTanks.Where(t => !t.fullTank))
+        {
+            if (amount <= 0)
+                break;
+            amount = tank.AddFuelWithRemainder(amount);
+        }
+    }
+
+    public IList<(FuelTankComponent tank, float amount)> GetFuelTankUsage(float amount)
+    {
+        var usage = new List<(FuelTankComponent tank, float amount)>();
+
+        // Use fuel in non-refillable tanks first (maybe we shouldn't?), and from most empty tank first
+        foreach (var tank in this.nonRefillableTanks.Concat(this.refillableTanks))
+        {
+            if (amount <= 0)
+                break;
+            (float removed, float remainder) = tank.GetRemoveFuelRemainder(amount);
+            if (removed > 0)
+            {
+                usage.Add((tank, removed));
+            }
+            amount = remainder;
+        }
+
+        return usage;
+    }
+    
+    public float GetFuelTankUsage(FuelTankComponent tank, float amount) => this.GetFuelTankUsage(amount).FirstOrDefault(ta => tank == ta.tank).amount;
+    
+    public void UseFuel(float amount)
+    {
+        // Use fuel in non-refillable tanks first (maybe we shouldn't?), and from most empty tank first
+        foreach (var (tank, tankAmount) in this.GetFuelTankUsage(amount))
+        {
+            tank.RemoveFuelWithRemainder(tankAmount);
+        }
+    }
+    
+    private static FuelTankComponent GetPlayerEngineComponent() =>
+        FindObjectOfType<PlayerController>()?.GetComponentInChildren<FuelTankComponent>();
+    
+    [ConsoleMethod("player.ship.setfuel", "Set fuel of the players ship")]
+    public static void DebugSetPlayerShipFuel(float newFuel)
+    {
+        var playerEngineComponent = GetPlayerEngineComponent();
+        if (playerEngineComponent != null)
+        {
+            playerEngineComponent.fuel = Mathf.Clamp(newFuel, 0, playerEngineComponent.maxFuel);
         }
     }
 }

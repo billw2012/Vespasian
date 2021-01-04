@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Object = UnityEngine.Object;
 using System.Linq;
 using System;
+using UnityEngine.Assertions;
 
 public interface IUpgradeComponentProxy
 {
@@ -73,55 +74,106 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
     {
         foreach(var upgradeDef in this.initialUpgrades.upgradesDefs)
         {
-            this.Install(upgradeDef);
+            this.Upgrade(upgradeDef);
         }
     }
 
     public IUpgradeLogic[] GetInstalledUpgrades() => this.upgradeRoot.GetComponentsInChildren<IUpgradeLogic>();
 
     public bool CanInstall(UpgradeDef upgradeDef) => upgradeDef.requires.All(u => this.IsInstalled(u.name)) && !this.IsInstalled(upgradeDef.name);
+    
+    public bool CanLevelUp(UpgradeDef upgradeDef)
+    {
+        if (this.FindInstalledUpgrade(upgradeDef.name) is ILevelUpgradeLogic levelUpgradeLogic)
+        {
+            return this.CanLevelUp(levelUpgradeLogic);
+        }
+
+        return false;
+    }
+
+    public bool CanLevelUp(ILevelUpgradeLogic levelUpgradeLogic) => levelUpgradeLogic.MaxLevel > levelUpgradeLogic.Level;
 
     public IUpgradeLogic FindInstalledUpgrade(string name) => this.GetInstalledUpgrades().FirstOrDefault(u => u.upgradeDef.name == name);
 
     public bool IsInstalled(string name) => this.FindInstalledUpgrade(name) != null;
     public bool IsInstalled(UpgradeDef upgradeDef) => this.FindInstalledUpgrade(upgradeDef.name) != null;
 
-    public IUpgradeLogic Install(UpgradeDef upgradeDef, bool testFire = false)
+    public IUpgradeLogic Upgrade(UpgradeDef upgradeDef, bool testFire = false)
     {
-        this.InvalidateProxies();
+        var upgradeLogic = this.FindInstalledUpgrade(upgradeDef.name);
 
-        foreach (var replaced in upgradeDef.replaces.Where(u => this.IsInstalled(u.name)))
+        // Already installed, so we will attempt to level it up instead
+        if (upgradeLogic is ILevelUpgradeLogic levelUpgradeLogic)
         {
-            this.Uninstall(replaced);
+            Assert.IsTrue(levelUpgradeLogic.MaxLevel > levelUpgradeLogic.Level, $"Upgrade {upgradeDef.name} is already installed, and cannot be leveled up. Conditions were not correctly validated before calling Install.");
+            
+            levelUpgradeLogic.LevelUp();
+            
+            Debug.Log($"Leveled up upgrade {upgradeDef.name} on ship {this.gameObject.name} to {levelUpgradeLogic.Level}");
+            NotificationsUI.Add($"<color=#DB69FF>Leveled up <b>{upgradeDef.name} to {levelUpgradeLogic.Level}</b></color>");
         }
-        var obj = Object.Instantiate(upgradeDef.shipPartPrefab, this.upgradeRoot);
-        obj.name = upgradeDef.name;
-        var upgradeLogic = obj.GetComponent<IUpgradeLogic>();
-        upgradeLogic.Install(upgradeDef);
-        if(testFire)
+        else
         {
-            upgradeLogic.TestFire();
+            foreach (var replaced in upgradeDef.replaces.Where(u => this.IsInstalled(u.name)))
+            {
+                this.Uninstall(replaced);
+            }
+
+            var obj = Object.Instantiate(upgradeDef.shipPartPrefab, this.upgradeRoot);
+            obj.name = upgradeDef.name;
+            upgradeLogic = obj.GetComponent<IUpgradeLogic>();
+            upgradeLogic.Install(upgradeDef);
+            if (testFire)
+            {
+                upgradeLogic.TestFire();
+            }
+            this.InvalidateProxies();
+
+            Debug.Log($"Installed upgrade {upgradeDef.name} on ship {this.gameObject.name}");
+            NotificationsUI.Add($"<color=#DB69FF>Installed upgrade <b>{upgradeDef.name}</b></color>");
         }
-
-        Debug.Log($"Installed upgrade {upgradeDef.name} on ship {this.gameObject.name}");
-
-        NotificationsUI.Add($"<color=#DB69FF>Installed upgrade <b>{upgradeDef.name}</b></color>");
         return upgradeLogic;
     }
 
+    public void Downgrade(IUpgradeLogic upgradeLogic)
+    {
+        if(!(upgradeLogic is ILevelUpgradeLogic) || ((ILevelUpgradeLogic) upgradeLogic).Level == 1)
+        {
+            this.Uninstall(upgradeLogic);
+        }
+        else
+        {
+            ((ILevelUpgradeLogic) upgradeLogic).LevelDown();
+            Debug.Log($"Leveled down upgrade {upgradeLogic.upgradeDef.name} on ship {this.gameObject.name}");
+        }
+    }
+    
     public void Uninstall(IUpgradeLogic upgradeLogic)
     {
-        this.InvalidateProxies();
-
         upgradeLogic.Uninstall();
-        var obj = (upgradeLogic as MonoBehaviour).gameObject;
-        // obj.transform.SetParent(null);
+        var obj = ((MonoBehaviour) upgradeLogic).gameObject;
         Debug.Log($"Uninstalled upgrade {upgradeLogic.upgradeDef.name} from ship {this.gameObject.name}");
         obj.SetActive(false);
         obj.transform.SetParent(null);
         Destroy(obj);
+        
+        this.InvalidateProxies();
     }
 
+    public void Downgrade(UpgradeDef upgrade)
+    {
+        var upgradeLogic = this.FindInstalledUpgrade(upgrade.name);
+        if (upgradeLogic != null)
+        {
+            this.Downgrade(upgradeLogic);
+        }
+        else
+        {
+            Debug.LogWarning($"Could not downgrade upgrade {upgrade.name} as it didn't exist on ship {this.gameObject.name}");
+        }
+    }
+    
     public void Uninstall(UpgradeDef upgrade)
     {
         var upgradeLogic = this.FindInstalledUpgrade(upgrade.name);
@@ -165,7 +217,7 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
         foreach(string upgradeName in upgradeNames)
         {
             var upgradeDef = this.fullUpgradeSet.GetUpgradeDef(upgradeName);
-            var upgradeLogic = this.Install(upgradeDef);
+            var upgradeLogic = this.Upgrade(upgradeDef);
             if(upgradeLogic is ISavable)
             {
                 loader.LoadObject("Upgrade." + upgradeLogic.upgradeDef.name, upgradeLogic as ISavable);
@@ -205,5 +257,15 @@ public interface IUpgradeLogic
     /// <summary>
     /// Implement any custom behavior for uninstalling an upgrade here.
     /// </summary>
+    /// <returns>Return true if the Upgrade was uninstalled, as opposed to leveled down</returns>
     void Uninstall();
+}
+
+public interface ILevelUpgradeLogic
+{
+    void LevelUp();
+    void LevelDown();
+    
+    int MaxLevel { get; }
+    int Level { get; }    
 }

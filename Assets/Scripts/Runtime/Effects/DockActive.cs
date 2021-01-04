@@ -124,7 +124,7 @@ public class DockActive : MonoBehaviour
     {
         if (this.docked)
         {
-            this.GetComponentInChildren<EngineComponent>()?.AddFuel(Time.deltaTime * this.refuelRate);
+            this.GetComponent<EngineController>()?.AddFuel(Time.deltaTime * this.refuelRate);
         }
     }
 }

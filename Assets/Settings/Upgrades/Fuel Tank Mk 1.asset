@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
-  m_Name: Engine Mk 3
+  m_Name: Fuel Tank Mk 1
   m_EditorClassIdentifier: 
-  cost: 10000
-  mass: 0
-  shipPartPrefab: {fileID: 122248102209823852, guid: e7762040080f5e54ea052cfde0e2dab3,
+  cost: 0
+  shipPartPrefab: {fileID: 122248102209823852, guid: 58393f81ab4dd63448a7f726f6ba03cb,
     type: 3}
   shopUIPrefab: {fileID: 0}
   replaces:
-  - {fileID: 11400000, guid: bcf2fc9bae2050345a3f2146aaa7d3ef, type: 2}
   - {fileID: 11400000, guid: 4b44f01b76d008640ac14d628e0088e5, type: 2}
+  - {fileID: 11400000, guid: c985ffb21a7ca4048b4ce6a933753e1d, type: 2}
   requires: []

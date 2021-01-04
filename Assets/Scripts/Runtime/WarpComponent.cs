@@ -23,13 +23,13 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
 
     private PlayerController player;
     private SimMovement playerMovement;
-    private UpgradeComponentProxy<EngineComponent> engine;
+    private EngineController engine;
 
     private void Awake()
     {
         this.player = FindObjectOfType<PlayerController>();
         this.playerMovement = this.player.GetComponent<SimMovement>();
-        this.engine = this.player.GetComponent<UpgradeManager>().GetProxy<EngineComponent>();
+        this.engine = this.player.GetComponent<EngineController>();
     }
 
     public float GetJumpFuelRequired(SolarSystem from, SolarSystem to)
@@ -51,7 +51,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
         return baseCost * (1 + FuelEfficiency()) * this.fuelUsageRate;
     }
 
-    public bool CanJump(SolarSystem from, SolarSystem to) => this.player.GetComponentInChildren<EngineComponent>().fuel >= this.GetJumpFuelRequired(from, to);
+    public bool CanJump(SolarSystem from, SolarSystem to) => this.player.GetComponentInChildren<FuelTankComponent>().fuel >= this.GetJumpFuelRequired(from, to);
 
     public async Task WarpAsync(SolarSystem from, SolarSystem to, Func<SolarSystem, Task> loadSystemCallback, Func<Vector2?> landingPositionCallback = default)
     {
@@ -68,7 +68,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
             // var positionVec = Vector2.Perpendicular(inTravelVec) * (Random.value > 0.5f ? -1 : 1);
 
             // Only use fuel when we are actually warping from somewhere of course
-            this.engine.value.UseFuelNoModifier(this.GetJumpFuelRequired(from, to));
+            this.engine.UseFuel(this.GetJumpFuelRequired(from, to));
         }
 
         await playerWarpController.EnterWarpAsync(exitDirection, 50);

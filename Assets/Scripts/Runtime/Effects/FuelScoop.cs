@@ -5,11 +5,11 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
     public ParticleSystem particleEffect;
     public float refuelRate = 0.3f;
 
-    private UpgradeManager upgradeManager;
+    private EngineController engineController;
 
     private void Awake()
     {
-        this.upgradeManager = this.GetComponentInParent<UpgradeManager>();
+        this.engineController = this.GetComponentInParent<EngineController>();
     }
 
     private void Update()
@@ -19,11 +19,11 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
         {
             fuelSource.Reveal();
         }
-        var engine = this.upgradeManager.GetComponentInChildren<EngineComponent>();
-        if(fuelSource != null && engine != null && !engine.fullTank)
+        //var engine = this.upgradeManager.GetComponentInChildren<FuelTankComponent>();
+        if(fuelSource != null && this.engineController != null && this.engineController.canRefill)
         {
             float fuelIncrease = fuelSource.timeMultipler * Time.deltaTime * this.refuelRate;
-            engine.AddFuel(fuelIncrease); 
+            this.engineController.AddFuel(fuelIncrease); 
             
             // Set emission amount based on height ratio
             this.particleEffect.SetEmissionEnabled(true);
@@ -49,7 +49,7 @@ public class FuelScoop : MonoBehaviour, IUpgradeLogic
     #region IUpgradeLogic
     public UpgradeDef upgradeDef { get; private set; }
     public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
-    public void Uninstall() { }
+    public void Uninstall() {}
     public void TestFire() { }
     #endregion IUpgradeLogic
 };
