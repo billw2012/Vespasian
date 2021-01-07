@@ -717,6 +717,7 @@ MonoBehaviour:
   alignToVelocity: 1
   pathRendererAsset: {fileID: 0}
   soiMarkerAsset: {fileID: 0}
+  soiRelativePaths: 0
   pathWidthScale: 1
   pathQuality: 1
   warningSign: {fileID: 0}
@@ -1892,6 +1893,21 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startSpeed.minMaxState
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058845411635065311, guid: e1d4a7a561cb33c458385735a2cfdfbe,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.0511024
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058845411635065311, guid: e1d4a7a561cb33c458385735a2cfdfbe,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.7924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058845411635065311, guid: e1d4a7a561cb33c458385735a2cfdfbe,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084249432580072437, guid: e1d4a7a561cb33c458385735a2cfdfbe,
         type: 3}
