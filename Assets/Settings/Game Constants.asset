@@ -16,7 +16,7 @@ MonoBehaviour:
   GravitationalRescaling: 5
   GameSpeedBase: 1
   SimDistanceLimit: 100
-  FuelUse: 0.15
+  FuelUse: 0.05
   ThrustForward: 0.5
   ThrustRight: 0.15
   MaxLaunchVelocity: 1
