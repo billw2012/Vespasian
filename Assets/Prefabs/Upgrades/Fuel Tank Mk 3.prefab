@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 1369574629163678514, guid: b6b43b70461815143acfb8eb807f57f2,
         type: 3}
       propertyPath: m_Name
-      value: EngineMk3
+      value: Fuel Tank Mk 3
       objectReference: {fileID: 0}
     - target: {fileID: 3241297414324374855, guid: b6b43b70461815143acfb8eb807f57f2,
         type: 3}
@@ -25,6 +25,11 @@ PrefabInstance:
     - target: {fileID: 3241297414324374855, guid: b6b43b70461815143acfb8eb807f57f2,
         type: 3}
       propertyPath: maxFuel
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3241297414324374855, guid: b6b43b70461815143acfb8eb807f57f2,
+        type: 3}
+      propertyPath: fuel
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4221186835127429968, guid: b6b43b70461815143acfb8eb807f57f2,
