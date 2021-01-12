@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class WarpController : MonoBehaviour
 {
-    public float warpSpeed = 100;
-    public float acceleration = 25;
+    public float warpSpeed = 500f;
+    public float acceleration = 1000f;
+    public float turnSmoothTime = 3f;
 
     public WarpEffect warpEffect;
 
@@ -52,7 +53,7 @@ public class WarpController : MonoBehaviour
         {
             float targetAngle = Vector2.SignedAngle(Vector2.up, this.direction);
             float newAngle =
-                Mathf.SmoothDampAngle(this.transform.rotation.eulerAngles.z, targetAngle, ref this.rotationalSpeed, 3f);
+                Mathf.SmoothDampAngle(this.transform.rotation.eulerAngles.z, targetAngle, ref this.rotationalSpeed, this.turnSmoothTime);
             float f = (newAngle - this.transform.rotation.eulerAngles.z) / Time.deltaTime;
             this.transform.rotation = Quaternion.Euler(0, 0, newAngle);
             this.transform.position += this.speed * Time.deltaTime * this.transform.up;
@@ -101,7 +102,7 @@ public class WarpController : MonoBehaviour
                 this.speed = Mathf.Max(this.desiredSpeed, this.speed - this.acceleration * Time.deltaTime);
                 InterpolatedUpdate();
                 this.distanceToExit -= this.speed * Time.deltaTime;
-                if (this.distanceToExit <= 0) //Vector2.Distance(this.transform.position, this.targetPosition) < 1)//this.speed <= this.desiredSpeed)
+                if (this.distanceToExit <= 0 || this.speed <= this.desiredSpeed) //Vector2.Distance(this.transform.position, this.targetPosition) < 1)//this.speed <= this.desiredSpeed)
                 {
                     Debug.Log($"Exited warp at pos {this.transform.position} dir {this.direction} speed {this.speed}");
                     this.mode = Mode.NotInWarp;

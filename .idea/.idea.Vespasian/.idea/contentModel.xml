@@ -241,6 +241,7 @@
           </e>
           <e p="Runtime" t="Include">
             <e p="AI" t="Include">
+              <e p="AIController.cs" t="Include" />
               <e p="Faction.cs" t="Include" />
             </e>
             <e p="BodySpecs.cs" t="Include" />
