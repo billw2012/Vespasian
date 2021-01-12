@@ -373,6 +373,13 @@ public class BodyRef
         this.systemId = systemId;
         this.bodyId = bodyId;
     }
+
+    // BodyRef points to the system, not to a body within system
+    public BodyRef(int systemId)
+    {
+        this.systemId = systemId;
+        this.bodyId = -1;
+    }
         
     public override bool Equals(object obj)
     {
@@ -392,6 +399,11 @@ public class BodyRef
         }
 
         return Equals((BodyRef) obj);
+    }
+
+    public bool EqualsSystem(BodyRef other)
+    {
+        return this.systemId == other.systemId;
     }
 
     private bool Equals(BodyRef other) => this.systemId == other.systemId && this.bodyId == other.bodyId;

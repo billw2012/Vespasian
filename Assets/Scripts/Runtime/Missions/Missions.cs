@@ -76,6 +76,13 @@ public interface IBodyMission
     IEnumerable<BodyRef> AssignedBodies();
 }
 
+// Mission which targets specific bodies which exist in the world
+public interface ITargetBodiesMission
+{
+    IEnumerable<BodyRef> TargetBodies { get; }
+    bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data);
+}
+
 public class Missions : MonoBehaviour, ISavable
 {
     public List<GameObject> missionFactoryObjects;
@@ -136,15 +143,25 @@ public class Missions : MonoBehaviour, ISavable
             .SelectMany(m => m.AssignedBodies())
             .Concat(this.dataCatalog.KnownBodies);
 
+        var body = this.mapComponent.map.GetBody(bodyRef);
+        Assert.IsNotNull(body);
+
         if (!allocatedBodies.Contains(bodyRef))
         {
-            var body = this.mapComponent.map.GetBody(bodyRef);
-            Assert.IsNotNull(body);
             foreach (var mission in bodyMissions)
             {
                 if (mission.TryAssign(bodyRef, body, newData))
                     break;
             }
+        }
+
+        // Check system missions
+        // We only care if the added data corresponds to anything in this system
+        var targetBodyMissions = this.activeMissions.OfType<ITargetBodiesMission>();
+        foreach (var mission in targetBodyMissions)
+        {
+            // TODO: use LINQ to check if bodies in mission contain this body
+            mission.OnDataAdded(bodyRef, body, newData);
         }
     }
 
