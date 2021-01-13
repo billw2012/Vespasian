@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 [CreateAssetMenu]
@@ -19,6 +20,9 @@ public class GameLogic : ScriptableObject {
 
     private void OnEnable() => SceneManager.sceneLoaded += this.SceneManager_sceneLoaded;
 
+    // Events
+    public UnityEvent OnNewGameInitialized = new UnityEvent();
+
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
         this.uiManager = FindObjectOfType<GUILayerManager>();
@@ -32,6 +36,7 @@ public class GameLogic : ScriptableObject {
         await this.mapComponent.GenerateMapAsync();
         await this.mapComponent.LoadStartingSystemAsync();
         await this.SaveGameAsync();
+        this.OnNewGameInitialized.Invoke();
     }
 
     public async Task SaveGameAsync()

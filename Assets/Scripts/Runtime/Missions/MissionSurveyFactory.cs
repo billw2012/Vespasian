@@ -24,6 +24,7 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
     public IMissionBase Generate(RandomX rng)
     {
         var map = FindObjectOfType<MapComponent>().map;
+        Debug.Assert(map != null);
         var missionType = SurveyType.SurveyWholeSystem;
 
         if (missionType == SurveyType.SurveyWholeSystem)
@@ -49,7 +50,7 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
 
     public GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent)
     {
-        var missionTyped = mission as MissionFind;
+        var missionTyped = mission as MissionSurveySystem;
         var ui = Instantiate(this.itemPrefab, parent);
         var missionItemUI = ui.GetComponent<MissionItemUI>();
         missionItemUI.Init(missions, mission, activeMission: false);
@@ -58,7 +59,7 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
 
     public GameObject CreateActiveUI(Missions missions, IMissionBase mission, Transform parent)
     {
-        var missionTyped = mission as MissionFind;
+        var missionTyped = mission as MissionSurveySystem;
         var ui = Instantiate(this.itemPrefab, parent);
         var missionItemUI = ui.GetComponent<MissionItemUI>();
         missionItemUI.Init(missions, mission, activeMission: true);
@@ -83,6 +84,8 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
     public string Factory => nameof(MissionSurveyFactory);
 
     public BodyRef targetSystemRef;
+
+    public MissionSurveySystem() { }
 
     public MissionSurveySystem(string description, string name)
     {

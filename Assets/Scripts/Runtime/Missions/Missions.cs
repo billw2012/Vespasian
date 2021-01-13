@@ -107,6 +107,8 @@ public class Missions : MonoBehaviour, ISavable
     public delegate void MissionsChanged();
     public event MissionsChanged OnMissionsChanged;
 
+    // Externals
+    public GameLogic gameLogic;
     
     private IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
 
@@ -118,17 +120,10 @@ public class Missions : MonoBehaviour, ISavable
     // Start is called before the first frame update
     private void Awake()
     {
-        var rng = new RandomX();
-
-        // HACK: DEBUG CODE
-        for (int i = 0; i < 10; i++)
-        {
-            this.availableMissions.Add(this.missionFactories.SelectRandom().Generate(rng));
-        }
-
         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
         
         this.playerDataCatalog.OnDataAdded += this.PlayerDataCatalogOnDataAdded;
+        this.gameLogic.OnNewGameInitialized.AddListener(this.GameLogicOnNewGameInitialized);
     }
 
     private void Start()
@@ -163,6 +158,20 @@ public class Missions : MonoBehaviour, ISavable
             // TODO: use LINQ to check if bodies in mission contain this body
             mission.OnDataAdded(bodyRef, body, newData);
         }
+    }
+
+    private void GameLogicOnNewGameInitialized()
+    {
+        var rng = new RandomX();
+
+        // HACK: DEBUG CODE
+        for (int i = 0; i < 10; i++)
+        {
+            this.availableMissions.Add(this.missionFactories.SelectRandom().Generate(rng));
+        }
+
+        // Unsubscribe, although Unity should handle this case too
+        this.gameLogic.OnNewGameInitialized.RemoveListener(this.GameLogicOnNewGameInitialized);
     }
 
     // Update is called once per frame
