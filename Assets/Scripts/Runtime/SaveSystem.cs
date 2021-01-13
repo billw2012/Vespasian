@@ -260,6 +260,8 @@ public class SaveSystem : MonoBehaviour
     /// <returns></returns>
     public async Task<bool> SaveExistsAsync(int index) => await FileExistsAsync(GetSaveMetaFilePath(index));
 
+    #region Save Wrappers
+    // These types are workarounds to get IL2cpp to work with the save system
     [RegisterSavableType]
     public class KeyValueWrapper
     {
@@ -313,7 +315,8 @@ public class SaveSystem : MonoBehaviour
             return type;
         }
     }
-
+    #endregion Save Wrappers
+    
     /// <summary>
     /// Save to slot at index, overwriting anything present
     /// </summary>

@@ -5989,6 +5989,16 @@ PrefabInstance:
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 2087623827}
+    - target: {fileID: 1257070501191445676, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: acceleration
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257070501191445676, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: turnSmoothTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1372222100332686095, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_IsActive
@@ -7479,12 +7489,12 @@ PrefabInstance:
     - target: {fileID: 4514586980462298718, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000047802925
       objectReference: {fileID: 0}
     - target: {fileID: 4514586980462298718, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.00012207031
       objectReference: {fileID: 0}
     - target: {fileID: 4514586980462298718, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
