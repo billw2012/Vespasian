@@ -81,7 +81,7 @@ namespace Pixelplacement
         private Vector3 _previousInPosition;
         private Vector3 _previousOutPosition;
         private Vector3 _previousAnchorPosition;
-        private Bounds _skinnedBounds;
+        //private Bounds _skinnedBounds;
         private Transform _anchor;
         private Transform _inTangent;
         private Transform _outTangent;

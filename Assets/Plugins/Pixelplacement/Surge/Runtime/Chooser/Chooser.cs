@@ -71,7 +71,7 @@ namespace Pixelplacement
         private Transform _currentRaycast;
         private Transform _previousRaycast;
         private Vector3 _targetPosition;
-        private bool _hidden;
+        //private bool _hidden;
 
         //Init:
         private void Reset()

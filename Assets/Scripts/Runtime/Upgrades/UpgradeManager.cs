@@ -45,10 +45,18 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
     public Transform upgradeRoot;
 
     private readonly List<IUpgradeComponentProxy> proxies = new List<IUpgradeComponentProxy>();
+    private bool isPlayerUpgradeManager;
 
     private void Start()
     {
-        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        // Only save players upgrades globally
+        // TODO: perhaps we generalize this for other ships
+        this.isPlayerUpgradeManager = this.GetComponent<PlayerController>() != null;
+        if (this.isPlayerUpgradeManager)
+        {
+            FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        }
+
         this.InstallInitialUpgrades();
     }
 
@@ -70,11 +78,14 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
         }
     }
 
-    public void InstallInitialUpgrades()
+    private void InstallInitialUpgrades()
     {
-        foreach(var upgradeDef in this.initialUpgrades.upgradesDefs)
+        if (this.initialUpgrades != null)
         {
-            this.Upgrade(upgradeDef);
+            foreach (var upgradeDef in this.initialUpgrades.upgradesDefs)
+            {
+                this.Upgrade(upgradeDef);
+            }
         }
     }
 
@@ -111,7 +122,11 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
             levelUpgradeLogic.LevelUp();
             
             Debug.Log($"Leveled up upgrade {upgradeDef.name} on ship {this.gameObject.name} to {levelUpgradeLogic.Level}");
-            NotificationsUI.Add($"<color=#DB69FF>Leveled up <b>{upgradeDef.name} to {levelUpgradeLogic.Level}</b></color>");
+            if (this.isPlayerUpgradeManager)
+            {
+                NotificationsUI.Add(
+                    $"<color=#DB69FF>Leveled up <b>{upgradeDef.name} to {levelUpgradeLogic.Level}</b></color>");
+            }
         }
         else
         {
@@ -131,7 +146,10 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
             this.InvalidateProxies();
 
             Debug.Log($"Installed upgrade {upgradeDef.name} on ship {this.gameObject.name}");
-            NotificationsUI.Add($"<color=#DB69FF>Installed upgrade <b>{upgradeDef.name}</b></color>");
+            if (this.isPlayerUpgradeManager)
+            {
+                NotificationsUI.Add($"<color=#DB69FF>Installed upgrade <b>{upgradeDef.name}</b></color>");
+            }
         }
         return upgradeLogic;
     }

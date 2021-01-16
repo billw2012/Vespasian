@@ -19,7 +19,7 @@ public class UpgradeUI : MonoBehaviour
 
     private void OnEnable()
     {
-        this.upgradeManager = FindObjectOfType<UpgradeManager>();
+        this.upgradeManager = FindObjectOfType<PlayerController>().GetComponent<UpgradeManager>();
         this.missions = FindObjectOfType<Missions>();
         this.UpdateGrid();
     }

@@ -672,7 +672,7 @@ public class SectionedSimPath
 
     public IEnumerable<SphereOfInfluence> GetFullPathSOIs() => this.simPath?.sois ?? new List<SphereOfInfluence>();
 
-    public bool Step(int tick, Vector3 force)
+    public bool Step(int tick, Vector3 force, int timeStep)
     {
         this.simTick = tick;
 
@@ -706,13 +706,14 @@ public class SectionedSimPath
         {
             // Hopefully we will never hit this for more than a frame
             var forceInfo = this.model.CalculateForce(this.simTick * this.dt, this.position, this.gravitationalConstant, this.gravitationalRescaling);
+            float timeStepDt = this.dt * timeStep;
             if (forceInfo.valid)
             {
-                this.velocity += forceInfo.rescaledTotalForce * this.dt;
+                this.velocity += forceInfo.rescaledTotalForce * timeStepDt;
             }
-            this.velocity += force * this.dt;
+            this.velocity += force * timeStepDt;
             var prevPosition = this.position;
-            this.position += this.velocity * this.dt;
+            this.position += this.velocity * timeStepDt;
             
             
             // Detect if we will crash between the last step and this one

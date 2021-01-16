@@ -715,8 +715,10 @@ MonoBehaviour:
   controlledRigidbody: {fileID: 3664154167166374825}
   startVelocity: {x: 0, y: 0, z: 0}
   alignToVelocity: 1
-  pathRendererAsset: {fileID: 0}
-  soiMarkerAsset: {fileID: 0}
+  pathRendererAsset: {fileID: 5168330289270263234, guid: aec865bf271549444a0b56f269374ce5,
+    type: 3}
+  soiMarkerAsset: {fileID: 5328351541723600180, guid: 8430562055167c447b0a277c12a8cbbd,
+    type: 3}
   soiRelativePaths: 0
   pathWidthScale: 1
   pathQuality: 1
@@ -796,6 +798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warpSpeed: 500
   acceleration: 100
+  turnSmoothTime: 3
   warpEffect: {fileID: 0}
   background: {fileID: 0}
   starfield: {fileID: 0}

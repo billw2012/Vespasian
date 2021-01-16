@@ -13,7 +13,8 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     public BodySpecs bodySpecs;
     public MapGenerator mapGenerator;
 
-    [NonSerialized, Saved] public Map map;
+    [NonSerialized, Saved]
+    public Map map;
 
     /// <summary>
     /// System the player is currently in
@@ -141,24 +142,27 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         // Player enter warp
 
         // Disable player input
-        var playerController = this.player.GetComponent<PlayerController>();
-        playerController.enabled = false;
-        playerController.SetAllowDamageAndCollision(false);
-        var playerSimMovement = this.player.GetComponent<SimMovement>();
-        playerSimMovement.enabled = false;
+        this.GetComponent<ControllerBase>()?.SetControlled(false);
+        // var controller = this.player.GetComponent<PlayerController>();
+        // controller.enabled = false;
+        // //var health = this.GetComponent<HealthComponent>();
+        // health?.SetAllowDamageAndCollision(false);
+        // var simMovement = this.player.GetComponent<SimMovement>();
+        // simMovement.enabled = false;
 
         await this.warpComponent.value.WarpAsync(this.currentSystem, target, this.LoadSystemAsync, landingPositionCallback);
 
-        // Re-enable player input
-        playerController.enabled = true;
-
-        // Safe to turn collision back on hopefully
-        // TODO: make sure we never collide with something
-        playerController.SetAllowDamageAndCollision(true);
-
-        // Finally set the player velocity and re-enable simulation
-        // playerSimMovement.SimRefresh(FindObjectOfType<Simulation>());
-        playerSimMovement.enabled = true;
+        // // Re-enable control
+        // controller.enabled = true;
+        //
+        // // Safe to turn collision back on hopefully
+        // health?.SetAllowDamageAndCollision(false);
+        // controller.SetAllowDamageAndCollision(true);
+        //
+        // // Finally set the player velocity and re-enable simulation
+        // // playerSimMovement.SimRefresh(FindObjectOfType<Simulation>());
+        // simMovement.enabled = true;
+        this.GetComponent<ControllerBase>()?.SetControlled(true);
 
         this.uiManager.ShowUI();
     }

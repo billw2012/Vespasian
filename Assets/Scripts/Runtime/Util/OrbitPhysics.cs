@@ -9,11 +9,145 @@ public static class OrbitalUtils
     public static Vector3 CalculateForce(Vector3 vec, float mass, float G) => vec.normalized * (G * mass) / Mathf.Pow(vec.magnitude, 2);
 
     public static float SemiMajorAxis(float periapsis, float apoapsis) => (periapsis + apoapsis) / 2f;
+    public static float SemiMajorAxis(float speed, float distance, float mass, float G) => distance * mass * G / OrbitDiscriminator(speed, distance, mass, G);
+    public static float Periapsis(float semiMajorAxis, float eccentricity) => semiMajorAxis * (1f - eccentricity);
+    public static float Apoapsis(float semiMajorAxis, float eccentricity) => semiMajorAxis * (1f + eccentricity);
 
     // http://www.braeunig.us/space/orbmech.htm 4.9
     public static float OrbitalPeriod(float semiMajorAxis, float mass, float G) => Mathf.Sqrt(4 * Mathf.Pow(Mathf.PI, 2) * Mathf.Pow(semiMajorAxis, 3) / (G * mass));
-
+    
     public static float OrbitalVelocityToAngularVelocity(float radius, float v) => v / radius;
+    
+    // https://en.wikipedia.org/wiki/Mean_motion
+    public static float MeanMotion(float semiMajorAxis, float mass, float G) => Mathf.Sqrt(G * mass / Mathf.Pow(Mathf.Abs(semiMajorAxis), 3));
+
+    public static float SecondarySOIRadius(float semiMajorAxis, float secondaryMass, float primaryMass, float G, float GRescaling) => semiMajorAxis * Mathf.Pow(
+        Mathf.Pow(secondaryMass, GRescaling) / Mathf.Pow(primaryMass, GRescaling), 2f / 5f);
+
+    public static float MeanToTrueAnomaly(float mA, float eccentricity) => EccentricToTrueAnomaly((float) MeanToEccentricAnomaly(mA, eccentricity), eccentricity);
+    public static float TrueToMeanAnomaly(float tA, float eccentricity) => EccentricToMeanAnomaly((float) TrueToEccentricAnomaly(tA, eccentricity), eccentricity);
+    
+    /// <summary>
+    /// Eccentric anomaly from true anomaly
+    /// </summary>
+    /// <param name="tA">true anomaly</param>
+    /// <param name="eccentricity"></param>
+    /// <returns></returns>
+    public static float TrueToEccentricAnomaly(float tA, float eccentricity)
+    {
+        float c = Mathf.Cos(tA / 2f);
+        float s = Mathf.Sin(tA / 2f);
+        if (eccentricity < 1f)
+        {
+            return 2f * Mathf.Atan2(Mathf.Sqrt(1f - eccentricity) * s, Mathf.Sqrt(1f + eccentricity) * c);
+        }
+        float d = Mathf.Sqrt((eccentricity - 1f) / (eccentricity + 1f)) * s / c;
+        if (d >= 1f)
+        {
+            return float.PositiveInfinity;
+        }
+        else if (d <= -1f)
+        {
+            return float.NegativeInfinity;
+        }
+        else
+        {
+            return Mathf.Log((1f + d) / (1f - d));
+        }
+    }
+    
+    public static float EccentricToTrueAnomaly(float E, float eccentricity)
+    {
+        if (eccentricity < 1f)
+        {
+            return 2f * Mathf.Atan2(Mathf.Sqrt(1f + eccentricity) * Mathf.Sin(E / 2f), Mathf.Sqrt(1f - eccentricity) * Mathf.Cos(E / 2f));
+        }
+        else if (float.IsPositiveInfinity(E))
+        {
+            return Mathf.Acos(-1f / eccentricity);
+        }
+        else if (float.IsNegativeInfinity(E))
+        {
+            return -Mathf.Acos(-1f / eccentricity);
+        }
+        else
+        {
+            return 2f * Mathf.Atan2(Mathf.Sqrt(eccentricity + 1f) * (float) Math.Sinh(E / 2f), Mathf.Sqrt(eccentricity - 1f) * (float) Math.Cosh(E / 2f));
+        }
+    }
+
+    /// <summary>
+    /// Mean anomaly from eccentric anomaly
+    /// </summary>
+    /// <param name="E">eccentric anomaly</param>
+    /// <param name="eccentricity"></param>
+    /// <returns></returns>
+    public static float EccentricToMeanAnomaly(float E, float eccentricity)
+    {
+        if (eccentricity < 1f)
+        {
+            return E - eccentricity * Mathf.Sin(E);
+        }
+        else if (float.IsInfinity(E))
+        {
+            return E;
+        }
+        else
+        {
+            return eccentricity * (float)Math.Sinh(E) - E;
+        }
+    }
+
+    public static double MeanToEccentricAnomaly(double M, double eccentricity)
+    {
+        const double maxError = 1E-07;
+        if (eccentricity >= 1)
+        {
+            if (double.IsInfinity(M))
+            {
+                return M;
+            }
+            double dE = 1.0;
+            double a = 2.0 * M / eccentricity;
+            double E = Math.Log(Math.Sqrt(a * a + 1.0) + a);
+            while (Math.Abs(dE) > maxError)
+            {
+                dE = (eccentricity * Math.Sinh(E) - E - M) / (eccentricity * Math.Cosh(E) - 1.0);
+                E -= dE;
+            }
+            
+            return double.IsNaN(E)? 0 : E;
+        }
+        else if (eccentricity >= 0.8)
+        {
+            const int iterations = 8;
+
+            double E = M + 0.85 * eccentricity * (double)Math.Sign(Math.Sin(M));
+            for (int i = 0; i < iterations; i++)
+            {
+                double s = eccentricity * Math.Sin(E);
+                double c = eccentricity * Math.Cos(E);
+                double a = E - s - M;
+                double b = 1.0 - c;
+                E += -5.0 * a / (b + (double)Math.Sign(b) * Math.Sqrt(Math.Abs(16.0 * b * b - 20.0 * a * s)));
+            }
+            
+            return double.IsNaN(E)? 0 : E;
+        }
+        else
+        {
+            double dE = 1;
+            double E = M + eccentricity * Math.Sin(M) + 0.5 * eccentricity * eccentricity * Math.Sin(2.0 * M);
+            while (Math.Abs(dE) > maxError)
+            {
+                double c = E - eccentricity * Math.Sin(E);
+                dE = (M - c) / (1.0 - eccentricity * Math.Cos(E));
+                E += dE;
+            }
+
+            return double.IsNaN(E)? 0 : E;
+        }
+    }
 
     /// <summary>
     /// Calculate the speed required at periapsis for an object of <paramref name="mass"/> to be in the orbit
@@ -41,8 +175,6 @@ public static class OrbitalUtils
     // or
     // https://phys.libretexts.org/Bookshelves/Astronomy__Cosmology/Book%3A_Celestial_Mechanics_(Tatum)/09%3A_The_Two_Body_Problem_in_Two_Dimensions/9.08%3A_Orbital_Elements_and_Velocity_Vector#mjx-eqn-9.5.31
     public static float OrbitDiscriminator(float speed, float distance, float mass, float G) => 2f * mass * G - distance * speed * speed;
-
-    public static float SemiMajorAxis(float speed, float distance, float mass, float G) => distance * mass * G / OrbitDiscriminator(speed, distance, mass, G);
 }
 
 // Ordinary differential equation solver

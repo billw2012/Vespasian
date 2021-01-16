@@ -120,6 +120,26 @@ public class SimMovementEditor : Editor
             }
         }
 
+        var sun = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
+        var orbit = AnalyticOrbit.FromCartesianStateVector(
+            simMovement.transform.position, 
+            Application.isPlaying? simMovement.velocity : simMovement.startVelocity, 
+            sun.parameters.mass,
+            sun.constants.GravitationalConstant);
+        Handles.color = Color.yellow;
+        var orbitPath = orbit.GetPath();
+        Handles.DrawPolyLine(orbitPath);
+        Handles.DrawWireCube(orbitPath.First(), Vector3.one);
+        Handles.color = Color.red;
+        Handles.DrawWireCube(orbitPath.Skip(10).First(), Vector3.one);
+        Handles.Label(orbitPath.First() + Vector3.right * 4, 
+            $"meanLongitude: {orbit.meanLongitude:0.0}\n" +
+            $"eccentricity: {orbit.eccentricity}\n" + 
+            $"argumentOfPeriapsis: {orbit.argumentOfPeriapsis}\n" +
+            $"motionPerSecond: {orbit.motionPerSecond}\n" +
+            $"semiMajorAxis: {orbit.semiMajorAxis}"
+            );
+        
         if(!EditorApplication.isPlaying && EditorApplication.timeSinceStartup - lastUpdate > 0.05)
         {
             lastUpdate = EditorApplication.timeSinceStartup;
