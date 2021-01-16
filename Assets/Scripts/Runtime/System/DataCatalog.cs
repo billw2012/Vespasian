@@ -93,7 +93,7 @@ public class DataCatalog : MonoBehaviour, ISavable
     public bool AddData(GameObject obj, DataMask newDataMask)
     {
         var bodyGenerator = obj.GetComponent<BodyGenerator>();
-        if (bodyGenerator != null)
+        if (bodyGenerator != null && bodyGenerator.BodyRef != null)
         {
             // We only discover orbit by default
             this.AddData(bodyGenerator.BodyRef, newDataMask);

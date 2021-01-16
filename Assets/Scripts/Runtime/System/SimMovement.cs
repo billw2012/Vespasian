@@ -161,7 +161,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     #region ISimUpdate
     public void SimUpdate(Simulation simulation, int simTick, int timeStep)
     {
-        if (!this.path.Step(simTick, this.force))
+        if (!this.path.Step(simTick, this.force, timeStep))
         {
             this.OnCrashed?.Invoke();
         }
@@ -294,7 +294,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         this.sois = this.path.GetFullPathSOIs().ToList();
 
         var endPosition = Vector3.zero;
-        if (this.pathRendererAsset != null)
+        if (this.pathRendererAsset != null && this.soiMarkerAsset != null)
         {
             var soiPaths = this.soiRelativePaths ? this.GetSOIPathsSOIRelative().ToList() : this.GetSOIPathsPrimaryRelative().ToList();
 

@@ -108,6 +108,8 @@ public class EngineController : MonoBehaviour
         //    this.engineEnd.Play();
         //}
         this.prevThrust = this.thrust;
+        
+        Debug.DrawLine(this.transform.position, this.transform.position + this.transform.localToWorldMatrix.MultiplyVector(this.thrust), Color.green);
     }
 
     private void FixedUpdate()

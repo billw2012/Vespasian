@@ -11,10 +11,10 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class OutputVolumeEditor : Editor
 {
-    private SerializedProperty propertyWindow;
+    //private SerializedProperty propertyWindow;
 
     private SerializedProperty propertyEnabled;
-
+    
     private SerializedProperty propertySourceType;
     private SerializedProperty propertyAudioSource;
     private SerializedProperty propertySampleAmount;

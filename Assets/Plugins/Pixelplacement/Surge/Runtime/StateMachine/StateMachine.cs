@@ -109,7 +109,7 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        private bool _initialized;
+        //private bool _initialized;
         private bool _atFirst;
         private bool _atLast;
 

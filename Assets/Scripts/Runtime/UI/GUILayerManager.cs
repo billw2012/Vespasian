@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Optional interface that a UILayer can implement to provide extended functionality
@@ -36,28 +37,19 @@ interface IUILayer
 /// </summary>
 public class GUILayerManager : MonoBehaviour
 {
-    public GameObject mainMenuUI;
+    public GameObject startUI;
     public GameObject playUI;
     public GameObject loseUI;
 
     public GameObject dialogPrefab;
 
-    //GameObject[] all;
     private readonly List<GameObject> layerStack = new List<GameObject>();
 
-    //void Awake()
-    //{
-    //    this.all = this.GetComponentsInChildren<DisplayObject>(includeInactive: true).Select(d => d.gameObject).ToArray();
-    //}
-
-    private void Start()
-    {
-        this.SwitchToMainMenu();
-    }
+    private void Start() => this.SwitchToStartUI();
 
     public void ClearUI() => this.SwitchTo(null);
 
-    public void SwitchToMainMenu() => this.SwitchTo(this.mainMenuUI);
+    public void SwitchToStartUI() => this.SwitchTo(this.startUI);
 
     public void SwitchToPlay() => this.SwitchTo(this.playUI);
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 
 // Simulated orbit with baking
@@ -20,10 +21,13 @@ public struct OrbitParameters
 {
     [Tooltip("Nearest distance in orbit"), Range(0, 100)]
     public float periapsis;
+
     [Tooltip("Furthest distance in orbit"), Range(0, 100)]
     public float apoapsis;
+
     [Tooltip("Argument of periapsis (angle from ascending node)"), Range(0, 360)]
     public float angle;
+
     [Tooltip("Fraction of orbit to start at"), Range(0, 1)]
     public float offset;
 
@@ -36,9 +40,13 @@ public struct OrbitParameters
         CounterClockwise,
         Clockwise
     }
+
     public OrbitDirection direction;
 
-    public float eccentricity => this.periapsis + this.apoapsis == 0 ? 0 : (this.apoapsis - this.periapsis) / (this.apoapsis + this.periapsis);
+    public float eccentricity => this.periapsis + this.apoapsis == 0
+        ? 0
+        : (this.apoapsis - this.periapsis) / (this.apoapsis + this.periapsis);
+
     public float semiMajorAxis => (this.apoapsis + this.periapsis) / 2f;
 
     public void SetPeriapsis(float newPeriapsis)
@@ -80,7 +88,7 @@ public struct OrbitParameters
         public float dt;
         public float timeOffset;
         public OrbitDirection direction;
-        public float period => this.path != null? this.dt * (this.path.Length + 1) : 0;
+        public float period => this.path != null ? this.dt * (this.path.Length + 1) : 0;
 
         private static int ModPositive(int x, int m)
         {
@@ -119,12 +127,14 @@ public struct OrbitParameters
             int idx1 = ModPositive(idx0 + 1, this.path.Length);
             float frac = fIdx - Mathf.FloorToInt(fIdx);
             var position = Vector3.Lerp(this.path[idx0], this.path[idx1], frac);
-            var velocity = (Vector3.Lerp(this.path[idx1], this.path[(idx1 + 1) % this.path.Length], frac) - position) / this.dt;
+            var velocity = (Vector3.Lerp(this.path[idx1], this.path[(idx1 + 1) % this.path.Length], frac) - position) /
+                           this.dt;
             // If we are going in the opposite direction then reverse the velocity of course
-            if(this.direction == OrbitDirection.Clockwise)
+            if (this.direction == OrbitDirection.Clockwise)
             {
                 velocity *= -1;
             }
+
             return (position, velocity);
         }
     }
@@ -153,14 +163,16 @@ public struct OrbitParameters
             }
 
             // If we closed the path successfully:
-            if (Vector3.Distance(pathList[0], pathList[pathList.Count - 1]) < Vector3.Distance(pathList[0], pathList[1]) * 0.1f)
+            if (Vector3.Distance(pathList[0], pathList[pathList.Count - 1]) <
+                Vector3.Distance(pathList[0], pathList[1]) * 0.1f)
             {
                 pathList.RemoveAt(pathList.Count - 1);
             }
 
             float period = fixedPeriod == 0 ? orbit.period : fixedPeriod;
             float finaldt = fixedPeriod == 0 ? dt : fixedPeriod / (pathList.Count + 1);
-            return new OrbitPath {
+            return new OrbitPath
+            {
                 path = pathList.ToArray(),
                 dt = finaldt,
                 timeOffset = Mathf.Max(0, period * this.offset),
@@ -171,6 +183,146 @@ public struct OrbitParameters
         {
             return new OrbitPath { };
         }
+    }
+}
+
+[Serializable]
+public struct AnalyticOrbit
+{
+    [Tooltip("The angle from primary axis of the point of closest approach, in degrees"), Range(0, 360)]
+    public float argumentOfPeriapsis;
+    [Tooltip("Average orbital distance"), Range(0, 200)]
+    public float semiMajorAxis;
+    [Tooltip("Motion of orbiting body per second, in degrees per second"), Range(-45, 45)]
+    public float motionPerSecond;
+    [Tooltip("How elliptical the orbit is (values beyond 0.2 become inaccurate with the method of calculation used here)"), Range(0, 0.3f)]
+    public float eccentricity;
+
+    public float directionSign => Mathf.Sign(this.motionPerSecond);
+
+    public bool isElliptic => this.eccentricity <= 1;
+    // orbits with eccentricity near 1 are unstable in this system due to division by very small numbers occurring
+    public bool isUnstable => Mathf.Abs(this.eccentricity - 1) < 0.001f;
+
+    public float periapsis => OrbitalUtils.Periapsis(this.semiMajorAxis, this.eccentricity);
+    public float apoapsis => OrbitalUtils.Apoapsis(this.semiMajorAxis, this.eccentricity);
+
+    // Mean longitude is the ecliptic longitude at which an orbiting body could be found if its orbit were circular, and free of perturbations, and if its inclination were zero
+    [FormerlySerializedAs("trueAnomaly")] [Tooltip("Angle the orbit starts from, in degrees"), Range(0, 360)]
+    public float meanLongitude;
+
+    private static float Mod2PI(float val)
+    {
+        while (val > Mathf.PI * 2f)
+            val -= Mathf.PI * 2f;
+        while (val < 0)
+            val += Mathf.PI * 2f;
+        return val;
+    }
+
+    public Vector2 GetPosition(float time, float meanLongitudeOffset = 0)
+    {
+        float meanAnomaly = (this.motionPerSecond * time + meanLongitudeOffset * this.directionSign + this.meanLongitude) * Mathf.Deg2Rad;
+        if (this.isElliptic)
+        {
+            meanAnomaly = Mod2PI(meanAnomaly);
+        }
+        float trueAnomaly = OrbitalUtils.MeanToTrueAnomaly(meanAnomaly, this.eccentricity);
+
+        // float trueAnomaly = Mod2PI(meanAnomaly +
+        //                            1f *
+        //                            ((2f * this.eccentricity -
+        //                              Mathf.Pow(this.eccentricity, 3) / 4f) * Mathf.Sin(meanAnomaly) +
+        //                             (5f / 4f) * Mathf.Pow(this.eccentricity, 2) * Mathf.Sin(2f * meanAnomaly) +
+        //                             (13f / 12f) * Mathf.Pow(this.eccentricity, 3) * Mathf.Sin(3f * meanAnomaly)));
+        float d = 1f + this.eccentricity * Mathf.Cos(trueAnomaly);
+        float radiusVector = d == 0? 0 : this.semiMajorAxis * (1f - Mathf.Pow(this.eccentricity, 2)) / d;
+        return new Vector2(
+            radiusVector * Mathf.Cos(trueAnomaly + this.argumentOfPeriapsis * Mathf.Deg2Rad),
+            radiusVector * Mathf.Sin(trueAnomaly + this.argumentOfPeriapsis * Mathf.Deg2Rad)
+        );
+        
+        // double gravParameter = this.referenceBody.gravParameter;
+        // double c = Math.Cos(tA);
+        // double s = Math.Sin(tA);
+        // double f = this.semiMajorAxis * (1.0 - this.eccentricity * this.eccentricity) / (1.0 + this.eccentricity * c);
+        // double d = c * f;
+        // double d2 = s * f;
+        //
+        // state.pos = this.OrbitFrame.X * d + this.OrbitFrame.Y * d2;
+    }
+
+    public Vector3[] GetPath(int resolution = 180)
+    {
+        // Only join the start to the end if we are an elliptical orbit (not para/hyperbolic)
+        float dt =  this.isElliptic? 360f / (resolution - 1) : 360f / resolution;
+        var path = new Vector3[resolution];
+        for (int i = 0; i < resolution; ++i)
+        {
+            path[i] = this.GetPosition(0, i * dt);
+        }
+        return path;
+    }
+
+    public static AnalyticOrbit FromCartesianStateVector(Vector3 r, Vector3 v, float mass, float G)
+    {
+        var h = Vector3.Cross(r, v); //angular_momentum(r, v);
+        //var n = Vector3.Cross(Vector3.forward, h); //node_vector(h);
+
+        float mu = mass * G;
+        var eccVec = 1 / mu * ((v.sqrMagnitude - mu / r.magnitude) * r - Vector3.Dot(r, v) * v); //eccentricity_vector(r, v, mu);
+
+        float orbitalEnergy = v.sqrMagnitude / 2 - mu / r.magnitude; //specific_orbital_energy(r, v, mu);
+
+        float eccentricity = eccVec.magnitude;
+        float semiMajorAxis = 0;
+        if (eccentricity > 1f)
+        {
+            semiMajorAxis = -(h.sqrMagnitude / mu) / (eccVec.sqrMagnitude - 1f);
+        }
+        else
+        {
+            semiMajorAxis = -mu / (2 * orbitalEnergy);
+        }
+
+        const double SMALL_NUMBER = 1e-15;
+
+        // Argument of periapsis is the angle between eccentricity vector and its x component.
+        float argumentOfPeriapsis = Mathf.Abs(eccentricity) < SMALL_NUMBER ? 0 : Vector3.SignedAngle(Vector3.right, eccVec, Vector3.forward) * Mathf.Deg2Rad;
+        
+        float trueAnomaly = 0;
+        if (Mathf.Abs(eccentricity) < SMALL_NUMBER)
+        {
+            // True anomaly is angle between position
+            // vector and its x component.
+            trueAnomaly = Mathf.Acos(r.x / r.magnitude);
+            if( v.x > 0)
+            {
+                trueAnomaly = 2 * Mathf.PI - trueAnomaly;
+            }
+        }
+        else
+        {
+            // if (eccVec.z < 0)
+            // {
+            //     argumentOfPeriapsis = 2 * Mathf.PI - argumentOfPeriapsis;
+            // }
+            
+            trueAnomaly = Vector3.SignedAngle(eccVec, r, Vector3.forward) * Mathf.Deg2Rad;
+        }
+
+        float meanLongitude = OrbitalUtils.TrueToMeanAnomaly(trueAnomaly, eccentricity) * Mathf.Rad2Deg;
+        return new AnalyticOrbit
+        {
+            semiMajorAxis = semiMajorAxis,
+            eccentricity = eccentricity,
+            //meanLongitude = //OrbitalUtils.EccentricToTrueAnomaly((float)OrbitalUtils.MeanToEccentricAnomaly(arg_pe - tA, e), e) * Mathf.Rad2Deg,
+            //meanLongitude = OrbitalUtils. tA * Mathf.Rad2Deg,
+            meanLongitude = float.IsInfinity(meanLongitude)? 0 : meanLongitude,
+            argumentOfPeriapsis = argumentOfPeriapsis * Mathf.Rad2Deg,
+            motionPerSecond = Mathf.Sign(h.z) * OrbitalUtils.MeanMotion(semiMajorAxis, mass, G) * Mathf.Rad2Deg,
+        };
+        //OrbitalElements(a=a, e=e, i=i, raan=raan, arg_pe=arg_pe, f=f);
     }
 }
 

@@ -50,7 +50,8 @@ public class DockActive : MonoBehaviour
             // Undocking: unparent the transform, set our vleocity to velocity of space station
             Debug.Log("Currently docked");
             this.transform.SetParent(null); // Sets scene as parent
-            this.EnableSimMovement(true);
+            this.GetComponent<ControllerBase>()?.SetControlled(true);
+
             var simMovement = this.GetComponent<SimMovement>();
             var passiveOrbit = this.passiveDockingPort.orbit;
             if (simMovement != null)
@@ -75,8 +76,11 @@ public class DockActive : MonoBehaviour
             if (passivePort != null)
             {
                 this.DockAt(passivePort);
-                // We save when docking is initiated like this (we assume it is player initiated when ToggleDock is called, rather than due to new game or loaded save)
-                _ = this.gameLogic.SaveGameAsync();
+                if(this.GetComponent<PlayerController>() != null)
+                {
+                    // We save when docking is initiated like this by the player
+                    _ = this.gameLogic.SaveGameAsync();
+                }            
             }
             else
             {
@@ -87,7 +91,8 @@ public class DockActive : MonoBehaviour
 
     public void DockAt(DockPassive passivePort)
     {
-        this.EnableSimMovement(false);
+        this.GetComponent<ControllerBase>()?.SetControlled(false);
+
         // Transform we will parent the ship to
         var dockParent = passivePort.transform.parent;
         this.gameObject.transform.SetParent(dockParent, worldPositionStays: true);
@@ -109,15 +114,6 @@ public class DockActive : MonoBehaviour
         Debug.Log($"Docked to {passivePort}");
         this.passiveDockingPort = passivePort;
         this.docked = true;
-    }
-
-    private void EnableSimMovement(bool en)
-    {
-        var playerController = this.GetComponent<PlayerController>();
-        playerController.enabled = en;
-        playerController.SetAllowDamageAndCollision(en);
-        var playerSimMovement = this.GetComponent<SimMovement>();
-        playerSimMovement.enabled = en;
     }
 
     private void Update()

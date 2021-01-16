@@ -38,7 +38,7 @@ namespace Pixelplacement
         //Private Variables:
         private float _previousPercentage;
         private bool _previousFaceDirection;
-        private bool _detached;
+        //private bool _detached;
 
         //Public Methods:
         public void UpdateOrientation (Spline spline)

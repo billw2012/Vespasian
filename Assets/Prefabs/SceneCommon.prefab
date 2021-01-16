@@ -6396,7 +6396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c496e935646e8f45ab35406a443d05d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuUI: {fileID: 5215662807710142221}
+  startUI: {fileID: 5215662807710142221}
   playUI: {fileID: 5832852356369290586}
   loseUI: {fileID: 2048725458426034981}
   dialogPrefab: {fileID: 2739825280175955615, guid: a4c389195c7789747ad14daf119b3d34,

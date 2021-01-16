@@ -242,9 +242,11 @@
           <e p="Runtime" t="Include">
             <e p="AI" t="Include">
               <e p="AIController.cs" t="Include" />
+              <e p="AIEnemyBehaviour.cs" t="Include" />
               <e p="Faction.cs" t="Include" />
             </e>
             <e p="BodySpecs.cs" t="Include" />
+            <e p="ControllerBase.cs" t="Include" />
             <e p="Effects" t="Include">
               <e p="DamageReceiver.cs" t="Include" />
               <e p="DamageSource.cs" t="Include" />
@@ -292,6 +294,7 @@
               <e p="MissionListUIBase.cs" t="Include" />
               <e p="MissionMapSystemFactory.cs" t="Include" />
               <e p="Missions.cs" t="Include" />
+              <e p="MissionSurveyFactory.cs" t="Include" />
             </e>
             <e p="Objectives" t="Include">
               <e p="FlybyObjective.cs" t="Include" />
@@ -375,6 +378,8 @@
               <e p="Delaunay.cs" t="Include" />
               <e p="FadeableAudio.cs" t="Include" />
               <e p="Geometry.cs" t="Include" />
+              <e p="GoodingSolver.cs" t="Include" />
+              <e p="GoodingSolverF.cs" t="Include" />
               <e p="GUIUtils.cs" t="Include" />
               <e p="IL2CPPAOT.cs" t="Include" />
               <e p="LINQExtensions.cs" t="Include" />
