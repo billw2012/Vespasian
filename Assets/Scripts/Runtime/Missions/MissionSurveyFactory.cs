@@ -107,7 +107,7 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
             // If so, mission is complete
             var missions = UnityEngine.Object.FindObjectOfType<Missions>();
             var playerDataCatalog = missions.playerDataCatalog;
-            bool notAllScanned = this.TargetBodies.First<BodyRef>(tb => {
+            bool notAllScanned = this.TargetBodies.FirstOrDefault<BodyRef>(tb => {
                 var dataOnThisBody = playerDataCatalog.GetData(tb);
                 return !dataOnThisBody.HasFlag(DataMask.All);
             }) != null;

@@ -15,6 +15,7 @@ public class MapSystemMarkerUI : MonoBehaviour
     public GameObject currentMarker;
     public GameObject selectMarker;
     public GameObject stationMarker;
+    public GameObject missionMarker;
     public Image starImage;
 
     public TextMeshProUGUI label;
@@ -24,10 +25,19 @@ public class MapSystemMarkerUI : MonoBehaviour
     public bool isJumpTarget => this.system == this.mapComponent.jumpTarget;
     public bool isValidJumpTarget => this.mapComponent.GetValidJumpTargets().Contains(this.system);
 
+    public bool missionMarkerEnabled
+    {
+        set
+        {
+            this.missionMarker.SetActive(value);
+        }
+    }
+
     private void Awake()
     {
         this.label.enabled = false;
         this.currentMarker.SetActive(false);
+        this.missionMarkerEnabled = false;
     }
 
     private void Start()

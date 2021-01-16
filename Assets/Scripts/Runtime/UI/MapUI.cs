@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -11,6 +12,8 @@ public class MapUI : MonoBehaviour, IUILayer
     public Button jumpButton;
     public GameObject systemMarkerPrefab;
     public GameObject linkMarkerPrefab;
+
+    public GameLogic gameLogic;
 
     private MapComponent mapComponent;
 
@@ -51,12 +54,23 @@ public class MapUI : MonoBehaviour, IUILayer
                 instScript.mapComponent = this.mapComponent;
             }
 
+            // Prepare an array of system refs for which we have active missions
+            var missions = FindObjectOfType<Missions>();
+            var systemMissions = missions.activeMissions.Where(mn => mn is MissionSurveySystem);
+            var systemRefs = systemMissions.Select(mn => (mn as MissionSurveySystem).targetSystemRef.systemId);
+
             foreach (var s in this.mapComponent.map.systems)
             {
                 var inst = Instantiate(this.systemMarkerPrefab, this.mapView);
                 var instScript = inst.GetComponent<MapSystemMarkerUI>();
                 instScript.system = s;
                 instScript.mapComponent = this.mapComponent;
+
+                // Enable mission marker if there is a mission in this sytem
+                if (systemRefs.Contains(s.id))
+                {
+                    instScript.missionMarkerEnabled = true;
+                }
             }
         }
     }
