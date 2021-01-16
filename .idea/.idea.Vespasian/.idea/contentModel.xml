@@ -294,6 +294,7 @@
               <e p="MissionListUIBase.cs" t="Include" />
               <e p="MissionMapSystemFactory.cs" t="Include" />
               <e p="Missions.cs" t="Include" />
+              <e p="MissionSurveyFactory.cs" t="Include" />
             </e>
             <e p="Objectives" t="Include">
               <e p="FlybyObjective.cs" t="Include" />

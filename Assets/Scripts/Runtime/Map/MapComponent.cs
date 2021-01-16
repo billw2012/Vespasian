@@ -142,7 +142,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         // Player enter warp
 
         // Disable player input
-        this.GetComponent<ControllerBase>()?.SetControlled(false);
+        this.player.GetComponent<ControllerBase>()?.SetControlled(false);
         // var controller = this.player.GetComponent<PlayerController>();
         // controller.enabled = false;
         // //var health = this.GetComponent<HealthComponent>();
@@ -162,7 +162,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         // // Finally set the player velocity and re-enable simulation
         // // playerSimMovement.SimRefresh(FindObjectOfType<Simulation>());
         // simMovement.enabled = true;
-        this.GetComponent<ControllerBase>()?.SetControlled(true);
+        this.player.GetComponent<ControllerBase>()?.SetControlled(true);
 
         this.uiManager.ShowUI();
     }

@@ -1,6 +1,7 @@
 ﻿// unset
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,6 +19,20 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private RandomX rng;
     private Vector3 interceptPos;
 
+    // Possible AI states in priority order
+    private enum State
+    {
+        AvoidCollision,
+        AchieveSafeOrbit,
+        ReverseOrbit,
+        Intercept,
+        DirectApproach,
+        Follow,
+        Idle,
+    }
+    
+    // public 
+    
     private void Awake()
     {
         this.simMovement = this.GetComponent<SimMovement>();

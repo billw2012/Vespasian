@@ -120,7 +120,12 @@ public class SimMovementEditor : Editor
             }
         }
 
-        var sun = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
+        var sun = FindObjectOfType<StarLogic>()?.GetComponent<GravitySource>();
+        if (sun == null)
+        {
+            return;
+        }
+
         var orbit = AnalyticOrbit.FromCartesianStateVector(
             simMovement.transform.position, 
             Application.isPlaying? simMovement.velocity : simMovement.startVelocity, 
