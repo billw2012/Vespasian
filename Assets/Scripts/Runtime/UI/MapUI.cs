@@ -17,6 +17,8 @@ public class MapUI : MonoBehaviour, IUILayer
 
     private MapComponent mapComponent;
 
+    public MissionMapUI missionMapUi;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -65,6 +67,7 @@ public class MapUI : MonoBehaviour, IUILayer
                 var instScript = inst.GetComponent<MapSystemMarkerUI>();
                 instScript.system = s;
                 instScript.mapComponent = this.mapComponent;
+                instScript.mapUi = this;
 
                 // Enable mission marker if there is a mission in this sytem
                 if (systemRefs.Contains(s.id))

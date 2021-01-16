@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ICSharpCode.NRefactory.Ast;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -8,6 +9,7 @@ using UnityEngine.UI;
 public class MapSystemMarkerUI : MonoBehaviour
 {
     public MapComponent mapComponent;
+    public MapUI mapUi;
     public SolarSystem system;
     public Color color = Color.gray;
     public Color currentColor = Color.white;
@@ -63,8 +65,13 @@ public class MapSystemMarkerUI : MonoBehaviour
 
     public void Clicked()
     {
+        BodyRef systemRef = new BodyRef(this.system.id);
+
         this.mapComponent.selectedSystem = this.system;
         this.mapComponent.TrySetJumpTarget(this.system);
+
+        var missions = FindObjectOfType<Missions>();
+        this.mapUi.missionMapUi.UpdateMissionList(missions, systemRef);
     }
 
     public void Refresh() => this.stationMarker.SetActive(this.system.AllBodies().OfType<Station>().Any());

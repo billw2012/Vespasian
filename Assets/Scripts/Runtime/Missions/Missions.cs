@@ -235,6 +235,20 @@ public class Missions : MonoBehaviour, ISavable
         this.dataCatalog.MergeFrom(this.playerDataCatalog);
         this.AddFunds(this.NewDataReward, $"All new data sold");
     }
+
+    public List<IMissionBase> GetActiveMissionsInSystem(BodyRef systemRef)
+    {
+        var surveySystemMissionsHere = this.activeMissions.Where(mn =>
+            {
+                var mnSurvey = mn as MissionSurveySystem;
+                if (mnSurvey != null)
+                    return mnSurvey.targetSystemRef.EqualsSystem(systemRef);
+                else
+                    return false;
+            }
+        );
+        return surveySystemMissionsHere.ToList();
+    }
     
     [ConsoleMethod("player.reveal-map", "Reveal all planets to the player")]
     public static void DebugPlayerRevealMap(string dataMask = null)
