@@ -23,6 +23,11 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
 
     public IMissionBase Generate(RandomX rng)
     {
+        return this.Generate(rng, null);
+    }
+
+    public IMissionBase Generate(RandomX rng, SolarSystem targetSystem = null)
+    {
         var map = FindObjectOfType<MapComponent>().map;
         Debug.Assert(map != null);
         var missionType = SurveyType.SurveyWholeSystem;
@@ -30,7 +35,8 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
         if (missionType == SurveyType.SurveyWholeSystem)
         {
             // TODO make good criteria for the generator
-            var targetSystem = map.systems.SelectRandom();
+            if (targetSystem == null)
+                targetSystem = map.systems.SelectRandom();
 
             string missionName = $"Survey System {targetSystem.id}";
             string missionDescription = $"Survey all bodies in system {targetSystem.id}";

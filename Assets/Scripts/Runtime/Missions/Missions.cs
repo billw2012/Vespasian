@@ -170,6 +170,20 @@ public class Missions : MonoBehaviour, ISavable
             this.availableMissions.Add(this.missionFactories.SelectRandom().Generate(rng));
         }
 
+        // Generate survey system missions in neighboring systems too
+        MissionSurveyFactory surveyFactory = this.missionFactories.FirstOrDefault(f => f is MissionSurveyFactory) as MissionSurveyFactory;
+        if (surveyFactory != null)
+        {
+            var map = this.mapComponent.map;
+            var nearestSystems = map.GetConnected(this.mapComponent.currentSystem);
+            this.availableMissions.Add(surveyFactory.Generate(rng, this.mapComponent.currentSystem));
+            foreach (var systemAndLink in nearestSystems)
+            {
+                this.availableMissions.Add(surveyFactory.Generate(rng, systemAndLink.system));
+            }
+        }
+
+
         // Unsubscribe, although Unity should handle this case too
         this.gameLogic.OnNewGameInitialized.RemoveListener(this.GameLogicOnNewGameInitialized);
     }
