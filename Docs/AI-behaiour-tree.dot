@@ -1,0 +1,24 @@
+digraph finite_state_machine {
+    graph [fontname = "helvetica" fontsize = 12];
+    node [fontname = "helvetica" fontsize = 12];
+    size=7
+    edge [fontname = "helvetica" fontsize = 10];
+
+    node [shape = doublecircle width = 1];
+    Root;
+    node [shape = rect];
+    "Projected path intersects body on front surface";
+    "Periapsis of primary is less than radius + size";
+    "Target orbit is in the opposite direction";
+    "Have Target";
+    node [shape = circle];
+    Root -> "Projected path intersects body on front surface" -> "Avoid Collision";
+    Root -> "Periapsis of primary is less than radius + size" -> "Achieve Safe Orbit";
+    Intercept -> "Target orbit is in the opposite direction" -> "Reverse Orbit";
+    Intercept -> "Default Intercept";
+    Root -> "Have Target" -> Intercept
+    # Intercept -> Intercept [ label = "Default behaviour" ];
+    # Intercept -> ReverseOrbit
+    # Idle -> DirectApproach [ label = "S not valid or T not valid"];
+    # Idle -> Follow [ label = "S not valid or T not valid"];
+}

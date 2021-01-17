@@ -1544,7 +1544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   controlledRigidbody: {fileID: 1916649232563814977}
-  startVelocity: {x: -0.17726044, y: 3.64248, z: 0}
+  startVelocity: {x: 2.35919, y: 1.2252653, z: 0}
   alignToVelocity: 1
   pathRendererAsset: {fileID: 0}
   soiMarkerAsset: {fileID: 0}
@@ -2043,7 +2043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ebb30a2ce9b469c89253ceaa0e113bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followDistance: 3
+  shipFollowDistance: 3
   updateInterval:
     weighting:
       serializedVersion: 2
@@ -2106,8 +2106,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4719921136892292340}
-  m_LocalRotation: {x: 0, y: 0, z: 0.024310809, w: 0.9997045}
-  m_LocalPosition: {x: 50.222, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.5191799, w: 0.85466504}
+  m_LocalPosition: {x: -24.2, y: 51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6199808243264513309}

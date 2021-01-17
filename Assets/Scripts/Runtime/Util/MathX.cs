@@ -189,4 +189,100 @@ public static class MathX
         
         return value1 * h00 + tangent1 * h10 + value2 * h01 + tangent2 * h11;
     }
+    
+    // From https://rosettacode.org/wiki/Roots_of_a_function#Brent.27s_Method
+    public static (bool found, double t) FindRoot(Func<double, double> f, double lower, double upper, double tolerance, uint maxIter = 50)
+    {
+        void Swap<T>(ref T _a, ref T _b)
+        {
+            var tmp = _a;
+            _a = _b;
+            _b = tmp;
+        }
+        
+        double a = lower;
+        double b = upper;
+        double fa = f(a);
+        double fb = f(b);
+
+        Assert.IsTrue(Math.Sign(fa) != Math.Sign(fb), "Signs of f(lower) and f(upper) must be opposites");
+        //if (Math.Sign(fa) == Math.Sign(fb))
+        //throw new ArgumentException("Signs of f(lower_bound) and f(upper_bound) must be opposites");
+ 
+        if (Math.Abs(fa) < Math.Abs(b)) // if magnitude of f(lower_bound) is less than magnitude of f(upper_bound)
+        {
+            Swap(ref a, ref b);
+            Swap(ref fa, ref fb);
+        }
+ 
+        double c = a;      // c now equals the largest magnitude of the lower and upper bounds
+        double fc = fa;    // precompute function evalutation for point c by assigning it the same value as fa
+        bool mflag = true; // boolean flag used to evaluate if statement later on
+        double s = 0;      // Our Root that will be returned
+        double d = 0;      // Only used if mflag is unset (mflag == false)
+ 
+        for (uint iter = 1; iter < maxIter; ++iter)
+        {
+            if (Math.Abs(b - a) < tolerance)
+            {
+                return (true, s);
+            }
+ 
+            if (fa != fc && fb != fc)
+            {
+                // use inverse quadratic interpolation
+                s =   a * fb * fc / ((fa - fb) * (fa - fc))
+                    + b * fa * fc / ((fb - fa) * (fb - fc))
+                    + c * fa * fb / ((fc - fa) * (fc - fb));
+            }
+            else
+            {
+                // secant method
+                s = b - fb * (b - a) / (fb - fa);
+            }
+ 
+            // checks to see whether we can use the faster converging quadratic && secant methods or if we need to use bisection
+            if (    s < (3 * a + b) * 0.25 || 
+                    s > b ||
+                    mflag && Math.Abs(s - b) >= Math.Abs(b - c) * 0.5 ||
+                    !mflag && Math.Abs(s - b) >= Math.Abs(c - d) * 0.5 ||
+                    mflag && Math.Abs(b - c) < tolerance ||
+                    !mflag && Math.Abs(c - d) < tolerance    )
+            {
+                // bisection method
+                s = (a + b) * 0.5;
+ 
+                mflag = true;
+            }
+            else
+            {
+                mflag = false;
+            }
+ 
+            double fs = f(s);
+            d = c;    // first time d is being used (wasnt used on first iteration because mflag was set)
+            c = b;    // set c equal to upper bound
+            fc = fb;  // set f(c) = f(b)
+ 
+            if (fa * fs < 0) // fa and fs have opposite signs
+            {
+                b = s;
+                fb = fs;
+            }
+            else
+            {
+                a = s;
+                fa = fs;
+            }
+ 
+            if (Math.Abs(fa) < Math.Abs(fb)) // if magnitude of fa is less than magnitude of fb
+            {
+                Swap(ref a, ref b);
+                Swap(ref fa, ref fb); // make sure f(a) and f(b) are correct after swap
+            }
+        }
+
+        return (false, 0);
+        //throw new AggregateException("The solution does not converge or iterations are not sufficient");
+    }
 }

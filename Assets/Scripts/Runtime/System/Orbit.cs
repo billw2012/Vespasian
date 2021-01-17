@@ -324,6 +324,24 @@ public struct AnalyticOrbit
         };
         //OrbitalElements(a=a, e=e, i=i, raan=raan, arg_pe=arg_pe, f=f);
     }
+
+    /// <summary>
+    /// Determine when orbit <paramref name="a"/> approaches to <paramref name="distance"/> of <paramref name="b"/>,
+    /// within timeframe specified by <paramref name="t0"/> and <paramref name="t1"/>.
+    /// This could be used to determine SOI intercept time, or collisions.
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="t0"></param>
+    /// <param name="t1"></param>
+    /// <param name="distance"></param>
+    /// <param name="tolerance"></param>
+    /// <returns></returns>
+    public static (bool occurred, float t) Intercept(AnalyticOrbit a, AnalyticOrbit b, float t0, float t1, float distance, float tolerance = 0.1f)
+    {
+        return ((bool occurred, float t)) MathX.FindRoot(t => (a.GetPosition((float)t) - b.GetPosition((float)t)).magnitude - distance,
+            t0, t1, tolerance);
+    }
 }
 
 /// <summary>

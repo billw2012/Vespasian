@@ -243,6 +243,9 @@
             <e p="AI" t="Include">
               <e p="AIController.cs" t="Include" />
               <e p="AIEnemyBehaviour.cs" t="Include" />
+              <e p="Behave" t="Include">
+                <e p="Node.cs" t="Include" />
+              </e>
               <e p="Faction.cs" t="Include" />
             </e>
             <e p="BodySpecs.cs" t="Include" />

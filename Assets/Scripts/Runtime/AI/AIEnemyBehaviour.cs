@@ -1,5 +1,6 @@
 ﻿// unset
 
+using AI.Behave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,49 +16,132 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private WeightedRandom updateInterval = null;
 
     private SimMovement simMovement;
+    private AIController aiController;
     private int nextUpdateTick;
     private RandomX rng;
     private Vector3 interceptPos;
 
-    // Possible AI states in priority order
-    private enum State
+    // // Possible AI states in priority order
+    // private enum State
+    // {
+    //     AvoidCollision,
+    //     AchieveSafeOrbit,
+    //     ReverseOrbit,
+    //     Intercept,
+    //     //DirectApproach, <- Intercept does direct approach in rotational reference frame, which is correct
+    //     //Follow, <- This is just Intercept to a point behind the target, which is already considered
+    //     Idle,
+    // }
+    // private State state = State.Idle;
+    
+    // private interface IAIAction
+    // {
+    //     /// <summary>
+    //     /// Should this state activate?
+    //     /// </summary>
+    //     /// <returns>true if this state should become or remain the active one</returns>
+    //     bool ShouldActivate();
+    //     /// <summary>
+    //     /// Update the action
+    //     /// </summary>
+    //     void Update();
+    // }
+
+    // private class AvoidCollision : IAIAction
+    // {
+    //     public bool ShouldActivate() => throw new NotImplementedException();
+    //
+    //     public void Update() => throw new NotImplementedException();
+    // }
+
+    // We want to detect collision with other bodies and avoid it if possible
+    private class AvoidCollision : AI.Behave.Node
     {
-        AvoidCollision,
-        AchieveSafeOrbit,
-        ReverseOrbit,
-        Intercept,
-        DirectApproach,
-        Follow,
-        Idle,
+        private BodyLogic[] bodies;
+        private float timeLookAhead;
+        private float ownRadius;
+
+        public AvoidCollision(float timeLookAhead, float ownRadius)
+        {
+            this.timeLookAhead = timeLookAhead;
+            this.ownRadius = ownRadius;
+
+            this.bodies = FindObjectsOfType<BodyLogic>();
+        }
+        
+        public override Result Update(object blackboard)
+        {
+            var ai = (AIEnemyBehaviour)blackboard;
+            var playerPos = (Vector2)ai.transform.position;
+            var playerVel = (Vector2)ai.simMovement.velocity;
+
+            Debug.DrawLine(playerPos, playerPos + playerVel * this.timeLookAhead, Color.red);
+            // Detect intersection with bodies in our path, return vector relative to the body
+            var r = this.bodies.Select(b =>
+            {
+                // TODO: We need to vary the radius by proximity such that we deflect more
+                // the closer we are to collision? We need to approximate orbit circularization, maybe check the 
+                // proper solution to this?
+                (bool occurred, var pos) = Geometry.IntersectLineSegmentCircle(
+                    playerPos, playerPos + playerVel * this.timeLookAhead,
+                    b.geometry.position, b.radius + this.ownRadius);
+                return (occurred, b, pos);
+            }).FirstOrDefault(c => c.occurred);
+            if (r.occurred)
+            {
+                Debug.DrawLine(playerPos, r.pos, Color.red);
+
+                var collideVec = (r.pos - (Vector2)r.b.geometry.position).normalized;
+                
+                var lateralThrustVec = Vector2.Perpendicular(playerVel).normalized;
+                var lateralThrust = (lateralThrustVec * Mathf.Sign(Vector2.Dot(collideVec, lateralThrustVec))).normalized;
+                
+                var reverseThrustVec = (-1 * playerVel).normalized;
+                var reverseThrust = reverseThrustVec * ((Vector2.Dot(collideVec, reverseThrustVec) - 0.5f) * 0.5f);
+                
+                var tVec = lateralThrust + reverseThrust; // //(Vector3)(lateralThrustVec * Vector2.Dot(rv, lateralThrustVec)).normalized;
+                
+                ai.aiController.targetVelocity = playerVel + tVec * playerVel.magnitude; 
+                Debug.DrawLine(playerPos, playerPos + tVec * 10, Color.blue);
+                return Result.Running;
+            }
+            else
+            {
+                ai.aiController.targetVelocity = playerVel;
+            }
+            return Result.Failure;
+        }
     }
-    
-    // public 
-    
+
     private void Awake()
     {
         this.simMovement = this.GetComponent<SimMovement>();
+        this.aiController = this.GetComponent<AIController>();
         this.rng = new RandomX();
     }
     
     private void Update()
     {
-        Debug.DrawLine(this.transform.position, this.interceptPos, Color.red);
+        // DEBUG CODE
+        new AvoidCollision(10, 10).Update(this);
+
+        // Debug.DrawLine(this.transform.position, this.interceptPos, Color.red);
     }
 
     public void SimUpdate(Simulation simulation, int simTick, int timeStep)
     {
-        if (simTick >= this.nextUpdateTick)
-        {
-            var target = FindObjectOfType<PlayerController>().GetComponent<SimMovement>();
-            var primary = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
-            
-            // We can only approach the target directly if they are in a "global" trajectory, i.e. not in orbit
-            // around a planet/moon. Its fine if they are passing through multiple SOIs though as long as one of them is
-            // the stars.
-            (var targetPos, var targetVel, float followDistance) = this.GetTargetSpec(target, primary);
-            this.GetComponent<AIController>().targetVelocity = this.GetVelocityToIntercept(primary, targetPos, targetVel, followDistance);
-            this.nextUpdateTick +=  (int)(this.updateInterval.Evaluate(this.rng) / Time.fixedDeltaTime);
-        }
+        // if (simTick >= this.nextUpdateTick)
+        // {
+        //     var target = FindObjectOfType<PlayerController>().GetComponent<SimMovement>();
+        //     var primary = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
+        //     
+        //     // We can only approach the target directly if they are in a "global" trajectory, i.e. not in orbit
+        //     // around a planet/moon. Its fine if they are passing through multiple SOIs though as long as one of them is
+        //     // the stars.
+        //     (var targetPos, var targetVel, float followDistance) = this.GetTargetSpec(target, primary);
+        //     this.aiController.targetVelocity = this.GetVelocityToIntercept(primary, targetPos, targetVel, followDistance);
+        //     this.nextUpdateTick +=  (int)(this.updateInterval.Evaluate(this.rng) / Time.fixedDeltaTime);
+        // }
     }
 
     public void SimRefresh(Simulation simulation) {}

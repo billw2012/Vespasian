@@ -11,14 +11,14 @@ using UnityEngine;
 /// </summary>
 public class AIController : ControllerBase
 {
-    public Vector3 targetVelocity { get; set; }
+    public Vector2 targetVelocity { get; set; }
 
     private void Update()
     {
-        var currentVelocity = this.GetComponent<SimMovement>().velocity;
+        var currentVelocity = (Vector2)this.GetComponent<SimMovement>().velocity;
         var globalThrustVector = this.targetVelocity - currentVelocity;
         this.SetThrustGlobal(globalThrustVector);
-        Debug.DrawLine(this.transform.position, this.transform.position + this.targetVelocity, Color.yellow);
-        Debug.DrawLine(this.transform.position, this.transform.position + globalThrustVector, Color.magenta);
+        Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)this.targetVelocity, Color.yellow);
+        Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)globalThrustVector, Color.magenta);
     }
 }

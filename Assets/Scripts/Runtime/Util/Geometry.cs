@@ -46,6 +46,41 @@ public static class Geometry
 
         return new Intersect { occurred = true, t = t, at = p + t * d };
     }
+    
+    public static (bool occurred, float t0, float t1) IntersectRayCircle(Vector2 rayOrigin, Vector2 rayDir, Vector2 center, float radius)
+    {
+        float a = rayDir.sqrMagnitude; ////v.x * v.x + v.y * v.y;
+        float b = 2 * Vector2.Dot(rayDir, rayOrigin - center); // (v.x * (origin.x - center.x) + v.y * (origin.y - center.y));
+        float c = center.sqrMagnitude; // center.x * center.x + center.y * center.y;
+        c += rayOrigin.sqrMagnitude; // origin.x * origin.x + origin.y * origin.y;
+        c -= 2 * Vector2.Dot(center, rayOrigin); // (center.x * origin.x + center.y * origin.y);
+        c -= radius * radius;
+        
+        float bb4ac = b * b - 4 * a * c;
+        if(Mathf.Abs(a) < float.Epsilon || bb4ac < 0) 
+        {
+            return (false, 0, 0);
+        } 
+        
+        float t0 = (-b - Mathf.Sqrt(bb4ac)) / (2 * a);
+        float t1 = (-b + Mathf.Sqrt(bb4ac)) / (2 * a);
+        return (true, t0, t1);
+    }
+
+    public static (bool occurred, Vector2 pos) IntersectLineSegmentCircle(Vector2 p0, Vector2 p1, Vector2 center,
+        float radius)
+    {
+        var dir = p1 - p0;
+        (bool occurred, float t0, _) = IntersectRayCircle(p0, p1 - p0, center, radius);
+        if (occurred && t0 >= 0 && t0 <= 1)
+        {
+            // float t = t0 < t1 && t0 >= 0 && t0 <= 1 ? t0 : t1;
+            return (true, p0 + dir * t0);
+        }
+
+        return (false, Vector2.zero);
+    }
+
 
     //// Taken from http://answers.unity.com/answers/1658313/view.html
     //// Returns both intersection points 

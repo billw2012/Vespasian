@@ -1424,7 +1424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   controlledRigidbody: {fileID: 1916649232563814977}
-  startVelocity: {x: 1.7014784, y: 0.2308666, z: 0}
+  startVelocity: {x: 0.15196076, y: 1.4829379, z: 0}
   alignToVelocity: 1
   pathRendererAsset: {fileID: 0}
   soiMarkerAsset: {fileID: 0}
@@ -1986,7 +1986,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4719921136892292340}
-  m_LocalRotation: {x: 0, y: 0, z: -0.6578549, w: 0.7531447}
+  m_LocalRotation: {x: 0, y: 0, z: -0.051035985, w: 0.99869686}
   m_LocalPosition: {x: -0.3, y: -55.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
