@@ -1,11 +1,7 @@
 ﻿// unset
 
-using AI.Behave;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
 {
@@ -20,6 +16,8 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private int nextUpdateTick;
     private RandomX rng;
     private Vector3 interceptPos;
+    private Simulation simulation;
+    private AI.Behave.Tree tree;
 
     // // Possible AI states in priority order
     // private enum State
@@ -55,78 +53,163 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     // }
 
     // We want to detect collision with other bodies and avoid it if possible
-    private class AvoidCollision : AI.Behave.Node
+    // private class AvoidCollision : AI.Behave.Node
+    // {
+    //     private (BodyLogic b, Orbit o, GravitySource g)[] bodies;
+    //     private float timeLookAhead;
+    //     private float ownRadius;
+    //
+    //     public AvoidCollision(float timeLookAhead, float ownRadius)
+    //     {
+    //         this.timeLookAhead = timeLookAhead;
+    //         this.ownRadius = ownRadius;
+    //
+    //         this.bodies = FindObjectsOfType<BodyLogic>().Select(b => (b, o: b.GetComponent<Orbit>(), g: b.GetComponent<GravitySource>())).ToArray();
+    //     }
+    //     
+    //     // Version using dead reckoning
+    //     public override Result Update(object blackboard)
+    //     {
+    //         var ai = (AIEnemyBehaviour)blackboard;
+    //         var playerPos = (Vector2)ai.transform.position;
+    //         var playerVel = (Vector2)ai.simMovement.velocity;
+    //     
+    //         Debug.DrawLine(playerPos, playerPos + playerVel * this.timeLookAhead, Color.red);
+    //         // Detect intersection with bodies in our path, return vector relative to the body
+    //         var r = this.bodies.Select(bog =>
+    //         {
+    //             // TODO: We need to vary the radius by proximity such that we deflect more
+    //             // the closer we are to collision? We need to approximate orbit circularization, maybe check the 
+    //             // proper solution to this?
+    //             (bool occurred, var pos) = Geometry.IntersectLineSegmentCircle(
+    //                 playerPos, playerPos + playerVel * this.timeLookAhead,
+    //                 bog.b.geometry.position, bog.b.radius + this.ownRadius);
+    //             return (occurred, bog.b, pos);
+    //         }).FirstOrDefault(c => c.occurred);
+    //         if (r.occurred)
+    //         {
+    //             Debug.DrawLine(playerPos, r.pos, Color.red);
+    //     
+    //             var collideVec = (r.pos - (Vector2)r.b.geometry.position).normalized;
+    //             
+    //             var lateralThrustVec = Vector2.Perpendicular(playerVel).normalized;
+    //             var lateralThrust = (lateralThrustVec * Mathf.Sign(Vector2.Dot(collideVec, lateralThrustVec))).normalized;
+    //             
+    //             var reverseThrustVec = (-1 * playerVel).normalized;
+    //             var reverseThrust = reverseThrustVec * ((Vector2.Dot(collideVec, reverseThrustVec) - 0.5f) * 0.5f);
+    //             
+    //             var tVec = lateralThrust + reverseThrust; // //(Vector3)(lateralThrustVec * Vector2.Dot(rv, lateralThrustVec)).normalized;
+    //             
+    //             ai.aiController.targetVelocity = playerVel + tVec * playerVel.magnitude; 
+    //             Debug.DrawLine(playerPos, playerPos + tVec * 10, Color.blue);
+    //             return Result.Running;
+    //         }
+    //         else
+    //         {
+    //             ai.aiController.targetVelocity = playerVel;
+    //         }
+    //         return Result.Failure;
+    //     }
+    // }
+    
+    private class Idle : AI.Behave.Node
     {
-        private BodyLogic[] bodies;
-        private float timeLookAhead;
-        private float ownRadius;
-
-        public AvoidCollision(float timeLookAhead, float ownRadius)
-        {
-            this.timeLookAhead = timeLookAhead;
-            this.ownRadius = ownRadius;
-
-            this.bodies = FindObjectsOfType<BodyLogic>();
-        }
-        
         public override Result Update(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
-            var playerPos = (Vector2)ai.transform.position;
-            var playerVel = (Vector2)ai.simMovement.velocity;
+            ai.aiController.targetVelocity = (Vector2)ai.simMovement.velocity; 
+            return Result.Success;
+        }
+    }
+    
+    // We want to detect collision with other bodies and avoid it if possible
+    private class AvoidCollision : AI.Behave.Node
+    {
+        private (BodyLogic b, Orbit o, GravitySource g)[] bodies;
+        private readonly float timeLookAhead;
+        private readonly float safeRange;
 
-            Debug.DrawLine(playerPos, playerPos + playerVel * this.timeLookAhead, Color.red);
-            // Detect intersection with bodies in our path, return vector relative to the body
-            var r = this.bodies.Select(b =>
-            {
-                // TODO: We need to vary the radius by proximity such that we deflect more
-                // the closer we are to collision? We need to approximate orbit circularization, maybe check the 
-                // proper solution to this?
-                (bool occurred, var pos) = Geometry.IntersectLineSegmentCircle(
-                    playerPos, playerPos + playerVel * this.timeLookAhead,
-                    b.geometry.position, b.radius + this.ownRadius);
-                return (occurred, b, pos);
-            }).FirstOrDefault(c => c.occurred);
-            if (r.occurred)
-            {
-                Debug.DrawLine(playerPos, r.pos, Color.red);
+        private Result state = Result.Failure;
+        private int nextUpdateTick = 0;
 
-                var collideVec = (r.pos - (Vector2)r.b.geometry.position).normalized;
-                
-                var lateralThrustVec = Vector2.Perpendicular(playerVel).normalized;
-                var lateralThrust = (lateralThrustVec * Mathf.Sign(Vector2.Dot(collideVec, lateralThrustVec))).normalized;
-                
-                var reverseThrustVec = (-1 * playerVel).normalized;
-                var reverseThrust = reverseThrustVec * ((Vector2.Dot(collideVec, reverseThrustVec) - 0.5f) * 0.5f);
-                
-                var tVec = lateralThrust + reverseThrust; // //(Vector3)(lateralThrustVec * Vector2.Dot(rv, lateralThrustVec)).normalized;
-                
-                ai.aiController.targetVelocity = playerVel + tVec * playerVel.magnitude; 
-                Debug.DrawLine(playerPos, playerPos + tVec * 10, Color.blue);
-                return Result.Running;
-            }
-            else
+        public AvoidCollision(float timeLookAhead, float safeRange)
+        {
+            this.timeLookAhead = timeLookAhead;
+            this.safeRange = safeRange;
+
+            this.bodies = FindObjectsOfType<BodyLogic>().Select(b => (b, o: b.GetComponent<Orbit>(), g: b.GetComponent<GravitySource>())).ToArray();
+        }
+        
+        // Version using orbit prediction with periapsis check
+        public override Result Update(object blackboard)
+        {
+            var ai = (AIEnemyBehaviour)blackboard;
+            if (ai.simulation.simTick > this.nextUpdateTick)
             {
-                ai.aiController.targetVelocity = playerVel;
+                this.nextUpdateTick = ai.simulation.simTick + 10; 
+                
+                var playerPos = (Vector2)ai.transform.position;
+                var playerVel = (Vector2)ai.simMovement.velocity;
+
+                Debug.DrawLine(playerPos, playerPos + playerVel * this.timeLookAhead, Color.red);
+                // Find the closest body where we are in a descending orbit and the periapsis is too low
+                var (b, orbit) = this.bodies
+                    .OrderBy(bog => Vector2.Distance(playerPos, (Vector2)bog.o.position.position))
+                    .Select(bog =>
+                    {
+                        // Orbit relative to this body
+                        var playerRelativeVelocity = playerVel - (Vector2)bog.o.absoluteVelocity;
+                        var playerRelativePosition = playerPos - (Vector2)bog.o.position.position;
+
+                        return (bog.b, orbit: AnalyticOrbit.FromCartesianStateVector(
+                            playerRelativePosition, playerRelativeVelocity,
+                            bog.g.parameters.mass, bog.g.constants.GravitationalConstant));
+                    })
+                    .FirstOrDefault(bo =>
+                        bo.orbit.isDescending && bo.orbit.periapsis < this.safeRange + bo.b.radius &&
+                        bo.orbit.timeOfPeriapsis < 10);
+
+                if (b != null)
+                {
+                    orbit.DebugDraw(b.geometry.position, Color.red, duration: 0.1f);
+
+                    var periapsisVec = orbit.isUnstable ? (Vector3)playerVel : (-orbit.GetPeriapsisPosition() *
+                        orbit.directionSign);
+
+                    var tVec = Vector2.Perpendicular(periapsisVec.normalized);
+
+                    ai.aiController.targetVelocity = playerVel + tVec * 20;
+                    Debug.DrawLine(playerPos, playerPos + tVec * 20, Color.blue);
+                    this.state = Result.Running;
+                }
+                else
+                {
+                    this.state = Result.Failure;
+                }
             }
-            return Result.Failure;
+
+            return this.state;
         }
     }
 
     private void Awake()
     {
         this.simMovement = this.GetComponent<SimMovement>();
+        this.simulation = FindObjectOfType<Simulation>();
         this.aiController = this.GetComponent<AIController>();
+        this.aiController.targetVelocity = this.simMovement.startVelocity;
+
         this.rng = new RandomX();
+        
+        this.tree = new AI.Behave.Tree("AI enemy behaviour",
+            new AI.Behave.Selector("",
+                new AvoidCollision(10, 3),
+                new Idle()
+            )
+        );
     }
     
-    private void Update()
-    {
-        // DEBUG CODE
-        new AvoidCollision(10, 10).Update(this);
-
-        // Debug.DrawLine(this.transform.position, this.interceptPos, Color.red);
-    }
+    private void Update() => this.tree.Update(this);
 
     public void SimUpdate(Simulation simulation, int simTick, int timeStep)
     {

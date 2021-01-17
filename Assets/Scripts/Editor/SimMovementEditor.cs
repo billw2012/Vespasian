@@ -139,6 +139,8 @@ public class SimMovementEditor : Editor
         Handles.DrawWireCube(orbitPath.Skip(10).First(), Vector3.one);
         Handles.Label(orbitPath.First() + Vector3.right * 4, 
             $"meanLongitude: {orbit.meanLongitude:0.0}\n" +
+            $"t pe: {orbit.timeOfPeriapsis:0.0}\n" +
+            $"t ae: {orbit.timeOfApoapsis:0.0}\n" +
             $"eccentricity: {orbit.eccentricity}\n" + 
             $"argumentOfPeriapsis: {orbit.argumentOfPeriapsis}\n" +
             $"motionPerSecond: {orbit.motionPerSecond}\n" +

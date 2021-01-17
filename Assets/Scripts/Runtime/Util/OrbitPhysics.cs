@@ -10,7 +10,20 @@ public static class OrbitalUtils
 
     public static float SemiMajorAxis(float periapsis, float apoapsis) => (periapsis + apoapsis) / 2f;
     public static float SemiMajorAxis(float speed, float distance, float mass, float G) => distance * mass * G / OrbitDiscriminator(speed, distance, mass, G);
+    
+    /// <summary>
+    /// Low point of the orbit
+    /// </summary>
+    /// <param name="semiMajorAxis"></param>
+    /// <param name="eccentricity"></param>
+    /// <returns></returns>
     public static float Periapsis(float semiMajorAxis, float eccentricity) => semiMajorAxis * (1f - eccentricity);
+    /// <summary>
+    /// High point of the orbit
+    /// </summary>
+    /// <param name="semiMajorAxis"></param>
+    /// <param name="eccentricity"></param>
+    /// <returns></returns>
     public static float Apoapsis(float semiMajorAxis, float eccentricity) => semiMajorAxis * (1f + eccentricity);
 
     // http://www.braeunig.us/space/orbmech.htm 4.9

@@ -202,11 +202,22 @@ public struct AnalyticOrbit
 
     public bool isElliptic => this.eccentricity <= 1;
     // orbits with eccentricity near 1 are unstable in this system due to division by very small numbers occurring
-    public bool isUnstable => Mathf.Abs(this.eccentricity - 1) < 0.001f;
+    public bool isUnstable => Mathf.Abs(this.eccentricity - 1) < 0.01f;
 
+    /// <summary>
+    /// Low point of the orbit
+    /// </summary>
     public float periapsis => OrbitalUtils.Periapsis(this.semiMajorAxis, this.eccentricity);
+    /// <summary>
+    /// High point of the orbit
+    /// </summary>
     public float apoapsis => OrbitalUtils.Apoapsis(this.semiMajorAxis, this.eccentricity);
 
+    public float period => 360f / Mathf.Abs(this.motionPerSecond);
+    public float timeOfPeriapsis => (this.meanLongitude / -this.motionPerSecond + this.period) % this.period;
+    public float timeOfApoapsis => ((this.meanLongitude + 180f) / -this.motionPerSecond + this.period) % this.period;
+    public bool isDescending => this.timeOfPeriapsis < this.timeOfApoapsis;
+    
     // Mean longitude is the ecliptic longitude at which an orbiting body could be found if its orbit were circular, and free of perturbations, and if its inclination were zero
     [FormerlySerializedAs("trueAnomaly")] [Tooltip("Angle the orbit starts from, in degrees"), Range(0, 360)]
     public float meanLongitude;
@@ -251,6 +262,9 @@ public struct AnalyticOrbit
         //
         // state.pos = this.OrbitFrame.X * d + this.OrbitFrame.Y * d2;
     }
+    
+    public Vector3 GetPeriapsisPosition() => this.GetPosition(this.timeOfPeriapsis);
+    public Vector3 GetApoapsisPosition() => this.GetPosition(this.timeOfApoapsis);
 
     public Vector3[] GetPath(int resolution = 180)
     {
@@ -341,6 +355,21 @@ public struct AnalyticOrbit
     {
         return ((bool occurred, float t)) MathX.FindRoot(t => (a.GetPosition((float)t) - b.GetPosition((float)t)).magnitude - distance,
             t0, t1, tolerance);
+    }
+
+    public void DebugDraw(Vector3 position, Color color, int segments = 180, float duration = 0f)
+    {
+        var orbitPath = this.GetPath();
+        for (int i = 0; i < orbitPath.Length - 1; i++)
+        {
+            Debug.DrawLine(position + orbitPath[i], position + orbitPath[i+1], color, 1f);   
+        }
+    }
+
+    public void DumpToLog()
+    {
+        var stableStr = this.isUnstable ? "Unstable" : "Stable";
+        Debug.Log($"a {this.semiMajorAxis} / e {this.eccentricity} / d {this.directionSign} / argpe {this.argumentOfPeriapsis} / {stableStr}");
     }
 }
 
