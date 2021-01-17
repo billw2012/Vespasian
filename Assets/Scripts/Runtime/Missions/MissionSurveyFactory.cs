@@ -88,6 +88,9 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
     public List<BodyRef> TargetBodies {
         get
         {
+            if (this._targetBodies == null)
+                return new List<BodyRef>();
+
             return new List<BodyRef>(this._targetBodies);
         }
         set
