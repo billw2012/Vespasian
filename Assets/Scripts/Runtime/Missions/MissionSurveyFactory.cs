@@ -41,10 +41,9 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
             string missionName = $"Survey System {targetSystem.id}";
             string missionDescription = $"Survey all bodies in system {targetSystem.id}";
             var mission = new MissionSurveySystem(missionDescription, missionName);
-            var targetBodies = new List<BodyRef>();
-            var targetSystemBodies = targetSystem.AllBodies().Where(b => b is StarOrPlanet);
-            targetBodies.AddRange(targetBodies);
-
+            List<BodyRef> targetBodies = targetSystem.AllBodies().Where(b => b is StarOrPlanet)
+                                                             .Select(b => new BodyRef(b.bodyRef))
+                                                             .ToList();
             mission.TargetBodies = targetBodies;
             mission.targetSystemRef = new BodyRef(targetSystem.id);
 
@@ -85,7 +84,20 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
 
     public int Reward => 100; // TODO proper reward value, based on distance
 
-    public IEnumerable<BodyRef> TargetBodies { get; set; }
+    private List<BodyRef> _targetBodies = null;
+    public List<BodyRef> TargetBodies {
+        get
+        {
+            return new List<BodyRef>(this._targetBodies);
+        }
+        set
+        {
+            this.notScannedBodies = new List<BodyRef>(value);
+            this._targetBodies = new List<BodyRef>(value);
+        }
+    }
+    public List<BodyRef> scannedBodies = new List<BodyRef>();
+    public List<BodyRef> notScannedBodies = new List<BodyRef>();
 
     public string Factory => nameof(MissionSurveyFactory);
 
@@ -106,23 +118,28 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
 
     public bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data)
     {
-        bool complete = false;
         if (bodyRef.EqualsSystem(this.targetSystemRef))
         {
             // Check if there are no unscanned bodies here any more
             // If so, mission is complete
             var missions = UnityEngine.Object.FindObjectOfType<Missions>();
             var playerDataCatalog = missions.playerDataCatalog;
-            bool notAllScanned = this.TargetBodies.FirstOrDefault<BodyRef>(tb => {
-                var dataOnThisBody = playerDataCatalog.GetData(tb);
-                return !dataOnThisBody.HasFlag(DataMask.All);
-            }) != null;
-            if (!notAllScanned)
+
+            // Check if we now have full data on this body
+            var dataAvailable = playerDataCatalog.GetData(bodyRef);
+            if (dataAvailable == DataMask.All)
             {
-                complete = true;
+                this.scannedBodies.Add(bodyRef);
+                this.notScannedBodies.RemoveAll(bodyRef.Equals);
+
+                bool notAllScanned = this.TargetBodies.FirstOrDefault<BodyRef>(tb =>
+                {
+                    var dataOnThisBody = playerDataCatalog.GetData(tb);
+                    return !dataOnThisBody.HasFlag(DataMask.All);
+                }) != null;
+                this.IsComplete = !notAllScanned;
             }
         }
-        this.IsComplete = complete;
-        return complete;
+        return this.IsComplete;
     }
 }

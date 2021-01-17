@@ -58,7 +58,7 @@ public class MapUI : MonoBehaviour, IUILayer
 
             // Prepare an array of system refs for which we have active missions
             var missions = FindObjectOfType<Missions>();
-            var systemMissions = missions.activeMissions.Where(mn => mn is MissionSurveySystem);
+            var systemMissions = missions.activeMissions.Where(mn => mn is MissionSurveySystem && !mn.IsComplete);
             var systemRefs = systemMissions.Select(mn => (mn as MissionSurveySystem).targetSystemRef.systemId);
 
             foreach (var s in this.mapComponent.map.systems)

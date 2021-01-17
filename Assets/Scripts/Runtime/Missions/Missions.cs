@@ -79,7 +79,7 @@ public interface IBodyMission
 // Mission which targets specific bodies which exist in the world
 public interface ITargetBodiesMission
 {
-    IEnumerable<BodyRef> TargetBodies { get; }
+    List<BodyRef> TargetBodies { get; }
     bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data);
 }
 
@@ -255,8 +255,11 @@ public class Missions : MonoBehaviour, ISavable
         var surveySystemMissionsHere = this.activeMissions.Where(mn =>
             {
                 var mnSurvey = mn as MissionSurveySystem;
+
                 if (mnSurvey != null)
-                    return mnSurvey.targetSystemRef.EqualsSystem(systemRef);
+                {
+                    return mnSurvey.targetSystemRef.EqualsSystem(systemRef) && !mnSurvey.IsComplete;
+                }
                 else
                     return false;
             }
@@ -277,7 +280,21 @@ public class Missions : MonoBehaviour, ISavable
             }
         }
     }
-    
+
+    [ConsoleMethod("player.scan-system", "Scans all bodies in current system")]
+    public static void DebugPlayerScanSystem()
+    {
+        var missions = FindObjectOfType<Missions>();
+        var mapComponent = FindObjectOfType<MapComponent>();
+
+        if (missions != null && mapComponent != null)
+        {
+            var scannables = FindObjectsOfType<Scannable>();
+            foreach (var i in scannables)
+                missions.playerDataCatalog.AddData(i.gameObject, DataMask.All);
+        }
+    }
+
     [ConsoleMethod("player.give-credits", "Give specified amount of credits to player")]
     public static void DebugPlayerGiveCredits(int amount)
     {

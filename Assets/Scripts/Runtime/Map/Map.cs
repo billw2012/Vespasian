@@ -380,6 +380,12 @@ public class BodyRef
         this.systemId = systemId;
         this.bodyId = -1;
     }
+
+    public BodyRef(BodyRef other)
+    {
+        this.systemId = other.systemId;
+        this.bodyId = other.bodyId;
+    }
         
     public override bool Equals(object obj)
     {
