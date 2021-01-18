@@ -21,6 +21,16 @@ namespace AI.Behave
         public virtual void Reset() {}
     }
 
+    public abstract class Decorator : Node
+    {
+        protected Node child;
+
+        public Decorator(Node child)
+        {
+            this.child = child;
+        }
+    }
+
     public class Tree : Node
     {
         private readonly Node root;

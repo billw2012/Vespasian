@@ -213,10 +213,16 @@ public struct AnalyticOrbit
     /// </summary>
     public float apoapsis => OrbitalUtils.Apoapsis(this.semiMajorAxis, this.eccentricity);
 
+    /// <summary>
+    /// Either high or low point of the orbit, whichever comes soonest
+    /// </summary>
+    public float nextapsis => this.timeOfPeriapsis <= this.timeOfApoapsis ? this.periapsis : this.apoapsis;
+
     public float period => 360f / Mathf.Abs(this.motionPerSecond);
     public float timeOfPeriapsis => (this.meanLongitude / -this.motionPerSecond + this.period) % this.period;
-    public float timeOfApoapsis => ((this.meanLongitude + 180f) / -this.motionPerSecond + this.period) % this.period;
+    public float timeOfApoapsis => !this.isElliptic? float.MaxValue : ((this.meanLongitude + 180f) / -this.motionPerSecond + this.period) % this.period;
     public bool isDescending => this.timeOfPeriapsis < this.timeOfApoapsis;
+    public float timeOfNextapsis => Mathf.Min(this.timeOfPeriapsis, this.timeOfApoapsis);
     
     // Mean longitude is the ecliptic longitude at which an orbiting body could be found if its orbit were circular, and free of perturbations, and if its inclination were zero
     [FormerlySerializedAs("trueAnomaly")] [Tooltip("Angle the orbit starts from, in degrees"), Range(0, 360)]
@@ -265,6 +271,8 @@ public struct AnalyticOrbit
     
     public Vector3 GetPeriapsisPosition() => this.GetPosition(this.timeOfPeriapsis);
     public Vector3 GetApoapsisPosition() => this.GetPosition(this.timeOfApoapsis);
+    
+    public Vector3 GetNextapsisPosition() => this.GetPosition(this.timeOfNextapsis);
 
     public Vector3[] GetPath(int resolution = 180)
     {
@@ -475,7 +483,7 @@ public class Orbit : MonoBehaviour
 
         // If we are not parented to another orbit then position must be 0,
         // otherwise our position will be set by the orbit
-        if (parentOrbit == null)
+        if (this.parentOrbit == null)
         {
             this.transform.localPosition = Vector3.zero;
         }

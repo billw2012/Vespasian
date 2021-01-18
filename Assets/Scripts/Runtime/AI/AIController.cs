@@ -11,14 +11,30 @@ using UnityEngine;
 /// </summary>
 public class AIController : ControllerBase
 {
-    public Vector2 targetVelocity { get; set; }
+    private bool targetVelocityEnabled;
+    private Vector2 targetVelocity;
+
+    public void SetTargetVelocity(Vector2 targetVelocity)
+    {
+        this.targetVelocityEnabled = true;
+        this.targetVelocity = targetVelocity;
+    }
+
+    public void DisableTargetVelocity() => this.targetVelocityEnabled = false;
 
     private void Update()
     {
-        var currentVelocity = (Vector2)this.GetComponent<SimMovement>().velocity;
-        var globalThrustVector = this.targetVelocity - currentVelocity;
-        this.SetThrustGlobal(globalThrustVector);
-        Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)this.targetVelocity, Color.yellow);
-        Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)globalThrustVector, Color.magenta);
+        if (this.targetVelocityEnabled)
+        {
+            var currentVelocity = (Vector2)this.GetComponent<SimMovement>().velocity;
+            var globalThrustVector = this.targetVelocity - currentVelocity;
+            this.SetThrustGlobal(globalThrustVector);
+            Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)this.targetVelocity, Color.yellow);
+            Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)globalThrustVector, Color.magenta);
+        }
+        else
+        {
+            this.SetThrustGlobal(Vector2.zero);
+        }
     }
 }
