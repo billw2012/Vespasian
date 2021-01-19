@@ -296,6 +296,7 @@
               <e p="MissionItemUI.cs" t="Include" />
               <e p="MissionListUIBase.cs" t="Include" />
               <e p="MissionMapSystemFactory.cs" t="Include" />
+              <e p="MissionMapUI.cs" t="Include" />
               <e p="Missions.cs" t="Include" />
               <e p="MissionSurveyFactory.cs" t="Include" />
             </e>

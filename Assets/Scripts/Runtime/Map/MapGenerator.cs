@@ -108,6 +108,8 @@ public class MapGenerator : ScriptableObject
             name = name, 
             position = position,
             direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise,
+            // TODO: proper danger value
+            danger = rng.value 
         };
 
         float systemSize = starMass * this.systemParams.systemSizeStarMassRatioRandom.Evaluate(rng);

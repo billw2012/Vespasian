@@ -1289,3 +1289,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
+  aiShips:
+  - prefab: {fileID: 6249192102665454387, guid: 617e6cc037a847e43b3ddf64a3191e7e,
+      type: 3}
+    probability: 1

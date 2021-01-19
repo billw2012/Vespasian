@@ -219,13 +219,18 @@ public struct AnalyticOrbit
     public float nextapsis => this.timeOfPeriapsis <= this.timeOfApoapsis ? this.periapsis : this.apoapsis;
 
     public float period => 360f / Mathf.Abs(this.motionPerSecond);
-    public float timeOfPeriapsis => (this.meanLongitude / -this.motionPerSecond + this.period) % this.period;
-    public float timeOfApoapsis => !this.isElliptic? float.MaxValue : ((this.meanLongitude + 180f) / -this.motionPerSecond + this.period) % this.period;
-    public bool isDescending => this.timeOfPeriapsis < this.timeOfApoapsis;
+    public float timeOfPeriapsis => 
+        !this.isElliptic
+        ? (this.meanLongitude / -this.motionPerSecond)
+        : (this.meanLongitude / -this.motionPerSecond + this.period) % this.period;
+    public float timeOfApoapsis => 
+        !this.isElliptic
+        ? float.PositiveInfinity
+        : ((this.meanLongitude + 180f) / -this.motionPerSecond + this.period) % this.period;
+    public bool isDescending => this.timeOfPeriapsis > 0 && this.timeOfPeriapsis < this.timeOfApoapsis;
     public float timeOfNextapsis => Mathf.Min(this.timeOfPeriapsis, this.timeOfApoapsis);
     
     // Mean longitude is the ecliptic longitude at which an orbiting body could be found if its orbit were circular, and free of perturbations, and if its inclination were zero
-    [FormerlySerializedAs("trueAnomaly")] [Tooltip("Angle the orbit starts from, in degrees"), Range(0, 360)]
     public float meanLongitude;
 
     private static float Mod2PI(float val)

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public abstract class Body
 {
@@ -515,6 +516,19 @@ public class SolarSystem
         {
             var cometObject = comet.Instance(bodySpecs, this);
             cometObject.transform.SetParent(rootBody.transform, worldPositionStays: false);
+        }
+
+        var rng = new RandomX();
+        int enemyAICount = (int) rng.Range(0, this.danger * 4);
+        for (int i = 0; i < enemyAICount; i++)
+        {
+            var enemySpec = bodySpecs.RandomAIShip(rng);
+            var newEnemy = UnityEngine.Object.Instantiate(enemySpec.prefab);
+            newEnemy.GetComponent<SimMovement>().SetPositionVelocity(
+                Quaternion.Euler(0, 0, rng.Range(0, 360)) * Vector3.right * rng.Range(this.size * 0.25f, this.size * 1.25f),
+                Quaternion.Euler(0, 0, rng.Range(0, 360)), 
+                Vector2.right
+                );
         }
 
         // var factions = Object.FindObjectsOfType<Faction>();

@@ -98,6 +98,16 @@ public class BodySpecs : ScriptableObject
     
     public List<StationSpec> stations;
 
+    [Serializable]
+    public class AIShip
+    {
+        public GameObject prefab;
+        [Tooltip("Chance of this AI ship type occurring"), Range(0, 1)]
+        public float probability = 1;
+    }
+    
+    public List<AIShip> aiShips;
+
     public IEnumerable<BodySpec> all => this.stars.OfType<BodySpec>().Concat(this.planets).Concat(this.belts).Concat(this.comets).Concat(this.stations);
 
     public StarSpec RandomStar(RandomX rng) => this.stars.SelectWeighted(rng.value, s => s.probability);
@@ -108,6 +118,8 @@ public class BodySpecs : ScriptableObject
 
     public CometSpec RandomComet(RandomX rng) => MatchedRandom(rng, this.comets, c => true);
 
+    public AIShip RandomAIShip(RandomX rng) => this.aiShips.SelectWeighted(rng.value, s => s.probability); 
+    
     public BodySpec GetSpecById(string id) => this.all.FirstOrDefault(b => b.id == id);
 
     public float PlanetTemp(float distance, float starLum) => this.planetTempMultiplier * 2500f * Mathf.Pow(this.Power(distance, starLum), 0.25f);

@@ -1,5 +1,7 @@
 ﻿// unset
 
+using AI.Behave;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,108 +10,11 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     [SerializeField]
     private float shipFollowDistance = 3f;
 
-    //[SerializeField]
-    //private WeightedRandom updateInterval = null;
-
     private SimMovement simMovement;
     private AIController aiController;
-    //private RandomX rng;
     private Simulation simulation;
     private AI.Behave.Tree tree;
 
-    // // Possible AI states in priority order
-    // private enum State
-    // {
-    //     AvoidCollision,
-    //     AchieveSafeOrbit,
-    //     ReverseOrbit,
-    //     Intercept,
-    //     //DirectApproach, <- Intercept does direct approach in rotational reference frame, which is correct
-    //     //Follow, <- This is just Intercept to a point behind the target, which is already considered
-    //     Idle,
-    // }
-    // private State state = State.Idle;
-    
-    // private interface IAIAction
-    // {
-    //     /// <summary>
-    //     /// Should this state activate?
-    //     /// </summary>
-    //     /// <returns>true if this state should become or remain the active one</returns>
-    //     bool ShouldActivate();
-    //     /// <summary>
-    //     /// Update the action
-    //     /// </summary>
-    //     void Update();
-    // }
-
-    // private class AvoidCollision : IAIAction
-    // {
-    //     public bool ShouldActivate() => throw new NotImplementedException();
-    //
-    //     public void Update() => throw new NotImplementedException();
-    // }
-
-    // We want to detect collision with other bodies and avoid it if possible
-    // private class AvoidCollision : AI.Behave.Node
-    // {
-    //     private (BodyLogic b, Orbit o, GravitySource g)[] bodies;
-    //     private float timeLookAhead;
-    //     private float ownRadius;
-    //
-    //     public AvoidCollision(float timeLookAhead, float ownRadius)
-    //     {
-    //         this.timeLookAhead = timeLookAhead;
-    //         this.ownRadius = ownRadius;
-    //
-    //         this.bodies = FindObjectsOfType<BodyLogic>().Select(b => (b, o: b.GetComponent<Orbit>(), g: b.GetComponent<GravitySource>())).ToArray();
-    //     }
-    //     
-    //     // Version using dead reckoning
-    //     public override Result Update(object blackboard)
-    //     {
-    //         var ai = (AIEnemyBehaviour)blackboard;
-    //         var playerPos = (Vector2)ai.transform.position;
-    //         var playerVel = (Vector2)ai.simMovement.velocity;
-    //     
-    //         Debug.DrawLine(playerPos, playerPos + playerVel * this.timeLookAhead, Color.red);
-    //         // Detect intersection with bodies in our path, return vector relative to the body
-    //         var r = this.bodies.Select(bog =>
-    //         {
-    //             // TODO: We need to vary the radius by proximity such that we deflect more
-    //             // the closer we are to collision? We need to approximate orbit circularization, maybe check the 
-    //             // proper solution to this?
-    //             (bool occurred, var pos) = Geometry.IntersectLineSegmentCircle(
-    //                 playerPos, playerPos + playerVel * this.timeLookAhead,
-    //                 bog.b.geometry.position, bog.b.radius + this.ownRadius);
-    //             return (occurred, bog.b, pos);
-    //         }).FirstOrDefault(c => c.occurred);
-    //         if (r.occurred)
-    //         {
-    //             Debug.DrawLine(playerPos, r.pos, Color.red);
-    //     
-    //             var collideVec = (r.pos - (Vector2)r.b.geometry.position).normalized;
-    //             
-    //             var lateralThrustVec = Vector2.Perpendicular(playerVel).normalized;
-    //             var lateralThrust = (lateralThrustVec * Mathf.Sign(Vector2.Dot(collideVec, lateralThrustVec))).normalized;
-    //             
-    //             var reverseThrustVec = (-1 * playerVel).normalized;
-    //             var reverseThrust = reverseThrustVec * ((Vector2.Dot(collideVec, reverseThrustVec) - 0.5f) * 0.5f);
-    //             
-    //             var tVec = lateralThrust + reverseThrust; // //(Vector3)(lateralThrustVec * Vector2.Dot(rv, lateralThrustVec)).normalized;
-    //             
-    //             ai.aiController.targetVelocity = playerVel + tVec * playerVel.magnitude; 
-    //             Debug.DrawLine(playerPos, playerPos + tVec * 10, Color.blue);
-    //             return Result.Running;
-    //         }
-    //         else
-    //         {
-    //             ai.aiController.targetVelocity = playerVel;
-    //         }
-    //         return Result.Failure;
-    //     }
-    // }
-    
     /// <summary>
     /// Sets target velocity to current velocity
     /// </summary>
@@ -149,27 +54,61 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             return this.state;
         }
     }
+
+    private class InvertResult : AI.Behave.Decorator
+    {
+        public InvertResult(Node child) : base(child) {}
+
+        public override Result Update(object blackboard)
+        {
+            var result = this.child.Update(blackboard);
+            if (result == Result.Failure)
+            {
+                return Result.Success;
+            }
+            else if (result == Result.Success)
+            {
+                return Result.Failure;
+            }
+            return result;
+        }
+    }
     
-    /// <summary>
-    /// Attempts to detect, and then avoid, collisions with bodies by
-    /// estimating the periapsis of our orbit around the body,
-    /// and adjusting if it is too low. 
-    /// </summary>
-    private class AvoidCollision : AI.Behave.Node
+    private abstract class OrbitManeuver : AI.Behave.Node
     {
         private readonly (BodyLogic b, Orbit o, GravitySource g)[] bodies;
-        private readonly float timeLookAhead;
-        private readonly float safeRange;
-        
-        public AvoidCollision(float timeLookAhead, float safeRange)
-        {
-            this.timeLookAhead = timeLookAhead;
-            this.safeRange = safeRange;
 
-            this.bodies = FindObjectsOfType<BodyLogic>().Select(b => (b, o: b.GetComponent<Orbit>(), g: b.GetComponent<GravitySource>())).ToArray();
+        protected OrbitManeuver()
+        {
+            this.bodies = FindObjectsOfType<BodyLogic>()
+                .Select(b => (b, o: b.GetComponent<Orbit>(), g: b.GetComponent<GravitySource>()))
+                .ToArray();
         }
+
+        protected abstract (Result result, Vector2? newVelocity) UpdateManeuver(Vector2 aiPos, Vector2 aiVel);
         
-        // Version using orbit prediction with periapsis check
+        /// <summary>
+        /// Gets the relative orbit of the provided <paramref name="pos"/> and <paramref name="vel"/>
+        /// around each of the bodies in the current system.
+        /// This gets the orbits in order of distance, which is *not* the same as encounter order.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="vel"></param>
+        /// <returns></returns>
+        protected IEnumerable<(BodyLogic b, AnalyticOrbit orbit)> GetOrbits(Vector2 pos, Vector2 vel) =>
+            this.bodies
+                .OrderBy(bog => Vector2.Distance(pos, (Vector2)bog.o.position.position))
+                .Select(bog =>
+                {
+                    // Orbit relative to this body
+                    var relVelocity = vel - (Vector2)bog.o.absoluteVelocity;
+                    var relPosition = pos - (Vector2)bog.o.position.position;
+
+                    return (bog.b, orbit: AnalyticOrbit.FromCartesianStateVector(
+                        relPosition, relVelocity,
+                        bog.g.parameters.mass, bog.g.constants.GravitationalConstant));
+                });
+
         public override Result Update(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
@@ -177,48 +116,118 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             var playerPos = (Vector2)ai.transform.position;
             var playerVel = (Vector2)ai.simMovement.velocity;
 
-            // TODO: problem that periapsis becomes apoapsis resulting in orbit degrading to minimal circular orbit
-            
-            
-            Debug.DrawLine(playerPos, playerPos + playerVel * this.timeLookAhead, Color.red);
-            // Find the closest body where we are in a descending orbit and the periapsis is too low
-            var (b, orbit) = this.bodies
-                .OrderBy(bog => Vector2.Distance(playerPos, (Vector2)bog.o.position.position))
-                .Select(bog =>
-                {
-                    // Orbit relative to this body
-                    var playerRelativeVelocity = playerVel - (Vector2)bog.o.absoluteVelocity;
-                    var playerRelativePosition = playerPos - (Vector2)bog.o.position.position;
+            var (result, newVelocity) = this.UpdateManeuver(playerPos, playerVel);
+            if(newVelocity.HasValue)
+            {
+                ai.aiController.SetTargetVelocity(playerVel + newVelocity.Value * 20);
+            }
 
-                    return (bog.b, orbit: AnalyticOrbit.FromCartesianStateVector(
-                        playerRelativePosition, playerRelativeVelocity,
-                        bog.g.parameters.mass, bog.g.constants.GravitationalConstant));
-                })
+            return result;
+        }
+
+        protected static Vector2 ApisThrustVector(Vector2 velocity, Vector3 apsisVec)
+        {
+            var tVec = Vector2.Perpendicular(apsisVec.normalized);
+            var forward = velocity.normalized;
+            var sideways = Vector2.Perpendicular(forward);
+            // Exclude any backwards thrust as it makes no sense when trying to raise an apsis (player velocity is always foward)
+            var forwardComponent = forward * Mathf.Max(0, Vector2.Dot(forward, tVec));
+            var sideComponent = sideways * Mathf.Max(0, Vector2.Dot(sideways, tVec));
+            var clampedVec = forwardComponent + sideComponent;
+            return clampedVec;
+        }
+    }
+
+    /// <summary>
+    /// Raises the min orbit distance to the specified value
+    /// </summary>
+    private class RaiseOrbit : OrbitManeuver
+    {
+        private readonly float timeLookAhead;
+        private readonly float minHeight;
+        
+        public RaiseOrbit(float minHeight, float timeLookAhead = float.MaxValue) : base()
+        {
+            this.minHeight = minHeight;
+            this.timeLookAhead = timeLookAhead;
+        }
+
+        protected override (Result result, Vector2? newVelocity) UpdateManeuver(Vector2 aiPos, Vector2 aiVel)
+        {
+            // Debug.DrawLine(aiPos, aiPos + aiVel * this.timeLookAhead, Color.red, duration: 1f);
+
+            // Find the closest body where we are in a descending orbit and the orbit is too low
+            var (b, orbit) = this.GetOrbits(aiPos, aiVel)
                 .FirstOrDefault(bo =>
-                    bo.orbit.nextapsis < this.safeRange + bo.b.radius &&
-                    bo.orbit.timeOfNextapsis < 10);
+                    bo.orbit.nextapsis < this.minHeight + bo.b.radius &&
+                    bo.orbit.timeOfNextapsis > 0 && bo.orbit.timeOfNextapsis < this.timeLookAhead + bo.b.radius / aiVel.magnitude);
 
             if (b != null)
             {
-                orbit.DebugDraw(b.geometry.position, Color.red, duration: 0.1f);
+                orbit.DebugDraw(b.geometry.position, Color.red, duration: 1f);
 
-                var nextapsisVec = orbit.isUnstable ? (Vector3)playerVel : (-orbit.GetNextapsisPosition() *
-                    orbit.directionSign);
+                var nextapsisVec = orbit.isUnstable
+                    ? (Vector3)aiVel
+                    : -orbit.GetNextapsisPosition() * orbit.directionSign;
 
-                var tVec = Vector2.Perpendicular(nextapsisVec.normalized);
+                var clampedVec = ApisThrustVector(aiVel, nextapsisVec);
 
-                ai.aiController.SetTargetVelocity(playerVel + tVec * 20);
-                Debug.DrawLine(playerPos, playerPos + tVec * 20, Color.blue);
-                return Result.Running;
+                Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 1f);
+                return (Result.Running, clampedVec);
             }
             else
             {
-                return Result.Failure;
+                return (Result.Failure, null);
             }
-
         }
     }
-    
+
+    /// <summary>
+    /// If on an escape trajectory, ellipticize it
+    /// </summary>
+    private class StayInSystem : OrbitManeuver
+    {
+        private float maxRadius;
+        private GravitySource star;
+        
+        public StayInSystem()
+        {
+            this.maxRadius = FindObjectOfType<MapComponent>()?.currentSystem?.size ?? 50;
+            this.star = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
+        }
+
+        protected override (Result result, Vector2? newVelocity) UpdateManeuver(Vector2 aiPos, Vector2 aiVel)
+        {
+            var orbit = AnalyticOrbit.FromCartesianStateVector(aiPos, aiVel, this.star.parameters.mass,
+                this.star.constants.GravitationalConstant);
+            
+            // this will catch escape trajectory as well
+            if (orbit.isElliptic && orbit.nextapsis > this.maxRadius 
+                || !orbit.isElliptic && !orbit.isDescending && aiPos.magnitude > this.maxRadius)
+            {
+                // var nextapsisVec = orbit.isUnstable
+                //     ? (Vector3)aiVel
+                //     : -orbit.GetNextapsisPosition() * orbit.directionSign;
+
+                var clampedVec = -aiVel;
+                // orbit.isUnstable
+                //     ? OrbitManeuver.ApisThrustVector(aiVel, aiVel)
+                //         : orbit.isElliptic 
+                //             ? Vector2.Perpendicular(-orbit.GetNextapsisPosition().normalized * orbit.directionSign) 
+                //             // OrbitManeuver.ApisThrustVector(aiVel, -orbit.GetNextapsisPosition() * orbit.directionSign)
+                //             : -aiVel
+                //     ;
+                
+                // var clampedVec = OrbitManeuver.ApisThrustVector(aiVel, nextapsisVec);
+                Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 1f);
+                return (Result.Running, clampedVec);
+            }
+            else
+            {
+                return (Result.Failure, null);
+            }
+        }
+    }
     /// <summary>
     /// Intercepts a target if they are on a "global" path (one that includes more than one SOI).
     /// Otherwise it will follow the body the target is orbiting at a safe distance.
@@ -241,7 +250,13 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             
             var target = FindObjectOfType<PlayerController>().GetComponent<SimMovement>();
             var primary = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
-        
+
+            // Can't attack while docked... We could perhaps go any lie in wait though?
+            if (target.GetComponent<DockActive>()?.docked ?? false)
+            {
+                return Result.Failure;
+            }
+            
             // We can only approach the target directly if they are in a "global" trajectory, i.e. not in orbit
             // around a planet/moon. Its fine if they are passing through multiple SOIs though as long as one of them is
             // the stars.
@@ -325,10 +340,16 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         //this.rng = new RandomX();
         
         this.tree = new AI.Behave.Tree("AI enemy behaviour",
-            new PeriodicUpdate(30,
-                new AI.Behave.Selector("",
-                    new AvoidCollision(10, 10),
-                    new InterceptTarget(this.shipFollowDistance),
+            new PeriodicUpdate(10,
+                new AI.Behave.Selector("Priority selector",
+                    // Avoid collisions as highest priority
+                    new RaiseOrbit(5, 10),
+                    new Sequence("Intercept maneuver",
+                        // Raise orbit height before intercepting the target, to ensure we have some space to maneuver
+                        new InvertResult(new RaiseOrbit(10, 20)),
+                        new InterceptTarget(this.shipFollowDistance)
+                        ),
+                    new StayInSystem(),
                     new Idle()
                     )
                 )
