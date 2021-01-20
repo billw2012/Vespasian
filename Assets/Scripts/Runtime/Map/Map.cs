@@ -523,7 +523,7 @@ public class SolarSystem
         for (int i = 0; i < enemyAICount; i++)
         {
             var enemySpec = bodySpecs.RandomAIShip(rng);
-            var newEnemy = UnityEngine.Object.Instantiate(enemySpec.prefab);
+            var newEnemy = UnityEngine.Object.Instantiate(enemySpec.prefab, rootBody.transform);
             newEnemy.GetComponent<SimMovement>().SetPositionVelocity(
                 Quaternion.Euler(0, 0, rng.Range(0, 360)) * Vector3.right * rng.Range(this.size * 0.25f, this.size * 1.25f),
                 Quaternion.Euler(0, 0, rng.Range(0, 360)), 

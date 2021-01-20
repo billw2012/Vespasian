@@ -249,7 +249,6 @@
               <e p="Faction.cs" t="Include" />
             </e>
             <e p="BodySpecs.cs" t="Include" />
-            <e p="ControllerBase.cs" t="Include" />
             <e p="Effects" t="Include">
               <e p="DamageReceiver.cs" t="Include" />
               <e p="DamageSource.cs" t="Include" />
@@ -270,14 +269,9 @@
               <e p="Scanner.cs" t="Include" />
               <e p="Sensors.cs" t="Include" />
             </e>
-            <e p="EngineController.cs" t="Include" />
-            <e p="FuelBoosterTankComponent.cs" t="Include" />
-            <e p="FuelMainTankComponent.cs" t="Include" />
-            <e p="FuelTankComponent.cs" t="Include" />
             <e p="Game.Runtime.asmdef" t="Include" />
             <e p="GameConstants.cs" t="Include" />
             <e p="GameLogic.cs" t="Include" />
-            <e p="HealthComponent.cs" t="Include" />
             <e p="Map" t="Include">
               <e p="BodyGenerator.cs" t="Include" />
               <e p="Map.cs" t="Include" />
@@ -309,11 +303,23 @@
               <e p="PositionalObjectiveBase.cs" t="Include" />
               <e p="ScanObjective.cs" t="Include" />
             </e>
-            <e p="PlayerController.cs" t="Include" />
-            <e p="RadialDetectorComponent.cs" t="Include" />
-            <e p="RadialDetectorVisualComponent.cs" t="Include" />
             <e p="SaveSystem.cs" t="Include" />
-            <e p="ShieldComponent.cs" t="Include" />
+            <e p="Ship" t="Include">
+              <e p="ControllerBase.cs" t="Include" />
+              <e p="EngineController.cs" t="Include" />
+              <e p="FuelBoosterTankComponent.cs" t="Include" />
+              <e p="FuelMainTankComponent.cs" t="Include" />
+              <e p="FuelTankComponent.cs" t="Include" />
+              <e p="HealthComponent.cs" t="Include" />
+              <e p="PlayerController.cs" t="Include" />
+              <e p="RadialDetectorComponent.cs" t="Include" />
+              <e p="RadialDetectorVisualComponent.cs" t="Include" />
+              <e p="ShieldComponent.cs" t="Include" />
+              <e p="ThrustComponent.cs" t="Include" />
+              <e p="WarpComponent.cs" t="Include" />
+              <e p="WarpController.cs" t="Include" />
+              <e p="WarpEffect.cs" t="Include" />
+            </e>
             <e p="System" t="Include">
               <e p="AsteroidLogic.cs" t="Include" />
               <e p="AsteroidRing.cs" t="Include" />
@@ -399,9 +405,6 @@
               <e p="VectorExtensions.cs" t="Include" />
               <e p="WeightedRandom.cs" t="Include" />
             </e>
-            <e p="WarpComponent.cs" t="Include" />
-            <e p="WarpController.cs" t="Include" />
-            <e p="WarpEffect.cs" t="Include" />
           </e>
           <e p="Tests" t="Include">
             <e p="Game.Tests.asmdef" t="Include" />

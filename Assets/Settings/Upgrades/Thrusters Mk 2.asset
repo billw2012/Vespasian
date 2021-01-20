@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8273a0654529b64da34881425085c9a, type: 3}
-  m_Name: Initial Upgrades
+  m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
+  m_Name: Thrusters Mk 2
   m_EditorClassIdentifier: 
-  upgradesDefs:
-  - {fileID: 11400000, guid: bcf2fc9bae2050345a3f2146aaa7d3ef, type: 2}
-  - {fileID: 11400000, guid: 5f5691d3b66aca1428038f88c69ecf74, type: 2}
-  - {fileID: 11400000, guid: 6048b07680c262a4b8982062e850d2ce, type: 2}
+  cost: 5000
+  shipPartPrefab: {fileID: 8604893635013066328, guid: 8b40955df18eaf94c9cec532332b1b1b,
+    type: 3}
+  shopUIPrefab: {fileID: 0}
+  replaces:
   - {fileID: 11400000, guid: 54d236a1d0f028e47b247f7ae5150d6d, type: 2}
+  - {fileID: 11400000, guid: 1fee859e30f17db448ed5c672e4fb1b3, type: 2}
+  requires: []

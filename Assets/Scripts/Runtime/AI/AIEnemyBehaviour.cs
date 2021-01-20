@@ -1,6 +1,7 @@
 ﻿// unset
 
 using AI.Behave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -76,13 +77,38 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     
     private abstract class OrbitManeuver : AI.Behave.Node
     {
-        private readonly (BodyLogic b, Orbit o, GravitySource g)[] bodies;
+        public struct BOG
+        {
+            public BodyLogic body;
+            public Orbit orbit;
+            public GravitySource gravitySource;
+            
+            public bool Equals(BOG other) => Equals(this.body, other.body) && Equals(this.orbit, other.orbit) && Equals(this.gravitySource, other.gravitySource);
+            public override bool Equals(object obj) => obj is BOG other && this.Equals(other);
+            public static bool operator ==(BOG left, BOG right) => left.Equals(right);
+            public static bool operator !=(BOG left, BOG right) => !left.Equals(right);
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    int hashCode = (this.body != null ? this.body.GetHashCode() : 0);
+                    hashCode = (hashCode * 397) ^ (this.orbit != null ? this.orbit.GetHashCode() : 0);
+                    hashCode = (hashCode * 397) ^ (this.gravitySource != null ? this.gravitySource.GetHashCode() : 0);
+                    return hashCode;
+                }
+            }
+            
+        }
+        
+        protected readonly BOG[] bodies;
+        protected readonly BOG primary;
 
         protected OrbitManeuver()
         {
             this.bodies = FindObjectsOfType<BodyLogic>()
-                .Select(b => (b, o: b.GetComponent<Orbit>(), g: b.GetComponent<GravitySource>()))
+                .Select(b => new BOG{ body = b, orbit = b.GetComponent<Orbit>(), gravitySource = b.GetComponent<GravitySource>()})
                 .ToArray();
+            this.primary = this.bodies.FirstOrDefault(b => b.body.GetComponent<StarLogic>() != null);
         }
 
         protected abstract (Result result, Vector2? newVelocity) UpdateManeuver(Vector2 aiPos, Vector2 aiVel);
@@ -95,44 +121,44 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         /// <param name="pos"></param>
         /// <param name="vel"></param>
         /// <returns></returns>
-        protected IEnumerable<(BodyLogic b, AnalyticOrbit orbit)> GetOrbits(Vector2 pos, Vector2 vel) =>
+        protected IEnumerable<(BOG bog, AnalyticOrbit orbit)> GetOrbits(Vector2 pos, Vector2 vel) =>
             this.bodies
-                .OrderBy(bog => Vector2.Distance(pos, (Vector2)bog.o.position.position))
+                .OrderBy(bog => Vector2.Distance(pos, (Vector2)bog.orbit.position.position))
                 .Select(bog =>
                 {
                     // Orbit relative to this body
-                    var relVelocity = vel - (Vector2)bog.o.absoluteVelocity;
-                    var relPosition = pos - (Vector2)bog.o.position.position;
+                    var relVelocity = vel - (Vector2)bog.orbit.absoluteVelocity;
+                    var relPosition = pos - (Vector2)bog.orbit.position.position;
 
-                    return (bog.b, orbit: AnalyticOrbit.FromCartesianStateVector(
+                    return (bog, orbit: AnalyticOrbit.FromCartesianStateVector(
                         relPosition, relVelocity,
-                        bog.g.parameters.mass, bog.g.constants.GravitationalConstant));
+                        bog.gravitySource.parameters.mass, bog.gravitySource.constants.GravitationalConstant));
                 });
 
         public override Result Update(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
             
-            var playerPos = (Vector2)ai.transform.position;
-            var playerVel = (Vector2)ai.simMovement.velocity;
+            var aiPos = (Vector2)ai.transform.position;
+            var aiVel = (Vector2)ai.simMovement.velocity;
 
-            var (result, newVelocity) = this.UpdateManeuver(playerPos, playerVel);
+            var (result, newVelocity) = this.UpdateManeuver(aiPos, aiVel);
             if(newVelocity.HasValue)
             {
-                ai.aiController.SetTargetVelocity(playerVel + newVelocity.Value * 20);
+                ai.aiController.SetTargetVelocity(aiVel + newVelocity.Value * 20);
             }
 
             return result;
         }
 
-        protected static Vector2 ApisThrustVector(Vector2 velocity, Vector3 apsisVec)
+        protected static Vector2 ApisThrustVector(Vector2 velocity, Vector2 apsisVec)
         {
             var tVec = Vector2.Perpendicular(apsisVec.normalized);
             var forward = velocity.normalized;
             var sideways = Vector2.Perpendicular(forward);
             // Exclude any backwards thrust as it makes no sense when trying to raise an apsis (player velocity is always foward)
             var forwardComponent = forward * Mathf.Max(0, Vector2.Dot(forward, tVec));
-            var sideComponent = sideways * Mathf.Max(0, Vector2.Dot(sideways, tVec));
+            var sideComponent = sideways * Mathf.Sign(Vector2.Dot(sideways, tVec));
             var clampedVec = forwardComponent + sideComponent;
             return clampedVec;
         }
@@ -144,11 +170,11 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private class RaiseOrbit : OrbitManeuver
     {
         private readonly float timeLookAhead;
-        private readonly float minHeight;
+        private readonly Func<BOG, AnalyticOrbit, float> minHeightFn;
         
-        public RaiseOrbit(float minHeight, float timeLookAhead = float.MaxValue) : base()
+        public RaiseOrbit(Func<BOG, AnalyticOrbit, float> minHeightFn, float timeLookAhead = float.MaxValue) : base()
         {
-            this.minHeight = minHeight;
+            this.minHeightFn = minHeightFn;
             this.timeLookAhead = timeLookAhead;
         }
 
@@ -157,21 +183,29 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             // Debug.DrawLine(aiPos, aiPos + aiVel * this.timeLookAhead, Color.red, duration: 1f);
 
             // Find the closest body where we are in a descending orbit and the orbit is too low
-            var (b, orbit) = this.GetOrbits(aiPos, aiVel)
-                .FirstOrDefault(bo =>
-                    bo.orbit.nextapsis < this.minHeight + bo.b.radius &&
-                    bo.orbit.timeOfNextapsis > 0 && bo.orbit.timeOfNextapsis < this.timeLookAhead + bo.b.radius / aiVel.magnitude);
+            var (bog, orbit) = this.GetOrbits(aiPos, aiVel)
+                .FirstOrDefault(bogo =>
+                {
+                    float finalHeight = this.minHeightFn(bogo.bog, bogo.orbit) + bogo.bog.body.radius;
+                    return bogo.orbit.nextapsis < finalHeight &&
+                           bogo.orbit.timeOfNextapsis > 0 && bogo.orbit.timeOfNextapsis <
+                           this.timeLookAhead + finalHeight / aiVel.magnitude;
+                });
 
-            if (b != null)
+            if (bog != default)
             {
-                orbit.DebugDraw(b.geometry.position, Color.red, duration: 1f);
+                orbit.DebugDraw(bog.body.geometry.position, Color.red, duration: 1f);
 
                 var nextapsisVec = orbit.isUnstable
-                    ? (Vector3)aiVel
-                    : -orbit.GetNextapsisPosition() * orbit.directionSign;
-
+                    ? aiVel
+                    : (Vector2)(-orbit.GetNextapsisPosition()) * orbit.directionSign;
+                
+                Debug.DrawLine(aiPos, aiPos + nextapsisVec * 30, Color.magenta, duration: 2f);
+                //Debug.Log($"{nextapsisVec}");
+                Debug.DrawLine(aiPos, aiPos + Vector2.Perpendicular(nextapsisVec) * 3, Color.cyan, duration: 1f);
+                Debug.DrawLine(aiPos, aiPos + aiVel.normalized * 3, Color.red, duration: 1f);
+                
                 var clampedVec = ApisThrustVector(aiVel, nextapsisVec);
-
                 Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 1f);
                 return (Result.Running, clampedVec);
             }
@@ -179,6 +213,34 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             {
                 return (Result.Failure, null);
             }
+        }
+    }
+    
+    /// <summary>
+    /// Coast until at least minHeight above surface of primary 
+    /// </summary>
+    private class CoastUntilHeight : Node
+    {
+        private readonly float minHeight;
+        private readonly BodyLogic primary;
+        
+        public CoastUntilHeight(float minHeight)
+        {
+            this.minHeight = minHeight;
+            this.primary = FindObjectOfType<StarLogic>()?.GetComponent<BodyLogic>();
+        }
+
+        public override Result Update(object blackboard)
+        {
+            var ai = (AIEnemyBehaviour)blackboard;
+            
+            var aiPos = (Vector2)ai.transform.position;
+            if (this.primary == default)
+            {
+                // Height doesn't mean anything if there is no primary
+                return Result.Success;
+            }
+            return aiPos.magnitude > this.minHeight + this.primary.radius ? Result.Success : Result.Running;
         }
     }
 
@@ -234,21 +296,26 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     /// </summary>
     private class InterceptTarget : AI.Behave.Node
     {
-        private (BodyLogic b, Orbit o, GravitySource g)[] bodies;
         private readonly float shipFollowDistance;
 
         public InterceptTarget(float shipFollowDistance)
         {
             this.shipFollowDistance = shipFollowDistance;
-            this.bodies = FindObjectsOfType<BodyLogic>().Select(b => (b, o: b.GetComponent<Orbit>(), g: b.GetComponent<GravitySource>())).ToArray();
         }
         
         // Version using orbit prediction with periapsis check
         public override Result Update(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
+
+            var player = FindObjectOfType<PlayerController>();
+            // Can't attack if player doesn't exist
+            if (player == null)
+            {
+                return Result.Failure;
+            }
             
-            var target = FindObjectOfType<PlayerController>().GetComponent<SimMovement>();
+            var target = player.GetComponent<SimMovement>();
             var primary = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
 
             // Can't attack while docked... We could perhaps go any lie in wait though?
@@ -269,17 +336,31 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
 
         private (Vector3 targetPos, Vector3 targetVel, float followDistance) GetTargetSpec(SimMovement target, GravitySource primary)
         {
-            bool targetDirectlyApproachable = !target.sois.Any() || target.sois.Any(s => s.g == primary);
+            bool targetDirectlyApproachable = !target.sois.Any() || target.sois.FirstOrDefault()?.g == primary;
             if (targetDirectlyApproachable)
             {
                 return (target.transform.position, target.velocity, this.shipFollowDistance);
             }
             else
             {
-                var secondary = target.sois.First().g;
+                GravitySource GetSecondary(GravitySource g)
+                {
+                    for(;;)
+                    {
+                        var p = g.GetComponentInParentOnly<GravitySource>();
+                        if (p == null || p.GetComponent<StarLogic>() != null)
+                        {
+                            return g;
+                        }   
+                        g = p;
+                    }
+                }
+                
+                var secondary = GetSecondary(target.sois.First().g);
                 var secondaryOrbit = secondary.GetComponent<Orbit>();
 
-                // We want to trail outside of the SOI radius so we don't get dragged into the planet
+                // We want to trail outside of the SOI radius of the secondary (planet not moon)
+                // so we don't get dragged into the planet
                 // TODO: maybe trail at L5? Its slow to catch the player if we do this...
                 float soiRadius = OrbitalUtils.SecondarySOIRadius(secondaryOrbit.parameters.semiMajorAxis, secondary.parameters.mass, primary.parameters.mass, secondary.constants.GravitationalConstant, secondary.constants.GravitationalRescaling);
 
@@ -340,13 +421,14 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         //this.rng = new RandomX();
         
         this.tree = new AI.Behave.Tree("AI enemy behaviour",
-            new PeriodicUpdate(10,
+            new PeriodicUpdate(60,
                 new AI.Behave.Selector("Priority selector",
                     // Avoid collisions as highest priority
-                    new RaiseOrbit(5, 10),
+                    new RaiseOrbit((bog, o) => 20f + bog.orbit.absoluteVelocity.magnitude * 3f, 10),
                     new Sequence("Intercept maneuver",
                         // Raise orbit height before intercepting the target, to ensure we have some space to maneuver
-                        new InvertResult(new RaiseOrbit(10, 20)),
+                        new InvertResult(new RaiseOrbit((_, __) => 30, 20)),
+                        new CoastUntilHeight(25),
                         new InterceptTarget(this.shipFollowDistance)
                         ),
                     new StayInSystem(),

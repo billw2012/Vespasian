@@ -1,5 +1,3 @@
-using IngameDebugConsole;
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -29,12 +27,18 @@ public class AIController : ControllerBase
             var currentVelocity = (Vector2)this.GetComponent<SimMovement>().velocity;
             var globalThrustVector = this.targetVelocity - currentVelocity;
             this.SetThrustGlobal(globalThrustVector);
-            Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)this.targetVelocity, Color.yellow);
-            Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)globalThrustVector, Color.magenta);
+            //Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)this.targetVelocity, Color.yellow);
+            //Debug.DrawLine(this.transform.position, this.transform.position + (Vector3)globalThrustVector, Color.magenta);
         }
         else
         {
             this.SetThrustGlobal(Vector2.zero);
         }
+    }
+
+    public void Destroy()
+    {
+        // Don't destroy it, we can clean it up when we leave the system
+        this.gameObject.SetActive(false);
     }
 }
