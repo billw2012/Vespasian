@@ -319,6 +319,8 @@
               <e p="WarpComponent.cs" t="Include" />
               <e p="WarpController.cs" t="Include" />
               <e p="WarpEffect.cs" t="Include" />
+              <e p="WeaponComponentBase.cs" t="Include" />
+              <e p="WeaponComponentLaser.cs" t="Include" />
             </e>
             <e p="System" t="Include">
               <e p="AsteroidLogic.cs" t="Include" />

@@ -532,6 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd2a7818f44049f791150fee8e0be2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faction: 2
 --- !u!114 &6249192102665454386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,6 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipFollowDistance: 3
+  debug: 0
 --- !u!114 &6249192102665454384
 MonoBehaviour:
   m_ObjectHideFlags: 0

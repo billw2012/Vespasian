@@ -1,0 +1,52 @@
+﻿using System;
+using System.Linq;
+using UnityEngine;
+
+public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic, ISimUpdate
+{
+    [SerializeField]
+    protected float firingRange = 10f;
+    [SerializeField]
+    protected float firingCooldownTime = 3f;
+    
+    protected float cooldownRemaining = 0;
+    
+    private GameConstants.Faction ownFaction;
+
+    private void Awake()
+    {
+        this.ownFaction = this.GetComponentInParent<ControllerBase>().faction;
+    }
+    
+    public virtual void SimUpdate(Simulation simulation, int simTick, int timeStep)
+    {
+        if (this.cooldownRemaining <= 0)
+        {
+            var target = FindObjectsOfType<ControllerBase>()
+                .Where(c => c.faction != this.ownFaction)
+                .Select(c => (d: Vector2.Distance(this.transform.position, c.transform.position), c))
+                .Where(dc => dc.d < this.firingRange)
+                .OrderBy(dc => dc.d)
+                .Select(dc => dc.c)
+                .FirstOrDefault()
+            ;
+            
+            if (target != null)
+            {
+                this.Fire(target);
+                this.cooldownRemaining = this.firingCooldownTime;
+            }
+        }
+
+        this.cooldownRemaining -= timeStep * Time.fixedDeltaTime;
+    }
+
+    public void SimRefresh(Simulation simulation) {}
+
+    protected abstract void Fire(ControllerBase target);
+    
+    public UpgradeDef upgradeDef { get; private set; }
+    public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
+    public void TestFire() => throw new System.NotImplementedException();
+    public void Uninstall() => throw new System.NotImplementedException();
+}

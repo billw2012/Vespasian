@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8273a0654529b64da34881425085c9a, type: 3}
-  m_Name: Initial AI Upgrades
+  m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
+  m_Name: Laser Mk 2
   m_EditorClassIdentifier: 
-  upgradesDefs:
-  - {fileID: 11400000, guid: c985ffb21a7ca4048b4ce6a933753e1d, type: 2}
-  - {fileID: 11400000, guid: ca7170553d0faff4fbc0910092be73e0, type: 2}
-  - {fileID: 11400000, guid: 3db6b69a6e6d0484e83227f6b837eaaa, type: 2}
+  cost: 5000
+  shipPartPrefab: {fileID: 3641182675077058516, guid: fa26a57425772a34b8e70fda6768b45a,
+    type: 3}
+  shopUIPrefab: {fileID: 0}
+  replaces:
   - {fileID: 11400000, guid: 9d4dfbf9aab45d748806c95000b4a095, type: 2}
+  - {fileID: 11400000, guid: 373f6c367eec4694aba9f3a79241a072, type: 2}
+  requires: []

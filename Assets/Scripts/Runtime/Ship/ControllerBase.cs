@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ControllerBase : MonoBehaviour, ISavable, ISavableCustom
 {
+    public GameConstants.Faction faction = GameConstants.Faction.None;
+    
     protected void SetThrust(Vector2 thrustVector) => this.SetThrust(thrustVector.y, thrustVector.x);
     protected void SetThrustGlobal(Vector2 thrustVector) => this.SetThrust(this.transform.worldToLocalMatrix.MultiplyVector(thrustVector));
 

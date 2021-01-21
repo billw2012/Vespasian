@@ -68,10 +68,10 @@ public class HealthComponent : MonoBehaviour
 
         if (amount > 0)
         {
-            this.lastDamageDirection = direction;
+            this.lastDamageDirection = direction.normalized;
         }
 
-        if (this.hull == 0)
+        if (this.hull == 0 && this.GetComponent<PlayerController>() != null)
         {
             this.gameLogic.LoseGameAsync();
         }

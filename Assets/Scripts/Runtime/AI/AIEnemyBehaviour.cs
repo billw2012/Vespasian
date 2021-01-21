@@ -15,6 +15,8 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private AIController aiController;
     private Simulation simulation;
     private AI.Behave.Tree tree;
+    
+    public bool debug = false;
 
     /// <summary>
     /// Sets target velocity to current velocity
@@ -194,19 +196,18 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
 
             if (bog != default)
             {
-                orbit.DebugDraw(bog.body.geometry.position, Color.red, duration: 1f);
+                //orbit.DebugDraw(bog.body.geometry.position, Color.red, duration: 1f);
 
                 var nextapsisVec = orbit.isUnstable
                     ? aiVel
                     : (Vector2)(-orbit.GetNextapsisPosition()) * orbit.directionSign;
                 
-                Debug.DrawLine(aiPos, aiPos + nextapsisVec * 30, Color.magenta, duration: 2f);
+                //Debug.DrawLine(aiPos, aiPos + nextapsisVec * 30, Color.magenta, duration: 0.1f);
                 //Debug.Log($"{nextapsisVec}");
-                Debug.DrawLine(aiPos, aiPos + Vector2.Perpendicular(nextapsisVec) * 3, Color.cyan, duration: 1f);
-                Debug.DrawLine(aiPos, aiPos + aiVel.normalized * 3, Color.red, duration: 1f);
-                
+                //Debug.DrawLine(aiPos, aiPos + Vector2.Perpendicular(nextapsisVec) * 3, Color.cyan, duration: 0.1f);
+                //Debug.DrawLine(aiPos, aiPos + aiVel.normalized * 3, Color.red, duration: 0.1f);
                 var clampedVec = ApisThrustVector(aiVel, nextapsisVec);
-                Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 1f);
+                //Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 0.1f);
                 return (Result.Running, clampedVec);
             }
             else
@@ -281,7 +282,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                 //     ;
                 
                 // var clampedVec = OrbitManeuver.ApisThrustVector(aiVel, nextapsisVec);
-                Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 1f);
+                //Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 1f);
                 return (Result.Running, clampedVec);
             }
             else
@@ -380,8 +381,8 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             var targetOrbit = AnalyticOrbit.FromCartesianStateVector(
                 targetPos, targetVel, 
                 primary.parameters.mass, primary.constants.GravitationalConstant);
-            ourOrbit.DebugDraw(Vector3.zero, Color.cyan, duration: 2);
-            targetOrbit.DebugDraw(Vector3.zero, Color.blue, duration: 2);
+            //ourOrbit.DebugDraw(Vector3.zero, Color.cyan, duration: 2);
+            //targetOrbit.DebugDraw(Vector3.zero, Color.blue, duration: 2);
 
             // WIP
             //if(ourOrbit.periapsis <= )
@@ -406,7 +407,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                 // 4. solve lambert equation for transfer from current position to this position
                 var (Vi, _) = GoodingSolver.Solve(primary.constants.GravitationalConstant * primary.parameters.mass,
                     aiPos, targetVel, interceptPos, tof, 0);
-                Debug.DrawLine(aiPos, interceptPos, Color.cyan, duration: 2);
+                //Debug.DrawLine(aiPos, interceptPos, Color.cyan, duration: 2);
                 return Vi;
             }
         }
