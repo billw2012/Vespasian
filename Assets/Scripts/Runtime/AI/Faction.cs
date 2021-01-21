@@ -18,6 +18,7 @@ public class Faction : MonoBehaviour, ISavable
     public HashSet<BodyRef> stations = new HashSet<BodyRef>();
 
     private MapComponent mapComponent;
+
     // What data the AI needs to know before about a planet before it can consider occupying it
     private static readonly DataMask OccupationDataRequired = DataMask.Habitability | DataMask.Resources;
 
