@@ -25,9 +25,9 @@ public class WeaponComponentLaser : WeaponComponentBase
         this.finalOffset = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)) * Vector3.right * Random.Range(0f, 2f);
     }
 
-    public override void SimUpdate(Simulation simulation, int simTick, int timeStep)
+    public override void Update()
     {
-        base.SimUpdate(simulation, simTick, timeStep);
+        base.Update();
 
         if (this.firingCycleRemaining > 0 && this.target != null)
         {
@@ -36,7 +36,7 @@ public class WeaponComponentLaser : WeaponComponentBase
             // Debug.DrawLine(targetPos + Vector3.left, targetPos + Vector3.right, Color.green);
             // Debug.DrawLine(targetPos + Vector3.up, targetPos + Vector3.down, Color.green);
             
-            float fullDt = timeStep * Time.fixedDeltaTime;
+            float fullDt = Time.deltaTime * this.simulation.tickStep;
             this.target.GetComponent<HealthComponent>().AddDamage(fullDt * this.damagePerSecond,
                 targetPos - this.transform.position);
 

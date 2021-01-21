@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic, ISimUpdate
+public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
 {
     [SerializeField]
     protected float firingRange = 10f;
@@ -12,13 +12,15 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic, ISimUp
     protected float cooldownRemaining = 0;
     
     private GameConstants.Faction ownFaction;
+    protected Simulation simulation;
 
     private void Awake()
     {
         this.ownFaction = this.GetComponentInParent<ControllerBase>().faction;
+        this.simulation = FindObjectOfType<Simulation>();
     }
     
-    public virtual void SimUpdate(Simulation simulation, int simTick, int timeStep)
+    public virtual void Update()
     {
         if (this.cooldownRemaining <= 0)
         {
@@ -37,11 +39,9 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic, ISimUp
                 this.cooldownRemaining = this.firingCooldownTime;
             }
         }
-
-        this.cooldownRemaining -= timeStep * Time.fixedDeltaTime;
+    
+        this.cooldownRemaining -= Time.deltaTime * this.simulation.tickStep;
     }
-
-    public void SimRefresh(Simulation simulation) {}
 
     protected abstract void Fire(ControllerBase target);
     

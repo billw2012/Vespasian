@@ -27,6 +27,8 @@ public class HealthComponent : MonoBehaviour
     private float hullHP;
     private float previousHull = 1;
     private Vector3 lastDamageDirection;
+    private float damageRate = 0;
+    private float damageRateVelocity = 0;
 
     private void Start()
     {
@@ -43,13 +45,15 @@ public class HealthComponent : MonoBehaviour
 
     public void SetTakingDamage(float damageRate, Vector3 direction)
     {
-        this.damageDebris.SetEmissionEnabled(damageRate > 0);
-        if (damageRate > 0)
+        this.damageRate = Mathf.Max(this.damageRate, damageRate);
+        this.damageDebris.SetEmissionEnabled(this.damageRate > 0);
+        if (this.damageRate > 0)
         {
             this.damageDebris.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
             var emission = this.damageDebris.emission;
-            emission.rateOverTimeMultiplier = damageRate * 100;
+            emission.rateOverTimeMultiplier = this.damageRate * 100;
         }
+        this.damageRate = Mathf.SmoothDamp(this.damageRate, 0, ref this.damageRateVelocity, 1f, 0.1f, Time.deltaTime);
     }
 
     public void AddDamage(float amount, Vector3 direction)
