@@ -250,11 +250,28 @@ public class Missions : MonoBehaviour, ISavable
         this.AddFunds(this.NewDataReward, $"All new data sold");
     }
 
+    public bool HasActiveMissionsInSystem(BodyRef systemRef)
+    {
+        var firstSurveyMission = this.activeMissions.FirstOrDefault(mn =>
+            {
+                var mnSurvey = mn as MissionSurvey;
+
+                if (mnSurvey != null)
+                {
+                    return mnSurvey.targetSystemRef.EqualsSystem(systemRef) && !mnSurvey.IsComplete;
+                }
+                else
+                    return false;
+            }
+        );
+        return firstSurveyMission != null;
+    }
+
     public List<IMissionBase> GetActiveMissionsInSystem(BodyRef systemRef)
     {
         var surveySystemMissionsHere = this.activeMissions.Where(mn =>
             {
-                var mnSurvey = mn as MissionSurveySystem;
+                var mnSurvey = mn as MissionSurvey;
 
                 if (mnSurvey != null)
                 {

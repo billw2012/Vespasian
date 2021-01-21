@@ -30,24 +30,45 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
     {
         var map = FindObjectOfType<MapComponent>().map;
         Debug.Assert(map != null);
-        var missionType = SurveyType.SurveyWholeSystem;
+        var missionType = rng.Decide(0.5f) ? SurveyType.SurveyWholeSystem : SurveyType.SurveyPlanet;
 
-        if (missionType == SurveyType.SurveyWholeSystem)
+        if (targetSystem == null)
+            targetSystem = map.systems.SelectRandom();
+
+        switch (missionType)
         {
-            // TODO make good criteria for the generator
-            if (targetSystem == null)
-                targetSystem = map.systems.SelectRandom();
+            case SurveyType.SurveyWholeSystem:
+                {
+                    // TODO make good criteria for the generator
 
-            string missionName = $"Survey System {targetSystem.id}";
-            string missionDescription = $"Survey all bodies in system {targetSystem.id}";
-            var mission = new MissionSurveySystem(missionDescription, missionName);
-            List<BodyRef> targetBodies = targetSystem.AllBodies().Where(b => b is StarOrPlanet)
-                                                             .Select(b => new BodyRef(b.bodyRef))
-                                                             .ToList();
-            mission.TargetBodies = targetBodies;
-            mission.targetSystemRef = new BodyRef(targetSystem.id);
+                    string missionName = $"Survey System {targetSystem.id}";
+                    string missionDescription = $"Survey all bodies in system {targetSystem.id}";
+                    var mission = new MissionSurveySystem(missionDescription, missionName);
+                    List<BodyRef> targetBodies = targetSystem.AllBodies().Where(b => b is StarOrPlanet)
+                                                                     .Select(b => new BodyRef(b.bodyRef))
+                                                                     .ToList();
+                    mission.TargetBodies = targetBodies;
+                    mission.targetSystemRef = new BodyRef(targetSystem.id);
 
-            return mission;
+                    return mission;
+                }
+
+            case SurveyType.SurveyPlanet:
+                {
+                    Body targetBody = targetSystem.AllBodies().Where(b => b is StarOrPlanet)
+                        .SelectRandom<Body>();
+                    BodyRef targetBodyRef = new BodyRef(targetBody.bodyRef);
+
+                    string missionName = $"Survey Planet {targetBodyRef}";
+                    string missionDescription = $"Survey planet {targetBodyRef} located in system {targetSystem.id}";
+
+                    var mission = new MissionSurveyBody(missionDescription, missionName);
+                    BodyRef[] _targets = { new BodyRef(targetBodyRef) };
+                    mission.TargetBodies = new List<BodyRef>(_targets);
+                    mission.targetSystemRef = new BodyRef(targetBodyRef);
+
+                    return mission;
+                }
         }
 
         return null;
@@ -72,9 +93,8 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
     }
 }
 
-// Mission for surveying the whole system
-[RegisterSavableType]
-public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
+//MissionSurvery(SomethingSpecific)
+public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
 {
     public bool IsComplete { get; set; }
 
@@ -84,8 +104,18 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
 
     public int Reward => 100; // TODO proper reward value, based on distance
 
+    protected string _factory;
+    public string Factory => this._factory; //nameof(MissionSurveyFactory);
+
+    // Tef to the system where target is, or to the system itself
+    public BodyRef targetSystemRef;
+
+    public List<BodyRef> scannedBodies = new List<BodyRef>();
+    public List<BodyRef> notScannedBodies = new List<BodyRef>();
+
     private List<BodyRef> _targetBodies = null;
-    public List<BodyRef> TargetBodies {
+    public List<BodyRef> TargetBodies
+    {
         get
         {
             if (this._targetBodies == null)
@@ -99,25 +129,8 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
             this._targetBodies = new List<BodyRef>(value);
         }
     }
-    public List<BodyRef> scannedBodies = new List<BodyRef>();
-    public List<BodyRef> notScannedBodies = new List<BodyRef>();
 
-    public string Factory => nameof(MissionSurveyFactory);
-
-    public BodyRef targetSystemRef;
-
-    public MissionSurveySystem() { }
-
-    public MissionSurveySystem(string description, string name)
-    {
-        this.Description = description;
-        this.Name = name;
-    }
-
-    public void Update(Missions missions)
-    {
-
-    }
+    public void Update(Missions missions) { }
 
     public bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data)
     {
@@ -144,5 +157,43 @@ public class MissionSurveySystem : IMissionBase, ITargetBodiesMission
             }
         }
         return this.IsComplete;
+    }
+
+    public MissionSurvey()
+    {
+        this._factory = nameof(MissionSurveyFactory);
+    }
+
+    public MissionSurvey(string description, string name)
+        : this()
+    {
+        this.Description = description;
+        this.Name = name;
+    }
+}
+
+// Mission for surveying the whole system
+[RegisterSavableType]
+public class MissionSurveySystem : MissionSurvey //IMissionBase, ITargetBodiesMission
+{
+    public MissionSurveySystem()
+    { }
+
+    public MissionSurveySystem(string description, string name)
+    : base(description, name)
+    {
+    }
+}
+
+// Mission for surveying just one body in the system
+[RegisterSavableType]
+public class MissionSurveyBody : MissionSurvey
+{
+    public MissionSurveyBody()
+    { }
+
+    public MissionSurveyBody(string description, string name)
+        : base(description, name)
+    {
     }
 }
