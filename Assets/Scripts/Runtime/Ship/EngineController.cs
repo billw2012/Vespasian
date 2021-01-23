@@ -16,7 +16,7 @@ public class EngineController : MonoBehaviour
     public List<ParticleSystem> rightThrusters;
     public List<ParticleSystem> leftThrusters;
 
-    public Animator animator;
+    public Animator animator = null;
 
     //public AudioSource engineStart;
     public FadeableAudio rearAudio;
@@ -63,8 +63,11 @@ public class EngineController : MonoBehaviour
         this.rightThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x < 0, this.thrust.x));
         this.leftThrusters.ForEach(t => SetThrusterFX(t, this.thrust.x > 0, this.thrust.x));
 
-        this.animator.SetFloat("Forward", this.canThrust? this.thrust.y : 0);
-        this.animator.SetFloat("Right", this.canThrust? this.thrust.x : 0);
+        if (this.animator != null)
+        {
+            this.animator.SetFloat("Forward", this.canThrust ? this.thrust.y : 0);
+            this.animator.SetFloat("Right", this.canThrust ? this.thrust.x : 0);
+        }
 
         //bool thrusting = canThrust && this.thrust.magnitude > 0;
         //bool wasThrusting = this.prevThrust.magnitude > 0;

@@ -985,6 +985,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e909f63bf4fb3ca45b9d379415211c19, type: 3}
+--- !u!114 &1258982690 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2243324405580142643, guid: 744ad02f3404f3b42aa9f779c1288a76,
+    type: 3}
+  m_PrefabInstance: {fileID: 737994931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6807d001b4a014f8118d0864584e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1455605384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1117,6 +1129,105 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 493062635}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &109568685371881408
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 109568686105646257, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_Name
+      value: RocketUnguided
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646258, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: thrust
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646259, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: startVelocity.x
+      value: -0.3087412
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646259, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: startVelocity.y
+      value: -0.4305155
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -32.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 179.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.95200676
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.30607697
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646260, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109568686105646263, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: rearAudio
+      value: 
+      objectReference: {fileID: 1258982690}
+    - target: {fileID: 109568686105646263, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: frontAudio
+      value: 
+      objectReference: {fileID: 1258982690}
+    - target: {fileID: 109568686105646263, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+        type: 3}
+      propertyPath: thrusterAudio
+      value: 
+      objectReference: {fileID: 1258982690}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 28ec8cf8598b1f247901e43390e1b8f1, type: 3}
 --- !u!1001 &1673386740391325639
 PrefabInstance:
   m_ObjectHideFlags: 0
