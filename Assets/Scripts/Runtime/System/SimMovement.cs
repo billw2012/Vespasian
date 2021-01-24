@@ -19,7 +19,10 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     public Rigidbody controlledRigidbody;
 
     public Vector2 startVelocity;
+    
     public bool alignToVelocity = true;
+    public float alignSmoothTime = 0.01f;
+    public float alignMaxSpeedDegPerSec = 360f;
 
     [Tooltip("Used to render the simulated path sections")]
     public GameObject pathRendererAsset;
@@ -40,9 +43,9 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     public UnityEvent OnCrashed;
 
-    public Vector3 simPosition => this.path.position;
-    public Vector3 velocity => this.path.velocity;
-    public Vector3 relativeVelocity => this.path.relativeVelocity;
+    public Vector3 simPosition => this.path?.position ?? Vector3.zero;
+    public Vector3 velocity => this.path?.velocity ?? Vector3.zero;
+    public Vector3 relativeVelocity => this.path?.relativeVelocity ?? Vector3.zero;
 
     [HideInInspector]
     public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
@@ -112,10 +115,8 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     private float rotVelocity;
 
-    // private void Start()
-    // {
-    //     this.SimRefresh(FindObjectOfType<Simulation>());
-    // }
+    private void Start() => FindObjectOfType<Simulation>()?.Register(this);
+    private void OnDestroy() => FindObjectOfType<Simulation>()?.Unregister(this);
 
     private void Update()
     {
@@ -179,7 +180,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
             // normal play.
             float desiredRot = Quaternion.FromToRotation(Vector3.up, this.relativeVelocity).eulerAngles.z;
             float currentRot = this.controlledRigidbody.rotation.eulerAngles.z;
-            float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, 0.01f, 360 * timeStep, deltaTime: Time.fixedDeltaTime * timeStep);
+            float smoothedRot = Mathf.SmoothDampAngle(currentRot, desiredRot, ref this.rotVelocity, this.alignSmoothTime, this.alignMaxSpeedDegPerSec * timeStep, deltaTime: Time.fixedDeltaTime * timeStep);
             // this.controlledRigidbody.rotation = Quaternion.AngleAxis(smoothedRot, Vector3.forward);
             this.controlledRigidbody.MoveRotation(Quaternion.AngleAxis(smoothedRot, Vector3.forward));
         }

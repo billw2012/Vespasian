@@ -316,6 +316,7 @@
               <e p="PlayerController.cs" t="Include" />
               <e p="RadialDetectorComponent.cs" t="Include" />
               <e p="RadialDetectorVisualComponent.cs" t="Include" />
+              <e p="RocketUnguidedController.cs" t="Include" />
               <e p="ShieldComponent.cs" t="Include" />
               <e p="ThrustComponent.cs" t="Include" />
               <e p="WarpComponent.cs" t="Include" />
@@ -355,6 +356,7 @@
               <e p="DockedOptions.cs" t="Include" />
               <e p="DragJoystick.cs" t="Include" />
               <e p="DragToFire.cs" t="Include" />
+              <e p="DragToFireWeapon.cs" t="Include" />
               <e p="FixDamageButton.cs" t="Include" />
               <e p="FollowCameraController.cs" t="Include" />
               <e p="FuelGauge.cs" t="Include" />

@@ -79,6 +79,16 @@ public class Simulation : MonoBehaviour
         }
     }
 
+    public void Register(ISimUpdate simUpdate)
+    {
+        if(!this.simulatedObjects.Contains((MonoBehaviour)simUpdate))
+        {
+            this.simulatedObjects.Add((MonoBehaviour)simUpdate);
+        }    
+    }  
+    
+    public void Unregister(ISimUpdate simUpdate) => this.simulatedObjects.Remove((MonoBehaviour)simUpdate);
+
     public SectionedSimPath CreateSectionedSimPath(Vector3 startPosition, Vector3 startVelocity, int targetTicks, float collisionRadius, int sectionTicks = 200)
     {
         return new SectionedSimPath(this.model, this.simTick, startPosition, startVelocity, targetTicks, Time.fixedDeltaTime, this.constants.GravitationalConstant, this.constants.GravitationalRescaling, collisionRadius, sectionTicks);

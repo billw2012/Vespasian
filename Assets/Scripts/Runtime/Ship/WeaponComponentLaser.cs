@@ -37,7 +37,7 @@ public class WeaponComponentLaser : WeaponComponentBase
             // Debug.DrawLine(targetPos + Vector3.up, targetPos + Vector3.down, Color.green);
             
             float fullDt = Time.deltaTime * this.simulation.tickStep;
-            this.target.GetComponent<HealthComponent>().AddDamage(fullDt * this.damagePerSecond,
+            this.target.GetComponent<HealthComponent>()?.AddDamage(fullDt * this.damagePerSecond,
                 targetPos - this.transform.position);
 
             this.firingCycleRemaining -= fullDt;

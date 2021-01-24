@@ -6,27 +6,16 @@ using UnityEngine.EventSystems;
 
 public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public GameObject weaponOrigin;
+    [SerializeField]
+    private GameObject weaponOrigin = null;
+    [SerializeField]
+    private GameObject projectilePrefab = null;
 
-    public GameObject projectilePrefab;
-
-    private bool dragging = false;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    //void Update()
-    //{
-
-    //}
+    //private bool dragging = false;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        this.dragging = true;
+        //this.dragging = true;
         Debug.Log("DragToFireWeapon: dragging started");
     }
 
@@ -40,25 +29,21 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         Debug.Log("DragToFireWeapon: dragging ended");
 
         // Calculate the projectile direction
-        var canvas = this.GetComponentInParent<Canvas>();
         var weaponOriginPos = this.weaponOrigin.GetComponent<Transform>().position;
-        var weaponOriginScreenPos3D = Camera.main.WorldToScreenPoint(weaponOriginPos);
-        var weaponOriginScreenPos = new Vector2(weaponOriginScreenPos3D.x, weaponOriginScreenPos3D.y);
+        var weaponOriginScreenPos = (Vector2)Camera.main.WorldToScreenPoint(weaponOriginPos);
         var dragEndScreenPos = eventData.position;
-        var shootVector2D = (dragEndScreenPos - weaponOriginScreenPos);
-        shootVector2D.Normalize();
-        Vector3 shootVector3D = new Vector3(shootVector2D.x, shootVector2D.y, 0);
+        var shootVector = (dragEndScreenPos - weaponOriginScreenPos).normalized;
 
-        Debug.Log($"DragToFireWeapon: weapon screen pos: {weaponOriginScreenPos}, drag end screen pos: {dragEndScreenPos}, shoot vector: {shootVector3D}");
+        Debug.Log($"DragToFireWeapon: weapon screen pos: {weaponOriginScreenPos}, drag end screen pos: {dragEndScreenPos}, shoot vector: {shootVector}");
 
         // Instantiate the projectile
-        GameObject projectile = Instantiate(projectilePrefab);
-        Quaternion projectileRotation = Quaternion.FromToRotation(Vector3.up, shootVector3D);
+        var projectile = Instantiate(this.projectilePrefab);
+        var projectileRotation = Quaternion.FromToRotation(Vector3.up, shootVector);
         var originSimMovement = this.weaponOrigin.GetComponent<SimMovement>();
         var projectileSimMovement = projectile.GetComponent<SimMovement>();
         projectileSimMovement.alignToVelocity = false;
-        projectileSimMovement.SetPositionVelocity(weaponOriginPos, projectileRotation, originSimMovement.velocity);
+        projectileSimMovement.SetPositionVelocity(weaponOriginPos, projectileRotation, (Vector2)originSimMovement.velocity);
 
-        this.dragging = false;
+        //this.dragging = false;
     }
 }
