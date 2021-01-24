@@ -81,7 +81,7 @@ public class Simulation : MonoBehaviour
 
     public void Register(ISimUpdate simUpdate)
     {
-        if(!this.simulatedObjects.Contains((MonoBehaviour)simUpdate))
+        if(this.simulatedObjects != null && !this.simulatedObjects.Contains((MonoBehaviour)simUpdate))
         {
             this.simulatedObjects.Add((MonoBehaviour)simUpdate);
         }    

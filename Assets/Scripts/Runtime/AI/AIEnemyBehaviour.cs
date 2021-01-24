@@ -1,10 +1,12 @@
-﻿// unset
-
-using AI.Behave;
+﻿using AI.Behave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
 {
@@ -23,11 +25,11 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     /// </summary>
     private class Idle : AI.Behave.Node
     {
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
             ai.aiController.DisableTargetVelocity(); 
-            return Result.Success;
+            return (Result.Success, this);
         }
     }
 
@@ -38,7 +40,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private class PeriodicUpdate : AI.Behave.Decorator
     {
         private readonly int intervalSimTicks;
-        private Result state = Result.Failure;
+        //private Result state = Result.Failure;
         private int nextUpdateTick = 0;
 
         public PeriodicUpdate(int intervalSimTicks, AI.Behave.Node child) : base(child)
@@ -46,15 +48,15 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             this.intervalSimTicks = intervalSimTicks;
         }
 
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
             if (ai.simulation.simTick > this.nextUpdateTick)
             {
                 this.nextUpdateTick = ai.simulation.simTick + this.intervalSimTicks;
-                this.state = this.child.Update(blackboard);
+                (this.lastResult, this.lastNode) = this.child.Update(blackboard);
             }
-            return this.state;
+            return (this.lastResult, this.lastNode);
         }
     }
 
@@ -62,18 +64,18 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     {
         public InvertResult(Node child) : base(child) {}
 
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
-            var result = this.child.Update(blackboard);
+            var (result, node) = this.child.Update(blackboard);
             if (result == Result.Failure)
             {
-                return Result.Success;
+                return (Result.Success, node);
             }
             else if (result == Result.Success)
             {
-                return Result.Failure;
+                return (Result.Failure, node);
             }
-            return result;
+            return (result, node);
         }
     }
     
@@ -137,7 +139,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                         bog.gravitySource.parameters.mass, bog.gravitySource.constants.GravitationalConstant));
                 });
 
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
             
@@ -150,15 +152,15 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                 ai.aiController.SetTargetVelocity(aiVel + newVelocity.Value * 20);
             }
 
-            return result;
+            return (result, this);
         }
 
-        protected static Vector2 ApisThrustVector(Vector2 velocity, Vector2 apsisVec)
+        protected static Vector2 ApsisThrustVector(Vector2 velocity, Vector2 apsisVec)
         {
             var tVec = Vector2.Perpendicular(apsisVec.normalized);
             var forward = velocity.normalized;
             var sideways = Vector2.Perpendicular(forward);
-            // Exclude any backwards thrust as it makes no sense when trying to raise an apsis (player velocity is always foward)
+            // Exclude any backwards thrust as it makes no sense when trying to raise an apsis (player velocity is always forward)
             var forwardComponent = forward * Mathf.Max(0, Vector2.Dot(forward, tVec));
             var sideComponent = sideways * Mathf.Sign(Vector2.Dot(sideways, tVec));
             var clampedVec = forwardComponent + sideComponent;
@@ -206,7 +208,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                 //Debug.Log($"{nextapsisVec}");
                 //Debug.DrawLine(aiPos, aiPos + Vector2.Perpendicular(nextapsisVec) * 3, Color.cyan, duration: 0.1f);
                 //Debug.DrawLine(aiPos, aiPos + aiVel.normalized * 3, Color.red, duration: 0.1f);
-                var clampedVec = ApisThrustVector(aiVel, nextapsisVec);
+                var clampedVec = ApsisThrustVector(aiVel, nextapsisVec);
                 //Debug.DrawLine(aiPos, aiPos + clampedVec * 20, Color.blue, duration: 0.1f);
                 return (Result.Running, clampedVec);
             }
@@ -231,7 +233,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             this.primary = FindObjectOfType<StarLogic>()?.GetComponent<BodyLogic>();
         }
 
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
             
@@ -239,9 +241,9 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             if (this.primary == default)
             {
                 // Height doesn't mean anything if there is no primary
-                return Result.Success;
+                return (Result.Success, this);
             }
-            return aiPos.magnitude > this.minHeight + this.primary.radius ? Result.Success : Result.Running;
+            return (aiPos.magnitude > this.minHeight + this.primary.radius ? Result.Success : Result.Running, this);
         }
     }
 
@@ -305,7 +307,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         }
         
         // Version using orbit prediction with periapsis check
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
             var ai = (AIEnemyBehaviour)blackboard;
 
@@ -313,7 +315,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             // Can't attack if player doesn't exist
             if (player == null)
             {
-                return Result.Failure;
+                return (Result.Failure, this);
             }
             
             var target = player.GetComponent<SimMovement>();
@@ -322,7 +324,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             // Can't attack while docked... We could perhaps go any lie in wait though?
             if (target.GetComponent<DockActive>()?.docked ?? false)
             {
-                return Result.Failure;
+                return (Result.Failure, this);
             }
             
             // We can only approach the target directly if they are in a "global" trajectory, i.e. not in orbit
@@ -332,7 +334,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             
             ai.aiController.SetTargetVelocity(this.GetVelocityToIntercept((Vector2)ai.transform.position, (Vector2)ai.simMovement.velocity, primary, targetPos, targetVel, followDistance));
 
-            return Result.Running;
+            return (Result.Running, this);
         }
 
         private (Vector3 targetPos, Vector3 targetVel, float followDistance) GetTargetSpec(SimMovement target, GravitySource primary)
@@ -381,8 +383,8 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             var targetOrbit = AnalyticOrbit.FromCartesianStateVector(
                 targetPos, targetVel, 
                 primary.parameters.mass, primary.constants.GravitationalConstant);
-            //ourOrbit.DebugDraw(Vector3.zero, Color.cyan, duration: 2);
-            //targetOrbit.DebugDraw(Vector3.zero, Color.blue, duration: 2);
+            ourOrbit.DebugDraw(Vector3.zero, Color.cyan, duration: 2);
+            targetOrbit.DebugDraw(Vector3.zero, Color.blue, duration: 2);
 
             // WIP
             //if(ourOrbit.periapsis <= )
@@ -397,7 +399,8 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                 // We are in the same orbit so lets try and intercept
                 
                 // 2. calculate a suitable time-of-flight based on distance to target + its orbit characteristics (maybe)
-                var tof = Vector3.Distance(aiPos, targetPos) * 0.5f;
+                var tof = MathX.TimeToCoverDistance(1f, Vector3.Distance(aiPos, targetPos) * 0.5f); 
+                    //Vector3.Distance(aiPos, targetPos) * 0.5f;
 
                 // 3. calculate the targets position at T+time-of-flight (this is the intercept point)
                 // orbits with eccentricty near 1 are unstable in this system, we will just fly to the player instead of predicting position
@@ -407,7 +410,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                 // 4. solve lambert equation for transfer from current position to this position
                 var (Vi, _) = GoodingSolver.Solve(primary.constants.GravitationalConstant * primary.parameters.mass,
                     aiPos, targetVel, interceptPos, tof, 0);
-                //Debug.DrawLine(aiPos, interceptPos, Color.cyan, duration: 2);
+                Debug.DrawLine(aiPos, interceptPos, Color.cyan, duration: 2);
                 return Vi;
             }
         }
@@ -437,10 +440,45 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                     )
                 )
             );
+        
+#if UNITY_EDITOR
+        Debug.Log(string.Join(",", Font.GetOSInstalledFontNames()));
+        this._debugStyle = new GUIStyle
+        {
+            font = Font.CreateDynamicFontFromOSFont("Consolas", 12),
+            normal = new GUIStyleState
+            {
+                textColor = Color.white
+            }
+            //Resources.GetBuiltinResource<Font>("consola.ttf")
+        };
+#endif
     }
     
     public void SimUpdate(Simulation simulation, int simTick, int timeStep) => this.tree.Update(this);
 
     public void SimRefresh(Simulation simulation) {}
 
+    #if UNITY_EDITOR
+    private GUIStyle _debugStyle;
+    private void OnDrawGizmos()
+    {
+        if (this.tree == null)
+        {
+            return;
+        }
+        var labels = new List<string>{ $"{this.gameObject.name}" };
+        this.tree.Visit((node, depth) =>
+        {
+            labels.Add(String.Empty.PadLeft(depth * 2, ' ')
+                       + node.name.PadRight(24 - depth * 2)
+                       + node.lastResult.ToString().PadRight(10)
+                       + node.tick.ToString().PadRight(10)
+            );
+            return node != this.tree.lastNode;
+        });
+        Handles.color = Color.white;
+        Handles.Label(this.transform.position, string.Join("\n", labels), this._debugStyle);
+    }
+    #endif
 }

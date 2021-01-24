@@ -1,5 +1,6 @@
 ﻿// unset
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,14 +12,40 @@ namespace AI.Behave
     {
         public enum Result
         {
+            None,
             Success,
             Failure,
-            Running
+            Running,
         }
 
-        public abstract Result Update(object blackboard);
+        public virtual string name => this.GetType().Name; 
+        public int tick { get; private set; } = 0;
+        public Result lastResult { get; protected set; }
+        public Node lastNode { get; protected set; }
 
-        public virtual void Reset() {}
+        public (Result result, Node node) Update(object blackboard)
+        {
+            (this.lastResult, this.lastNode) = this.UpdateImpl(blackboard);
+            if (this.lastResult == Result.Running)
+            {
+                ++this.tick;
+            }
+            else
+            {
+                this.tick = 0;
+            }
+            return (this.lastResult, this.lastNode);
+        }
+
+        public virtual bool Visit(Func<Node, int, bool> visitor, int depth = 0) => visitor(this, depth);
+
+        protected abstract (Result result, Node node) UpdateImpl(object blackboard);
+
+        public virtual void Reset()
+        {
+            this.lastResult = Result.None;
+            this.tick = 0;
+        }
     }
 
     public abstract class Decorator : Node
@@ -29,34 +56,41 @@ namespace AI.Behave
         {
             this.child = child;
         }
+        
+        public override bool Visit(Func<Node, int, bool> visitor, int depth = 0)
+        {
+            return base.Visit(visitor, depth) && this.child.Visit(visitor, depth + 1);
+        }
     }
 
     public class Tree : Node
     {
         private readonly Node root;
-        private string name;
+        public override string name { get; }
 
         public Tree(string name, Node root)
         {
             this.name = name;
             this.root = root;
         }
+        
+        public override bool Visit(Func<Node, int, bool> visitor, int depth = 0) => this.root.Visit(visitor);
 
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
-            var result = this.root.Update(blackboard);
+            var (result, node) = this.root.Update(blackboard);
             if (result != Result.Running)
             {
                 this.root.Reset();
             }
 
-            return result;
+            return (result, node);
         }
     }
     
     public abstract class ControlFlow : Node
     {
-        private string name;
+        public override string name { get; }
         protected readonly IList<Node> children;
 
         protected ControlFlow(string name, IEnumerable<Node> children)
@@ -74,10 +108,23 @@ namespace AI.Behave
         
         public override void Reset()
         {
+            base.Reset();
             foreach (var child in this.children)
             {
                 child.Reset();
             }
+        }
+        
+        public override bool Visit(Func<Node, int, bool> visitor, int depth = 0)
+        {
+            if (!base.Visit(visitor, depth))
+                return false;
+            foreach (var child in this.children)
+            {
+                if (!child.Visit(visitor, depth + 1))
+                    return false;
+            }
+            return true;
         }
     }
 
@@ -85,17 +132,19 @@ namespace AI.Behave
     {
         public Selector(string name, params Node[] nodes) : base(name, nodes) {}
 
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
             for (int i = 0; i < this.children.Count; i++)
             {
-                var result = this.children[i].Update(blackboard);
+                var t = this.children[i];
+                var (result, node) = t.Update(blackboard);
                 if (result != Result.Failure)
                 {
-                    return result;
+                    return (result, node);
                 }
             }
-            return Result.Failure;
+
+            return (Result.Failure, this);
         }
     }
 
@@ -105,23 +154,23 @@ namespace AI.Behave
 
         public Sequence(string name, params Node[] nodes) : base(name, nodes) {}
 
-        public override Result Update(object blackboard)
+        protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
             for (int i = this.childIndex; i < this.children.Count; i++)
             {
-                var result = this.children[i].Update(blackboard);
+                var (result, node) = this.children[i].Update(blackboard);
                 if (result != Result.Success)
                 {
-                    return result;
+                    return (result, node);
                 }
             }
-            return Result.Success;
+            return (Result.Success, this);
         }
 
         public override void Reset()
         {
-            this.childIndex = 0;
             base.Reset();
+            this.childIndex = 0;
         }
     }
 }

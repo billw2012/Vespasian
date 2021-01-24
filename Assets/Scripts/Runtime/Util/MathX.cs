@@ -285,4 +285,14 @@ public static class MathX
         return (false, 0);
         //throw new AggregateException("The solution does not converge or iterations are not sufficient");
     }
+
+    public static float StoppingDistance(float currSpeed, float finalSpeed, float acceleration) => Mathf.Pow(currSpeed - finalSpeed, 2) / (2f * acceleration);
+
+    public static float DistanceInTime(float currSpeed, float acceleration, float time)
+    {
+        return currSpeed * time + 0.5f * acceleration * time * time;
+    }
+
+    public static float DistanceInTime(float acceleration, float time) => 0.5f * acceleration * time * time;
+    public static float TimeToCoverDistance(float acceleration, float distance) => Mathf.Sqrt(2f * distance / acceleration);
 }

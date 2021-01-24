@@ -34,7 +34,7 @@ public class FuelTankBar : MonoBehaviour
             this.mainSlider.value = this.fuelTank.fuel;
             this.usageSlider.maxValue = this.fuelTank.fuel;
             // Get the jump fuel requirements for this specific tank
-            float jumpFuelUsage = this.engineController.GetFuelTankUsage(this.fuelTank, this.map.GetJumpFuelRequired());
+            float jumpFuelUsage = this.engineController.GetFuelTankUsage(this.fuelTank, this.map?.GetJumpFuelRequired() ?? 0);
             this.usageSlider.value = this.fuelTank.fuel - Mathf.Clamp(jumpFuelUsage, 0, this.fuelTank.fuel);
         }
         else
