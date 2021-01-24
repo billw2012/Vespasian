@@ -146,14 +146,8 @@ public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
             if (dataAvailable == DataMask.All)
             {
                 this.scannedBodies.Add(bodyRef);
-                this.notScannedBodies.RemoveAll(bodyRef.Equals);
-
-                bool notAllScanned = this.TargetBodies.FirstOrDefault<BodyRef>(tb =>
-                {
-                    var dataOnThisBody = playerDataCatalog.GetData(tb);
-                    return !dataOnThisBody.HasFlag(DataMask.All);
-                }) != null;
-                this.IsComplete = !notAllScanned;
+                this.notScannedBodies.RemoveAll(b=> b == bodyRef);
+                this.IsComplete = this.TargetBodies.All(tb => playerDataCatalog.GetData(tb).HasFlag(DataMask.All));
             }
         }
         return this.IsComplete;

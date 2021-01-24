@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.NRefactory.Ast;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
+using Attribute = System.Attribute;
 
 // This might be useful to solve problems with order of init on load, but not necessary yet.
 //
@@ -202,6 +204,8 @@ public class SaveSystem : MonoBehaviour
 
     private void Awake()
     {
+        const BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+        
         float startTime = Time.realtimeSinceStartup;
         // Find all registered savable types
         var allTypes = Assembly.GetExecutingAssembly().GetTypes();
@@ -210,19 +214,19 @@ public class SaveSystem : MonoBehaviour
             .Select(t => (type: t, attr: t.GetCustomAttributes(typeof(RegisterSavableTypeAttribute))?.OfType<RegisterSavableTypeAttribute>(), inherit: true))
             // All properties
             .Concat(allTypes
-                .SelectMany(t => t.GetProperties()
+                .SelectMany(t => t.GetProperties(flag)
                     .Select(p => (type: p.PropertyType, attr: p.GetCustomAttributes(typeof(RegisterSavableTypeAttribute))?.OfType<RegisterSavableTypeAttribute>(), inherit: true))
                 )
             )
             // All fields
             .Concat(allTypes
-                .SelectMany(t => t.GetFields()
+                .SelectMany(t => t.GetFields(flag)
                     .Select(f => (type: f.FieldType, attr: f.GetCustomAttributes(typeof(RegisterSavableTypeAttribute))?.OfType<RegisterSavableTypeAttribute>(), inherit: true))
                 )
             )
             // All methods
             .Concat(allTypes
-                .SelectMany(t => t.GetMethods()
+                .SelectMany(t => t.GetMethods(flag)
                     .Select(m => (type: default(Type), attr: m.GetCustomAttributes(typeof(RegisterSavableTypeAttribute))?.OfType<RegisterSavableTypeAttribute>(), inherit: true))
                 )
             )
@@ -270,12 +274,20 @@ public class SaveSystem : MonoBehaviour
     }
 
     [RegisterSavableType]
+    public class BodyRefWrapper
+    {
+        public int systemId;
+        public int bodyId;
+    }
+    
+    [RegisterSavableType]
     public class DictionaryWrapper : List<KeyValueWrapper> {}
     
     public class DictionarySurrogate : ISerializationSurrogateProvider //IDataContractSurrogate
     {
         public object GetObjectToSerialize(object obj, Type targetType)
         {
+            // Debug.Log($"{obj.GetType().Name} == {targetType.Name}");
             // Look for any Dictionary<> regardless of generic parameters
             if(obj.GetType().IsGenericType && obj.GetType().GetGenericTypeDefinition() == typeof(Dictionary<,>))
             {
@@ -285,6 +297,11 @@ public class SaveSystem : MonoBehaviour
                     wrapper.Add(new KeyValueWrapper{Key = kv.Key, Value = kv.Value});
                 }
                 return wrapper;
+            }
+            else if (obj.GetType() == typeof(BodyRef))
+            {
+                var bodyRef = (BodyRef)obj;
+                return new BodyRefWrapper { systemId = bodyRef.systemId, bodyId = bodyRef.bodyId };
             }
             return obj;
         }
@@ -301,6 +318,11 @@ public class SaveSystem : MonoBehaviour
                 }
                 return target;
             }
+            else if (obj.GetType() == typeof(BodyRefWrapper))
+            {
+                var bodyRefWrapper = (BodyRefWrapper)obj;
+                return new BodyRef(bodyRefWrapper.systemId, bodyRefWrapper.bodyId);
+            }
             return obj;
         }
 
@@ -311,7 +333,11 @@ public class SaveSystem : MonoBehaviour
             {
                 return typeof(DictionaryWrapper);
             }
-
+            else if (type == typeof(BodyRef))
+            {
+                return typeof(BodyRefWrapper);
+            }
+            
             return type;
         }
     }
@@ -398,23 +424,31 @@ public class SaveSystem : MonoBehaviour
                 {
                     if (data.TryGetValue(savable.Key, out var savedata))
                     {
-                        SaveData.LoadObject(savable.Value, savedata);
+                        try
+                        {
+                            SaveData.LoadObject(savable.Value, savedata);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception($"Failed to load object '{savable.Key}' ({ex.Message})");
+                        }
                     }
                 }
-
-                // Trigger post load behaviours
-                foreach(var postLoadSavable in this.saveables.Values.OfType<IPostLoadAsync>())
-                {
-                    await postLoadSavable.OnPostLoadAsync();
-                }
-
-                return true;
             }
             catch (Exception ex)
             {
                 Debug.LogError(ex.Message);
                 return false;
             }
+
+            // Trigger post load behaviours
+            foreach(var postLoadSavable in this.saveables.Values.OfType<IPostLoadAsync>())
+            {
+                await postLoadSavable.OnPostLoadAsync();
+            }
+
+            return true;
+
         }
         else
         {
@@ -433,6 +467,28 @@ public class SaveSystem : MonoBehaviour
         await DeleteFileAsync(GetSaveFilePath(index));
     }
 
+    public static void SaveComponents(ISaver saver, string prefix, GameObject go) =>
+        SaveComponents(saver, prefix, go.GetComponents<ISavable>());
+
+    public static void SaveComponents(ISaver saver, string prefix, IEnumerable<ISavable> savables)
+    {
+        foreach (var s in savables)
+        {
+            saver.SaveObject($"{prefix}.{s.GetType().Name}", s);   
+        }
+    }
+
+    public static void LoadComponents(ILoader loader, string prefix, GameObject go) => 
+        LoadComponents(loader, prefix, go.GetComponents<ISavable>());
+    
+    public static void LoadComponents(ILoader loader, string prefix, IEnumerable<ISavable> savables)
+    {
+        foreach (var s in savables)
+        {
+            loader.LoadObject($"{prefix}.{s.GetType().Name}", s);   
+        }
+    }
+    
     #region Save Helpers
 
     private static string GetSaveMetaFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.meta.xml");
@@ -448,7 +504,11 @@ public class SaveSystem : MonoBehaviour
         {
             using (var ms = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                var bf = new DataContractSerializer(typeof(T), this.knownTypes);
+                var dcsSettings = new DataContractSerializerSettings {
+                    PreserveObjectReferences = true,
+                    KnownTypes = this.knownTypes,
+                };
+                var bf = new DataContractSerializer(typeof(T), dcsSettings);
                 bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
                 return (T)bf.ReadObject(ms);
             }

@@ -19,7 +19,7 @@ public class SimMovementEditor : Editor
 
         float uiScale = HandleUtility.GetHandleSize(simMovement.transform.position) * 0.2f;
 
-        Handles.Label(simMovement.transform.position + (Vector3.right * 0.2f + Vector3.up) + simMovement.startVelocity * 0.5f, $"{simMovement.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
+        Handles.Label((Vector2)simMovement.transform.position + (Vector2.right * 0.2f + Vector2.up) + simMovement.startVelocity * 0.5f, $"{simMovement.gameObject.name}", UnityEditor.EditorStyles.whiteLargeLabel);
 
         if (simMovement.editorCurrPath?.Length > 1)
         {
@@ -53,7 +53,7 @@ public class SimMovementEditor : Editor
             //float scale = simMovement.constants.GameSpeedBase * 4f;
             var handlePos = simMovement.startVelocity * this.scale;
             Handles.DrawAAPolyLine(Vector3.zero, handlePos);
-            Handles.Label(handlePos + Vector3.right * 2 * uiScale, $"velocity: {simMovement.startVelocity}\nshift = lock angle\nctrl = lock magnitude");
+            Handles.Label(handlePos + Vector2.right * 2 * uiScale, $"velocity: {simMovement.startVelocity}\nshift = lock angle\nctrl = lock magnitude");
             EditorGUI.BeginChangeCheck();
             var newValue = Handles.Slider2D(
                 id,
@@ -128,7 +128,7 @@ public class SimMovementEditor : Editor
 
         var orbit = AnalyticOrbit.FromCartesianStateVector(
             simMovement.transform.position, 
-            Application.isPlaying? simMovement.velocity : simMovement.startVelocity, 
+            Application.isPlaying? simMovement.velocity : (Vector3)simMovement.startVelocity, 
             sun.parameters.mass,
             sun.constants.GravitationalConstant);
         Handles.color = Color.yellow;

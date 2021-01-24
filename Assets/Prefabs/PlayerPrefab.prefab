@@ -714,7 +714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   controlledRigidbody: {fileID: 3664154167166374825}
-  startVelocity: {x: 0, y: 0, z: 0}
+  startVelocity: {x: 1.1627494, y: 1.6547124, z: 0}
   alignToVelocity: 1
   pathRendererAsset: {fileID: 5168330289270263234, guid: aec865bf271549444a0b56f269374ce5,
     type: 3}
@@ -727,7 +727,18 @@ MonoBehaviour:
   collisionRadius: 0.83
   OnCrashed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1408795510517265554}
+        m_MethodName: Kill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1408795510517265554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -744,6 +755,20 @@ MonoBehaviour:
   gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
   maxHullHP: 1
   allowDamage: 1
+  onKilled:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
+        m_MethodName: LoseGameAsync
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7620224551109491988
 MonoBehaviour:
   m_ObjectHideFlags: 0

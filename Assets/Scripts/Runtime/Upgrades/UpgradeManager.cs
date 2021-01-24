@@ -86,6 +86,8 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
             {
                 this.Upgrade(upgradeDef);
             }
+
+            this.initialUpgrades = null;
         }
     }
 
@@ -241,6 +243,9 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
                 loader.LoadObject("Upgrade." + upgradeLogic.upgradeDef.name, upgradeLogic as ISavable);
             }
         }
+        
+        // Ensure we don't add the initial upgrades as well as the loaded ones
+        this.initialUpgrades = null;
     }
     #endregion ISavableCustom
 }

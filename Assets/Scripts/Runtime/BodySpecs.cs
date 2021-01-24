@@ -101,9 +101,15 @@ public class BodySpecs : ScriptableObject
     [Serializable]
     public class AIShip
     {
+        public string name;
+        public string id = Guid.NewGuid().ToString();
+
         public GameObject prefab;
+        
         [Tooltip("Chance of this AI ship type occurring"), Range(0, 1)]
         public float probability = 1;
+
+        public Faction.FactionType faction = Faction.FactionType.None;
     }
     
     public List<AIShip> aiShips;
@@ -118,9 +124,11 @@ public class BodySpecs : ScriptableObject
 
     public CometSpec RandomComet(RandomX rng) => MatchedRandom(rng, this.comets, c => true);
 
-    public AIShip RandomAIShip(RandomX rng) => this.aiShips.SelectWeighted(rng.value, s => s.probability); 
+    public AIShip RandomAIShip(RandomX rng, Faction.FactionType factions) => this.aiShips.Where(s =>
+        (s.faction & factions) != Faction.FactionType.None).SelectWeighted(rng.value, s => s.probability); 
     
     public BodySpec GetSpecById(string id) => this.all.FirstOrDefault(b => b.id == id);
+    public AIShip GetAIShipSpecById(string id) => this.aiShips.FirstOrDefault(s => s.id == id);
 
     public float PlanetTemp(float distance, float starLum) => this.planetTempMultiplier * 2500f * Mathf.Pow(this.Power(distance, starLum), 0.25f);
 

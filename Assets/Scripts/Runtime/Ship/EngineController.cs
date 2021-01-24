@@ -28,11 +28,10 @@ public class EngineController : MonoBehaviour
     // x is +right/-left, y is +forward/-backward
     [NonSerialized]
     public Vector2 thrust = Vector2.zero;
-
+    
     private SimMovement movement;
     private Vector2 prevThrust;
-
-
+    
     private void Start()
     {
         this.movement = this.GetComponentInParent<SimMovement>();
@@ -153,7 +152,7 @@ public class EngineController : MonoBehaviour
             amount = tank.AddFuelWithRemainder(amount);
         }
     }
-
+    
     public IList<(FuelTankComponent tank, float amount)> GetFuelTankUsage(float amount)
     {
         var usage = new List<(FuelTankComponent tank, float amount)>();

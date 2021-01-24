@@ -460,8 +460,8 @@ MonoBehaviour:
   OnCrashed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6249192102665454385}
-        m_MethodName: Destroy
+      - m_Target: {fileID: 3239463406051363517}
+        m_MethodName: Kill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -487,6 +487,9 @@ MonoBehaviour:
   gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
   maxHullHP: 1
   allowDamage: 1
+  onKilled:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6249192102665454395
 MonoBehaviour:
   m_ObjectHideFlags: 0

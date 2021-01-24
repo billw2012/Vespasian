@@ -5,10 +5,10 @@ public class Scannable : EffectSource
 {
     public float scannedObjectRadius;
 
-    [NonSerialized, Saved] public float scanProgress = 0;
+    [Saved]
+    public float scanProgress { get; private set; } = 0;
 
-    [NonSerialized]
-    public bool scanning = false;
+    public bool scanning { get; private set; } = false;
 
     public override bool IsComplete() => this.scanProgress >= 1.0f;
 

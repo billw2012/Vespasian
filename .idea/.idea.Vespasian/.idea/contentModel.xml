@@ -247,6 +247,8 @@
                 <e p="Node.cs" t="Include" />
               </e>
               <e p="Faction.cs" t="Include" />
+              <e p="FactionExpansion.cs" t="Include" />
+              <e p="FactionSpawns.cs" t="Include" />
             </e>
             <e p="BodySpecs.cs" t="Include" />
             <e p="Effects" t="Include">

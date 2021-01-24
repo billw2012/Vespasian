@@ -43,7 +43,7 @@ class Discoverable : MonoBehaviour, ISavable
         }
 
         this.dataCatalog = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
-        this.bodyRef = this.GetComponent<BodyGenerator>()?.BodyRef;
+        this.bodyRef = this.GetComponent<BodyGenerator>()?.BodyRef ?? BodyRef.Invalid;
     }
 
     private void Update() => this.EnableAllRenderers(this.discovered);

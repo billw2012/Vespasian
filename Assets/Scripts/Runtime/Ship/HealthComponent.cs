@@ -1,5 +1,6 @@
 ﻿using IngameDebugConsole;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HealthComponent : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class HealthComponent : MonoBehaviour
     [Tooltip("Is damage allowed?")]
     public bool allowDamage = true;
 
+    public UnityEvent onKilled;
+    
     public float hull => this.hullHP / this.maxHullHP;
     public float shield {
         get {
@@ -75,10 +78,16 @@ public class HealthComponent : MonoBehaviour
             this.lastDamageDirection = direction.normalized;
         }
 
-        if (this.hull == 0 && this.GetComponent<PlayerController>() != null)
+        if (this.hull == 0)
         {
-            this.gameLogic.LoseGameAsync();
+            this.Kill();
         }
+    }
+
+    public void Kill()
+    {
+        this.hullHP = 0;
+        this.onKilled?.Invoke();
     }
 
     public void AddHull(float amount)

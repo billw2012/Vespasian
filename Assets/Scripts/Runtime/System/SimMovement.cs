@@ -18,7 +18,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 
     public Rigidbody controlledRigidbody;
 
-    public Vector3 startVelocity;
+    public Vector2 startVelocity;
     public bool alignToVelocity = true;
 
     [Tooltip("Used to render the simulated path sections")]
@@ -48,7 +48,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     public List<SimModel.SphereOfInfluence> sois = new List<SimModel.SphereOfInfluence>();
 
     private SectionedSimPath path;
-    private Vector3 force = Vector3.zero;
+    private Vector2 force = Vector2.zero;
 
     private class SoiPathSectionRenderer
     {
@@ -139,21 +139,21 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
     }
 
-    public void SetVelocity(Vector3 velocity)
+    public void SetVelocity(Vector2 velocity)
     {
         this.startVelocity = velocity;
         this.force = Vector3.zero;
         this.SimRefresh(FindObjectOfType<Simulation>());
     }
 
-    public void SetPositionVelocity(Vector3 position, Quaternion rotation, Vector3 velocity)
+    public void SetPositionVelocity(Vector2 position, Quaternion rotation, Vector2 velocity)
     {
         this.transform.position = position;
         this.transform.rotation = rotation;
         this.SetVelocity(velocity);
     }
 
-    public void AddForce(Vector3 force)
+    public void AddForce(Vector2 force)
     {
         this.force += force;
     }

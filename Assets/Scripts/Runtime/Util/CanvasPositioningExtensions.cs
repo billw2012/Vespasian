@@ -38,6 +38,9 @@ public static class CanvasPositioningExtensions
         return canvas.ViewportToCanvasPosition(viewportPosition);
     }
 
+    
+    
+    
     public static Rect ScreenToCanvasRect(this Canvas canvas, Rect screenRect)
     {
         var viewportRectMin = new Vector2(screenRect.xMin / Screen.width,

@@ -35,10 +35,4 @@ public class AIController : ControllerBase
             this.SetThrustGlobal(Vector2.zero);
         }
     }
-
-    public void Destroy()
-    {
-        // Don't destroy it, we can clean it up when we leave the system
-        this.gameObject.SetActive(false);
-    }
 }

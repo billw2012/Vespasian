@@ -11,7 +11,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     
     protected float cooldownRemaining = 0;
     
-    private GameConstants.Faction ownFaction;
+    private Faction.FactionType ownFaction;
     protected Simulation simulation;
 
     private void Awake()

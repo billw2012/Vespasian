@@ -21,6 +21,7 @@ public abstract class Body
     private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;
 
+    // Parameterless constructor required for serialization
     public Body() {}
 
     public Body(int systemId)
@@ -61,6 +62,11 @@ public abstract class Body
         this.activeInstance = null;
         this.savables = null;
     }
+    
+    /// <summary>
+    /// Call when saving the game to ensure latest state is serialized
+    /// </summary>
+    public void Saving() => this.SaveComponents();
 
     protected virtual GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
@@ -82,7 +88,7 @@ public abstract class Body
 
     protected abstract void ApplyInternal(GameObject target, RandomX rng);
 
-    public void LoadComponents()
+    private void LoadComponents()
     {
         if(this.savedComponents != null)
         {
@@ -96,7 +102,7 @@ public abstract class Body
         }
     }
 
-    public void SaveComponents()
+    private void SaveComponents()
     {
         this.savedComponents = new Dictionary<string, SaveData>();
 
@@ -137,11 +143,15 @@ public abstract class Body
     public virtual ICollection<DataEntry> GetData(DataMask mask, BodySpecs specs) => Enumerable.Empty<DataEntry>().ToList();
 
     public virtual int GetDataCreditValue(DataMask data) => 0;
+
 }
 
+[RegisterSavableType]
 public abstract class OrbitingBody : Body
 {
     public OrbitParameters parameters = OrbitParameters.Zero;
+
+    [RegisterSavableType]
     public List<OrbitingBody> children = new List<OrbitingBody>();
 
     public OrbitingBody() { }
@@ -358,16 +368,22 @@ public class Link : IEquatable<Link>
 /// <summary>
 /// References a body by system and body ids
 /// </summary>
-public class BodyRef 
+[RegisterSavableType]
+public struct BodyRef 
 {
     public int systemId;
     public int bodyId;
+    
+    public bool isSystem => this.bodyId == -1;
+    public bool isValid => this.systemId != -1;
 
-    public BodyRef()
-    {
-        this.systemId = -1;
-        this.bodyId = -1;
-    }
+    public static readonly BodyRef Invalid = new BodyRef(-1, -1);
+
+    // public BodyRef()
+    // {
+    //     this.systemId = -1;
+    //     this.bodyId = -1;
+    // }
     
     public BodyRef(int systemId, int bodyId)
     {
@@ -388,32 +404,10 @@ public class BodyRef
         this.bodyId = other.bodyId;
     }
         
-    public override bool Equals(object obj)
-    {
-        if (ReferenceEquals(null, obj))
-        {
-            return false;
-        }
+    public bool EqualsSystem(BodyRef other) => this.systemId == other.systemId;
 
-        if (ReferenceEquals(this, obj))
-        {
-            return true;
-        }
-
-        if (obj.GetType() != this.GetType())
-        {
-            return false;
-        }
-
-        return Equals((BodyRef) obj);
-    }
-
-    public bool EqualsSystem(BodyRef other)
-    {
-        return this.systemId == other.systemId;
-    }
-
-    private bool Equals(BodyRef other) => this.systemId == other.systemId && this.bodyId == other.bodyId;
+    public bool Equals(BodyRef other) => this.systemId == other.systemId && this.bodyId == other.bodyId;
+    public override bool Equals(object obj) => obj is BodyRef other && Equals(other);
 
     public override int GetHashCode()
     {
@@ -432,7 +426,7 @@ public class BodyRef
 
 public class SolarSystem
 {
-    public int id;
+    public BodyRef id;
 
     /// <summary>
     /// Primary direction the bodies orbit, rarely a body will orbit in the opposite direction.
@@ -477,7 +471,7 @@ public class SolarSystem
 
     public SolarSystem(int id)
     {
-        this.id = id;
+        this.id = new BodyRef(id);
     }
     
     public void Unload()
@@ -497,7 +491,7 @@ public class SolarSystem
     {
         foreach (var body in this.AllBodies())
         {
-            body.SaveComponents();
+            body.Saving();
         }
     }
 
@@ -518,27 +512,12 @@ public class SolarSystem
             cometObject.transform.SetParent(rootBody.transform, worldPositionStays: false);
         }
 
-        var rng = new RandomX();
-        int enemyAICount = (int) rng.Range(0, this.danger * 4);
-        for (int i = 0; i < enemyAICount; i++)
+        var factions = Object.FindObjectsOfType<Faction>();
+        foreach (var faction in factions)
         {
-            var enemySpec = bodySpecs.RandomAIShip(rng);
-            var newEnemy = UnityEngine.Object.Instantiate(enemySpec.prefab, rootBody.transform);
-            newEnemy.GetComponent<SimMovement>().SetPositionVelocity(
-                Quaternion.Euler(0, 0, rng.Range(0, 360)) * Vector3.right * rng.Range(this.size * 0.25f, this.size * 1.25f),
-                Quaternion.Euler(0, 0, rng.Range(0, 360)), 
-                Vector2.right
-                );
+            faction.SpawnSystem(this, rootBody);
         }
 
-        // var factions = Object.FindObjectsOfType<Faction>();
-        // foreach (var faction in factions)
-        // {
-        //     foreach (var station in faction.stations.Where(s => s.systemId == this.id))
-        //     {
-        //         var stationObject = Object.Instantiate(faction.stationPrefab);
-        //     }
-        // }
         // We load the new system first and wait for it before unloading the previous one
         await new WaitUntil(() => rootBody.activeSelf);
         int beforeYieldFrame = Time.frameCount;
@@ -567,7 +546,7 @@ public class Map : ISavable
 
     public void AddSystem(SolarSystem system)
     {
-        Assert.AreEqual(system.id, NextSystemId);
+        Assert.AreEqual(system.id.systemId, NextSystemId);
         this.systems.Add(system);
     }
     

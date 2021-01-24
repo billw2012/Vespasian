@@ -1279,7 +1279,7 @@ MonoBehaviour:
       max: 0.95
     minApproach: 10
   stations:
-  - name: Space Station
+  - name: Player Space Station
     id: be9ff418-58da-4a88-b405-fd4a58110f6d
     prefab: {fileID: 6031893901637196809, guid: 9d0fa1a051305f749ac266c469dbdd7e,
       type: 3}
@@ -1290,6 +1290,9 @@ MonoBehaviour:
     priority: 0
     probability: 1
   aiShips:
-  - prefab: {fileID: 6249192102665454387, guid: 617e6cc037a847e43b3ddf64a3191e7e,
+  - name: Basic Pirate
+    id: 438b3069-897e-449c-96cd-1238061ac0a0
+    prefab: {fileID: 6249192102665454387, guid: 617e6cc037a847e43b3ddf64a3191e7e,
       type: 3}
     probability: 1
+    faction: 2

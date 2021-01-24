@@ -12,10 +12,10 @@ public class Mineable : EffectSource
     [Tooltip("Renders sprite with radius where we can mine this from")]
     public SpriteRenderer miningRadiusRenderer;
 
-    [NonSerialized, Saved] public float miningProgress = 0; // Ranges 0..1
+    [Saved]
+    public float miningProgress { get; private set; } = 0; // Ranges 0..1
 
-    [NonSerialized]
-    public bool beingMined = false; // Set by Mine() call on each frame
+    public bool beingMined { get; private set; } = false; // Set by Mine() call on each frame
 
     public bool destroyed => !this.asteroidLogic.enabled;
 

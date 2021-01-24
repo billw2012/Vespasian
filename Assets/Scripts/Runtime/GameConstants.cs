@@ -32,12 +32,4 @@ public class GameConstants : ScriptableObject
     {
         return Camera.main.orthographicSize * pixels / Screen.width;
     }
-
-    public enum Faction
-    {
-        None,
-        Player,
-        Pirate,
-        Alien
-    }
 }

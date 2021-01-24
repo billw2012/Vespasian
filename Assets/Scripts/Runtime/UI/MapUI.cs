@@ -24,7 +24,7 @@ public class MapUI : MonoBehaviour, IUILayer
     {
         this.mapComponent = FindObjectOfType<MapComponent>();
         this.CreateMap();
-        this.mapComponent.MapGenerated += this.CreateMap;
+        this.mapComponent.mapGenerated.AddListener(this.CreateMap);
     }
 
     private void OnEnable()

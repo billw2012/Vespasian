@@ -4,23 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
+using UnityEngine.Events;
 
 public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, IPostLoadAsync
 {
-    public GUILayerManager uiManager;
-    public BodySpecs bodySpecs;
-    public MapGenerator mapGenerator;
+    [SerializeField]
+    private GUILayerManager uiManager = null;
+    public BodySpecs bodySpecs = null;
+    [SerializeField]
+    private MapGenerator mapGenerator = null;
 
-    [NonSerialized, Saved]
-    public Map map;
+    [Saved]
+    public Map map { get; private set; }
 
     /// <summary>
     /// System the player is currently in
     /// </summary>
-    [NonSerialized]
-    public SolarSystem currentSystem;
+    public SolarSystem currentSystem { get; private set; }
     
     /// <summary>
     /// System selected in the UI
@@ -28,16 +28,16 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     public SolarSystem selectedSystem { get; set; }
 
     //public delegate void MapGenerated();
-    public event Action MapGenerated;
+    public UnityEvent mapGenerated;
     
-    private Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
-
     public SolarSystem jumpTarget { get; private set; }
 
     private PlayerController player;
     private DockActive playerDockActive;
 
     private UpgradeComponentProxy<WarpComponent> warpComponent;
+
+    private Lazy<List<SolarSystem>> jumpTargets = new Lazy<List<SolarSystem>>(() => new List<SolarSystem>());
 
     //// Start is called before the first frame update
     //void Awake()
@@ -56,11 +56,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         this.playerDockActive = this.player?.GetComponentInChildren<DockActive>();
         this.warpComponent = this.player?.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
 
-        var saveSystem = FindObjectOfType<SaveSystem>();
-        if (saveSystem != null)
-        {
-            saveSystem.RegisterForSaving(this);
-        }
+        FindObjectOfType<SaveSystem>()?.RegisterForSaving(this);
     }
 
     //void Update()
@@ -96,7 +92,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     public async Task GenerateMapAsync()
     {
         this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs);
-        this.MapGenerated?.Invoke();
+        this.mapGenerated?.Invoke();
     }
 
     public void GenerateMap()
@@ -169,10 +165,10 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
 
     public async Task LoadStartingSystemAsync()
     {
-        var faction = FindObjectOfType<Faction>();
-        if(faction && faction.stations.Any())
+        var factionExansion = FindObjectOfType<FactionExpansion>();
+        if(factionExansion != null && factionExansion.stations.Any())
         {
-            var randomFactionStation = faction.stations.SelectRandom();
+            var randomFactionStation = factionExansion.stations.SelectRandom();
             StationLogic stationToDockAt = null;
             await this.JumpAsync(this.map.systems[randomFactionStation.systemId], () =>
             {
@@ -251,7 +247,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         }
         else
         {
-            this.dockTargetBodyRef = null;
+            this.dockTargetBodyRef = BodyRef.Invalid;
         }
     }
     #endregion
@@ -262,7 +258,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         // We need to load into the current system after game save load is complete
         await this.LoadSystemAsync(null, this.currentSystem);
         
-        if (this.dockTargetBodyRef != null)
+        if (this.dockTargetBodyRef.isValid)
         {
             var dockTarget = FindObjectsOfType<BodyGenerator>().FirstOrDefault(b => b.BodyRef == this.dockTargetBodyRef);
             Assert.IsNotNull(dockTarget, $"Couldn't find docking target with BodyRef {this.dockTargetBodyRef}");
