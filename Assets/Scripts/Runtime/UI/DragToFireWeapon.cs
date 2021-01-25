@@ -21,7 +21,7 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
 
     private Vector2 lastOnDragPos;
 
-    void Start()
+    private void Start()
     {
         this.fireDirectionLineRenderer.enabled = false;
     }
@@ -33,7 +33,7 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
         this.dragging = true;
     }
 
-    void Update()
+    private void Update()
     {
         if (this.dragging)
         {

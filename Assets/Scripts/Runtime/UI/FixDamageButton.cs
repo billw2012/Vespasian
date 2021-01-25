@@ -4,18 +4,24 @@ using UnityEngine.UI;
 
 public class FixDamageButton : MonoBehaviour
 {
-    public Image buttonImage;
-    public Button button;
-    public TMP_Text buttonText;
-    public float fixCostPerHP = 100f;
+    [SerializeField]
+    private float fixCostPerHP = 100f;
     
     private PlayerController player;
     private int repairCost;
     private float repairHP;
     private Missions missions;
 
+    private Image buttonImage;
+    private Button button;
+    private TMP_Text buttonText;
+
     private void Awake()
     {
+        this.buttonImage = this.GetComponentInChildren<Image>();
+        this.button = this.GetComponentInChildren<Button>();
+        this.buttonText = this.GetComponentInChildren<TMP_Text>();
+
         this.player = FindObjectOfType<PlayerController>();
         this.missions = FindObjectOfType<Missions>();
         this.button.onClick.AddListener(() =>

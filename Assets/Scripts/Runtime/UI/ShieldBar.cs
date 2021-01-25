@@ -1,11 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
 public class ShieldBar : MonoBehaviour
 {
-    public PlayerController player;
+    private PlayerController player;
+
+    private void Awake()
+    {
+        this.player = FindObjectOfType<PlayerController>();
+    }
 
     private void Update()
     {
