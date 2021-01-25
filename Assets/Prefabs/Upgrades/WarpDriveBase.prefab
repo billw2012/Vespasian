@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7939123713195196757}
   - component: {fileID: 1066362898332166737}
   m_Layer: 0
-  m_Name: WarpDrive
+  m_Name: WarpDriveBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,4 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b0f53fef7214d479c4c5a10110bf29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   fuelUsageRate: 1
+  fuelBaseCost: 0.5
+  accuracyRequirementFalloff: 0.38
+  accuracyRequirementScaling: 0.79

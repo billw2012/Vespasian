@@ -714,8 +714,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
   controlledRigidbody: {fileID: 3664154167166374825}
-  startVelocity: {x: 1.1627494, y: 1.6547124, z: 0}
+  startVelocity: {x: 1.1627494, y: 1.6547124}
   alignToVelocity: 1
+  alignSmoothTime: 0.01
+  alignMaxSpeedDegPerSec: 360
   pathRendererAsset: {fileID: 5168330289270263234, guid: aec865bf271549444a0b56f269374ce5,
     type: 3}
   soiMarkerAsset: {fileID: 5328351541723600180, guid: 8430562055167c447b0a277c12a8cbbd,

@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7140626014988766085, guid: e0dfc2a90e8151442b10146c296cedde,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140626014988766085, guid: e0dfc2a90e8151442b10146c296cedde,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.29396662
+      objectReference: {fileID: 0}
     - target: {fileID: 7349449553577510382, guid: e0dfc2a90e8151442b10146c296cedde,
         type: 3}
       propertyPath: m_Name
-      value: Weapon Laser Base
+      value: Weapon Laser Mk 1
       objectReference: {fileID: 0}
     - target: {fileID: 7970414571123304765, guid: e0dfc2a90e8151442b10146c296cedde,
         type: 3}

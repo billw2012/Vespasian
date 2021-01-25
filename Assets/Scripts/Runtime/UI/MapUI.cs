@@ -68,12 +68,6 @@ public class MapUI : MonoBehaviour, IUILayer
                 instScript.system = s;
                 instScript.mapComponent = this.mapComponent;
                 instScript.mapUi = this;
-
-                // Enable mission marker if there is a mission in this sytem
-                if (missions.HasActiveMissionsInSystem(new BodyRef(s.id)))
-                {
-                    instScript.missionMarkerEnabled = true;
-                }
             }
         }
     }

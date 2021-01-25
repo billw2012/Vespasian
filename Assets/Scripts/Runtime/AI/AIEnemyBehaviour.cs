@@ -410,36 +410,26 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                 // 4. solve lambert equation for transfer from current position to this position
                 var (Vi, _) = GoodingSolver.Solve(primary.constants.GravitationalConstant * primary.parameters.mass,
                     aiPos, targetVel, interceptPos, tof, 0);
-                Debug.DrawLine(aiPos, interceptPos, Color.cyan, duration: 2);
+                Debug.DrawLine(aiPos, interceptPos, Color.red, duration: 2);
+                var interceptOrbit = AnalyticOrbit.FromCartesianStateVector(
+                    aiPos, Vi, 
+                    primary.parameters.mass, primary.constants.GravitationalConstant);
+                interceptOrbit.DebugDraw(Vector3.zero, Color.red, duration: 2);
                 return Vi;
+                
+                //TODO: avoidance requirements can be reduced if intercept orbits are more reliable, e.g. fix orbit direction, ensure duration allows keeping peri high, or just enforce peri
+                // might need to compare phases?
             }
         }
     }
     
-    private void Awake()
+    private void Start()
     {
         this.simMovement = this.GetComponent<SimMovement>();
         this.simulation = FindObjectOfType<Simulation>();
         this.aiController = this.GetComponent<AIController>();
 
         //this.rng = new RandomX();
-        
-        this.tree = new AI.Behave.Tree("AI enemy behaviour",
-            new PeriodicUpdate(60,
-                new AI.Behave.Selector("Priority selector",
-                    // Avoid collisions as highest priority
-                    new RaiseOrbit((bog, o) => 20f + bog.orbit.absoluteVelocity.magnitude * 3f, 10),
-                    new Sequence("Intercept maneuver",
-                        // Raise orbit height before intercepting the target, to ensure we have some space to maneuver
-                        new InvertResult(new RaiseOrbit((_, __) => 30, 20)),
-                        new CoastUntilHeight(25),
-                        new InterceptTarget(this.shipFollowDistance)
-                        ),
-                    new StayInSystem(),
-                    new Idle()
-                    )
-                )
-            );
         
 #if UNITY_EDITOR
         Debug.Log(string.Join(",", Font.GetOSInstalledFontNames()));
@@ -455,9 +445,27 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
 #endif
     }
     
-    public void SimUpdate(Simulation simulation, int simTick, int timeStep) => this.tree.Update(this);
+    public void SimUpdate(Simulation simulation, int simTick, int timeStep) => this.tree?.Update(this);
 
-    public void SimRefresh(Simulation simulation) {}
+    public void SimRefresh(Simulation simulation)
+    {
+        this.tree = new AI.Behave.Tree("AI enemy behaviour",
+            new PeriodicUpdate(60,
+                new AI.Behave.Selector("Priority selector",
+                    // Avoid collisions as highest priority
+                    new RaiseOrbit((bog, o) => 20f + bog.orbit.absoluteVelocity.magnitude * 3f, 10),
+                    new Sequence("Intercept maneuver",
+                        // Raise orbit height before intercepting the target, to ensure we have some space to maneuver
+                        new InvertResult(new RaiseOrbit((_, __) => 30, 20)),
+                        new CoastUntilHeight(25),
+                        new InterceptTarget(this.shipFollowDistance)
+                    ),
+                    new StayInSystem(),
+                    new Idle()
+                )
+            )
+        );
+    }
 
     #if UNITY_EDITOR
     private GUIStyle _debugStyle;

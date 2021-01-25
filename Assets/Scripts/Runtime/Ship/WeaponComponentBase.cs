@@ -14,7 +14,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     private Faction.FactionType ownFaction;
     protected Simulation simulation;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         this.ownFaction = this.GetComponentInParent<ControllerBase>().faction;
         this.simulation = FindObjectOfType<Simulation>();
@@ -46,7 +46,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     protected abstract void Fire(ControllerBase target);
     
     public UpgradeDef upgradeDef { get; private set; }
-    public void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
-    public void TestFire() => throw new System.NotImplementedException();
-    public void Uninstall() => throw new System.NotImplementedException();
+    public virtual void Install(UpgradeDef upgradeDef) => this.upgradeDef = upgradeDef;
+    public virtual void TestFire() {}
+    public virtual void Uninstall() {}
 }

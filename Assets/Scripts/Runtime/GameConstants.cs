@@ -32,4 +32,6 @@ public class GameConstants : ScriptableObject
     {
         return Camera.main.orthographicSize * pixels / Screen.width;
     }
+
+    public float FuelUsageBaseRate = 2.5f;
 }

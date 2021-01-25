@@ -17,6 +17,21 @@ PrefabInstance:
       propertyPath: firingRange
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 7140626014988766085, guid: e0dfc2a90e8151442b10146c296cedde,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140626014988766085, guid: e0dfc2a90e8151442b10146c296cedde,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.77467656
+      objectReference: {fileID: 0}
+    - target: {fileID: 7140626014988766085, guid: e0dfc2a90e8151442b10146c296cedde,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7349449553577510382, guid: e0dfc2a90e8151442b10146c296cedde,
         type: 3}
       propertyPath: m_Name

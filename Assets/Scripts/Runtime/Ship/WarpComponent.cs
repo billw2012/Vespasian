@@ -12,15 +12,20 @@ using Random = UnityEngine.Random;
 //   Might still be better to just have it separate as it is already encapsulated. Not sure...
 public class WarpComponent : MonoBehaviour, IUpgradeLogic
 {
-    public float fuelUsageRate = 1;
+    [SerializeField]
+    private GameConstants constants = null;
 
-    [Tooltip("How quickly efficiency drops off relative to divergence from the perfect exit trajectory"), Range(0.2f, 3f)]
-    public float accuracyRequirementFalloff = 0.38f;
-    [Tooltip("Multiplier for total effect of the accuracy"), Range(0f, 1.25f)]
-    public float accuracyRequirementScaling = 0.79f;
+    [SerializeField]
+    private float fuelUsageRate = 1;
+    
+    [SerializeField]
+    private float fuelBaseCost = .5f;
 
-    private const float FuelUsageBaseRate = 2.5f;
-
+    [Tooltip("How quickly efficiency drops off relative to divergence from the perfect exit trajectory"), Range(0.2f, 3f), SerializeField]
+    private float accuracyRequirementFalloff = 0.38f;
+    [Tooltip("Multiplier for total effect of the accuracy"), Range(0f, 1.25f), SerializeField]
+    private float accuracyRequirementScaling = 0.79f;
+    
     private PlayerController player;
     private SimMovement playerMovement;
     private EngineController engine;
@@ -39,7 +44,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
             return 0;
         }
         var warpRouteVector = to.position - from.position;
-        float baseCost = warpRouteVector.magnitude * FuelUsageBaseRate;
+        float distanceCost = warpRouteVector.magnitude * this.constants.FuelUsageBaseRate;
 
         // var playerAngle = ;
         // See https://www.desmos.com/calculator/50kd2kcivr
@@ -48,7 +53,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
             float divergence = Vector2.Angle(this.playerMovement.velocity.normalized, warpRouteVector) / 180f;
             return Mathf.Pow(divergence, this.accuracyRequirementFalloff) * this.accuracyRequirementScaling;
         }
-        return baseCost * (1 + FuelEfficiency()) * this.fuelUsageRate;
+        return distanceCost * (this.fuelBaseCost + FuelEfficiency()) * this.fuelUsageRate;
     }
 
     public bool CanJump(SolarSystem from, SolarSystem to) => this.player.GetComponentInChildren<FuelTankComponent>().fuel >= this.GetJumpFuelRequired(from, to);

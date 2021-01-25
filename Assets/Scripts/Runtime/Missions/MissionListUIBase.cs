@@ -5,7 +5,7 @@ public abstract class MissionListUIBase : MonoBehaviour
 {
     public GameObject grid;
 
-    protected Missions missions;
+    public Missions missions { get; private set; }
 
     private void OnEnable()
     {
@@ -14,15 +14,9 @@ public abstract class MissionListUIBase : MonoBehaviour
         this.InitUI();
     }
 
-    protected virtual void InitUI()
-    {
-        this.UpdateUI();
-    }
-    
-    protected virtual void UpdateUI()
-    {
-        this.UpdateList();
-    }
+    protected virtual void InitUI() => this.UpdateUI();
+
+    protected virtual void UpdateUI() => this.UpdateList();
 
     private void UpdateList()
     {
