@@ -10,7 +10,7 @@ public class ControllerBase : MonoBehaviour, ISavable, ISavableCustom
     private UpgradeComponentProxy<ThrustComponent> thrustComponentProxy;
     private ThrustComponent thrustComponent;
     
-    private void Start()
+    protected void Start()
     {
         this.thrustComponentProxy = this.GetComponent<UpgradeManager>()?.GetProxy<ThrustComponent>();
         if (this.thrustComponentProxy == null)

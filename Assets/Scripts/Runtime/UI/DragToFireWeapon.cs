@@ -9,6 +9,9 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
     [SerializeField]
     private GameObject weaponOrigin = null;
     [SerializeField]
+    private ControllerBase shipOriginController;
+
+    [SerializeField]
     private GameObject projectilePrefab = null;
 
     [SerializeField]
@@ -74,12 +77,17 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
         Debug.Log($"DragToFireWeapon: shoot vector: {shootVector}");
 
         // Instantiate the projectile
+        //Debug.Log($"Frame {Time.frameCount} Calling Instantiate()");
         var projectile = Instantiate(this.projectilePrefab);
+        //Debug.Log("Left Instantiate()");
         var projectileRotation = Quaternion.FromToRotation(Vector3.up, shootVector);
         var originSimMovement = this.weaponOrigin.GetComponent<SimMovement>();
         var projectileSimMovement = projectile.GetComponent<SimMovement>();
         projectileSimMovement.alignToVelocity = false;
         projectileSimMovement.SetPositionVelocity(weaponOriginPos, projectileRotation, (Vector2)originSimMovement.velocity);
+        var controller = projectile.GetComponent<RocketUnguidedController>();
+        controller.faction = this.shipOriginController.faction; // Rocket faction must match faction of the ship shooting it
+
 
         this.dragging = false;
         this.fireDirectionLineRenderer.enabled = false;
