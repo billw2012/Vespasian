@@ -15,7 +15,7 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
     private GameObject projectilePrefab = null;
 
     [SerializeField]
-    private LineRenderer fireDirectionLineRenderer;
+    private LineRenderer fireDirectionLineRenderer = null;
 
     //  We still must keep this bool,
     // because OnDrag is not called when we have started dragging

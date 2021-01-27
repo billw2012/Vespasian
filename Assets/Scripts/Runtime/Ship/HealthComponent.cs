@@ -1,11 +1,22 @@
 ﻿using IngameDebugConsole;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class HealthComponent : MonoBehaviour
 {
-    public ParticleSystem damageDebris;
-    public GameLogic gameLogic;
+    [SerializeField]
+    private ParticleSystem[] damageParticleSystems = null;
+    [SerializeField]
+    private GameObject explosionPrefab = null;
+
+    public enum KilledAction
+    {
+        None,
+        Destroy,
+        Deactivate
+    }
+    public KilledAction actionOnKilled = KilledAction.None;
     
     [Tooltip("Hull strength"), Range(0, 3)]
     public float maxHullHP = 1f;
@@ -37,7 +48,10 @@ public class HealthComponent : MonoBehaviour
     {
         this.hullHP = this.maxHullHP;
 
-        this.damageDebris.SetEmissionEnabled(false);
+        foreach (var dpfx in this.damageParticleSystems)
+        {
+            dpfx.SetEmissionEnabled(false);
+        }
     }
 
     private void Update()
@@ -49,13 +63,17 @@ public class HealthComponent : MonoBehaviour
     public void SetTakingDamage(float damageRate, Vector3 direction)
     {
         this.damageRate = Mathf.Max(this.damageRate, damageRate);
-        this.damageDebris.SetEmissionEnabled(this.damageRate > 0);
-        if (this.damageRate > 0)
+        foreach (var dpfx in this.damageParticleSystems)
         {
-            this.damageDebris.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
-            var emission = this.damageDebris.emission;
-            emission.rateOverTimeMultiplier = this.damageRate * 100;
+            dpfx.SetEmissionEnabled(this.damageRate > 0);
+            if (this.damageRate > 0)
+            {
+                dpfx.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+                var emission = dpfx.emission;
+                emission.rateOverTimeMultiplier = this.damageRate * 100;
+            }
         }
+
         this.damageRate = Mathf.SmoothDamp(this.damageRate, 0, ref this.damageRateVelocity, 1f, 0.1f, Time.deltaTime);
     }
 
@@ -86,19 +104,32 @@ public class HealthComponent : MonoBehaviour
 
     public void Kill()
     {
+        var explosion = Instantiate(this.explosionPrefab, this.transform.position, Quaternion.identity);
+
+        var explosionMovement = explosion.GetComponent<SimpleBallisticMovement>();
+        var simMovement = this.GetComponent<SimMovement>();
+        if (explosionMovement != null && simMovement != null)
+        {
+            explosionMovement.velocity = simMovement.velocity;
+        }
+
         this.hullHP = 0;
         this.onKilled?.Invoke();
+
+        switch (this.actionOnKilled)
+        {
+            case KilledAction.Deactivate:
+                this.gameObject.SetActive(false);
+                break;
+            case KilledAction.Destroy:
+                Destroy(this.gameObject);
+                break;
+        }
     }
 
-    public void AddHull(float amount)
-    {
-        this.hullHP = Mathf.Clamp(this.hullHP + amount, 0, this.maxHullHP);
-    }
+    public void AddHull(float amount) => this.hullHP = Mathf.Clamp(this.hullHP + amount, 0, this.maxHullHP);
 
-    public void FullyRepairHull()
-    {
-        this.hullHP = this.maxHullHP;
-    }
+    public void FullyRepairHull() => this.hullHP = this.maxHullHP;
 
     private static HealthComponent GetPlayerHealthComponent() =>
         FindObjectOfType<PlayerController>()?.GetComponentInChildren<HealthComponent>();

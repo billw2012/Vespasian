@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8273a0654529b64da34881425085c9a, type: 3}
+  m_Name: AI Level 2 Upgrades
+  m_EditorClassIdentifier: 
+  upgradesDefs:
+  - {fileID: 11400000, guid: c985ffb21a7ca4048b4ce6a933753e1d, type: 2}
+  - {fileID: 11400000, guid: ca7170553d0faff4fbc0910092be73e0, type: 2}
+  - {fileID: 11400000, guid: 3db6b69a6e6d0484e83227f6b837eaaa, type: 2}
+  - {fileID: 11400000, guid: ae1c350afd8febe47a7f624723fdf234, type: 2}

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8273a0654529b64da34881425085c9a, type: 3}
-  m_Name: Initial AI Upgrades
+  m_Name: AI Level 1 Upgrades
   m_EditorClassIdentifier: 
   upgradesDefs:
   - {fileID: 11400000, guid: c985ffb21a7ca4048b4ce6a933753e1d, type: 2}
-  - {fileID: 11400000, guid: ca7170553d0faff4fbc0910092be73e0, type: 2}
+  - {fileID: 11400000, guid: 2b62f71a838d5b14d96ed249652481e7, type: 2}
   - {fileID: 11400000, guid: 3db6b69a6e6d0484e83227f6b837eaaa, type: 2}
   - {fileID: 11400000, guid: 9d4dfbf9aab45d748806c95000b4a095, type: 2}
