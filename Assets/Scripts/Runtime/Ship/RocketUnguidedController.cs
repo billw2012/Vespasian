@@ -41,6 +41,9 @@ public class RocketUnguidedController : ControllerBase
     // Update is called once per frame
     private void Update()
     {
+        // Remove dead enemies
+        this.enemiesCached.RemoveAll(e => e == null);
+        
         // Process movement
         var engine = this.GetComponent<EngineController>();
 

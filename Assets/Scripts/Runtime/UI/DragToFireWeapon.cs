@@ -9,7 +9,7 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
     [SerializeField]
     private GameObject weaponOrigin = null;
     [SerializeField]
-    private ControllerBase shipOriginController;
+    private ControllerBase shipOriginController = null;
 
     [SerializeField]
     private GameObject projectilePrefab = null;
