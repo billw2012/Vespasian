@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.UIElements;
-using UnityEngine.UI;
 using Pixelplacement;
 
 // Manages off-screen indicators, must be attached to UI

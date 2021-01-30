@@ -1,12 +1,7 @@
 ﻿using Pixelplacement;
-using Pixelplacement.TweenSystem;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public abstract class PositionalObjective : Objective
 {

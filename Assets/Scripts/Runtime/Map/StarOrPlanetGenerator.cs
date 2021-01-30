@@ -1,7 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-public class StarOrPlanetGenerator : BodyGenerator
+﻿public class StarOrPlanetGenerator : BodyGenerator
 {
     protected StarOrPlanet starOrPlanet => this.body as StarOrPlanet;
 

@@ -1,8 +1,4 @@
-using IngameDebugConsole;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class FuelMainTankComponent : MonoBehaviour, IUpgradeLogic, ISavable, ISavableCustom
 {

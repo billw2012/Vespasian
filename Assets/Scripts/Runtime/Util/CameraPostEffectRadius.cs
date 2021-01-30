@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CameraPostEffectRadius : MonoBehaviour
 {

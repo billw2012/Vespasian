@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Assertions;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]

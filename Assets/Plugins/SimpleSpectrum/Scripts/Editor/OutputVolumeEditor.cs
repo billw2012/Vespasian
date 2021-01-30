@@ -1,8 +1,6 @@
 ﻿/*
 OutputVolumeEditor.cs - Part of Simple Spectrum V2.1 by Sam Boyer.
 */
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEditor;

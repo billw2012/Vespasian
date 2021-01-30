@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class TargetArrow : MonoBehaviour

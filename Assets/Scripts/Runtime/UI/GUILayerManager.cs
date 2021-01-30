@@ -1,11 +1,8 @@
 ﻿using Pixelplacement;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 /// Optional interface that a UILayer can implement to provide extended functionality

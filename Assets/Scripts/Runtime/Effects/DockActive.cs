@@ -1,11 +1,7 @@
 ﻿using Pixelplacement;
 using Pixelplacement.TweenSystem;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 /*
  * Must be attached to spacecraft itself. Not to the docking port.

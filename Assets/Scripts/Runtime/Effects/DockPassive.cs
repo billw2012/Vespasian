@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Linq;
-using UnityEditor;
-using System.Collections.Generic;
 
 /*
  * This is the passive docking port, to be attached to space stations

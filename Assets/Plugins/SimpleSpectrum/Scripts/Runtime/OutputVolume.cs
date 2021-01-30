@@ -7,7 +7,6 @@ OutputVolume.cs - Part of Simple Spectrum V2.1 by Sam Boyer.
 #endif
 
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 
