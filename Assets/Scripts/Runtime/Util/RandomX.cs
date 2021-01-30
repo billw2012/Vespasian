@@ -21,10 +21,12 @@ public class RandomX
 
     public int Range(int min, int max) => this.random.Next(min, max);
 
-    public bool Decide(float chanceTrue = 0.5f) => this.value >= chanceTrue;
+    public bool Decide(float chanceTrue = 0.5f) => this.value <= chanceTrue;
     
     public float RandomGaussian(float minValue = 0.0f, float maxValue = 1.0f)
     {
+        Debug.Assert(minValue <= maxValue);
+        
         float u, v, S;
 
         do
@@ -43,6 +45,35 @@ public class RandomX
         float mean = (minValue + maxValue) / 2.0f;
         float sigma = (maxValue - mean) / 3.0f;
         return Mathf.Clamp(std * sigma + mean, minValue, maxValue);
+    }
+
+    /// <summary>
+    /// Return a random value sampled from a slice of a gaussian distribution.
+    /// </summary>
+    /// <param name="minValue"></param>
+    /// <param name="maxValue"></param>
+    /// <param name="sliceStart">Start of the gaussian slice, assumes the gaussian is centered at 0 and falling within -1 to 1 range</param>
+    /// <param name="sliceEnd">End of the gaussian slice, assumes the gaussian is centered at 0 and falling within -1 to 1 range</param>
+    /// <returns></returns>
+    public float RandomGaussianSlice(float minValue = 0.0f, float maxValue = 1.0f, float sliceStart = -1f,
+        float sliceEnd = 1f)
+    {
+        Debug.Assert(sliceStart < sliceEnd);
+        Debug.Assert(sliceStart >= -1);
+        Debug.Assert(sliceEnd <= 1);
+        
+        // We just have to keep trying until a value falls within the requested range.
+        // We cannot just clamp it because that results in all values that would have fallen outside the range, instead 
+        // falling exactly at the min or max value. i.e. It would NOT be a correct distribution!
+        for (;;)
+        {
+            float val = this.RandomGaussian(-1f, 1f);
+            if (val >= sliceStart && val <= sliceEnd)
+            {
+                // Remap from slice range to min max value range
+                return MathX.Remap(sliceStart, sliceEnd, minValue, maxValue, val);
+            }
+        }
     }
 
     public Color ColorHSV() => Color.HSVToRGB(this.value, this.value, this.value);

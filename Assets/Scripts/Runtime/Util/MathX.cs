@@ -295,4 +295,7 @@ public static class MathX
 
     public static float DistanceInTime(float acceleration, float time) => 0.5f * acceleration * time * time;
     public static float TimeToCoverDistance(float acceleration, float distance) => Mathf.Sqrt(2f * distance / acceleration);
+
+    public static float Remap(float fromMin, float fromMax, float toMin, float toMax, float value)
+        => Mathf.Lerp(toMin, toMax, Mathf.InverseLerp(fromMin, fromMax, value));
 }

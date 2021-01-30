@@ -16,6 +16,7 @@ class Discoverable : MonoBehaviour, ISavable
 
     private BodyRef bodyRef;
     private Renderer[] renderers;
+    private BodyLogic bodyLogic;
 
     public bool discovered =>
         this.dataCatalog == null ||
@@ -24,7 +25,7 @@ class Discoverable : MonoBehaviour, ISavable
 
     public void Discover()
     {
-        Debug.Log($"{this.bodyRef} was discovered");
+        Debug.Log($"{this.bodyLogic?.name ?? this.bodyRef.ToString()} was discovered");
         this.dataCatalog.AddData(this.bodyRef, DataMask.Orbit);
         NotificationsUI.Add($"<color=#00FFC3><b>{this.bodyRef}</b> was discovered!</color>");
     }
@@ -36,10 +37,10 @@ class Discoverable : MonoBehaviour, ISavable
         this.renderers = this.GetComponentsInChildren<Renderer>();
         
         // Estimate discovery radius by object's size
-        var planetLogic = this.GetComponent<BodyLogic>();
-        if (planetLogic != null)
+        this.bodyLogic = this.GetComponent<BodyLogic>();
+        if (this.bodyLogic != null)
         {
-            this.discoveryRadius = planetLogic.radius / 2.0f * 30.0f;
+            this.discoveryRadius = this.bodyLogic.radius / 2.0f * 30.0f;
         }
 
         this.dataCatalog = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();

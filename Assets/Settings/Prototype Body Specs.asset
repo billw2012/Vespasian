@@ -318,6 +318,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.1
+    uniqueNameProbability: 0.01
   - name: Dead
     id: 47b1a776-c40d-4c41-be4c-2fffaece12fe
     prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
@@ -416,6 +417,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.5
+    uniqueNameProbability: 0.2
   - name: Living
     id: f3c1a7dc-03e6-4266-bd89-d154ac18d3e9
     prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
@@ -514,6 +516,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0.5
       max: 1
+    uniqueNameProbability: 1
   - name: Desert
     id: 32424bed-2f6e-4f86-8084-5fcb87752a7b
     prefab: {fileID: 7573446184434855522, guid: 2d2ce47a7d259f040bab92c18bab1704,
@@ -612,6 +615,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0.1
       max: 0.5
+    uniqueNameProbability: 0.25
   - name: Greenhouse
     id: 2e995413-aa5e-49ee-b4b7-c5d5cad1e3ef
     prefab: {fileID: 7573446184434855522, guid: ac2d24d11dba18846a5d358a1cd44f36,
@@ -710,6 +714,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    uniqueNameProbability: 0.01
   - name: Ice
     id: 15c068e7-5166-4033-bd7c-a30ec51327be
     prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
@@ -808,6 +813,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.1
+    uniqueNameProbability: 0.1
   - name: Lava
     id: 0e2a306e-1046-46b1-81b6-03a88513f4a9
     prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
@@ -906,6 +912,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    uniqueNameProbability: 0.01
   - name: Ice Giant
     id: 9df16a60-bf08-4d2f-a242-509ddc8196ee
     prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
@@ -1004,6 +1011,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    uniqueNameProbability: 0.01
   - name: Gas Giant
     id: 3c2f575c-cd62-49d2-a56b-5413055c2225
     prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
@@ -1102,6 +1110,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    uniqueNameProbability: 0.02
   - name: Hot Gas Giant
     id: 3dfa6224-84c0-449f-9837-65d669cd0901
     prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
@@ -1200,6 +1209,7 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    uniqueNameProbability: 0.01
   belts:
   - name: Asteroid Belt
     id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9

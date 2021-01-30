@@ -42,7 +42,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
                     if(bodyGenerator)
                     {
                         this.dataCatalog.AddData(this.target.gameObject, DataMask.All);
-                        NotificationsUI.Add($"<color=#53FF36><b>{bodyGenerator.BodyRef}</b> was scanned!</color>");
+                        NotificationsUI.Add($"<color=#53FF36><b>{bodyGenerator.body.name}</b> was scanned!</color>");
                     }
                 }
                 this.target = null;

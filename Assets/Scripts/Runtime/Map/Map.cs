@@ -11,12 +11,11 @@ public abstract class Body
 {
     private static int NextId = 0;
     public string specId;
+    public string name;
     public int randomKey;
     public BodyRef bodyRef;
 
     public Dictionary<string, SaveData> savedComponents;
-
-    public virtual string Name => this.bodyRef.ToString();
 
     private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;

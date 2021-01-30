@@ -88,6 +88,8 @@ public class MapSystemMarkerUI : MonoBehaviour
     public void Refresh()
     {
         this.stationMarkerEnabled = this.system.AllBodies().OfType<Station>().Any();
-        this.missionMarkerEnabled = this.mapUi.missionMapUi.missions.HasActiveMissionsInSystem(this.system.id);
+        this.missionMarkerEnabled =
+            this.mapUi.missionMapUi.missions != null &&
+            this.mapUi.missionMapUi.missions.HasActiveMissionsInSystem(this.system.id);
     }
 }

@@ -94,7 +94,10 @@ public class MapGenerator : ScriptableObject
 
     public SystemGeneratorParameters systemParams;
 
-    public SolarSystem GenerateSystem(int systemId, int randomKey, BodySpecs bodySpecs, string name, Vector2 position)
+    private readonly NameGenerator.UniqueNameGenerator nameGenerator = new NameGenerator.UniqueNameGenerator();
+
+    private readonly string[] BeltNames = { "i", "ii", "iii" };
+    public SolarSystem GenerateSystem(int systemId, int randomKey, BodySpecs bodySpecs, Vector2 position)
     {
         var rng = new RandomX(randomKey);
         
@@ -104,8 +107,9 @@ public class MapGenerator : ScriptableObject
         float starDensity = mainSpec.densityRandom.Evaluate(rng);
         float starRadius = starMass / starDensity; // obviously not the correct formula...
 
+        string systemName = this.nameGenerator.Next();
         var sys = new SolarSystem(systemId) { 
-            name = name, 
+            name = systemName, 
             position = position,
             direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise,
             // TODO: proper danger value
@@ -115,6 +119,7 @@ public class MapGenerator : ScriptableObject
         float systemSize = starMass * this.systemParams.systemSizeStarMassRatioRandom.Evaluate(rng);
         var planets = this.GenerateBodies(
             systemId,
+            systemName,
             rng,
             bodySpecs, 
             starTemp, starRadius, 0,
@@ -146,6 +151,7 @@ public class MapGenerator : ScriptableObject
             //}
 
             sys.belts.Add(new Belt(systemId) {
+                name = $"{systemName} {BeltNames[0]}",
                 specId = belt.id,
                 radius = beltDist,
                 width = rng.Range(3f, 10f),
@@ -154,7 +160,7 @@ public class MapGenerator : ScriptableObject
         }
 
         int cometCount = Mathf.FloorToInt(this.systemParams.cometCountRandom.Evaluate(rng));
-        sys.comets.AddRange(this.GenerateComets(systemId, rng, bodySpecs, cometCount, starRadius, systemSize));
+        sys.comets.AddRange(this.GenerateComets(systemId, systemName, rng, bodySpecs, cometCount, starRadius, systemSize));
 
         sys.main = new StarOrPlanet(systemId)
         {
@@ -170,7 +176,11 @@ public class MapGenerator : ScriptableObject
         return sys;
     }
 
-    private List<Comet> GenerateComets(int systemId, RandomX rng, BodySpecs bodySpecs, int cometCount, float starRadius, float systemSize)
+    private readonly string[] CometNames = {
+        "α","β","γ","δ","ε","ζ","η","θ","ι"
+    };
+    
+    private List<Comet> GenerateComets(int systemId, string parentName, RandomX rng, BodySpecs bodySpecs, int cometCount, float starRadius, float systemSize)
     {
         var comets = new List<Comet>();
 
@@ -187,6 +197,7 @@ public class MapGenerator : ScriptableObject
             var direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise;
             var comet = new Comet(systemId)
             {
+                name = $"{parentName} {CometNames[i]}",
                  randomKey = rng.Range(0, int.MaxValue),
                  specId = spec.id,
                  parameters = new OrbitParameters
@@ -209,6 +220,7 @@ public class MapGenerator : ScriptableObject
     // See https://www.desmos.com/calculator/xfskhgkr9l
     private List<OrbitingBody> GenerateBodies(
         int systemId,
+        string parentName,
         RandomX rng,
         BodySpecs bodySpecs, 
         float starTemp,
@@ -223,6 +235,8 @@ public class MapGenerator : ScriptableObject
         float massDistributionSpread,
         bool allowMoons = true)
     {
+        
+        
         // We will sample this in a range of 0 - 10
         var massDistribution = new MathX.LogNormal(massDistributionMedian, massDistributionSpread);
 
@@ -249,8 +263,20 @@ public class MapGenerator : ScriptableObject
 
             float moonSystemSize = allowMoons? planetMass * this.systemParams.moonSystemSizePlanetMassRatioRandom.Evaluate(rng) : 0;
 
+            // Generate planet name, assume allowMoons being false means we ARE a moon, so change naming 
+            // convention
+            // TODO: more interesting names for e.g. rare planets
+            // Perhaps they get named/revealed when we scan them?
+            
+            string planetName = rng.Decide(planetSpec.uniqueNameProbability) 
+                ? this.nameGenerator.Next()
+                : allowMoons
+                    ? $"{parentName} {i+1}" 
+                    : $"{parentName}{(char)('a' + i)}";
+            
             var moons = allowMoons? this.GenerateBodies(
                 systemId,
+                planetName,
                 rng,
                 bodySpecs, 
                 starTemp, starRadius, starDistance + orbitalDistance,
@@ -278,6 +304,7 @@ public class MapGenerator : ScriptableObject
 
             var planet = new StarOrPlanet(systemId)
             {
+                name = planetName,
                 randomKey = rng.Range(0, int.MaxValue),
                 specId = planetSpec.id,
                 parameters = new OrbitParameters
@@ -344,7 +371,7 @@ public class MapGenerator : ScriptableObject
         float minDistance = this.minDistanceFactor / Mathf.Sqrt(this.numberOfSystems);
 
         float heightOffset = (1 - this.heightRatio) * 0.5f;
-
+        
         for (int i = 0; i < this.numberOfSystems; i++)
         {
             var position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
@@ -354,10 +381,11 @@ public class MapGenerator : ScriptableObject
                 position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
             }
 
-            char RandomLetter() => (char) ((int) 'A' + rng.Range(0, 'Z' - 'A'));
-            string systemName = $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
+            // char RandomLetter() => (char) ((int) 'A' + rng.Range(0, 'Z' - 'A'));
+            //string systemName = NameGenerator.GenerateName(rng); 
+            // $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
 
-            map.AddSystem(this.GenerateSystem(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, systemName, position));
+            map.AddSystem(this.GenerateSystem(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, position));
         }
     }
 

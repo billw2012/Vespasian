@@ -142,7 +142,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
     private StarSystemUIBody InitSchemeBodyProperties(GameObject schemeElement, Body bodyData)
     {
         var bodyComponent = schemeElement.GetComponent<StarSystemUIBody>();
-        bodyComponent.bodyName = bodyData.bodyRef.ToString(); // Read the body name here when we have it
+        bodyComponent.bodyName = bodyData.name; // Read the body name here when we have it
         bodyComponent.starSystemUI = this; // It must point back to call functions when clicked
         bodyComponent.actualBody = bodyData;
         bodyComponent.stationIcon.enabled = (bodyData as OrbitingBody)?.children.OfType<Station>().Any() ?? false;
@@ -179,7 +179,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
 
         // Fill the data in the info panel
         var actualBody = body.actualBody;
-        this.selectedBodyNameLabel.text = actualBody.bodyRef.ToString();
+        this.selectedBodyNameLabel.text = actualBody.name;
         
         var knownDataMask = this.playerData?.GetData(actualBody.bodyRef) ?? DataMask.All;
         //var knownDataStr = new List<string>{"Type: Planet"};

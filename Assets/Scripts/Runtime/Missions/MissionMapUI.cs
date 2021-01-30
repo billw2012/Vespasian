@@ -9,7 +9,9 @@ public class MissionMapUI : MissionListUIBase
 
     public void UpdateMissionList(BodyRef selectedSystem)
     {
-        this.missionList = this.missions.GetActiveMissionsInSystem(selectedSystem);
+        this.missionList = this.missions != null 
+                ? this.missions.GetActiveMissionsInSystem(selectedSystem)
+                : new List<IMissionBase>();
         this.UpdateUI();
     }
 

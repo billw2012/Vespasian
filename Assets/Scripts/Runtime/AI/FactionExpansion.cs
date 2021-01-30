@@ -69,8 +69,8 @@ public class FactionExpansion : MonoBehaviour, ISavable
             {
                 var (system, body) = candidates.First();
                 
-                Debug.Log($"Faction AI found suitable expansion candidate at {body.Name} in {system.name}");
-                NotificationsUI.Add($"<style=faction>New station built at {body.Name} in {system.name}</style>");
+                Debug.Log($"Faction AI found suitable expansion candidate at {body.name} in {system.name}");
+                NotificationsUI.Add($"<style=faction>New station built at {body.name} in {system.name}</style>");
                 this.CreateStation(body);
             }
             else
