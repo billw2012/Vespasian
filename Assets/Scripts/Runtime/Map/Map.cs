@@ -8,7 +8,8 @@ using Object = UnityEngine.Object;
 
 public abstract class Body
 {
-    private static int NextId = 0;
+    // ID starts from 1, as 0 is a reserved value.
+    private static int NextId = 1;
     public string specId;
     public string name;
     public int randomKey;
@@ -341,10 +342,10 @@ public class Comet : OrbitingBody
 [RegisterSavableType]
 public class Link : IEquatable<Link>
 {
-    public SolarSystem from;
-    public SolarSystem to;
+    public BodyRef from;
+    public BodyRef to;
 
-    public bool Match(SolarSystem from, SolarSystem to) =>
+    public bool Match(BodyRef from, BodyRef to) =>
         this.from == from && this.to == to ||
         this.from == to && this.to == from;
 
@@ -355,7 +356,7 @@ public class Link : IEquatable<Link>
     public override int GetHashCode()
     {
         int hashCode = -1951484959;
-        hashCode = hashCode * -1521134295 + EqualityComparer<SolarSystem>.Default.GetHashCode(this.from) + EqualityComparer<SolarSystem>.Default.GetHashCode(this.to);
+        hashCode = hashCode * -1521134295 + EqualityComparer<BodyRef>.Default.GetHashCode(this.from) + EqualityComparer<BodyRef>.Default.GetHashCode(this.to);
         return hashCode;
     }
 
@@ -373,9 +374,9 @@ public struct BodyRef
     public int bodyId;
     
     public bool isSystem => this.bodyId == -1;
-    public bool isValid => this.systemId != -1;
+    public bool isValid => this.bodyId != 0;
 
-    public static readonly BodyRef Invalid = new BodyRef(-1, -1);
+    public static readonly BodyRef Invalid = new BodyRef();
 
     // public BodyRef()
     // {
@@ -385,6 +386,7 @@ public struct BodyRef
     
     public BodyRef(int systemId, int bodyId)
     {
+        Assert.AreNotEqual(bodyId, 0, "bodyId 0 is a reserved value!");
         this.systemId = systemId;
         this.bodyId = bodyId;
     }
@@ -550,8 +552,8 @@ public class Map : ISavable
     
     public IEnumerable<(SolarSystem system, Link link)> GetConnected(SolarSystem system) =>
         this.links
-            .Where(l => l.from == system || l.to == system)
-            .Select(l => (system: l.from == system ? l.to : l.from, link: l));
+            .Where(l => l.from == system.id || l.to == system.id)
+            .Select(l => (system: this.GetSystem(l.from == system.id ? l.to : l.from), link: l));
 
     public void RemoveLink(Link link) => this.links.Remove(link);
 

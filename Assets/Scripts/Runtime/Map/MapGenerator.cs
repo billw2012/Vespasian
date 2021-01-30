@@ -397,7 +397,7 @@ public class MapGenerator : ScriptableObject
         for (int i = 0; i < connectionTriangles.Triangles.Count / 3; i++)
         {
             int SystemIndex(int pIndex) => connectionTriangles.Triangles[i * 3 + pIndex];
-            Link MakeLink(int p0, int p1) => new Link {@from = map.systems[p0], to = map.systems[p1]};
+            Link MakeLink(int p0, int p1) => new Link {from = map.systems[p0].id, to = map.systems[p1].id};
 
             // If the triangle has two small angles then remove the side that connects them,
             // if it has one small angle then 
@@ -409,14 +409,15 @@ public class MapGenerator : ScriptableObject
             };
 
             float area =
-                Vector3.Cross(links[0].@from.position - links[0].to.position, links[1].to.position - links[0].to.position)
+                Vector3.Cross(map.GetSystem(links[0].from).position - map.GetSystem(links[0].to).position, map.GetSystem(links[1].to).position -
+                        map.GetSystem(links[0].to).position)
                     .magnitude * 0.5f;
 
             IEnumerable<(Link link, float score)> LinkRemoveScores()
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    float len = (links[j].@from.position - links[j].to.position).magnitude;
+                    float len = (map.GetSystem(links[j].from).position - map.GetSystem(links[j].to).position).magnitude;
                     yield return (link: links[j], score: 2f * area / (len * len));
                 }
             }
@@ -426,7 +427,7 @@ public class MapGenerator : ScriptableObject
             map.links.AddRange(links.Except(map.links));
         }
 
-        Assert.IsFalse(map.links.Any(l => map.links.Any(l2 => l.@from == l2.to && l.to == l2.@from)));
+        Assert.IsFalse(map.links.Any(l => map.links.Any(l2 => l.from == l2.to && l.to == l2.from)));
 
         // Trim acute links
         void TrimLinks(IEnumerable<Link> candidates)
@@ -436,7 +437,7 @@ public class MapGenerator : ScriptableObject
                 // Test removing the link
                 map.RemoveLink(link);
                 var mapAStar = new MapAStar(map);
-                if (mapAStar.AStarSearch(link.@from, link.to) == null)
+                if (mapAStar.AStarSearch(map.GetSystem(link.from), map.GetSystem(link.to)) == null)
                 {
                     map.links.Add(link);
                 }

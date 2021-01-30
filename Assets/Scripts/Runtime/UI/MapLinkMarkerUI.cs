@@ -7,8 +7,13 @@ public class MapLinkMarkerUI : MonoBehaviour
     public Link link;
     public Color color = Color.white;
     public Color jumpRouteColor = Color.green;
+    
+    private SolarSystem from => this.mapComponent.map.GetSystem(this.link.from);
+    private SolarSystem to => this.mapComponent.map.GetSystem(this.link.to);
 
-    public bool isJumpRoute => this.link.Match(this.mapComponent.currentSystem, this.mapComponent.jumpTarget);
+    private bool isJumpRoute => this.mapComponent.currentSystem != null 
+                                && this.mapComponent.jumpTarget != null 
+                                && this.link.Match(this.mapComponent.currentSystem.id, this.mapComponent.jumpTarget.id);
 
     private UILineRenderer line;
 
@@ -16,8 +21,8 @@ public class MapLinkMarkerUI : MonoBehaviour
     {
         this.line = this.GetComponent<UILineRenderer>();
         this.line.Points = new[] {
-            this.link.from.position,
-            this.link.to.position
+            this.from.position,
+            this.to.position
         };
     }
 

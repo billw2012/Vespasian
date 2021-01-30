@@ -320,7 +320,8 @@ public class SaveSystem : MonoBehaviour
             else if (obj.GetType() == typeof(BodyRefWrapper))
             {
                 var bodyRefWrapper = (BodyRefWrapper)obj;
-                return new BodyRef(bodyRefWrapper.systemId, bodyRefWrapper.bodyId);
+                // Don't use the constructor, as we want to by pass the check for valid values
+                return new BodyRef { systemId = bodyRefWrapper.systemId, bodyId = bodyRefWrapper.bodyId };
             }
             return obj;
         }
@@ -504,7 +505,7 @@ public class SaveSystem : MonoBehaviour
             using (var ms = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 var dcsSettings = new DataContractSerializerSettings {
-                    PreserveObjectReferences = true,
+                    PreserveObjectReferences = false,
                     KnownTypes = this.knownTypes,
                 };
                 var bf = new DataContractSerializer(typeof(T), dcsSettings);
@@ -522,7 +523,7 @@ public class SaveSystem : MonoBehaviour
             using (var xmlWriter = XmlWriter.Create(path, settings))
             {
                 var dcsSettings = new DataContractSerializerSettings {
-                    PreserveObjectReferences = true,
+                    PreserveObjectReferences = false,
                     KnownTypes = this.knownTypes,
                 };
                 var bf = new DataContractSerializer(typeof(T), dcsSettings);
