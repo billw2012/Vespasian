@@ -277,6 +277,7 @@ public class SimModel
 
     private struct SimGravity
     {
+        public int fromId;
         public GravitySource from;
         public int orbitIndex;
         public int gravityParentIndex;
@@ -312,6 +313,7 @@ public class SimModel
         // A consecutive list of spheres of influence the path passes through.
         // It can refer to the same GravitySource more than once.
         public readonly List<SphereOfInfluence> sois = new List<SphereOfInfluence>();
+        private int soiLastGId = -1;
 
         private readonly SimModel owner;
         private readonly float collisionRadius;
@@ -369,12 +371,12 @@ public class SimModel
                     }
                 }
 
-                var bestG = this.owner.simGravitySources[maxIndex].from;
-                Assert.IsFalse(bestG == null, "Gravity source is null");
+                var maxSimGravitySource = this.owner.simGravitySources[maxIndex];
                 var lastSoi = this.sois.LastOrDefault();
-                if (lastSoi == null || lastSoi.g != bestG)
+                if (lastSoi == null || this.soiLastGId != maxSimGravitySource.fromId)
                 {
-                    lastSoi = new SphereOfInfluence(bestG, this.tick);
+                    lastSoi = new SphereOfInfluence(maxSimGravitySource.from, this.tick);
+                    this.soiLastGId = maxSimGravitySource.fromId;
                     this.sois.Add(lastSoi);
                 }
                 if (lastSoi.maxForce < maxForce)
@@ -467,6 +469,7 @@ public class SimModel
                 return new SimGravity
                 {
                     from = g,
+                    fromId = g.GetInstanceID(), // we assign the reference here, because we want a stable comparable handle to g that we can use outside the main thread
                     mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
                     radius = g.radius, // radius is applied using local scale on the same game object as the gravity
                     orbitIndex = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),
@@ -474,7 +477,7 @@ public class SimModel
                     position = g.position
                 };
             }).ToList();
-        
+
         var invalidGravitySources = this.simGravitySources.Where(s => s.position.z != 0f);
         Debug.Assert(!invalidGravitySources.Any(), $"All gravity sources must be at z = 0, {string.Join(", ", invalidGravitySources.Select(s => s.from.gameObject.name))}!");
     }

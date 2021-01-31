@@ -361,7 +361,7 @@ public class SaveSystem : MonoBehaviour
                 }
                 return target;
             }
-            else if (type == typeof(BodyRefWrapper))
+            else if (type == typeof(BodyRefWrapper) && targetType == typeof(BodyRef))
             {
                 return ((BodyRefWrapper)obj).ToBodyRef();
             }
