@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -266,10 +267,17 @@ public class SaveSystem : MonoBehaviour
     #region Save Wrappers
     // These types are workarounds to get IL2cpp to work with the save system
     [RegisterSavableType]
-    public class KeyValueWrapper
+    public class DictionaryEntryWrapper
     {
         public object Key;
         public object Value;
+
+        public DictionaryEntryWrapper() {}
+        public DictionaryEntryWrapper(DictionaryEntry from)
+        {
+            this.Key = from.Key;
+            this.Value = from.Value;
+        }
     }
 
     [RegisterSavableType]
@@ -277,10 +285,30 @@ public class SaveSystem : MonoBehaviour
     {
         public int systemId;
         public int bodyId;
+
+        public BodyRefWrapper() {}
+        public BodyRefWrapper(BodyRef from)
+        {
+            this.systemId = from.systemId;
+            this.bodyId = from.bodyId;
+        }
+
+        public BodyRef ToBodyRef() => new BodyRef {systemId = this.systemId, bodyId = this.bodyId};
     }
     
     [RegisterSavableType]
-    public class DictionaryWrapper : List<KeyValueWrapper> {}
+    public class DictionaryWrapper : List<DictionaryEntryWrapper>
+    {
+        public DictionaryWrapper() { }
+        public DictionaryWrapper(IEnumerable<DictionaryEntryWrapper> collection) : base(collection) { }
+    }
+
+    [RegisterSavableType]
+    public class BodyRefCollectionWrapper : List<BodyRefWrapper>
+    {
+        public BodyRefCollectionWrapper() {}
+        public BodyRefCollectionWrapper(IEnumerable<BodyRefWrapper> collection) : base(collection) { }
+    }
     
     public class DictionarySurrogate : ISerializationSurrogateProvider //IDataContractSurrogate
     {
@@ -288,26 +316,32 @@ public class SaveSystem : MonoBehaviour
         {
             // Debug.Log($"{obj.GetType().Name} == {targetType.Name}");
             // Look for any Dictionary<> regardless of generic parameters
-            if(obj.GetType().IsGenericType && obj.GetType().GetGenericTypeDefinition() == typeof(Dictionary<,>))
+            var type = obj.GetType();
+            if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
             {
                 var wrapper = new DictionaryWrapper();
-                foreach (DictionaryEntry kv in (IDictionary)obj)
+                foreach (DictionaryEntry de in (IDictionary)obj)
                 {
-                    wrapper.Add(new KeyValueWrapper{Key = kv.Key, Value = kv.Value});
+                    wrapper.Add(new DictionaryEntryWrapper(de));
                 }
                 return wrapper;
             }
-            else if (obj.GetType() == typeof(BodyRef))
+            else if (type.FindInterfaces((i, _) => i == typeof(ICollection<BodyRef>), null).Any())
             {
-                var bodyRef = (BodyRef)obj;
-                return new BodyRefWrapper { systemId = bodyRef.systemId, bodyId = bodyRef.bodyId };
+                return new BodyRefCollectionWrapper(((IEnumerable<BodyRef>)obj)
+                    .Select(bodyRef => new BodyRefWrapper(bodyRef)));
+            }
+            else if (type == typeof(BodyRef))
+            {
+                return new BodyRefWrapper((BodyRef)obj);
             }
             return obj;
         }
         
         public object GetDeserializedObject(object obj, Type targetType)
         {
-            if(obj.GetType() == typeof(DictionaryWrapper))
+            var type = obj.GetType();
+            if(type == typeof(DictionaryWrapper))
             {
                 // We can just use the non-generic interface, which makes things a lot easier
                 var target = (IDictionary)Activator.CreateInstance(targetType);
@@ -317,11 +351,19 @@ public class SaveSystem : MonoBehaviour
                 }
                 return target;
             }
-            else if (obj.GetType() == typeof(BodyRefWrapper))
+            else if(type == typeof(BodyRefCollectionWrapper))
             {
-                var bodyRefWrapper = (BodyRefWrapper)obj;
-                // Don't use the constructor, as we want to by pass the check for valid values
-                return new BodyRef { systemId = bodyRefWrapper.systemId, bodyId = bodyRefWrapper.bodyId };
+                // We can just use the ICollection<> interface, which makes things easier
+                var target = (ICollection<BodyRef>)Activator.CreateInstance(targetType);
+                foreach (var b in (BodyRefCollectionWrapper)obj)
+                {
+                    target.Add(b.ToBodyRef());
+                }
+                return target;
+            }
+            else if (type == typeof(BodyRefWrapper))
+            {
+                return ((BodyRefWrapper)obj).ToBodyRef();
             }
             return obj;
         }
@@ -332,6 +374,10 @@ public class SaveSystem : MonoBehaviour
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
             {
                 return typeof(DictionaryWrapper);
+            }
+            else if (type.FindInterfaces((i, _) => i == typeof(ICollection<BodyRef>), null).Any())
+            {
+                return typeof(BodyRefCollectionWrapper);
             }
             else if (type == typeof(BodyRef))
             {
