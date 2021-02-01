@@ -6,11 +6,17 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class WeaponComponentLaser : WeaponComponentBase
 {
+    
     [SerializeField]
     private float damagePerSecond = 0.1f;
     [SerializeField]
     private ParticleSystem laserEffect = null;
 
+    protected override void FireInternal(Vector3 fireDir) {
+        
+    }
+
+    /*
     private float firingCycleRemaining;
     private ControllerBase target;
     private float firingCycleFraction => 1f - this.firingCycleRemaining / (base.firingCooldownTime * 0.5f);
@@ -22,7 +28,9 @@ public class WeaponComponentLaser : WeaponComponentBase
         this.target = target;
         this.finalOffset = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)) * Vector3.right * Random.Range(0f, 2f);
     }
+    */
 
+    /*
     public override void Update()
     {
         base.Update();
@@ -51,4 +59,5 @@ public class WeaponComponentLaser : WeaponComponentBase
             this.laserEffect.gameObject.SetActive(false);
         }
     }
+    */
 }
