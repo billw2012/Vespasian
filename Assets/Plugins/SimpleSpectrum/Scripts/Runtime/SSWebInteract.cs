@@ -18,12 +18,12 @@ public static class SSWebInteract
     [DllImport("__Internal")]
     private static extern void SimpleSpectrumSetFFTSize(int fftSize);
 
-    static byte[] freqBytesThisFrame; //since we can only use one Analyser, we might as well cache the result from the jslib.
-    static float freqTime = -1; //remembers the last time we requested spectrum data.
+    private static byte[] freqBytesThisFrame; //since we can only use one Analyser, we might as well cache the result from the jslib.
+    private static float freqTime = -1; //remembers the last time we requested spectrum data.
 
-    static byte[] loudnessBytes; //just a container so we avoid GC
-    static float loudnessThisFrame; //no point calculating RMS multiple times a frame!    
-    static float loudnessTime = -1; //remembers the last time we requested loudness data.
+    private static byte[] loudnessBytes; //just a container so we avoid GC
+    private static float loudnessThisFrame; //no point calculating RMS multiple times a frame!    
+    private static float loudnessTime = -1; //remembers the last time we requested loudness data.
 
     //Gets raw spectrum data from the Web Audio API. This data is quite different from FMOD spectrum data, so you're probably best off using the methods in SimpleSpectrum.
     public static void GetSpectrumData(float[] samples) 
@@ -44,7 +44,7 @@ public static class SSWebInteract
         }
     }
 
-    static int globalNumSamples = -1;
+    private static int globalNumSamples = -1;
 
     public static int SetFFTSize(int numSamples) //sets the FFT size, and afterwards returns the currently set FFT size (since we're only allowed one).
     {

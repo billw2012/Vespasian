@@ -1,7 +1,9 @@
 ﻿// unset
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -11,7 +13,7 @@ public class Spawn
     public int id;
     public string specId;
     
-    public Dictionary<string, SaveData> savedComponents;
+    public DictX<string, SaveData> savedComponents;
     
     private IEnumerable<ISavable> savables;
     //private GameObject activeInstance;
@@ -73,7 +75,7 @@ public class Spawn
 
     private void SaveComponents()
     {
-        this.savedComponents = new Dictionary<string, SaveData>();
+        this.savedComponents = new DictX<string, SaveData>();
         
         foreach (var savable in this.savables)
         {

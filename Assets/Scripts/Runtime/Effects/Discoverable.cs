@@ -21,9 +21,10 @@ class Discoverable : MonoBehaviour, ISavable
 
     public void Discover()
     {
-        Debug.Log($"{this.bodyLogic?.name ?? this.bodyRef.ToString()} was discovered");
+        string bodyName = this.bodyLogic?.name ?? this.bodyRef.ToString();
+        Debug.Log($"{bodyName} was discovered");
         this.dataCatalog.AddData(this.bodyRef, DataMask.Orbit);
-        NotificationsUI.Add($"<color=#00FFC3><b>{this.bodyRef}</b> was discovered!</color>");
+        NotificationsUI.Add($"<color=#00FFC3><b>{bodyName}</b> was discovered!</color>");
     }
 
     private void Start()
@@ -40,7 +41,7 @@ class Discoverable : MonoBehaviour, ISavable
         }
 
         this.dataCatalog = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
-        this.bodyRef = this.GetComponent<BodyGenerator>()?.BodyRef ?? BodyRef.Invalid;
+        this.bodyRef = this.GetComponent<BodyGenerator>()?.BodyRef;
     }
 
     private void Update() => this.EnableAllRenderers(this.discovered);

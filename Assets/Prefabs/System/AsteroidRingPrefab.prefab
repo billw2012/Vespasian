@@ -65,9 +65,7 @@ MonoBehaviour:
   radius: 10
   width: 2
   direction: 0
-  damageModifier: 1
   systems:
-  - {fileID: 1289136252471656885}
   - {fileID: 9061071372927538900}
   shadows:
   - {fileID: 6696308368544958243}
@@ -89,6 +87,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 3
   originTransform: {fileID: 2847909503754473096}
+  areaMarkerAsset: {fileID: 0}
+  alwaysRevealed: 0
   radius: 10
   damageMultiplier: 1
 --- !u!1 &2654552142738584076

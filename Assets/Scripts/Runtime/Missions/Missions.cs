@@ -114,7 +114,7 @@ public class Missions : MonoBehaviour, ISavable
     private List<IMissionBase> completedMissions;
 
     public int NewDataReward { get; private set; }
-    private Dictionary<BodyRef, DataMask> newData;
+    private DictX<BodyRef, DataMask> newData;
 
     // Start is called before the first frame update
     private void Awake()

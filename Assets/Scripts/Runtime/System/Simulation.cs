@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static SimModel;
+using Debug = UnityEngine.Debug;
 
 
 public interface ISimUpdate
@@ -617,11 +619,22 @@ public class SimModel
             tickStep: 32
         );
 
+#if UNITY_WEBGL
+        var stopwatch = Stopwatch.StartNew();
+        while (state.Step())
+        {
+            if (stopwatch.ElapsedMilliseconds > 10)
+            {
+                await Awaiters.NextFrame;
+            }
+        }
+#else
         // Hand off to another thread
         await Task.Run(() =>
         {
             while (state.Step()) { }
         });
+#endif
 
         var relativePaths = new Dictionary<GravitySource, PathSection>();
         for (int i = 0; i < this.simGravitySources.Count; i++)

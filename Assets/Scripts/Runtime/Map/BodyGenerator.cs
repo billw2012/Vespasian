@@ -9,7 +9,7 @@ public class BodyGenerator : MonoBehaviour
     [NonSerialized]
     public SolarSystem system;
     
-    public BodyRef BodyRef => this.body?.bodyRef ?? BodyRef.Invalid;
+    public BodyRef BodyRef => this.body?.bodyRef;
 
     public void Init(Body body, RandomX rng, SolarSystem system)
     {

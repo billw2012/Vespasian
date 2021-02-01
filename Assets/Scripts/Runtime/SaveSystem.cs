@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -112,7 +112,7 @@ public class RegisterSavableTypeAttribute : Attribute
 [RegisterSavableType]
 public class SaveData : ISaver, ILoader
 {
-    public Dictionary<string, object> data = new Dictionary<string, object>();
+    public DictX<string, object> data = new DictX<string, object>();
 
     public static SaveData SaveObject(ISavable obj)
     {
@@ -264,130 +264,76 @@ public class SaveSystem : MonoBehaviour
     /// <returns></returns>
     public async Task<bool> SaveExistsAsync(int index) => await FileExistsAsync(GetSaveMetaFilePath(index));
 
-    #region Save Wrappers
-    // These types are workarounds to get IL2cpp to work with the save system
-    [RegisterSavableType]
-    public class DictionaryEntryWrapper
-    {
-        public object Key;
-        public object Value;
-
-        public DictionaryEntryWrapper() {}
-        public DictionaryEntryWrapper(DictionaryEntry from)
-        {
-            this.Key = from.Key;
-            this.Value = from.Value;
-        }
-    }
-
-    [RegisterSavableType]
-    public class BodyRefWrapper
-    {
-        public int systemId;
-        public int bodyId;
-
-        public BodyRefWrapper() {}
-        public BodyRefWrapper(BodyRef from)
-        {
-            this.systemId = from.systemId;
-            this.bodyId = from.bodyId;
-        }
-
-        public BodyRef ToBodyRef() => new BodyRef {systemId = this.systemId, bodyId = this.bodyId};
-    }
-    
-    [RegisterSavableType]
-    public class DictionaryWrapper : List<DictionaryEntryWrapper>
-    {
-        public DictionaryWrapper() { }
-        public DictionaryWrapper(IEnumerable<DictionaryEntryWrapper> collection) : base(collection) { }
-    }
-
-    [RegisterSavableType]
-    public class BodyRefCollectionWrapper : List<BodyRefWrapper>
-    {
-        public BodyRefCollectionWrapper() {}
-        public BodyRefCollectionWrapper(IEnumerable<BodyRefWrapper> collection) : base(collection) { }
-    }
-    
-    public class DictionarySurrogate : ISerializationSurrogateProvider //IDataContractSurrogate
-    {
-        public object GetObjectToSerialize(object obj, Type targetType)
-        {
-            // Debug.Log($"{obj.GetType().Name} == {targetType.Name}");
-            // Look for any Dictionary<> regardless of generic parameters
-            var type = obj.GetType();
-            if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-            {
-                var wrapper = new DictionaryWrapper();
-                foreach (DictionaryEntry de in (IDictionary)obj)
-                {
-                    wrapper.Add(new DictionaryEntryWrapper(de));
-                }
-                return wrapper;
-            }
-            else if (type.FindInterfaces((i, _) => i == typeof(ICollection<BodyRef>), null).Any())
-            {
-                return new BodyRefCollectionWrapper(((IEnumerable<BodyRef>)obj)
-                    .Select(bodyRef => new BodyRefWrapper(bodyRef)));
-            }
-            else if (type == typeof(BodyRef))
-            {
-                return new BodyRefWrapper((BodyRef)obj);
-            }
-            return obj;
-        }
-        
-        public object GetDeserializedObject(object obj, Type targetType)
-        {
-            var type = obj.GetType();
-            if(type == typeof(DictionaryWrapper))
-            {
-                // We can just use the non-generic interface, which makes things a lot easier
-                var target = (IDictionary)Activator.CreateInstance(targetType);
-                foreach (var kv in (DictionaryWrapper)obj)
-                {
-                    target.Add(kv.Key, kv.Value);
-                }
-                return target;
-            }
-            else if(type == typeof(BodyRefCollectionWrapper))
-            {
-                // We can just use the ICollection<> interface, which makes things easier
-                var target = (ICollection<BodyRef>)Activator.CreateInstance(targetType);
-                foreach (var b in (BodyRefCollectionWrapper)obj)
-                {
-                    target.Add(b.ToBodyRef());
-                }
-                return target;
-            }
-            else if (type == typeof(BodyRefWrapper) && targetType == typeof(BodyRef))
-            {
-                return ((BodyRefWrapper)obj).ToBodyRef();
-            }
-            return obj;
-        }
-
-        public Type GetSurrogateType(Type type)
-        {
-            // Look for any Dictionary<> regardless of generic parameters, then return a DictionaryWrapper
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-            {
-                return typeof(DictionaryWrapper);
-            }
-            else if (type.FindInterfaces((i, _) => i == typeof(ICollection<BodyRef>), null).Any())
-            {
-                return typeof(BodyRefCollectionWrapper);
-            }
-            else if (type == typeof(BodyRef))
-            {
-                return typeof(BodyRefWrapper);
-            }
-            
-            return type;
-        }
-    }
-    #endregion Save Wrappers
+    // #region Save Wrappers
+    // // These types are workarounds to get IL2cpp to work with the save system
+    // [RegisterSavableType]
+    // public class DictionaryEntryWrapper
+    // {
+    //     public object Key;
+    //     public object Value;
+    //
+    //     public DictionaryEntryWrapper() {}
+    //     public DictionaryEntryWrapper(DictionaryEntry from)
+    //     {
+    //         this.Key = from.Key;
+    //         this.Value = from.Value;
+    //     }
+    // }
+    //
+    // [RegisterSavableType]
+    // public class DictionaryWrapper : List<DictionaryEntryWrapper>
+    // {
+    //     public DictionaryWrapper() { }
+    //     public DictionaryWrapper(IEnumerable<DictionaryEntryWrapper> collection) : base(collection) { }
+    // }
+    //
+    // public class DictionarySurrogate : ISerializationSurrogateProvider //IDataContractSurrogate
+    // {
+    //     public object GetObjectToSerialize(object obj, Type targetType)
+    //     {
+    //         // Debug.Log($"{obj.GetType().Name} == {targetType.Name}");
+    //         // Look for any Dictionary<> regardless of generic parameters
+    //         var type = obj.GetType();
+    //         if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+    //         {
+    //             var wrapper = new DictionaryWrapper();
+    //             foreach (DictionaryEntry de in (IDictionary)obj)
+    //             {
+    //                 wrapper.Add(new DictionaryEntryWrapper(de));
+    //             }
+    //             return wrapper;
+    //         }
+    //         return obj;
+    //     }
+    //     
+    //     public object GetDeserializedObject(object obj, Type targetType)
+    //     {
+    //         var type = obj.GetType();
+    //         if(type == typeof(DictionaryWrapper))
+    //         {
+    //             // We can just use the non-generic interface, which makes things a lot easier
+    //             var target = (IDictionary)Activator.CreateInstance(targetType);
+    //             foreach (var kv in (DictionaryWrapper)obj)
+    //             {
+    //                 target.Add(kv.Key, kv.Value);
+    //             }
+    //             return target;
+    //         }
+    //         return obj;
+    //     }
+    //
+    //     public Type GetSurrogateType(Type type)
+    //     {
+    //         // Look for any Dictionary<> regardless of generic parameters, then return a DictionaryWrapper
+    //         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+    //         {
+    //             return typeof(DictionaryWrapper);
+    //         }
+    //         
+    //         return type;
+    //     }
+    // }
+    // #endregion Save Wrappers
     
     /// <summary>
     /// Save to slot at index, overwriting anything present
@@ -418,11 +364,11 @@ public class SaveSystem : MonoBehaviour
         }
 
         // Save all registered objects into our save data structures
-        var data = this.saveables
+        var data = new DictX<string, SaveData>(this.saveables
             .ToDictionary(
                 kv => kv.Key,
                 kv => SaveData.SaveObject(kv.Value))
-            ;
+            );
 
         // Write out the save data structures to the file
         await this.SerializeObjectAsync(path, data);
@@ -463,7 +409,7 @@ public class SaveSystem : MonoBehaviour
             try
             {
                 // Load the save data structure from the file
-                var data = await this.DeserializeObjectAsync<Dictionary<string, SaveData>>(path);
+                var data = await this.DeserializeObjectAsync<DictX<string, SaveData>>(path);
 
                 // Restore all registered savable objects
                 foreach (var savable in this.saveables)
@@ -540,13 +486,13 @@ public class SaveSystem : MonoBehaviour
     private static string GetSaveMetaFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.meta.xml");
     private static string GetSaveFilePath(int index) => Path.Combine(Application.persistentDataPath, $"save{index}.xml");
 
-    private static async Task<bool> FileExistsAsync(string path) => await Task.Run(() => File.Exists(path));
+    private static async Task<bool> FileExistsAsync(string path) => await TaskX.Run(() => File.Exists(path));
 
-    private static async Task DeleteFileAsync(string path) => await Task.Run(() => File.Delete(path));
+    private static async Task DeleteFileAsync(string path) => await TaskX.Run(() => File.Delete(path));
 
     private async Task<T> DeserializeObjectAsync<T>(string path)
     {
-        return await Task.Run(() =>
+        return await TaskX.Run(() =>
         {
             using (var ms = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
@@ -555,7 +501,9 @@ public class SaveSystem : MonoBehaviour
                     KnownTypes = this.knownTypes,
                 };
                 var bf = new DataContractSerializer(typeof(T), dcsSettings);
-                bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
+// #if !UNITY_WEBGL
+//                 bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
+// #endif
                 return (T)bf.ReadObject(ms);
             }
         });
@@ -563,7 +511,7 @@ public class SaveSystem : MonoBehaviour
 
     private async Task SerializeObjectAsync<T>(string path, T obj)
     {
-        await Task.Run(() =>
+        await TaskX.Run(() =>
         {
             var settings = new XmlWriterSettings { Indent = true };
             using (var xmlWriter = XmlWriter.Create(path, settings))
@@ -573,7 +521,9 @@ public class SaveSystem : MonoBehaviour
                     KnownTypes = this.knownTypes,
                 };
                 var bf = new DataContractSerializer(typeof(T), dcsSettings);
-                bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
+// #if !UNITY_WEBGL
+//                 bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
+// #endif
                 bf.WriteObject(xmlWriter, obj);
             }
         });
