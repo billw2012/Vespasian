@@ -83,7 +83,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -275,7 +275,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -445,7 +445,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 5440636405066318774}
   - component: {fileID: 7350249617088247476}
   m_Layer: 8
-  m_Name: PlayerPrefab
+  m_Name: Player Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -758,7 +758,7 @@ MonoBehaviour:
   - {fileID: 7598267240120445739}
   explosionPrefab: {fileID: 1740529701155596434, guid: df062d37ecfd95b4fb9558f2f59adbbb,
     type: 3}
-  gameLogic: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e, type: 2}
+  actionOnKilled: 0
   maxHullHP: 1
   allowDamage: 1
   onKilled:

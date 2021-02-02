@@ -78,7 +78,7 @@ public class HealthComponent : MonoBehaviour
 
     public void AddDamage(float amount, Vector3 direction)
     {
-        if(!this.allowDamage)
+        if(!this.allowDamage || this.hullHP == 0)
         {
             return;
         }
