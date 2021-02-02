@@ -21,7 +21,8 @@ public class EngineController : MonoBehaviour
     //public AudioSource engineStart;
     public FadeableAudio rearAudio;
     public FadeableAudio frontAudio;
-    public FadeableAudio thrusterAudio;
+    public FadeableAudio leftThrusterAudio;
+    public FadeableAudio rightThrusterAudio;
     //public AudioSource engineEnd;
 
     // Final calculated object relative thrust value
@@ -87,14 +88,22 @@ public class EngineController : MonoBehaviour
         {
             this.frontAudio.FadeOut(0.2f);
         }
-
-        if (this.canThrust && this.thrust.x != 0 && this.prevThrust.x == 0)
+        
+        if (this.canThrust && this.thrust.x > 0 && this.prevThrust.x <= 0)
         {
-            this.thrusterAudio.FadeIn(0.01f);
+            this.rightThrusterAudio.FadeIn(0.01f);
         }
-        else if ((!this.canThrust || this.thrust.x == 0) && this.prevThrust.x != 0)
+        else if ((!this.canThrust || this.thrust.x <= 0) && this.prevThrust.x > 0)
         {
-            this.thrusterAudio.FadeOut(0.1f);
+            this.rightThrusterAudio.FadeOut(0.3f);
+        }
+        if (this.canThrust && this.thrust.x < 0 && this.prevThrust.x >= 0)
+        {
+            this.leftThrusterAudio.FadeIn(0.01f);
+        }
+        else if ((!this.canThrust || this.thrust.x >= 0) && this.prevThrust.x < 0)
+        {
+            this.leftThrusterAudio.FadeOut(0.2f);
         }
 
         //bool thrusterFired = this.thrust.x != 0 && this.prevThrust.x == 0 ||

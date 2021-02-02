@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2532546599120530937}
   - component: {fileID: 2532546599120530822}
   - component: {fileID: 2532546599120530936}
-  - component: {fileID: 2532546599120530939}
   - component: {fileID: 2532546599120530938}
   - component: {fileID: 8804654420407296979}
   - component: {fileID: 4518746606952066591}
@@ -101,14 +100,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2532546599120530939
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2532546599120530941}
-  m_Enabled: 1
 --- !u!114 &2532546599120530938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +263,7 @@ GameObject:
   - component: {fileID: 9079785308708642850}
   - component: {fileID: 7768299213641313356}
   m_Layer: 0
-  m_Name: Warp Orientation
+  m_Name: Warp Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -319,7 +310,7 @@ GameObject:
   - component: {fileID: 388636730215300877}
   - component: {fileID: 3211781226826267658}
   m_Layer: 0
-  m_Name: Warp Effect
+  m_Name: Warp VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10133,3 +10124,4 @@ MonoBehaviour:
   - {r: 1, g: 0.3738191, b: 0.03773582, a: 1}
   - {r: 0.81960785, g: 0.8848793, b: 1, a: 1}
   - {r: 1, g: 0.9232859, b: 0.6226415, a: 1}
+  pinchZoom: {fileID: 0}

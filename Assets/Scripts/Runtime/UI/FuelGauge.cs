@@ -12,10 +12,7 @@ public class FuelGauge : MonoBehaviour
 
     private EngineController engineController;
 
-    private void Start()
-    {
-        this.engineController = FindObjectOfType<PlayerController>().GetComponent<EngineController>();
-    }
+    private void Start() => this.engineController = FindObjectOfType<PlayerController>().GetComponent<EngineController>();
 
     private async void Update()
     {

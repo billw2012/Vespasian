@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -14,7 +15,8 @@ public class SimMovement : MonoBehaviour, ISimUpdate
 {
     public GameConstants constants;
 
-    public Rigidbody controlledRigidbody;
+    [SerializeField]
+    private Rigidbody controlledRigidbody = null;
 
     public Vector2 startVelocity;
     
@@ -22,9 +24,9 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     public float alignSmoothTime = 0.01f;
     public float alignMaxSpeedDegPerSec = 360f;
 
-    [Tooltip("Used to render the simulated path sections")]
+    [Tooltip("Used to render the simulated path sections. If it is not specified then no future path projection is done.")]
     public GameObject pathRendererAsset;
-    [Tooltip("Used to render markers to show soi closest approaches")]
+    [Tooltip("Used to render markers to show soi closest approaches. If it is not specified then no future path projection is done.")]
     public GameObject soiMarkerAsset;
 
     public bool soiRelativePaths;
@@ -51,6 +53,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     private SectionedSimPath path;
     private Vector2 force = Vector2.zero;
 
+    #region SoiPathSectionRenderer
     private class SoiPathSectionRenderer
     {
         public LineRenderer lineRenderer;
@@ -108,12 +111,20 @@ public class SimMovement : MonoBehaviour, ISimUpdate
             }
         }
     }
-
+    #endregion
+    
     private readonly List<SoiPathSectionRenderer> pathRenderers = new List<SoiPathSectionRenderer>();
 
     private float rotVelocity;
 
-    private void Start() => FindObjectOfType<Simulation>()?.Register(this);
+    private void Start()
+    {
+        Assert.IsFalse(this.pathRendererAsset == null && this.soiMarkerAsset != null 
+                       || this.pathRendererAsset != null && this.soiMarkerAsset == null, 
+            "If pathRendererAsset is specified, then soiMarkerAsset must be specified also");
+        FindObjectOfType<Simulation>()?.Register(this);
+    }
+
     private void OnDestroy() => FindObjectOfType<Simulation>()?.Unregister(this);
 
     private void Update()
@@ -186,7 +197,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
     
     public void SimRefresh(Simulation simulation)
     {
-        this.path = simulation.CreateSectionedSimPath(this.transform.position, this.startVelocity, 20000, this.collisionRadius, 2000);
+        this.path = simulation.CreateSectionedSimPath(this.transform.position, this.startVelocity, 20000, this.collisionRadius, this.pathRendererAsset == null, 2000);
         this.sois = new List<SimModel.SphereOfInfluence>();
     }
     #endregion
@@ -283,6 +294,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate
         }
         return soiPaths;
     }
+    
     private void UpdatePath()
     {
         if (this.path == null)
