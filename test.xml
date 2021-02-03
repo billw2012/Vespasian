@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfKeyValuePairRefOfstringstring xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/">
+  <KeyValuePairRefOfstringstring>
+    <Key>testkey</Key>
+    <Value>testvalue</Value>
+  </KeyValuePairRefOfstringstring>
+</ArrayOfKeyValuePairRefOfstringstring>

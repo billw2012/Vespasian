@@ -12,6 +12,8 @@ public class DockActive : MonoBehaviour
     [Tooltip("Transform of the docking port")]
     public Transform dockingPortTransform;
 
+    public AudioSource dockingAudio;
+
     public float refuelRate = 0.05f;
 
     public GameLogic gameLogic;
@@ -77,6 +79,7 @@ public class DockActive : MonoBehaviour
                     // We save when docking is initiated like this by the player
                     _ = this.gameLogic.SaveGameAsync();
                 }            
+                this.dockingAudio?.Play();
             }
             else
             {

@@ -15,7 +15,7 @@ public abstract class Body
     public int randomKey;
     public BodyRef bodyRef;
 
-    public Dictionary<string, SaveData> savedComponents;
+    public DictX<string, SaveData> savedComponents;
 
     private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;
@@ -103,7 +103,7 @@ public abstract class Body
 
     private void SaveComponents()
     {
-        this.savedComponents = new Dictionary<string, SaveData>();
+        this.savedComponents = new DictX<string, SaveData>();
 
         foreach (var (savable, key) in this.savables)
         {
@@ -368,25 +368,19 @@ public class Link : IEquatable<Link>
 /// References a body by system and body ids
 /// </summary>
 [RegisterSavableType]
-public struct BodyRef 
+[Serializable]
+public class BodyRef 
 {
-    public int systemId;
-    public int bodyId;
+    // This type is immutable so setters are private
+    public int systemId { get; private set; }
+    public int bodyId { get; private set; }
     
     public bool isSystem => this.bodyId == -1;
-    public bool isValid => this.bodyId != 0;
 
-    public static readonly BodyRef Invalid = new BodyRef();
-
-    // public BodyRef()
-    // {
-    //     this.systemId = -1;
-    //     this.bodyId = -1;
-    // }
+    public BodyRef() {}
     
     public BodyRef(int systemId, int bodyId)
     {
-        Assert.AreNotEqual(bodyId, 0, "bodyId 0 is a reserved value!");
         this.systemId = systemId;
         this.bodyId = bodyId;
     }
@@ -403,7 +397,9 @@ public struct BodyRef
         this.systemId = other.systemId;
         this.bodyId = other.bodyId;
     }
-        
+
+    public BodyRef SystemRef() => new BodyRef(this.systemId);
+
     public bool EqualsSystem(BodyRef other) => this.systemId == other.systemId;
 
     public bool Equals(BodyRef other) => this.systemId == other.systemId && this.bodyId == other.bodyId;

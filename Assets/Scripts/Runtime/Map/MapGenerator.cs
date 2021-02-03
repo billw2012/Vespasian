@@ -335,7 +335,7 @@ public class MapGenerator : ScriptableObject
     public async Task<Map> GenerateAsync(BodySpecs bodySpecs)
     {
         var factions = Object.FindObjectsOfType<Faction>();
-        return await Task.Run(() =>
+        return await TaskX.Run(() =>
         {
             var rng = new RandomX((int)(DateTime.Now.Ticks % int.MaxValue));
 
@@ -380,10 +380,6 @@ public class MapGenerator : ScriptableObject
             {
                 position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
             }
-
-            // char RandomLetter() => (char) ((int) 'A' + rng.Range(0, 'Z' - 'A'));
-            //string systemName = NameGenerator.GenerateName(rng); 
-            // $"{RandomLetter()}{RandomLetter()}-{Mathf.FloorToInt(position.x * 100)},{Mathf.FloorToInt(position.y * 100)}";
 
             map.AddSystem(this.GenerateSystem(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, position));
         }

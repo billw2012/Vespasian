@@ -115,7 +115,7 @@ public class FactionExpansion : MonoBehaviour, ISavable
             Debug.LogError($"Couldn't find suitable home world for faction {this.faction.gameObject}");
             return;
         }
-
+        
         // Update our station list on the main thread, wait for it so further processing can see it
         ThreadingX.RunOnUnityThreadAsync(() =>
         {

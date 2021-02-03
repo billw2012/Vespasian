@@ -16,7 +16,7 @@ public class HealthComponent : MonoBehaviour
         Deactivate
     }
     public KilledAction actionOnKilled = KilledAction.None;
-    
+
     [Tooltip("Hull strength"), Range(0, 3)]
     public float maxHullHP = 1f;
 
@@ -78,7 +78,7 @@ public class HealthComponent : MonoBehaviour
 
     public void AddDamage(float amount, Vector3 direction)
     {
-        if(!this.allowDamage)
+        if(!this.allowDamage || this.hullHP == 0)
         {
             return;
         }
@@ -140,6 +140,21 @@ public class HealthComponent : MonoBehaviour
         if (playerHealthComponent != null)
         {
             playerHealthComponent.hullHP = Mathf.Clamp(newHull, 0, 1) * playerHealthComponent.maxHullHP;
+        }
+    }
+    
+    [ConsoleMethod("player.godmode", "Toggle player ship allow damage")]
+    public static void DebugTogglePlayerGodMode()
+    {
+        var playerHealthComponent = GetPlayerHealthComponent();
+        if (playerHealthComponent != null)
+        {
+            playerHealthComponent.allowDamage = !playerHealthComponent.allowDamage;
+            Debug.Log(
+                playerHealthComponent.allowDamage 
+                ? "Player can take damage" 
+                : "Player can NOT take damage"
+            );
         }
     }
 }

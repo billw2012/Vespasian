@@ -245,10 +245,6 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
             this.dockTargetBodyRef = loader.LoadValue<BodyRef>("dockTarget.BodyRef");
             this.dockTargetIndex = loader.LoadValue<int>("dockTarget.Index");
         }
-        else
-        {
-            this.dockTargetBodyRef = BodyRef.Invalid;
-        }
     }
     #endregion
 
@@ -258,7 +254,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         // We need to load into the current system after game save load is complete
         await this.LoadSystemAsync(null, this.currentSystem);
         
-        if (this.dockTargetBodyRef.isValid)
+        if (this.dockTargetBodyRef != null)
         {
             var dockTarget = FindObjectsOfType<BodyGenerator>().FirstOrDefault(b => b.BodyRef == this.dockTargetBodyRef);
             Assert.IsNotNull(dockTarget, $"Couldn't find docking target with BodyRef {this.dockTargetBodyRef}");
