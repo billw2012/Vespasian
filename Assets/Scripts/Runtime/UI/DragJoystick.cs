@@ -1,46 +1,73 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class DragJoystick : MonoBehaviour
+public class DragJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    private PlayerController playerLogic;
-    private Vector2 posStart;
-    private bool dragging = false;
+    [SerializeField]
+    Canvas canvas;
 
-    private const float deadZone = 0.25f;
-    private const float JoystickSizePx = 200;
+    [SerializeField]
+    RectTransform joystickRectTransform;
 
-    private void Start()
+    [SerializeField]
+    RectTransform knobRectTransform;
+
+    Vector2 joystickSize;
+
+    Vector2 offsetRelative;
+    bool inputActive;
+    Vector2 lastScreenPos;
+
+
+
+    // Public interface for other components
+    public Vector2 userInputValue { get => offsetRelative; }
+
+    public bool userInputActive { get => this.inputActive; }
+
+    // ----------------------------------
+
+
+
+    void UpdateKnobPos(PointerEventData eventData)
     {
-        this.playerLogic = FindObjectOfType<PlayerController>();
+        Vector2 posScreen = eventData.position;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(this.joystickRectTransform, posScreen, null, out Vector2 knobPosLocal);
+
+        float knobDistanceLocal = knobPosLocal.magnitude;
+        float knobDistanceMax = 0.5f * this.joystickSize.x;
+        this.offsetRelative = knobPosLocal / knobDistanceMax;
+        if (knobDistanceLocal >= knobDistanceMax)
+        {
+            knobPosLocal = knobPosLocal.normalized * knobDistanceMax;
+            this.offsetRelative = this.offsetRelative.normalized;
+        }
+
+        this.knobRectTransform.localPosition = knobPosLocal;
+
+        //Debug.Log($"User input: {this.offsetRelative}");
     }
 
-    private void Update()
+    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        if (Input.touchCount == 1)
-        {
-            var touch = Input.GetTouch(0);
-            if (!this.dragging)
-            {
-                this.posStart = touch.position;
-                this.dragging = true;
-            }
-            var offset = Vector2.ClampMagnitude(touch.position - this.posStart, JoystickSizePx) / DragJoystick.JoystickSizePx;
+        Debug.Log("OnBeginDrag");
+        this.joystickSize = this.joystickRectTransform.offsetMax - this.joystickRectTransform.offsetMin;
+        this.UpdateKnobPos(eventData);
+        this.inputActive = true;
+    }
 
-            // Apply dead zone
-            if (Mathf.Abs(offset.x) < DragJoystick.deadZone)
-                offset.x = 0;
-            if (Mathf.Abs(offset.y) < DragJoystick.deadZone)
-                offset.y = 0;
+    void IDragHandler.OnDrag(PointerEventData eventData)
+    {
+        this.UpdateKnobPos(eventData);        
+    }
 
-            this.playerLogic.thrustInputJoystick = offset;
-        }
-        else
-        {
-            if (this.dragging)
-            {
-                this.dragging = false;
-            }
-            this.playerLogic.thrustInputJoystick = Vector2.zero;
-        }
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+    {
+        Debug.Log("OnEndDrag");
+        this.knobRectTransform.localPosition = Vector2.zero;
+        this.inputActive = false;
+        this.offsetRelative = Vector2.zero;
     }
 }

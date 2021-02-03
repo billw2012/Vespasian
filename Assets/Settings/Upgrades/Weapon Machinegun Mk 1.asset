@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: Weapon Machinegun Mk 1
   m_EditorClassIdentifier: 
-  cost: 0
-  shipPartPrefab: {fileID: 0}
+  cost: 1000
+  shipPartPrefab: {fileID: 3803508347684608883, guid: cecf6af103e390e469966f161645649d,
+    type: 3}
   shopUIPrefab: {fileID: 0}
   replaces: []
   requires: []

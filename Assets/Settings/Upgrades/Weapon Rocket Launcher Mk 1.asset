@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc18b0308500f39419cff4e0a16a46cb, type: 3}
   m_Name: Weapon Rocket Launcher Mk 1
   m_EditorClassIdentifier: 
-  cost: 0
-  shipPartPrefab: {fileID: 0}
+  cost: 3000
+  shipPartPrefab: {fileID: 4713953025986677825, guid: c02187eee6316874da1e7a1bfacdcccd,
+    type: 3}
   shopUIPrefab: {fileID: 0}
   replaces: []
   requires: []
