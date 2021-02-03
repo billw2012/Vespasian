@@ -9,7 +9,8 @@ public class ControllerBase : MonoBehaviour, ISavable, ISavableCustom
     
     private UpgradeComponentProxy<ThrustComponent> thrustComponentProxy;
     private ThrustComponent thrustComponent;
-    
+    protected WeaponController weaponController;
+
     protected void Start()
     {
         this.thrustComponentProxy = this.GetComponent<UpgradeManager>()?.GetProxy<ThrustComponent>();
@@ -17,6 +18,7 @@ public class ControllerBase : MonoBehaviour, ISavable, ISavableCustom
         {
             this.thrustComponent = this.GetComponentInChildren<ThrustComponent>();
         }
+        this.weaponController = this.GetComponent<WeaponController>();
     }
 
     protected void SetThrust(float forward, float right)
@@ -62,4 +64,9 @@ public class ControllerBase : MonoBehaviour, ISavable, ISavableCustom
         );
     }
     #endregion ISavableCustom
+
+    public WeaponController GetWeaponController()
+    {
+        return this.weaponController;
+    }
 }
