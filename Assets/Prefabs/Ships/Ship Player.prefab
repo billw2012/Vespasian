@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &509134228571846102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335021587520558443}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1212ea7f191b0b546b057e1b59ff1c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warpSpeed: 500
+  acceleration: 500
+  turnSmoothTime: 0.5
+  warpEffect: {fileID: 0}
+  background: {fileID: 0}
+  starfield: {fileID: 0}
+  cameraController: {fileID: 0}
+  warpPostEffect:
+    target: {fileID: 0}
+    floatProperties: []
+    colorProperties: []
+--- !u!114 &5226251190433895070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335021587520558443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb01e55c553841be812af7329a0366dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5559029628535421440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335021587520558443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a607aeffe2e2b144ead629e9f6c177a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7067716991797538379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335021587520558443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce0cb700702fb54e8033e7612549479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: 1
 --- !u!1 &7246317909024096985
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,66 +162,6 @@ AudioReverbFilter:
   m_LFReference: 178
   m_ReflectionsDelay: 0.029
   m_ReverbPreset: 27
---- !u!114 &509134228571846102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8335021587520558443}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1212ea7f191b0b546b057e1b59ff1c96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  warpSpeed: 500
-  acceleration: 500
-  turnSmoothTime: 0.5
-  warpEffect: {fileID: 0}
-  background: {fileID: 0}
-  starfield: {fileID: 0}
-  cameraController: {fileID: 0}
-  warpPostEffect:
-    target: {fileID: 0}
-    floatProperties: []
-    colorProperties: []
---- !u!114 &5226251190433895070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8335021587520558443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb01e55c553841be812af7329a0366dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5559029628535421440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8335021587520558443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a607aeffe2e2b144ead629e9f6c177a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7067716991797538379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8335021587520558443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ce0cb700702fb54e8033e7612549479, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: 1
 --- !u!1001 &1903764947422636151
 PrefabInstance:
   m_ObjectHideFlags: 0
