@@ -896,6 +896,7 @@ GameObject:
   - component: {fileID: 5787854961690867618}
   - component: {fileID: 245438755032496346}
   - component: {fileID: 1870372275858092443}
+  - component: {fileID: 7265126639836193249}
   m_Layer: 8
   m_Name: Ship Base
   m_TagString: Untagged
@@ -1116,6 +1117,18 @@ MonoBehaviour:
   frontAudio: {fileID: 8359058617543216448}
   leftThrusterAudio: {fileID: 8470054626300183256}
   rightThrusterAudio: {fileID: 7904342808078977100}
+--- !u!114 &7265126639836193249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620224551109491996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7717564026f9534a9909ef519a6b592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7620224552652236272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,12 +1686,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2606851887782247715}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &76821276654727174 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -6539919962303935195, guid: dd47bfc5b923a0b46988604009b7e318,
-    type: 3}
-  m_PrefabInstance: {fileID: 2606851887782247715}
-  m_PrefabAsset: {fileID: 0}
 --- !u!33 &1443411457850168685 stripped
 MeshFilter:
   m_CorrespondingSourceObject: {fileID: -5754084199372789682, guid: dd47bfc5b923a0b46988604009b7e318,
@@ -1694,6 +1701,12 @@ Transform:
 --- !u!1 &2948745235202310258 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dd47bfc5b923a0b46988604009b7e318,
+    type: 3}
+  m_PrefabInstance: {fileID: 2606851887782247715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &76821276654727174 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -6539919962303935195, guid: dd47bfc5b923a0b46988604009b7e318,
     type: 3}
   m_PrefabInstance: {fileID: 2606851887782247715}
   m_PrefabAsset: {fileID: 0}

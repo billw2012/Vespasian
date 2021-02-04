@@ -8,7 +8,7 @@ public class WeaponComponentMachinegun : WeaponComponentBase
     private GameObject projectilePrefab = null;
 
     [SerializeField]
-    float startVelocity = 1.0f;
+    float startVelocity = 4.0f;
 
     protected override void FireInternal(Vector3 fireDir) {
         this.InstantiateProjectile(this.projectilePrefab, fireDir, this.startVelocity);

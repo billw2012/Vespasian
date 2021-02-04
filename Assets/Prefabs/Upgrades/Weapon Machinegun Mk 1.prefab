@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 933249661121919882, guid: a6a1f074165196c4a9d9dc8a333171e3,
+        type: 3}
+      propertyPath: startVelocity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 933249661121919882, guid: a6a1f074165196c4a9d9dc8a333171e3,
+        type: 3}
+      propertyPath: shotsPerSecond
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 933249661121919882, guid: a6a1f074165196c4a9d9dc8a333171e3,
+        type: 3}
+      propertyPath: magSize
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2960550336735327996, guid: a6a1f074165196c4a9d9dc8a333171e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 5176433198134194474, guid: a6a1f074165196c4a9d9dc8a333171e3,
         type: 3}
       propertyPath: m_Name
-      value: Weapon Machinegun Base
+      value: Weapon Machinegun Mk 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6a1f074165196c4a9d9dc8a333171e3, type: 3}

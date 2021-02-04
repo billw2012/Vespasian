@@ -14,25 +14,41 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI weaponPanelText;
 
+    [SerializeField]
+    LineRenderer fireDirectionLineRenderer;
+
     // Update is called once per frame
     void Update()
     {
         var currentWeapon = this.shipController.GetWeaponController().GetCurrentWeapon();
         if (dragJoystick.userInputActive)
         {
+            this.fireDirectionLineRenderer.enabled = true;
             Vector2 joyInput = this.dragJoystick.userInputValue;
             float inputLen = joyInput.magnitude;
-            if (inputLen > 0.5f)
+            if (inputLen > 0.9f)
             {
                 if (currentWeapon != null)
                 {
                     currentWeapon.FireAt(joyInput);
                 }
             }
+
+            // Handle the fire direction line renderer
+            Vector3 posStart = this.shipController.transform.position;
+            Vector3 posEnd = posStart + (Vector3)joyInput.normalized * 100.0f;
+            Vector3[] linePositions =
+            {
+                posStart,
+                posEnd
+            };
+            linePositions[0].z = 0;
+            linePositions[1].z = 0;
+            this.fireDirectionLineRenderer.SetPositions(linePositions);
         }
         else
         {
-
+            this.fireDirectionLineRenderer.enabled = false;
         }
 
         // Update the weapon info panel
@@ -42,7 +58,9 @@ public class PlayerWeaponController : MonoBehaviour
         }
         else
         {
-            string text = $"Current weapon: {currentWeapon}";
+            string text = $"Weapon: {currentWeapon.upgradeDef.name}";
+            if (currentWeapon.Reloading)
+                text = text + "\nReloading...!";
             this.weaponPanelText.text = text;
         }
     }

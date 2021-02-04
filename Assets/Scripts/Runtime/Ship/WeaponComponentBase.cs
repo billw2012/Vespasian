@@ -40,6 +40,13 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
 
     Vector3 vectorFireDir = new Vector3(1, 0, 0);
 
+
+    // Public getters for some variables
+    public float Heat { get { return this.heatCurrent; } }
+    public bool Overheat { get { return this.overheat; } }
+    public bool Reloading { get { return this.reloading; } }
+    // ---------------------------------
+
     protected virtual void Awake()
     {
         this.ownFaction = this.GetComponentInParent<ControllerBase>().faction;
@@ -56,7 +63,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         // Launch projectile if we don't have overheat, we are not reloading, etc
         if (this.commandFire)
         {
-            if (!this.reloading && !this.overheat && !this.waitingBetweenShots)
+            if (!this.reloading && !this.overheat && !this.waitingBetweenShots && this.magCurrent > 0)
             {
                 this.FireInternal(this.vectorFireDir);  // Must create the projectile object
 
@@ -68,6 +75,14 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
                 {
                     this.overheat = true;
                 }
+
+                this.magCurrent--;
+                if (this.magCurrent == 0)
+                {
+                    this.reloading = true;
+                    this.reloadTimerCurrent = this.reloadTime;
+                }
+
                 didFire = true;
             }
         }
@@ -87,7 +102,10 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         {
             this.reloadTimerCurrent -= deltaTimeReal;
             if (this.reloadTimerCurrent <= 0)
+            {
                 this.reloading = false;
+                this.magCurrent = this.magSize;
+            }
         }
 
         // Handle overheat state
@@ -142,7 +160,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         projectileSimMovement.alignToVelocity = false;
         Vector2 startVelocityVec = ((Vector2)originSimMovement.velocity) + vectorDir2D * startVelocity;
         projectileSimMovement.SetPositionVelocity(this.transform.position, projectileRotation, startVelocityVec);
-        var controller = projectile.GetComponent<RocketUnguidedController>();
+        var controller = projectile.GetComponent<ControllerBase>();
         controller.faction = this.ownFaction; // Rocket faction must match faction of the ship shooting it
     }
 

@@ -51,3 +51,5 @@ MonoBehaviour:
   shotsPerSecond: 100
   magSize: 1
   reloadTime: 3
+  projectilePrefab: {fileID: 109568686105646257, guid: 28ec8cf8598b1f247901e43390e1b8f1,
+    type: 3}
