@@ -20,7 +20,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     [SerializeField, Tooltip("Shots per second")]
     float shotsPerSecond = 10.0f;
 
-    [SerializeField, Tooltip("Size of magazine after which the weapon will be reloaded")]
+    [SerializeField, Tooltip("Size of magazine after which the weapon will be reloaded. Set to 0 to ignore mag logic.")]
     int magSize = 10;
 
     [SerializeField, Tooltip("Reload time")]
@@ -57,27 +57,29 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     // We must do our things in LateUpdate, because FireAt is called in Update
     public void LateUpdate()
     {
+        this.BeforeLateUpdate();
+
         float deltaTimeReal = Time.deltaTime * this.simulation.tickStep;
         bool didFire = false;
 
         // Launch projectile if we don't have overheat, we are not reloading, etc
         if (this.commandFire)
         {
-            if (!this.reloading && !this.overheat && !this.waitingBetweenShots && this.magCurrent > 0)
+            if (!this.reloading && !this.overheat && !this.waitingBetweenShots && (this.magCurrent > 0 || this.magSize == 0))
             {
                 this.FireInternal(this.vectorFireDir);  // Must create the projectile object
 
                 this.waitingBetweenShots = !this.shootEachFrame;
                 this.shootTimerCurrent += 1/this.shotsPerSecond;
 
-                this.heatCurrent += this.heatGenerationRate;
+                this.heatCurrent += this.heatGenerationRate*deltaTimeReal;
                 if (this.heatCurrent >= 1.0f)
                 {
                     this.overheat = true;
                 }
 
                 this.magCurrent--;
-                if (this.magCurrent == 0)
+                if (this.magCurrent == 0 && this.magSize != 0)
                 {
                     this.reloading = true;
                     this.reloadTimerCurrent = this.reloadTime;
@@ -112,7 +114,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         if (!didFire)
         {
             // We cool down if we didn't fire during this frame
-            this.heatCurrent -= this.heatCoolingRate;
+            this.heatCurrent -= this.heatCoolingRate*deltaTimeReal;
         }
         if (this.overheat)
         {
@@ -145,6 +147,9 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     // Spawn a bullet
     // Draw a laser beam from here to there
     protected abstract void FireInternal(Vector3 fireDir);
+
+    // Can be implemented to perform actions before LateUpdate is called
+    protected abstract void BeforeLateUpdate();
 
     // Helper function to instantiate a projectile
     protected void InstantiateProjectile(GameObject prefab, Vector3 vectorDir, float startVelocity)

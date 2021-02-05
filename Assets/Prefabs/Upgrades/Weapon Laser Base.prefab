@@ -44,10 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7ce51be7d74bdaa1382564446bcf29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firingRange: 10
-  firingCooldownTime: 3
+  preferredFiringRangeMin: 0
+  preferredFiringRangeMax: 20
+  heatGenerationRate: 1
+  heatCoolingRate: 0.5
+  shootEachFrame: 1
+  shotsPerSecond: 6
+  magSize: 90000000
+  reloadTime: 0
   damagePerSecond: 0.1
   laserEffect: {fileID: 7140626014988766085}
+  laserRange: 10
 --- !u!1001 &1547590033204774002
 PrefabInstance:
   m_ObjectHideFlags: 0
