@@ -198,16 +198,16 @@ public class MapGenerator : ScriptableObject
             var comet = new Comet(systemId)
             {
                 name = $"{parentName} {CometNames[i]}",
-                 randomKey = rng.Range(0, int.MaxValue),
-                 specId = spec.id,
-                 parameters = new OrbitParameters
-                 {
-                     periapsis = periapsis * this.systemParams.finalOrbitScaling,
-                     apoapsis = apoapsis * this.systemParams.finalOrbitScaling,
-                     angle = rng.Range(0f, 360f),
-                     offset = rng.Range(0f, 360f),
-                     direction = direction,
-                 }
+                randomKey = rng.Range(0, int.MaxValue),
+                specId = spec.id,
+                parameters = new OrbitParameters
+                {
+                    periapsis = periapsis * this.systemParams.finalOrbitScaling,
+                    apoapsis = apoapsis * this.systemParams.finalOrbitScaling,
+                    angle = rng.Range(0f, 360f),
+                    offset = rng.Range(0f, 360f),
+                    direction = direction,
+                }
             };
             comets.Add(comet);
         }

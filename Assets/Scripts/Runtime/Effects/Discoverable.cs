@@ -13,19 +13,12 @@ class Discoverable : MonoBehaviour, ISavable
     private BodyRef bodyRef;
     private Renderer[] renderers;
     private BodyLogic bodyLogic;
+    private string bodyName;
 
     public bool discovered =>
         this.dataCatalog == null ||
         this.bodyRef == null ||
         this.dataCatalog.HaveData(this.bodyRef, DataMask.Orbit);
-
-    public void Discover()
-    {
-        string bodyName = this.bodyLogic?.name ?? this.bodyRef.ToString();
-        Debug.Log($"{bodyName} was discovered");
-        this.dataCatalog.AddData(this.bodyRef, DataMask.Orbit);
-        NotificationsUI.Add($"<color=#00FFC3><b>{bodyName}</b> was discovered!</color>");
-    }
 
     private void Start()
     {
@@ -41,11 +34,20 @@ class Discoverable : MonoBehaviour, ISavable
         }
 
         this.dataCatalog = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
-        this.bodyRef = this.GetComponent<BodyGenerator>()?.BodyRef;
+        var bodyGenerator = this.GetComponent<BodyGenerator>();
+        this.bodyRef = bodyGenerator.BodyRef;
+        this.bodyName = bodyGenerator.body.name ?? this.bodyRef.ToString();
     }
 
     private void Update() => this.EnableAllRenderers(this.discovered);
-
+    
+    public void Discover()
+    {
+        Debug.Log($"{bodyName} was discovered");
+        this.dataCatalog.AddData(this.bodyRef, DataMask.Orbit);
+        NotificationsUI.Add($"<color=#00FFC3><b>{bodyName}</b> was discovered!</color>");
+    }
+    
     private void EnableAllRenderers(bool enable)
     {
         // TODO: do something cleaner and more efficient than disable/enable renderers, not sure what...
