@@ -52,7 +52,7 @@ public class FollowCameraController : MonoBehaviour
 
         this.initialCameraSize = Camera.main.orthographicSize;
 
-        this.scenePointsOfInterest = GameObject.FindObjectsOfType<CameraPointOfInterest>();
+        this.scenePointsOfInterest = ComponentCache.FindObjectsOfType<CameraPointOfInterest>();
     }
 
     private Vector2 ClampToCameraInnerArea(Vector2 vec)

@@ -21,7 +21,7 @@ public abstract class PositionalObjective : Objective
 
     private void Start()
     {
-        this.objectiveMarker = Instantiate(this.objectiveMarkerAsset);
+        this.objectiveMarker = ComponentCache.Instantiate(this.objectiveMarkerAsset);
         this.objectiveMarker.transform.localScale = Vector3.one * this.radius;
 
         this.lineRenderer = this.objectiveMarker.GetComponent<LineRenderer>();

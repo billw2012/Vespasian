@@ -75,7 +75,7 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
 
         // Instantiate the projectile
         //Debug.Log($"Frame {Time.frameCount} Calling Instantiate()");
-        var projectile = Instantiate(this.projectilePrefab);
+        var projectile = ComponentCache.Instantiate(this.projectilePrefab);
         //Debug.Log("Left Instantiate()");
         var projectileRotation = Quaternion.FromToRotation(Vector3.up, shootVector);
         var originSimMovement = this.weaponOrigin.GetComponent<SimMovement>();

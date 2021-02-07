@@ -30,7 +30,7 @@ public class UpgradeUI : MonoBehaviour
 
         foreach(var upgradeDef in this.upgradeManager.fullUpgradeSet.upgradesDefs)
         {
-            var upgradeUI = Instantiate(upgradeDef.shopUIPrefab == null? this.defaultUpgradeUIPrefab : upgradeDef.shopUIPrefab, this.grid.transform);
+            var upgradeUI = ComponentCache.Instantiate(upgradeDef.shopUIPrefab == null? this.defaultUpgradeUIPrefab : upgradeDef.shopUIPrefab, this.grid.transform);
             var upgradeItemUI = upgradeUI.GetComponent<UpgradeItemUI>();
             upgradeItemUI.Init(this, upgradeDef, this.missions);
         }

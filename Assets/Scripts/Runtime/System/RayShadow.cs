@@ -59,7 +59,7 @@ public class RayShadow : MonoBehaviour
             }
         }
 
-        var suns = FindObjectsOfType<StarLogic>();
+        var suns = ComponentCache.FindObjectsOfType<StarLogic>();
         this.rays = suns.Select(light =>
             {
                 var shadow = new GameObject($"Shadow ({light.name})");

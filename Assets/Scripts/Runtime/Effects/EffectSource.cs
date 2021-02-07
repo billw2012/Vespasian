@@ -34,7 +34,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
         this.simManager = FindObjectOfType<Simulation>();
         if (this.areaMarkerAsset != null)
         {
-            this.areaMarker = Instantiate(this.areaMarkerAsset, this.originTransform);
+            this.areaMarker = ComponentCache.Instantiate(this.areaMarkerAsset, this.originTransform) as GameObject;
             this.areaMarker.SetActive(false);
         }
     }
@@ -88,7 +88,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
     // Returns closet effect source in range, or null
     public static T GetNearest<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource
     {
-        return (sources ?? FindObjectsOfType<T>()).Where(i => i != null)
+        return (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
             .Where(i => !i.IsComplete())
             .Select(i => (effectsrc: i, dist: i.GetDistance(tFrom)))
             .Where(i => i.dist < i.effectsrc.range)
@@ -99,13 +99,13 @@ public abstract class EffectSource : MonoBehaviour, ISavable
 
     public static IEnumerable<T> AllInRange<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource
     {
-         return (sources ?? FindObjectsOfType<T>()).Where(i => i != null)
+         return (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
             .Where(i => !i.IsComplete() && i.IsInRange(tFrom));
     }
 
     public static IEnumerable<T> AllInDetectionRange<T>(Transform tFrom, float detectionRange, IEnumerable<T> sources = null) where T : EffectSource
     {
-        return (sources ?? FindObjectsOfType<T>()).Where(i => i != null)
+        return (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
            .Where(i => !i.IsComplete() && i.IsInDetectionRange(tFrom, detectionRange));
     }
 

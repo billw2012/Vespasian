@@ -86,8 +86,8 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
         }
 
         var landingPosition = landingPositionCallback?.Invoke() ?? GetDefaultLandingPosition();
-        
-        // var station = FindObjectsOfType<StationLogic>().SelectRandom();
+
+        // var station = ComponentCache.FindObjectsOfType<StationLogic>().SelectRandom();
         // if (station != null)
         // {
         //     // If there is a station in the system then land near it
@@ -99,7 +99,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
         //     float entryDistance = Mathf.Max(50f, Random.Range(0f, 0.5f) * to.size + to.main.radius * 10f);
         //     landingPosition = Vector2.Perpendicular(entryDirection) * Mathf.Sign(Random.Range(-1, +1)) * entryDistance;
         // }
-        
+
         float speedAtPeriapsis = OrbitalUtils.SpeedAtPeriapsis(landingPosition.magnitude,
             landingPosition.magnitude,
             to.main.mass,

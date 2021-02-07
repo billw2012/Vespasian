@@ -29,7 +29,7 @@ public class RocketUnguidedController : ControllerBase
         this.movement.OnCrashed.AddListener(() => Object.Destroy(this.gameObject));
 
         //Debug.Log("RocketUnguidedController.Start() ->");
-        this.enemiesCached = FindObjectsOfType<ControllerBase>().Where(c => c.faction != this.faction).ToList();
+        this.enemiesCached = ComponentCache.FindObjectsOfType<ControllerBase>().Where(c => c.faction != this.faction).ToList();
     }
 
 

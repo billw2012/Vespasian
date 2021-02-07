@@ -15,7 +15,7 @@ public class ObjectiveManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(!this.nextButton.activeSelf && FindObjectsOfType<Objective>().Where(o => o.required).All(o => o.complete))
+        if(!this.nextButton.activeSelf && ComponentCache.FindObjectsOfType<Objective>().Where(o => o.required).All(o => o.complete))
         {
             this.nextButton.SetActive(true);
         }

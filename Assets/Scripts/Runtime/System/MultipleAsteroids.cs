@@ -80,7 +80,7 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
         {
             this.asteroids.Add(new Asteroid
             {
-                obj = Instantiate(this.asteroidPrefab, this.transform),
+                obj = ComponentCache.Instantiate(this.asteroidPrefab, this.transform),
                 radiusOffset = Random.Range(-1f, 1f) * this.radiusRandomization,
                 timeOffset = (i + Random.Range(-0.5f, 0.5f) * this.orbitRandomization) * period / this.count
             });

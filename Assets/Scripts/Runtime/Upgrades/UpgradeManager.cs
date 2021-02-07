@@ -132,7 +132,7 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
                 this.Uninstall(replaced);
             }
 
-            var obj = Object.Instantiate(upgradeDef.shipPartPrefab, this.upgradeRoot);
+            var obj = ComponentCache.Instantiate(upgradeDef.shipPartPrefab, this.upgradeRoot);
             obj.name = upgradeDef.name;
             upgradeLogic = obj.GetComponent<IUpgradeLogic>();
             upgradeLogic.Install(upgradeDef);

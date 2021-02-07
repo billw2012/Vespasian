@@ -86,7 +86,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
 
         // Generate scheme element for star
         var mainBody = system.main;
-        var starGameObject = Instantiate(this.schemeBodyPrefab);
+        var starGameObject = ComponentCache.Instantiate(this.schemeBodyPrefab);
         elements.Add(starGameObject);
         InitSchemeBodyTransform(starGameObject, currentXPos, currentYPos);
         
@@ -102,7 +102,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         // Iterate star's planets
         foreach (var planet in bodies)
         {
-            var planetGameObject = Instantiate(this.schemeBodyPrefab);
+            var planetGameObject = ComponentCache.Instantiate(this.schemeBodyPrefab);
             elements.Add(planetGameObject);
             InitSchemeBodyTransform(planetGameObject, currentXPos, currentYPos);
             this.InitSchemeBodyProperties(planetGameObject, planet);
@@ -115,7 +115,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
             {
                 foreach (var moon in orbitingBody.children.OfType<StarOrPlanet>())
                 {
-                    var moonGameObject = Instantiate(this.schemeBodyPrefab);
+                    var moonGameObject = ComponentCache.Instantiate(this.schemeBodyPrefab);
                     elements.Add(moonGameObject);
                     InitSchemeBodyTransform(moonGameObject, currentXPos, currentYPos);
                     this.InitSchemeBodyProperties(moonGameObject, moon);
@@ -153,7 +153,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
             if (bodySpec.uiPrefab != null)
                 uiPrefab = bodySpec.uiPrefab;
 
-        Object.Instantiate(uiPrefab, bodyComponent.iconRoot);
+        ComponentCache.Instantiate(uiPrefab, bodyComponent.iconRoot);
 
         return bodyComponent;
     }

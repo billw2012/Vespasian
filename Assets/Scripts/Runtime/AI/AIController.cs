@@ -57,7 +57,7 @@ public class AIController : ControllerBase
     GameObject FindNearestEnemy()
     {
         var thisFaction = this.faction;
-        var allTargets = FindObjectsOfType<ControllerBase>()
+        var allTargets = ComponentCache.FindObjectsOfType<ControllerBase>()
             .Where(i => i.faction != thisFaction)
             .ToArray();
         

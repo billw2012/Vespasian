@@ -23,7 +23,7 @@ public class Mineable : EffectSource
     private void Start()
     {
         this.miningRadiusRenderer.transform.localScale = this.range * 2 * Vector3.one;
-        this.miners = FindObjectsOfType<Miner>();
+        this.miners = ComponentCache.FindObjectsOfType<Miner>();
         this.asteroidLogic = this.GetComponent<AsteroidLogic>();
     }
 

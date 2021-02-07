@@ -334,7 +334,7 @@ public class MapGenerator : ScriptableObject
 
     public async Task<Map> GenerateAsync(BodySpecs bodySpecs)
     {
-        var factions = Object.FindObjectsOfType<Faction>();
+        var factions = ComponentCache.FindObjectsOfType<Faction>();
         return await TaskX.Run(() =>
         {
             var rng = new RandomX((int)(DateTime.Now.Ticks % int.MaxValue));

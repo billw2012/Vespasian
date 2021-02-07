@@ -30,7 +30,7 @@ public class Spawn
     public GameObject Instance(BodySpecs bodySpecs, SolarSystem solarSystem, RandomX rng)
     {
         var shipSpec = bodySpecs.GetAIShipSpecById(this.specId);
-        var shipInstance = Object.Instantiate(shipSpec.prefab);
+        var shipInstance = ComponentCache.Instantiate(shipSpec.prefab) as GameObject;
         
         this.savable = shipInstance.GetComponent<SavableObject>();
         if (this.savedData == null)

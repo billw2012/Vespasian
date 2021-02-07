@@ -35,7 +35,7 @@ public class UpgradeDef : ScriptableObject
     /// <param name="parent"></param>
     public void AddUI(RectTransform parent)
     {
-        var obj = Object.Instantiate(this.shopUIPrefab, parent);
+        var obj = ComponentCache.Instantiate(this.shopUIPrefab, parent);
         obj.name = this.name;
     }
 }

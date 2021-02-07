@@ -109,7 +109,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
 
         protected OrbitManeuver()
         {
-            this.bodies = FindObjectsOfType<BodyLogic>()
+            this.bodies = ComponentCache.FindObjectsOfType<BodyLogic>()
                 .Select(b => new BOG{ body = b, orbit = b.GetComponent<Orbit>(), gravitySource = b.GetComponent<GravitySource>()})
                 .ToArray();
             this.primary = this.bodies.FirstOrDefault(b => b.body.GetComponent<StarLogic>() != null);

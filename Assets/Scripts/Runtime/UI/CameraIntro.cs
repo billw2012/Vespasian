@@ -29,7 +29,7 @@ public class CameraIntro : MonoBehaviour
         }
         if (!this.targets.Any())
         {
-            this.targets = FindObjectsOfType<PositionalObjective>()
+            this.targets = ComponentCache.FindObjectsOfType<PositionalObjective>()
                 .Select(o => o.target)
                 // TODO: solve traveling salesman problem, then order the objectives better
                 .OrderBy(o => Vector2.Distance(player.transform.position, o.position))

@@ -450,7 +450,7 @@ public class Orbit : MonoBehaviour
         if (directParent != null)
             return directParent.parameters.mass;
         // Instead use sum of sun masses...
-        return FindObjectsOfType<StarLogic>().Select(s => s.GetComponent<GravitySource>().parameters.mass).Sum();
+        return ComponentCache.FindObjectsOfType<StarLogic>().Select(s => s.GetComponent<GravitySource>().parameters.mass).Sum();
     }
 
     public void RefreshValidateRecursive()

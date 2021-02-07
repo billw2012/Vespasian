@@ -68,7 +68,7 @@ public class Simulation : MonoBehaviour
     {
         this.model = new SimModel();
         this.model.DelayedInit();
-        this.simulatedObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISimUpdate>().OfType<MonoBehaviour>().ToList();
+        this.simulatedObjects = ComponentCache.FindObjectsOfType<MonoBehaviour>().OfType<ISimUpdate>().OfType<MonoBehaviour>().ToList();
         foreach (var s in this.simulatedObjects.OfType<ISimUpdate>())
         {
             s.SimRefresh(this);

@@ -78,7 +78,7 @@ public class PlanetRingRenderer : MonoBehaviour
 
             if (this.particleObject == null && this.ringParticlePrefab != null)
             {
-                this.particleObject = Instantiate(this.ringParticlePrefab, this.transform);
+                this.particleObject = ComponentCache.Instantiate(this.ringParticlePrefab, this.transform);
                 this.particleObject.name = "Ring Particles";
                 //this.particleObject.hideFlags = HideFlags.NotEditable | HideFlags.DontSaveInEditor | HideFlags.DontSaveInBuild;
             }
