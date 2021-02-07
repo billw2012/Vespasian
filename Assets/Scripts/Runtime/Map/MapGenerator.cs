@@ -258,7 +258,6 @@ public class MapGenerator : ScriptableObject
             {
                 // TODO: consider this star temp and distance for moons of this new star?
                 planetTemp = planetSpec.tempByMass.Evaluate(planetMass);
-                Debug.Log($"Planet mass {planetMass} mapped to star temp {planetTemp}");
             }
 
             float planetDensity = planetSpec.densityRandom.Evaluate(rng);

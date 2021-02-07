@@ -36,7 +36,7 @@ class Discoverable : MonoBehaviour
         this.dataCatalog = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
         var bodyGenerator = this.GetComponent<BodyGenerator>();
         this.bodyRef = bodyGenerator.BodyRef;
-        this.bodyName = bodyGenerator.body.name ?? this.bodyRef.ToString();
+        this.bodyName = bodyGenerator.body?.name ?? this.bodyRef?.ToString() ?? "(unnamed)";
     }
 
     private void Update() => this.EnableAllRenderers(this.discovered);

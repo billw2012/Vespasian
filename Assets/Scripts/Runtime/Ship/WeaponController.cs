@@ -5,9 +5,9 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     // Todo or should we use proxies instead?
-    List<WeaponComponentBase> weapons = new List<WeaponComponentBase>();
+    private List<WeaponComponentBase> weapons = new List<WeaponComponentBase>();
 
-    int currentWeaponId = 0;
+    private int currentWeaponId = 0;
 
 
     // These are called from WeaponComponentBase.Install/Uninstall

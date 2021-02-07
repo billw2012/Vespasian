@@ -6,25 +6,25 @@ using UnityEngine;
 public class PlayerWeaponController : MonoBehaviour
 {
     [SerializeField]
-    DragJoystick dragJoystick;
+    private DragJoystick dragJoystick = null;
 
     [SerializeField]
-    ControllerBase shipController;
+    private ControllerBase shipController = null;
 
     [SerializeField]
-    TextMeshProUGUI weaponPanelText;
+    private TextMeshProUGUI weaponPanelText = null;
 
     [SerializeField]
-    LineRenderer fireDirectionLineRenderer;
+    private LineRenderer fireDirectionLineRenderer = null;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var currentWeapon = this.shipController.GetWeaponController().GetCurrentWeapon();
         if (dragJoystick.userInputActive)
         {
             this.fireDirectionLineRenderer.enabled = true;
-            Vector2 joyInput = this.dragJoystick.userInputValue;
+            var joyInput = this.dragJoystick.userInputValue;
             float inputLen = joyInput.magnitude;
             if (inputLen > 0.9f)
             {
@@ -35,16 +35,12 @@ public class PlayerWeaponController : MonoBehaviour
             }
 
             // Handle the fire direction line renderer
-            Vector3 posStart = this.shipController.transform.position;
-            Vector3 posEnd = posStart + (Vector3)joyInput.normalized * 100.0f;
-            Vector3[] linePositions =
-            {
-                posStart,
-                posEnd
-            };
-            linePositions[0].z = 0;
-            linePositions[1].z = 0;
-            this.fireDirectionLineRenderer.SetPositions(linePositions);
+            var posStart = this.shipController.transform.position;
+            var posEnd = posStart + (Vector3)joyInput.normalized * 100.0f;
+            this.fireDirectionLineRenderer.SetPositions(new []{
+                posStart.xy0(),
+                posEnd.xy0()
+            });
         }
         else
         {

@@ -20,7 +20,7 @@ public class SimpleCameraController : MonoBehaviour
 
     private Vector3 GetInputTranslationDirection()
     {
-        Vector3 direction = new Vector3();
+        var direction = new Vector3();
         if (Input.GetKey(KeyCode.W))
         {
             direction += Vector3.up;

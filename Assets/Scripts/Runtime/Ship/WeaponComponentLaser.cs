@@ -20,15 +20,15 @@ public class WeaponComponentLaser : WeaponComponentBase
 
     protected override void FireInternal(Vector3 fireDir) {
         // Perform ray cast, select nearest hit
-        GameObject thisGameObject = this.gameObject;
-        RaycastHit[] intersects = Physics.RaycastAll(this.transform.position, fireDir, this.laserRange);
-        Vector3 thisPos = this.transform.position;
+        var thisGameObject = this.gameObject;
+        var intersects = Physics.RaycastAll(this.transform.position, fireDir, this.laserRange);
+        var thisPos = this.transform.position;
         var intersectionsSorted = intersects.Where(i => i.collider.gameObject != thisGameObject)
             .Select(i => (collider: i.collider, dist: Vector3.Distance(thisPos, i.point), pos: i.point))
             .OrderBy(i => i.dist)
             .ToArray();
         bool hitTarget = intersectionsSorted.Length > 0;
-        Vector3 impactPos = hitTarget ?   // Calculate impact position
+        var impactPos = hitTarget ?   // Calculate impact position
             intersectionsSorted[0].pos :
             thisPos + this.laserRange * fireDir;
 

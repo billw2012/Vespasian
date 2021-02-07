@@ -127,7 +127,7 @@ public class FollowCameraController : MonoBehaviour
     {
         if (this.target)
         {
-            Vector3 targetPos = this.target.transform.position;
+            var targetPos = this.target.transform.position;
             this.transform.position = new Vector3(targetPos.x, targetPos.y, this.transform.position.z);
             this.currentOffset = Vector2.zero;
         }

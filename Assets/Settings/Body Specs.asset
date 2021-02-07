@@ -351,6 +351,135 @@ MonoBehaviour:
       maxX: 30
       minY: 2000
       maxY: 30000
+  - name: Rocky 2
+    id: 28678ff2-e68c-46dd-b853-853c1f7fb004
+    prefab: {fileID: 7573446184434855522, guid: ae7d1f88ad8bb624ebdeeab4e5f5ef48,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: d1103c77223bdcc41b3b5c40689924bb,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 0.207
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 5
+    minTemp: -Infinity
+    maxTemp: Infinity
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 1
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0.1
+    uniqueNameProbability: 0
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Dead
     id: 47b1a776-c40d-4c41-be4c-2fffaece12fe
     prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
@@ -1640,6 +1769,135 @@ MonoBehaviour:
       minX: 5
       maxX: 100
       minY: 1000
+      maxY: 30000
+  - name: Fractured
+    id: 4dffd949-1761-41da-9c85-a59024264039
+    prefab: {fileID: 7573446184434855522, guid: f96af680fc2996b40bf3d5b6cb4aee78,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: d1103c77223bdcc41b3b5c40689924bb,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 0.049
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 7
+    minTemp: -Infinity
+    maxTemp: Infinity
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    uniqueNameProbability: 0
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
       maxY: 30000
   belts:
   - name: Asteroid Belt

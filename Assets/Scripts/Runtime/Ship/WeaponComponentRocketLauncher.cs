@@ -16,8 +16,8 @@ public class WeaponComponentRocketLauncher : WeaponComponentBase
     }
 
     protected override void FireInternal(Vector3 fireDir) {
-        GameObject rocket = this.InstantiateProjectile(this.projectilePrefab, fireDir, 0);
-        RocketUnguidedController rocketController = rocket.GetComponent<RocketUnguidedController>();
+        var rocket = this.InstantiateProjectile(this.projectilePrefab, fireDir, 0);
+        var rocketController = rocket.GetComponent<RocketUnguidedController>();
 
         // The engine work time of the launched rocket is fixed.
         // The thrust is calculated according to projectileStartVelocity

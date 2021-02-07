@@ -55,7 +55,7 @@ public class RocketUnguidedController : ControllerBase
 
         var simMovement = this.GetComponent<SimMovement>();
         //float thisRadius = simMovement.collisionRadius;
-        Vector3 thisPos = simMovement.simPosition;
+        var thisPos = simMovement.simPosition;
 
         var crashObject = this.enemiesCached.FirstOrDefault(nmy => {
             var simComp = nmy.GetComponent<SimMovement>();
