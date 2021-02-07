@@ -51,7 +51,7 @@ public class BulletUnguidedController : ControllerBase
             var healthComp = crashObject.GetComponent<HealthComponent>();
             if (healthComp != null)
             {
-                healthComp.AddDamage(0.2f, new Vector3(1, 0, 0));
+                healthComp.AddDamage(0.1f, new Vector3(1, 0, 0));
             }
         }
     }

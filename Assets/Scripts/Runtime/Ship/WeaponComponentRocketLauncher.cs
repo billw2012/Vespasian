@@ -7,12 +7,21 @@ public class WeaponComponentRocketLauncher : WeaponComponentBase
     [SerializeField]
     private GameObject projectilePrefab = null;
 
+    [SerializeField, Tooltip("The engine work time of the launched rocket is fixed. The thrust is calculated according to projectileStartVelocity")]
+    private float thrustTime = 1.0f;
+
     protected override void BeforeLateUpdate()
     {
         
     }
 
     protected override void FireInternal(Vector3 fireDir) {
-        this.InstantiateProjectile(this.projectilePrefab, fireDir, 0);
+        GameObject rocket = this.InstantiateProjectile(this.projectilePrefab, fireDir, 0);
+        RocketUnguidedController rocketController = rocket.GetComponent<RocketUnguidedController>();
+
+        // The engine work time of the launched rocket is fixed.
+        // The thrust is calculated according to projectileStartVelocity
+        rocketController.thrustTime = this.thrustTime;
+        rocketController.thrust = this.projectileStartVelocity / this.thrustTime;
     }
 }

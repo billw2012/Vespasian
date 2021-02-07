@@ -63,5 +63,10 @@ public class WeaponController : MonoBehaviour
         return this.weapons[this.currentWeaponId];
     }
 
+    public List<WeaponComponentBase> GetAllWeapons()
+    {
+        return new List<WeaponComponentBase>(this.weapons);
+    }
+
     public int weaponCount { get => this.weapons.Count; }
 }

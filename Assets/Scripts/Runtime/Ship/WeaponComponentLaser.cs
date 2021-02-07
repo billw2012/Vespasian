@@ -7,9 +7,6 @@ using System.Linq;
 /// </summary>
 public class WeaponComponentLaser : WeaponComponentBase
 {
-    
-    [SerializeField]
-    private float damagePerSecond = 0.1f;
     [SerializeField]
     private ParticleSystem laserEffect = null;
     [SerializeField]
@@ -47,7 +44,7 @@ public class WeaponComponentLaser : WeaponComponentBase
             // Add damage
             var healthComponent = intersectionsSorted[0].collider.GetComponentInParent<HealthComponent>();
             if (healthComponent != null)
-                healthComponent.AddDamage(this.damagePerSecond * Time.deltaTime, fireDir);
+                healthComponent.AddDamage(this.impactDamage * Time.deltaTime, fireDir);
         }
     }
 

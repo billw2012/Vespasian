@@ -4,9 +4,9 @@ using UnityEngine;
 public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
 {
     [SerializeField, Tooltip("Returns prefered usage range for AI")]
-    float preferredFiringRangeMin = 0;
+    public float preferredFiringRangeMin = 0;
     [SerializeField, Tooltip("Returns prefered usage range for AI")]
-    float preferredFiringRangeMax = 20f;
+    public float preferredFiringRangeMax = 20f;
     
     [SerializeField, Tooltip("Heat generation per second. When heat reaches 1, it must cool down")]
     float heatGenerationRate = 0.1f;
@@ -25,6 +25,12 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
 
     [SerializeField, Tooltip("Reload time")]
     float reloadTime = 1;
+
+    [SerializeField, Tooltip("Start velocity to be used for firing solution calculations. Set to 0 for instant weapons (i.e. laser). It's up to the derived class how to use this variable.")]
+    public float projectileStartVelocity = 0;
+
+    [SerializeField, Tooltip("Impact damage, it's up to derived class how to use it")]
+    protected float impactDamage = 0;
         
     protected Faction.FactionType ownFaction;
     protected Simulation simulation;
@@ -114,7 +120,12 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         if (!didFire)
         {
             // We cool down if we didn't fire during this frame
-            this.heatCurrent -= this.heatCoolingRate*deltaTimeReal;
+            if (this.heatCurrent > 0)
+            {
+                this.heatCurrent -= this.heatCoolingRate * deltaTimeReal;
+                if (this.heatCurrent < 0)
+                    this.heatCurrent = 0;
+            }
         }
         if (this.overheat)
         {
@@ -152,7 +163,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     protected abstract void BeforeLateUpdate();
 
     // Helper function to instantiate a projectile
-    protected void InstantiateProjectile(GameObject prefab, Vector3 vectorDir, float startVelocity)
+    protected GameObject InstantiateProjectile(GameObject prefab, Vector3 vectorDir, float startVelocity)
     {
         // Normalize input vectors, for safety
         vectorDir = vectorDir.normalized;
@@ -167,6 +178,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         projectileSimMovement.SetPositionVelocity(this.transform.position, projectileRotation, startVelocityVec);
         var controller = projectile.GetComponent<ControllerBase>();
         controller.faction = this.ownFaction; // Rocket faction must match faction of the ship shooting it
+        return projectile;
     }
 
     public UpgradeDef upgradeDef { get; private set; }

@@ -5,11 +5,11 @@ using UnityEngine;
 public class RocketUnguidedController : ControllerBase
 {
     [SerializeField]
-    private float thrustTime = 2.0f;
+    public float thrustTime = 2.0f;
     [SerializeField]
-    private float lifeTime = 10.0f;
+    public float lifeTime = 10.0f;
     [SerializeField]
-    private float thrust = 3.0f;
+    public float thrust = 3.0f;
 
     private SimMovement movement;
 

@@ -61,8 +61,8 @@ public class PlayerWeaponController : MonoBehaviour
             string text = $"Weapon: {currentWeapon.upgradeDef.name}";
             if (currentWeapon.Reloading)
                 text = text + "\nReloading...!";
-            if (currentWeapon.Heat > 0)
-                text = text + $"\nHeat: {currentWeapon.Heat}";
+            //if (currentWeapon.Heat > 0)
+            text = text + $"\nHeat: {currentWeapon.Heat}";
             if (currentWeapon.Overheat)
                 text = text + "\nOverheat...!";
             this.weaponPanelText.text = text;

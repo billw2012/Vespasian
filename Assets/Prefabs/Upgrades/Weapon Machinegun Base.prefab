@@ -43,14 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc323940e5a9eaf429bfb871c7e78ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preferredFiringRangeMin: 0
-  preferredFiringRangeMax: 20
+  preferredFiringRangeMin: 2
+  preferredFiringRangeMax: 60
   heatGenerationRate: 0
   heatCoolingRate: 0.15
   shootEachFrame: 0
-  shotsPerSecond: 10
-  magSize: 30
+  shotsPerSecond: 5
+  magSize: 10
   reloadTime: 1
+  projectileStartVelocity: 18
+  impactDamage: 0
   projectilePrefab: {fileID: 109568686105646257, guid: cbad9fa94b96e6243960f3e0fddf37bf,
     type: 3}
-  startVelocity: 1
