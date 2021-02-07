@@ -101,11 +101,17 @@ public class RayShadow : MonoBehaviour
         {
             this.Refresh();
         }
-
+        
+        const float halfIntensityDistance = 200;
+        
+        float darkestPoint = this.localExtents.magnitude * this.shadowFadeInFactor / this.shadowLength;
+        
         var heightOffset = Vector3.back * 10f;
         var rayStartPos = this.geometry.transform.position + heightOffset;
         foreach (var ray in this.rays)
         {
+            float distanceScaling = Mathf.Min(1, halfIntensityDistance / (Vector2.Distance(ray.light.position, rayStartPos) + halfIntensityDistance));
+            
             // Set start and end
             if (ray.lineRenderer.GetPosition(0) != rayStartPos)
             {
@@ -114,7 +120,7 @@ public class RayShadow : MonoBehaviour
             var lightPos = ray.light.transform.position;
             var lightRay = (this.geometry.transform.position - lightPos).normalized;
 
-            var rayMid = rayStartPos + lightRay * this.localExtents.magnitude * this.shadowFadeInFactor;
+            var rayMid = rayStartPos + lightRay * this.localExtents.magnitude * this.shadowFadeInFactor * distanceScaling;
             if (ray.lineRenderer.GetPosition(1) != rayMid)
             {
                 ray.lineRenderer.SetPosition(1, rayMid);
@@ -145,6 +151,19 @@ public class RayShadow : MonoBehaviour
                         Vector3.Project(yAxis, perpVec).magnitude
                     );
             }
+
+            var colorGradient = new Gradient { mode = GradientMode.Blend };
+            colorGradient.SetKeys(
+                new GradientColorKey[] {
+                    new GradientColorKey(Color.black, 0),
+                },
+                new GradientAlphaKey[] {
+                    new GradientAlphaKey(0, 0),
+                    new GradientAlphaKey(this.shadowIntensity * distanceScaling, darkestPoint),
+                    new GradientAlphaKey(0, 1),
+                }
+            );
+            ray.lineRenderer.colorGradient = colorGradient;
 
             ray.lineRenderer.startWidth = width;
             ray.lineRenderer.endWidth = width * 0.5f;

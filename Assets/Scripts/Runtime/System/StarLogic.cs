@@ -30,6 +30,8 @@ public class StarLogic : MonoBehaviour
     [Tooltip("How far the sun glow spreads")]
     public float glowSpread = 1f;
 
+    public bool isPrimary => this.geometryTransform.position == Vector3.zero;
+
     private void OnValidate() => this.Refresh();
 
     private void Start() => this.Refresh();

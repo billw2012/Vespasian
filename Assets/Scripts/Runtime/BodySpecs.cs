@@ -23,6 +23,7 @@ public class BodySpecs : ScriptableObject
         public string name;
 
         public string id = Guid.NewGuid().ToString();
+        
         public GameObject prefab;
         public GameObject uiPrefab;
 
@@ -41,8 +42,8 @@ public class BodySpecs : ScriptableObject
     public class StarSpec : BodySpec
     {
         public WeightedRandom massRandom = new WeightedRandom { min = 5, max = 30 };
-        [Tooltip("Temperature in units of 10000 kelvin")]
-        public WeightedRandom tempRandom = new WeightedRandom { min = 0.4f, max = 5f };
+        [Tooltip("Temperature in kelvin")]
+        public WeightedRandom tempRandom = new WeightedRandom { min = 2000f, max = 30000f };
         public WeightedRandom densityRandom = new WeightedRandom { min = 1f, max = 1f, gaussian = true };
     }
 
@@ -62,7 +63,33 @@ public class BodySpecs : ScriptableObject
 
         public float uniqueNameProbability = 0f;
 
+        public bool isStar = false;
+
+        [Tooltip("Maps mass to temperature")]
+        public WeightedMapping tempByMass = new WeightedMapping(5, 30, 2000, 30000);
+
         public bool Matches(float mass, float temp) => this.minMass <= mass && mass <= this.maxMass && this.minTemp <= temp && temp <= this.maxTemp;
+    }
+
+    [Serializable]
+    public class WeightedMapping
+    {
+        public AnimationCurve mapping = AnimationCurve.Linear(0, 0, 1, 1);
+        public float minX;
+        public float maxX;
+        public float minY;
+        public float maxY;
+
+        public WeightedMapping(float minX, float maxX, float minY, float maxY)
+        {
+            this.minX = minX;
+            this.maxX = maxX;
+            this.minY = minY;
+            this.maxY = maxY;
+        }
+        
+        public float Evaluate(float value) => Mathf.Lerp(this.minY, this.maxY, this.mapping.Evaluate(Mathf.InverseLerp(this.minX, this.maxX, value)));
+        
     }
 
     [Serializable, KnownType(typeof(BeltSpec))]

@@ -88,6 +88,7 @@ public class MapGenerator : ScriptableObject
         public float beltChance = 0.25f;
 
         public WeightedRandom beltRelativeSystemDistance = new WeightedRandom { min = 0.1f, max = 0.4f, gaussian = true };
+        public float minBeltDistance = 10f;
 
         public WeightedRandom cometCountRandom = new WeightedRandom { min = 0f, max = 5f };
     };
@@ -134,7 +135,7 @@ public class MapGenerator : ScriptableObject
 
         if(rng.value <= this.systemParams.beltChance)
         {
-            float beltDist = this.systemParams.beltRelativeSystemDistance.Evaluate(rng) * systemSize;
+            float beltDist = Mathf.Max(this.systemParams.minBeltDistance + starRadius, this.systemParams.beltRelativeSystemDistance.Evaluate(rng) * systemSize);
 
             var belt = bodySpecs.RandomBelt(rng, beltDist);
             //var randomPlanet = planets.Shuffle().FirstOrDefault();
@@ -164,6 +165,7 @@ public class MapGenerator : ScriptableObject
 
         sys.main = new StarOrPlanet(systemId)
         {
+            name = systemName,
             randomKey = rng.Range(0, int.MaxValue),
             specId = mainSpec.id,
             density = starDensity,
@@ -251,6 +253,13 @@ public class MapGenerator : ScriptableObject
 
             float planetTemp = bodySpecs.PlanetTemp(starDistance + orbitalDistance, starRadius, starTemp);
             var planetSpec = bodySpecs.RandomPlanet(rng, planetMass, planetTemp);
+
+            if (planetSpec.isStar)
+            {
+                // TODO: consider this star temp and distance for moons of this new star?
+                planetTemp = planetSpec.tempByMass.Evaluate(planetMass);
+                Debug.Log($"Planet mass {planetMass} mapped to star temp {planetTemp}");
+            }
 
             float planetDensity = planetSpec.densityRandom.Evaluate(rng);
             // We add to the min radius instead of clamping with it so we don't get an over representation of

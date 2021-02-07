@@ -4,12 +4,13 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using UnityEngine;
 
 // These types are workarounds to get IL2cpp to work with the save system
-// [RegisterSavableType]
+[DebuggerDisplay("[{Key}] = {Value}")]
 public class KeyValuePairRef<TKey, TValue>
 {
     public TKey Key;
@@ -23,8 +24,7 @@ public class KeyValuePairRef<TKey, TValue>
     }
 }
 
-// [DataContract]
-// [RegisterSavableType]
+[DebuggerDisplay("{impl}")]
 public class DictX<TKey, TValue> : IEnumerable<KeyValuePairRef<TKey, TValue>>
 {
     private readonly IDictionary<TKey, TValue> impl = new Dictionary<TKey, TValue>();
@@ -35,23 +35,6 @@ public class DictX<TKey, TValue> : IEnumerable<KeyValuePairRef<TKey, TValue>>
     {
         this.impl = new Dictionary<TKey, TValue>(dictionary);
     }
-
-    // public DictX(SerializationInfo info, StreamingContext context)
-    // {
-    //     Debug.Log($"Deserializing DictX {this.GetType().FullName}");
-    //     var array = (KeyValuePairWrapper[])info.GetValue("KeyValuePairs", typeof(KeyValuePairWrapper[]));
-    //     foreach (var kv in array)
-    //     {
-    //         this.Add((TKey)kv.Key, (TValue)kv.Value);
-    //     }
-    // }
-    //
-    // public void GetObjectData(SerializationInfo info, StreamingContext context)
-    // {
-    //     Debug.Log($"Serializing DictX {this.GetType().FullName}");
-    //     var array = this.impl.Select(kv => new KeyValuePairWrapper(kv.Key, kv.Value)).ToArray(); 
-    //     info.AddValue("KeyValuePairs", (object) array, typeof (KeyValuePairWrapper[]));
-    // }
 
     public void Add(KeyValuePair<TKey, TValue> item) => this.impl.Add(item);
 

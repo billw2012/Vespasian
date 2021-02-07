@@ -448,9 +448,12 @@ public class Orbit : MonoBehaviour
     {
         var directParent = this.gameObject.GetComponentInParentOnly<GravitySource>();
         if (directParent != null)
+        {
             return directParent.parameters.mass;
-        // Instead use sum of sun masses...
-        return FindObjectsOfType<StarLogic>().Select(s => s.GetComponent<GravitySource>().parameters.mass).Sum();
+        }        // Instead use primary
+        return FindObjectsOfType<StarLogic>()
+            .First(s => s.isPrimary)
+            .GetComponent<GravitySource>().parameters.mass;
     }
 
     public void RefreshValidateRecursive()

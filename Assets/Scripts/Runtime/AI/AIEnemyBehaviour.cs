@@ -17,13 +17,15 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private AIController aiController;
     private Simulation simulation;
     private AI.Behave.Tree tree;
+
+    private GameObject target;
     
     public bool debug = false;
 
     /// <summary>
     /// Sets target velocity to current velocity
     /// </summary>
-    private class Idle : AI.Behave.Node
+    private class Idle : Node
     {
         protected override (Result result, Node node) UpdateImpl(object blackboard)
         {
@@ -37,13 +39,13 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     /// Wraps any node to only call its Update periodically instead of every update.
     /// Between Updates this node returns the last value.
     /// </summary>
-    private class PeriodicUpdate : AI.Behave.Decorator
+    private class PeriodicUpdate : Decorator
     {
         private readonly int intervalSimTicks;
         //private Result state = Result.Failure;
         private int nextUpdateTick = 0;
 
-        public PeriodicUpdate(int intervalSimTicks, AI.Behave.Node child) : base(child)
+        public PeriodicUpdate(int intervalSimTicks, Node child) : base(child)
         {
             this.intervalSimTicks = intervalSimTicks;
         }
@@ -60,7 +62,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         }
     }
 
-    private class InvertResult : AI.Behave.Decorator
+    private class InvertResult : Decorator
     {
         public InvertResult(Node child) : base(child) {}
 
@@ -79,7 +81,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         }
     }
     
-    private abstract class OrbitManeuver : AI.Behave.Node
+    private abstract class OrbitManeuver : Node
     {
         public struct BOG
         {
@@ -110,9 +112,14 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         protected OrbitManeuver()
         {
             this.bodies = FindObjectsOfType<BodyLogic>()
-                .Select(b => new BOG{ body = b, orbit = b.GetComponent<Orbit>(), gravitySource = b.GetComponent<GravitySource>()})
+                .Select(b => new BOG
+                {
+                    body = b,
+                    orbit = b.GetComponent<Orbit>(),
+                    gravitySource = b.GetComponent<GravitySource>(),
+                })
                 .ToArray();
-            this.primary = this.bodies.FirstOrDefault(b => b.body.GetComponent<StarLogic>() != null);
+            this.primary = this.bodies.FirstOrDefault(b => b.body.GetComponent<StarLogic>()?.isPrimary ?? false);
         }
 
         protected abstract (Result result, Vector2? newVelocity) UpdateManeuver(Vector2 aiPos, Vector2 aiVel);
@@ -230,7 +237,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         public CoastUntilHeight(float minHeight)
         {
             this.minHeight = minHeight;
-            this.primary = FindObjectOfType<StarLogic>()?.GetComponent<BodyLogic>();
+            this.primary = FindObjectOfType<MapComponent>()?.primary?.GetComponent<BodyLogic>();
         }
 
         protected override (Result result, Node node) UpdateImpl(object blackboard)
@@ -257,8 +264,9 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         
         public StayInSystem()
         {
-            this.maxRadius = FindObjectOfType<MapComponent>()?.currentSystem?.size ?? 50;
-            this.star = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
+            var mapComponent = FindObjectOfType<MapComponent>();
+            this.maxRadius = mapComponent?.currentSystem?.size ?? 50;
+            this.star = mapComponent?.primary?.GetComponent<GravitySource>();
         }
 
         protected override (Result result, Vector2? newVelocity) UpdateManeuver(Vector2 aiPos, Vector2 aiVel)
@@ -297,13 +305,16 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     /// Intercepts a target if they are on a "global" path (one that includes more than one SOI).
     /// Otherwise it will follow the body the target is orbiting at a safe distance.
     /// </summary>
-    private class InterceptTarget : AI.Behave.Node
+    private class InterceptTarget : Node
     {
         private readonly float shipFollowDistance;
+        private GravitySource primary;
 
         public InterceptTarget(float shipFollowDistance)
         {
             this.shipFollowDistance = shipFollowDistance;
+            //this.player = FindObjectOfType<PlayerController>();
+            this.primary = FindObjectOfType<MapComponent>()?.primary.GetComponent<GravitySource>();
         }
         
         // Version using orbit prediction with periapsis check
@@ -311,18 +322,15 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         {
             var ai = (AIEnemyBehaviour)blackboard;
 
-            var player = FindObjectOfType<PlayerController>();
             // Can't attack if player doesn't exist
-            if (player == null)
+            if (ai.target == null)
             {
                 return (Result.Failure, this);
             }
             
-            var target = player.GetComponent<SimMovement>();
-            var primary = FindObjectOfType<StarLogic>().GetComponent<GravitySource>();
-
             // Can't attack while docked... We could perhaps go any lie in wait though?
-            if (target.GetComponent<DockActive>()?.docked ?? false)
+            var dockActive = ai.target.GetComponent<DockActive>();
+            if (dockActive != null && dockActive.docked)
             {
                 return (Result.Failure, this);
             }
@@ -330,9 +338,10 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
             // We can only approach the target directly if they are in a "global" trajectory, i.e. not in orbit
             // around a planet/moon. Its fine if they are passing through multiple SOIs though as long as one of them is
             // the stars.
-            (var targetPos, var targetVel, float followDistance) = this.GetTargetSpec(target, primary);
+            (var targetPos, var targetVel, float followDistance) 
+                = this.GetTargetSpec(ai.target.GetComponent<SimMovement>(), this.primary);
             
-            ai.aiController.SetTargetVelocity(this.GetVelocityToIntercept((Vector2)ai.transform.position, (Vector2)ai.simMovement.velocity, primary, targetPos, targetVel, followDistance));
+            ai.aiController.SetTargetVelocity(this.GetVelocityToIntercept((Vector2)ai.transform.position, (Vector2)ai.simMovement.velocity, this.primary, targetPos, targetVel, followDistance));
 
             return (Result.Running, this);
         }
@@ -351,7 +360,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
                     for(;;)
                     {
                         var p = g.GetComponentInParentOnly<GravitySource>();
-                        if (p == null || p.GetComponent<StarLogic>() != null)
+                        if (p == null || (p.GetComponent<StarLogic>()?.isPrimary ?? false))
                         {
                             return g;
                         }   
@@ -446,12 +455,14 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     }
     
     public void SimUpdate(Simulation simulation, int simTick, int timeStep) => this.tree?.Update(this);
-
+    
     public void SimRefresh(Simulation simulation)
     {
+        this.target = FindObjectOfType<PlayerController>().gameObject;
+
         this.tree = new AI.Behave.Tree("AI enemy behaviour",
             new PeriodicUpdate(60,
-                new AI.Behave.Selector("Priority selector",
+                new Selector("Priority selector",
                     // Avoid collisions as highest priority
                     new RaiseOrbit((bog, o) => 20f + bog.orbit.absoluteVelocity.magnitude * 3f, 10),
                     new Sequence("Intercept maneuver",
