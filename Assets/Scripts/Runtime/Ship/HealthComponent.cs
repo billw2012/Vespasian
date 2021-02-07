@@ -2,10 +2,11 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HealthComponent : MonoBehaviour
+public class HealthComponent : MonoBehaviour, ISavable
 {
     [SerializeField]
     private ParticleSystem[] damageParticleSystems = null;
+
     [SerializeField]
     private GameObject explosionPrefab = null;
 
@@ -17,10 +18,10 @@ public class HealthComponent : MonoBehaviour
     }
     public KilledAction actionOnKilled = KilledAction.None;
 
-    [Tooltip("Hull strength"), Range(0, 3)]
+    [Tooltip("Hull strength"), Range(0, 3), Saved]
     public float maxHullHP = 1f;
 
-    [Tooltip("Is damage allowed?")]
+    [Tooltip("Is damage allowed?"), Saved] 
     public bool allowDamage = true;
 
     public UnityEvent onKilled;
@@ -36,11 +37,15 @@ public class HealthComponent : MonoBehaviour
     public bool isDamaged => this.hullHP < this.maxHullHP;
     public float damagedHP => this.maxHullHP - this.hullHP;
     
-
+    [Saved]
     private float hullHP;
+    [Saved]
     private float previousHull = 1;
+    [Saved]
     private Vector3 lastDamageDirection;
+    [Saved]
     private float damageRate = 0;
+    [Saved]
     private float damageRateVelocity = 0;
 
     private void Start()

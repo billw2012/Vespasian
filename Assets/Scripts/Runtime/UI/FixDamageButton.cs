@@ -35,12 +35,15 @@ public class FixDamageButton : MonoBehaviour
     private void Update()
     {
         var health = this.player.GetComponent<HealthComponent>();
-        if(health.isDamaged && this.missions.playerCredits > 0)
+        if(health.isDamaged)
         {
             this.repairCost = Mathf.Min(this.missions.playerCredits, Mathf.CeilToInt(health.damagedHP * this.fixCostPerHP));
             this.repairHP = Mathf.Min(health.damagedHP, this.repairCost / this.fixCostPerHP);
-            this.button.enabled = this.buttonImage.enabled = true;
-            this.buttonText.text = $"Repair <style=hp>{this.repairHP}</style> hp for <style=credits>{this.repairCost} cr</style>";
+            this.buttonImage.enabled = true;
+            this.button.enabled = this.missions.playerCredits > 0;
+            this.buttonText.text = this.repairHP == health.damagedHP 
+                ? $"Repair <style=hp>{this.repairHP}</style> hp for <style=credits>{this.repairCost} cr</style>" 
+                : $"Repair <style=hp>{this.repairHP}</style> of {health.damagedHP} hp for <style=credits>{this.repairCost} cr</style>";
         }
         else
         {

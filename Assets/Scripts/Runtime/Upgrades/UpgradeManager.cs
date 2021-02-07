@@ -52,11 +52,6 @@ public class UpgradeManager : MonoBehaviour, ISavable, ISavableCustom
         // Only save players upgrades globally
         // TODO: perhaps we generalize this for other ships
         this.isPlayerUpgradeManager = this.GetComponent<PlayerController>() != null;
-        if (this.isPlayerUpgradeManager)
-        {
-            FindObjectOfType<SaveSystem>().RegisterForSaving(this);
-        }
-
         this.InstallInitialUpgrades();
     }
 

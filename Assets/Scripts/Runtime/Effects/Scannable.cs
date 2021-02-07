@@ -17,9 +17,9 @@ public class Scannable : EffectSource
     }
 
     // Must be called in update!!
-    public void Scan(Scanner _)
+    public void Scan(Scanner scanner)
     {
-        float scanAdd = this.timeMultipler * Time.deltaTime * 0.2f;
+        float scanAdd = this.timeMultipler * Time.deltaTime * scanner.scanRate;
         this.scanProgress = Mathf.Clamp(this.scanProgress + scanAdd, 0, 1);
         this.scanning = true;
         this.Reveal();

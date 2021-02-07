@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ControllerBase : MonoBehaviour, ISavable, ISavableCustom
+public class ControllerBase : MonoBehaviour
 {
     public Faction.FactionType faction = Faction.FactionType.None;
     
@@ -41,25 +41,4 @@ public class ControllerBase : MonoBehaviour, ISavable, ISavableCustom
         }
         this.GetComponent<HealthComponent>().allowDamage = allow;
     }
-
-    #region ISavableCustom
-    [RegisterSavableType(typeof(Vector3)), RegisterSavableType(typeof(Quaternion))]
-    public void Save(ISaver serializer)
-    {
-        var simComponent = this.GetComponent<SimMovement>();
-        serializer.SaveValue("position", simComponent.transform.position);
-        serializer.SaveValue("rotation", simComponent.transform.rotation);
-        serializer.SaveValue("velocity", simComponent.velocity);
-    }
-
-    public void Load(ILoader deserializer)
-    {
-        var simComponent = this.GetComponent<SimMovement>();
-        simComponent.SetPositionVelocity(
-            deserializer.LoadValue<Vector3>("position"),
-            deserializer.LoadValue<Quaternion>("rotation"),
-            deserializer.LoadValue<Vector3>("velocity")
-        );
-    }
-    #endregion ISavableCustom
 }

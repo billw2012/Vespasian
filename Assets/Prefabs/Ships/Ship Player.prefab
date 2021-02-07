@@ -77,6 +77,37 @@ PrefabInstance:
       propertyPath: BypassReverbZones
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1408795510517265554, guid: a1847213850f34947b472f00a30b9a74,
+        type: 3}
+      propertyPath: onKilled.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408795510517265554, guid: a1847213850f34947b472f00a30b9a74,
+        type: 3}
+      propertyPath: onKilled.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408795510517265554, guid: a1847213850f34947b472f00a30b9a74,
+        type: 3}
+      propertyPath: onKilled.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408795510517265554, guid: a1847213850f34947b472f00a30b9a74,
+        type: 3}
+      propertyPath: onKilled.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: df8faedc006fc0047a4d80a26a47d14e,
+        type: 2}
+    - target: {fileID: 1408795510517265554, guid: a1847213850f34947b472f00a30b9a74,
+        type: 3}
+      propertyPath: onKilled.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoseGameAsync
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408795510517265554, guid: a1847213850f34947b472f00a30b9a74,
+        type: 3}
+      propertyPath: onKilled.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1590625990711438965, guid: a1847213850f34947b472f00a30b9a74,
         type: 3}
       propertyPath: BypassListenerEffects
@@ -106,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: BypassReverbZones
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7148288644113395113, guid: a1847213850f34947b472f00a30b9a74,
+        type: 3}
+      propertyPath: selfRegister
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7620224551109491987, guid: a1847213850f34947b472f00a30b9a74,
         type: 3}

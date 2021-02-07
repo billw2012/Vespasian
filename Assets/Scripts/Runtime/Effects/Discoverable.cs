@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // Attach it to something which can be discovered by player.
-class Discoverable : MonoBehaviour, ISavable
+class Discoverable : MonoBehaviour
 {
     public float discoveryRadius = 10.0f;
 

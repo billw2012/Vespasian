@@ -122,16 +122,18 @@ public class SaveData : ISaver, ILoader
         }
 
         var data = new SaveData();
+        
+        if (obj is ISavableCustom savableCustom)
+        {
+            savableCustom.Save(data);
+        }
+        
         if (obj != null)
         {
             ForEachField(obj, f => data.SaveValue(f.Name, f.GetValue(obj)));
             ForEachProperty(obj, f => data.data.Add(f.Name, f.GetValue(obj)));
         }
-
-        if (obj is ISavableCustom savableCustom)
-        {
-            savableCustom.Save(data);
-        }
+        
         return data;
     }
 
@@ -147,6 +149,18 @@ public class SaveData : ISaver, ILoader
         {
             savableCustom.Load(data);
         }
+    }
+    
+    public static string GetRelativeKey(MonoBehaviour component, Transform root)
+    {
+        IList<string> names = new List<string> { component.ToString() };
+        var obj = component.transform;
+        while (obj != root)
+        {
+            names.Add(obj.gameObject.ToString());
+            obj = obj.transform.parent;
+        }
+        return string.Join("/", names.Reverse());
     }
 
     #region ISaver
@@ -263,77 +277,6 @@ public class SaveSystem : MonoBehaviour
     /// <param name="index"></param>
     /// <returns></returns>
     public async Task<bool> SaveExistsAsync(int index) => await FileExistsAsync(GetSaveMetaFilePath(index));
-
-    // #region Save Wrappers
-    // // These types are workarounds to get IL2cpp to work with the save system
-    // [RegisterSavableType]
-    // public class DictionaryEntryWrapper
-    // {
-    //     public object Key;
-    //     public object Value;
-    //
-    //     public DictionaryEntryWrapper() {}
-    //     public DictionaryEntryWrapper(DictionaryEntry from)
-    //     {
-    //         this.Key = from.Key;
-    //         this.Value = from.Value;
-    //     }
-    // }
-    //
-    // [RegisterSavableType]
-    // public class DictionaryWrapper : List<DictionaryEntryWrapper>
-    // {
-    //     public DictionaryWrapper() { }
-    //     public DictionaryWrapper(IEnumerable<DictionaryEntryWrapper> collection) : base(collection) { }
-    // }
-    //
-    // public class DictionarySurrogate : ISerializationSurrogateProvider //IDataContractSurrogate
-    // {
-    //     public object GetObjectToSerialize(object obj, Type targetType)
-    //     {
-    //         // Debug.Log($"{obj.GetType().Name} == {targetType.Name}");
-    //         // Look for any Dictionary<> regardless of generic parameters
-    //         var type = obj.GetType();
-    //         if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-    //         {
-    //             var wrapper = new DictionaryWrapper();
-    //             foreach (DictionaryEntry de in (IDictionary)obj)
-    //             {
-    //                 wrapper.Add(new DictionaryEntryWrapper(de));
-    //             }
-    //             return wrapper;
-    //         }
-    //         return obj;
-    //     }
-    //     
-    //     public object GetDeserializedObject(object obj, Type targetType)
-    //     {
-    //         var type = obj.GetType();
-    //         if(type == typeof(DictionaryWrapper))
-    //         {
-    //             // We can just use the non-generic interface, which makes things a lot easier
-    //             var target = (IDictionary)Activator.CreateInstance(targetType);
-    //             foreach (var kv in (DictionaryWrapper)obj)
-    //             {
-    //                 target.Add(kv.Key, kv.Value);
-    //             }
-    //             return target;
-    //         }
-    //         return obj;
-    //     }
-    //
-    //     public Type GetSurrogateType(Type type)
-    //     {
-    //         // Look for any Dictionary<> regardless of generic parameters, then return a DictionaryWrapper
-    //         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-    //         {
-    //             return typeof(DictionaryWrapper);
-    //         }
-    //         
-    //         return type;
-    //     }
-    // }
-    // #endregion Save Wrappers
     
     /// <summary>
     /// Save to slot at index, overwriting anything present

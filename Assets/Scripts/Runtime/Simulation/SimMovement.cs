@@ -11,7 +11,7 @@ using UnityEngine.UI;
 /// Describes and updates a simulated path for an object moving under external forces.
 /// It generates the path ahead of time as long as no direct force is applied.
 /// </summary>
-public class SimMovement : MonoBehaviour, ISimUpdate
+public class SimMovement : MonoBehaviour, ISimUpdate, ISavable, ISavableCustom
 {
     public GameConstants constants;
 
@@ -367,6 +367,25 @@ public class SimMovement : MonoBehaviour, ISimUpdate
             }
         }
     }
+    
+    #region ISavableCustom
+    [RegisterSavableType(typeof(Vector3)), RegisterSavableType(typeof(Quaternion))]
+    public void Save(ISaver serializer)
+    {
+        serializer.SaveValue("position", this.transform.position);
+        serializer.SaveValue("rotation", this.transform.rotation);
+        serializer.SaveValue("velocity", this.velocity);
+    }
+
+    public void Load(ILoader deserializer)
+    {
+        this.SetPositionVelocity(
+            deserializer.LoadValue<Vector3>("position"),
+            deserializer.LoadValue<Quaternion>("rotation"),
+            deserializer.LoadValue<Vector3>("velocity")
+        );
+    }
+    #endregion ISavableCustom
 
 #if UNITY_EDITOR
     [NonSerialized]
