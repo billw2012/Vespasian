@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preferredFiringRangeMin: 0
-  preferredFiringRangeMax: 15
+  preferredFiringRangeMax: 13
   heatGenerationRate: 1
   heatCoolingRate: 0.5
   shootEachFrame: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
   projectileStartVelocity: 0
   impactDamage: 0.1
   laserEffect: {fileID: 7140626014988766085}
-  laserRange: 15
+  laserRange: 13
 --- !u!1001 &1547590033204774002
 PrefabInstance:
   m_ObjectHideFlags: 0

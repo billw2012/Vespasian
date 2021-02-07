@@ -187,7 +187,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         this.upgradeDef = upgradeDef;
 
         WeaponController weapCtr = GetComponentInParent<WeaponController>();
-        //Debug.Assert(weapCtr != null, "Weapon controller is null!");
+        Debug.Assert(weapCtr != null, "Weapon controller is null!");
         if (weapCtr != null)
             weapCtr.RegisterWeapon(this);
     }

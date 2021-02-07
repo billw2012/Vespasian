@@ -139,6 +139,7 @@ public class AIController : ControllerBase
     }
 
     float timerFindEnemy = 0;
+    float timerUpdateFiringVector = 0;
     GameObject currentTarget = null;
     WeaponComponentBase currentWeapon = null;
     Vector3 currentFireVector;
@@ -160,9 +161,14 @@ public class AIController : ControllerBase
             if (this.currentTarget != null &&
                 this.currentWeapon != null)
             {
-                Vector3 shipVel = this.GetComponent<SimMovement>().velocity;
-                Vector3 targetVel = this.currentTarget.GetComponent<SimMovement>().velocity;
-                this.currentFireVector = CalculateFiringVector(this.transform.position, shipVel, this.currentTarget.transform.position, targetVel, this.currentWeapon.projectileStartVelocity);
+                this.timerUpdateFiringVector += Time.deltaTime;
+                if (this.timerUpdateFiringVector > 2.0f)
+                {
+                    Vector3 shipVel = this.GetComponent<SimMovement>().velocity;
+                    Vector3 targetVel = this.currentTarget.GetComponent<SimMovement>().velocity;
+                    this.currentFireVector = CalculateFiringVector(this.transform.position, shipVel, this.currentTarget.transform.position, targetVel, this.currentWeapon.projectileStartVelocity);
+                    this.timerUpdateFiringVector = 0;
+                }
 
                 if (this.currentFireVector != Vector3.zero)
                     this.currentWeapon.FireAt(this.currentFireVector);
