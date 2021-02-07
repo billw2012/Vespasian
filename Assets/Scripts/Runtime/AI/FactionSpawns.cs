@@ -13,9 +13,9 @@ public class Spawn
     public int id;
     public string specId;
     
-    public DictX<string, SaveData> savedComponents;
+    public SaveData savedData;
     
-    private IEnumerable<ISavable> savables;
+    private SavableObject savable;
     //private GameObject activeInstance;
 
     // Parameterless constructor required for serialization
@@ -32,9 +32,8 @@ public class Spawn
         var shipSpec = bodySpecs.GetAIShipSpecById(this.specId);
         var shipInstance = Object.Instantiate(shipSpec.prefab);
         
-        this.savables = shipInstance.GetComponents<ISavable>()
-            .ToList();
-        if (this.savedComponents == null)
+        this.savable = shipInstance.GetComponent<SavableObject>();
+        if (this.savedData == null)
         {
             shipInstance.GetComponent<SimMovement>().SetPositionVelocity(
                 Quaternion.Euler(0, 0, rng.Range(0, 360)) * Vector3.right *
@@ -45,7 +44,7 @@ public class Spawn
         }
         else
         {
-            this.LoadComponents();
+            SaveData.LoadObject(this.savable, this.savedData);
         }
 
         return shipInstance;
@@ -53,37 +52,12 @@ public class Spawn
     
     public void Unloading()
     {
-        this.SaveComponents();
-        //this.activeInstance = null;
-        this.savables = null;
+        this.Saving();
+        this.savable = null;
     }
 
-    public void Saving() => this.SaveComponents();
-
-    private void LoadComponents()
-    {
-        Assert.IsNotNull(this.savedComponents);
-        
-        foreach(var savable in this.savables)
-        {
-            if(this.savedComponents.TryGetValue(savable.GetType().Name, out var data))
-            {
-                SaveData.LoadObject(savable, data);
-            }
-        }
-    }
-
-    private void SaveComponents()
-    {
-        this.savedComponents = new DictX<string, SaveData>();
-        
-        foreach (var savable in this.savables)
-        {
-            this.savedComponents.Add(savable.GetType().Name, SaveData.SaveObject(savable));
-        }
-    }
+    public void Saving() => this.savedData = SaveData.SaveObject(this.savable);
 }
-
 
 [RequireComponent(typeof(Faction))]
 public class FactionSpawns : MonoBehaviour, ISavable, IPreSave

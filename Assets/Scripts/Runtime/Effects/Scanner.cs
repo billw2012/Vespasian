@@ -1,9 +1,15 @@
 ﻿using Pixelplacement;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Scanner : MonoBehaviour, IUpgradeLogic
 {
-    public ParticleSystem laserScanner;
+    [SerializeField]
+    private ParticleSystem laserScannerPfx = null;
+
+    [SerializeField]
+    private AudioSource laserScannerAudio = null; 
+    
     public float scanRate = 0.1f;
 
     private Scannable target = null;
@@ -11,7 +17,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
     
     private void Start()
     {
-        this.laserScanner.gameObject.SetActive(false);
+        this.laserScannerPfx.gameObject.SetActive(false);
         this.dataCatalog = this.GetComponentInParent<DataCatalog>();
     }
 
@@ -42,12 +48,18 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
                         NotificationsUI.Add($"<color=#53FF36><b>{bodyGenerator.body.name}</b> was scanned!</color>");
                     }
                 }
+
+                this.laserScannerAudio.Stop();
                 this.target = null;
             }
             else // Update effects
             {
-                this.laserScanner.gameObject.SetActive(true);
-
+                this.laserScannerPfx.gameObject.SetActive(true);
+                if(!this.laserScannerAudio.isPlaying)
+                {
+                    this.laserScannerAudio.Play();
+                }
+                
                 (Vector2 vec, float width) ScannerParams(Vector2 target, Vector2 from, float targetRadius)
                 {
                     var fromVec = from - target;
@@ -63,17 +75,17 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
         }
         else
         {
-            this.laserScanner.gameObject.SetActive(false);
+            this.laserScannerPfx.gameObject.SetActive(false);
         }
     }
 
     private void SetScanEffect(Vector2 vectorToTarget, float targetWidth)
     {
-        this.laserScanner.transform.rotation =
+        this.laserScannerPfx.transform.rotation =
             Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, vectorToTarget)) *
             Quaternion.Euler(0, 45f, 0)
             ;
-        this.laserScanner.transform.localScale = new Vector3(vectorToTarget.magnitude, 2.1f * targetWidth, 1);
+        this.laserScannerPfx.transform.localScale = new Vector3(vectorToTarget.magnitude, 2.1f * targetWidth, 1);
     }
 
     #region IUpgradeLogic
@@ -82,7 +94,7 @@ public class Scanner : MonoBehaviour, IUpgradeLogic
     public async void TestFire()
     {
         this.enabled = false;
-        this.laserScanner.gameObject.SetActive(true);
+        this.laserScannerPfx.gameObject.SetActive(true);
         float startT = Time.time;
         const float duration = 3;
         var anim = Tween.EaseWobble;

@@ -21,7 +21,6 @@ public class PlayerController : ControllerBase
     private void Awake()
     {
         this.thrustInputJoystick = Vector2.zero;
-        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
     }
 
     private void Update()

@@ -92,5 +92,35 @@ PrefabInstance:
       propertyPath: effect.floatProperties.Array.data[0].targetValue
       value: -0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].inSlope
+      value: -1.9990857
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].outSlope
+      value: -1.9990857
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].outWeight
+      value: 0.16428572
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
+      propertyPath: DopplerLevel
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4c510226c1baa1408c3d36050fc87f1, type: 3}

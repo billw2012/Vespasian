@@ -1,5 +1,94 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &780877639331742065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 204586852063781627}
+  - component: {fileID: 5544113659950578528}
+  - component: {fileID: 1967377743584045801}
+  - component: {fileID: 1171115542442897330}
+  m_Layer: 8
+  m_Name: Audio Listener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &204586852063781627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780877639331742065}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2532546599120530937}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &5544113659950578528
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780877639331742065}
+  m_Enabled: 1
+--- !u!169 &1967377743584045801
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780877639331742065}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1.49
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.07153252
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!164 &1171115542442897330
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780877639331742065}
+  m_Enabled: 1
+  m_DryLevel: -1556
+  m_Room: 0
+  m_RoomHF: -6690
+  m_DecayTime: 2.7
+  m_DecayHFRatio: 0.4
+  m_ReflectionsLevel: -78
+  m_ReverbLevel: 0
+  m_ReverbDelay: 0.0026
+  m_Diffusion: 80
+  m_Density: 61.3
+  m_HFReference: 5536
+  m_RoomLF: 0
+  m_LFReference: 178
+  m_ReflectionsDelay: 0.029
+  m_ReverbPreset: 27
 --- !u!1 &2532546599120530941
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,6 +125,7 @@ Transform:
   - {fileID: 3138963945143309649}
   - {fileID: 6366204907980396651}
   - {fileID: 9079785308708642850}
+  - {fileID: 204586852063781627}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

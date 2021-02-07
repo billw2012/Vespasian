@@ -15,9 +15,10 @@ public abstract class Body
     public int randomKey;
     public BodyRef bodyRef;
 
-    public DictX<string, SaveData> savedComponents;
+    //public DictX<string, SaveData> savedComponents;
+    public SaveData saveData;
 
-    private IEnumerable<(ISavable component, string key)> savables;
+    //private IEnumerable<(ISavable component, string key)> savables;
     private GameObject activeInstance;
 
     // Parameterless constructor required for serialization
@@ -37,7 +38,7 @@ public abstract class Body
     public GameObject Instance(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
         this.activeInstance = this.InstanceInternal(bodySpecs, solarSystem);
-        Assert.IsTrue(activeInstance.transform.position.z == 0, $"New body {activeInstance.gameObject} isn't at z = 0");
+        Assert.IsTrue(this.activeInstance.transform.position.z == 0, $"New body {this.activeInstance.gameObject} isn't at z = 0");
         return this.activeInstance;
     }
 
@@ -49,7 +50,10 @@ public abstract class Body
     public void Apply(GameObject target, RandomX rng)
     {
         this.ApplyInternal(target, rng);
-        this.LoadComponents();
+        if (this.saveData != null)
+        {
+            SaveData.LoadObject(target.GetComponent<SavableObject>(), this.saveData);
+        }
     }
 
     /// <summary>
@@ -57,15 +61,21 @@ public abstract class Body
     /// </summary>
     public void Unloading()
     {
-        this.SaveComponents();
+        this.Saving();
         this.activeInstance = null;
-        this.savables = null;
     }
     
     /// <summary>
     /// Call when saving the game to ensure latest state is serialized
     /// </summary>
-    public void Saving() => this.SaveComponents();
+    public void Saving()
+    {
+        var savableObject = this.activeInstance.GetComponent<SavableObject>();
+        if (savableObject != null)
+        {
+            this.saveData = SaveData.SaveObject(savableObject);
+        }
+    }
 
     protected virtual GameObject InstanceInternal(BodySpecs bodySpecs, SolarSystem solarSystem)
     {
@@ -73,10 +83,6 @@ public abstract class Body
         Assert.IsNotNull(spec, $"Spec {this.specId} not found");
         var obj = Object.Instantiate(spec.prefab);
         Assert.IsNotNull(obj, $"Spec {spec.name}.prefab couldn't bin instantiated");
-        // Need to do this before any further initialization occurs to ensure we don't capture a bunch of child objects that aren't part of the prefab
-        this.savables = obj.GetComponentsInChildren<ISavable>()
-            .Select(c => (c, GetFullKey(c as MonoBehaviour)))
-            .ToList();
 
         var rng = new RandomX(this.randomKey);
         this.Apply(obj, rng);
@@ -86,42 +92,6 @@ public abstract class Body
     }
 
     protected abstract void ApplyInternal(GameObject target, RandomX rng);
-
-    private void LoadComponents()
-    {
-        if(this.savedComponents != null)
-        {
-            foreach(var (savable, key) in this.savables)
-            {
-                if(this.savedComponents.TryGetValue(key, out var data))
-                {
-                    SaveData.LoadObject(savable, data);
-                }
-            }
-        }
-    }
-
-    private void SaveComponents()
-    {
-        this.savedComponents = new DictX<string, SaveData>();
-
-        foreach (var (savable, key) in this.savables)
-        {
-            this.savedComponents.Add(key, SaveData.SaveObject(savable));
-        }
-    }
-
-    private static string GetFullKey(MonoBehaviour component)
-    {
-        IList<string> names = new List<string> { component.ToString() };
-        var obj = component.transform;
-        while (obj != null)
-        {
-            names.Add(obj.gameObject.ToString());
-            obj = obj.transform.parent;
-        }
-        return string.Join("/", names.Reverse());
-    }
 
     public class DataEntry
     {
@@ -403,7 +373,7 @@ public class BodyRef
     public bool EqualsSystem(BodyRef other) => this.systemId == other.systemId;
 
     public bool Equals(BodyRef other) => this.systemId == other.systemId && this.bodyId == other.bodyId;
-    public override bool Equals(object obj) => obj is BodyRef other && Equals(other);
+    public override bool Equals(object obj) => obj is BodyRef other && this.Equals(other);
 
     public override int GetHashCode()
     {
@@ -542,7 +512,7 @@ public class Map : ISavable
 
     public void AddSystem(SolarSystem system)
     {
-        Assert.AreEqual(system.id.systemId, NextSystemId);
+        Assert.AreEqual(system.id.systemId, this.NextSystemId);
         this.systems.Add(system);
     }
     

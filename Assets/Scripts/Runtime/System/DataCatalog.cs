@@ -63,6 +63,7 @@ public class DataCatalog : MonoBehaviour, ISavable
     // Or even just Array<Array<(id, data)>>, as body count in systems is low enough for linear search to be fast
     // (could do binary actually, just sort ids)
     //private Dictionary<int, Dictionary<int, DataMask>> data = new Dictionary<int, Dictionary<int, DataMask>>();
+    [Saved, RegisterSavableType]
     private DictX<BodyRef, DataMask> data = new DictX<BodyRef, DataMask>();
 
     public IEnumerable<BodyRef> KnownBodies => this.data.Keys;
