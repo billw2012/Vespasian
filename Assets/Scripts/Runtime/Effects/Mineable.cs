@@ -17,13 +17,11 @@ public class Mineable : EffectSource
     public bool destroyed => !this.asteroidLogic.enabled;
 
     private AsteroidLogic asteroidLogic;
-    private Miner[] miners;
     
     // Start is called before the first frame update
     private void Start()
     {
         this.miningRadiusRenderer.transform.localScale = this.range * 2 * Vector3.one;
-        this.miners = ComponentCache.FindObjectsOfType<Miner>();
         this.asteroidLogic = this.GetComponent<AsteroidLogic>();
     }
 
@@ -38,7 +36,7 @@ public class Mineable : EffectSource
         base.Update();
 
         // Check if any miners are close enough. If so, enable the circle indicator
-        bool AnyMinersNearby() => this.miners.Any(obj => obj != null && this.range * 3 >= this.GetDistance(obj.transform));
+        bool AnyMinersNearby() => ComponentCache.FindObjectsOfType<Miner>().Any(obj => obj != null && this.range * 3 >= this.GetDistance(obj.transform));
 
         this.miningRadiusRenderer.enabled = !this.IsComplete() && AnyMinersNearby();
     }

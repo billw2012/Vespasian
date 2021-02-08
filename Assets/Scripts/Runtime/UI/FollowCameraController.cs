@@ -43,16 +43,11 @@ public class FollowCameraController : MonoBehaviour
     private Vector2 smoothedOffset; // Smoothed offset value without clamping
     private float initialCameraSize;
 
-    private CameraPointOfInterest[] scenePointsOfInterest;
-
-
     private void Start()
     {
         Assert.IsNotNull(this.target);
 
         this.initialCameraSize = Camera.main.orthographicSize;
-
-        this.scenePointsOfInterest = ComponentCache.FindObjectsOfType<CameraPointOfInterest>();
     }
 
     private Vector2 ClampToCameraInnerArea(Vector2 vec)
