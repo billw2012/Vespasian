@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pixelplacement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -402,6 +403,8 @@ public class SolarSystem
 
     public Vector2 position;
 
+    public Color[] backgroundColors;
+
     public StarOrPlanet main;
 
     [IgnoreDataMember]
@@ -493,6 +496,16 @@ public class SolarSystem
         await Awaiters.NextFrame;
         await Awaiters.NextFrame;
         current?.Unload();
+
+        var fromColors = current?.backgroundColors ?? this.backgroundColors.Select(_ => Color.black);
+        foreach (var (background, colors) in Object.FindObjectsOfType<Background>()
+            .Where(b => b.colorationIndex != -1)
+            .OrderBy(b => b.colorationIndex)
+            .Zip(fromColors.Zip(this.backgroundColors, (from, to) => (from, to)),
+                (background, colors) => (background, colors)))
+        {
+            Tween.Value(colors.from, colors.to, c => background.SetColor(c), 1, 0);
+        }
 
         this.systemRoot = new GameObject("System");
         rootBody.transform.SetParent(this.systemRoot.transform, worldPositionStays: false);

@@ -108,13 +108,19 @@ public class MapGenerator : ScriptableObject
         float starDensity = mainSpec.densityRandom.Evaluate(rng);
         float starRadius = starMass / starDensity; // obviously not the correct formula...
 
+        var backgrounds = Object.FindObjectsOfType<Background>()
+            .Where(b => b.colorationIndex != -1)
+            .OrderBy(b => b.colorationIndex)
+            ;
+            
         string systemName = this.nameGenerator.Next();
         var sys = new SolarSystem(systemId) { 
             name = systemName, 
             position = position,
             direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise,
             // TODO: proper danger value
-            danger = rng.value 
+            danger = rng.value,
+            backgroundColors = backgrounds.Select(b => rng.ColorHS(b.colorValue).SetA(b.colorAlpha)).ToArray(),
         };
 
         float systemSize = starMass * this.systemParams.systemSizeStarMassRatioRandom.Evaluate(rng);

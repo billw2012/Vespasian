@@ -1,20 +1,26 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class WarpController : MonoBehaviour
 {
-    public float warpSpeed = 500f;
-    public float acceleration = 1000f;
-    public float turnSmoothTime = 3f;
+    [SerializeField]
+    private float warpSpeed = 500f;
+    [SerializeField]
+    private float acceleration = 1000f;
+    [SerializeField]
+    private float turnSmoothTime = 3f;
+    [SerializeField]
+    private WarpEffect warpEffect = null;
 
-    public WarpEffect warpEffect;
-
-    public Background background;
-    public StarField starfield;
-
-    public FollowCameraController cameraController;
-
-    public PostEffect warpPostEffect;
+    [SerializeField]
+    private Background[] backgrounds = null;
+    [SerializeField]
+    private StarField starfield = null;
+    [SerializeField]
+    private FollowCameraController cameraController = null;
+    [SerializeField]
+    private PostEffect warpPostEffect = null;
 
     private enum Mode
     {
@@ -162,7 +168,11 @@ public class WarpController : MonoBehaviour
         var positionOffset = this.transform.position - oldPosition;
 
         this.starfield.ApplyPositionOffset(positionOffset);
-        this.background.ApplyPositionOffset(positionOffset);
+
+        foreach (var background in this.backgrounds)
+        {
+            background.ApplyPositionOffset(positionOffset);    
+        }
 
         this.desiredSpeed = finalSpeed;
         this.distanceToExit = stoppingDistance;

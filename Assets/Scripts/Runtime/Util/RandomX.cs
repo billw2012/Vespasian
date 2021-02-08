@@ -77,4 +77,6 @@ public class RandomX
     }
 
     public Color ColorHSV() => Color.HSVToRGB(this.value, this.value, this.value);
+    public Color ColorHue(float saturation, float value) => Color.HSVToRGB(this.value, saturation, value);
+    public Color ColorHS(float value) => Color.HSVToRGB(this.value, this.value, value);
 }

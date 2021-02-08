@@ -5,8 +5,14 @@
 /// </summary>
 public class Background : MonoBehaviour
 {
-    public float speedMultiplier = 0.1f;
+    [SerializeField]
+    private float speedMultiplier = 0.1f;
 
+    public int colorationIndex = -1;
+    public float colorValue = 0.7f;
+    public float colorAlpha = 0.7f;
+
+    private Color color;
     // LateUpdate used as we need the ensure the background is always fitted to the final camera size and position
     private Vector2 lastPosition;
     private Vector2 offset;
@@ -17,7 +23,6 @@ public class Background : MonoBehaviour
     private MaterialPropertyBlock pfxPb;
 
     private float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
-
 
     private void Start()
     {
@@ -48,22 +53,22 @@ public class Background : MonoBehaviour
             this.meshRenderer.GetPropertyBlock(this.pfxPb);
         }
 
-        var textureScale = this.meshRenderer.sharedMaterial.GetTextureScale("_MainTex");
+        var textureScale = this.meshRenderer.sharedMaterial.GetTextureScale("_BaseMap");
 
-        this.pfxPb.SetVector("_MainTex_ST", new Vector4(textureScale.x, textureScale.y, this.offset.x, this.offset.y));
+        if(this.color != default)
+        {
+            this.pfxPb.SetColor("_BaseColor", this.color);
+        }   
+        this.pfxPb.SetVector("_BaseMap_ST", new Vector4(textureScale.x, textureScale.y, this.offset.x, this.offset.y));
 
         //this.pfxPb.SetColor("_BaseColor", this.meshRenderer.sharedMaterial.GetColor("_BaseColor").SetA(this.fade));
 
         this.meshRenderer.SetPropertyBlock(this.pfxPb);
     }
+    
+    public void SetColor(Color color) => this.color = color;
 
-    public void ResetPosition()
-    {
-        this.lastPosition = this.transform.position;
-    }
+    public void ResetPosition() => this.lastPosition = this.transform.position;
 
-    public void ApplyPositionOffset(Vector2 offset)
-    {
-        this.lastPosition += offset;
-    }
+    public void ApplyPositionOffset(Vector2 offset) => this.lastPosition += offset;
 }
