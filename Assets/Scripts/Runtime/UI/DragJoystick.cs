@@ -5,22 +5,20 @@ using UnityEngine.EventSystems;
 
 public class DragJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    [SerializeField]
-    Canvas canvas;
+    //[SerializeField] 
+    //private Canvas canvas = null;
 
     [SerializeField]
-    RectTransform joystickRectTransform;
+    private RectTransform joystickRectTransform = null;
 
     [SerializeField]
-    RectTransform knobRectTransform;
+    private RectTransform knobRectTransform = null;
 
-    Vector2 joystickSize;
+    private Vector2 joystickSize;
 
-    Vector2 offsetRelative;
-    bool inputActive;
-    Vector2 lastScreenPos;
-
-
+    private Vector2 offsetRelative;
+    private bool inputActive;
+    //private Vector2 lastScreenPos;
 
     // Public interface for other components
     public Vector2 userInputValue { get => offsetRelative; }
@@ -30,11 +28,10 @@ public class DragJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
     // ----------------------------------
 
 
-
-    void UpdateKnobPos(PointerEventData eventData)
+    private void UpdateKnobPos(PointerEventData eventData)
     {
-        Vector2 posScreen = eventData.position;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(this.joystickRectTransform, posScreen, null, out Vector2 knobPosLocal);
+        var posScreen = eventData.position;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(this.joystickRectTransform, posScreen, null, out var knobPosLocal);
 
         float knobDistanceLocal = knobPosLocal.magnitude;
         float knobDistanceMax = 0.5f * this.joystickSize.x;

@@ -124,7 +124,7 @@ Material:
     - _Cutoff: 0.515
     - _DstBlend: 0
     - _EnvironmentReflections: 0
-    - _FresnelFalloff: 2.4
+    - _FresnelFalloff: 5.3
     - _FresnelStrength: 1.3
     - _GlossMapScale: 0
     - _Glossiness: 0

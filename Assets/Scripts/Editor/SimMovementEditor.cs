@@ -118,7 +118,9 @@ public class SimMovementEditor : Editor
             }
         }
 
-        var sun = FindObjectOfType<StarLogic>()?.GetComponent<GravitySource>();
+        var sun = FindObjectsOfType<StarLogic>()
+            .FirstOrDefault(l => l.isPrimary)
+            ?.GetComponent<GravitySource>();
         if (sun == null)
         {
             return;

@@ -170,7 +170,7 @@ public class Missions : MonoBehaviour, ISavable
         }
 
         // Generate survey system missions in neighboring systems too
-        MissionSurveyFactory surveyFactory = this.missionFactories.FirstOrDefault(f => f is MissionSurveyFactory) as MissionSurveyFactory;
+        var surveyFactory = this.missionFactories.FirstOrDefault(f => f is MissionSurveyFactory) as MissionSurveyFactory;
         if (surveyFactory != null)
         {
             var map = this.mapComponent.map;

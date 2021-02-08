@@ -54,7 +54,7 @@ public class AIController : ControllerBase
 
     // Weapons subsystem
 
-    GameObject FindNearestEnemy()
+    private GameObject FindNearestEnemy()
     {
         var thisFaction = this.faction;
         var allTargets = ComponentCache.FindObjectsOfType<ControllerBase>()
@@ -66,7 +66,7 @@ public class AIController : ControllerBase
 
         var thisPos = this.transform.position;
 
-        GameObject nearestTarget = allTargets
+        var nearestTarget = allTargets
             .Select(i => (obj: i, dist: Vector3.Distance(thisPos, i.transform.position)))
             .OrderBy(i => i.dist)
             .FirstOrDefault().obj.gameObject;
@@ -74,10 +74,10 @@ public class AIController : ControllerBase
         return nearestTarget;
     }
 
-    WeaponComponentBase SelectBestWeapon(float rangeToTarget)
+    private WeaponComponentBase SelectBestWeapon(float rangeToTarget)
     {
         var allWeapons = this.weaponController.GetAllWeapons();
-        WeaponComponentBase bestWeapon = allWeapons.FirstOrDefault(i =>
+        var bestWeapon = allWeapons.FirstOrDefault(i =>
             i.preferredFiringRangeMin < rangeToTarget &&
             i.preferredFiringRangeMax > rangeToTarget);
         return bestWeapon;
@@ -87,14 +87,14 @@ public class AIController : ControllerBase
     // Our ship and target ship are moving linearly
     // Projectile has a fixed start velocity
     // Returns Vector3.zero if there is no solution
-    static Vector3 CalculateFiringVector(Vector3 shipPos, Vector3 shipVel, Vector3 targetPos, Vector3 targetVel, float projVelAbs)
+    private static Vector3 CalculateFiringVector(Vector3 shipPos, Vector3 shipVel, Vector3 targetPos, Vector3 targetVel, float projVelAbs)
     {
         // Special value for instant directional weapons
         if (projVelAbs <= 0)
             return (targetPos - shipPos).normalized;
 
-        Vector3 targetPosRel = targetPos - shipPos;
-        Vector3 targetVelRel = targetVel - shipVel;
+        var targetPosRel = targetPos - shipPos;
+        var targetVelRel = targetVel - shipVel;
         float targetVelRelAbs = targetVelRel.magnitude;
         float targetPosRelAbs = targetPosRel.magnitude;
         float targetVelPosDotProduct = Vector3.Dot(targetVelRel, targetPosRel);
@@ -133,17 +133,18 @@ public class AIController : ControllerBase
             if (timeImpact == 0)
                 return new Vector3(1, 0, 0); // It means we are directly at target, we don't care where to fire then
 
-            Vector3 firingVector = (1 / projVelAbs) * (targetVelRel + targetPosRel / timeImpact); ;
+            var firingVector = (1 / projVelAbs) * (targetVelRel + targetPosRel / timeImpact); ;
             return firingVector; //.normalized;
         }
     }
 
-    float timerFindEnemy = 0;
-    float timerUpdateFiringVector = 0;
-    GameObject currentTarget = null;
-    WeaponComponentBase currentWeapon = null;
-    Vector3 currentFireVector;
-    void UpdateFiring()
+    private float timerFindEnemy = 0;
+    private float timerUpdateFiringVector = 0;
+    private GameObject currentTarget = null;
+    private WeaponComponentBase currentWeapon = null;
+    private Vector3 currentFireVector;
+
+    private void UpdateFiring()
     {
         if (this.weaponController != null)
         {
@@ -151,9 +152,12 @@ public class AIController : ControllerBase
             if (this.timerFindEnemy > 4.0f)
             {
                 this.currentTarget = this.FindNearestEnemy();
-                Vector3 targetPos = this.currentTarget.transform.position;
-                float distance = Vector3.Distance(targetPos, this.transform.position);
-                this.currentWeapon = this.SelectBestWeapon(distance);
+                if (this.currentTarget != null)
+                {
+                    var targetPos = this.currentTarget.transform.position;
+                    float distance = Vector3.Distance(targetPos, this.transform.position);
+                    this.currentWeapon = this.SelectBestWeapon(distance);
+                }
                 this.timerFindEnemy = 0;
             }
 
@@ -164,8 +168,8 @@ public class AIController : ControllerBase
                 this.timerUpdateFiringVector += Time.deltaTime;
                 if (this.timerUpdateFiringVector > 2.0f)
                 {
-                    Vector3 shipVel = this.GetComponent<SimMovement>().velocity;
-                    Vector3 targetVel = this.currentTarget.GetComponent<SimMovement>().velocity;
+                    var shipVel = this.GetComponent<SimMovement>().velocity;
+                    var targetVel = this.currentTarget.GetComponent<SimMovement>().velocity;
                     this.currentFireVector = CalculateFiringVector(this.transform.position, shipVel, this.currentTarget.transform.position, targetVel, this.currentWeapon.projectileStartVelocity);
                     this.timerUpdateFiringVector = 0;
                 }
@@ -184,7 +188,7 @@ public class AIController : ControllerBase
         string text = $"Tgt: {textTarget}\nWep: {textWeapon}\nFire vec: {this.currentFireVector}";
 
         Handles.color = Color.cyan;
-        Vector3 labelPos = this.transform.position + new Vector3(0, -0.6f, 0);
+        var labelPos = this.transform.position + new Vector3(0, -0.6f, 0);
         Handles.Label(labelPos, text);
     }
 #endif

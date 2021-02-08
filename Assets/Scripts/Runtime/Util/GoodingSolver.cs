@@ -26,12 +26,12 @@ public class GoodingSolver {
         double VR21, VT21, VR22, VT22;
         int n;
 
-        Vector3 ur1xv1 = Vector3.Cross(R1, V1).normalized;
+        var ur1xv1 = Vector3.Cross(R1, V1).normalized;
 
-        Vector3 ux1 = R1.normalized;
-        Vector3 ux2 = R2.normalized;
+        var ux1 = R1.normalized;
+        var ux2 = R2.normalized;
 
-        Vector3 uz1 = Vector3.Cross(ux1, ux2).normalized;
+        var uz1 = Vector3.Cross(ux1, ux2).normalized;
 
         /* calculate the minimum transfer angle (radians) */
 
@@ -53,11 +53,11 @@ public class GoodingSolver {
             uz1 = -uz1;
         }
 
-        Vector3 uz2 = uz1;
+        var uz2 = uz1;
 
-        Vector3 uy1 = Vector3.Cross(uz1, ux1).normalized;
+        var uy1 = Vector3.Cross(uz1, ux1).normalized;
 
-        Vector3 uy2 = Vector3.Cross(uz2, ux2).normalized;
+        var uy2 = Vector3.Cross(uz2, ux2).normalized;
 
         theta = theta + 2.0 * Math.PI * Math.Abs(nrev);
 
@@ -485,12 +485,12 @@ Three:
     // sma is positive for elliptical, negative for hyperbolic and is the radius of periapsis for parabolic
     public static void Test(double sma, double ecc) {
         double k = Math.Sqrt(Math.Abs(1 / (sma*sma*sma)));
-        List<double> Elist = new List<double>(); // eccentric anomaly
-        List<double> tlist = new List<double>(); // time of flight
-        List<double> rlist = new List<double>(); // magnitude of r
-        List<double> vlist = new List<double>(); // mangitude of v
-        List<double> flist = new List<double>(); // true anomaly
-        List<double> dlist = new List<double>(); // list of diffs
+        var Elist = new List<double>(); // eccentric anomaly
+        var tlist = new List<double>(); // time of flight
+        var rlist = new List<double>(); // magnitude of r
+        var vlist = new List<double>(); // mangitude of v
+        var flist = new List<double>(); // true anomaly
+        var dlist = new List<double>(); // list of diffs
 
         for(double E = 0.0; E < 2 * Math.PI; E += Math.PI / 180.0) {
             Elist.Add(E);

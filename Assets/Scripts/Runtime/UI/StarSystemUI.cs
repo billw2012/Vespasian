@@ -147,7 +147,7 @@ public class StarSystemUI : MonoBehaviour, IUILayer
         // Add icon representing the body type, if discovered
         // Otherwise add icon of a question mark
         var knownDataMask = (bodyData is OrbitingBody && this.playerData != null)? this.playerData.GetData(bodyData.bodyRef) : DataMask.All;
-        GameObject uiPrefab = this.unknownBodyIconPrefab;
+        var uiPrefab = this.unknownBodyIconPrefab;
 
         if (knownDataMask.HasFlag(DataMask.Orbit))
             if (bodySpec.uiPrefab != null)

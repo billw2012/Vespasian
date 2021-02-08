@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5aa0b569c06dce84b9fda8c6737fd636, type: 3}
-  m_Name: Prototype Body Specs
+  m_Name: Body Specs
   m_EditorClassIdentifier: 
   stars:
   - name: Star
     id: 7d8b3e84-c97a-4a4a-8dee-ae16e3a79f50
     prefab: {fileID: 501570810186283679, guid: 507ec5ef4b471c240bf3bd3300296fc8, type: 3}
-    uiPrefab: {fileID: 0}
+    uiPrefab: {fileID: 6627174712320985064, guid: 94e04ca0236ff87479e81c3a2eeadd7f,
+      type: 3}
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -127,7 +128,8 @@ MonoBehaviour:
     id: fcc9d033-939c-490d-9e28-ac66d66a0d89
     prefab: {fileID: 6712538652355592438, guid: 787a92d05373ab246b5e935d8c0c2c64,
       type: 3}
-    uiPrefab: {fileID: 0}
+    uiPrefab: {fileID: 6627174712320985064, guid: 94e04ca0236ff87479e81c3a2eeadd7f,
+      type: 3}
     description: 
     dataValueMultiplier: 1
     priority: 0
@@ -319,6 +321,165 @@ MonoBehaviour:
       min: 0
       max: 0.1
     uniqueNameProbability: 0.01
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
+  - name: Rocky 2
+    id: 28678ff2-e68c-46dd-b853-853c1f7fb004
+    prefab: {fileID: 7573446184434855522, guid: ae7d1f88ad8bb624ebdeeab4e5f5ef48,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: d1103c77223bdcc41b3b5c40689924bb,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 0.207
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 5
+    minTemp: -Infinity
+    maxTemp: Infinity
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 1
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0.1
+    uniqueNameProbability: 0
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Dead
     id: 47b1a776-c40d-4c41-be4c-2fffaece12fe
     prefab: {fileID: 7573446184434855522, guid: 44962e222377faa48bb79ba931ff84f8,
@@ -418,6 +579,36 @@ MonoBehaviour:
       min: 0
       max: 0.5
     uniqueNameProbability: 0.2
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Living
     id: f3c1a7dc-03e6-4266-bd89-d154ac18d3e9
     prefab: {fileID: 7573446184434855522, guid: e909f63bf4fb3ca45b9d379415211c19,
@@ -517,6 +708,36 @@ MonoBehaviour:
       min: 0.5
       max: 1
     uniqueNameProbability: 1
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Desert
     id: 32424bed-2f6e-4f86-8084-5fcb87752a7b
     prefab: {fileID: 7573446184434855522, guid: 2d2ce47a7d259f040bab92c18bab1704,
@@ -616,6 +837,36 @@ MonoBehaviour:
       min: 0.1
       max: 0.5
     uniqueNameProbability: 0.25
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Greenhouse
     id: 2e995413-aa5e-49ee-b4b7-c5d5cad1e3ef
     prefab: {fileID: 7573446184434855522, guid: ac2d24d11dba18846a5d358a1cd44f36,
@@ -715,6 +966,36 @@ MonoBehaviour:
       min: 0
       max: 0
     uniqueNameProbability: 0.01
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Ice
     id: 15c068e7-5166-4033-bd7c-a30ec51327be
     prefab: {fileID: 7573446184434855522, guid: f105e7a4d86959f429cd6cfc99e8a228,
@@ -814,6 +1095,36 @@ MonoBehaviour:
       min: 0
       max: 0.1
     uniqueNameProbability: 0.1
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Lava
     id: 0e2a306e-1046-46b1-81b6-03a88513f4a9
     prefab: {fileID: 7573446184434855522, guid: f78e36f8c38185c46a258a2eafa54c84,
@@ -913,6 +1224,36 @@ MonoBehaviour:
       min: 0
       max: 0
     uniqueNameProbability: 0.01
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Ice Giant
     id: 9df16a60-bf08-4d2f-a242-509ddc8196ee
     prefab: {fileID: 7573446184434855522, guid: 6f10e38d74da54042ad879d8ffaa51c5,
@@ -1012,6 +1353,36 @@ MonoBehaviour:
       min: 0
       max: 0
     uniqueNameProbability: 0.01
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Gas Giant
     id: 3c2f575c-cd62-49d2-a56b-5413055c2225
     prefab: {fileID: 7573446184434855522, guid: 43bd262fff4236f479303de3df4d6ebe,
@@ -1111,6 +1482,36 @@ MonoBehaviour:
       min: 0
       max: 0
     uniqueNameProbability: 0.02
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   - name: Hot Gas Giant
     id: 3dfa6224-84c0-449f-9837-65d669cd0901
     prefab: {fileID: 7573446184434855522, guid: de2f8c24c08276647a6fc1d28e679350,
@@ -1210,6 +1611,294 @@ MonoBehaviour:
       min: 0
       max: 0
     uniqueNameProbability: 0.01
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
+  - name: Secondary Star
+    id: d3d059d4-98f9-47b9-ba66-938635beb932
+    prefab: {fileID: 5135675911689540016, guid: 1a82a22cd39bf784f99c18f3ff63eab3,
+      type: 3}
+    uiPrefab: {fileID: 6627174712320985064, guid: 94e04ca0236ff87479e81c3a2eeadd7f,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 1
+    probability: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 30
+    maxMass: Infinity
+    minTemp: -Infinity
+    maxTemp: Infinity
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    uniqueNameProbability: 0.05
+    isStar: 1
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 100
+      minY: 1000
+      maxY: 30000
+  - name: Fractured
+    id: 4dffd949-1761-41da-9c85-a59024264039
+    prefab: {fileID: 7573446184434855522, guid: f96af680fc2996b40bf3d5b6cb4aee78,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: d1103c77223bdcc41b3b5c40689924bb,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 0.049
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 7
+    minTemp: -Infinity
+    maxTemp: Infinity
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    uniqueNameProbability: 0
+    isStar: 0
+    tempByMass:
+      mapping:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minX: 5
+      maxX: 30
+      minY: 2000
+      maxY: 30000
   belts:
   - name: Asteroid Belt
     id: 7ab4ff28-bcf5-46f4-89f1-a55fa7046fd9
@@ -1219,14 +1908,15 @@ MonoBehaviour:
     description: 
     dataValueMultiplier: 1
     priority: 0
-    probability: 1
+    probability: 0.91
     minDistance: 0
     maxDistance: Infinity
   comets:
   - name: Icy Comet
     id: 44c24eeb-61ab-4587-9ce5-09d9579f9bbb
     prefab: {fileID: 676661824646031810, guid: e1737b1203963ad438580d7ca30aebb8, type: 3}
-    uiPrefab: {fileID: 0}
+    uiPrefab: {fileID: 6627174712320985064, guid: 94e04ca0236ff87479e81c3a2eeadd7f,
+      type: 3}
     description: 
     dataValueMultiplier: 1
     priority: 0

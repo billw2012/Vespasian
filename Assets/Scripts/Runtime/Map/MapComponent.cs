@@ -21,7 +21,9 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     /// System the player is currently in
     /// </summary>
     public SolarSystem currentSystem { get; private set; }
-    
+
+    public GameObject primary => this.currentSystem.primary;
+
     /// <summary>
     /// System selected in the UI
     /// </summary>

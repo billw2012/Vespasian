@@ -26,8 +26,8 @@ public static class UnityExtensions
 
     public static Vector2 IntersectionWithRayFromCenter(this Rect rect, Vector2 pointOnRay)
     {
-        Vector2 pointOnRay_local = pointOnRay - rect.center;
-        Vector2 edgeToRayRatios = (rect.Max() - rect.center).DividedBy(pointOnRay_local.Abs());
+        var pointOnRay_local = pointOnRay - rect.center;
+        var edgeToRayRatios = (rect.Max() - rect.center).DividedBy(pointOnRay_local.Abs());
         return edgeToRayRatios.x < edgeToRayRatios.y ?
             new Vector2(pointOnRay_local.x > 0 ? rect.xMax : rect.xMin,
                 pointOnRay_local.y * edgeToRayRatios.x + rect.center.y) :

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -403,6 +404,9 @@ public class SolarSystem
 
     public StarOrPlanet main;
 
+    [IgnoreDataMember]
+    public GameObject primary;
+
     public float size;
 
     public string name;
@@ -486,16 +490,15 @@ public class SolarSystem
 
         // We load the new system first and wait for it before unloading the previous one
         await new WaitUntil(() => rootBody.activeSelf);
-        int beforeYieldFrame = Time.frameCount;
-        await Task.Yield();
-        await Task.Yield();
-        Assert.IsFalse(beforeYieldFrame == Time.frameCount);
-
+        await Awaiters.NextFrame;
+        await Awaiters.NextFrame;
         current?.Unload();
 
         this.systemRoot = new GameObject("System");
         rootBody.transform.SetParent(this.systemRoot.transform, worldPositionStays: false);
         this.systemRoot.transform.SetParent(root.transform, worldPositionStays: false);
+
+        this.primary = rootBody;
     }
 
     public static BodyGenerator FindBody(GameObject root, BodyRef bodyRef) => root.GetComponentsInChildren<BodyGenerator>().FirstOrDefault(b => b.BodyRef == bodyRef);

@@ -444,9 +444,6 @@ public class SaveSystem : MonoBehaviour
                     KnownTypes = this.knownTypes,
                 };
                 var bf = new DataContractSerializer(typeof(T), dcsSettings);
-// #if !UNITY_WEBGL
-//                 bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
-// #endif
                 return (T)bf.ReadObject(ms);
             }
         });
@@ -464,9 +461,6 @@ public class SaveSystem : MonoBehaviour
                     KnownTypes = this.knownTypes,
                 };
                 var bf = new DataContractSerializer(typeof(T), dcsSettings);
-// #if !UNITY_WEBGL
-//                 bf.SetSerializationSurrogateProvider(new DictionarySurrogate());
-// #endif
                 bf.WriteObject(xmlWriter, obj);
             }
         });

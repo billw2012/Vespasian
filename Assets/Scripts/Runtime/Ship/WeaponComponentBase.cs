@@ -9,22 +9,22 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     public float preferredFiringRangeMax = 20f;
     
     [SerializeField, Tooltip("Heat generation per second. When heat reaches 1, it must cool down")]
-    float heatGenerationRate = 0.1f;
+    private float heatGenerationRate = 0.1f;
 
     [SerializeField, Tooltip("Heat cooling per second. When heat reaches 0, weapon can fire again")]
-    float heatCoolingRate = 0.15f;
+    private float heatCoolingRate = 0.15f;
 
     [SerializeField, Tooltip("Makes weapon shoot each frame and ignore reload")]
-    bool shootEachFrame = false;
+    private bool shootEachFrame = false;
 
     [SerializeField, Tooltip("Shots per second")]
-    float shotsPerSecond = 10.0f;
+    private float shotsPerSecond = 10.0f;
 
     [SerializeField, Tooltip("Size of magazine after which the weapon will be reloaded. Set to 0 to ignore mag logic.")]
-    int magSize = 10;
+    private int magSize = 10;
 
     [SerializeField, Tooltip("Reload time")]
-    float reloadTime = 1;
+    private float reloadTime = 1;
 
     [SerializeField, Tooltip("Start velocity to be used for firing solution calculations. Set to 0 for instant weapons (i.e. laser). It's up to the derived class how to use this variable.")]
     public float projectileStartVelocity = 0;
@@ -44,7 +44,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     private float reloadTimerCurrent = 0.0f;
     private float shootTimerCurrent = 0.0f;
 
-    Vector3 vectorFireDir = new Vector3(1, 0, 0);
+    private Vector3 vectorFireDir = new Vector3(1, 0, 0);
 
 
     // Public getters for some variables
@@ -141,8 +141,8 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
 
     public void FireAt(GameObject target)
     {
-        Vector3 offset = target.transform.position - this.transform.position;
-        Vector3 offsetNorm = offset.normalized;
+        var offset = target.transform.position - this.transform.position;
+        var offsetNorm = offset.normalized;
         this.FireAt(offsetNorm);
     }
 
@@ -167,14 +167,14 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     {
         // Normalize input vectors, for safety
         vectorDir = vectorDir.normalized;
-        Vector2 vectorDir2D = (Vector2)vectorDir;
+        var vectorDir2D = (Vector2)vectorDir;
 
         var projectile = ComponentCache.Instantiate(prefab);
         var projectileRotation = Quaternion.FromToRotation(Vector3.up, vectorDir);
         var originSimMovement = GetComponentInParent<SimMovement>();
         var projectileSimMovement = projectile.GetComponent<SimMovement>();
         projectileSimMovement.alignToVelocity = false;
-        Vector2 startVelocityVec = ((Vector2)originSimMovement.velocity) + vectorDir2D * startVelocity;
+        var startVelocityVec = ((Vector2)originSimMovement.velocity) + vectorDir2D * startVelocity;
         projectileSimMovement.SetPositionVelocity(this.transform.position, projectileRotation, startVelocityVec);
         var controller = projectile.GetComponent<ControllerBase>();
         controller.faction = this.ownFaction; // Rocket faction must match faction of the ship shooting it
@@ -186,7 +186,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     {
         this.upgradeDef = upgradeDef;
 
-        WeaponController weapCtr = GetComponentInParent<WeaponController>();
+        var weapCtr = GetComponentInParent<WeaponController>();
         Debug.Assert(weapCtr != null, "Weapon controller is null!");
         if (weapCtr != null)
             weapCtr.RegisterWeapon(this);
@@ -195,7 +195,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     public virtual void TestFire() {}
     public virtual void Uninstall()
     {
-        WeaponController weapCtr = GetComponentInParent<WeaponController>();
+        var weapCtr = GetComponentInParent<WeaponController>();
         if (weapCtr != null)
             weapCtr.UnregisterWeapon(this);
     }

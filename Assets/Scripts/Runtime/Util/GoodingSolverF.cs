@@ -31,8 +31,8 @@ public class GoodingSolverF {
 
         //Vector2 ur1xv1 = Vector2.Cross(R1, V1).normalized;
 
-        Vector2 ux1 = R1.normalized;
-        Vector2 ux2 = R2.normalized;
+        var ux1 = R1.normalized;
+        var ux2 = R2.normalized;
 
         //Vector2 uz1 = Vector2.Cross(ux1, ux2).normalized;
 
@@ -480,12 +480,12 @@ Three:
     // sma is positive for elliptical, negative for hyperbolic and is the radius of periapsis for parabolic
     public static void Test(float sma, float ecc) {
         float k = Mathf.Sqrt(Mathf.Abs(1 / (sma*sma*sma)));
-        List<float> Elist = new List<float>(); // eccentric anomaly
-        List<float> tlist = new List<float>(); // time of flight
-        List<float> rlist = new List<float>(); // magnitude of r
-        List<float> vlist = new List<float>(); // mangitude of v
-        List<float> flist = new List<float>(); // true anomaly
-        List<float> dlist = new List<float>(); // list of diffs
+        var Elist = new List<float>(); // eccentric anomaly
+        var tlist = new List<float>(); // time of flight
+        var rlist = new List<float>(); // magnitude of r
+        var vlist = new List<float>(); // mangitude of v
+        var flist = new List<float>(); // true anomaly
+        var dlist = new List<float>(); // list of diffs
 
         for(float E = 0f; E < 2 * Mathf.PI; E += Mathf.PI / 180f) {
             Elist.Add(E);
