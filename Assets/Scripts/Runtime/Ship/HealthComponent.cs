@@ -64,7 +64,7 @@ public class HealthComponent : MonoBehaviour, ISavable
         this.previousHull = this.hull;
     }
 
-    public void SetTakingDamage(float damageRate, Vector3 direction)
+    private void SetTakingDamage(float damageRate, Vector3 direction)
     {
         this.damageRate = Mathf.Max(this.damageRate, damageRate);
         foreach (var dpfx in this.damageParticleSystems)

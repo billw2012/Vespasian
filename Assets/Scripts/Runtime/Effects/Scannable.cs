@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Scannable : EffectSource
 {
@@ -11,10 +12,19 @@ public class Scannable : EffectSource
 
     public override bool IsComplete() => this.scanProgress >= 1.0f;
 
-    private void LateUpdate()
+    private void Start()
     {
-        this.scanning = false;
+        // Update scanProgress if we already know about this body
+        var bodyRef = this.GetComponent<BodyGenerator>()?.BodyRef;
+        if (bodyRef != null)
+        {
+            this.scanProgress = (FindObjectOfType<PlayerController>()?
+                .GetComponent<DataCatalog>()?
+                .HaveData(bodyRef, DataMask.All) ?? false) ? 1 : 0;
+        }
     }
+
+    private void LateUpdate() => this.scanning = false;
 
     // Must be called in update!!
     public void Scan(Scanner scanner)
@@ -29,5 +39,5 @@ public class Scannable : EffectSource
     public override string debugName => "Scannable";
 
     public object Save() => this.scanProgress;
-    public void Load(object data) { this.scanProgress = (float)data; }
+    public void Load(object data) => this.scanProgress = (float)data;
 };

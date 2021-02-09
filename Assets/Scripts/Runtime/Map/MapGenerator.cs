@@ -278,13 +278,8 @@ public class MapGenerator : ScriptableObject
             float moonSystemSize = allowMoons? planetMass * this.systemParams.moonSystemSizePlanetMassRatioRandom.Evaluate(rng) : 0;
 
             // Generate planet name, assume allowMoons being false means we ARE a moon, so change naming 
-            // convention
-            // TODO: more interesting names for e.g. rare planets
-            // Perhaps they get named/revealed when we scan them?
-            
-            string planetName = rng.Decide(planetSpec.uniqueNameProbability) 
-                ? this.nameGenerator.Next()
-                : allowMoons
+            // convention.
+            string planetName = allowMoons
                     ? $"{parentName} {i+1}" 
                     : $"{parentName}{(char)('a' + i)}";
             
@@ -319,6 +314,8 @@ public class MapGenerator : ScriptableObject
             var planet = new StarOrPlanet(systemId)
             {
                 name = planetName,
+                uniqueName = this.nameGenerator.Next(),
+                useUniqueNameOnDiscovery = rng.Decide(planetSpec.uniqueNameProbability),
                 randomKey = rng.Range(0, int.MaxValue),
                 specId = planetSpec.id,
                 parameters = new OrbitParameters

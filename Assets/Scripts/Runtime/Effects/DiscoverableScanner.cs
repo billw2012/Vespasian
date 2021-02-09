@@ -17,7 +17,7 @@ class DiscoverableScanner : MonoBehaviour
         // Clean up any already discovered
         foreach (var obj in Object.FindObjectsOfType<Discoverable>()
             .Where(u => 
-                !u.discovered 
+                !u.isDiscovered() 
                 && Vector3.Distance(
                     u.originTransform.position,
                     this.transform.position

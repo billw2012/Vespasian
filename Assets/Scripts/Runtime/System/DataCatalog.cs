@@ -2,35 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * How does data work?
- * Requirements:
- *  - Player gathers data that completes missions, perhaps they can sell it raw as well
- *  - Therefore other agents also have data sets, possibly multiple ones
- *  - For each transaction (mission completion, data trading) we need to know what data the player
- *    has that the agent doesn't, so we need to diff it.
- *    For one off trading of data this can be slow, but for missions we need to update them quickly.
- *    The operation we want to be fast is determining the list of new data wrt any specific agent.
- *    If all agents are known then we can accumulate new data into separate lists for each one.
- *    Do we know all agents? Yes we must, if an agent can have a persistent list of what it DOES know then
- *    we must "know" the agent.
- *    Ergo we could register all agents directly with a central data discovery manager, then as the player discovers
- *    data it is added to a pending list for each agent that can separately consume data (probably only 2 of them).
- *    Then it can work like this:
- *    - Missions are of course directly associated with an agent (probably just a general mission agent to begin with)
- *    - When mission updates it can check for a matching piece of data in the pending list and complete it using the
- *      data, immediately moving it to the discovered list for the agent. The mission remains in the players list
- *      until it is handed in to get the reward.
- *      OKAY that seems a bit weird. Would be nicer if the mission takes the data itself, and the agent only gets it
- *      when its handed in...
- *
- * TODO:
- * - Any body can only be assigned to complete one mission, and must not be discovered at all yet
- * - DataCatalog in Missions
- * - Events in DataCatalog
- * - 
- */
-
 /// <summary>
 /// Represents data about a body.
 /// </summary>

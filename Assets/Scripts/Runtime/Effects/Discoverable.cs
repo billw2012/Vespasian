@@ -14,8 +14,9 @@ class Discoverable : MonoBehaviour
     private Renderer[] renderers;
     private BodyLogic bodyLogic;
     private string bodyName;
+    private BodyGenerator bodyGenerator;
 
-    public bool discovered =>
+    public bool isDiscovered() =>
         this.dataCatalog == null ||
         this.bodyRef == null ||
         this.dataCatalog.HaveData(this.bodyRef, DataMask.Orbit);
@@ -34,18 +35,34 @@ class Discoverable : MonoBehaviour
         }
 
         this.dataCatalog = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
-        var bodyGenerator = this.GetComponent<BodyGenerator>();
-        this.bodyRef = bodyGenerator.BodyRef;
-        this.bodyName = bodyGenerator.body?.name ?? this.bodyRef?.ToString() ?? "(unnamed)";
+        this.bodyGenerator = this.GetComponent<BodyGenerator>();
+        this.bodyRef = this.bodyGenerator.BodyRef;
+        this.bodyName = this.bodyGenerator.body?.name ?? this.bodyRef?.ToString() ?? "(unnamed)";
     }
 
-    private void Update() => this.EnableAllRenderers(this.discovered);
-    
+    private void Update()
+    {
+        bool discovered = this.isDiscovered();
+
+        this.EnableAllRenderers(discovered);
+
+        if (discovered 
+            && this.bodyGenerator.body != null 
+            && this.bodyGenerator.body.ApplyUniqueName()
+            )
+        {
+            Debug.Log($"{this.bodyName} has become known as {this.bodyGenerator.body.name}");
+            NotificationsUI.Add($"<color=#00DDC3><b>{this.bodyName}</b> has become known as <b>{this.bodyGenerator.body.uniqueName}</b>!</color>");
+
+            this.bodyName = this.bodyGenerator.body.name;
+        }
+    }
+
     public void Discover()
     {
-        Debug.Log($"{bodyName} was discovered");
+        Debug.Log($"{this.bodyName} was discovered");
         this.dataCatalog.AddData(this.bodyRef, DataMask.Orbit);
-        NotificationsUI.Add($"<color=#00FFC3><b>{bodyName}</b> was discovered!</color>");
+        NotificationsUI.Add($"<color=#00FFC3><b>{this.bodyName}</b> was discovered!</color>");
     }
     
     private void EnableAllRenderers(bool enable)

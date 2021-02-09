@@ -100,14 +100,14 @@ public class FactionExpansion : MonoBehaviour, ISavable
     public void PopulateMap(Map map)
     {
         var startingPlanet = map.systems
-                .OrderBy(s => s.position.x)
-                .Select(s => s.AllBodies()
-                    .OfType<StarOrPlanet>()
-                    .Where(p => p.habitability >= 0.25f)
-                    .SelectRandom())
-                .Where(b => b != null)
-                .Take(map.systems.Count / 10 + 1)
-                .SelectRandom()
+            .OrderBy(s => s.position.x)
+            .Select(s => s.AllBodies()
+                .OfType<StarOrPlanet>()
+                .Where(p => p.habitability >= 0.25f)
+                .SelectRandom())
+            .Where(b => b != null)
+            .Take(map.systems.Count / 10 + 1)
+            .SelectRandom()
             ;
 
         if (startingPlanet == null)
@@ -115,6 +115,9 @@ public class FactionExpansion : MonoBehaviour, ISavable
             Debug.LogError($"Couldn't find suitable home world for faction {this.faction.gameObject}");
             return;
         }
+        
+        // Always uniquely name the home planet 
+        startingPlanet.ApplyUniqueName(force: true);
         
         // Update our station list on the main thread, wait for it so further processing can see it
         ThreadingX.RunOnUnityThreadAsync(() =>

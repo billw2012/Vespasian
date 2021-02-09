@@ -1,4 +1,5 @@
-﻿using Pixelplacement;
+﻿using JetBrains.Annotations;
+using Pixelplacement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,30 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
+using Random = System.Random;
 
 public abstract class Body
 {
     // ID starts from 1, as 0 is a reserved value.
     private static int NextId = 1;
+    
+    /// <summary>
+    /// Id that indexes a body spec in a BodySpecs instance
+    /// </summary>
     public string specId;
+    
     public string name;
+
+    /// <summary>
+    /// Unique name for if we decide to use it
+    /// </summary>
+    public string uniqueName;
+
+    /// <summary>
+    /// Whether we should use the unique name when this body is discovered
+    /// </summary>
+    public bool useUniqueNameOnDiscovery;
+
     public int randomKey;
     public BodyRef bodyRef;
 
@@ -115,6 +133,18 @@ public abstract class Body
 
     public virtual int GetDataCreditValue(DataMask data) => 0;
 
+    public bool ApplyUniqueName(bool force = false)
+    {
+        if ((force || this.useUniqueNameOnDiscovery) && this.name != this.uniqueName)
+        {
+            this.name = this.uniqueName;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 [RegisterSavableType]
