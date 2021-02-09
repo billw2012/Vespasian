@@ -79,14 +79,28 @@ class ComponentCache
 
     static void ResetCache(GameObject obj)
     {
+        Type tEnd = typeof(UnityEngine.Component);
+
         // Flush all caches of types of components in this object
+        // Also flush caches of all base types until we reach MonoBehaviour
         // We don't add all components to lists because we don't want to cache all of them and we don't know what types we want to cache
-        foreach (Component component in obj.GetComponents<Component>())
+        foreach (Component component in obj.GetComponentsInChildren<Component>())
         {
             Type t = component.GetType();
-            if (cache.ContainsKey(t))
+            while (true)
             {
-                cache.Remove(t);
+                if (cache.ContainsKey(t))
+                {
+                    cache.Remove(t);
+                }
+
+                if (t == tEnd)
+                    break;
+
+                t = t.BaseType;
+
+                if (t == null)
+                    break;
             }
         }
     }
