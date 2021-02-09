@@ -169,7 +169,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
         vectorDir = vectorDir.normalized;
         var vectorDir2D = (Vector2)vectorDir;
 
-        var projectile = Instantiate(prefab);
+        var projectile = ComponentCache.Instantiate(prefab);
         var projectileRotation = Quaternion.FromToRotation(Vector3.up, vectorDir);
         var originSimMovement = GetComponentInParent<SimMovement>();
         var projectileSimMovement = projectile.GetComponent<SimMovement>();

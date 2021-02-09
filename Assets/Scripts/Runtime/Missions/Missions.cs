@@ -305,7 +305,7 @@ public class Missions : MonoBehaviour, ISavable
 
         if (missions != null && mapComponent != null)
         {
-            var scannables = FindObjectsOfType<Scannable>();
+            var scannables = ComponentCache.FindObjectsOfType<Scannable>();
             foreach (var i in scannables)
                 missions.playerDataCatalog.AddData(i.gameObject, DataMask.All);
         }

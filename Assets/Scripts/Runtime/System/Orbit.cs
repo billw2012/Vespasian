@@ -450,8 +450,10 @@ public class Orbit : MonoBehaviour
         if (directParent != null)
         {
             return directParent.parameters.mass;
-        }        // Instead use primary
-        return FindObjectsOfType<StarLogic>()
+
+        }
+        // Instead use primary
+        return ComponentCache.FindObjectsOfType<StarLogic>()
             .First(s => s.isPrimary)
             .GetComponent<GravitySource>().parameters.mass;
     }

@@ -75,7 +75,7 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
     public GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent)
     {
         var missionTyped = mission as MissionSurveySystem;
-        var ui = Instantiate(this.itemPrefab, parent);
+        var ui = ComponentCache.Instantiate(this.itemPrefab, parent);
         var missionItemUI = ui.GetComponent<MissionItemUI>();
         missionItemUI.Init(missions, mission, activeMission: false);
         return ui;
@@ -84,7 +84,7 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
     public GameObject CreateActiveUI(Missions missions, IMissionBase mission, Transform parent)
     {
         var missionTyped = mission as MissionSurveySystem;
-        var ui = Instantiate(this.itemPrefab, parent);
+        var ui = ComponentCache.Instantiate(this.itemPrefab, parent);
         var missionItemUI = ui.GetComponent<MissionItemUI>();
         missionItemUI.Init(missions, mission, activeMission: true);
         return ui;

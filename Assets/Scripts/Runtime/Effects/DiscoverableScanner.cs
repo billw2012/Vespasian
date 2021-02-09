@@ -13,9 +13,8 @@ class DiscoverableScanner : MonoBehaviour
 
     private void Update()
     {
-        // TODO: optimize, need to detect when system changes...
         // Clean up any already discovered
-        foreach (var obj in Object.FindObjectsOfType<Discoverable>()
+        foreach (var obj in ComponentCache.FindObjectsOfType<Discoverable>()
             .Where(u => 
                 !u.isDiscovered() 
                 && Vector3.Distance(

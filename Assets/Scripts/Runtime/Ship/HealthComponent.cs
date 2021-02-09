@@ -108,7 +108,7 @@ public class HealthComponent : MonoBehaviour, ISavable
 
     public void Kill()
     {
-        var explosion = Instantiate(this.explosionPrefab, this.transform.position, Quaternion.identity);
+        var explosion = ComponentCache.Instantiate(this.explosionPrefab, this.transform.position, Quaternion.identity);
 
         var explosionMovement = explosion.GetComponent<SimpleBallisticMovement>();
         var simMovement = this.GetComponent<SimMovement>();

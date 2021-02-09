@@ -65,8 +65,8 @@ public class SimMovement : MonoBehaviour, ISimUpdate, ISavable, ISavableCustom
 
         public SoiPathSectionRenderer(GameObject lineRendererPrefab, GameObject soiMarkerPrefab)
         {
-            this.lineRenderer = Instantiate(lineRendererPrefab).GetComponent<LineRenderer>();
-            this.soiMarker = Instantiate(soiMarkerPrefab).GetComponentInChildren<Renderer>();
+            this.lineRenderer = ComponentCache.Instantiate(lineRendererPrefab).GetComponent<LineRenderer>();
+            this.soiMarker = ComponentCache.Instantiate(soiMarkerPrefab).GetComponentInChildren<Renderer>();
             this.lineRendererMB = new MaterialPropertyBlock();
             this.soiMarkerMB = new MaterialPropertyBlock();
             this.SetActive(false);

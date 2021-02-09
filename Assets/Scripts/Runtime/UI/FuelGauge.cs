@@ -35,7 +35,7 @@ public class FuelGauge : MonoBehaviour
                 .All(u => u.fuelTank != t)).ToList();
         foreach (var tank in tanksToAdd)
         {
-            var newUI = Instantiate(this.fuelTankUIPrefab, this.transform);
+            var newUI = ComponentCache.Instantiate(this.fuelTankUIPrefab, this.transform);
             var ui = newUI.GetComponent<FuelTankBar>();
             ui.fuelTank = tank;
             this.tankUI.Add(ui);

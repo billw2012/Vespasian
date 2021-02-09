@@ -38,12 +38,12 @@ public class OffScreenIndicatorManager : MonoBehaviour
         // Make indicators in advance
         for (int i = 0; i < nIndicators; i++)
         {
-            this.indicators.Add(Instantiate(this.indicatorPrefab, this.transform));
+            this.indicators.Add(ComponentCache.Instantiate(this.indicatorPrefab, this.transform));
         }
 
-        foreach (var objective in FindObjectsOfType<PositionalObjective>())
+        foreach (var objective in ComponentCache.FindObjectsOfType<PositionalObjective>())
         {
-            var objectiveUi = Instantiate(objective.uiAsset, this.transform);
+            var objectiveUi = ComponentCache.Instantiate(objective.uiAsset, this.transform);
             objectiveUi.GetComponent<ObjectiveIcon>().target = objective;
             this.objectiveIndicators.Add(new ObjectiveIndicator {
                 objective = objective,

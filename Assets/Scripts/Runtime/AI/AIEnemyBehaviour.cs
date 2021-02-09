@@ -111,7 +111,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
 
         protected OrbitManeuver()
         {
-            this.bodies = FindObjectsOfType<BodyLogic>()
+            this.bodies = ComponentCache.FindObjectsOfType<BodyLogic>()
                 .Select(b => new BOG
                 {
                     body = b,

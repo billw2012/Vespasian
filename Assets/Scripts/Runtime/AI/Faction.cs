@@ -38,7 +38,7 @@ public class Faction : MonoBehaviour
         if (map != null)
         {
             var factionType = (FactionType)Enum.Parse(typeof(FactionType), factionMask, ignoreCase: true);
-            var factions = FindObjectsOfType<Faction>()
+            var factions = ComponentCache.FindObjectsOfType<Faction>()
                 .Where(f => factionType.HasFlag(f.factionType))
                 .ToList();
 

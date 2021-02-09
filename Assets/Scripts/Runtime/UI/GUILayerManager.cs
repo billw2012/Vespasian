@@ -114,7 +114,7 @@ public class GUILayerManager : MonoBehaviour
     /// <returns></returns>
     public async Task<DialogUI.Buttons> ShowDialogAsync(string content, DialogUI.Buttons buttons = DialogUI.Buttons.Okay)
     {
-        var dialog = Instantiate(this.dialogPrefab, this.transform);
+        var dialog = ComponentCache.Instantiate(this.dialogPrefab, this.transform);
         this.PushLayer(dialog);
         var result = await dialog.GetComponent<DialogUI>().Show(content, buttons);
         this.PopLayer();

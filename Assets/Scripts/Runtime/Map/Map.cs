@@ -101,7 +101,7 @@ public abstract class Body
     {
         var spec = bodySpecs.GetSpecById(this.specId);
         Assert.IsNotNull(spec, $"Spec {this.specId} not found");
-        var obj = Object.Instantiate(spec.prefab);
+        var obj = ComponentCache.Instantiate(spec.prefab);
         Assert.IsNotNull(obj, $"Spec {spec.name}.prefab couldn't bin instantiated");
 
         var rng = new RandomX(this.randomKey);
@@ -515,7 +515,7 @@ public class SolarSystem
             cometObject.transform.SetParent(rootBody.transform, worldPositionStays: false);
         }
 
-        var factions = Object.FindObjectsOfType<Faction>();
+        var factions = ComponentCache.FindObjectsOfType<Faction>();
         foreach (var faction in factions)
         {
             faction.SpawnSystem(this, rootBody);

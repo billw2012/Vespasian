@@ -52,7 +52,7 @@ public class GravitySource : MonoBehaviour {
         this.color = UnityEngine.Random.ColorHSV(0, 1, 0.75f, 0.75f, 1, 1);
     }
 
-    public static List<GravitySource> All() => GameObject.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToList();
+    public static List<GravitySource> All() => ComponentCache.FindObjectsOfType<GravitySource>().OrderBy(o => o.GetInstanceID()).ToList();
 
     public void RefreshValidate()
     {

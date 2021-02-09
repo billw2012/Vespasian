@@ -19,7 +19,7 @@ public class BulletUnguidedController : ControllerBase
         this.movement = this.GetComponentInParent<SimMovement>();
         this.movement.OnCrashed.AddListener(() => Object.Destroy(this.gameObject));
         this.movement.alignToVelocity = false;
-        this.enemiesCached = FindObjectsOfType<ControllerBase>().Where(c => c.faction != this.faction).ToList();
+        this.enemiesCached = ComponentCache.FindObjectsOfType<ControllerBase>().Where(c => c.faction != this.faction).ToList();
     }
 
     // Update is called once per frame

@@ -175,7 +175,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
             await this.JumpAsync(this.map.systems[randomFactionStation.systemId], () =>
             {
                 // If there is a station in the system then land near it
-                stationToDockAt = FindObjectsOfType<StationLogic>().SelectRandom();
+                stationToDockAt = ComponentCache.FindObjectsOfType<StationLogic>().SelectRandom();
                 return stationToDockAt?.transform.position;
             });
             if (stationToDockAt != null)
@@ -258,7 +258,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         
         if (this.dockTargetBodyRef != null)
         {
-            var dockTarget = FindObjectsOfType<BodyGenerator>().FirstOrDefault(b => b.BodyRef == this.dockTargetBodyRef);
+            var dockTarget = ComponentCache.FindObjectsOfType<BodyGenerator>().FirstOrDefault(b => b.BodyRef == this.dockTargetBodyRef);
             Assert.IsNotNull(dockTarget, $"Couldn't find docking target with BodyRef {this.dockTargetBodyRef}");
             var dockingPortTargets =
                 dockTarget.GetComponentsInChildren<DockPassive>().ToArray();
