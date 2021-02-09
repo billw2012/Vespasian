@@ -293,6 +293,7 @@ public class Missions : MonoBehaviour, ISavable
             foreach (var body in map.systems.SelectMany(s => s.AllBodies().OfType<StarOrPlanet>()))
             {
                 missions.playerDataCatalog.AddData(body.bodyRef, dataMask != null? (DataMask)Enum.Parse(typeof(DataMask), dataMask, ignoreCase: true) : DataMask.All);
+                body.ApplyUniqueName();
             }
         }
     }

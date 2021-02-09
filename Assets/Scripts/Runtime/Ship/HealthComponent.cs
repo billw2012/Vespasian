@@ -66,7 +66,7 @@ public class HealthComponent : MonoBehaviour, ISavable
 
     private void SetTakingDamage(float damageRate, Vector3 direction)
     {
-        this.damageRate = Mathf.Max(this.damageRate, damageRate);
+        this.damageRate = Mathf.Min(1, Mathf.Max(this.damageRate, damageRate));
         foreach (var dpfx in this.damageParticleSystems)
         {
             dpfx.SetEmissionEnabled(this.damageRate > 0);
@@ -78,7 +78,7 @@ public class HealthComponent : MonoBehaviour, ISavable
             }
         }
 
-        this.damageRate = Mathf.SmoothDamp(this.damageRate, 0, ref this.damageRateVelocity, 1f, 0.1f, Time.deltaTime);
+        this.damageRate = Mathf.SmoothDamp(this.damageRate, 0, ref this.damageRateVelocity, 1f, 1f, Time.deltaTime);
     }
 
     public void AddDamage(float amount, Vector3 direction)
