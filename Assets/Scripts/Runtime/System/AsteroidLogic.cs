@@ -34,7 +34,7 @@ public class AsteroidLogic : MonoBehaviour
 
     private void Awake()
     {
-        this.simManager = FindObjectOfType<Simulation>();
+        this.simManager = ComponentCache.FindObjectOfType<Simulation>();
         this.asteroidPb = new MaterialPropertyBlock();
     }
 
@@ -70,7 +70,7 @@ public class AsteroidLogic : MonoBehaviour
         {
             this.Explode();
 
-            var shakeEffect = FindObjectOfType<CameraShakeEffect>();
+            var shakeEffect = ComponentCache.FindObjectOfType<CameraShakeEffect>();
             if(shakeEffect != null)
             {
                 shakeEffect.StartShake(1f);

@@ -119,7 +119,7 @@ public class Missions : MonoBehaviour, ISavable
     // Start is called before the first frame update
     private void Awake()
     {
-        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
         
         this.playerDataCatalog.OnDataAdded += this.PlayerDataCatalogOnDataAdded;
         this.gameLogic.OnNewGameInitialized.AddListener(this.GameLogicOnNewGameInitialized);
@@ -286,8 +286,8 @@ public class Missions : MonoBehaviour, ISavable
     [ConsoleMethod("player.reveal-map", "Reveal all planets to the player")]
     public static void DebugPlayerRevealMap(string dataMask = null)
     {
-        var missions = FindObjectOfType<Missions>();
-        var map = FindObjectOfType<MapComponent>()?.map;
+        var missions = ComponentCache.FindObjectOfType<Missions>();
+        var map = ComponentCache.FindObjectOfType<MapComponent>()?.map;
         if (missions != null && map != null)
         {
             foreach (var body in map.systems.SelectMany(s => s.AllBodies().OfType<StarOrPlanet>()))
@@ -300,8 +300,8 @@ public class Missions : MonoBehaviour, ISavable
     [ConsoleMethod("player.scan-system", "Scans all bodies in current system")]
     public static void DebugPlayerScanSystem()
     {
-        var missions = FindObjectOfType<Missions>();
-        var mapComponent = FindObjectOfType<MapComponent>();
+        var missions = ComponentCache.FindObjectOfType<Missions>();
+        var mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
 
         if (missions != null && mapComponent != null)
         {
@@ -314,7 +314,7 @@ public class Missions : MonoBehaviour, ISavable
     [ConsoleMethod("player.give-credits", "Give specified amount of credits to player")]
     public static void DebugPlayerGiveCredits(int amount)
     {
-        var missions = FindObjectOfType<Missions>();
+        var missions = ComponentCache.FindObjectOfType<Missions>();
         if (missions != null)
         {
             missions.AddFunds(amount, $"Cheating!");

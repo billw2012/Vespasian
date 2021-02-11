@@ -34,7 +34,7 @@ class Discoverable : MonoBehaviour
             this.discoveryRadius = this.bodyLogic.radius / 2.0f * 30.0f;
         }
 
-        this.dataCatalog = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
+        this.dataCatalog = ComponentCache.FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
         this.bodyGenerator = this.GetComponent<BodyGenerator>();
         this.bodyRef = this.bodyGenerator.BodyRef;
         this.bodyName = this.bodyGenerator.body?.name ?? this.bodyRef?.ToString() ?? "(unnamed)";

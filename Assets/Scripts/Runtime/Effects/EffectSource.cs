@@ -31,7 +31,7 @@ public abstract class EffectSource : MonoBehaviour, ISavable
 
     protected virtual void Awake()
     {
-        this.simManager = FindObjectOfType<Simulation>();
+        this.simManager = ComponentCache.FindObjectOfType<Simulation>();
         if (this.areaMarkerAsset != null)
         {
             this.areaMarker = ComponentCache.Instantiate(this.areaMarkerAsset, this.originTransform) as GameObject;

@@ -11,13 +11,13 @@ public class UpgradeUI : MonoBehaviour
 
     private void Awake()
     {
-        DebugLogConsole.AddCommand( "show-upgrade-menu", "Shows the upgrade menu", () => FindObjectOfType<GUILayerManager>().PushLayer(this.gameObject) );
+        DebugLogConsole.AddCommand( "show-upgrade-menu", "Shows the upgrade menu", () => ComponentCache.FindObjectOfType<GUILayerManager>().PushLayer(this.gameObject) );
     }
 
     private void OnEnable()
     {
-        this.upgradeManager = FindObjectOfType<PlayerController>().GetComponent<UpgradeManager>();
-        this.missions = FindObjectOfType<Missions>();
+        this.upgradeManager = ComponentCache.FindObjectOfType<PlayerController>().GetComponent<UpgradeManager>();
+        this.missions = ComponentCache.FindObjectOfType<Missions>();
         this.UpdateGrid();
     }
 

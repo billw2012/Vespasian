@@ -21,7 +21,7 @@ public class BodyLogic : MonoBehaviour
 
     private void Awake()
     {
-        this.simulation = FindObjectOfType<Simulation>();
+        this.simulation = ComponentCache.FindObjectOfType<Simulation>();
         this.rotationOffset = Random.Range(0, 360f);
     }
 

@@ -9,7 +9,7 @@ public abstract class MissionListUIBase : MonoBehaviour
 
     private void OnEnable()
     {
-        this.missions = FindObjectOfType<Missions>();
+        this.missions = ComponentCache.FindObjectOfType<Missions>();
         this.missions.OnMissionsChanged += this.UpdateList;
         this.InitUI();
     }

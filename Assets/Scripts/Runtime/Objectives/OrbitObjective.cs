@@ -16,7 +16,7 @@ public class OrbitObjective : PositionalObjective
 
     protected override void UpdateObjective()
     {
-        var player = FindObjectOfType<PlayerController>();
+        var player = ComponentCache.FindObjectOfType<PlayerController>();
         if(player == null)
         {
             return;

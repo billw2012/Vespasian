@@ -237,7 +237,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         public CoastUntilHeight(float minHeight)
         {
             this.minHeight = minHeight;
-            this.primary = FindObjectOfType<MapComponent>()?.primary?.GetComponent<BodyLogic>();
+            this.primary = ComponentCache.FindObjectOfType<MapComponent>()?.primary?.GetComponent<BodyLogic>();
         }
 
         protected override (Result result, Node node) UpdateImpl(object blackboard)
@@ -264,7 +264,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         
         public StayInSystem()
         {
-            var mapComponent = FindObjectOfType<MapComponent>();
+            var mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
             this.maxRadius = mapComponent?.currentSystem?.size ?? 50;
             this.star = mapComponent?.primary?.GetComponent<GravitySource>();
         }
@@ -313,8 +313,8 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
         public InterceptTarget(float shipFollowDistance)
         {
             this.shipFollowDistance = shipFollowDistance;
-            //this.player = FindObjectOfType<PlayerController>();
-            this.primary = FindObjectOfType<MapComponent>()?.primary.GetComponent<GravitySource>();
+            //this.player = ComponentCache.FindObjectOfType<PlayerController>();
+            this.primary = ComponentCache.FindObjectOfType<MapComponent>()?.primary.GetComponent<GravitySource>();
         }
         
         // Version using orbit prediction with periapsis check
@@ -435,7 +435,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     private void Start()
     {
         this.simMovement = this.GetComponent<SimMovement>();
-        this.simulation = FindObjectOfType<Simulation>();
+        this.simulation = ComponentCache.FindObjectOfType<Simulation>();
         this.aiController = this.GetComponent<AIController>();
 
         //this.rng = new RandomX();
@@ -458,7 +458,7 @@ public class AIEnemyBehaviour : MonoBehaviour, ISimUpdate
     
     public void SimRefresh(Simulation simulation)
     {
-        this.target = FindObjectOfType<PlayerController>().gameObject;
+        this.target = ComponentCache.FindObjectOfType<PlayerController>().gameObject;
 
         this.tree = new AI.Behave.Tree("AI enemy behaviour",
             new PeriodicUpdate(60,

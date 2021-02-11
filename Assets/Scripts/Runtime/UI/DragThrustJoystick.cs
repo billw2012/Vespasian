@@ -11,7 +11,7 @@ public class DragThrustJoystick : MonoBehaviour
 
     private void Start()
     {
-        this.playerLogic = FindObjectOfType<PlayerController>();
+        this.playerLogic = ComponentCache.FindObjectOfType<PlayerController>();
     }
 
     private void Update()

@@ -194,7 +194,7 @@ public class EngineController : MonoBehaviour
     }
     
     private static FuelTankComponent GetPlayerEngineComponent() =>
-        FindObjectOfType<PlayerController>()?.GetComponentInChildren<FuelTankComponent>();
+        ComponentCache.FindObjectOfType<PlayerController>()?.GetComponentInChildren<FuelTankComponent>();
     
     [ConsoleMethod("player.ship.setfuel", "Set fuel of the players ship")]
     public static void DebugSetPlayerShipFuel(float newFuel)

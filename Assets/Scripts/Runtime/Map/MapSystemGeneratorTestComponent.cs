@@ -42,7 +42,7 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
             //     discoverable.discovered = true;
             // }
             this.current = system;
-            FindObjectOfType<Simulation>().Refresh();
+            ComponentCache.FindObjectOfType<Simulation>().Refresh();
         }
         finally
         {

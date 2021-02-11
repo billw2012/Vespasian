@@ -101,12 +101,12 @@ public class FactionSpawns : MonoBehaviour, ISavable, IPreSave
     private void Awake()
     {
         this.faction = this.GetComponent<Faction>();
-        
-        FindObjectOfType<SaveSystem>().RegisterForSaving($"{this.faction}.FactionSpawns", this);
 
-        this.mapComponent = FindObjectOfType<MapComponent>();
+        ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving($"{this.faction}.FactionSpawns", this);
+
+        this.mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
         this.mapComponent.mapGenerated.AddListener(this.OnMapGenerated);
-        this.simulation = FindObjectOfType<Simulation>();
+        this.simulation = ComponentCache.FindObjectOfType<Simulation>();
 
         this.rng = new RandomX();
         this.activeSpawns = new List<Spawn>();

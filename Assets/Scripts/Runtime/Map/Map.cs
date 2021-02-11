@@ -528,7 +528,7 @@ public class SolarSystem
         current?.Unload();
 
         var fromColors = current?.backgroundColors ?? this.backgroundColors.Select(_ => Color.black);
-        foreach (var (background, colors) in Object.FindObjectsOfType<Background>()
+        foreach (var (background, colors) in ComponentCache.FindObjectsOfType<Background>()
             .Where(b => b.colorationIndex != -1)
             .OrderBy(b => b.colorationIndex)
             .Zip(fromColors.Zip(this.backgroundColors, (from, to) => (from, to)),

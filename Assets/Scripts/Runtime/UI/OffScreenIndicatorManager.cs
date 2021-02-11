@@ -34,7 +34,7 @@ public class OffScreenIndicatorManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        this.player = FindObjectOfType<PlayerController>();
+        this.player = ComponentCache.FindObjectOfType<PlayerController>();
         // Make indicators in advance
         for (int i = 0; i < nIndicators; i++)
         {

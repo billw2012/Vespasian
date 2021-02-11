@@ -18,14 +18,6 @@ class ComponentCache
             List<UnityEngine.Object> compList;
             _cache.TryGetValue(t, out compList);
 
-            foreach (UnityEngine.Object obj in compList)
-            {
-                if (obj == null)
-                {
-                    Debug.Log("Breakpoint!");
-                }
-            }
-
             // Ensure we don't return any null-values
             // todo: it might have performance impact
             compList.RemoveAll(i => i == null);
@@ -40,6 +32,47 @@ class ComponentCache
             List<UnityEngine.Object> compList = compArray.ToList<UnityEngine.Object>();
             _cache.Add(t, compList);
             return (T[]) compArray;
+        }
+    }
+
+    public static T FindObjectOfType<T>() where T : UnityEngine.Object
+    {
+        Dictionary<Type, List<UnityEngine.Object>> _cache = ComponentCache.cache;
+        Type t = typeof(T);
+        if (cache.ContainsKey(t))
+        {
+            List<UnityEngine.Object> compList;
+            _cache.TryGetValue(t, out compList);
+
+            foreach (UnityEngine.Object obj in compList)
+            {
+                if (obj == null)
+                {
+                    Debug.Log("Breakpoint!");
+                }
+            }
+
+            // Ensure we don't return any null-values
+            // todo: it might have performance impact
+            compList.RemoveAll(i => i == null);
+
+            // Return first element if there is any
+            if (compList.Count > 0)
+                return (T)compList[0];
+            else
+                return null;
+        }
+        else
+        {
+            UnityEngine.Object[] compArray = UnityEngine.Object.FindObjectsOfType(t);
+            List<UnityEngine.Object> compList = compArray.ToList<UnityEngine.Object>();
+            _cache.Add(t, compList);
+
+            // Return first element if there is any
+            if (compList.Count > 0)
+                return (T)compList[0];
+            else
+                return null;
         }
     }
 

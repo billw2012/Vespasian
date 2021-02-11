@@ -33,7 +33,7 @@ public class MultipleAsteroids : MonoBehaviour, ISimUpdate
 
     private void Awake()
     {
-        this.simManager = FindObjectOfType<Simulation>();
+        this.simManager = ComponentCache.FindObjectOfType<Simulation>();
     }
 
     #region ISimUpdate

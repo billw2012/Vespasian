@@ -15,7 +15,7 @@ namespace UI
         private void Start()
         {
             this.options = this.GetComponentsInChildren<Button>().Select(b => b.gameObject).ToArray();
-            this.playerDocking = FindObjectOfType<PlayerController>().GetComponentInChildren<DockActive>();
+            this.playerDocking = ComponentCache.FindObjectOfType<PlayerController>().GetComponentInChildren<DockActive>();
         }
 
         private void Update()

@@ -122,10 +122,10 @@ public class SimMovement : MonoBehaviour, ISimUpdate, ISavable, ISavableCustom
         Assert.IsFalse(this.pathRendererAsset == null && this.soiMarkerAsset != null 
                        || this.pathRendererAsset != null && this.soiMarkerAsset == null, 
             "If pathRendererAsset is specified, then soiMarkerAsset must be specified also");
-        FindObjectOfType<Simulation>()?.Register(this);
+        ComponentCache.FindObjectOfType<Simulation>()?.Register(this);
     }
 
-    private void OnDestroy() => FindObjectOfType<Simulation>()?.Unregister(this);
+    private void OnDestroy() => ComponentCache.FindObjectOfType<Simulation>()?.Unregister(this);
 
     private void Update()
     {
@@ -153,7 +153,7 @@ public class SimMovement : MonoBehaviour, ISimUpdate, ISavable, ISavableCustom
     {
         this.startVelocity = velocity;
         this.force = Vector3.zero;
-        this.SimRefresh(FindObjectOfType<Simulation>());
+        this.SimRefresh(ComponentCache.FindObjectOfType<Simulation>());
     }
 
     public void SetPositionVelocity(Vector2 position, Quaternion rotation, Vector2 velocity)

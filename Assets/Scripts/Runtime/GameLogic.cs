@@ -22,10 +22,10 @@ public class GameLogic : ScriptableObject {
 
     private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        this.uiManager = FindObjectOfType<GUILayerManager>();
-        this.mapComponent = FindObjectOfType<MapComponent>();
-        this.player = FindObjectOfType<PlayerController>();
-        this.saveSystem = FindObjectOfType<SaveSystem>();
+        this.uiManager = ComponentCache.FindObjectOfType<GUILayerManager>();
+        this.mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
+        this.player = ComponentCache.FindObjectOfType<PlayerController>();
+        this.saveSystem = ComponentCache.FindObjectOfType<SaveSystem>();
     }
 
     private async Task NewGameAsync()

@@ -9,7 +9,7 @@ public class CreditDisplayUI : MonoBehaviour
     
     private Missions missions;
 
-    private void Awake() => this.missions = FindObjectOfType<Missions>();
+    private void Awake() => this.missions = ComponentCache.FindObjectOfType<Missions>();
 
     private void Update() => this.creditLabel.text = $"<style=credits>{this.missions.playerCredits} cr</style>";
 }

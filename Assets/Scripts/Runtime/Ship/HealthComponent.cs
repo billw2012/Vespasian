@@ -136,7 +136,7 @@ public class HealthComponent : MonoBehaviour, ISavable
     public void FullyRepairHull() => this.hullHP = this.maxHullHP;
 
     private static HealthComponent GetPlayerHealthComponent() =>
-        FindObjectOfType<PlayerController>()?.GetComponentInChildren<HealthComponent>();
+        ComponentCache.FindObjectOfType<PlayerController>()?.GetComponentInChildren<HealthComponent>();
     
     [ConsoleMethod("player.ship.sethull", "Set hull of the players ship (0 - 1)")]
     public static void DebugSetPlayerShipHull(float newHull)

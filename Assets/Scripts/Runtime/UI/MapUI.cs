@@ -17,7 +17,7 @@ public class MapUI : MonoBehaviour, IUILayer
     // Start is called before the first frame update
     private void Start()
     {
-        this.mapComponent = FindObjectOfType<MapComponent>();
+        this.mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
         this.CreateMap();
         this.mapComponent.mapGenerated.AddListener(this.CreateMap);
     }
@@ -52,7 +52,7 @@ public class MapUI : MonoBehaviour, IUILayer
             }
 
             // Prepare an array of system refs for which we have active missions
-            var missions = FindObjectOfType<Missions>();
+            var missions = ComponentCache.FindObjectOfType<Missions>();
             //var systemMissions = missions.activeMissions.Where(mn => mn is MissionSurveySystem && !mn.IsComplete);
             //var systemRefs = systemMissions.Select(mn => (mn as MissionSurveySystem).targetSystemRef.systemId);
 

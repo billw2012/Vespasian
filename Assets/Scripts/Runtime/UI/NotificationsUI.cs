@@ -14,7 +14,7 @@ public class NotificationsUI : MonoBehaviour
     //private static NotificationsUI instance;
     private static readonly List<string> pendingNotifications = new List<string>();
 
-    //private void Awake() => instance = Object.FindObjectOfType<NotificationsUI>();
+    //private void Awake() => instance = ComponentCache..FindObjectOfType<NotificationsUI>();
 
     public static void Add(string text) => pendingNotifications.Add(text);
 

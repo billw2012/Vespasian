@@ -12,8 +12,8 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
 
     private void Awake()
     {
-        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
-        this.player = FindObjectOfType<PlayerController>();
+        ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        this.player = ComponentCache.FindObjectOfType<PlayerController>();
     }
 
     private enum FindType

@@ -21,7 +21,7 @@ public class CameraIntro : MonoBehaviour
 
         this.smoothTimeStart = this.camController.smoothTime;
 
-        var player = FindObjectOfType<PlayerController>();
+        var player = ComponentCache.FindObjectOfType<PlayerController>();
         if(player == null)
         {
             this.StartGame();
@@ -42,7 +42,7 @@ public class CameraIntro : MonoBehaviour
             }
         }
 
-        var simManager = FindObjectOfType<Simulation>();
+        var simManager = ComponentCache.FindObjectOfType<Simulation>();
         if (simManager != null)
         {
             simManager.enabled = false;
@@ -91,7 +91,7 @@ public class CameraIntro : MonoBehaviour
         this.camController.searchPointsOfInterest = true;
         this.camController.clampToCameraInnerArea = true;
 
-        var simManager = FindObjectOfType<Simulation>();
+        var simManager = ComponentCache.FindObjectOfType<Simulation>();
         if (simManager != null)
         {
             simManager.enabled = true;

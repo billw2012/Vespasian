@@ -8,7 +8,7 @@ public class ShieldBar : MonoBehaviour
 
     private void Awake()
     {
-        this.player = FindObjectOfType<PlayerController>();
+        this.player = ComponentCache.FindObjectOfType<PlayerController>();
     }
 
     private void Update()

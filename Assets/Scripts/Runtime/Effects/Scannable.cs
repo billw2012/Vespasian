@@ -18,7 +18,7 @@ public class Scannable : EffectSource
         var bodyRef = this.GetComponent<BodyGenerator>()?.BodyRef;
         if (bodyRef != null)
         {
-            this.scanProgress = (FindObjectOfType<PlayerController>()?
+            this.scanProgress = (ComponentCache.FindObjectOfType<PlayerController>()?
                 .GetComponent<DataCatalog>()?
                 .HaveData(bodyRef, DataMask.All) ?? false) ? 1 : 0;
         }

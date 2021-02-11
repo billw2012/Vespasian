@@ -291,8 +291,8 @@ public class SaveSystem : MonoBehaviour
         {
             await DeleteFileAsync(metadataPath);
         }
-        var simManager = FindObjectOfType<Simulation>();
-        var mapComponent = FindObjectOfType<MapComponent>();
+        var simManager = ComponentCache.FindObjectOfType<Simulation>();
+        var mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
 
         await this.SerializeObjectAsync(metadataPath, new SaveGameMetadata {
             systemName = mapComponent.currentSystem.name,

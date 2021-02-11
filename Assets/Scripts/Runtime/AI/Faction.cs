@@ -34,7 +34,7 @@ public class Faction : MonoBehaviour
     [ConsoleMethod("faction.reveal-map", "Reveal all planets to the faction AI")]
     public static void DebugFactionRevealMap(string factionMask, string dataMask)
     {
-        var map = FindObjectOfType<MapComponent>()?.map;
+        var map = ComponentCache.FindObjectOfType<MapComponent>()?.map;
         if (map != null)
         {
             var factionType = (FactionType)Enum.Parse(typeof(FactionType), factionMask, ignoreCase: true);

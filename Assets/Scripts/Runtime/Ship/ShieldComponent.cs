@@ -33,7 +33,7 @@ public class ShieldComponent : MonoBehaviour, IUpgradeLogic, ISavable
 
     private void Awake()
     {
-        this.simManager = FindObjectOfType<Simulation>();
+        this.simManager = ComponentCache.FindObjectOfType<Simulation>();
         this.shieldHP = this.maxShieldHP;
     }
 

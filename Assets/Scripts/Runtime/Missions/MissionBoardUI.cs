@@ -14,7 +14,7 @@ public class MissionBoardUI : MissionListUIBase
 
     private void Awake()
     {
-        DebugLogConsole.AddCommand( "show-mission-board", "Shows the mission board", () => FindObjectOfType<GUILayerManager>().PushLayer(this.gameObject) );
+        DebugLogConsole.AddCommand( "show-mission-board", "Shows the mission board", () => ComponentCache.FindObjectOfType<GUILayerManager>().PushLayer(this.gameObject) );
     }
 
     protected override void InitUI()

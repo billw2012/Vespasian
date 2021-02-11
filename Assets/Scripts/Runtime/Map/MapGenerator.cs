@@ -108,7 +108,7 @@ public class MapGenerator : ScriptableObject
         float starDensity = mainSpec.densityRandom.Evaluate(rng);
         float starRadius = starMass / starDensity; // obviously not the correct formula...
 
-        var backgrounds = Object.FindObjectsOfType<Background>()
+        var backgrounds = ComponentCache.FindObjectsOfType<Background>()
             .Where(b => b.colorationIndex != -1)
             .OrderBy(b => b.colorationIndex)
             ;

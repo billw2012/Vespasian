@@ -27,7 +27,7 @@ public class AsteroidRing : MonoBehaviour
 
     private void Awake()
     {
-        this.simulation = FindObjectOfType<Simulation>();
+        this.simulation = ComponentCache.FindObjectOfType<Simulation>();
     }
 
     private void Start()

@@ -32,8 +32,8 @@ public class StarSystemUI : MonoBehaviour, IUILayer
 
     private void Awake()
     {
-        this.mapComponent = FindObjectOfType<MapComponent>();
-        this.playerData = FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
+        this.mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
+        this.playerData = ComponentCache.FindObjectOfType<PlayerController>()?.GetComponent<DataCatalog>();
     }
 
     // Generates elements of this UI from a solar system

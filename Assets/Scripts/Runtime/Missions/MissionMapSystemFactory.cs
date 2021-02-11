@@ -14,7 +14,7 @@
 //
 //     private void Awake()
 //     {
-//         FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+//         ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
 //     }
 //
 //     public IMissionBase Generate(RandomX rng)

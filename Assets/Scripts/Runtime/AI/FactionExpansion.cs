@@ -29,10 +29,10 @@ public class FactionExpansion : MonoBehaviour, ISavable
     private void Awake()
     {
         this.faction = this.GetComponent<Faction>();
-        
-        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
 
-        this.mapComponent = Object.FindObjectOfType<MapComponent>();
+        ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+
+        this.mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
         this.mapComponent.mapGenerated.AddListener(this.OnMapGenerated);
 
         this.rng = new RandomX();
@@ -85,7 +85,7 @@ public class FactionExpansion : MonoBehaviour, ISavable
     private void OnMapGenerated()
     {
         // Reveal all station planets to the player
-        var playerData = Object.FindObjectOfType<PlayerController>().GetComponent<DataCatalog>();
+        var playerData = ComponentCache.FindObjectOfType<PlayerController>().GetComponent<DataCatalog>();
         foreach (var station in this.stations)
         {
             playerData.AddData(station, DataMask.All);

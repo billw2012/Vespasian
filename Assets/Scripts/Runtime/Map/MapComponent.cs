@@ -54,11 +54,11 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
 
     private void Awake()
     {
-        this.player = FindObjectOfType<PlayerController>();
+        this.player = ComponentCache.FindObjectOfType<PlayerController>();
         this.playerDockActive = this.player?.GetComponentInChildren<DockActive>();
         this.warpComponent = this.player?.GetComponent<UpgradeManager>().GetProxy<WarpComponent>();
 
-        FindObjectOfType<SaveSystem>()?.RegisterForSaving(this);
+        ComponentCache.FindObjectOfType<SaveSystem>()?.RegisterForSaving(this);
     }
 
     //void Update()
@@ -158,7 +158,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         // controller.SetAllowDamageAndCollision(true);
         //
         // // Finally set the player velocity and re-enable simulation
-        // // playerSimMovement.SimRefresh(FindObjectOfType<Simulation>());
+        // // playerSimMovement.SimRefresh(ComponentCache.FindObjectOfType<Simulation>());
         // simMovement.enabled = true;
         this.player.GetComponent<ControllerBase>()?.SetControlled(true);
 
@@ -167,7 +167,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
 
     public async Task LoadStartingSystemAsync()
     {
-        var factionExansion = FindObjectOfType<FactionExpansion>();
+        var factionExansion = ComponentCache.FindObjectOfType<FactionExpansion>();
         if(factionExansion != null && factionExansion.stations.Any())
         {
             var randomFactionStation = factionExansion.stations.SelectRandom();
@@ -196,7 +196,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         await to.LoadAsync(from, this.bodySpecs, this.gameObject);
         this.currentSystem = to;
 
-        FindObjectOfType<Simulation>().Refresh();
+        ComponentCache.FindObjectOfType<Simulation>().Refresh();
 
         this.jumpTargets = new Lazy<List<SolarSystem>>(() =>
             this.map.GetConnected(this.currentSystem)

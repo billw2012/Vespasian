@@ -22,8 +22,8 @@ public class FixDamageButton : MonoBehaviour
         this.button = this.GetComponentInChildren<Button>();
         this.buttonText = this.GetComponentInChildren<TMP_Text>();
 
-        this.player = FindObjectOfType<PlayerController>();
-        this.missions = FindObjectOfType<Missions>();
+        this.player = ComponentCache.FindObjectOfType<PlayerController>();
+        this.missions = ComponentCache.FindObjectOfType<Missions>();
         this.button.onClick.AddListener(() =>
         {
             this.player.GetComponent<HealthComponent>().AddHull(this.repairHP);

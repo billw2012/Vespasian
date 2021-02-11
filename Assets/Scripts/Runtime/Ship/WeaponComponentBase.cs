@@ -56,7 +56,7 @@ public abstract class WeaponComponentBase : MonoBehaviour, IUpgradeLogic
     protected virtual void Awake()
     {
         this.ownFaction = this.GetComponentInParent<ControllerBase>().faction;
-        this.simulation = FindObjectOfType<Simulation>();
+        this.simulation = ComponentCache.FindObjectOfType<Simulation>();
         this.magCurrent = this.magSize; // We start with full mag
     }
 

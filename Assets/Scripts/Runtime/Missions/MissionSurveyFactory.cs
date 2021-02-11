@@ -8,7 +8,7 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
 
     private void Awake()
     {
-        FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
     }
 
     private enum SurveyType
@@ -24,7 +24,7 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
 
     public IMissionBase Generate(RandomX rng, SolarSystem targetSystem = null)
     {
-        var map = FindObjectOfType<MapComponent>().map;
+        var map = ComponentCache.FindObjectOfType<MapComponent>().map;
         Debug.Assert(map != null);
         var missionType = rng.Decide(0.5f) ? SurveyType.SurveyWholeSystem : SurveyType.SurveyPlanet;
 
@@ -136,7 +136,7 @@ public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
         {
             // Check if there are no unscanned bodies here any more
             // If so, mission is complete
-            var missions = UnityEngine.Object.FindObjectOfType<Missions>();
+            var missions = ComponentCache.FindObjectOfType<Missions>();
             var playerDataCatalog = missions.playerDataCatalog;
 
             // Check if we now have full data on this body

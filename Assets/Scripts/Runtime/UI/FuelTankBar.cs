@@ -18,8 +18,8 @@ public class FuelTankBar : MonoBehaviour
 
     private void Start()
     {
-        this.engineController = FindObjectOfType<PlayerController>().GetComponent<EngineController>();
-        this.map = FindObjectOfType<MapComponent>();
+        this.engineController = ComponentCache.FindObjectOfType<PlayerController>().GetComponent<EngineController>();
+        this.map = ComponentCache.FindObjectOfType<MapComponent>();
     }
 
     private void Update()

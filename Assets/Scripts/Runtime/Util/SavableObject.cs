@@ -22,7 +22,7 @@ public class SavableObject : MonoBehaviour, ISavable, ISavableCustom
     {
         if (this.selfRegister)
         {
-            FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+            ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
         }
         // We cache these on creation, because this list cannot change dynamically
         // or it wouldn't match save data

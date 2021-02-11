@@ -30,7 +30,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
 
     private void Awake()
     {
-        this.player = FindObjectOfType<PlayerController>();
+        this.player = ComponentCache.FindObjectOfType<PlayerController>();
         this.playerMovement = this.player.GetComponent<SimMovement>();
         this.engine = this.player.GetComponent<EngineController>();
     }

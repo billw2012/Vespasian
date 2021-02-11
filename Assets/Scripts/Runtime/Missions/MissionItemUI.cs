@@ -23,7 +23,7 @@ public class MissionItemUI : MonoBehaviour
         this.missions = missions;
         this.activeMission = activeMission;
 
-        this.playerDocking = FindObjectOfType<PlayerController>().GetComponentInChildren<DockActive>();
+        this.playerDocking = ComponentCache.FindObjectOfType<PlayerController>().GetComponentInChildren<DockActive>();
 
         this.nameText.text = mission.Name;
         this.descriptionText.text = mission.Description;

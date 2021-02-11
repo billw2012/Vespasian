@@ -20,8 +20,8 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private void Start()
     {
         Assert.IsNotNull(this.constants);
-        this.playerLogic = FindObjectOfType<PlayerController>();
-        this.playerMovement = FindObjectOfType<SimMovement>();
+        this.playerLogic = ComponentCache.FindObjectOfType<PlayerController>();
+        this.playerMovement = ComponentCache.FindObjectOfType<SimMovement>();
 
         if (this.playerMovement.startVelocity.magnitude > 0)
         {
