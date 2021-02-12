@@ -49,7 +49,7 @@ public class DragJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
+        //Debug.Log("OnBeginDrag");
         this.joystickSize = this.joystickRectTransform.offsetMax - this.joystickRectTransform.offsetMin;
         this.UpdateKnobPos(eventData);
         this.inputActive = true;
@@ -62,7 +62,7 @@ public class DragJoystick : MonoBehaviour, IBeginDragHandler, IEndDragHandler, I
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag");
+        //Debug.Log("OnEndDrag");
         this.knobRectTransform.localPosition = Vector2.zero;
         this.inputActive = false;
         this.offsetRelative = Vector2.zero;
