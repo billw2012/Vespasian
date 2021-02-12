@@ -35,7 +35,7 @@ public class MapSystemGeneratorTestComponent : MonoBehaviour
         await this.semaphore.WaitAsync();
         try
         {
-            var system = this.generator.GenerateSystem(0, this.key, this.bodySpecs, Vector2.zero);
+            var system = await this.generator.GenerateSystemAsync(0, this.key, this.bodySpecs, Vector2.zero);
             await system.LoadAsync(this.current, this.bodySpecs, this.gameObject);
             // foreach (var discoverable in this.GetComponentsInChildren<Discoverable>())
             // {

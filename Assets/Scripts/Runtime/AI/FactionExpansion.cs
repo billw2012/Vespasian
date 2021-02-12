@@ -120,7 +120,7 @@ public class FactionExpansion : MonoBehaviour, ISavable
         startingPlanet.ApplyUniqueName(force: true);
         
         // Update our station list on the main thread, wait for it so further processing can see it
-        ThreadingX.RunOnUnityThreadAsync(() =>
+        ThreadingX.RunOnUnityThread(() =>
         {
             this.CreateStation(startingPlanet);
         }).Wait();

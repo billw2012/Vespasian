@@ -28,7 +28,7 @@ public static class TaskX
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
 #pragma warning disable 1998
-    public static async Task Run(Func<Task> fn)
+    public static async Task RunAsync(Func<Task> fn)
 #pragma warning restore 1998
     {
 #if UNITY_WEBGL
@@ -45,7 +45,7 @@ public static class TaskX
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
 #pragma warning disable 1998
-    public static async Task<T> Run<T>(Func<Task<T>> fn)
+    public static async Task<T> RunAsync<T>(Func<Task<T>> fn)
 #pragma warning restore 1998
     {
 #if UNITY_WEBGL

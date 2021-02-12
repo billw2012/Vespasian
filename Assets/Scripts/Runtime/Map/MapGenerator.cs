@@ -1,4 +1,5 @@
 ﻿using GK;
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +99,8 @@ public class MapGenerator : ScriptableObject
     private readonly NameGenerator.UniqueNameGenerator nameGenerator = new NameGenerator.UniqueNameGenerator();
 
     private readonly string[] BeltNames = { "i", "ii", "iii" };
-    public SolarSystem GenerateSystem(int systemId, int randomKey, BodySpecs bodySpecs, Vector2 position)
+
+    public async Task<SolarSystem> GenerateSystemAsync(int systemId, int randomKey, BodySpecs bodySpecs, Vector2 position)
     {
         var rng = new RandomX(randomKey);
         
@@ -108,9 +110,10 @@ public class MapGenerator : ScriptableObject
         float starDensity = mainSpec.densityRandom.Evaluate(rng);
         float starRadius = starMass / starDensity; // obviously not the correct formula...
 
-        var backgrounds = ComponentCache.FindObjectsOfType<Background>()
+        var backgroundColors =  await ThreadingX.RunOnUnityThread(() => Object.FindObjectsOfType<Background>()
             .Where(b => b.colorationIndex != -1)
             .OrderBy(b => b.colorationIndex)
+            .Select(b => rng.ColorHS(b.colorValue).SetA(b.colorAlpha)).ToArray())
             ;
             
         string systemName = this.nameGenerator.Next();
@@ -120,7 +123,7 @@ public class MapGenerator : ScriptableObject
             direction = rng.value > 0.5f ? OrbitParameters.OrbitDirection.Clockwise : OrbitParameters.OrbitDirection.CounterClockwise,
             // TODO: proper danger value
             danger = rng.value,
-            backgroundColors = backgrounds.Select(b => rng.ColorHS(b.colorValue).SetA(b.colorAlpha)).ToArray(),
+            backgroundColors = backgroundColors,
         };
 
         float systemSize = starMass * this.systemParams.systemSizeStarMassRatioRandom.Evaluate(rng);
@@ -346,13 +349,13 @@ public class MapGenerator : ScriptableObject
     public async Task<Map> GenerateAsync(BodySpecs bodySpecs)
     {
         var factions = ComponentCache.FindObjectsOfType<Faction>();
-        return await TaskX.Run(() =>
+        return await TaskX.RunAsync(async () =>
         {
             var rng = new RandomX((int)(DateTime.Now.Ticks % int.MaxValue));
 
             // Random.InitState((int)(DateTime.Now.Ticks % int.MaxValue));
             var map = new Map();
-            this.GenerateSystems(map, bodySpecs, rng);
+            await this.GenerateSystemsAsync(map, bodySpecs, rng);
             this.GenerateLinks(map, rng);
             GenerateFactions(map, factions);
             this.DumpStats(map, bodySpecs);
@@ -377,7 +380,7 @@ public class MapGenerator : ScriptableObject
         }
     }
 
-    private void GenerateSystems(Map map, BodySpecs bodySpecs, RandomX rng)
+    private async Task GenerateSystemsAsync(Map map, BodySpecs bodySpecs, RandomX rng)
     {
         float minDistance = this.minDistanceFactor / Mathf.Sqrt(this.numberOfSystems);
 
@@ -392,7 +395,7 @@ public class MapGenerator : ScriptableObject
                 position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
             }
 
-            map.AddSystem(this.GenerateSystem(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, position));
+            map.AddSystem(await this.GenerateSystemAsync(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, position));
         }
     }
 

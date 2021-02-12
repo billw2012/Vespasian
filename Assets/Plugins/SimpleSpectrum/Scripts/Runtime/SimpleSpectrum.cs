@@ -235,7 +235,9 @@ public class SimpleSpectrum : MonoBehaviour {
 
     private float highestLogFreq, frequencyScaleFactor; //multiplier to ensure that the frequencies stretch to the highest record in the array.
 
+#if MICROPHONE_AVAILABLE
     private string microphoneName;
+#endif
     private float lastMicRestartTime = 0;
     private float micRestartWait = 20;
 
