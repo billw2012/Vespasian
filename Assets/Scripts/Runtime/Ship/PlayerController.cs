@@ -37,8 +37,6 @@ public class PlayerController : ControllerBase
         else if (Input.GetKey("a"))
             kbInput.x = -1.0f;
 
-        var engine = this.GetComponent<EngineController>();
-
         // Convert normalized inputs into final values in (kind of) Newtons
         this.SetThrust(
             this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y, 

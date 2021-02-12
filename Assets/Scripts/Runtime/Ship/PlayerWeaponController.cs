@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
+/*
+ * This component reads input from a drag joystick and controls the weapons of player's ship.
+ * It doesn't matter much where to attach it. 
+ */
 public class PlayerWeaponController : MonoBehaviour
 {
     [SerializeField]
