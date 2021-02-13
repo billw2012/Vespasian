@@ -19,6 +19,9 @@ public class PlayerMovementControllerDragJoystick : MonoBehaviour, IBeginDragHan
     [SerializeField, Tooltip("Offset value corresponding to max input value")]
     private float maxOffset = 200;
 
+    [SerializeField, Tooltip("This is required to disable thrust when we are using the two-finger pinch zoom")]
+    private PinchZoomCamera pinchZoomCamera; // todo find a better way to solve this
+
     private void Awake()
     {
         this.controller = ComponentCache.FindObjectOfType<PlayerController>();
@@ -26,6 +29,16 @@ public class PlayerMovementControllerDragJoystick : MonoBehaviour, IBeginDragHan
 
     void UpdateThrust()
     {
+        // Special check for the pinch zoom camera
+        if (this.pinchZoomCamera != null)
+        {
+            if (this.pinchZoomCamera.Pinching)
+            {
+                this.controller.thrustInputJoystick = Vector2.zero;
+                return;
+            }
+        }
+
         Vector2 offset = this.posLast - this.posStart;
 
         offset /= this.maxOffset;

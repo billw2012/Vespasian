@@ -1141,6 +1141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deadZone: 0.25
   maxOffset: 200
+  pinchZoomCamera: {fileID: 6131566525039106}
 --- !u!1 &1848462187940798558
 GameObject:
   m_ObjectHideFlags: 0
