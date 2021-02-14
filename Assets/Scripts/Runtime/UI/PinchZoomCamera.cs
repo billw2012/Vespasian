@@ -10,7 +10,8 @@ public class PinchZoomCamera : MonoBehaviour
     [Tooltip("Scroll wheel sensitivity"), Range(0.01f, 3f)]
     public float scrollWheelSensitivity = 1f;
 
-    private bool pinching = false;
+    public bool Pinching { private set; get; }
+
     private float distStart = 0;    // Distance between fingers when we started pinching
     private float distCurrent = 0;  // Current distance between fingers
 
@@ -37,11 +38,11 @@ public class PinchZoomCamera : MonoBehaviour
             float dist = Vector2.Distance(touch[0].position, touch[1].position);
             this.distCurrent = dist;
 
-            if (!this.pinching) {
+            if (!this.Pinching) {
                 this.distStart = dist;
                 this.camSizeStart = this.cameraComponent.orthographicSize;
                 Debug.Log($"PinchZoomCamera: Start: distance: {this.distStart}");
-                this.pinching = true;
+                this.Pinching = true;
             }
 
             float ratio = dist / this.distStart;
@@ -50,9 +51,9 @@ public class PinchZoomCamera : MonoBehaviour
         }
         else
         {
-            if (this.pinching)
+            if (this.Pinching)
             {
-                this.pinching = false;
+                this.Pinching = false;
                 float ratio = this.distCurrent / this.distStart;
                 Debug.Log($"PinchZoomCamera: end: distance: {this.distCurrent}, ratio: {ratio}");
             }
