@@ -43,4 +43,13 @@ public class PlayerController : ControllerBase
             this.thrustInputRight + this.thrustInputJoystick.x + kbInput.x
             );
     }
+
+    public void PingRadar()
+    {
+        var radar = this.GetComponentInChildren<RadarActiveComponent>();
+        if (radar != null)
+        {
+            radar.Ping();
+        }
+    }
 }
