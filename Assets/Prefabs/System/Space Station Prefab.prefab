@@ -88,6 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1061109160353489250}
+  - component: {fileID: 1991674096228465446}
   m_Layer: 0
   m_Name: Position
   m_TagString: Untagged
@@ -111,6 +112,20 @@ Transform:
   m_Father: {fileID: 8570807216785185801}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1991674096228465446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523068898454036462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8845e14ff1a7e6948bfe040aa87ecd4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbit: {fileID: 3228156946031901376}
+  simMovement: {fileID: 0}
 --- !u!1 &1606287653387383161
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +506,7 @@ GameObject:
   - component: {fileID: 470953181070086178}
   - component: {fileID: 5300559651570263418}
   m_Layer: 0
-  m_Name: SpaceStationPrefab
+  m_Name: Space Station Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -70,7 +70,7 @@ public class RocketUnguidedController : ControllerBase
             var healthComp = crashObject.GetComponent<HealthComponent>();
             if (healthComp != null)
             {
-                healthComp.AddDamage(9000, new Vector3(1, 0, 0));
+                healthComp.AddDamage(0.3f, new Vector3(1, 0, 0));
             }
         }
     }

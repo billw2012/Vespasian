@@ -20,7 +20,7 @@ public class PlayerMovementControllerDragJoystick : MonoBehaviour, IBeginDragHan
     private float maxOffset = 200;
 
     [SerializeField, Tooltip("This is required to disable thrust when we are using the two-finger pinch zoom")]
-    private PinchZoomCamera pinchZoomCamera; // todo find a better way to solve this
+    private PinchZoomCamera pinchZoomCamera = null; // todo find a better way to solve this
 
     private void Awake()
     {
