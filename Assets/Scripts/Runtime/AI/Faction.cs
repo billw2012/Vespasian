@@ -17,6 +17,7 @@ public class Faction : MonoBehaviour
     public FactionType factionType = FactionType.None;
     
     public DataCatalog data;
+
     private FactionExpansion factionExpansion;
 
     private void Awake()

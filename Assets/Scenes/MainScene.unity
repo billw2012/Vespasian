@@ -5736,6 +5736,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 574897011060994324, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 574897011060994324, guid: 744ad02f3404f3b42aa9f779c1288a76,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 621444416359537788, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -7023,11 +7033,6 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3544986921159765109, guid: 744ad02f3404f3b42aa9f779c1288a76,
-        type: 3}
-      propertyPath: factionType
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3609078338153523235, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -7556,12 +7561,12 @@ PrefabInstance:
     - target: {fileID: 4514586980462298718, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.00003897028
       objectReference: {fileID: 0}
     - target: {fileID: 4514586980462298718, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000061035156
+      value: -0.00024414062
       objectReference: {fileID: 0}
     - target: {fileID: 4514586980462298718, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
@@ -8624,12 +8629,6 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6973247121790050739, guid: 744ad02f3404f3b42aa9f779c1288a76,
-        type: 3}
-      propertyPath: bodySpecs
-      value: 
-      objectReference: {fileID: 11400000, guid: 82ce8132d1b59e4498f3f24112f3890f,
-        type: 2}
     - target: {fileID: 7010554101966319363, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -9580,11 +9579,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 446318240}
-    - target: {fileID: 8980035640714715589, guid: 744ad02f3404f3b42aa9f779c1288a76,
-        type: 3}
-      propertyPath: m_Name
-      value: Player Faction
-      objectReference: {fileID: 0}
     - target: {fileID: 8998537330119527661, guid: 744ad02f3404f3b42aa9f779c1288a76,
         type: 3}
       propertyPath: m_textInfo.characterCount

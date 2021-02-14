@@ -34,7 +34,7 @@ public static class TaskX
 #if UNITY_WEBGL
         await fn();
 #else
-        Task.Run(fn);
+        await Task.Run(fn);
 #endif
     }
     

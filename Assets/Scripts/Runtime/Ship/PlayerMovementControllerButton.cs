@@ -12,7 +12,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class PlayerMovementControllerButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    enum ButtonType
+    private enum ButtonType
     {
         up,
         down,
@@ -21,7 +21,7 @@ public class PlayerMovementControllerButton : MonoBehaviour, IPointerDownHandler
     }
 
     [SerializeField]
-    ButtonType buttonType = ButtonType.up;
+    private ButtonType buttonType = ButtonType.up;
 
     public void OnPointerDown(PointerEventData eventData)
     {

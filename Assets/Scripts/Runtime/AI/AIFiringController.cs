@@ -114,7 +114,7 @@ class AIFiringController : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (this.weaponController != null)
         {

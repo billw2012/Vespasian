@@ -362,7 +362,9 @@ public class SimModel
         return Geometry.Intersect.none;
     }
 
+#if UNITY_WEBGL
     private static int pathsBeingCalculated = 0;
+#endif
     
     public async Task<SimPath> CalculateSimPathAsync(Vector3 position, Vector3 velocity, int startTick, float timeStep, int ticks, float collisionRadius, float gravitationalConstant, float gravitationalRescaling)
     {
