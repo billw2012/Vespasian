@@ -8,7 +8,7 @@ public class RadarActiveIndicatorManagerComponent : MonoBehaviour
     [SerializeField]
     GameObject indicatorPrefab = null;
 
-    public List<RadarActiveTargetIndicatorComponent> indicators = new List<RadarActiveTargetIndicatorComponent>();
+    private List<RadarActiveTargetIndicatorComponent> indicators = new List<RadarActiveTargetIndicatorComponent>();
 
     private Canvas canvas = null;
 
