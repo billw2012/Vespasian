@@ -19,9 +19,12 @@ public class Simulation : MonoBehaviour
 {
     public GameConstants constants;
 
+    [Tooltip("Whether this is the global simulation: the simulation that is applying to the live scene objects.")]
+    public bool globalSimulation = true;
+    
     public int tickStep { get; set; } = 1;
 
-    public int simTick { get; set; } = 0;
+    public int simTick { get; private set; } = 0;
 
     public float time => this.simTick * Time.fixedDeltaTime;
 
@@ -31,6 +34,9 @@ public class Simulation : MonoBehaviour
 
     private SimModel model;
 
+    private static Simulation globalInstance = null;
+    public static float globalTickStep => globalInstance.tickStep;
+
     private void OnValidate()
     {
         Assert.IsNotNull(this.constants);
@@ -38,6 +44,11 @@ public class Simulation : MonoBehaviour
 
     private void Start()
     {
+        if (this.globalSimulation)
+        {
+            globalInstance = this;
+        }
+        
         Assert.IsNotNull(this.constants);
         this.Refresh();
     }
