@@ -181,6 +181,7 @@ public class MapGenerator : ScriptableObject
             radius = starRadius,
             temp = starTemp,
             mass = starMass * this.systemParams.finalMassScaling,
+            energy = mainSpec.energyRandom.Evaluate(rng),
             children = planets
         };
 
@@ -334,6 +335,7 @@ public class MapGenerator : ScriptableObject
                 radius = planetRadius,
                 mass = planetMass * this.systemParams.finalMassScaling,
                 temp = planetTemp,
+                energy = planetSpec.energyRandom.Evaluate(rng),
                 resources = planetSpec.resourcesRandom.Evaluate(rng),
                 habitability = planetSpec.habitabilityRandom.Evaluate(rng),
             };

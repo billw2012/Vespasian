@@ -36,6 +36,10 @@ public class BodySpecs : ScriptableObject
 
         [Tooltip("Chance of this body type occurring"), Range(0, 1)]
         public float probability = 1;
+        
+        public WeightedRandom energyRandom = new WeightedRandom { min = 0f, max = 0f };
+        public WeightedRandom resourcesRandom = new WeightedRandom { min = 0f, max = 0f };
+        public WeightedRandom habitabilityRandom = new WeightedRandom { min = 0f, max = 0f };
     }
 
     [Serializable, KnownType(typeof(StarSpec))]
@@ -52,17 +56,17 @@ public class BodySpecs : ScriptableObject
     {
         public WeightedRandom densityRandom = new WeightedRandom { min = 2f, max = 2f, gaussian = true };
 
+        // For a planet the mass and temp are determined by the generator, then the PlanetSpec to use is 
+        // selected from those that fall within the correct ranges
         public float minMass = 0;
         public float maxMass = Mathf.Infinity;
 
         public float minTemp = Mathf.NegativeInfinity;
         public float maxTemp = Mathf.Infinity;
 
-        public WeightedRandom resourcesRandom = new WeightedRandom { min = 0f, max = 0f };
-        public WeightedRandom habitabilityRandom = new WeightedRandom { min = 0f, max = 0f };
-
         public float uniqueNameProbability = 0f;
 
+        // This allows a star to be spawned in place of a planet (for binary like systems, or super jupiter / brown dwarfs)
         public bool isStar = false;
 
         [Tooltip("Maps mass to temperature")]
@@ -109,9 +113,25 @@ public class BodySpecs : ScriptableObject
         public float minApproach = 10f;
     }
 
+    public enum StationType
+    {
+        HomeStation,        // Home base, where player begins, provides small amounts of everything
+        MiningStation,      // Provides resources, uses energy and population
+        CollectorStation,   // Provides energy, uses population
+        HabitatStation,     // Provides population, uses energy
+    }
+    
     [Serializable, KnownType(typeof(StationSpec))]
     public class StationSpec : BodySpec
     {
+        public StationType stationType;
+        public Faction.FactionType factions;
+        public Yields baseYields;
+        public Yields yieldMultipliers;
+        public Yields uses;
+        // What we need to know about a body before we can build this station around it
+        public DataMask occupationDataRequired;
+        // TODO: limit these by the type of body they can orbit
     }
 
     public List<StarSpec> stars;
@@ -154,9 +174,14 @@ public class BodySpecs : ScriptableObject
     public CometSpec RandomComet(RandomX rng) => MatchedRandom(rng, this.comets, c => true);
 
     public AIShip RandomAIShip(RandomX rng, Faction.FactionType factions) => this.aiShips.Where(s =>
-        (s.faction & factions) != Faction.FactionType.None).SelectWeighted(rng.value, s => s.probability); 
+        (s.faction & factions) != Faction.FactionType.None).SelectWeighted(rng.value, s => s.probability);
+
+    public StationSpec RandomStation(RandomX rng, StationType type, Faction.FactionType faction) => this.stations
+        .Where(s => s.stationType == type && s.factions.HasFlag(faction)).SelectWeighted(rng.value, s => s.probability);
     
     public BodySpec GetSpecById(string id) => this.all.FirstOrDefault(b => b.id == id);
+    public StationSpec GetStationSpecById(string id) => this.stations.FirstOrDefault(b => b.id == id);
+    
     public AIShip GetAIShipSpecById(string id) => this.aiShips.FirstOrDefault(s => s.id == id);
 
     public float PlanetTemp(float distance, float starLum) => this.planetTempMultiplier * 2500f * Mathf.Pow(this.Power(distance, starLum), 0.25f);

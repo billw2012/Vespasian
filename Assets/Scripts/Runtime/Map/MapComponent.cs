@@ -172,7 +172,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
         {
             var randomFactionStation = factionExansion.stations.SelectRandom();
             StationLogic stationToDockAt = null;
-            await this.JumpAsync(this.map.systems[randomFactionStation.systemId], () =>
+            await this.JumpAsync(this.map.systems[randomFactionStation.parent.systemId], () =>
             {
                 // If there is a station in the system then land near it
                 stationToDockAt = ComponentCache.FindObjectsOfType<StationLogic>().SelectRandom();

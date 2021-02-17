@@ -22,6 +22,90 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
     massRandom:
       weighting:
         serializedVersion: 2
@@ -134,6 +218,90 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 0.05
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
     massRandom:
       weighting:
         serializedVersion: 2
@@ -232,7 +400,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 0.226
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -257,13 +425,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 0
-    maxMass: 5
-    minTemp: -Infinity
-    maxTemp: Infinity
+      gaussian: 0
+      min: 0
+      max: 0
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -320,6 +484,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 5
+    minTemp: -Infinity
+    maxTemp: Infinity
     uniqueNameProbability: 0.01
     isStar: 0
     tempByMass:
@@ -361,7 +557,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 0.207
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -386,13 +582,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 0
-    maxMass: 5
-    minTemp: -Infinity
-    maxTemp: Infinity
+      gaussian: 0
+      min: 0
+      max: 0
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -449,6 +641,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 5
+    minTemp: -Infinity
+    maxTemp: Infinity
     uniqueNameProbability: 0
     isStar: 0
     tempByMass:
@@ -490,7 +714,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 1
     probability: 1
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -515,13 +739,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 2
-    maxMass: 5
-    minTemp: 180
-    maxTemp: 350
+      gaussian: 0
+      min: 0
+      max: 0.1
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -578,6 +798,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.5
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 2
+    maxMass: 5
+    minTemp: 180
+    maxTemp: 350
     uniqueNameProbability: 0.2
     isStar: 0
     tempByMass:
@@ -619,7 +871,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 2
     probability: 1
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -644,13 +896,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 2
-    maxMass: 5
-    minTemp: 220
-    maxTemp: 300
+      gaussian: 0
+      min: 0
+      max: 0.1
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -707,6 +955,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0.5
       max: 1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 2
+    maxMass: 5
+    minTemp: 220
+    maxTemp: 300
     uniqueNameProbability: 1
     isStar: 0
     tempByMass:
@@ -748,7 +1028,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -773,13 +1053,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 1
-    maxMass: 7
-    minTemp: 300
-    maxTemp: 600
+      gaussian: 0
+      min: 0
+      max: 0.2
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -836,6 +1112,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0.1
       max: 0.5
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 1
+    maxMass: 7
+    minTemp: 300
+    maxTemp: 600
     uniqueNameProbability: 0.25
     isStar: 0
     tempByMass:
@@ -877,7 +1185,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -902,13 +1210,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 2
-    maxMass: 7
-    minTemp: 350
-    maxTemp: 600
+      gaussian: 0
+      min: 0
+      max: 0.2
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -965,6 +1269,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 2
+    maxMass: 7
+    minTemp: 350
+    maxTemp: 600
     uniqueNameProbability: 0.01
     isStar: 0
     tempByMass:
@@ -1006,7 +1342,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 0.5
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -1031,13 +1367,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 0
-    maxMass: 5
-    minTemp: -Infinity
-    maxTemp: 200
+      gaussian: 0
+      min: 0
+      max: 0
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -1094,6 +1426,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0.1
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 5
+    minTemp: -Infinity
+    maxTemp: 200
     uniqueNameProbability: 0.1
     isStar: 0
     tempByMass:
@@ -1135,6 +1499,90 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 0.5
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0.3
+      max: 0.6
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -1167,62 +1615,6 @@ MonoBehaviour:
     maxMass: 5
     minTemp: 800
     maxTemp: Infinity
-    resourcesRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 0
-      max: 1
-    habitabilityRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 0
-      max: 0
     uniqueNameProbability: 0.01
     isStar: 0
     tempByMass:
@@ -1264,7 +1656,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -1289,13 +1681,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 5
-    maxMass: Infinity
-    minTemp: -Infinity
-    maxTemp: 270
+      gaussian: 0
+      min: 0
+      max: 0
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -1352,6 +1740,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 5
+    maxMass: Infinity
+    minTemp: -Infinity
+    maxTemp: 270
     uniqueNameProbability: 0.01
     isStar: 0
     tempByMass:
@@ -1393,7 +1813,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -1418,13 +1838,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 5
-    maxMass: Infinity
-    minTemp: 270
-    maxTemp: 800
+      gaussian: 0
+      min: 0
+      max: 0
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -1481,6 +1897,38 @@ MonoBehaviour:
       gaussian: 1
       min: 0
       max: 0
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 5
+    maxMass: Infinity
+    minTemp: 270
+    maxTemp: 800
     uniqueNameProbability: 0.02
     isStar: 0
     tempByMass:
@@ -1522,6 +1970,90 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 1
     probability: 1
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0.5
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 0
+      max: 0
     densityRandom:
       weighting:
         serializedVersion: 2
@@ -1554,62 +2086,6 @@ MonoBehaviour:
     maxMass: Infinity
     minTemp: 800
     maxTemp: Infinity
-    resourcesRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 0
-      max: 1
-    habitabilityRandom:
-      weighting:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      gaussian: 1
-      min: 0
-      max: 0
     uniqueNameProbability: 0.01
     isStar: 0
     tempByMass:
@@ -1651,7 +2127,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 1
     probability: 1
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -1676,13 +2152,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 30
-    maxMass: Infinity
-    minTemp: -Infinity
-    maxTemp: Infinity
+      gaussian: 0
+      min: 0
+      max: 0
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -1739,6 +2211,38 @@ MonoBehaviour:
       gaussian: 0
       min: 0
       max: 0
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 30
+    maxMass: Infinity
+    minTemp: -Infinity
+    maxTemp: Infinity
     uniqueNameProbability: 0.05
     isStar: 1
     tempByMass:
@@ -1780,7 +2284,7 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 0.049
-    densityRandom:
+    energyRandom:
       weighting:
         serializedVersion: 2
         m_Curve:
@@ -1805,13 +2309,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      gaussian: 1
-      min: 2
-      max: 2
-    minMass: 0
-    maxMass: 7
-    minTemp: -Infinity
-    maxTemp: Infinity
+      gaussian: 0
+      min: 0
+      max: 0.3
     resourcesRandom:
       weighting:
         serializedVersion: 2
@@ -1868,6 +2368,38 @@ MonoBehaviour:
       gaussian: 0
       min: 0
       max: 0
+    densityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 1
+      min: 2
+      max: 2
+    minMass: 0
+    maxMass: 7
+    minTemp: -Infinity
+    maxTemp: Infinity
     uniqueNameProbability: 0
     isStar: 0
     tempByMass:
@@ -1909,6 +2441,90 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 0.91
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
     minDistance: 0
     maxDistance: Infinity
   comets:
@@ -1921,6 +2537,90 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
     relativePeriapsisRandom:
       weighting:
         serializedVersion: 2
@@ -1989,6 +2689,105 @@ MonoBehaviour:
     dataValueMultiplier: 1
     priority: 0
     probability: 1
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    stationType: 0
+    factions: 1
+    baseYields:
+      resource: 2
+      energy: 2
+      pop: 2
+    yieldMultipliers:
+      resource: 0
+      energy: 0
+      pop: 0
+    uses:
+      resource: 0
+      energy: 0
+      pop: 0
+    occupationDataRequired: 0
   aiShips:
   - name: Basic Pirate
     id: 438b3069-897e-449c-96cd-1238061ac0a0

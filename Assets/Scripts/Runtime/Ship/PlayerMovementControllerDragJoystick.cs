@@ -27,7 +27,7 @@ public class PlayerMovementControllerDragJoystick : MonoBehaviour, IBeginDragHan
         this.controller = ComponentCache.FindObjectOfType<PlayerController>();
     }
 
-    void UpdateThrust()
+    private void UpdateThrust()
     {
         // Special check for the pinch zoom camera
         if (this.pinchZoomCamera != null)

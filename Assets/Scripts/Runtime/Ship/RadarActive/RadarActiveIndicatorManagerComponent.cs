@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class RadarActiveIndicatorManagerComponent : MonoBehaviour
 {
     [SerializeField]
-    GameObject indicatorPrefab = null;
+    private GameObject indicatorPrefab = null;
 
     private List<RadarActiveTargetIndicatorComponent> indicators = new List<RadarActiveTargetIndicatorComponent>();
 
@@ -14,15 +14,16 @@ public class RadarActiveIndicatorManagerComponent : MonoBehaviour
 
     [SerializeField]
     private RectTransform uiTransform = null;
-    void Awake()
+
+    private void Awake()
     {
         this.canvas = GetComponent<Canvas>();
     }
 
-    const float indicatorLifetime = 5.0f;
+    private const float indicatorLifetime = 5.0f;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // Remove destroyed indicators from the list
         this.indicators.RemoveAll(ind => ind == null);

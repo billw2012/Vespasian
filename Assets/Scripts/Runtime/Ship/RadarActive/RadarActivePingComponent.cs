@@ -11,7 +11,7 @@ public class RadarActivePingComponent : MonoBehaviour
     private Simulation simulation;
     private RadarActiveComponent radar;             // Radar which has sent this ping
 
-    List<RadarActiveReflector> potentialTargets;    // Objects which will potentially be detected
+    private List<RadarActiveReflector> potentialTargets;    // Objects which will potentially be detected
 
     private const float expansionSpeed = 110.0f;           // The 'speed of light' in our game 
     private float currentRadius = 0;
@@ -22,19 +22,19 @@ public class RadarActivePingComponent : MonoBehaviour
     private Transform vfxTransform = null;
 
 
-    void Awake()
+    private void Awake()
     {
         this.simulation = ComponentCache.FindObjectOfType<Simulation>();
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
 
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         float deltaTimeReal = Time.deltaTime * this.simulation.tickStep;
 
@@ -68,7 +68,7 @@ public class RadarActivePingComponent : MonoBehaviour
         }
     }
 
-    void UpdateVisualEffects()
+    private void UpdateVisualEffects()
     {
         float scale = 2.0f*this.currentRadius;
         this.vfxTransform.transform.localScale = new Vector3(scale, scale, scale);

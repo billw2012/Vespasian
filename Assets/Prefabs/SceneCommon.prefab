@@ -3881,6 +3881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constants: {fileID: 11400000, guid: 411155a115cafcf42a2cb8e53099df3b, type: 2}
+  globalSimulation: 1
 --- !u!120 &4538521789459465360
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -8155,42 +8156,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae5c6beaeb841918fa399577e1882bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stationSpecId: be9ff418-58da-4a88-b405-fd4a58110f6d
-  expansionInterval:
-    weighting:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    gaussian: 1
-    min: 300
-    max: 900
+  bodySpecs: {fileID: 11400000, guid: 82ce8132d1b59e4498f3f24112f3890f, type: 2}
   yieldInterval: 5
-  yieldResourcesMultiplier: 1
-  yieldEnergyMultiplier: 1
-  yieldPopulationMultiplier: 1
-  resources: 0
-  energy: 0
-  population: 0
+  yieldMultipliers:
+    resource: 1
+    energy: 1
+    pop: 1
+  resourceExpansionMultiplier: 15
+  minResourcePerTick: 1
 --- !u!1 &8986670984184947350
 GameObject:
   m_ObjectHideFlags: 0

@@ -217,6 +217,7 @@ public class StarOrPlanet : OrbitingBody
     public float mass;
 
     public float resources;
+    public float energy;
     public float habitability;
 
     public StarOrPlanet() { }
@@ -241,6 +242,7 @@ public class StarOrPlanet : OrbitingBody
         {
             result.Add(new DataEntry(DataMask.Composition, "Density", this.density));
             result.Add(new DataEntry(DataMask.Composition, "Mass", this.mass));
+            result.Add(new DataEntry(DataMask.Composition, "Energy", this.energy));
         }
         
         if (mask.HasFlag(DataMask.Habitability))
@@ -306,6 +308,8 @@ public class StarOrPlanet : OrbitingBody
             //gravitySource.parameters.density = body.mass / volume;
         }
     }
+
+    public Yields GetYields() => (this.resources, this.energy, this.habitability);
 }
 
 [RegisterSavableType]

@@ -89,7 +89,7 @@ public class RadarActiveComponent : MonoBehaviour, IUpgradeLogic
 
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         this.ReadyToPing = true;
         this.simulation = ComponentCache.FindObjectOfType<Simulation>();
@@ -98,7 +98,7 @@ public class RadarActiveComponent : MonoBehaviour, IUpgradeLogic
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         float deltaTimeReal = Time.deltaTime * this.simulation.tickStep;
 
