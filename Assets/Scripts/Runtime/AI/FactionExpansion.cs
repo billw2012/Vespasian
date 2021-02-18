@@ -28,12 +28,14 @@ public class FactionExpansion : MonoBehaviour, ISavable
     {
         public BodyRef parent;
         public string stationSpecId;
+        public BodySpecs.StationType type;
 
         public StationRef() { }
-        public StationRef(BodyRef parent, string stationSpecId)
+        public StationRef(BodyRef parent, BodySpecs.StationSpec spec)
         {
             this.parent = parent;
-            this.stationSpecId = stationSpecId;
+            this.stationSpecId = spec.id;
+            this.type = spec.stationType;
         }
     }
     [RegisterSavableType]
@@ -41,8 +43,9 @@ public class FactionExpansion : MonoBehaviour, ISavable
 
     public class ExpansionTarget
     {
-        public StationRef station;
-        public float value;
+        public BodyRef parent;
+        public BodySpecs.StationType type;
+        public float score;
     }
     [RegisterSavableType]
     [Saved] public List<ExpansionTarget> expansionTargets { get; private set; } = new List<ExpansionTarget>();
@@ -132,67 +135,84 @@ public class FactionExpansion : MonoBehaviour, ISavable
 
     private void UpdateExpansionTargets()
     {
-        // if (this.mapComponent.map == null)
-        // {
-        //     return;
-        // }
-        //
-        // // Can't expand at all until resources are at capacity
-        // if (!this.canExpand)
-        // {
-        //     this.expansionTargets.Clear();
-        // }
-        // else
-        // {
-        //     Debug.Log($"Updating Faction AI expansion targets...");    
-        //     
-        //     // Generate missions for all possible targets, with value determined by our requirements
-        //     var currentStationSystems = this.stations
-        //         .Select(this.mapComponent.map.GetSystem)
-        //         .ToDictionary(s => s.id, s => s);
-        //
-        //     // If we don't have enough energy to power mines and cities then we need that first...
-        //     float energyExpansionMultiplier = ;
-        //     float CalculateBodyExpansionScore(StarOrPlanet body)
-        //     {
-        //         this.GetBodyPopulationYield(systemBody.body) >= 0f ||
-        //             this.GetBodyResourceYield(systemBody.body) >= 0f ||
-        //             this.GetBodyEnergyYield(systemBody.body) >= 0f)
-        //     }
-        //     // Select candidates from known bodies
-        //     var candidates = this.faction.data.KnownBodies
-        //         // only include bodies we know enough about
-        //         .Where(bodyRef => this.faction.data.HaveData(bodyRef, OccupationDataRequired))
-        //         // exclude systems that already have stations
-        //         .Where(bodyRef => !currentStationSystems.ContainsKey(bodyRef))
-        //         // Get the actual system and body definitions
-        //         .Select(bodyRef => (system: this.mapComponent.map.GetSystem(bodyRef),
-        //             body: this.mapComponent.map.GetBody(bodyRef) as StarOrPlanet))
-        //         // Score the planets
-        //         
-        //         // Exclude non-planets (they will be null), and low habitability
-        //         .Where(systemBody => 
-        //             this.GetBodyPopulationYield(systemBody.body) >= 0f ||
-        //             this.GetBodyResourceYield(systemBody.body) >= 0f ||
-        //             this.GetBodyEnergyYield(systemBody.body) >= 0f)
-        //         // order ascending by distance to closest station
-        //         .OrderBy(systemBody => currentStationSystems.Values
-        //             .Select(c => Vector2.Distance(c.position, systemBody.system.position)).Min())
-        //         .ToList();
-        //
-        //     if (candidates.Any())
-        //     {
-        //         var (system, body) = candidates.First();
-        //
-        //         Debug.Log($"Faction AI found suitable expansion candidate at {body.name} in {system.name}");
-        //         NotificationsUI.Add($"<style=faction>New station built at {body.name} in {system.name}</style>");
-        //         this.CreateStation(body);
-        //     }
-        //     else
-        //     {
-        //         Debug.Log($"Faction AI could not find any suitable expansion candidate, explore more systems!");
-        //     }
-        // }
+        if (this.mapComponent.map == null)
+        {
+            return;
+        }
+        
+        // Can't expand at all until resources are at capacity
+        if (!this.canExpand)
+        {
+            this.expansionTargets.Clear();
+        }
+        else
+        {
+            Debug.Log($"Updating Faction AI expansion targets...");
+
+            // Currently the entire map is 1 galaxy unit, so we scale distance UP to make a 0-1 score sensible.
+            // This scoring is totally subjective.
+            const float DistanceScoringFactor = 20;
+            float DistanceToScore(float distance) => 1 / (distance * DistanceScoringFactor + 1);
+            // TODO OPT: all of this can be optimized easily...
+            IEnumerable<(SolarSystem system, StarOrPlanet body, float yieldScore, float distanceScore)> GetCandidates(
+                DataMask dataRequired, BodySpecs.StationType type, Yields yieldMask) =>
+                this.faction.data.KnownBodies
+                    // exclude bodies we don't know enough about
+                    .Where(bodyRef => (this.faction.data.GetData(bodyRef) & dataRequired) == dataRequired)
+                    // exclude bodies that have any existing station
+                    .Where(bodyRef => !this.stations.Any(s => s.parent == bodyRef))
+                    // exclude systems that already have stations of the same type
+                    .Where(bodyRef =>
+                        !this.stations.Any(s => s.type == type && s.parent.SystemRef() == bodyRef.SystemRef()))
+                    // Get the actual system and body definitions
+                    .Select(bodyRef => (
+                        system: this.mapComponent.map.GetSystem(bodyRef),
+                        body: this.mapComponent.map.GetBody(bodyRef) as StarOrPlanet))
+                    // Score for yield and distance from the nearest station
+                    .Select(sb => (
+                        sb.system,
+                        sb.body,
+                        yieldScore: (sb.body.GetYields() * yieldMask).Sum(),
+                        distanceScore: DistanceToScore(this.stations.Select(c => Vector2.Distance(this.mapComponent.map.GetSystem(c.parent.SystemRef()).position, sb.system.position)).Min())
+                        ))
+                    .Where(sbs => sbs.yieldScore > 0)
+                ;
+
+            this.expansionTargets = new[]
+            {
+                (data: DataMask.Basic, type: BodySpecs.StationType.CollectorStation, yieldMask: Yields.EnergyMask),
+                (data: DataMask.Resources, type: BodySpecs.StationType.MiningStation, yieldMask: Yields.ResourceMask),
+                (data: DataMask.Habitability, type: BodySpecs.StationType.HabitatStation, yieldMask: Yields.PopMask),
+            }.SelectMany(x =>
+            {
+                var candidates = GetCandidates(x.data, x.type, x.yieldMask).ToList();
+                // Select best candidate for distance, yield and combination of both
+                return candidates
+                    .OrderByDescending(y => y.yieldScore)
+                    .Select(y => new ExpansionTarget {parent = y.body.bodyRef, type = x.type, score = y.yieldScore})
+                    .Take(1)
+                    .Concat(candidates
+                        .OrderByDescending(y => y.distanceScore)
+                        .Select(y => new ExpansionTarget {parent = y.body.bodyRef, type = x.type, score = y.distanceScore})
+                        .Take(1))
+                    .Concat(candidates
+                        .OrderByDescending(y => (y.yieldScore + y.distanceScore) / 2)
+                        .Select(y => new ExpansionTarget {parent = y.body.bodyRef, type = x.type, score = (y.yieldScore + y.distanceScore) / 2})
+                        .Take(1))
+                    ;
+            }).ToList();
+
+            if (this.expansionTargets.Any())
+            {
+                Debug.Log($"Faction AI found {this.expansionTargets.Count} suitable expansion candidates");
+                // NotificationsUI.Add($"<style=faction>New station built at {body.name} in {system.name}</style>");
+                // this.CreateStation(body);
+            }
+            else
+            {
+                Debug.Log($"Faction AI could not find any suitable expansion candidates");
+            }
+        }
     }
 
     private void OnMapGenerated()
@@ -241,17 +261,16 @@ public class FactionExpansion : MonoBehaviour, ISavable
 
     private void CreateStation(StarOrPlanet planet)
     {
-        string specId = this.bodySpecs.RandomStation(this.rng, BodySpecs.StationType.HomeStation, this.faction.factionType)
-            .id;
+        var spec = this.bodySpecs.RandomStation(this.rng, BodySpecs.StationType.HomeStation, this.faction.factionType);
         planet.children.Add(new Station(planet.bodyRef.systemId)
         {
-            specId = specId,
+            specId = spec.id,
             parameters = new OrbitParameters
             {
                 periapsis = planet.radius + 5,
                 apoapsis = planet.radius + 5,
             }
         });
-        this.stations.Add(new StationRef(planet.bodyRef, specId));
+        this.stations.Add(new StationRef(planet.bodyRef, spec));
     }
 }

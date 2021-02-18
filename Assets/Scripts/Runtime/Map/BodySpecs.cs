@@ -113,12 +113,13 @@ public class BodySpecs : ScriptableObject
         public float minApproach = 10f;
     }
 
+    [Flags]
     public enum StationType
     {
-        HomeStation,        // Home base, where player begins, provides small amounts of everything
-        MiningStation,      // Provides resources, uses energy and population
-        CollectorStation,   // Provides energy, uses population
-        HabitatStation,     // Provides population, uses energy
+        HomeStation        = 1 << 0, // Home base, where player begins, provides small amounts of everything
+        MiningStation      = 1 << 1, // Provides resources, uses energy and population
+        CollectorStation   = 1 << 2, // Provides energy, uses population
+        HabitatStation     = 1 << 3, // Provides population, uses energy
     }
     
     [Serializable, KnownType(typeof(StationSpec))]
@@ -129,8 +130,6 @@ public class BodySpecs : ScriptableObject
         public Yields baseYields;
         public Yields yieldMultipliers;
         public Yields uses;
-        // What we need to know about a body before we can build this station around it
-        public DataMask occupationDataRequired;
         // TODO: limit these by the type of body they can orbit
     }
 

@@ -10,6 +10,10 @@ public class Yields
     public float energy;
     public float pop;
 
+    public static readonly Yields ResourceMask = (1, 0, 0);
+    public static readonly Yields EnergyMask = (0, 1, 0);
+    public static readonly Yields PopMask = (0, 0, 1);
+
     public Yields() { }
 
     public Yields(float resource, float energy, float pop)
@@ -30,6 +34,8 @@ public class Yields
         energy = this.energy;
         pop = this.pop;
     }
+
+    public float Sum() => this.resource + this.energy + this.pop;
 
     public static Yields operator +(Yields lhs, Yields rhs) => new Yields(lhs.resource + rhs.resource, lhs.energy + rhs.energy, lhs.pop + rhs.pop);
     public static Yields operator -(Yields lhs, Yields rhs) => new Yields(lhs.resource - rhs.resource, lhs.energy - rhs.energy, lhs.pop - rhs.pop);

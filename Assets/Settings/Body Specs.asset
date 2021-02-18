@@ -2679,7 +2679,7 @@ MonoBehaviour:
       max: 0.95
     minApproach: 10
   stations:
-  - name: Player Space Station
+  - name: Home
     id: be9ff418-58da-4a88-b405-fd4a58110f6d
     prefab: {fileID: 6031893901637196809, guid: 9d0fa1a051305f749ac266c469dbdd7e,
       type: 3}
@@ -2788,6 +2788,333 @@ MonoBehaviour:
       energy: 0
       pop: 0
     occupationDataRequired: 0
+  - name: Mining Station
+    id: f5bb161c-5731-4b09-a016-eff2eaa87d39
+    prefab: {fileID: 6031893901637196809, guid: 9d0fa1a051305f749ac266c469dbdd7e,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: 3cad69b8ca277fb41acfe77bb3d1f717,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 1
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    stationType: 1
+    factions: -1
+    baseYields:
+      resource: 0
+      energy: 0
+      pop: 0
+    yieldMultipliers:
+      resource: 1
+      energy: 0
+      pop: 0
+    uses:
+      resource: 0
+      energy: 0.75
+      pop: 0.5
+    occupationDataRequired: 8
+  - name: Energy Collector
+    id: c2e2c99e-8284-4de4-bc3c-5b06b297c034
+    prefab: {fileID: 6031893901637196809, guid: 9d0fa1a051305f749ac266c469dbdd7e,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: 3cad69b8ca277fb41acfe77bb3d1f717,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 1
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    stationType: 2
+    factions: -1
+    baseYields:
+      resource: 0
+      energy: 0
+      pop: 0
+    yieldMultipliers:
+      resource: 0
+      energy: 1
+      pop: 0
+    uses:
+      resource: 0
+      energy: 0
+      pop: 0.5
+    occupationDataRequired: 2
+  - name: Habitat
+    id: e4c5175f-a3ab-42b5-af44-c100eecbbae8
+    prefab: {fileID: 6031893901637196809, guid: 9d0fa1a051305f749ac266c469dbdd7e,
+      type: 3}
+    uiPrefab: {fileID: 9157842690579355036, guid: 3cad69b8ca277fb41acfe77bb3d1f717,
+      type: 3}
+    description: 
+    dataValueMultiplier: 1
+    priority: 0
+    probability: 1
+    energyRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    resourcesRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    habitabilityRandom:
+      weighting:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      gaussian: 0
+      min: 0
+      max: 0
+    stationType: 0
+    factions: -1
+    baseYields:
+      resource: 0
+      energy: 0
+      pop: 0
+    yieldMultipliers:
+      resource: 0
+      energy: 0
+      pop: 1
+    uses:
+      resource: 0
+      energy: 0.25
+      pop: 0
+    occupationDataRequired: 16
   aiShips:
   - name: Basic Pirate
     id: 438b3069-897e-449c-96cd-1238061ac0a0
