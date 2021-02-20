@@ -8,8 +8,9 @@ public class MissionBoardUI : MissionListUIBase
 {
     public Button sellDataButton;
     public TMP_Text sellDataButtonText;
+
+    protected override IEnumerable<IMissionBase> GetMissions() => this.missions.CalculateAvailableMissions();
     
-    protected override IEnumerable<IMissionBase> MissionList => this.missions.availableMissions;
     protected override GameObject CreateUI(IMissionFactory factory, IMissionBase mission, Transform parent) => factory.CreateBoardUI(this.missions, mission, parent);
 
     private void Awake()

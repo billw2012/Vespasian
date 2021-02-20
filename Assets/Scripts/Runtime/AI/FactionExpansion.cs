@@ -147,7 +147,7 @@ public class FactionExpansion : MonoBehaviour, ISavable
         }
         else
         {
-            Debug.Log($"Updating Faction AI expansion targets...");
+            //Debug.Log($"Updating Faction AI expansion targets...");
 
             // Currently the entire map is 1 galaxy unit, so we scale distance UP to make a 0-1 score sensible.
             // This scoring is totally subjective.
@@ -202,16 +202,16 @@ public class FactionExpansion : MonoBehaviour, ISavable
                     ;
             }).ToList();
 
-            if (this.expansionTargets.Any())
-            {
-                Debug.Log($"Faction AI found {this.expansionTargets.Count} suitable expansion candidates");
-                // NotificationsUI.Add($"<style=faction>New station built at {body.name} in {system.name}</style>");
-                // this.CreateStation(body);
-            }
-            else
-            {
-                Debug.Log($"Faction AI could not find any suitable expansion candidates");
-            }
+            // if (this.expansionTargets.Any())
+            // {
+            //     Debug.Log($"Faction AI found {this.expansionTargets.Count} suitable expansion candidates");
+            //     // NotificationsUI.Add($"<style=faction>New station built at {body.name} in {system.name}</style>");
+            //     // this.CreateStation(body);
+            // }
+            // else
+            // {
+            //     Debug.Log($"Faction AI could not find any suitable expansion candidates");
+            // }
         }
     }
 

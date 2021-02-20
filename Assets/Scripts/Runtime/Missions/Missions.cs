@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 
 /*
@@ -41,88 +42,55 @@ using UnityEngine.Assertions;
  *      but eventually only from certain places (probably the same place you get missions from)
  */
 
-public interface IMissionFactory
-{
-    IMissionBase Generate(RandomX rng);
-    GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent);
-    GameObject CreateActiveUI(Missions missions, IMissionBase mission, Transform parent);
-}
-
-public interface IMissionBase
-{
-    string Factory { get; }
-    bool IsComplete { get; }
-    string Name { get; }
-    string Description { get; }
-    int Reward { get; }
-    void Update(Missions missions);
-}
-
-public interface IBodyMission
-{
-    /// <summary>
-    /// Try and assign the body to this mission (mission can check it matches requirements). 
-    /// </summary>
-    /// <param name="bodyRef"></param>
-    /// <param name="body"></param>
-    /// <param name="data"></param>
-    /// <returns>Whether the body was assigned to this mission. If so it cannot be assigned to another one.</returns>
-    /// TODO: Perhaps we should support a body assigned to multiple missions if they are for the same agent?
-    bool TryAssign(BodyRef bodyRef, Body body, DataMask data);
-    /// <summary>
-    /// </summary>
-    /// <returns>A list of all bodies assigned to this mission.</returns>
-    IEnumerable<BodyRef> AssignedBodies();
-}
-
-// Mission which targets specific bodies which exist in the world
-public interface ITargetBodiesMission
-{
-    List<BodyRef> TargetBodies { get; }
-    bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data);
-}
-
 public class Missions : MonoBehaviour, ISavable
 {
-    public List<GameObject> missionFactoryObjects;
+    // // This field cannot directly target IMissionFactories, as Unity cannot serialize
+    // // derived types using base ref
+    // [SerializeField] private List<GameObject> missionFactoryObjects = null;
 
     [NonSerialized, Saved, RegisterSavableType]
     public List<IMissionBase> activeMissions = new List<IMissionBase>();
-
-    // This should perhaps be specific to particular locations, not sure?
-    [NonSerialized, Saved, RegisterSavableType]
-    public List<IMissionBase> availableMissions = new List<IMissionBase>();
-
-    [NonSerialized, Saved] public int playerCredits;
-
-    // Data already used to complete missions
-    public DataCatalog dataCatalog;
     
-    // Data the player knows
-    public DataCatalog playerDataCatalog;
+    // This should perhaps be specific to particular locations, not sure?
+    //[NonSerialized, Saved, RegisterSavableType]
+    //public List<IMissionBase> availableMissions = new List<IMissionBase>();
+    
+    [NonSerialized, Saved]
+    public int playerCredits;
 
-    public MapComponent mapComponent;
+    // Refs set via editor
+    public DataCatalog factionDataCatalog;
+    public DataCatalog playerDataCatalog;
+    
+    private MapComponent mapComponent;
 
     public delegate void MissionsChanged();
     public event MissionsChanged OnMissionsChanged;
 
-    // Externals
-    public GameLogic gameLogic;
-    
-    private IEnumerable<IMissionFactory> missionFactories => this.missionFactoryObjects.Select(o => o.GetComponent<IMissionFactory>());
-
+    // Should it be [Saved]? Only if we decide to show finished missions in game, otherwise they can just be forgotten.
     private List<IMissionBase> completedMissions;
 
+    /// <summary>
+    /// How much the player will get for trading in their current data
+    /// </summary>
     public int NewDataReward { get; private set; }
+    /// <summary>
+    /// Data the player has collected that is not known by their faction
+    /// </summary>
     private DictX<BodyRef, DataMask> newData;
 
-    // Start is called before the first frame update
+    private IMissionFactory[] missionFactories;
+    
     private void Awake()
     {
+        this.missionFactories = this.GetComponents<IMissionFactory>(); 
+        //this.missionFactoryObjects.SelectMany(s => s.GetComponents<IMissionFactory>()).ToList();
+        
         ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        this.mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
         
         this.playerDataCatalog.OnDataAdded += this.PlayerDataCatalogOnDataAdded;
-        this.gameLogic.OnNewGameInitialized.AddListener(this.GameLogicOnNewGameInitialized);
+        //this.gameLogic.OnNewGameInitialized.AddListener(this.GameLogicOnNewGameInitialized);
     }
 
     private void Start()
@@ -130,12 +98,19 @@ public class Missions : MonoBehaviour, ISavable
         this.completedMissions = this.activeMissions.Where(m => m.IsComplete).ToList();
     }
 
+    public IEnumerable<IMissionBase> CalculateAvailableMissions()
+    {
+        return this.missionFactories.SelectMany(missionFactory => missionFactory.GetMissions(this));
+    }
+    
     private void PlayerDataCatalogOnDataAdded(BodyRef bodyRef, DataMask oldData, DataMask newData)
     {
-        var bodyMissions = this.activeMissions.OrderByDescending(m => m.Reward).OfType<IBodyMission>();
+        var bodyMissions = this.activeMissions
+            .OfType<IBodyMission>()
+            .OrderByDescending(m => ((IMissionBase)m).Reward);
         var allocatedBodies = bodyMissions
             .SelectMany(m => m.AssignedBodies())
-            .Concat(this.dataCatalog.KnownBodies);
+            .Concat(this.factionDataCatalog.KnownBodies);
 
         var body = this.mapComponent.map.GetBody(bodyRef);
         Assert.IsNotNull(body);
@@ -159,34 +134,6 @@ public class Missions : MonoBehaviour, ISavable
         }
     }
 
-    private void GameLogicOnNewGameInitialized()
-    {
-        var rng = new RandomX();
-
-        // HACK: DEBUG CODE
-        for (int i = 0; i < 10; i++)
-        {
-            this.availableMissions.Add(this.missionFactories.SelectRandom().Generate(rng));
-        }
-
-        // Generate survey system missions in neighboring systems too
-        var surveyFactory = this.missionFactories.FirstOrDefault(f => f is MissionSurveyFactory) as MissionSurveyFactory;
-        if (surveyFactory != null)
-        {
-            var map = this.mapComponent.map;
-            var nearestSystems = map.GetConnected(this.mapComponent.currentSystem);
-            this.availableMissions.Add(surveyFactory.Generate(rng, this.mapComponent.currentSystem));
-            foreach (var systemAndLink in nearestSystems)
-            {
-                this.availableMissions.Add(surveyFactory.Generate(rng, systemAndLink.system));
-            }
-        }
-
-
-        // Unsubscribe, although Unity should handle this case too
-        this.gameLogic.OnNewGameInitialized.RemoveListener(this.GameLogicOnNewGameInitialized);
-    }
-
     // Update is called once per frame
     private void Update()
     {
@@ -208,7 +155,10 @@ public class Missions : MonoBehaviour, ISavable
     
     public void Take(IMissionBase mission)
     {
-        this.availableMissions.Remove(mission);
+        foreach (var missionFactory in this.missionFactories)
+        {
+            missionFactory.MissionTaken(this, mission);
+        }
         this.activeMissions.Add(mission);
         this.OnMissionsChanged?.Invoke();
     }
@@ -237,7 +187,7 @@ public class Missions : MonoBehaviour, ISavable
 
     public void UpdateNewDataReward()
     {
-        this.newData = this.playerDataCatalog.GetNewDataDiff(this.dataCatalog);
+        this.newData = this.playerDataCatalog.GetNewDataDiff(this.factionDataCatalog);
         this.NewDataReward = this.newData
             .Select(bodyData => this.mapComponent.GetDataCreditValue(bodyData.Key, bodyData.Value))
             .Sum();
@@ -245,7 +195,7 @@ public class Missions : MonoBehaviour, ISavable
 
     public void SellNewData()
     {
-        this.dataCatalog.MergeFrom(this.playerDataCatalog);
+        this.factionDataCatalog.MergeFrom(this.playerDataCatalog);
         this.AddFunds(this.NewDataReward, $"All new data sold");
     }
 
@@ -321,4 +271,53 @@ public class Missions : MonoBehaviour, ISavable
             missions.AddFunds(amount, $"Cheating!");
         }
     }
+}
+
+public interface IMissionFactory
+{
+    // Return the list of missions generated by this generator
+    IEnumerable<IMissionBase> GetMissions(Missions missions);
+    void MissionTaken(Missions missions, IMissionBase mission);
+    GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent);
+    GameObject CreateActiveUI(Missions missions, IMissionBase mission, Transform parent);
+}
+
+public interface IMissionBase
+{
+    string Factory { get; }
+    bool IsComplete { get; }
+    string Name { get; }
+    string Description { get; }
+    int Reward { get; }
+    void Update(Missions missions);
+}
+
+/// <summary>
+/// Missions which can "allocate" bodies to themselves when they are discovered. This can stop a single
+/// body from being able to fulfill multiple missions (when this behaviour is desirable)
+/// </summary>
+public interface IBodyMission
+{
+    /// <summary>
+    /// Try and assign the body to this mission (mission can check it matches requirements). 
+    /// </summary>
+    /// <param name="bodyRef"></param>
+    /// <param name="body"></param>
+    /// <param name="data"></param>
+    /// <returns>Whether the body was assigned to this mission. If so it cannot be assigned to another one.</returns>
+    /// TODO: Perhaps we should support a body assigned to multiple missions if they are for the same agent?
+    bool TryAssign(BodyRef bodyRef, Body body, DataMask data);
+    /// <summary>
+    /// </summary>
+    /// <returns>A list of all bodies assigned to this mission.</returns>
+    IEnumerable<BodyRef> AssignedBodies();
+}
+
+/// <summary>
+/// Mission which targets specific bodies which exist in the world
+/// </summary>
+public interface ITargetBodiesMission
+{
+    List<BodyRef> TargetBodies { get; }
+    bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data);
 }

@@ -25,12 +25,12 @@ public abstract class MissionListUIBase : MonoBehaviour
             Destroy(itemUI.gameObject);
         }
 
-        foreach (var mission in this.MissionList)
+        foreach (var mission in this.GetMissions())
         {
             this.CreateUI(this.missions.GetFactory(mission.Factory), mission, this.grid.transform);
         }
     }
 
-    protected abstract IEnumerable<IMissionBase> MissionList { get; }
+    protected abstract IEnumerable<IMissionBase> GetMissions();
     protected abstract GameObject CreateUI(IMissionFactory factory, IMissionBase mission, Transform parent);
 }

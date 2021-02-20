@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
 {
-    public GameObject itemPrefab;
+    [SerializeField] private GameObject itemPrefab = null;
 
-    [Saved, NonSerialized] public int missionCounter = 0;
+    [Saved] private int missionCounter = 0;
+    [Saved] private List<IMissionBase> missions = new List<IMissionBase>();
 
     private PlayerController player;
+    private readonly RandomX rng = new RandomX();
 
     private void Awake()
     {
@@ -22,12 +24,13 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
         Habitability,
         Both
     }
-    public IMissionBase Generate(RandomX rng)
+
+    private IMissionBase Generate()
     {
         // Generate resource only, hab only, or mixed missions
-        var missionType = (FindType)rng.Range(0, 3);
-        float minResource = rng.value;
-        float minHabitability = rng.value;
+        var missionType = (FindType)this.rng.Range(0, 3);
+        float minResource = this.rng.value;
+        float minHabitability = this.rng.value;
         string missionName = $"Find Mission {++this.missionCounter}";
         switch (missionType)
         {
@@ -61,6 +64,19 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
         }
     }
 
+    #region IMissionFactory
+    public IEnumerable<IMissionBase> GetMissions(Missions missions)
+    {
+        while (this.missions.Count < 4)
+        {
+            this.missions.Add(this.Generate());
+        }
+
+        return this.missions;
+    }
+
+    public void MissionTaken(Missions missions, IMissionBase mission) => this.missions.Remove(mission);
+
     public GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent)
     {
         var missionTyped = mission as MissionFind;
@@ -78,6 +94,7 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
         missionItemUI.Init(missions, mission, activeMission: true);
         return ui;
     }
+    #endregion IMissionFactory
 }
 
 [RegisterSavableType]

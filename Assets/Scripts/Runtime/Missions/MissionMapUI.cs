@@ -13,7 +13,7 @@ public class MissionMapUI : MissionListUIBase
         this.UpdateUI();
     }
 
-    protected override IEnumerable<IMissionBase> MissionList => this.missionList;
+    protected override IEnumerable<IMissionBase> GetMissions() => this.missionList;
 
     protected override GameObject CreateUI(IMissionFactory factory, IMissionBase mission, Transform parent) => factory.CreateActiveUI(this.missions, mission, parent);
 }

@@ -2,13 +2,19 @@
 using System.Linq;
 using UnityEngine;
 
+//MissionSurvery(SomethingSpecific)
 public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
 {
-    public GameObject itemPrefab;
+    [SerializeField] private GameObject itemPrefab = null;
 
+    private readonly RandomX rng = new RandomX();
+    
+    private MapComponent mapComponent;
+    
     private void Awake()
     {
         ComponentCache.FindObjectOfType<SaveSystem>().RegisterForSaving(this);
+        this.mapComponent = ComponentCache.FindObjectOfType<MapComponent>();
     }
 
     private enum SurveyType
@@ -17,39 +23,27 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
         SurveyPlanet // Not supported yet
     }
 
-    public IMissionBase Generate(RandomX rng)
+    private IMissionBase Generate(SolarSystem targetSystem)
     {
-        return this.Generate(rng, null);
-    }
-
-    public IMissionBase Generate(RandomX rng, SolarSystem targetSystem = null)
-    {
-        var map = ComponentCache.FindObjectOfType<MapComponent>().map;
-        Debug.Assert(map != null);
-        var missionType = rng.Decide(0.5f) ? SurveyType.SurveyWholeSystem : SurveyType.SurveyPlanet;
-
-        if (targetSystem == null)
-        {
-            targetSystem = map.systems.SelectRandom();
-        }
+        var missionType = this.rng.Decide(0.5f) ? SurveyType.SurveyWholeSystem : SurveyType.SurveyPlanet;
 
         switch (missionType)
         {
             case SurveyType.SurveyWholeSystem:
+            {
+                // TODO make good criteria for the generator
+                string missionName = $"Survey System {targetSystem.name}";
+                string missionDescription = $"Survey all bodies in system {targetSystem.name}";
+                var mission = new MissionSurveySystem(missionDescription, missionName)
                 {
-                    // TODO make good criteria for the generator
-                    string missionName = $"Survey System {targetSystem.name}";
-                    string missionDescription = $"Survey all bodies in system {targetSystem.name}";
-                    var mission = new MissionSurveySystem(missionDescription, missionName)
-                    {
-                        TargetBodies = targetSystem.AllBodies().Where(b => b is StarOrPlanet)
-                            .Select(b => b.bodyRef)
-                            .ToList(),
-                        targetSystemRef = targetSystem.id
-                    };
+                    TargetBodies = targetSystem.AllBodies().Where(b => b is StarOrPlanet)
+                        .Select(b => b.bodyRef)
+                        .ToList(),
+                    targetSystemRef = targetSystem.id
+                };
 
-                    return mission;
-                }
+                return mission;
+            }
 
             case SurveyType.SurveyPlanet:
             {
@@ -72,6 +66,28 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
         return null;
     }
 
+    #region IMissionFactory
+    public IEnumerable<IMissionBase> GetMissions(Missions missions)
+    {
+        // Which systems are already part of active missions?
+        var existingTargetSystems = missions.activeMissions
+            .OfType<MissionSurvey>()
+            .Select(m => m.targetSystemRef)
+            .ToList();
+        
+        if(!existingTargetSystems.Contains(this.mapComponent.currentSystem.id))
+        {
+            yield return this.Generate(this.mapComponent.currentSystem);
+        }
+        foreach (var systemAndLink in this.mapComponent.map.GetConnected(this.mapComponent.currentSystem)
+            .Where(sl => !existingTargetSystems.Contains(sl.system.id)))
+        {
+            yield return this.Generate(systemAndLink.system);
+        }
+    }
+
+    public void MissionTaken(Missions missions, IMissionBase mission) { }
+
     public GameObject CreateBoardUI(Missions missions, IMissionBase mission, Transform parent)
     {
         var missionTyped = mission as MissionSurveySystem;
@@ -89,9 +105,10 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
         missionItemUI.Init(missions, mission, activeMission: true);
         return ui;
     }
+
+    #endregion IMissionFactory
 }
 
-//MissionSurvery(SomethingSpecific)
 public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
 {
     public bool IsComplete { get; set; }
@@ -136,16 +153,14 @@ public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
         {
             // Check if there are no unscanned bodies here any more
             // If so, mission is complete
-            var missions = ComponentCache.FindObjectOfType<Missions>();
-            var playerDataCatalog = missions.playerDataCatalog;
+            var playerDataCatalog = ComponentCache.FindObjectOfType<Missions>().playerDataCatalog;
 
             // Check if we now have full data on this body
-            var dataAvailable = playerDataCatalog.GetData(bodyRef);
-            if (dataAvailable == DataMask.All)
+            if (playerDataCatalog.HaveData(bodyRef, DataMask.All))
             {
                 this.scannedBodies.Add(bodyRef);
                 this.notScannedBodies.RemoveAll(b=> b == bodyRef);
-                this.IsComplete = this.TargetBodies.All(tb => playerDataCatalog.GetData(tb).HasFlag(DataMask.All));
+                this.IsComplete = this.TargetBodies.All(tb => playerDataCatalog.HaveData(tb, DataMask.All));
             }
         }
         return this.IsComplete;
