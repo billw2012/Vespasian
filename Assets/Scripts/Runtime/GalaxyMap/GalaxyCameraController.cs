@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GalaxyCameraController : MonoBehaviour
 {
-    [Range(-360, 360)]
+    [Range(-360*3, 360)]
     public float cameraAngleDeg = 90;
 
     public GalaxyShapePreview shapePreview = null;
@@ -27,7 +27,7 @@ public class GalaxyCameraController : MonoBehaviour
     private void UpdateCameraPos(float angleRad)
     {
         var shape = this.shapePreview.GetGalaxyShape();
-        var camPositions = GalaxyMapMath.CameraPositions(angleRad, shape, this.cameraOffsetDistance, this.cameraOffsetHeight);
+        var camPositions = shape.CameraPositions(angleRad, this.cameraOffsetDistance, this.cameraOffsetHeight);
         this.transform.localPosition = camPositions.Item1;
         this.transform.LookAt(this.mapViewTransform.position + camPositions.Item2);
     }
