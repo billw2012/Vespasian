@@ -17,16 +17,19 @@ public class GalaxyShapePreview : MonoBehaviour
     public float size = 1.0f;
 
     [Range(0, 10.0f)]
-    public float B = 1.0f;
+    public float rPower = 1.0f;
 
     [Range(0, 40.0f)]
     public float N = 4.0f;
 
-    [Range(0, 6)]
+    [Range(0, 20)]
     public float angleEndRad = 2.0f;
 
     [Range(0, 1)]
     public float armWidthRelative = 0.13f;
+
+    [Range(0, 3)]
+    public float armWidthPower = 1.0f;
 
     [Range(0, 1)]
     public float centerSizeRelative = 0.2f;
@@ -54,13 +57,14 @@ public class GalaxyShapePreview : MonoBehaviour
         for (int i = 0; i < this.linePosVec.Capacity; i++)
         {
             float angleRad = - this.angleEndRad * (float)i / nPoints;
-            float dist = GalaxyMapMath.PointOnArmDistance(angleRad, this.shape);
+            float dist = shape.PointOnArmDistance(angleRad);
             float angleRatio = Mathf.Abs( (float)i / (float)this.linePosVec.Capacity );
+            float armWidth = shape.ArmWidth(angleRad);
 
             // Arm border lines (inner and outer borders)
-            float distInner = Mathf.Clamp(dist - 0.5f * angleRatio * shape.size*shape.armWidthRel, 0, 100);
+            float distInner = Mathf.Clamp(dist - 0.5f * armWidth, 0, 100);
             this.linePosInnerBorderVec.Add(GalaxyMapMath.PolarToCart(angleRad, distInner));
-            float distOuter = Mathf.Clamp(dist + 0.5f * angleRatio * shape.size*shape.armWidthRel, 0, 100);
+            float distOuter = Mathf.Clamp(dist + 0.5f * armWidth, 0, 100);
             this.linePosOuterBorderVec.Add(GalaxyMapMath.PolarToCart(angleRad, distOuter));
 
             //Debug.Log($"i: {i}, angle: {angleRad}");
@@ -94,14 +98,14 @@ public class GalaxyShapePreview : MonoBehaviour
                 Gizmos.DrawLine(this.linePosOuterBorderVec[i] + this.transform.position, this.linePosOuterBorderVec[i + 1] + this.transform.position);
 
                 // Opposite arm
-                Gizmos.DrawLine(this.linePosNegVec[i] + this.transform.position, this.linePosNegVec[i + 1] + this.transform.position);
+                //Gizmos.DrawLine(this.linePosNegVec[i] + this.transform.position, this.linePosNegVec[i + 1] + this.transform.position);
 
 
                 // Inner border
-                Gizmos.DrawLine(this.linePosNegInnerBorderVec[i] + this.transform.position, this.linePosNegInnerBorderVec[i + 1] + this.transform.position);
+                //Gizmos.DrawLine(this.linePosNegInnerBorderVec[i] + this.transform.position, this.linePosNegInnerBorderVec[i + 1] + this.transform.position);
 
                 // Outer border
-                Gizmos.DrawLine(this.linePosNegOuterBorderVec[i] + this.transform.position, this.linePosNegOuterBorderVec[i + 1] + this.transform.position);
+                //Gizmos.DrawLine(this.linePosNegOuterBorderVec[i] + this.transform.position, this.linePosNegOuterBorderVec[i + 1] + this.transform.position);
 
                 // Center
                 Gizmos.DrawWireSphere(this.transform.position, this.centerSizeRelative * this.size);
@@ -113,10 +117,10 @@ public class GalaxyShapePreview : MonoBehaviour
     {
         GalaxyMapMath.GalaxyShape shape;
         shape.size = this.size;
-        shape.B = this.B;
-        shape.N = this.N;
+        shape.rPower = this.rPower;
         shape.angleEndRad = this.angleEndRad;
         shape.armWidthRel = this.armWidthRelative;
+        shape.armWidthPow = this.armWidthPower;
         shape.centerSizeRel = this.centerSizeRelative;
         return shape;
     }
@@ -126,20 +130,23 @@ public class GalaxyShapePreview : MonoBehaviour
         if (this.starIconPrefab == null)
             return;
 
-        int nStars = 128;
+        int nStarsMax = 1024;
+        int nStarsGenerated = 0;
+        int nTries = 0;
         var shape = this.GetGalaxyShape();
-        for (int i = 0; i < nStars; i++)
+        while (nStarsGenerated < nStarsMax && nTries < 10000)
         {
-            float angle = - Random.value * shape.angleEndRad;
-            float angleRatio = Mathf.Abs(angle / shape.angleEndRad);
-            float dist = GalaxyMapMath.PointOnArmDistance(angle, shape);
-            float halfWidth = 0.5f * angleRatio * shape.size * shape.armWidthRel;
-            float distRandom = Random.Range(dist - halfWidth, dist + halfWidth);
-            Vector3 starPos = GalaxyMapMath.PolarToCart(angle, distRandom);
-            GameObject starObj = GameObject.Instantiate(this.starIconPrefab, this.transform);
-            starObj.transform.localPosition = starPos;
-            float starSize = 0.06f;
-            starObj.transform.localScale = new Vector3(starSize, starSize, starSize);
+            float gs = shape.size; // Galaxy size (radius)
+            Vector3 posRandom = new Vector3(Random.Range(-gs, gs), 0, Random.Range(-gs, gs));
+            if (shape.TestPointInSpiral(posRandom))
+            {
+                GameObject starObj = GameObject.Instantiate(this.starIconPrefab, this.transform);
+                starObj.transform.localPosition = posRandom;
+                float starSize = 0.01f;
+                starObj.transform.localScale = new Vector3(starSize, starSize, starSize);
+                nStarsGenerated++;
+            }
+            nTries++;
         }
     }
 
