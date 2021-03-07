@@ -117,4 +117,9 @@ public class GalaxyMapMath
     {
         return (pos.magnitude, Mathf.Atan2(pos.z, pos.x));
     }
+
+    public static Vector3 Vec2dTo3d(Vector2 pos)
+    {
+        return new Vector3(pos.x, 0, pos.y);
+    }
 }

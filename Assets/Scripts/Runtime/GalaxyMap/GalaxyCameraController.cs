@@ -50,7 +50,7 @@ public class GalaxyCameraController : MonoBehaviour
             Vector3 deltaMovement = cursorPos - prevCursorPos;
             float xMovement = deltaMovement.x;
             this.cameraAngleDeg -= this.mouseSensitivity * xMovement;
-            Debug.Log($"Current camera angle: {this.cameraAngleDeg} degrees");
+            //Debug.Log($"Current camera angle: {this.cameraAngleDeg} degrees");
 
             // Update camera pos
             this.UpdateCameraPos(Mathf.Deg2Rad * this.cameraAngleDeg);

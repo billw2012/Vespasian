@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +38,10 @@ public class GalaxyShapePreview : MonoBehaviour
     private GalaxyMapMath.GalaxyShape shape;
 
     public GameObject starIconPrefab = null;
+    public GameObject starLinkPrefab = null;
+
+    public MapGenerator mapGenerator = null;
+    private Map map = null;
 
     void OnValidate()
     {
@@ -125,33 +130,103 @@ public class GalaxyShapePreview : MonoBehaviour
         return shape;
     }
 
-    void GenerateStars()
+    void GenerateAllStars()
     {
+        this.map = new Map();
+        var rng = new RandomX((int)(System.DateTime.Now.Ticks % int.MaxValue));
+
         if (this.starIconPrefab == null)
             return;
 
-        int nStarsMax = 1024;
-        int nStarsGenerated = 0;
-        int nTries = 0;
-        var shape = this.GetGalaxyShape();
-        while (nStarsGenerated < nStarsMax && nTries < 10000)
+        float size = this.shape.size;
+        float centerSize = this.shape.centerSizeRel * size;
+        float armWidthMax = this.shape.ArmWidth(this.shape.angleEndRad);
+        size += 0.5f * armWidthMax;
+
+        this.GenerateStarsRadius(this.map, 80, 1.0f*size, 0.1f*size);
+        this.GenerateStarsRadius(this.map, 50, 0.6f*size, 0.06f * size);
+        this.GenerateStarsRadius(this.map, 20, centerSize, 0.04f * size);
+
+        this.mapGenerator.GenerateLinks(this.map, rng, 0.22f * size);
+
+        // todo delete too long links
+    }
+
+    // Just puts stars to the scene for visualization
+    void VisualizeAllStars()
+    {
+        // Place system markers
+        foreach (var sys in this.map.systems)
         {
-            float gs = shape.size; // Galaxy size (radius)
-            Vector3 posRandom = new Vector3(Random.Range(-gs, gs), 0, Random.Range(-gs, gs));
-            if (shape.TestPointInSpiral(posRandom))
+            Vector2 pos2d = sys.position;
+            Vector3 pos3d = new Vector3(pos2d.x, 0, pos2d.y);
+            GameObject starObj = GameObject.Instantiate(this.starIconPrefab, this.transform);
+            starObj.transform.localPosition = pos3d;
+            float starSize = 0.013f;
+            starObj.transform.localScale = new Vector3(starSize, starSize, starSize);
+        }
+
+        // Place link markers
+        foreach (var link in this.map.links)
+        {
+            GameObject linkObj = GameObject.Instantiate(this.starLinkPrefab, this.transform);
+            LineRenderer line = linkObj.GetComponent<LineRenderer>();
+            Vector3[] positions =
             {
-                GameObject starObj = GameObject.Instantiate(this.starIconPrefab, this.transform);
-                starObj.transform.localPosition = posRandom;
-                float starSize = 0.01f;
-                starObj.transform.localScale = new Vector3(starSize, starSize, starSize);
-                nStarsGenerated++;
+                GalaxyMapMath.Vec2dTo3d(map.GetSystem(link.from).position),
+                GalaxyMapMath.Vec2dTo3d(map.GetSystem(link.to).position)
+            };
+            line.SetPositions(positions);
+        }
+    }
+
+    void GenerateStarsRadius(Map map, int nStarsMax, float rMax, float minDistance)
+    {
+        int nStarsGenerated = 0;
+        var shape = this.GetGalaxyShape();
+        const int maxNTries = 300;
+        while (nStarsGenerated < nStarsMax)
+        {
+            int nTries = 0;
+            bool foundANewPos = false;
+            while (nTries < maxNTries && !foundANewPos)
+            {
+                Vector3 posRandom = new Vector3(Random.Range(-rMax, rMax), 0, Random.Range(-rMax, rMax));
+                Vector2 posRandom2 = new Vector3(posRandom.x, posRandom.z);
+                if (posRandom.magnitude < rMax)
+                {
+                    if (shape.TestPointInSpiral(posRandom))
+                    {
+                        if (!map.systems.Any(s => Vector3.Distance(s.position, posRandom2) < minDistance))
+                        {
+                            var sys = new SolarSystem(map.NextSystemId)
+                            {
+                                name = "123",
+                                position = posRandom2,
+                                direction = OrbitParameters.OrbitDirection.Clockwise,
+                                // TODO: proper danger value
+                                danger = 0.1f
+                            };
+                            map.AddSystem(sys);
+
+                            nStarsGenerated++;
+                            foundANewPos = true;
+                        }
+                    }
+                }
+                nTries++;
             }
-            nTries++;
+            if (nTries >= maxNTries)
+            {
+                Debug.LogWarning($"Reached max amount of tries at iteration {nStarsGenerated}");
+            }
         }
     }
 
     void Awake()
     {
-        this.GenerateStars();
+        this.shape = this.GetGalaxyShape();
+        this.GenerateAllStars();
+        this.VisualizeAllStars();
     }
 }
