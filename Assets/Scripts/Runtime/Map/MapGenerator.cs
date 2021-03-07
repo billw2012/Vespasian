@@ -401,7 +401,7 @@ public class MapGenerator : ScriptableObject
         }
     }
 
-    private void GenerateLinks(Map map, RandomX rng)
+    public void GenerateLinks(Map map, RandomX rng, float maxLinkDistance = 0)
     {
         var connectionTriangles = DelaunayCalculator.CalculateTriangulation(map.systems.Select(s => s.position).ToList());
 
@@ -485,9 +485,23 @@ public class MapGenerator : ScriptableObject
         TrimLinks(scoreLinks.Where(ls => ls.score < 360f * this.linkObtuseRemoveScore).OrderBy(l => l.score)
             .Select(l => l.link));
 
+        // Trim too long links
+        if (maxLinkDistance != 0)
+        {
+            var tooLongLinks = map.links.Where(lnk =>
+            {
+                var pos0 = map.GetSystem(lnk.from).position;
+                var pos1 = map.GetSystem(lnk.to).position;
+                var dist = (pos1 - pos0).magnitude;
+                return dist > maxLinkDistance;
+            }).ToArray();
+            TrimLinks(tooLongLinks);
+        }
+
         // Reduce number of links by the reduction ratio
         int targetCount = (int) (map.links.Count * this.linkReductionRatio);
 
+        /*
         while (map.links.Count > targetCount)
         {
             var randomLinks = map.links.OrderBy(a => rng.value).Take(map.links.Count - targetCount).ToList();
@@ -497,5 +511,6 @@ public class MapGenerator : ScriptableObject
             if (prevCount == map.links.Count)
                 break;
         }
+        */
     }
 }

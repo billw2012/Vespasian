@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -180,8 +180,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110827645}
-  m_LocalRotation: {x: 0.109804414, y: 0.8899485, z: -0.30168524, w: 0.32391468}
-  m_LocalPosition: {x: -4.227355, y: 1.555, z: 5.037967}
+  m_LocalRotation: {x: 0.0485713, y: 0.94261026, z: -0.2902503, w: 0.15773903}
+  m_LocalPosition: {x: -0.86047554, y: 0.45936, z: 2.4989998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 481941165}
@@ -251,7 +251,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 26
+  field of view: 54.8
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -281,12 +281,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aced1129eff9d44a8e7e7fa0864727a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraAngleDeg: -230
+  cameraAngleDeg: -611
   shapePreview: {fileID: 1994326505}
   mapViewTransform: {fileID: 481941165}
-  cameraOffsetDistance: 0.406
-  cameraOffsetHeight: 0.311
+  cameraOffsetDistance: 0.341
+  cameraOffsetHeight: 0.232
   mouseSensitivity: 0.2
+--- !u!1 &1801803746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801803747}
+  m_Layer: 0
+  m_Name: Map Generator And Stuff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1801803747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801803746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.034279972, y: 0.24979626, z: 0.293214}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1891567282
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,11 +550,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0982565d25fc7484f840424bb3b6aa83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 5
-  B: 7.55
-  N: 21.4
-  angleEndRad: 4.14
-  armWidthRelative: 0.299
-  centerSizeRelative: 0.195
+  size: 1.98
+  rPower: 1
+  N: 38.3
+  angleEndRad: 10.73
+  armWidthRelative: 0.409
+  armWidthPower: 0.57
+  centerSizeRelative: 0.275
   starIconPrefab: {fileID: 8611454464485139104, guid: 5f4daa9aa505a2f4892a92c26830a360,
     type: 3}
+  starLinkPrefab: {fileID: 749330822173977267, guid: 7580500590c31f245bec35704e4a5c9b,
+    type: 3}
+  mapGenerator: {fileID: 11400000, guid: 317f3844ca3872542b58889c0308486f, type: 2}
