@@ -199,22 +199,10 @@ public class Missions : MonoBehaviour, ISavable
         this.AddFunds(this.NewDataReward, $"All new data sold");
     }
 
-    public bool HasActiveMissionsInSystem(BodyRef systemRef)
-    {
-        var firstSurveyMission = this.activeMissions.FirstOrDefault(mn =>
-            {
-                var mnSurvey = mn as MissionSurvey;
-
-                if (mnSurvey != null)
-                {
-                    return mnSurvey.targetSystemRef.EqualsSystem(systemRef) && !mnSurvey.IsComplete;
-                }
-                else
-                    return false;
-            }
-        );
-        return firstSurveyMission != null;
-    }
+    public bool HasActiveMissionsInSystem(BodyRef systemRef) 
+        => this.activeMissions
+            .OfType<ITargetBodiesMission>()
+            .Any(m => m.TargetBodies.Any(b => b.SystemRef() == systemRef));
 
     public List<IMissionBase> GetActiveMissionsInSystem(BodyRef systemRef)
     {
@@ -318,6 +306,6 @@ public interface IBodyMission
 /// </summary>
 public interface ITargetBodiesMission
 {
-    List<BodyRef> TargetBodies { get; }
+    IEnumerable<BodyRef> TargetBodies { get; }
     bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data);
 }

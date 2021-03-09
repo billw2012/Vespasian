@@ -111,38 +111,37 @@ public class MissionSurveyFactory : MonoBehaviour, IMissionFactory, ISavable
 
 public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
 {
-    public bool IsComplete { get; set; }
-
-    public string Description { get; set; }
-
-    public string Name { get; set; }
+    public bool IsComplete { get; private set; }
+    public string Description { get; }
+    public string Name { get; }
 
     public int Reward => 100; // TODO proper reward value, based on distance
 
-    protected string _factory;
-    public string Factory => this._factory; //nameof(MissionSurveyFactory);
+    public string Factory => nameof(MissionSurveyFactory);
 
-    // Ref to the system where target is, or to the system itself
+    // Ref to the system where target is (or the target system, if target is a system not a body)
     public BodyRef targetSystemRef;
 
-    public List<BodyRef> scannedBodies = new List<BodyRef>();
-    public List<BodyRef> notScannedBodies = new List<BodyRef>();
+    private List<BodyRef> notScannedBodies = new List<BodyRef>();
+    private List<BodyRef> targetBodies = null;
 
-    private List<BodyRef> _targetBodies = null;
-    public List<BodyRef> TargetBodies
+    public IEnumerable<BodyRef> TargetBodies
     {
-        get
-        {
-            if (this._targetBodies == null)
-                return new List<BodyRef>();
-
-            return new List<BodyRef>(this._targetBodies);
-        }
+        get => this.targetBodies ?? Enumerable.Empty<BodyRef>();
         set
         {
             this.notScannedBodies = new List<BodyRef>(value);
-            this._targetBodies = new List<BodyRef>(value);
+            this.targetBodies = new List<BodyRef>(value);
         }
+    }
+
+    // Parameterless constructor to allow serialization
+    protected MissionSurvey() { }
+
+    protected MissionSurvey(string description, string name)
+    {
+        this.Description = description;
+        this.Name = name;
     }
 
     public void Update(Missions missions) { }
@@ -158,24 +157,11 @@ public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
             // Check if we now have full data on this body
             if (playerDataCatalog.HaveData(bodyRef, DataMask.All))
             {
-                this.scannedBodies.Add(bodyRef);
                 this.notScannedBodies.RemoveAll(b=> b == bodyRef);
                 this.IsComplete = this.TargetBodies.All(tb => playerDataCatalog.HaveData(tb, DataMask.All));
             }
         }
         return this.IsComplete;
-    }
-
-    public MissionSurvey()
-    {
-        this._factory = nameof(MissionSurveyFactory);
-    }
-
-    public MissionSurvey(string description, string name)
-        : this()
-    {
-        this.Description = description;
-        this.Name = name;
     }
 }
 
@@ -183,24 +169,16 @@ public abstract class MissionSurvey : IMissionBase, ITargetBodiesMission
 [RegisterSavableType]
 public class MissionSurveySystem : MissionSurvey //IMissionBase, ITargetBodiesMission
 {
-    public MissionSurveySystem()
-    { }
-
-    public MissionSurveySystem(string description, string name)
-    : base(description, name)
-    {
-    }
+    // Parameterless constructor to allow serialization
+    public MissionSurveySystem() { }
+    public MissionSurveySystem(string description, string name) : base(description, name) {}
 }
 
 // Mission for surveying just one body in the system
 [RegisterSavableType]
 public class MissionSurveyBody : MissionSurvey
 {
-    public MissionSurveyBody()
-    { }
-
-    public MissionSurveyBody(string description, string name)
-        : base(description, name)
-    {
-    }
+    // Parameterless constructor to allow serialization
+    public MissionSurveyBody() { }
+    public MissionSurveyBody(string description, string name) : base(description, name) { }
 }

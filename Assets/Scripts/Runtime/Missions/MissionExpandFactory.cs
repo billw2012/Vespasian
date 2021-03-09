@@ -35,6 +35,7 @@ public class MissionExpandFactory : MonoBehaviour, IMissionFactory
             return this.factionExpansion.expansionTargets.Select(t => new MissionExpand(
                 $"Build {StationTypeDesc(t.type)} at {map.GetBody(t.parent).name}",
                 "Faction Expansion",
+                t.parent,
                 t.score,
                 t.type
                 ));
@@ -63,13 +64,13 @@ public class MissionExpandFactory : MonoBehaviour, IMissionFactory
 }
 
 [RegisterSavableType]
-public class MissionExpand : IMissionBase
+public class MissionExpand : IMissionBase, ITargetBodiesMission
 {
     public bool IsComplete { get; set; }
     
-    public string Description { get; set; }
+    public string Description { get; }
 
-    public string Name { get; set; }
+    public string Name { get; }
 
     public int Reward => (int) (200 + this.TargetValue * 300);
 
@@ -82,10 +83,11 @@ public class MissionExpand : IMissionBase
 
     public MissionExpand() { }
 
-    public MissionExpand(string description, string name, float score, BodySpecs.StationType type)
+    public MissionExpand(string description, string name, BodyRef targetBody, float score, BodySpecs.StationType type)
     {
         this.Description = description;
         this.Name = name;
+        this.TargetBody = targetBody;
         this.TargetValue = score;
         this.StationType = type;
     }
@@ -94,4 +96,9 @@ public class MissionExpand : IMissionBase
     {
         
     }
+
+    #region ITargetBodiesMission
+    public IEnumerable<BodyRef> TargetBodies => this.TargetBody.Yield();
+    public bool OnDataAdded(BodyRef bodyRef, Body body, DataMask data) => false;
+    #endregion ITargetBodiesMission
 }

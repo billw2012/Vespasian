@@ -199,6 +199,8 @@ public class FactionExpansion : MonoBehaviour, ISavable
                         .OrderByDescending(y => (y.yieldScore + y.distanceScore) / 2)
                         .Select(y => new ExpansionTarget {parent = y.body.bodyRef, type = x.type, score = (y.yieldScore + y.distanceScore) / 2})
                         .Take(1))
+                    .GroupBy(c => c.parent)
+                    .Select(g => g.OrderBy(o => o.score).First())
                     ;
             }).ToList();
 

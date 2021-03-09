@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
@@ -67,7 +68,8 @@ public class MissionFindFactory : MonoBehaviour, IMissionFactory, ISavable
     #region IMissionFactory
     public IEnumerable<IMissionBase> GetMissions(Missions missions)
     {
-        while (this.missions.Count < 4)
+        int activeMissionCount = missions.activeMissions.OfType<MissionFind>().Count();
+        while (this.missions.Count + activeMissionCount < 4)
         {
             this.missions.Add(this.Generate());
         }
