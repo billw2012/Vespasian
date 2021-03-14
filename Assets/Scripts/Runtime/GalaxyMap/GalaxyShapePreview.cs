@@ -39,9 +39,10 @@ public class GalaxyShapePreview : MonoBehaviour
 
     public GameObject starIconPrefab = null;
     public GameObject starLinkPrefab = null;
+    public Transform solarSystemSelector = null;
 
     public MapGenerator mapGenerator = null;
-    private Map map = null;
+    public Map map = null;
 
     void OnValidate()
     {
@@ -147,7 +148,7 @@ public class GalaxyShapePreview : MonoBehaviour
         this.GenerateStarsRadius(this.map, 50, 0.6f*size, 0.06f * size);
         this.GenerateStarsRadius(this.map, 20, centerSize, 0.04f * size);
 
-        this.mapGenerator.GenerateLinks(this.map, rng, 0.22f * size);
+        this.mapGenerator.GenerateLinks(this.map, rng, 0.25f * size);
 
         // todo delete too long links
     }
@@ -221,6 +222,13 @@ public class GalaxyShapePreview : MonoBehaviour
                 Debug.LogWarning($"Reached max amount of tries at iteration {nStarsGenerated}");
             }
         }
+    }
+
+    public void SelectSolarSystem(SolarSystem system)
+    {
+        Vector2 systemPos = system.position;
+        Vector3 systemPos3d = GalaxyMapMath.Vec2dTo3d(systemPos);
+        this.solarSystemSelector.position = systemPos3d;
     }
 
     void Awake()

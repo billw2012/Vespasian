@@ -17,11 +17,12 @@ public class GalaxyCameraController : MonoBehaviour
     [Range(0, 1)]
     public float cameraOffsetHeight = 0.3f;
 
+    public float cameraAngleLimitMin = -600;
+    public float cameraAngleLimitMax = 0;
+
     // Cursor calculations
     Vector3 prevCursorPos;
     public float mouseSensitivity = 1;
-
-
 
 
     private void UpdateCameraPos(float angleRad)
@@ -41,10 +42,12 @@ public class GalaxyCameraController : MonoBehaviour
         this.UpdateCameraPos(Mathf.Deg2Rad * this.cameraAngleDeg);
     }
 
+    /*
     void Update()
     {
         Vector3 cursorPos = Input.mousePosition;
 
+        
         if (Input.GetMouseButton(0))
         {
             Vector3 deltaMovement = cursorPos - prevCursorPos;
@@ -57,5 +60,13 @@ public class GalaxyCameraController : MonoBehaviour
         }
 
         this.prevCursorPos = cursorPos;
+    }
+    */
+
+    public void SetCameraAngle(float angleRad)
+    {
+        this.cameraAngleDeg = Mathf.Clamp(Mathf.Rad2Deg * angleRad, cameraAngleLimitMin, cameraAngleLimitMax);
+        this.UpdateCameraPos(Mathf.Deg2Rad * cameraAngleDeg);
+        //Debug.Log($"Camera angle: {this.cameraAngleDeg}");
     }
 }
