@@ -577,4 +577,18 @@ public class Map : ISavable
     public Body GetBody(BodyRef bodyRef) => this.systems[bodyRef.systemId].AllBodies().FirstOrDefault(b => b.bodyRef.bodyId == bodyRef.bodyId);
 
     public SolarSystem GetSystem(BodyRef bodyRef) => this.systems[bodyRef.systemId];
+
+    public SolarSystem FindNearestSystem(Vector2 pos, float maxDist)
+    {
+        if (this.systems.Count == 0)
+            return null;
+
+        var systemsAndDistance = this.systems.Select(s => (system: s, dist: Vector2.Distance(pos, s.position)));
+        var systemsSorted = systemsAndDistance.OrderBy(a => a.dist).ToArray();
+        var closest = systemsSorted[0];
+        if (closest.dist < maxDist)
+            return closest.system;
+        else
+            return null;
+    }
 }

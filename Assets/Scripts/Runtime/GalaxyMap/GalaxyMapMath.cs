@@ -37,8 +37,8 @@ public class GalaxyMapMath
             float r = this.PointOnArmDistance(angleRad);
             float angleRatio = angleRad / this.angleEndRad;
             float scale = Mathf.Pow(angleRatio, this.armWidthPow);
-            float width = scale * angleRatio * this.armWidthRel * this.size;
-            return Mathf.Pow(width, this.armWidthPow);
+            float width = scale * this.armWidthRel * this.size;
+            return width;
         }
 
         // Tests if given point is inside the galactic spiral
@@ -121,5 +121,10 @@ public class GalaxyMapMath
     public static Vector3 Vec2dTo3d(Vector2 pos)
     {
         return new Vector3(pos.x, 0, pos.y);
+    }
+
+    public static Vector2 Vec3dTo2d(Vector3 pos)
+    {
+        return new Vector2(pos.x, pos.z);
     }
 }
