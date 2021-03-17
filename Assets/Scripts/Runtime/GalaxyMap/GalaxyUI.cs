@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
-public class GalaxySelector : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+public class GalaxyUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     [SerializeField]
     GalaxyCameraController camController;
@@ -16,7 +17,16 @@ public class GalaxySelector : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     GalaxyShapePreview galaxy;
 
     [SerializeField]
+    Canvas canvas;
+
+    [SerializeField]
+    RectTransform nameMarkerParentTransform;
+
+    [SerializeField]
     float maxSelectionDistance = 0.1f;
+
+    [SerializeField]
+    GameObject solarSystemNameMarkerPrefab;
 
     public float mouseSensitivity = 0.1f;
 
@@ -87,5 +97,57 @@ public class GalaxySelector : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     void Start()
     {
         
+    }
+
+    struct SystemUiInfo
+    {
+        public SolarSystem system;
+        public GameObject nameMarker;
+        public bool selected;
+        // ??
+    }
+
+    bool markersInitialized = false;
+    Dictionary<SolarSystem, SystemUiInfo> systemUiInfo;
+
+    void LateUpdate()
+    {
+        if (!this.markersInitialized)
+        {
+            // Cheap way to make it run after Awake() of galaxy shape preview
+            this.InitSystemNameMarkers();
+            this.markersInitialized = true;
+        }
+
+        // Update positions of all markers
+        foreach (var keyValue in this.systemUiInfo)
+        {
+            SolarSystem solarSystem = keyValue.Key;
+            var systemPosUi3d = GalaxyMapMath.Vec2dTo3d(solarSystem.position);
+            var systemPosCanvas = this.canvas.WorldToCanvasPosition(systemPosUi3d);
+            SystemUiInfo uiInfo = keyValue.Value;
+            RectTransform markerTransform = uiInfo.nameMarker.GetComponent<RectTransform>();
+            if (markerTransform != null)
+            {
+                markerTransform.anchoredPosition = systemPosCanvas;
+            }
+        }
+    }
+
+    void InitSystemNameMarkers()
+    {
+        this.systemUiInfo = new Dictionary<SolarSystem, SystemUiInfo>();
+
+        foreach (var solarSystem in this.galaxy.map.systems)
+        {
+            SystemUiInfo uiInfo = new SystemUiInfo();
+            uiInfo.system = solarSystem;
+            uiInfo.nameMarker = GameObject.Instantiate(this.solarSystemNameMarkerPrefab, this.nameMarkerParentTransform);
+            uiInfo.selected = false;
+            this.systemUiInfo.Add(solarSystem, uiInfo);
+
+            TextMeshProUGUI tmp = uiInfo.nameMarker.GetComponentInChildren<TextMeshProUGUI>();
+            tmp.text = solarSystem.name;
+        }
     }
 }
