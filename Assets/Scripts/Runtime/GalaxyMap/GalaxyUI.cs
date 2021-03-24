@@ -30,6 +30,8 @@ public class GalaxyUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public float mouseSensitivity = 0.1f;
 
+    public float clipSystemMarkers = 0.3f;
+
     private float camAngleStartRad;
     private Vector2 pointerPosStartDrag;
     private bool dragging = false;
@@ -119,17 +121,27 @@ public class GalaxyUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             this.markersInitialized = true;
         }
 
+        Matrix4x4 viewProjectionMatrix = this.mainCamera.projectionMatrix * this.mainCamera.worldToCameraMatrix;
+
         // Update positions of all markers
         foreach (var keyValue in this.systemUiInfo)
         {
             SolarSystem solarSystem = keyValue.Key;
             var systemPosUi3d = GalaxyMapMath.Vec2dTo3d(solarSystem.position);
-            var systemPosCanvas = this.canvas.WorldToCanvasPosition(systemPosUi3d);
+            Vector3 projectedPos = viewProjectionMatrix.MultiplyPoint(systemPosUi3d);
+
             SystemUiInfo uiInfo = keyValue.Value;
+            TextMeshProUGUI tmp = uiInfo.nameMarker.GetComponentInChildren<TextMeshProUGUI>();
             RectTransform markerTransform = uiInfo.nameMarker.GetComponent<RectTransform>();
-            if (markerTransform != null)
+            if (projectedPos.z < this.clipSystemMarkers)
             {
+                var systemPosCanvas = this.canvas.WorldToCanvasPosition(systemPosUi3d);
                 markerTransform.anchoredPosition = systemPosCanvas;
+                tmp.enabled = true;
+            }
+            else
+            {
+                tmp.enabled = false;
             }
         }
     }
