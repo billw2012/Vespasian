@@ -144,9 +144,11 @@ public class GalaxyShapePreview : MonoBehaviour
         float armWidthMax = this.shape.ArmWidth(this.shape.angleEndRad);
         size += 0.5f * armWidthMax;
 
-        this.GenerateStarsRadius(this.map, 80, 1.0f*size, 0.1f*size);
-        this.GenerateStarsRadius(this.map, 50, 0.6f*size, 0.06f * size);
-        this.GenerateStarsRadius(this.map, 20, centerSize, 0.04f * size);
+        NameGenerator.UniqueNameGenerator nameGenerator = new NameGenerator.UniqueNameGenerator();
+
+        this.GenerateStarsRadius(this.map, 80, 1.0f*size, 0.1f*size, nameGenerator);
+        this.GenerateStarsRadius(this.map, 50, 0.6f*size, 0.06f * size, nameGenerator);
+        //this.GenerateStarsRadius(this.map, 20, centerSize, 0.04f * size, nameGenerator);
 
         this.mapGenerator.GenerateLinks(this.map, rng, 0.25f * size);
 
@@ -181,7 +183,7 @@ public class GalaxyShapePreview : MonoBehaviour
         }
     }
 
-    void GenerateStarsRadius(Map map, int nStarsMax, float rMax, float minDistance)
+    void GenerateStarsRadius(Map map, int nStarsMax, float rMax, float minDistance, NameGenerator.UniqueNameGenerator nameGenerator)
     {
         int nStarsGenerated = 0;
         var shape = this.GetGalaxyShape();
@@ -202,7 +204,7 @@ public class GalaxyShapePreview : MonoBehaviour
                         {
                             var sys = new SolarSystem(map.NextSystemId)
                             {
-                                name = "123",
+                                name = nameGenerator.Next(),
                                 position = posRandom2,
                                 direction = OrbitParameters.OrbitDirection.Clockwise,
                                 // TODO: proper danger value

@@ -79,13 +79,14 @@ public class GalaxyMapMath
             return this.TestPointInSpiral(posPolar.r, angle);
         }
 
-        public (Vector3, Vector3) CameraPositions(float angleRad, float camOffsetDistance, float camOffsetHeight)
+        public (Vector3, Vector3) CameraPositions(float angleRad, float camOffsetDistance, float camOffsetHeight, float startCamOffsetRatio, float endCamOffsetRatio)
         {
             float distLookAt = this.PointOnArmDistance(angleRad);
             Vector3 posLookAt = PolarToCart(angleRad, distLookAt);
-
-            float camDistProj = distLookAt + camOffsetDistance * this.size; // Projected distance to camera
-            float camHeight = camOffsetHeight * this.size;                  // Camera height above plane
+            float angleRatio = Mathf.Abs(angleRad / this.angleEndRad);
+            float camOffsetRatio = Mathf.Lerp(startCamOffsetRatio, endCamOffsetRatio, angleRatio);
+            float camDistProj = distLookAt + camOffsetRatio * camOffsetDistance * this.size; // Projected distance to camera
+            float camHeight = camOffsetRatio * camOffsetHeight * this.size;                  // Camera height above plane
             Vector3 camPos = PolarToCart(angleRad, camDistProj, camHeight);
 
             return (camPos, posLookAt);
