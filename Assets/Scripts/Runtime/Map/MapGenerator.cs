@@ -348,7 +348,7 @@ public class MapGenerator : ScriptableObject
         return bodies;
     }
 
-    public async Task<Map> GenerateAsync(BodySpecs bodySpecs)
+    public async Task<Map> GenerateAsync(BodySpecs bodySpecs, GalaxyMapMath.GalaxyShape shape)
     {
         var factions = ComponentCache.FindObjectsOfType<Faction>();
         return await TaskX.RunAsync(async () =>
@@ -357,7 +357,7 @@ public class MapGenerator : ScriptableObject
 
             // Random.InitState((int)(DateTime.Now.Ticks % int.MaxValue));
             var map = new Map();
-            await this.GenerateSystemsAsync(map, bodySpecs, rng);
+            await this.GenerateSystemsAsync(map, shape, bodySpecs, rng);
             this.GenerateLinks(map, rng);
             GenerateFactions(map, factions);
             this.DumpStats(map, bodySpecs);
@@ -382,12 +382,53 @@ public class MapGenerator : ScriptableObject
         }
     }
 
-    private async Task GenerateSystemsAsync(Map map, BodySpecs bodySpecs, RandomX rng)
+    private async Task GenerateSystemsAsync(Map map, GalaxyMapMath.GalaxyShape shape, BodySpecs bodySpecs, RandomX rng)
     {
-        float minDistance = this.minDistanceFactor / Mathf.Sqrt(this.numberOfSystems);
+        //float minDistance = this.minDistanceFactor / Mathf.Sqrt(this.numberOfSystems);
 
-        float heightOffset = (1 - this.heightRatio) * 0.5f;
-        
+        //float heightOffset = (1 - this.heightRatio) * 0.5f;
+
+        // Helper function for star generation at the map
+        async void GenerateSystemsInRadius(Map _map, GalaxyMapMath.GalaxyShape _shape, RandomX _rng, int nStarsMax, float rMax, float minDistance)
+        {
+            int nStarsGenerated = 0;
+            const int maxNTries = 300;
+            while (nStarsGenerated < nStarsMax)
+            {
+                int nTries = 0;
+                bool foundANewPos = false;
+                while (nTries < maxNTries && !foundANewPos)
+                {
+                    Vector3 posRandom = new Vector3(_rng.Range(-rMax, rMax), 0, _rng.Range(-rMax, rMax));
+                    Vector2 posRandom2 = new Vector3(posRandom.x, posRandom.z);
+                    if (posRandom.magnitude < rMax)
+                    {
+                        if (_shape.TestPointInSpiral(posRandom))
+                        {
+                            if (!_map.systems.Any(s => Vector3.Distance(s.position, posRandom2) < minDistance))
+                            {
+                                _map.AddSystem(await this.GenerateSystemAsync(_map.NextSystemId, _rng.Range(0, int.MaxValue), bodySpecs, posRandom2));
+                                nStarsGenerated++;
+                                foundANewPos = true;
+                            }
+                        }
+                    }
+                    nTries++;
+                }
+                if (nTries >= maxNTries)
+                {
+                    Debug.LogWarning($"Reached max amount of tries at iteration {nStarsGenerated}");
+                }
+            }
+        }
+
+        this.numberOfSystems = 70; // override
+        float size = shape.size;
+        GenerateSystemsInRadius(map, shape, rng, (int)(0.61f * this.numberOfSystems), 1.0f * size, 0.1f * size);
+        GenerateSystemsInRadius(map, shape, rng, (int)(0.38f * this.numberOfSystems), 0.38f * size, 0.06f * size);
+
+
+        /*
         for (int i = 0; i < this.numberOfSystems; i++)
         {
             var position = new Vector2(rng.value, heightOffset + rng.value * this.heightRatio);
@@ -399,6 +440,7 @@ public class MapGenerator : ScriptableObject
 
             map.AddSystem(await this.GenerateSystemAsync(map.NextSystemId, rng.Range(0, int.MaxValue), bodySpecs, position));
         }
+        */
     }
 
     public void GenerateLinks(Map map, RandomX rng, float maxLinkDistance = 0)

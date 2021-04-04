@@ -13,6 +13,8 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
     public BodySpecs bodySpecs = null;
     [SerializeField]
     private MapGenerator mapGenerator = null;
+    [SerializeField]
+    private GalaxyShapePreview galaxyShapePreview = null;
 
     [Saved]
     public Map map { get; private set; }
@@ -93,7 +95,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
 
     public async Task GenerateMapAsync()
     {
-        this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs);
+        this.map = await this.mapGenerator.GenerateAsync(this.bodySpecs, this.galaxyShapePreview.GetGalaxyShape());
         this.mapGenerated?.Invoke();
     }
 
