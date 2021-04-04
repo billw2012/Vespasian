@@ -158,12 +158,17 @@ public class GalaxyShapePreview : MonoBehaviour
     // Just puts stars to the scene for visualization
     void VisualizeAllStars()
     {
+        // Galaxy map is rendered on its own layer
+        int layerId = LayerMask.NameToLayer("GalaxyMap");
+        Debug.Assert(layerId != -1);
+
         // Place system markers
         foreach (var sys in this.map.systems)
         {
             Vector2 pos2d = sys.position;
             Vector3 pos3d = new Vector3(pos2d.x, 0, pos2d.y);
             GameObject starObj = GameObject.Instantiate(this.starIconPrefab, this.transform);
+            starObj.layer = layerId;
             starObj.transform.localPosition = pos3d;
             float starSize = 0.013f;
             starObj.transform.localScale = new Vector3(starSize, starSize, starSize);
@@ -173,6 +178,7 @@ public class GalaxyShapePreview : MonoBehaviour
         foreach (var link in this.map.links)
         {
             GameObject linkObj = GameObject.Instantiate(this.starLinkPrefab, this.transform);
+            linkObj.layer = layerId;
             LineRenderer line = linkObj.GetComponent<LineRenderer>();
             Vector3[] positions =
             {
