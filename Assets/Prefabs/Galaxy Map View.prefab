@@ -27,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541482268114711594}
-  m_LocalRotation: {x: -0.027787244, y: 0.8887452, z: -0.45431828, w: -0.05435788}
-  m_LocalPosition: {x: 0.29687843, y: 0.75260717, z: 2.417885}
+  m_LocalRotation: {x: -0.027787257, y: 0.8887452, z: -0.45431837, w: -0.0543579}
+  m_LocalPosition: {x: 0.26354295, y: 0.7415349, z: 2.1463888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 541482269633298682}
@@ -167,6 +167,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8070929322192757734}
+  - {fileID: 8748259136182599276}
   m_Father: {fileID: 541482269633298682}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -282,10 +283,10 @@ MonoBehaviour:
   size: 1.98
   rPower: 0.79
   N: 38.3
-  angleEndRad: 5.12
-  armWidthRelative: 0.316
+  angleEndRad: 6.2
+  armWidthRelative: 0.391
   armWidthPower: 0.38
-  centerSizeRelative: 0.252
+  centerSizeRelative: 0.284
   starIconPrefab: {fileID: 8611454464485139104, guid: 5f4daa9aa505a2f4892a92c26830a360,
     type: 3}
   starLinkPrefab: {fileID: 749330822173977267, guid: 7580500590c31f245bec35704e4a5c9b,
@@ -416,6 +417,36 @@ Transform:
   - {fileID: 541482268114711593}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2716555073049668413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8748259136182599276}
+  m_Layer: 10
+  m_Name: UI Objects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8748259136182599276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2716555073049668413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 541482268998014896}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &541482269060350275
 PrefabInstance:

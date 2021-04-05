@@ -44,7 +44,7 @@ public class DragToFire : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         // We always recalculate this as the camera might move
         var vec = (this.dragCurrent - this.dragStart) / Screen.width;
-        return Vector3.ClampMagnitude(vec, 0.25f) * this.constants.GravitationalConstant * this.forceCoefficient /*/ Camera.main.orthographicSize*/;
+        return Vector3.ClampMagnitude(vec, 0.25f) * this.constants.GravitationalConstant * this.forceCoefficient /*/ GUILayerManager.MainCamera.orthographicSize*/;
     }
 
     public void OnDrag(PointerEventData eventData)

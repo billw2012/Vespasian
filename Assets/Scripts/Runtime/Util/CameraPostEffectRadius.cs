@@ -20,7 +20,7 @@ public class CameraPostEffectRadius : MonoBehaviour
     {
         if(this.cameraTarget == null)
         {
-            this.cameraTarget = Camera.main;
+            this.cameraTarget = GUILayerManager.MainCamera;
         }
 
         this.effect.Init();

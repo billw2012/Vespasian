@@ -29,7 +29,7 @@ public class TargetArrow : MonoBehaviour
             return;
         }
 
-        //var targetScreenPos = (Vector2)Camera.main.WorldToScreenPoint(this.target.transform.position);
+        //var targetScreenPos = (Vector2)GUILayerManager.MainCamera.WorldToScreenPoint(this.target.transform.position);
         var targetCanvasPosition = this.image.canvas.WorldToCanvasPosition(this.target.transform.position);
 
         var canvasSafeArea = this.image.canvas.ScreenToCanvasRect(Screen.safeArea);

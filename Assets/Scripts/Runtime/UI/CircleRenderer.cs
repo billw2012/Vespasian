@@ -80,6 +80,6 @@ public class CircleRenderer : MonoBehaviour
 
     private static float GetWorldFromScreenSpaceSize(float pixels)
     {
-        return Camera.main.orthographicSize * pixels / Screen.width;
+        return GUILayerManager.MainCamera.orthographicSize * pixels / Screen.width;
     }
 }

@@ -74,7 +74,7 @@ public class SimpleCameraController : MonoBehaviour
             else
             {
                 this.transform.position = this.startPos - 
-                    (Camera.main.ScreenToWorldPoint(Input.mousePosition) - Camera.main.ScreenToWorldPoint(this.startMousePos)).xy0();
+                    (GUILayerManager.MainCamera.ScreenToWorldPoint(Input.mousePosition) - GUILayerManager.MainCamera.ScreenToWorldPoint(this.startMousePos)).xy0();
             }
         }
         else

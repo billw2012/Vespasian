@@ -57,7 +57,7 @@ public class DragToFireWeapon : MonoBehaviour, IBeginDragHandler, IEndDragHandle
     private Vector3 getCursorWorldPos(Vector2 position)
     {
         var cursorScreenPos3D = new Vector3(position.x, position.y, 0);
-        return Camera.main.ScreenToWorldPoint(cursorScreenPos3D);
+        return GUILayerManager.MainCamera.ScreenToWorldPoint(cursorScreenPos3D);
     }
 
     public void OnEndDrag(PointerEventData eventData)

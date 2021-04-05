@@ -14,7 +14,7 @@ public static class CanvasPositioningExtensions
     {
         if (camera == null)
         {
-            camera = Camera.main;
+            camera = GUILayerManager.MainCamera;
         }
         var viewportPosition = camera.WorldToViewportPoint(worldPosition);
         return canvas.ViewportToCanvasPosition(viewportPosition);
@@ -24,7 +24,7 @@ public static class CanvasPositioningExtensions
     {
         if (camera == null)
         {
-            camera = Camera.main;
+            camera = GUILayerManager.MainCamera;
         }
 
         var viewportPosition = canvas.CanvasToViewportPosition(canvasPosition);

@@ -30,7 +30,7 @@ public class GameConstants : ScriptableObject
 
     private static float GetWorldFromScreenSpaceSize(float pixels)
     {
-        return Camera.main.orthographicSize * pixels / Screen.width;
+        return GUILayerManager.MainCamera.orthographicSize * pixels / Screen.width;
     }
 
     public float FuelUsageBaseRate = 2.5f;

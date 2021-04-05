@@ -40,6 +40,8 @@ public class GUILayerManager : MonoBehaviour
 
     public GameObject dialogPrefab;
 
+    public Camera mainCamera;
+
     private readonly List<GameObject> layerStack = new List<GameObject>();
 
     private void Start() => this.SwitchToStartUI();
@@ -138,5 +140,19 @@ public class GUILayerManager : MonoBehaviour
         {
             obj.SetActive(active);
         }
+    }
+
+    // Camera resolution helper
+
+    private static GUILayerManager _instance = null;
+    
+    public static Camera MainCamera
+    {
+        get => GUILayerManager._instance.mainCamera;
+    }
+
+    private void Awake()
+    {
+        GUILayerManager._instance = this;
     }
 }
