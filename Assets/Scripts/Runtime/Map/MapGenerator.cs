@@ -358,7 +358,7 @@ public class MapGenerator : ScriptableObject
             // Random.InitState((int)(DateTime.Now.Ticks % int.MaxValue));
             var map = new Map();
             await this.GenerateSystemsAsync(map, shape, bodySpecs, rng);
-            this.GenerateLinks(map, rng);
+            this.GenerateLinks(map, rng, 0.25f * shape.size);
             GenerateFactions(map, factions);
             this.DumpStats(map, bodySpecs);
             return map;
@@ -389,7 +389,7 @@ public class MapGenerator : ScriptableObject
         //float heightOffset = (1 - this.heightRatio) * 0.5f;
 
         // Helper function for star generation at the map
-        async void GenerateSystemsInRadius(Map _map, GalaxyMapMath.GalaxyShape _shape, RandomX _rng, int nStarsMax, float rMax, float minDistance)
+        async Task GenerateSystemsInRadius(Map _map, GalaxyMapMath.GalaxyShape _shape, RandomX _rng, int nStarsMax, float rMax, float minDistance)
         {
             int nStarsGenerated = 0;
             const int maxNTries = 300;
@@ -422,10 +422,14 @@ public class MapGenerator : ScriptableObject
             }
         }
 
-        this.numberOfSystems = 70; // override
+        this.numberOfSystems = 100; // override
         float size = shape.size;
-        GenerateSystemsInRadius(map, shape, rng, (int)(0.61f * this.numberOfSystems), 1.0f * size, 0.1f * size);
-        GenerateSystemsInRadius(map, shape, rng, (int)(0.38f * this.numberOfSystems), 0.38f * size, 0.06f * size);
+        float armWidthMax = shape.ArmWidth(shape.angleEndRad);
+        size += 0.5f * armWidthMax;
+        float inside = 0.2f;
+        float outside = 1 - inside;
+        await GenerateSystemsInRadius(map, shape, rng, (int)(outside * this.numberOfSystems), 1.0f * size, 0.07f * size);
+        await GenerateSystemsInRadius(map, shape, rng, (int)(inside * this.numberOfSystems), 0.4f * size, 0.04f * size);
 
 
         /*

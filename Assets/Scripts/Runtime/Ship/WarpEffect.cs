@@ -69,8 +69,8 @@ public class WarpEffect : MonoBehaviour
     private void LateUpdate()
     {
         // Do this every time, as screen size can change, and its a very cheap calculation
-        var bl = Camera.main.ScreenToWorldPoint(Vector3.zero);
-        var tr = Camera.main.ScreenToWorldPoint(Screen.width * Vector3.right + Screen.height * Vector3.up);
+        var bl = GUILayerManager.MainCamera.ScreenToWorldPoint(Vector3.zero);
+        var tr = GUILayerManager.MainCamera.ScreenToWorldPoint(Screen.width * Vector3.right + Screen.height * Vector3.up);
         var worldSize = tr - bl;
         this.transform.localScale = Vector3.one * Mathf.Max(worldSize.x, worldSize.y) / this.effectBaseSize;
 

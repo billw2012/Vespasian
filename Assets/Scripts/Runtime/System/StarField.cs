@@ -48,7 +48,7 @@ public class StarField : MonoBehaviour
     private Vector2 lastPosition;
     //Vector2 offset;
 
-    private float parallaxSpeed => this.speedMultiplier / Camera.main.orthographicSize;
+    private float parallaxSpeed => this.speedMultiplier / GUILayerManager.MainCamera.orthographicSize;
 
     private ParticleSystem pfx;
     private ParticleSystemRenderer pfxRenderer;
@@ -101,20 +101,20 @@ public class StarField : MonoBehaviour
 
     private void LateUpdate()
     {
-        float cameraRatio = (float)Camera.main.pixelWidth / Camera.main.pixelHeight;
+        float cameraRatio = (float)GUILayerManager.MainCamera.pixelWidth / GUILayerManager.MainCamera.pixelHeight;
         float minCameraSize = Mathf.Max(this.pinchZoom.sizeMin * cameraRatio, this.pinchZoom.sizeMin);
         float maxCameraSize = Mathf.Max(this.pinchZoom.sizeMax * cameraRatio, this.pinchZoom.sizeMax);
 
-        float zoomAmount = (Camera.main.orthographicSize - this.pinchZoom.sizeMin) / (this.pinchZoom.sizeMax - this.pinchZoom.sizeMin);
+        float zoomAmount = (GUILayerManager.MainCamera.orthographicSize - this.pinchZoom.sizeMin) / (this.pinchZoom.sizeMax - this.pinchZoom.sizeMin);
 
         float adjustedScaleEffect = Mathf.Pow(this.scaleEffect, 1f/3f);
         float desiredSize = Mathf.Lerp(minCameraSize, maxCameraSize, zoomAmount * adjustedScaleEffect + (1 - adjustedScaleEffect));
-        //float worldCameraWidth = Camera.main.orthographicSize * 
+        //float worldCameraWidth = GUILayerManager.MainCamera.orthographicSize * 
         // float maxScale = ;
 
         // Do this every time, as screen size can change, and its a very cheap calculation
-        //var bl = Camera.main.ScreenToWorldPoint(Vector3.zero);
-        //var tr = Camera.main.ScreenToWorldPoint(Screen.width * Vector3.right + Screen.height * Vector3.up);
+        //var bl = GUILayerManager.MainCamera.ScreenToWorldPoint(Vector3.zero);
+        //var tr = GUILayerManager.MainCamera.ScreenToWorldPoint(Screen.width * Vector3.right + Screen.height * Vector3.up);
         //var worldSize = tr - bl;
         float scale = desiredSize * 2f / this.rectSize;
         this.transform.localScale = Vector3.one * scale;

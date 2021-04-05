@@ -47,13 +47,13 @@ public class FollowCameraController : MonoBehaviour
     {
         Assert.IsNotNull(this.target);
 
-        this.initialCameraSize = Camera.main.orthographicSize;
+        this.initialCameraSize = GUILayerManager.MainCamera.orthographicSize;
     }
 
     private Vector2 ClampToCameraInnerArea(Vector2 vec)
     {
         var center = this.transform.position;
-        var tr = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, this.transform.position.z));
+        var tr = GUILayerManager.MainCamera.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, this.transform.position.z));
         var cameraArea = new Rect(center - tr, (tr - center) * 2);
         var maxOffset = cameraArea.IntersectionWithRayFromCenter(vec);
         return Vector3.ClampMagnitude(vec, maxOffset.magnitude);
@@ -61,8 +61,8 @@ public class FollowCameraController : MonoBehaviour
 
     private static Rect WorldCameraArea()
     {
-        var center = Camera.main.transform.position;
-        var tr = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, center.z));
+        var center = GUILayerManager.MainCamera.transform.position;
+        var tr = GUILayerManager.MainCamera.ScreenToWorldPoint(new Vector3(Screen.width * 0.8f, Screen.height * 0.8f, center.z));
         return new Rect(center - tr, (tr - center) * 2);
     }
 
@@ -106,7 +106,7 @@ public class FollowCameraController : MonoBehaviour
 
         var offsetToTarget = (Vector2)bounds.center - (Vector2)this.target.position;
 
-        float cameraZoom = this.initialCameraSize / Camera.main.orthographicSize;
+        float cameraZoom = this.initialCameraSize / GUILayerManager.MainCamera.orthographicSize;
         var smoothedOffset = Vector2.SmoothDamp(this.currentOffset, offsetToTarget, ref this.offsetVelocity, this.smoothTime * cameraZoom);
         this.smoothedOffset = smoothedOffset;
 
