@@ -86,28 +86,21 @@ public abstract class EffectSource : MonoBehaviour, ISavable
     // Various static helper functions
 
     // Returns closet effect source in range, or null
-    public static T GetNearest<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource
-    {
-        return (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
-            .Where(i => !i.IsComplete())
-            .Select(i => (effectsrc: i, dist: i.GetDistance(tFrom)))
-            .Where(i => i.dist < i.effectsrc.range)
-            .OrderBy(i => i.dist)
-            .FirstOrDefault().effectsrc
-            ;
-    }
+    public static T GetNearest<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource =>
+        (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
+        .Where(i => !i.IsComplete())
+        .Select(i => (effectsrc: i, dist: i.GetDistance(tFrom)))
+        .Where(i => i.dist < i.effectsrc.range)
+        .OrderBy(i => i.dist)
+        .FirstOrDefault().effectsrc;
 
-    public static IEnumerable<T> AllInRange<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource
-    {
-         return (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
-            .Where(i => !i.IsComplete() && i.IsInRange(tFrom));
-    }
+    public static IEnumerable<T> AllInRange<T>(Transform tFrom, IEnumerable<T> sources = null) where T : EffectSource =>
+        (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
+        .Where(i => !i.IsComplete() && i.IsInRange(tFrom));
 
-    public static IEnumerable<T> AllInDetectionRange<T>(Transform tFrom, float detectionRange, IEnumerable<T> sources = null) where T : EffectSource
-    {
-        return (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
-           .Where(i => !i.IsComplete() && i.IsInDetectionRange(tFrom, detectionRange));
-    }
+    public static IEnumerable<T> AllInDetectionRange<T>(Transform tFrom, float detectionRange, IEnumerable<T> sources = null) where T : EffectSource =>
+        (sources ?? ComponentCache.FindObjectsOfType<T>()).Where(i => i != null)
+        .Where(i => !i.IsComplete() && i.IsInDetectionRange(tFrom, detectionRange));
 
     public abstract Color gizmoColor { get; }
     public abstract string debugName { get; }

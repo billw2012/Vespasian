@@ -10,7 +10,15 @@ public class Miner : MonoBehaviour, IUpgradeLogic
     private Mineable target = null;
 
     private bool miningActive => this.target != null;
-
+    
+    private ContextActionManager contextActionManager;
+    private bool actionsCreated = false;
+   
+    private void Start()
+    {
+        this.contextActionManager = ComponentCache.FindObjectOfType<ContextActionManager>();
+    }
+    
     private void Update()
     {
         // Mine the target

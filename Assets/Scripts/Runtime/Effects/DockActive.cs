@@ -22,6 +22,43 @@ public class DockActive : MonoBehaviour
 
     public DockPassive passiveDockingPort { get; private set; }= null; // Passive docking port component, if docked
 
+    private ContextActionManager contextActionManager;
+    private bool dockActionsCreated = false;
+   
+    private void Start()
+    {
+        this.contextActionManager = ComponentCache.FindObjectOfType<ContextActionManager>();
+    }
+    
+    private void Update()
+    {
+        if (this.docked)
+        {
+            this.GetComponent<EngineController>()?.AddFuel(Time.deltaTime * this.refuelRate);
+        }
+
+        bool playerControls = this.GetComponentInParent<PlayerController>() != null;
+        if (playerControls && !this.dockActionsCreated)
+        {
+            // Player is controlling so create dock actions
+
+            bool CanDock() => !this.docked && EffectSource.GetNearest<DockPassive>(this.transform);
+            bool CanUndock() => this.docked;
+            this.contextActionManager.Add("Dock", this.ToggleDock, CanDock);
+            this.contextActionManager.Add("Undock", this.ToggleDock, CanUndock);
+
+            this.dockActionsCreated = true;
+        }
+        else if(!playerControls && this.dockActionsCreated)
+        {
+            // Player isn't controlling us anymore, so destroy the UI actions
+            this.contextActionManager.Remove("Dock");
+            this.contextActionManager.Remove("Undock");
+            
+            this.dockActionsCreated = false;
+        }
+    }
+    
     public void OnDrawGizmos()
     {
         float arrowLength = 0.5f;
@@ -113,13 +150,5 @@ public class DockActive : MonoBehaviour
         Debug.Log($"Docked to {passivePort}");
         this.passiveDockingPort = passivePort;
         this.docked = true;
-    }
-
-    private void Update()
-    {
-        if (this.docked)
-        {
-            this.GetComponent<EngineController>()?.AddFuel(Time.deltaTime * this.refuelRate);
-        }
     }
 }
