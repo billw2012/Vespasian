@@ -233,6 +233,7 @@ public class Missions : MonoBehaviour, ISavable
                 missions.playerDataCatalog.AddData(body.bodyRef, dataMask != null? (DataMask)Enum.Parse(typeof(DataMask), dataMask, ignoreCase: true) : DataMask.All);
                 body.ApplyUniqueName();
             }
+            NotificationsUI.Add("<style=system>Entire map revealed");
         }
     }
 

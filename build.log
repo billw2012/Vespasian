@@ -1,0 +1,2230 @@
+[LicensingClient] ERROR Failed to connect to local IPC
+[Licensing::Module] Failed to connect to channel: LicenseClient-billw
+[Licensing::Module] Successfully launched the LicensingClient
+[Licensing::Module] Successfully connected to LicensingClient on channel: LicenseClient-billw
+[Licensing::Module] Successfully launched and connected to LicensingClient
+Entitlement-based licensing initiated
+[LicensingClient] Licenses Updated successfully in LicensingClient
+
+LICENSE SYSTEM [2026317 21:18:51] Next license update check is after 2022-12-20T22:03:20
+
+
+LICENSE SYSTEM [2026317 21:18:51] Machine binding 1 mismatch: (value of current machine) 00330-80000-00000-AA507 != 00330-80000-00000-AA821 (value in license file). Reason might be there is a hardware change on this machine after the license was activated.
+
+
+LICENSE SYSTEM [2026317 21:18:51] Time validation failed (1)
+
+
+LICENSE SYSTEM [2026317 21:18:51] Unity license has expired. Please re-activate new license.
+
+LICENSE SYSTEM [2026317 21:18:51] Current license is already valid and activated. Skipping license activation process (Provided username/password will be ignored).
+Built from '2019.4/staging' branch; Version is '2019.4.24f1 (5da6f0345e82) revision 6137584'; Using compiler version '191627012'
+OS: 'Windows 10 Pro; OS build 26220.8062; Version 2009; 64bit' Language: 'en' Physical Memory: 65273 MB
+[Licensing::Module] Serial number assigned to: "SB-CZ8M-6ZHE-PRW9-RPVG-XXXX"\nBatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+[Package Manager] Server::Start -- Port 56792 was selected
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Unity.exe
+-quit
+-batchmode
+-projectPath
+C:/dev/Vespasian
+-buildWindows64Player
+C:/dev/Vespasian/Build/Vespasian.exe
+-logFile
+C:/dev/Vespasian/build.log
+Successfully changed project path to: C:/dev/Vespasian
+C:/dev/Vespasian
+Using Asset Import Pipeline V2.
+DisplayProgressbar: Unity Package Manager
+Adding genesis user token [Package Manager] Done resolving packages in 0.83s seconds
+[Package Manager] Done checking package constraints in 0.00s seconds
+[Package Manager] 
+Registered 46 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ide.rider@3.0.3 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.ide.rider@3.0.3)
+    com.unity.ide.visualstudio@2.0.2 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.ide.visualstudio@2.0.2)
+    com.unity.ide.vscode@1.2.3 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.ide.vscode@1.2.3)
+    com.unity.postprocessing@2.3.0 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.postprocessing@2.3.0)
+    com.unity.render-pipelines.universal@7.4.3 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.render-pipelines.universal@7.4.3)
+    com.unity.test-framework@1.1.24 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.test-framework@1.1.24)
+    com.unity.textmeshpro@2.1.4 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.textmeshpro@2.1.4)
+    com.unity.timeline@1.2.18 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.timeline@1.2.18)
+    com.unity.ext.nunit@1.0.6 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.ext.nunit@1.0.6)
+    com.unity.shadergraph@7.4.3 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.shadergraph@7.4.3)
+    com.unity.render-pipelines.core@7.4.3 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.render-pipelines.core@7.4.3)
+  Packages from [https://registry.npmjs.org]:
+    com.unity.uiextensions@2.2.2 (location: C:\dev\Vespasian\Library\PackageCache\com.unity.uiextensions@2.2.2)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.2d.sprite)
+    com.unity.ugui@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.ugui)
+    com.unity.modules.ai@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.subsystems)
+
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.04s seconds
+Refreshing native plugins compatible for Editor in 32.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2019.4.24f1 (5da6f0345e82)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/dev/Vespasian/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3080 Ti (ID=0x2208)
+    Vendor:   
+    VRAM:     12086 MB
+    Driver:   32.0.15.9186
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56864
+ImportWorker Server TCP listen port: 54196
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
+Registered in 0.065082 seconds.
+Native extension for Android target not found
+Native extension for LinuxStandalone target not found
+Native extension for WebGL target not found
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 27.88 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.842 seconds
+Registering precompiled user dll's ...
+Registered in 0.064522 seconds.
+Platform modules already initialized, skipping
+Validating Project structure ... 0.009163 seconds.
+Shader import version has changed; will reimport all shaders...
+Upgrading shader files ...0.016488 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for Android target not found
+Native extension for LinuxStandalone target not found
+Native extension for WebGL target not found
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 30.71 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.632 seconds
+Platform modules already initialized, skipping
+RefreshInfo: InitialScriptRefreshV2(NoUpdateAssetOptions)
+RefreshProfiler: Total: 1339.503ms
+	InvokeBeforeRefreshCallbacks: 0.345ms
+	ApplyChangesToAssetFolders: 0.036ms
+	WriteModifiedImportersToTextMetaFiles: 0.000ms
+	CleanLegacyArtifacts: 0.000ms
+	Scan: 38.455ms
+	OnSourceAssetsModified: 0.000ms
+	UnregisterDeletedAssets: 0.000ms
+	InitializeImportedAssetsSnapshot: 0.103ms
+	GetAllGuidsForCategorization: 0.061ms
+	CategorizeAssets: 96.664ms
+	ImportAndPostprocessOutOfDateAssets: 1196.684ms (1196.148ms without children)
+		ImportManagerImport: 0.000ms (0.000ms without children)
+			ImportInProcess: 0.000ms
+			ImportOutOfProcess: 0.000ms
+			UpdateCategorizedAssets: 0.000ms
+			RemoteAssetCacheGetArtifact: 0.000ms (0.000ms without children)
+				RemoteAssetCacheResolve: 0.000ms
+				RemoteAssetCacheDownloadFile: 0.000ms
+		CompileScripts: 0.000ms
+		PostProcessAllAssets: 0.000ms
+		ReloadImportedAssets: 0.000ms
+		VerifyAssetsAreUpToDateAndCorrect: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.266ms
+		InitializingProgressBar: 0.003ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.186ms
+		OnDemandSchedulerStart: 0.000ms
+		RestoreLoadedAssetsState: 0.081ms
+	InvokeProjectHasChanged: 0.000ms
+	UpdateImportedAssetsSnapshot: 0.000ms
+	ReloadSourceAssets: 0.417ms
+	UnloadImportedAssets: 0.143ms
+	Hotreload: 0.123ms
+	FixTempGuids: 0.012ms
+	VerifyGuidPMRegistrations: 0.000ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.001ms
+	UnloadStreamsBegin: 0.208ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 0.004ms
+	GetLoadedSourceAssetsSnapshot: 0.122ms
+	PersistCurrentRevisions: 0.000ms
+	UnloadStreamsEnd: 5.208ms
+	GenerateScriptTypeHashes: 0.087ms
+	Untracked: 0.915ms
+Refresh completed in 0.083116 seconds.
+RefreshInfo: RefreshV2(ForceSynchronousImport)
+RefreshProfiler: Total: 83.106ms
+	InvokeBeforeRefreshCallbacks: 0.430ms
+	ApplyChangesToAssetFolders: 0.050ms
+	WriteModifiedImportersToTextMetaFiles: 0.000ms
+	CleanLegacyArtifacts: 0.000ms
+	Scan: 39.730ms
+	OnSourceAssetsModified: 0.000ms
+	UnregisterDeletedAssets: 0.000ms
+	InitializeImportedAssetsSnapshot: 3.206ms
+	GetAllGuidsForCategorization: 0.071ms
+	CategorizeAssets: 33.579ms
+	ImportAndPostprocessOutOfDateAssets: 2.873ms (1.024ms without children)
+		ImportManagerImport: 0.000ms (0.000ms without children)
+			ImportInProcess: 0.000ms
+			ImportOutOfProcess: 0.000ms
+			UpdateCategorizedAssets: 0.000ms
+			RemoteAssetCacheGetArtifact: 0.000ms (0.000ms without children)
+				RemoteAssetCacheResolve: 0.000ms
+				RemoteAssetCacheDownloadFile: 0.000ms
+		CompileScripts: 0.000ms
+		PostProcessAllAssets: 0.000ms
+		ReloadImportedAssets: 0.001ms
+		VerifyAssetsAreUpToDateAndCorrect: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.321ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.150ms
+		OnDemandSchedulerStart: 0.389ms
+		RestoreLoadedAssetsState: 0.987ms
+	InvokeProjectHasChanged: 0.000ms
+	UpdateImportedAssetsSnapshot: 0.000ms
+	ReloadSourceAssets: 0.397ms
+	UnloadImportedAssets: 0.084ms
+	Hotreload: 0.018ms
+	FixTempGuids: 0.002ms
+	VerifyGuidPMRegistrations: 0.000ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.277ms
+	UnloadStreamsBegin: 0.008ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 0.652ms
+	GetLoadedSourceAssetsSnapshot: 1.417ms
+	PersistCurrentRevisions: 0.000ms
+	UnloadStreamsEnd: 0.009ms
+	GenerateScriptTypeHashes: 4.190ms
+	Untracked: 0.303ms
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+RefreshInfo: StopAssetImportingV2(ForceSynchronousImport)
+RefreshProfiler: Total: 8.116ms
+	InvokeBeforeRefreshCallbacks: 0.322ms
+	ApplyChangesToAssetFolders: 0.038ms
+	WriteModifiedImportersToTextMetaFiles: 0.000ms
+	CleanLegacyArtifacts: 0.000ms
+	Scan: 2.074ms
+	OnSourceAssetsModified: 0.000ms
+	UnregisterDeletedAssets: 0.000ms
+	InitializeImportedAssetsSnapshot: 3.050ms
+	GetAllGuidsForCategorization: 0.000ms
+	CategorizeAssets: 0.000ms
+	ImportAndPostprocessOutOfDateAssets: 0.000ms (0.000ms without children)
+		ImportManagerImport: 0.000ms (0.000ms without children)
+			ImportInProcess: 0.000ms
+			ImportOutOfProcess: 0.000ms
+			UpdateCategorizedAssets: 0.000ms
+			RemoteAssetCacheGetArtifact: 0.000ms (0.000ms without children)
+				RemoteAssetCacheResolve: 0.000ms
+				RemoteAssetCacheDownloadFile: 0.000ms
+		CompileScripts: 0.000ms
+		PostProcessAllAssets: 0.000ms
+		ReloadImportedAssets: 0.000ms
+		VerifyAssetsAreUpToDateAndCorrect: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.000ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.000ms
+		RestoreLoadedAssetsState: 0.000ms
+	InvokeProjectHasChanged: 0.000ms
+	UpdateImportedAssetsSnapshot: 0.000ms
+	ReloadSourceAssets: 0.000ms
+	UnloadImportedAssets: 0.000ms
+	Hotreload: 0.016ms
+	FixTempGuids: 0.002ms
+	VerifyGuidPMRegistrations: 0.000ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.248ms
+	UnloadStreamsBegin: 0.342ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 0.825ms
+	GetLoadedSourceAssetsSnapshot: 0.454ms
+	PersistCurrentRevisions: 0.000ms
+	UnloadStreamsEnd: 0.007ms
+	GenerateScriptTypeHashes: 0.000ms
+	Untracked: 0.737ms
+Refresh completed in 0.073968 seconds.
+RefreshInfo: RefreshV2(NoUpdateAssetOptions)
+RefreshProfiler: Total: 73.957ms
+	InvokeBeforeRefreshCallbacks: 0.000ms
+	ApplyChangesToAssetFolders: 0.039ms
+	WriteModifiedImportersToTextMetaFiles: 0.000ms
+	CleanLegacyArtifacts: 0.000ms
+	Scan: 37.507ms
+	OnSourceAssetsModified: 0.000ms
+	UnregisterDeletedAssets: 0.000ms
+	InitializeImportedAssetsSnapshot: 3.459ms
+	GetAllGuidsForCategorization: 0.065ms
+	CategorizeAssets: 27.624ms
+	ImportAndPostprocessOutOfDateAssets: 2.285ms (0.531ms without children)
+		ImportManagerImport: 0.000ms (0.000ms without children)
+			ImportInProcess: 0.000ms
+			ImportOutOfProcess: 0.000ms
+			UpdateCategorizedAssets: 0.000ms
+			RemoteAssetCacheGetArtifact: 0.000ms (0.000ms without children)
+				RemoteAssetCacheResolve: 0.000ms
+				RemoteAssetCacheDownloadFile: 0.000ms
+		CompileScripts: 0.000ms
+		PostProcessAllAssets: 0.000ms
+		ReloadImportedAssets: 0.000ms
+		VerifyAssetsAreUpToDateAndCorrect: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.313ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.142ms
+		OnDemandSchedulerStart: 0.150ms
+		RestoreLoadedAssetsState: 1.147ms
+	InvokeProjectHasChanged: 0.000ms
+	UpdateImportedAssetsSnapshot: 0.000ms
+	ReloadSourceAssets: 0.520ms
+	UnloadImportedAssets: 0.083ms
+	Hotreload: 0.037ms
+	FixTempGuids: 0.002ms
+	VerifyGuidPMRegistrations: 0.000ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.256ms
+	UnloadStreamsBegin: 0.233ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 0.503ms
+	GetLoadedSourceAssetsSnapshot: 1.796ms
+	PersistCurrentRevisions: 0.000ms
+	UnloadStreamsEnd: 0.008ms
+	GenerateScriptTypeHashes: 0.076ms
+	Untracked: -0.459ms
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Initializing Unity extensions:
+ 'C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll'  GUID: 4ba2329b63d54f0187bcaa12486b1b0f
+Unloading 378 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 74.6 MB.
+System memory in use after: 70.8 MB.
+
+Unloading 469 unused Assets to reduce memory usage. Loaded Objects now: 2960.
+Total: 3.055700 ms (FindLiveObjects: 0.202100 ms CreateObjectMapping: 0.051700 ms MarkObjects: 1.465700 ms  DeleteObjects: 1.335900 ms)
+
+building x86_64 windows player!
+Start importing ProjectSettings/GraphicsSettings.asset using Guid(00000000000000006100000000000000) Importer(-1,00000000000000000000000000000000)
+Done importing asset: 'ProjectSettings/GraphicsSettings.asset' (target hash: '702311c4f6e9afd49c0412303ea040f2') in 0.011420 seconds
+Refreshing native plugins compatible for Editor in 0.33 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+RefreshInfo: StopAssetImportingV2(NoUpdateAssetOptions)
+RefreshProfiler: Total: 476.199ms
+	InvokeBeforeRefreshCallbacks: 0.001ms
+	ApplyChangesToAssetFolders: 0.043ms
+	WriteModifiedImportersToTextMetaFiles: 0.000ms
+	CleanLegacyArtifacts: 0.000ms
+	Scan: 2.766ms
+	OnSourceAssetsModified: 0.451ms
+	UnregisterDeletedAssets: 0.000ms
+	InitializeImportedAssetsSnapshot: 3.083ms
+	GetAllGuidsForCategorization: 0.106ms
+	CategorizeAssets: 1.914ms
+	ImportAndPostprocessOutOfDateAssets: 464.098ms (1.139ms without children)
+		ImportManagerImport: 12.653ms (0.927ms without children)
+			ImportInProcess: 11.704ms
+			ImportOutOfProcess: 0.000ms
+			UpdateCategorizedAssets: 0.022ms
+			RemoteAssetCacheGetArtifact: 0.000ms (0.000ms without children)
+				RemoteAssetCacheResolve: 0.000ms
+				RemoteAssetCacheDownloadFile: 0.000ms
+		CompileScripts: 0.000ms
+		PostProcessAllAssets: 445.962ms
+		ReloadImportedAssets: 0.000ms
+		VerifyAssetsAreUpToDateAndCorrect: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.307ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.146ms
+		OnDemandSchedulerStart: 0.161ms
+		RestoreLoadedAssetsState: 1.226ms
+	InvokeProjectHasChanged: 0.000ms
+	UpdateImportedAssetsSnapshot: 2.504ms
+	ReloadSourceAssets: 0.549ms
+	UnloadImportedAssets: 0.061ms
+	Hotreload: 0.780ms
+	FixTempGuids: 0.003ms
+	VerifyGuidPMRegistrations: 0.000ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.397ms
+	UnloadStreamsBegin: 0.063ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 0.468ms
+	GetLoadedSourceAssetsSnapshot: 2.412ms
+	PersistCurrentRevisions: 0.000ms
+	UnloadStreamsEnd: 0.104ms
+	GenerateScriptTypeHashes: 0.102ms
+	Untracked: -1.099ms
+[ScriptCompilation] Recompiling all scripts because: Recompiling scripts for player build.
+BuildPlayer: start building target 19
+- Starting script compilation
+- Starting compile Library/PlayerScriptAssemblies/UnityEngine.UI.dll
+- Starting compile Library/PlayerScriptAssemblies/UnityEngine.TestRunner.dll
+- Finished compile Library/PlayerScriptAssemblies/UnityEngine.TestRunner.dll in 3.040748 seconds
+- Finished compile Library/PlayerScriptAssemblies/UnityEngine.UI.dll in 3.081761 seconds
+- Starting compile Library/PlayerScriptAssemblies/Unity.Postprocessing.Runtime.dll
+- Starting compile Library/PlayerScriptAssemblies/UnityUIExtensions.dll
+- Starting compile Library/PlayerScriptAssemblies/Unity.TextMeshPro.dll
+- Starting compile Library/PlayerScriptAssemblies/IngameDebugConsole.Runtime.dll
+- Starting compile Library/PlayerScriptAssemblies/Unity.Timeline.dll
+- Starting compile Library/PlayerScriptAssemblies/Pixelplacement.Surge.Runtime.dll
+- Starting compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll
+- Starting compile Library/PlayerScriptAssemblies/AsyncAwaitUtil.Runtime.dll
+- Starting compile Library/PlayerScriptAssemblies/SimpleSpectrum.Runtime.dll
+- Starting compile Library/PlayerScriptAssemblies/CatlikeCoding.SDFToolkit.Runtime.dll
+- Starting compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+- Starting compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll
+- Starting compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll
+- Finished compile Library/PlayerScriptAssemblies/Unity.Postprocessing.Runtime.dll in 0.723764 seconds
+- Finished compile Library/PlayerScriptAssemblies/IngameDebugConsole.Runtime.dll in 0.690053 seconds
+- Finished compile Library/PlayerScriptAssemblies/AsyncAwaitUtil.Runtime.dll in 0.646275 seconds
+- Finished compile Library/PlayerScriptAssemblies/Unity.Timeline.dll in 0.726187 seconds
+- Finished compile Library/PlayerScriptAssemblies/Pixelplacement.Surge.Runtime.dll in 0.717986 seconds
+- Finished compile Library/PlayerScriptAssemblies/Unity.TextMeshPro.dll in 0.776146 seconds
+- Finished compile Library/PlayerScriptAssemblies/UnityUIExtensions.dll in 0.802329 seconds
+- Finished compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll in 0.766136 seconds
+- Starting compile Library/PlayerScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll
+- Finished compile Library/PlayerScriptAssemblies/CatlikeCoding.SDFToolkit.Runtime.dll in 0.280715 seconds
+- Finished compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll in 0.27029 seconds
+- Finished compile Library/PlayerScriptAssemblies/SimpleSpectrum.Runtime.dll in 0.308357 seconds
+- Finished compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll in 0.263606 seconds
+- Finished compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll in 0.252206 seconds
+- Finished compile Library/PlayerScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll in 0.189892 seconds
+- Starting compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll
+- Finished compile Library/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll in 0.256863 seconds
+- Starting compile Library/PlayerScriptAssemblies/MobilePostProcess.dll
+- Finished compile Library/PlayerScriptAssemblies/MobilePostProcess.dll in 0.192587 seconds
+- Starting compile Library/PlayerScriptAssemblies/Game.Runtime.dll
+- Finished compile Library/PlayerScriptAssemblies/Game.Runtime.dll in 0.537831 seconds
+- Finished script compilation in 5.167249 seconds
+Assets\Scripts\Runtime\Effects\Miner.cs(15,18): warning CS0414: The field 'Miner.actionsCreated' is assigned but its value is never used
+DisplayProgressbar: Building Player
+Refresh completed in 0.076538 seconds.
+RefreshInfo: RefreshV2()
+RefreshProfiler: Total: 76.525ms
+	InvokeBeforeRefreshCallbacks: 0.000ms
+	ApplyChangesToAssetFolders: 0.042ms
+	WriteModifiedImportersToTextMetaFiles: 0.000ms
+	CleanLegacyArtifacts: 0.000ms
+	Scan: 38.844ms
+	OnSourceAssetsModified: 0.000ms
+	UnregisterDeletedAssets: 0.000ms
+	InitializeImportedAssetsSnapshot: 2.672ms
+	GetAllGuidsForCategorization: 0.077ms
+	CategorizeAssets: 29.111ms
+	ImportAndPostprocessOutOfDateAssets: 2.561ms (0.539ms without children)
+		ImportManagerImport: 0.000ms (0.000ms without children)
+			ImportInProcess: 0.000ms
+			ImportOutOfProcess: 0.000ms
+			UpdateCategorizedAssets: 0.000ms
+			RemoteAssetCacheGetArtifact: 0.000ms (0.000ms without children)
+				RemoteAssetCacheResolve: 0.000ms
+				RemoteAssetCacheDownloadFile: 0.000ms
+		CompileScripts: 0.000ms
+		PostProcessAllAssets: 0.000ms
+		ReloadImportedAssets: 0.000ms
+		VerifyAssetsAreUpToDateAndCorrect: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.369ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.151ms
+		OnDemandSchedulerStart: 0.170ms
+		RestoreLoadedAssetsState: 1.330ms
+	InvokeProjectHasChanged: 0.000ms
+	UpdateImportedAssetsSnapshot: 0.000ms
+	ReloadSourceAssets: 0.526ms
+	UnloadImportedAssets: 0.102ms
+	Hotreload: 0.024ms
+	FixTempGuids: 0.002ms
+	VerifyGuidPMRegistrations: 0.000ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.242ms
+	UnloadStreamsBegin: 0.045ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 0.523ms
+	GetLoadedSourceAssetsSnapshot: 1.821ms
+	PersistCurrentRevisions: 0.000ms
+	UnloadStreamsEnd: 0.010ms
+	GenerateScriptTypeHashes: 0.000ms
+	Untracked: -0.078ms
+Opening scene 'Assets/Scenes/MainScene.unity'
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/MainScene.unity'
+	Deserialize:            5.061 ms
+	Integration:            197.329 ms
+	Integration of assets:  0.283 ms
+	Thread Wait Time:       26.123 ms
+	Total Operation Time:   228.795 ms
+System memory in use before: 94.1 MB.
+System memory in use after: 94.2 MB.
+
+Unloading 23 unused Assets to reduce memory usage. Loaded Objects now: 6627.
+Total: 6.479100 ms (FindLiveObjects: 0.344100 ms CreateObjectMapping: 0.095300 ms MarkObjects: 5.888700 ms  DeleteObjects: 0.150600 ms)
+
+
+
+Mono dependencies included in the build
+Dependency assembly - System.Diagnostics.StackTrace.dll
+Dependency assembly - System.Globalization.Extensions.dll
+Dependency assembly - System.Runtime.Serialization.Xml.dll
+Dependency assembly - System.Xml.XPath.XDocument.dll
+Dependency assembly - netstandard.dll
+Dependency assembly - Mono.Security.dll
+Dependency assembly - System.ComponentModel.Composition.dll
+Dependency assembly - System.Configuration.dll
+Dependency assembly - System.Core.dll
+Dependency assembly - System.Data.dll
+Dependency assembly - System.Drawing.dll
+Dependency assembly - System.EnterpriseServices.dll
+Dependency assembly - System.IO.Compression.FileSystem.dll
+Dependency assembly - System.IO.Compression.dll
+Dependency assembly - System.Net.Http.dll
+Dependency assembly - System.Numerics.dll
+Dependency assembly - System.Runtime.Serialization.dll
+Dependency assembly - System.ServiceModel.Internals.dll
+Dependency assembly - System.Transactions.dll
+Dependency assembly - System.Xml.Linq.dll
+Dependency assembly - System.Xml.dll
+Dependency assembly - System.dll
+Dependency assembly - mscorlib.dll
+Dependency assembly - AsyncAwaitUtil.Runtime.dll
+Dependency assembly - CatlikeCoding.SDFToolkit.Runtime.dll
+Dependency assembly - Game.Runtime.dll
+Dependency assembly - IngameDebugConsole.Runtime.dll
+Dependency assembly - MobilePostProcess.dll
+Dependency assembly - Pixelplacement.Surge.Runtime.dll
+Dependency assembly - SimpleSpectrum.Runtime.dll
+Dependency assembly - Unity.Postprocessing.Runtime.dll
+Dependency assembly - Unity.RenderPipeline.Universal.ShaderLibrary.dll
+Dependency assembly - Unity.RenderPipelines.Core.Runtime.dll
+Dependency assembly - Unity.RenderPipelines.Core.ShaderLibrary.dll
+Dependency assembly - Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+Dependency assembly - Unity.RenderPipelines.Universal.Runtime.dll
+Dependency assembly - Unity.RenderPipelines.Universal.Shaders.dll
+Dependency assembly - Unity.TextMeshPro.dll
+Dependency assembly - Unity.Timeline.dll
+Dependency assembly - UnityEngine.UI.dll
+Dependency assembly - UnityUIExtensions.dll
+
+Unloading 388 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 116.6 MB.
+System memory in use after: 113.7 MB.
+
+Unloading 3696 unused Assets to reduce memory usage. Loaded Objects now: 3014.
+Total: 4.953500 ms (FindLiveObjects: 0.495800 ms CreateObjectMapping: 0.169000 ms MarkObjects: 2.469400 ms  DeleteObjects: 1.818800 ms)
+
+[EnlightenBakeManager] m_Clear = false;
+Setting up 12 worker threads for Enlighten.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+  Thread -> id: dae8 -> priority: 1 
+  Thread -> id: fd50 -> priority: 1 
+  Thread -> id: d378 -> priority: 1 
+  Thread -> id: 10a48 -> priority: 1 
+  Thread -> id: ce80 -> priority: 1 
+  Thread -> id: d208 -> priority: 1 
+  Thread -> id: 11674 -> priority: 1 
+  Thread -> id: 980 -> priority: 1 
+  Thread -> id: f088 -> priority: 1 
+  Thread -> id: d6ec -> priority: 1 
+  Thread -> id: 11630 -> priority: 1 
+  Thread -> id: bdf0 -> priority: 1 
+System memory in use before: 88.2 MB.
+System memory in use after: 88.4 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 3022.
+Total: 2.888100 ms (FindLiveObjects: 0.173900 ms CreateObjectMapping: 0.047900 ms MarkObjects: 2.619500 ms  DeleteObjects: 0.046200 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 225.5 MB.
+System memory in use after: 89.0 MB.
+
+Unloading 152 unused Assets to reduce memory usage. Loaded Objects now: 3010.
+Total: 17.876800 ms (FindLiveObjects: 0.189500 ms CreateObjectMapping: 0.048900 ms MarkObjects: 2.629700 ms  DeleteObjects: 15.008200 ms)
+
+DisplayProgressbar: Compiling shader variants
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.09 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.12 seconds
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
+Shader warning in 'SupGames/Mobile/PostProcessURP': implicit truncation of vector type at line 121 (on d3d11)
+
+Compiling Vertex program with LUT DISTORTION
+Platform defines: UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_RGBM_ENCODING
+Shader warning in 'SupGames/Mobile/PostProcessURP': implicit truncation of vector type at line 137 (on d3d11)
+
+Compiling Vertex program with CHROMA DISTORTION
+Platform defines: UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_RGBM_ENCODING
+Shader warning in 'SupGames/Mobile/PostProcessURP': implicit truncation of vector type at line 139 (on d3d11)
+
+Compiling Vertex program with CHROMA FILTER SHARPEN
+Platform defines: UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_RGBM_ENCODING
+Shader warning in 'SupGames/Mobile/PostProcessURP': implicit truncation of vector type at line 147 (on d3d11)
+
+Compiling Vertex program with CHROMA DISTORTION
+Platform defines: UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_RGBM_ENCODING
+Shader warning in 'SupGames/Mobile/PostProcessURP': implicit truncation of vector type at line 149 (on d3d11)
+
+Compiling Vertex program with CHROMA FILTER SHARPEN
+Platform defines: UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_RGBM_ENCODING
+Compiled shader 'Hidden/Universal Render Pipeline/UberPost' in 5.26s
+    d3d11 (total internal programs: 1280, unique: 1280)
+Compressed shader 'Hidden/Universal Render Pipeline/UberPost' on d3d11 from 5.03MB to 0.10MB
+DisplayProgressbar: Building Player
+DisplayProgressbar: Compiling shader variants
+DisplayProgressbar: Building Player
+DisplayProgressbar: Compiling shader variants
+Refreshing native plugins compatible for Editor in 1.85 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+DisplayProgressbar: Building Player
+Invoking UnityLinker with response file. response.rsp contents: -out=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/tempStrip -x=C:/Users/billw/AppData/Local/Temp/tmp75308803.tmp -x=C:/Users/billw/AppData/Local/Temp/tmp6dcc549c.tmp -x=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/TypesInScenes.xml -x=C:/dev/Vespasian/Assets/link.xml -d=C:/dev/Vespasian/Temp/StagingArea/Data/Managed --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/UnityUIExtensions.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/IngameDebugConsole.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/SimpleSpectrum.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/Pixelplacement.Surge.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/Unity.RenderPipelines.Core.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/AsyncAwaitUtil.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/Unity.RenderPipelines.Universal.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/UnityEngine.UI.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/CatlikeCoding.SDFToolkit.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/Game.Runtime.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/MobilePostProcess.dll --include-unity-root-assembly=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/Unity.TextMeshPro.dll --dotnetruntime=il2cpp --dotnetprofile=unityaot --use-editor-options --include-directory=C:/dev/Vespasian/Temp/StagingArea/Data/Managed --rule-set=Conservative --editor-data-file=C:/dev/Vespasian/Temp/StagingArea/Data/Managed/EditorToUnityLinkerData.json --platform=WindowsDesktop --engine-modules-asset-file="C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Whitelists/../modules.asset"
+C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\il2cpp\build/deploy/net471/UnityLinker.exe exited after 6470 ms.
+Invoking il2cpp with arguments: --convert-to-cpp --emit-null-checks --enable-array-bounds-check --dotnetprofile="unityaot" --compile-cpp --libil2cpp-static --platform="WindowsDesktop" --architecture="x64" --configuration="Debug" --outputpath="C:\dev\Vespasian\Temp/StagingArea/Data\Native\GameAssembly.dll" --cachedirectory="C:\dev\Vespasian\Assets\..\Library/il2cpp_cache" --profiler-report --map-file-parser="C:/Program Files/Unity/Hub/Editor/2019.4.24f1/Editor/Data/Tools/MapFileParser/MapFileParser.exe" --directory=C:/dev/Vespasian/Temp/StagingArea/Data/Managed --generatedcppdir=C:/dev/Vespasian/Temp/StagingArea/Data/il2cppOutput 
+C:\Program Files\Unity\Hub\Editor\2019.4.24f1\Editor\Data\il2cpp/build/deploy/net471/il2cpp.exe exited after 56536 ms.
+
+-------------------------------------------------------------------------------
+Build Report
+Uncompressed usage by category (Percentages based on user generated assets only):
+Textures               262.6 mb	 92.2% 
+Meshes                 175.9 kb	 0.1% 
+Animations             10.1 kb	 0.0% 
+Sounds                 3.9 mb	 1.4% 
+Shaders                998.3 kb	 0.3% 
+Other Assets           1.1 mb	 0.4% 
+Levels                 276.2 kb	 0.1% 
+Scripts                2.3 mb	 0.8% 
+Included DLLs          13.3 mb	 4.7% 
+File headers           91.5 kb	 0.0% 
+Total User Assets      284.8 mb	 100.0% 
+Complete build size    321.0 mb
+Used Assets and files from the Resources folder, sorted by uncompressed size:
+ 5.3 mb	 1.7% Assets/Textures/clouds_thin/planet_clouds_thin_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/clouds_thin/planet_clouds_thin_AlbedoTransparency.png
+ 5.3 mb	 1.7% Assets/Textures/clouds_thick/planet_clouds_thick_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/clouds_thick/planet_clouds_thick_AlbedoTransparency.png
+ 5.3 mb	 1.7% Assets/Textures/neptune/planet_neptune_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/jupiter/planet_jupiter_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/venus/planet_venus_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/snow/planet_snow_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/moon/planet_moon_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/mars/planet_mars_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/lava/planet_lava_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/ice/planet_ice_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/earthlike/planet_earth_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/desert/planet_desert_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/clouds/planet_clouds_MetallicSmoothness.png
+ 5.3 mb	 1.7% Assets/Textures/clouds/planet_clouds_AlbedoTransparency.png
+ 5.3 mb	 1.7% Assets/Textures/hot_jupiter/planet_hot_jupiter_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/neptune/planet_neptune_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/jupiter/planet_jupiter_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/fractured/planet_fractured1_normal.psd
+ 5.3 mb	 1.7% Assets/Textures/venus/planet_venus_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/nebula/nebula_translucent.png
+ 5.3 mb	 1.7% Assets/Textures/moon/planet_moon_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/mars/planet_mars_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/lava/planet_lava_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/ice/planet_ice_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/earthlike/planet_earth_Normal.png
+ 5.3 mb	 1.7% Assets/Textures/desert/planet_desert_Normal.png
+ 2.7 mb	 0.8% Assets/Textures/hot_jupiter/planet_hot_jupiter_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/neptune/planet_neptune_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/jupiter/planet_jupiter_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/venus/planet_venus_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/snow/planet_snow_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/moon/planet_moon_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/mars/planet_mars_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/lava/planet_lava_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/ice/planet_ice_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/earthlike/planet_earth_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/desert/planet_desert_AlbedoTransparency.png
+ 2.7 mb	 0.8% Assets/Textures/noises/sun_noise_vespasian_noise_5.tga
+ 2.7 mb	 0.8% Assets/Textures/noises/sun_noise_vespasian_noise_4.tga
+ 2.7 mb	 0.8% Assets/Textures/noises/sun_noise_vespasian_noise_1.tga
+ 2.7 mb	 0.8% Assets/Textures/hot_jupiter/planet_hot_jupiter_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/clouds_thin/planet_clouds_thin_Normal.png
+ 2.7 mb	 0.8% Assets/Textures/clouds_thin/planet_clouds_thin_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/clouds_thick/planet_clouds_thick_Normal.png
+ 2.7 mb	 0.8% Assets/Textures/clouds_thick/planet_clouds_thick_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/venus/planet_venus_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/neptune/planet_neptune_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/jupiter/planet_jupiter_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/earthlike/planet_earth_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/desert/planet_desert_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/clouds/planet_clouds_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/snow/planet_snow_Normal.png
+ 2.7 mb	 0.8% Assets/Textures/snow/planet_snow_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/moon/planet_moon_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/mars/planet_mars_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/lava/planet_lava_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/ice/planet_ice_Emission.png
+ 2.7 mb	 0.8% Assets/Textures/clouds/planet_clouds_Normal.png
+ 2.7 mb	 0.8% Assets/Textures/noises/noise.png
+ 2.7 mb	 0.8% Assets/Textures/nebula/nebula.tga
+ 1.8 mb	 0.6% Assets/Audio/ship/Engine Loop.wav
+ 1.3 mb	 0.4% Assets/Audio/space/Star 1.wav
+ 1.3 mb	 0.4% Assets/Textures/fractured/fractured1_low_planet_fractured_specular.png
+ 1.3 mb	 0.4% Assets/Textures/rocky/planet_rocky_normal.png
+ 1.3 mb	 0.4% Assets/Textures/spaceship/spaceship_normal.psd
+ 1.3 mb	 0.4% Assets/Textures/noises/noise_sphereMapped_5.png
+ 1.3 mb	 0.4% Assets/Textures/Particles/half_circle.png
+ 1.0 mb	 0.3% Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+ 1.0 mb	 0.3% Assets/Textures/shadow_ring.png
+ 1.0 mb	 0.3% Assets/Textures/stars/star2.tga
+ 1.0 mb	 0.3% Assets/Textures/stars/star3.psd
+ 682.8 kb	 0.2% Assets/Textures/fractured/fractured1_low_planet_fractured_emissive.png
+ 682.8 kb	 0.2% Assets/Textures/fractured/fractured1_low_planet_fractured_diffuse.png
+ 682.8 kb	 0.2% Assets/Textures/rocky/planet_rocky_basecolor.png
+ 682.8 kb	 0.2% Assets/Textures/spaceship/spaceship_albedo.psd
+ 473.9 kb	 0.1% Assets/Audio/ship/Scanner.wav
+ 423.4 kb	 0.1% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/UberPost.shader
+ 344.6 kb	 0.1% Assets/Textures/UI/Objectives/OrbitIcon.png
+ 344.4 kb	 0.1% Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+ 341.5 kb	 0.1% Assets/Textures/sun/sun_flare2_particle.png
+ 341.5 kb	 0.1% Assets/TextMesh Pro/Sprites/EmojiOne.png
+ 341.5 kb	 0.1% Assets/Textures/Particles/RoundParticle.png
+ 262.6 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/SMAA/AreaTex.tga
+ 261.6 kb	 0.1% Assets/Textures/UI/Planets/Icons/asteroids.png
+ 260.6 kb	 0.1% Assets/Textures/UI/Planets/Icons/space-station-orbiting.png
+ 259.9 kb	 0.1% Assets/Textures/UI/Planets/Icons/unknown.png
+ 259.7 kb	 0.1% Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+ 259.5 kb	 0.1% Assets/Textures/UI/CircleLineNoFill.png
+ 258.5 kb	 0.1% Assets/Textures/UI/Planets/Icons/space-station.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/hot-gas-giant.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/ice-giant.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/gas-giant.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/greenhouse.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/rocky.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/desert.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/lava.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/ice.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/gaia.png
+ 258.4 kb	 0.1% Assets/Textures/UI/Planets/Icons/dead.png
+ 257.1 kb	 0.1% Assets/Textures/filled-circle SDF.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Thin02.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Thin01.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Medium06.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Medium05.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Medium04.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Medium03.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Medium02.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Medium01.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Large02.png
+ 256.1 kb	 0.1% Packages/com.unity.render-pipelines.universal/Textures/FilmGrain/Large01.png
+ 226.3 kb	 0.1% Assets/Audio/ship/Docking.wav
+ 170.8 kb	 0.1% Assets/Textures/Particles/laser2.png
+ 170.8 kb	 0.1% Assets/Textures/Particles/laser.png
+ 89.0 kb	 0.0% Resources/unity_builtin_extra
+ 85.5 kb	 0.0% Assets/Textures/earthlike/planet_Default_emissive.png
+ 85.5 kb	 0.0% Assets/Textures/NoiseAlpha.png
+ 85.5 kb	 0.0% Assets/Textures/Particles/smoke1.png
+ 85.5 kb	 0.0% Assets/Plugins/Catlike Coding/SDF Toolkit/Examples/Contours/Star.png
+ 83.2 kb	 0.0% Assets/Plugins/MobilePostProcess/PostProcessUrp.shader
+ 79.7 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Fonts/Perfect DOS VGA 437.ttf
+ 75.7 kb	 0.0% Assets/Prefabs/Ships/Ship AI.prefab
+ 59.8 kb	 0.0% Assets/Meshes/spaceship.fbx
+ 57.4 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI BitField.prefab
+ 51.6 kb	 0.0% Assets/Meshes/planet.fbx
+ 43.3 kb	 0.0% Assets/Audio/ship/Radar/Radar Reflection.wav
+ 43.3 kb	 0.0% Assets/Audio/ship/Radar/Radar Ping.wav
+ 42.9 kb	 0.0% Assets/Prefabs/System/Stars/NeutronStar.prefab
+ 40.4 kb	 0.0% Assets/Prefabs/System/Comet Orbiting Prefab.prefab
+ 38.5 kb	 0.0% Assets/Prefabs/VFX/Ship Explosion FX Prefab.prefab
+ 35.1 kb	 0.0% Assets/Prefabs/System/Stars/Secondary Star.prefab
+ 34.7 kb	 0.0% Assets/Prefabs/System/Stars/GeneratedStarVariant.prefab
+ 30.9 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface.shader
+ 30.0 kb	 0.0% Assets/Meshes/planet_fractured_1.fbx
+ 26.7 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/BokehDepthOfField.shader
+ 21.5 kb	 0.0% Assets/Textures/sun/sun_plasma_particle.png
+ 21.5 kb	 0.0% Assets/Textures/UI/DashedLine SDF.png
+ 20.0 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Lit-Default.shader
+ 18.4 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+ 17.9 kb	 0.0% Assets/Prefabs/System/Planets/PlanetLava.prefab
+ 17.1 kb	 0.0% Assets/Prefabs/System/Asteroid Ring Prefab.prefab
+ 16.8 kb	 0.0% Assets/Textures/UI/Planets/jupiter.png
+ 16.8 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/Unused/IconInfoHighRes.psd
+ 16.6 kb	 0.0% Assets/Textures/UI/Radar/radar_pointer.png
+ 16.3 kb	 0.0% Assets/Meshes/asteroid.fbx
+ 15.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/GaussianDepthOfField.shader
+ 14.4 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_SDF.shader
+ 14.4 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_SDF Overlay.shader
+ 14.3 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/Bloom.shader
+ 13.5 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/SubpixelMorphologicalAntialiasing.shader
+ 13.2 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface-Mobile.shader
+ 12.1 kb	 0.0% Assets/Plugins/MobilePostProcess/LUTS/LUT_Maxwell.png
+ 11.7 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Masking.shader
+ 11.7 kb	 0.0% Assets/Shaders/PlanetShader.shadergraph
+ 11.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/FinalPost.shader
+ 10.6 kb	 0.0% Assets/Settings/Body Specs.asset
+ 10.6 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Overlay.shader
+ 10.0 kb	 0.0% Assets/Shaders/GasPlanetShader.shadergraph
+ 9.9 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/CameraMotionBlur.shader
+ 9.9 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Mobile.shader
+ 9.8 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Particles/ParticlesUnlit.shader
+ 9.5 kb	 0.0% Assets/Shaders/SimplePlanetShader.shadergraph
+ 9.5 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderHdr.shader
+ 9.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Art/Models/ScaleNode/ScaleNode.fbx
+ 9.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Art/Models/Node/Node.fbx
+ 9.1 kb	 0.0% Assets/Prefabs/Rocket Unguided Prefab.prefab
+ 9.1 kb	 0.0% Assets/Shaders/PlanetRingShader.shadergraph
+ 8.9 kb	 0.0% Assets/Shaders/ShipShader.shadergraph
+ 8.3 kb	 0.0% Assets/Prefabs/Upgrades/Scanner Mk1.prefab
+ 8.1 kb	 0.0% Assets/Prefabs/Upgrades/Weapon Laser Mk 3.prefab
+ 8.1 kb	 0.0% Assets/Prefabs/Upgrades/Weapon Laser Mk 2.prefab
+ 8.1 kb	 0.0% Assets/Prefabs/Upgrades/Weapon Laser Mk 1.prefab
+ 8.0 kb	 0.0% Assets/Prefabs/Upgrades/MiningLaserMk1.prefab
+ 8.0 kb	 0.0% Assets/Prefabs/Upgrades/FuelScoopMk2.prefab
+ 8.0 kb	 0.0% Assets/Prefabs/Upgrades/FuelScoopMk1.prefab
+ 7.7 kb	 0.0% Assets/Prefabs/System/Ring Particles.prefab
+ 7.5 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap.shader
+ 7.5 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Custom-Atlas.shader
+ 7.2 kb	 0.0% Assets/Shaders/ShieldShader.shadergraph
+ 7.2 kb	 0.0% Assets/Shaders/SunShader.shadergraph
+ 7.0 kb	 0.0% Assets/Shaders/SDFShader.shadergraph
+ 7.0 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Unlit.shader
+ 6.9 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle VertexLit Blended.shader
+ 6.7 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle AddMultiply.shader
+ 6.6 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle Alpha Blend.shader
+ 6.6 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle Add.shader
+ 6.4 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle MultiplyDouble.shader
+ 6.4 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle Multiply.shader
+ 6.4 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle Premultiply Blend.shader
+ 6.4 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle AddSmooth.shader
+ 6.3 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UI Particle Blend.shader
+ 6.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Color.prefab
+ 6.1 kb	 0.0% Assets/Shaders/GravityDistortionShader.shadergraph
+ 6.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderLdr.shader
+ 5.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Vector4.prefab
+ 5.9 kb	 0.0% Assets/TextMesh Pro/Resources/Shaders/TMP_Sprite.shader
+ 5.5 kb	 0.0% Assets/Textures/UI/Line SDF.png
+ 5.2 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/SoftMaskShader.shader
+ 5.1 kb	 0.0% Assets/Prefabs/UI/Mission Item UI.prefab
+ 5.0 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Vector3.prefab
+ 4.8 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconCollapse.psd
+ 4.8 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/SearchIcon.psd
+ 4.7 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconResize.psd
+ 4.7 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconError.psd
+ 4.7 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconInfo.psd
+ 4.7 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconClear.psd
+ 4.7 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconSnapToBottomBg.psd
+ 4.7 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconWarning.psd
+ 4.7 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconSnapToBottom.psd
+ 4.6 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/SlicedBackground3.psd
+ 4.6 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/IconHide.psd
+ 4.6 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/SlicedBackground2.psd
+ 4.6 kb	 0.0% Assets/Plugins/IngameDebugConsole/Sprites/SlicedBackground.psd
+ 4.5 kb	 0.0% Assets/Prefabs/UI/Dialog.prefab
+ 4.4 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Panel.prefab
+ 4.3 kb	 0.0% Assets/Animation/PlayerShipForward.anim
+ 4.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Utils/CopyDepth.shader
+ 4.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Vector2.prefab
+ 4.0 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UISoftAdditive.shader
+ 4.0 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UILinearDodge.shader
+ 4.0 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UIScreen.shader
+ 4.0 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UIAdditive.shader
+ 4.0 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Art/Shaders/Invisible.shader
+ 4.0 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UIMultiply.shader
+ 4.0 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/PaniniProjection.shader
+ 3.7 kb	 0.0% Assets/Plugins/SimpleSpectrum/Misc/lightweightGradientLerpSprite.shader
+ 3.7 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UIImageCrop.shader
+ 3.7 kb	 0.0% Assets/Prefabs/UI/MapSystemMarkerPrefab.prefab
+ 3.6 kb	 0.0% Assets/Animation/PlayerShipReverse.anim
+ 3.6 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Utils/Blit.shader
+ 3.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Utils/Sampling.shader
+ 3.4 kb	 0.0% Assets/Prefabs/System/Space Station Prefab.prefab
+ 3.3 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/StopNaN.shader
+ 3.3 kb	 0.0% Assets/Prefabs/UI/Upgrade Item UI Prefab.prefab
+ 3.2 kb	 0.0% Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset
+ 3.0 kb	 0.0% Assets/Plugins/IngameDebugConsole/Prefabs/DebugLogItem.prefab
+ 3.0 kb	 0.0% Assets/Materials/SOIMarkerMat.mat
+ 3.0 kb	 0.0% Assets/Materials/PathGlobalMat.mat
+ 3.0 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Resources/DebugUI Canvas.prefab
+ 2.8 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Utils/FallbackError.shader
+ 2.8 kb	 0.0% Packages/com.unity.shadergraph/Editor/Resources/Shaders/FallbackError.shader
+ 2.6 kb	 0.0% Assets/Textures/UI/Radar/radar_square.png
+ 2.4 kb	 0.0% Assets/Prefabs/UI/Fuel Tank Guage.prefab
+ 2.4 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Resources/Shaders/UIParticleHidden.shader
+ 2.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/StarSystemUISchemeBodyPrefab.prefab
+ 2.4 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Foldout.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetMarsLike.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetJupiter_a.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetGasBlue.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetFractured.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetEarthLike.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetVenus.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetRocky.prefab
+ 2.3 kb	 0.0% Assets/Prefabs/System/Planets/PlanetDesert.prefab
+ 2.2 kb	 0.0% Assets/Prefabs/System/Planets/PlanetJupiter.prefab
+ 2.2 kb	 0.0% Assets/Prefabs/System/Planets/PlanetMoon.prefab
+ 2.2 kb	 0.0% Assets/Prefabs/System/Planets/PlanetIce.prefab
+ 2.2 kb	 0.0% Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset
+ 2.2 kb	 0.0% Assets/Animation/Idle.anim
+ 1.7 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI ToggleHistory.prefab
+ 1.7 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Toggle.prefab
+ 1.6 kb	 0.0% Assets/Materials/planets/planet_earthlike.mat
+ 1.6 kb	 0.0% Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat
+ 1.6 kb	 0.0% Assets/Materials/planets/planet_desert.mat
+ 1.6 kb	 0.0% Assets/Materials/planets/planet_venus.mat
+ 1.6 kb	 0.0% Assets/Materials/planets/planet_mars.mat
+ 1.6 kb	 0.0% Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat
+ 1.6 kb	 0.0% Assets/Materials/AsteroidExplodeMat.mat
+ 1.6 kb	 0.0% Assets/Materials/Ship Explode Mat.mat
+ 1.5 kb	 0.0% Assets/Settings/TMP StyleSheet.asset
+ 1.5 kb	 0.0% Assets/Materials/BackgroundMat.mat
+ 1.5 kb	 0.0% Assets/Animation/spaceship_placeholder_v2.controller
+ 1.5 kb	 0.0% Assets/Materials/BackgroundMat2.mat
+ 1.4 kb	 0.0% Assets/Materials/AsteroidDamageMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/ThrusterMat.mat
+ 1.4 kb	 0.0% Assets/Materials/DebrisMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Suns/SunBigSpikeParticleMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/StarFieldParticleMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/ScannerParticleMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Suns/SunPlasmaBurstParticleMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/SmokeParticleMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Suns/SunPlasmaParticleMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Suns/SunFlareParticleMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/PlanetRingParticle.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/Flash Particle Mat.mat
+ 1.4 kb	 0.0% Assets/Materials/Suns/NeutronStarFieldMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/ParticleAdditive.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/MiningLaserMat.mat
+ 1.4 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Group.prefab
+ 1.4 kb	 0.0% Assets/Materials/Particles/ParticleCometIonTailMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/ParticleCometDustTailMat.mat
+ 1.4 kb	 0.0% Assets/Materials/Particles/FuelScoopParticleMat.mat
+ 1.3 kb	 0.0% Assets/Prefabs/UI/Button.prefab
+ 1.2 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Resources/Anchor.prefab
+ 1.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/SMAA/SearchTex.tga
+ 1.1 kb	 0.0% Assets/Settings/Map Generator.asset
+ 1.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Textures/UIFoldoutOpened.png
+ 1.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Textures/UIFoldoutClosed.png
+ 1.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Textures/UICheckMark.png
+ 1.1 kb	 0.0% Assets/Materials/planets/planet_fractured_1.mat
+ 1.1 kb	 0.0% Assets/Materials/planets/planet_neptune.mat
+ 1.1 kb	 0.0% Assets/Materials/planets/planet_jupiter.mat
+ 1.1 kb	 0.0% Assets/Materials/planets/planet_rocky.mat
+ 1.1 kb	 0.0% Assets/Materials/planets/planet_moon.mat
+ 1.1 kb	 0.0% Assets/Materials/planets/planet_lava.mat
+ 1.1 kb	 0.0% Assets/Materials/planets/planet_ice.mat
+ 1.0 kb	 0.0% Assets/Materials/planets/planet_hot_jupiter.mat
+ 1.0 kb	 0.0% Assets/Materials/Suns/SunSurfaceMat.mat
+ 1.0 kb	 0.0% Assets/Materials/PlanetRingMat.mat
+ 1.0 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Button.prefab
+ 1.0 kb	 0.0% Assets/Materials/AsteroidMat.mat
+ 1.0 kb	 0.0% Assets/Materials/ShipMat.mat
+ 1.0 kb	 0.0% Assets/Materials/ShieldMat.mat
+ 0.9 kb	 0.0% Assets/Materials/UI/SparseDashedCircleMat.mat
+ 0.9 kb	 0.0% Assets/Materials/UI/DashedCircleMat.mat
+ 0.9 kb	 0.0% Assets/Prefabs/UI/Radar Target Indicator.prefab
+ 0.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI EnumHistory.prefab
+ 0.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI EnumField.prefab
+ 0.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Resources/DebugUI Persistent Canvas.prefab
+ 0.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI FloatField.prefab
+ 0.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI Value.prefab
+ 0.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI UIntField.prefab
+ 0.9 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI IntField.prefab
+ 0.8 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Textures/UIElement8px.png
+ 0.8 kb	 0.0% Assets/Materials/Suns/SunGlowMat.mat
+ 0.8 kb	 0.0% Assets/Materials/FireDirectionIndicatorMat.mat
+ 0.8 kb	 0.0% Assets/Materials/ProjectileMat.mat
+ 0.7 kb	 0.0% Assets/Prefabs/Machinegun Bullet Prefab.prefab
+ 0.7 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Data/PostProcessData.asset
+ 0.7 kb	 0.0% Assets/Prefabs/Upgrades/Fuel Tank Extension.prefab
+ 0.6 kb	 0.0% Assets/Materials/GravityDistortionMat.mat
+ 0.6 kb	 0.0% Assets/Prefabs/System/Fuel Source Marker Prefab.prefab
+ 0.6 kb	 0.0% Assets/Prefabs/System/Effect Source Marker Prefab.prefab
+ 0.6 kb	 0.0% Assets/Prefabs/System/Drag Source Marker Prefab.prefab
+ 0.6 kb	 0.0% Assets/Prefabs/System/Damage Source Marker Prefab.prefab
+ 0.6 kb	 0.0% Assets/Prefabs/System/Scannable Marker Prefab.prefab
+ 0.6 kb	 0.0% Assets/Prefabs/Upgrades/Radar Active Mk 1.prefab
+ 0.6 kb	 0.0% Assets/Plugins/SimpleSpectrum/Misc/lightweightGradientSprite.mat
+ 0.6 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Resources/SplineRenderer.mat
+ 0.6 kb	 0.0% Assets/Prefabs/Sim Path Renderer Prefab.prefab
+ 0.6 kb	 0.0% Assets/Plugins/MobilePostProcess/PostProcessUrp.mat
+ 0.6 kb	 0.0% Assets/Plugins/SimpleSpectrum/Misc/swatchWhite.png
+ 0.5 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Textures/White1px.png
+ 0.5 kb	 0.0% Assets/Prefabs/Upgrades/Long Range Sensors Mk 1.prefab
+ 0.5 kb	 0.0% Assets/Prefabs/Upgrades/ShieldMk3.prefab
+ 0.5 kb	 0.0% Assets/Prefabs/Upgrades/ShieldMk2.prefab
+ 0.5 kb	 0.0% Assets/Prefabs/Upgrades/ShieldMk1.prefab
+ 0.5 kb	 0.0% Assets/Prefabs/Radar Active Ping Prefab.prefab
+ 0.5 kb	 0.0% Assets/Textures/Particles/ember.png
+ 0.5 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Art/Materials/Node.mat
+ 0.4 kb	 0.0% Assets/Prefabs/SOI Marker Prefab.prefab
+ 0.4 kb	 0.0% Assets/Plugins/SimpleSpectrum/Bar Prefabs/SpriteMiddle.prefab
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI VBox.prefab
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Widgets/DebugUI HBox.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/MapLinkMarkerPrefab.prefab
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_9.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_8.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_7.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_6.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_5.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_4.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_31.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_30.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_3.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_29.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_28.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_27.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_26.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_25.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_24.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_23.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_22.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_21.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_20.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_2.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_19.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_18.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_17.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_16.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_15.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_14.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_13.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_12.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_11.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_10.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_1.png
+ 0.4 kb	 0.0% Packages/com.unity.render-pipelines.universal/Textures/BlueNoise16/L/LDR_LLL1_0.png
+ 0.4 kb	 0.0% Assets/Settings/URP.asset
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Hot Gas Giant Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Greenhouse Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Ice Giant Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Gas Giant Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Desert Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Default Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Unknown Body Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Rocky Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Lava Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Ice Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Gaia Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Dead Planet Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Station Icon Prefab.prefab
+ 0.4 kb	 0.0% Assets/Prefabs/UI/StarSystemUI/Body Icons/Belt Icon Prefab.prefab
+ 0.3 kb	 0.0% Assets/Settings/Upgrades/Sets/Upgrades.asset
+ 0.3 kb	 0.0% Assets/Plugins/SimpleSpectrum/Misc/SimpleSpectrumMuteMixer.mixer
+ 0.3 kb	 0.0% Assets/Plugins/IngameDebugConsole/Prefabs/CommandSuggestion.prefab
+ 0.3 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Unlit-Default.mat
+ 0.3 kb	 0.0% Assets/Prefabs/UI/PlanetIndicatorPrefab.prefab
+ 0.3 kb	 0.0% Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt
+ 0.3 kb	 0.0% Assets/TextMesh Pro/Resources/TMP Settings.asset
+ 0.2 kb	 0.0% Assets/Settings/URP_Asset.asset
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Utils/ScreenSpaceShadows.shader
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Weapon Rocket Launcher Mk 1.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Fuel Tank Mk 3.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Fuel Tank Mk 2.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Fuel Tank Mk 1.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Weapon Machinegun Mk 1.prefab
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineEditorResources.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/CinemachineUniversalPixelPerfect.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/RestoreTestContextAfterDomainReload.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/AdditionalLightsShadowCasterPass.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RenderGraph/RenderGraphResourceRegistry.cs
+ 0.2 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/RectMask2DWithNestedCanvasCullsUsingCorrectCanvasRect.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Shadows/ShadowCasterGroup2DManager.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/PixelPerfectCameraInternal.cs
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/WarpDriveMk2.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/WarpDriveMk1.prefab
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Tests/Runtime/PixelPerfectCameraTests.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/ScreenSpaceShadowResolvePass.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/MainLightShadowCasterPass.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/InvokeOnRenderObjectCallbackPass.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RenderGraph/RenderGraphObjectPool.cs
+ 0.2 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/SubpixelMorphologicalAntialiasing.cs
+ 0.2 kb	 0.0% Packages/com.unity.timeline/Runtime/AssetUpgrade/AnimationPlayableAssetUpgrade.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/CompositeShadowCaster2D.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityTestExecutionContext.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableApplyChangesToContextCommand.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRendererFeature.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ShadowsMidtonesHighlights.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RenderGraph/RenderGraphLogger.cs
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Thrusters Mk 3.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Thrusters Mk 2.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/Thrusters Mk 1.prefab
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/Vector4ComparerWithEqualsOperator.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/Vector3ComparerWithEqualsOperator.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/Vector2ComparerWithEqualsOperator.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/RemoteHelpers/RemoteTestResultDataWithTestData.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/Callbacks/TestResultRendererCallback.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/RenderObjectsPass.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/MeshUtils.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Shadows/ShadowCasterGroup2D.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/PixelPerfectCamera.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Passes/Utility/Light2DLookupTexture.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Passes/Render2DLightingPass.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/CoreRenderPipelinePreferences.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerPersistentCanvas.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerIndirectFloatField.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/PlaymodeTestsControllerSettings.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityWorkItemDataHolder.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityTestAssemblyRunner.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/PlaymodeWorkItemFactory.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/CoroutineTestWorkItem.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Filters/CategoryFilterExtended.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/UnexpectedLogMessageException.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipeline.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRendererData.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/TransparentSettingsPass.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPassCompat.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/ColorGradingLutPass.cs
+ 0.2 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessEffectSettings.cs
+ 0.2 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessEffectRenderer.cs
+ 0.2 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/FastApproximateAntialiasing.cs
+ 0.2 kb	 0.0% Assets/Settings/URP WorldUI.asset
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/RemoteHelpers/RemoteTestResultDataFactory.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/RemoteHelpers/PlayerConnectionMessageIds.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/Callbacks/RemoteTestResultSender.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/Callbacks/PlayModeRunnerCallback.cs
+ 0.2 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/AllocatingGCMemoryConstraint.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/RenderObjects.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Shadows/ShadowUtility.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/ShadowCaster2D.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Renderer2DData.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Passes/Utility/RendererLighting.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerToggleHistory.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerIndirectToggle.cs
+ 0.2 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerEnumHistory.cs
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/SensorsMk2.prefab
+ 0.2 kb	 0.0% Assets/Prefabs/Upgrades/SensorsMk1.prefab
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/UnityTestAssemblyBuilder.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/TestCommandBuilder.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/DefaultTestWorkItem.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/CompositeWorkItem.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Filters/AssemblyNameFilter.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableSetUpTearDownCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableRepeatedTestCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestMustExpectAllLogsAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/UnityTestTimeoutException.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/UnhandledLogMessageException.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/InvalidSignatureException.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ScriptableRenderer.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/SceneViewDrawMode.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/ScriptableRenderPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/PostProcessPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/FinalBlitPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/DrawObjectsPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/DepthOnlyPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/CopyDepthPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/CopyColorPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ChromaticAberration.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ForwardRendererData.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ForwardLights.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RenderGraph/RenderGraph.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/TextureFormatUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessRenderContext.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessDebugLayer.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/ScreenSpaceReflections.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/CanvasScalerWithChildTextObjectDoesNotCrash.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/QuaternionEqualityComparer.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/PlayerTestAssemblyProvider.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/RuntimeTestRunnerFilter.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/Callbacks/TestResultRenderer.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/Callbacks/PlayerQuitHandler.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/Tess.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/Mesh.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/Geom.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Renderer2D.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/LightUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Textures/BufferedRTHandleSystem.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerVector4.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerVector3.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerVector2.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerUIntField.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerIntField.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerFoldout.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerFloatField.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerEnumField.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerContainer.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerBitField.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/DynamicResolutionHandler.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Sets/Initial Upgrades.asset
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/ScrollSnapScrollbarHelper.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/ContentScrollSnapHorizontal.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/PostBuildCleanupAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/TestEnumeratorWrapper.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/PlaymodeTestsController.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/TestResultExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/WorkItemFactory.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityWorkItem.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/ConstructDelegator.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/OuterUnityTestActionCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/ImmediateEnumerableCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableRetryTestCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandState.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/UnityCombinatorialStrategy.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/ConditionalIgnoreAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/RenderingUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/PostProcessUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/DrawSkyboxPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/PaniniProjection.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/LiftGammaGain.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/LensDistortion.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ColorAdjustments.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ForwardRenderer.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Data/PostProcessData.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/PropertySheetFactory.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessVolume.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessResources.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessProfile.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessBundle.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/ParameterOverride.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Monitors/VectorscopeMonitor.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Monitors/LightMeterMonitor.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/TemporalAntialiasing.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/ChromaticAberration.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Attributes/TrackballAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Attributes/PostProcessAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Attributes/DisplayNameAttribute.cs
+ 0.1 kb	 0.0% Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/CameraBackgroundColor.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorPickerTester.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorPickerPresets.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorPickerControl.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/NestedLayout/SceneWithNestedLayoutElementsLoadScript.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/GraphicRaycasterWorldSpaceCanvasTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/NoActiveCameraInSceneDoesNotCrashEditor.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/CanvasSizeCorrectInAwakeAndStartScript.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Animation/AnimationPreviewUpdateCallback.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Animation/AnimationOutputWeightProcessor.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/Vector4EqualityComparer.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/Vector3EqualityComparer.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/Vector2EqualityComparer.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/TestRunCallbackListener.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/FloatEqualityComparer.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/ColorEqualityComparer.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/ScriptingRuntimeProxy.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/SynchronousFilter.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/RemoteHelpers/RemoteTestResultData.cs
+ 0.1 kb	 0.0% Packages/com.unity.shadergraph/ShaderGraphLibrary/DummyShaderGraphLibrary.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Light2D.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/CameraCaptureBridge.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerWidget.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerValue.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerVBox.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerToggle.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerPanel.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerHBox.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerColor.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerCanvas.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/DebugUIHandlerButton.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/MousePositionDebug.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/GlobalDynamicResolutionSettings.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/CommandBufferPool.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UI_ScrollRectOcclusion.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UISelectableExtension.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UIScrollToSelectionXY.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ScrollConflictManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/InputFieldEnterSubmit.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UILineTextureRenderer.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/ScrollPositionController.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/ScrollRect/FancyScrollRectContext.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ReorderableList/ReorderableListElement.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ReorderableList/ReorderableListContent.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/HorizontalOrVerticalLayoutGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/TestRunCallbackAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/TestListenerWrapper.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/TestExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/FailCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/UnityTestMethodCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/BaseDelegator.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/UnityTearDownAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/UnityPlatformAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/ActionDelegator.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/UniversalRenderPipelineCore.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ShadowUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ShaderUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/ShaderData.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/CapturePass.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/WhiteBalance.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Tonemapping.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/SplitToning.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/MotionBlur.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/FilmGrain.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/DepthOfField.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ColorLookup.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ColorCurves.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ChannelMixer.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/TextureLerper.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/RuntimeUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/PropertySheet.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/MeshUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/ColorUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessLayer.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessDebug.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Monitors/WaveformMonitor.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Monitors/HistogramMonitor.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/LensDistortion.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/AmbientOcclusion.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Attributes/MinMaxAttribute.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/SpriteRendererColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugsOnScrollListener.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogResizeListener.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogRecycledListView.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/ConsoleMethodAttribute.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Android/DebugLogLogcatListener.cs
+ 0.1 kb	 0.0% Assets/Plugins/Catlike Coding/SDF Toolkit/SDFTextureGenerator.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/HexColorField.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorSliderImage.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/NestedLayout/SceneWithNestedLayoutElementsLoads.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/CoroutineWorksIfUIObjectIsAttached.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/AnimationPreviewUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/TimeNotificationBehaviour.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/ActivationControlPlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/AssemblyLoadProxy.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/RemoteHelpers/RemoteTestData.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeProfile.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeParameter.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeComponent.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/TileLayoutUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/ResourceReloader.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/HaltonSequence.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/DelegateUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Textures/RTHandleSystem.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/ShaderGenerator/ShaderGeneratorAttributes.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Documentation.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/CoreUnsafeUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Camera/CameraSwitcher.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/Tests/Runtime/PostProcessingRuntimeTests.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Utilities/SplineControlledParticleSystem.cs
+ 0.1 kb	 0.0% Assets/Plugins/MobilePostProcess/PostProcessUrpPass.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UI_InfiniteScroll.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UIScrollToSelection.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UIExtensionMethods.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/SetPropertyUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ScrollRectTweener.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ScrollRectExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ReadOnlyAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/PaginationManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/NonDrawingGraphic.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/ToolTips/BoundTooltip/BoundTooltipTrigger.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/TabNavigationHelper.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UILineRendererList.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/VerticalScrollSnap.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/UIVerticalScroller.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/HorizontalScrollSnap.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/GridView/FancyGridViewContext.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CardUI/Superellipse Creation/SuperellipsePoints.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/InputModules/AimerInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShaderEffects/UISoftAdditiveEffect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShaderEffects/UILinearDodgeEffect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/SelectionBox/ExampleSelectable.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ReorderableList/ReorderableListDebug.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/MultiTouchScrollRect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ComboBox/DropDownListButton.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ComboBox/AutoCompleteComboBox.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Util/UIBehaviourExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/InputModules/StandaloneInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/AssetUpgrade/AnimationTrackUpgrade.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/Messages/IEditModeTestYieldInstruction.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/TestCommandPcHelper.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/TestActionCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/SetUpTearDownCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestState.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/UnityTestAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/UnitySetUpAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Vignette.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Bloom.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/TargetPool.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/ShaderIDs.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/LogHistogram.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/HaltonSeq.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/HableCurve.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/ScalableAO.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/MultiScaleVO.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/MotionBlur.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/Dithering.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/DepthOfField.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/ColorGrading.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/AutoExposure.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Attributes/MinAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Attributes/MaxAttribute.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Sets/AI Level 1 Upgrades.asset
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/TextMeshColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/SplinePercentage.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShakePosition.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/RawImageColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalRotation.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalPosition.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightIntensity.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/CanvasGroupAlpha.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/AnchoredPosition.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/Helpers/TweenUtilities.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogIndexList.cs
+ 0.1 kb	 0.0% Assets/Plugins/Catlike Coding/SDF Toolkit/UIMaterialLink.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ReturnKeyTriggersButton.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ExtensionsToggleGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/InputModules/GamePadInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/SVBoxSlider.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorSlider.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorSampler.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorLabel.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorImage.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/InputField/GenericInputFieldTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/InputField/DesktopInputFieldTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/RectTransformValidAfterEnable.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/NestedCanvasMaintainsCorrectSize.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/CheckMeshColorsAndColors32Match.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/CanvasSizeCorrectInAwakeAndStart.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/BridgeScriptForRetainingObjects.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/TimelineCreateUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/NotificationUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/PrefabControlPlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/ParticleControlPlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/DirectorControlPlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/Signals/CustomSignalEventDrawer.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Animation/AnimationPlayableAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Activation/ActivationPlayableAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Activation/ActivationMixerPlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_ScrollbarEventHandler.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_PackageResourceImporter.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_EditorResourceManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/CoroutineRunner.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/AssemblyWrapper.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeStack.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/TextureCurve.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/HableCurve.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/CoreUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/ColorUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Textures/TextureXR.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Textures/RTHandles.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/Prefabs/Scripts/UIFoldout.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugUpdater.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugShapes.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/XRGraphics.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Camera/FreeCamera.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RadarActive/RadarActiveTargetIndicatorComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RadarActive/RadarActiveIndicatorManagerComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/PlayerMovementControllerDragJoystick.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/Helpers/TweenEngine.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/ColliderButton/Utilities/ColliderButtonInteraction.cs
+ 0.1 kb	 0.0% Assets/Plugins/MobilePostProcess/PostProcessUrp.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Tests/Util/TestButtonHandler.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/Internal/AsyncCoroutineRunner.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/VR Extensions/VRInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UI_TweenScale.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UILineConnector.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/UIHighlightable.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/SelectableScaler.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ScrollRectLinker.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ExtentionMethods.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/DragCorrector.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/ToolTips/TooltipTrigger.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/ToolTips/BoundTooltip/BoundTooltipItem.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UIPrimitiveBase.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UILineRenderer.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UIGridRenderer.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/TileSizeFitter.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/TableLayoutGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/ScrollSnapBase.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FlowLayoutGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CardUI/3D Cards/CardExpanding3D.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CardUI/2D Cards/CardExpanding2D.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/UIParticleSystem.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/SoftMaskScript.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShineEffector.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShaderEffects/UIScreenEffect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShaderEffects/UIMultiplyEffect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShaderEffects/UIAdditiveEffect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/LetterSpacing.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/CurlyUI/CUIBezierCurve.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/BestFitOutline.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/SegmentedControl.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/RescalingPanels/RescaleDragPanel.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ReorderableList/ReorderableList.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/CooldownButton.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ComboBox/DropDownListItem.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/Accordion/AccordionElement.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Util/GraphicTestHelper.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Util/ExceptionUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/MaskClipping/RectMask2DClipping.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Layout/VerticalLayoutGroupTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Layout/ContentSizeFitterTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Utility/ReflectionMethodsCache.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/MultipleDisplayUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/HorizontalLayoutGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/GraphicRebuildTracker.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Culling/RectangularVertexClipper.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/Raycasters/Physics2DRaycaster.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/InputModules/PointerInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/PrebuildSceneSetupAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AttributeHelper.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/RemoteHelpers/IRemoteTestResultDataFactory.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Runner/IEnumerableTestMethodCommand.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/IAsyncTestAssemblyBuilder.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/RenderTargetHandle.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Passes/SceneViewDepthCopy.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Light2DBlendStyle.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Tests/Runtime/RuntimeExampleTest.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/ShaderLibrary/DummyShaderLibrary.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Inputs/InputRegistering.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/Spline.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Monitors/Monitor.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/Vignette.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/Grain.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/Bloom.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector4.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector3.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector2.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueRect.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueFloat.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/TextColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderVector.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderInt.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderFloat.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ShaderColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/PanStereo.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/LocalScale.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightRange.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/LightColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ImageColor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/FieldOfView.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/Helpers/TweenBase.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogPopup.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogManager.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogEntry.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogConsole.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/IEnumeratorAwaitExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/HSVUtil.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/TextEditor/TextEditorBackspaceDelete.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Layout/HorizonalLayoutGroupTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/InputField/TouchInputFieldTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/InputModuleTests/PointerClickCallbackCheck.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/SiblingOrderChangesLayout.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/CanvasGroupInheritedAlpha.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/AnimatorBindingCache.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/TimeControlPlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Evaluation/ScheduleRuntimeClip.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Evaluation/InfiniteRuntimeClip.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Control/ControlPlayableAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Audio/AudioPlayableAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Audio/AudioMixerProperties.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Audio/AudioClipProperties.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Attributes/TrackColorAttribute.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMPro_ExtensionMethods.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_TextParsingUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_TextElement_Legacy.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SpriteAssetImportFormats.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAssetUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/MaterialReferenceManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Volume/Volume.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/XRUtils.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/SceneRenderPipeline.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Textures/RTHandle.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RenderGraph/RenderGraphResource.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RenderGraph/RenderGraphProfileId.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RenderGraph/RenderGraphBuilder.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugUI.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugUI.Containers.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugManager.Actions.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/SerializedDictionary.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/ComponentSingleton.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WeaponComponentRocketLauncher.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RadialDetectorVisualComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/PlayerMovementControllerButton.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/MapSystemGeneratorTestComponent.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Utilities/LayerMaskHelper.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Utilities/Initialization.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Utilities/EditorUtilities.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Utilities/SplineRenderer.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Objects/SplineTangent.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Objects/SplineFollower.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/DisplayObject/DisplayObject.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/ColliderButton/Utilities/ColliderButtonSelector.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/ColliderButton/ColliderButton.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Tests/AsyncUtilTests.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/Internal/SyncContextUtil.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ScrollRectEx.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/PPIViewer.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/CableCurve.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/BezierPath.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/UIWindowBase.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/ToolTips/HoverTooltip.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UIPolygon.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UICornerCut.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/DiamondGraph.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/MenuSystem/MenuManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/ScrollSnap.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/RadialLayout.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CurvedLayout.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CardUI/Superellipse Creation/Triangulator.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CardUI/Superellipse Creation/MeshCreator.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CardUI/2D Cards/CardStack2D.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/CardUI/2D Cards/CardPopup2D.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/UIFlippable.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShineEffect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/ShaderEffects/UIImageCrop.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/RaycastMask.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/NicerOutline.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/MonoSpacing.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/Gradient2.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/CylinderText.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/CurvedText.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/CurlyUI/CUIGraphic.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/StepperSide.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/SelectionBox/SelectionBox.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/RescalingPanels/ResizePanel.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/RescalingPanels/RescalePanel.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/RangeSlider.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/RadialSlider.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/InputFocus.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ComboBox/DropDownList.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/TiltWindow.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/BoxSlider.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/Accordion/Accordion.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Util/ConcreteGraphic.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Toggle/TestableToggleGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Layout/LayoutGroupScaling.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/SelectableTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/SetPropertyUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/VerticalLayoutGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/ContentSizeFitter.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/AspectRatioFitter.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/FontUpdateTracker.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/CanvasUpdateRegistry.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/AnimationTriggers.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/Raycasters/PhysicsRaycaster.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/Raycasters/BaseRaycaster.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/RaycasterManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/InputModules/TouchInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/InputModules/BaseInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/ExecuteEvents.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventData/PointerEventData.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventData/BaseEventData.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventData/AxisEventData.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/TimelineAsset_CreateRemove.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/INotificationOptionProvider.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/IOuterUnityTestAction.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/ITestAssemblyProvider.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/IScriptingRuntimeProxy.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/LogScope/LogScope.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/LogScope/LogMatch.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/LogScope/LogEvent.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/LogAssert.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/ConstraintsExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Tests/Runtime/RuntimeTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Tests/Runtime/Light2DTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/PriorityQueue.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/Data/RenderStateData.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Effects/Fog.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Weapon Laser Mk 3.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Weapon Laser Mk 2.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Weapon Laser Mk 1.asset
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/Volume.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueInt.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/Rotation.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/Rotate.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/Position.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/Pitch.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/DebugLogItem.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/WaitForBackgroundThread.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/switchToRectTransform.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/ExtensionsToggle.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/ScrollRect/IFancyScrollRectContext.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/GridView/IFancyGridViewContext.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/GridView/IFancyCellGroupContext.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/ScrollRect/ScrollRectStableLayout.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/LayoutGroup/LayoutGroupArrangement.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/InputField/FakeInputModule.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Image/ImageFilledGenerateWork.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/PhysicsRaycasterTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/GraphicRaycasterTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/WeightUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/Extrapolation.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/TimelinePlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/TimelineAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Scripting/PlayableTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/Signals/SignalReceiver.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/Signals/SignalEmitter.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Evaluation/RuntimeElement.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Evaluation/RuntimeClipBase.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Animation/AnimationTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Activation/ActivationTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMPro_EventManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_UpdateManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_TextUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_TextProcessingStack.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SpriteCharacter.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SpriteAnimator.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SelectionCaret.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_RichTextTagsCommon.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_MaterialManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_InputValidator.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontFeaturesCommon.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontFeatureTable.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_DefaultControls.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Compatibility.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_ColorGradient.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/Utils.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/Is.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderTypes.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/MaterialQuality.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/LookDev/IDataProvider.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/ProfilingScope.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugUI.Panel.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Debugging/DebugUI.Fields.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/ObservableList.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/CommonStructs.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/Utils/XRSettings.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Thrusters Mk 3.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Thrusters Mk 2.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Thrusters Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Fuel Tank Mk 3.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Fuel Tank Mk 2.asset
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/SelfDestroyingParticleSystem.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/CanvasPositioningExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/OffScreenIndicatorManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WeaponComponentMachinegun.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/StateMachine/StateMachine.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Objects/SplineAnchor.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Objects/BezierCurves.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/VR Extensions/VRCursor.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/Circle.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/CLZF2.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/ToolTips/ToolTip.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Primitives/UICircle.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/Scroller/Scroller.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/Gradient.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/CurlyUI/CUIText.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/CurlyUI/CUIImage.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/UI_Knob.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/TextPic.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/Stepper.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/Segment.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ComboBox/ComboBox.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Util/ImageHook.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Toggle/ToggleGroupTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Graphic/ImageTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/VertexModifiers/PositionAsUV1.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/VertexModifiers/BaseMeshEffect.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/StencilMaterial.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/MaskableGraphic.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/MaskUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/LayoutUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/LayoutRebuilder.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/LayoutElement.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/GridLayoutGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/IGraphicEnabledDisabled.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/GraphicRegistry.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/GraphicRaycaster.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/DefaultControls.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Culling/ClipperRegistry.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/UIBehaviour.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/InputModules/BaseInput.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventTrigger.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Tests/Runtime/TMP_RuntimeTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/MonoBehaviourTest/MonoBehaviourTest.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/MonoBehaviourTest/IMonoBehaviourTest.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/IPrebuildSceneSetup.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/IPostBuildCleanup.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/IAssemblyLoadProxy.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/ITestRunnerListener.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/SampleCount.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/PriorityHeap.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/AssemblyInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Light2DStub.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Light2DShape.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/2D/Light2DPoint.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Shield Mk 3.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Shield Mk 2.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Shield Mk 1.asset
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/Size.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/Scroller/MovementDirection.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/ScrollRect/FancyScrollRectCell.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/GridView/FancyGridViewCell.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/Events/ColorChangedEvent.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Util/PrivateFieldSetter.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Layout/GridLayoutGroupTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Graphic/ToggleTestImageHook.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/RaycastSortingTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/InputModuleTests/DragCallbackCheck.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/CreateSceneUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/TimelineUndo.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/TimeUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/HashUtility.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/TrackAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/TimelineClip.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/GroupTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/Signals/SignalAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/SignalTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/MarkerTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Evaluation/RuntimeClip.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Control/ControlTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Audio/AudioTrack.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshProUGUI.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TextContainer.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMPro_UGUI_Private.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMPro_MeshUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_UpdateRegistery.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_TextElement.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SubMeshUI.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_StyleSheet.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SpriteGlyph.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SpriteAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_ShaderUtilities.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_ResourcesManager.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_InputField.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAssetCommon.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_CoroutineTween.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_CharacterInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Character.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/ITextPreProcessor.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Textures/MSAASamples.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Textures/DepthBits.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/RendererList/RendererList.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/ObjectPools.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Common/DynamicArray.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/AssemblyInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.postprocessing/PostProcessing/Runtime/PostProcessEvent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/SimpleBallisticMovement.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/RectTransformExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/ParticleSystemExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/EventTriggerExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/CameraPostEffectRadius.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/UIAttachmentPointManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/SimpleCameraController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/FollowCameraController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/CameraPointOfInterest.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RocketUnguidedController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RadialDetectorComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RadarActive/RadarActivePingComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/PlayerWeaponController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/FuelMainTankComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/FuelBoosterTankComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/BulletUnguidedController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Objectives/PositionalObjectiveBase.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionMapSystemFactory.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/StarOrPlanetGenerator.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/Tween.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/StateMachine/State.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Objects/Spline.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Chooser/Chooser.cs
+ 0.1 kb	 0.0% Assets/Plugins/IngameDebugConsole/Scripts/CircularBuffer.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/MenuSystem/Menu.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Toggle/ToggleTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Utility/VertexHelper.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/ToggleGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Selectable.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Scrollbar.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/ScrollRect.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/RectMask2D.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/MaterialModifiers/IMaterialModifier.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/LayoutGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/CanvasScaler.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/InputField.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/IPropertyCollector.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/TimelineAttributes.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Timeline.deprecated.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/NotificationFlags.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/BasicScriptPlayable.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/StacktraceFilter.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/ITestRunCallback.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Utils/AssemblyProvider/IAssemblyWrapper.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/NUnitExtensions/IStateSerializer.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Shaders/Shaders.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/Sweep.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Weapon Rocket Launcher Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Warp Drive Mk 2.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Warp Drive Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Fuel Scoop Mk 2.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Fuel Scoop Mk 1.asset
+ 0.1 kb	 0.0% Assets/Plugins/SimpleSpectrum/Scripts/Runtime/SimpleSpectrum.cs
+ 0.1 kb	 0.0% Assets/Plugins/SimpleSpectrum/Scripts/Runtime/SSWebInteract.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/WaitForUpdate.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/TaskExtensions.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/AwaitExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Utilities/TestCompression.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/Scroller/ScrollDirection.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/ScrollRect/FancyScrollRect.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/GridView/FancyGridView.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/GridView/FancyCellGroup.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/Core/FancyScrollView.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/SelectionBox/IBoxSelectable.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/Events/HSVChangedEvent.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/TextEditor/TextEditorTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/ScrollRect/ScrollRectTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/ScrollRect/ScrollRectScale.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/ScrollRect/ScrollRectClamp.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/ScrollBar/ScrollBarTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/ScrollBar/ScrollBarClamp.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/InputField/InputFieldTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Image/TestableImage.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Graphic/RawImageTestHook.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Graphic/RawImageTest.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Graphic/MaskTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Graphic/GraphicTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/InputModuleTests/FakeBaseInput.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/InputModuleTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Dropdown/DropdownTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/Marker.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshPro.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMPro_Private.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_TextInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_SubMesh.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Style.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Sprite.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Settings.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_ObjectPool.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Dropdown.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Asset.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/FastAction.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.core/Runtime/Utilities/BitArray.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Weapon Mining Laser Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Weapon Machinegun Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Sensors Mk 2.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Sensors Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Long Range Sensors Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Game Constants.asset
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/MapSystemMarkerUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/ContextActionManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/CameraShakeEffect.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/PlanetRingRenderer.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/MultipleAsteroids.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WeaponComponentLaser.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WeaponComponentBase.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RadarActive/RadarActiveReflector.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/RadarActive/RadarActiveComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/FuelTankComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionSurveyFactory.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionListUIBase.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionFindFactory.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionExpandFactory.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/DiscoverableScanner.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/AI/AIFiringController.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Spline/Objects/CurveDetail.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Singleton/Singleton.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/VertexModifiers/Shadow.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/VertexModifiers/Outline.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/VertexModifiers/IMeshModifier.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Toggle.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Slider.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/RawImage.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Layout/ILayoutElement.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Image.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Graphic.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/FontData.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Dropdown.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Culling/Clipping.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Button.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Animation/CoroutineTween.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/RaycastResult.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/MoveDirection.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventTriggerType.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventInterfaces.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Utilities/IPropertyPreview.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Extensions/TrackExtensions.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/AssetUpgrade/TimelineUpgrade.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/TestRunner/TestPlatform.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/Assertions/LogScope/ILogScope.cs
+ 0.1 kb	 0.0% Packages/com.unity.test-framework/UnityEngine.TestRunner/AssemblyInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.render-pipelines.universal/Runtime/External/LibTessDotNet/Dict.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Radar Active Mk 1.asset
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Fuel Tank Extension.asset
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/DockedOptions.cs
+ 0.1 kb	 0.0% Assets/Plugins/SimpleSpectrum/Scripts/Runtime/OutputVolume.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/MenuSystem/SimpleMenu.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/IScrollSnap.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/Scroller/MovementType.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/Scroller/EasingCore.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Layout/FancyScrollView/Core/FancyCell.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/ColorPicker/ColorValues.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/Accordion/Tweening/TweenRunner.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/Accordion/Tweening/ITweenValue.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Controls/Accordion/Tweening/FloatTween.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Slider/SliderTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Image/ImageTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/EventSystem/InputModuleTests/MouseUpdate.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Canvas/NestedCanvas.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Button/TestButton.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Tests/Runtime/Button/ButtonTests.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_Text.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_MeshInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_ListPool.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_LineInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.textmeshpro/Scripts/Runtime/AssemblyInfo.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Fuel Tank Mk 1.asset
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/WeightedRandom.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/VectorExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/UnityExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/SavableObject.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/LINQExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/GoodingSolverF.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/GoodingSolver.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/FixedRotation.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/FadeableAudio.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/ColorExtensions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Upgrades/UpgradeManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/UpgradeItemUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/StarSystemUIBody.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/ScaleToFitParent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/PinchZoomCamera.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/ObjectiveIcon.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/NotificationsUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/MapLinkMarkerUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/GUILayerManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/FixDamageButton.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/FactionInfoUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/DragToFireWeapon.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/CreditDisplayUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/CircleRenderer.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/TargetAreaTimed.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/NameGenerator.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/GravitySource.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/ComponentCache.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/AsteroidLogic.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Simulation/SectionedSimPath.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WeaponController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WarpController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WarpComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/ThrustComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/ShieldComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/PlayerController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/HealthComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/EngineController.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/ControllerBase.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Objectives/ScanObjective.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Objectives/OrbitObjective.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Objectives/ObjectiveManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Objectives/MineObjective.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Objectives/FlybyObjective.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionItemUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionBoardUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionActiveUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/PlanetGenerator.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/BodyGenerator.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/GameConstants.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/RingEffectSource.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/RingDamageSource.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/DamageReceiver.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/AI/FactionSpawns.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/AI/FactionExpansion.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/AI/AIEnemyBehaviour.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Events/Events.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Chooser/Interfaces/IChooser.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Utility/ObjectPool.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Text.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/SpriteState.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/SpecializedCollections/IndexedSet.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Navigation.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Misc.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Mask.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/IMaskable.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Culling/IClipRegion.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/ColorBlock.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/Properties/AssemblyInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/EventSystem/EventHandle.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Properties/AssemblyInfo.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Playables/ITimeControl.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/ILayerable.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/MarkerList.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Evaluation/IntervalTree.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/DiscreteTime.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/AssetUpgrade/TrackUpgrade.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/AssetUpgrade/ClipUpgrade.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Animation/ICurvesOwner.cs
+ 0.1 kb	 0.0% Assets/Settings/Upgrades/Scanner Mk 1.asset
+ 0.1 kb	 0.0% Assets/Scripts/Tests/MathXTests.cs
+ 0.1 kb	 0.0% Assets/Plugins/AsyncAwaitUtil/Source/Awaiters.cs
+ 0.1 kb	 0.0% Packages/com.unity.uiextensions/Runtime/Scripts/Effects/CurlyUI/CUIMisc.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/ThreadingX.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/PostEffect.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/OrbitPhysics.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/IL2CPPAOT.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/CloneCamera.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Upgrades/UpgradeSet.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Upgrades/UpgradeDef.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/UpgradeUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/TargetArrow.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/StarSystemUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/ShieldBar.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/SaveButton.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/FuelTankBar.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/FuelGauge.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/DragToFire.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/DragJoystick.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/CameraIntro.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/TargetArea.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/StationLogic.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/StarLogic.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/StarField.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/RayShadow.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/DataCatalog.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/CometTail.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/BodyLogic.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/Background.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/AsteroidRing.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Simulation/Simulation.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Simulation/SimMovement.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Simulation/PathSection.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Ship/WarpEffect.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/SaveSystem.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Objectives/Objective.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/MissionMapUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/SunGenerator.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/MapGenerator.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/MapComponent.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/BodySpecs.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/GameLogic.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/Scannable.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/FuelSource.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/FuelScoop.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/EffectSource.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/DragSource.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/DragReceiver.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/DockPassive.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/DockActive.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/Discoverable.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/DamageSource.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/AI/AIController.cs
+ 0.1 kb	 0.0% Assets/Plugins/Pixelplacement/Surge/Runtime/Utilities/Math.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/Utility/ListPool.cs
+ 0.1 kb	 0.0% Packages/com.unity.ugui/Runtime/UI/Core/IMask.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Events/IMarker.cs
+ 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/ClipCaps.cs
+ 0.1 kb	 0.0% Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.mat
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/AI/Behave/Node.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/TaskX.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/RandomX.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/MathX.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/Geometry.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/GUIUtils.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/DictX.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/Delaunay.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Util/AStar.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/MapUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/HullBar.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/UI/DialogUI.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/SmokeVFX.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/System/Orbit.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Simulation/SimPath.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Simulation/SimModel.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Missions/Missions.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/Yields.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/MapAStar.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/Sensors.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/Scanner.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/Miner.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Effects/Mineable.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/AI/Faction.cs
+ 0.1 kb	 0.0% Assets/Scripts/Runtime/Map/Map.cs
+ 0.0 kb	 0.0% Assets/Settings/Game Logic.asset
+-------------------------------------------------------------------------------
+Unloading 374 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 114.2 MB.
+System memory in use after: 112.1 MB.
+
+Unloading 2613 unused Assets to reduce memory usage. Loaded Objects now: 3031.
+Total: 6.101500 ms (FindLiveObjects: 0.566100 ms CreateObjectMapping: 0.147700 ms MarkObjects: 2.953300 ms  DeleteObjects: 2.433600 ms)
+
+DisplayProgressNotification: Build Successful
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            0.604 ms
+	Integration:            174.855 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       28.802 ms
+	Total Operation Time:   204.264 ms
+System memory in use before: 101.2 MB.
+System memory in use after: 101.5 MB.
+
+Unloading 0 unused Assets to reduce memory usage. Loaded Objects now: 3024.
+Total: 3.402600 ms (FindLiveObjects: 0.208000 ms CreateObjectMapping: 0.056400 ms MarkObjects: 3.127900 ms  DeleteObjects: 0.009800 ms)
+
+Batchmode quit successfully invoked - shutting down!
+[Performance] WinEditorMain                                               :        1 samples, Peak.  1.12 s (1.0x), Avg.  1.12 s, Total. 1.119 s (1.1%)
+[Performance] WinEditorMain.ConfigureCrashHandler                         :        1 samples, Peak.  15.7 us (1.0x), Avg.  15.7 us, Total. 15.70 us (0.0%)
+[Performance] WinEditorMain.CurlRequestInitialize                         :        1 samples, Peak.  1.54 ms (1.0x), Avg.  1.54 ms, Total. 1.542 ms (0.0%)
+[Performance] WinEditorMain.SetupLogFile                                  :        1 samples, Peak.   314 us (1.0x), Avg.   314 us, Total. 313.7 us (0.0%)
+[Performance] WinEditorMain.RunNativeTestsIfRequiredAndExit               :        1 samples, Peak.  2.40 us (1.0x), Avg.  2.40 us, Total. 2.400 us (0.0%)
+[Performance] WinEditorMain.Licensing                                     :        1 samples, Peak.  1.08 s (1.0x), Avg.  1.08 s, Total. 1.085 s (1.1%)
+[Performance] WinEditorMain.InitializeCrashHandler                        :        1 samples, Peak.  31.7 ms (1.0x), Avg.  31.7 ms, Total. 31.75 ms (0.0%)
+[Performance] WinEditorMain.CreateApplication                             :        1 samples, Peak.   164 us (1.0x), Avg.   164 us, Total. 163.8 us (0.0%)
+[Performance] Application.InitializeProject                               :        1 samples, Peak.  6.67 s (1.0x), Avg.  6.67 s, Total. 6.666 s (6.6%)
+[Performance] Application.PackageManager.StartServer                      :        1 samples, Peak.  2.45 ms (1.0x), Avg.  2.45 ms, Total. 2.451 ms (0.0%)
+[Performance] Application.IsBrowserCacheEmpty                             :        1 samples, Peak.   390 us (1.0x), Avg.   390 us, Total. 389.9 us (0.0%)
+[Performance] Application.AcquireProjectLock                              :        1 samples, Peak.  2.78 ms (1.0x), Avg.  2.78 ms, Total. 2.777 ms (0.0%)
+[Performance] Application.InitializeEngineNoGraphics                      :        1 samples, Peak.  11.2 ms (1.0x), Avg.  11.2 ms, Total. 11.19 ms (0.0%)
+[Performance] Application.PackageManager.Initialize                       :        1 samples, Peak.   574 ms (1.0x), Avg.   574 ms, Total. 573.6 ms (0.6%)
+[Performance] CurlRequestCheck                                            :       10 samples, Peak.  89.2 us (4.3x), Avg.  21.0 us, Total. 209.7 us (0.0%)
+[Performance] PackageManager::RunRequestSynchronously                     :       14 samples, Peak.   495 us (10.5x), Avg.  47.2 us, Total. 660.2 us (0.0%)
+[Performance] Application.EngineGraphics.Initialize                       :        1 samples, Peak.   279 ms (1.0x), Avg.   279 ms, Total. 279.1 ms (0.3%)
+[Performance] Application.GI.Initialize                                   :        1 samples, Peak.   506 ms (1.0x), Avg.   506 ms, Total. 505.9 ms (0.5%)
+[Performance] Application.LoadAllDefaultResourcesFromEditor               :        1 samples, Peak.  1.85 ms (1.0x), Avg.  1.85 ms, Total. 1.848 ms (0.0%)
+[Performance] Application.LoadMonoAssemblies                              :        1 samples, Peak.  1.94 s (1.0x), Avg.  1.94 s, Total. 1.939 s (1.9%)
+[Performance] ProcessService.EditorAfterLoadAllAssemblies                 :        2 samples, Peak.  15.4 ms (1.2x), Avg.  13.0 ms, Total. 25.96 ms (0.0%)
+[Performance] Application.ReadLicenseInfo                                 :        1 samples, Peak.  29.5 ms (1.0x), Avg.  29.5 ms, Total. 29.47 ms (0.0%)
+[Performance] Application.InitialScriptRefresh                            :        1 samples, Peak.  1.34 s (1.0x), Avg.  1.34 s, Total. 1.341 s (1.3%)
+[Performance] Application.AssetDatabase.Refresh                           :        1 samples, Peak.  83.3 ms (1.0x), Avg.  83.3 ms, Total. 83.28 ms (0.1%)
+[Performance] Application.ImportAssetsWithMismatchingAssetImporterVersion :        1 samples, Peak.   111 ms (1.0x), Avg.   111 ms, Total. 110.8 ms (0.1%)
+[Performance] Application.SyncCurrentColorSpace                           :        1 samples, Peak.  81.8 ms (1.0x), Avg.  81.8 ms, Total. 81.79 ms (0.1%)
+[Performance] Application.OnUsbDevicesChanged                             :        1 samples, Peak.  4.50 ms (1.0x), Avg.  4.50 ms, Total. 4.500 ms (0.0%)
+[Performance] Application.AssetInstanceCacheUpdate                        :        1 samples, Peak.   100 ns (1.0x), Avg.   100 ns, Total. 100.0 ns (0.0%)
+[Performance] Application.UnityExtensions.Initialize                      :        1 samples, Peak.   671 us (1.0x), Avg.   671 us, Total. 670.6 us (0.0%)
+[Performance] Application.InitializeManagedCompilationPipeline            :        1 samples, Peak.  58.1 ms (1.0x), Avg.  58.1 ms, Total. 58.12 ms (0.1%)
+[Performance] Application.ExecuteStartups                                 :        1 samples, Peak.   512 ms (1.0x), Avg.   512 ms, Total. 512.3 ms (0.5%)
+[Performance] Application.RebuildOSMenu                                   :        1 samples, Peak.  79.0 ms (1.0x), Avg.  79.0 ms, Total. 79.00 ms (0.1%)
+[Performance] UpdateAllMenus                                              :        1 samples, Peak.  77.4 ms (1.0x), Avg.  77.4 ms, Total. 77.45 ms (0.1%)
+[Performance] Application.editorInitializingProject                       :        1 samples, Peak.  16.3 us (1.0x), Avg.  16.3 us, Total. 16.30 us (0.0%)
+[Performance] GUIView.RepaintAll.PlayerLoopController                     :        4 samples, Peak.  1.00 us (1.9x), Avg.   525 ns, Total. 2.100 us (0.0%)
+[Performance] Application.InvokeFinishedLoadingProject                    :        1 samples, Peak.  18.1 ms (1.0x), Avg.  18.1 ms, Total. 18.15 ms (0.0%)
+[Performance] ProcessService.OnProjectLoaded                              :        1 samples, Peak.  15.2 ms (1.0x), Avg.  15.2 ms, Total. 15.16 ms (0.0%)
+[Performance] BuildCatalog                                                :        1 samples, Peak.  23.9 ms (1.0x), Avg.  23.9 ms, Total. 23.92 ms (0.0%)
+Cleanup mono
+21:20:31.170 |V| RiderPlugin                    | :1                             | AppDomain.CurrentDomain.DomainUnload lifetimeDefinition.Terminate
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

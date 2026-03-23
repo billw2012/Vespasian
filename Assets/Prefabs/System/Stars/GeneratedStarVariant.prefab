@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,16 +60,6 @@ PrefabInstance:
     - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6039441407903207765, guid: f4c510226c1baa1408c3d36050fc87f1,
@@ -79,12 +79,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
-      propertyPath: glowIntensity
+      propertyPath: glowSpread
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6931139407177234544, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
-      propertyPath: glowSpread
+      propertyPath: glowIntensity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7614524655931929166, guid: f4c510226c1baa1408c3d36050fc87f1,
@@ -94,13 +94,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
+        type: 3}
       propertyPath: rolloffMode
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
-      propertyPath: MaxDistance
-      value: 100
+      propertyPath: DopplerLevel
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
         type: 3}
@@ -116,11 +121,6 @@ PrefabInstance:
         type: 3}
       propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].outWeight
       value: 0.16428572
-      objectReference: {fileID: 0}
-    - target: {fileID: 7780925603411571776, guid: f4c510226c1baa1408c3d36050fc87f1,
-        type: 3}
-      propertyPath: DopplerLevel
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4c510226c1baa1408c3d36050fc87f1, type: 3}

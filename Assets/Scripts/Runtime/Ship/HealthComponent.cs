@@ -155,11 +155,9 @@ public class HealthComponent : MonoBehaviour, ISavable
         if (playerHealthComponent != null)
         {
             playerHealthComponent.allowDamage = !playerHealthComponent.allowDamage;
-            Debug.Log(
-                playerHealthComponent.allowDamage 
-                ? "Player can take damage" 
-                : "Player can NOT take damage"
-            );
+            NotificationsUI.Add(playerHealthComponent.allowDamage
+                ? "<style=system>God mode OFF"
+                : "<style=system>God mode ON");
         }
     }
 }
