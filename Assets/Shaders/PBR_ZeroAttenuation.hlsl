@@ -3,7 +3,7 @@ half3 BackLightingPhysicallyBased(BRDFData brdfData, half3 lightColor, half3 lig
 {
 	half NdotL = saturate(dot(normalWS, -lightDirectionWS));
 	half3 radiance = lightColor * half3(0.5, 0.5, 1) * (lightAttenuation * NdotL);
-	return DirectBDRF(brdfData, normalWS, -lightDirectionWS, viewDirectionWS) * radiance;
+	return DirectBRDF(brdfData, normalWS, -lightDirectionWS, viewDirectionWS) * radiance;
 }
 #endif
 

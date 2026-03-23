@@ -20,7 +20,7 @@ MonoBehaviour:
   starfield: {fileID: 0}
   cameraController: {fileID: 0}
   warpPostEffect:
-    target: {fileID: 0}
+    volume: {fileID: 0}
     floatProperties: []
     colorProperties: []
 --- !u!114 &5226251190433895070
