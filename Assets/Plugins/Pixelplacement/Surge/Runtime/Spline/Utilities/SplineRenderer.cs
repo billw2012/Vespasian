@@ -8,6 +8,7 @@
 /// </summary>
 
 using UnityEngine;
+using System.Collections;
 
 namespace Pixelplacement
 {
@@ -22,17 +23,17 @@ namespace Pixelplacement
         [Range (0,1)] public float endPercentage = 1;
 
         //Private Variables:
-        private LineRenderer _lineRenderer;
-        private Spline _spline;
-        private bool _initialized;
-        private int _previousAnchorsLength;
-        private int _previousSegmentsPerCurve;
-        private int _vertexCount;
-        private float _previousStart;
-        private float _previousEnd;
+        LineRenderer _lineRenderer;
+        Spline _spline;
+        bool _initialized;
+        int _previousAnchorsLength;
+        int _previousSegmentsPerCurve;
+        int _vertexCount;
+        float _previousStart;
+        float _previousEnd;
 
         //Init:
-        private void Reset ()
+        void Reset ()
         {
             _lineRenderer = GetComponent<LineRenderer> ();
 
@@ -47,7 +48,7 @@ namespace Pixelplacement
         }
 
         //Loop:
-        private void Update ()
+        void Update ()
         {
             //initialize:
             if (!_initialized)
@@ -98,7 +99,7 @@ namespace Pixelplacement
         }
 
         //Private Methods:
-        private void UpdateLineRenderer ()
+        void UpdateLineRenderer ()
         {
             if (_spline.Anchors.Length < 2) return;
             for (int i = 0; i < _vertexCount; i++)
@@ -109,7 +110,7 @@ namespace Pixelplacement
             }
         }
 
-        private void ConfigureLineRenderer ()
+        void ConfigureLineRenderer ()
         {
             segmentsPerCurve = Mathf.Max (0, segmentsPerCurve);
             _vertexCount = (segmentsPerCurve * (_spline.Anchors.Length - 1)) + 2;

@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using System;
+using Pixelplacement;
 
 namespace Pixelplacement.TweenSystem
 {
@@ -15,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public float EndValue {get; private set;}
 
         //Private Variables:
-        private AudioSource _target;
-        private float _start;
+        AudioSource _target;
+        float _start;
 
         //Constructor:
         public PanStereo (AudioSource target, float endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

@@ -7,6 +7,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using Pixelplacement;
 
 namespace Pixelplacement.TweenSystem
 {
@@ -16,8 +17,8 @@ namespace Pixelplacement.TweenSystem
         public Color EndValue {get; private set;}
 
         //Private Variables:
-        private Image _target;
-        private Color _start;
+        Image _target;
+        Color _start;
 
         //Constructor:
         public ImageColor (Image target, Color endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

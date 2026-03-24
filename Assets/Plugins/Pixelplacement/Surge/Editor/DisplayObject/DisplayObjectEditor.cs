@@ -8,6 +8,7 @@
 /// </summary>
 
 using UnityEngine;
+using System.Collections;
 using UnityEditor;
 
 namespace Pixelplacement
@@ -16,10 +17,10 @@ namespace Pixelplacement
     public class DisplayObjectEditor : Editor 
     {
         //Private Variables:
-        private DisplayObject _target;
+        DisplayObject _target;
         
         //Init:
-        private void OnEnable()
+        void OnEnable()
         {
             _target = target as DisplayObject;
         }
@@ -38,7 +39,7 @@ namespace Pixelplacement
         }
         
         //GUI Draw Methods:
-        private void DrawShowButton ()
+        void DrawShowButton ()
         {
             GUI.color = Color.yellow;
             if (GUILayout.Button ("Show"))
@@ -47,8 +48,8 @@ namespace Pixelplacement
                 _target.SetActive (true);
             }
         }
-
-        private void DrawSoloButton ()
+        
+        void DrawSoloButton ()
         {
             GUI.color = Color.green;
             if (GUILayout.Button ("Solo"))
@@ -57,8 +58,8 @@ namespace Pixelplacement
                 _target.Solo ();
             }
         }
-
-        private void DrawHideButton ()
+        
+        void DrawHideButton ()
         {
             GUI.color = new Color (1, 0.5f, 0, 1);
             if (GUILayout.Button ("Hide"))
@@ -67,8 +68,8 @@ namespace Pixelplacement
                 _target.SetActive (false);
             }
         }
-
-        private void DrawHideAllButton ()
+        
+        void DrawHideAllButton ()
         {
             GUI.color = Color.red;
             if (GUILayout.Button ("Hide All"))

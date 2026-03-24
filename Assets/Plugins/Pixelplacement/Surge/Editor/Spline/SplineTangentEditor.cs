@@ -16,7 +16,7 @@ namespace Pixelplacement
     public class SplineTangentEditor : Editor
     {
         //Scene GUI:
-        private void OnSceneGUI ()
+        void OnSceneGUI ()
         {
             //ensure pivot is used so anchor selection has a proper transform origin:
             if (Tools.pivotMode == PivotMode.Center)
@@ -27,7 +27,7 @@ namespace Pixelplacement
 
         //Gizmos:
         [DrawGizmo(GizmoType.Selected)]
-        private static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
+        static void RenderCustomGizmo(Transform objectTransform, GizmoType gizmoType)
         {
             if (objectTransform.parent != null && objectTransform.parent.parent != null)
             {

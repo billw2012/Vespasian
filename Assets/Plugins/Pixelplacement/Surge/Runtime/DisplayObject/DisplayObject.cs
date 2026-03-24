@@ -8,6 +8,9 @@
 /// </summary>
 
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace Pixelplacement
 {
@@ -16,7 +19,24 @@ namespace Pixelplacement
     {
         //Private Variables:
         private bool _activated;
-        
+
+        //Public Properties:
+        /// <summary>
+        /// Wrapper for GameObject's ActiveSelf property for ease of use.
+        /// </summary>
+        public bool ActiveSelf
+        {
+            get
+            {
+                return gameObject.activeSelf;
+            }
+
+            set
+            {
+                SetActive(value);
+            }
+        }
+
         //Public Methods:
         /// <summary>
         /// Registers this DisplayObject - should only be called by Initialization.
@@ -38,12 +58,14 @@ namespace Pixelplacement
             _activated = true;	
             gameObject.SetActive (value);
         }
-        
+
         /// <summary>
         /// Solo this DisplayObject within other DisplayObjects at the same level in the hierarchy.
         /// </summary>
         public void Solo ()
         {
+            Register();
+            
             if (transform.parent != null)
             {
                 foreach (Transform item in transform.parent) 

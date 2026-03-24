@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using System;
+using Pixelplacement;
 
 namespace Pixelplacement.TweenSystem
 {
@@ -15,9 +16,9 @@ namespace Pixelplacement.TweenSystem
         public Vector3 EndValue {get; private set;}
         
         //Private Variables:
-        private Transform _target;
-        private Vector3 _initialPosition;
-        private Vector3 _intensity;
+        Transform _target;
+        Vector3 _initialPosition;
+        Vector3 _intensity;
         
         //Constructor:
         public ShakePosition (Transform target, Vector3 initialPosition, Vector3 intensity, float duration, float delay, AnimationCurve curve, Action startCallback, Action completeCallback, Tween.LoopType loop, bool obeyTimescale)

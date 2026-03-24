@@ -16,10 +16,10 @@ namespace Pixelplacement
     public class SplineEditor : Editor
     {
         //Private Variables
-        private Spline _target;
+        Spline _target;
 
         //Init:
-        private void OnEnable ()
+        void OnEnable ()
         {
             _target = target as Spline;
         }
@@ -40,13 +40,13 @@ namespace Pixelplacement
         }
 
         //Scene GUI:
-        private void OnSceneGUI ()
+        void OnSceneGUI ()
         {
             DrawTools ((target as Spline).transform);	
         }
 
         //Draw Methods:
-        private void DrawAddButton ()
+        void DrawAddButton ()
         {
             if (GUILayout.Button ("Extend"))
             {
@@ -54,7 +54,7 @@ namespace Pixelplacement
             }
         }
 
-        private static void DrawTools (Transform target)
+        static void DrawTools (Transform target)
         {
             Spline spline = target.GetComponent<Spline> ();
             if (spline == null) return;

@@ -118,7 +118,7 @@ public class SimMovementEditor : Editor
             }
         }
 
-        var sun = FindObjectsOfType<StarLogic>()
+        var sun = FindObjectsByType<StarLogic>()
             .FirstOrDefault(l => l.isPrimary)
             ?.GetComponent<GravitySource>();
         if (sun == null)
@@ -152,7 +152,7 @@ public class SimMovementEditor : Editor
             lastUpdate = EditorApplication.timeSinceStartup;
             var simModel = new SimModel();
             simModel.DelayedInit();
-            foreach (var s in FindObjectsOfType<SimMovement>())
+            foreach (var s in FindObjectsByType<SimMovement>())
             {
                 await s.EditorUpdatePathAsync(simModel);
             }

@@ -110,7 +110,7 @@ public class MapGenerator : ScriptableObject
         float starDensity = mainSpec.densityRandom.Evaluate(rng);
         float starRadius = starMass / starDensity; // obviously not the correct formula...
 
-        var backgroundColors =  await ThreadingX.RunOnUnityThread(() => Object.FindObjectsOfType<Background>()
+        var backgroundColors =  await ThreadingX.RunOnUnityThread(() => Object.FindObjectsByType<Background>()
             .Where(b => b.colorationIndex != -1)
             .OrderBy(b => b.colorationIndex)
             .Select(b => rng.ColorHS(b.colorValue).SetA(b.colorAlpha)).ToArray())

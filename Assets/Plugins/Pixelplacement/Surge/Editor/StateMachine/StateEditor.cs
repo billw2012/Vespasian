@@ -8,6 +8,7 @@
 /// </summary>
 
 using UnityEngine;
+using System.Collections;
 using UnityEditor;
 
 namespace Pixelplacement
@@ -16,10 +17,10 @@ namespace Pixelplacement
     public class StateEditor : Editor 
     {
         //Private Variables:
-        private State _target;
+        State _target;
         
         //Init:
-        private void OnEnable()
+        void OnEnable()
         {
             _target = target as State;
         }
@@ -42,7 +43,7 @@ namespace Pixelplacement
         }
 
         //GUI Draw Methods:
-        private void DrawChangeStateButton ()
+        void DrawChangeStateButton ()
         {
             GUI.color = Color.green;
             if (GUILayout.Button("Change State"))
@@ -51,7 +52,7 @@ namespace Pixelplacement
             }
         }
 
-        private void DrawHideAllButton ()
+        void DrawHideAllButton ()
         {
             GUI.color = Color.red;
             if (GUILayout.Button ("Hide All"))
@@ -64,7 +65,7 @@ namespace Pixelplacement
             }
         }
 
-        private void DrawSoloButton ()
+        void DrawSoloButton ()
         {
             GUI.color = Color.green;
             if (GUILayout.Button ("Solo"))

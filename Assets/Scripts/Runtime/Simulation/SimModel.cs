@@ -230,7 +230,9 @@ public class SimModel
                 return new SimGravity
                 {
                     @from = g,
+#pragma warning disable CS0618
                     fromId = g.GetInstanceID(), // we assign the reference here, because we want a stable comparable handle to g that we can use outside the main thread
+#pragma warning restore CS0618
                     mass = g.parameters.mass, // we only need the mass, density is only required to calculate mass initially
                     radius = g.radius, // radius is applied using local scale on the same game object as the gravity
                     orbitIndex = this.orbits.IndexOf(g.gameObject.GetComponentInParent<Orbit>()),

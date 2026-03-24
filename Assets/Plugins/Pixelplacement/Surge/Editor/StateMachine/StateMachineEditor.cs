@@ -8,6 +8,8 @@
 /// </summary>
 
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 
 namespace Pixelplacement
@@ -16,10 +18,10 @@ namespace Pixelplacement
     public class StateMachineEditor : Editor 
     {
         //Private Variables:
-        private StateMachine _target;
+        StateMachine _target;
 
         //Init:
-        private void OnEnable()
+        void OnEnable()
         {
             _target = target as StateMachine;
         }
@@ -84,7 +86,7 @@ namespace Pixelplacement
         }
 
         //GUI Draw Methods:
-        private void DrawStateChangeButtons()
+        void DrawStateChangeButtons()
         {
             if (_target.transform.childCount == 0) return;
             Color currentColor = GUI.color;
@@ -107,7 +109,7 @@ namespace Pixelplacement
             if (GUILayout.Button("Exit")) _target.Exit();
         }
 
-        private void DrawHideAllButton()
+        void DrawHideAllButton()
         {
             GUI.color = Color.red;
             GUILayout.BeginHorizontal();
@@ -123,7 +125,7 @@ namespace Pixelplacement
             GUI.color = Color.white;
         }
 
-        private void DrawNotification(string message, Color color)
+        void DrawNotification(string message, Color color)
         {
             Color currentColor = GUI.color;
             GUI.color = color;

@@ -10,3 +10,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107312
+  packageName: Surge
+  packageVersion: 1.0.48
+  assetPath: Assets/Plugins/Pixelplacement/Surge/Runtime/Tween/TweenActions/ValueVector3.cs
+  uploadId: 467433

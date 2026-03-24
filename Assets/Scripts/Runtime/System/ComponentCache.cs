@@ -27,7 +27,7 @@ public static class ComponentCache
         }
         else
         {
-            var compArray = UnityEngine.Object.FindObjectsOfType(typeof(T));
+            var compArray = UnityEngine.Object.FindObjectsByType(typeof(T));
             cache.Add(typeof(T), compArray.ToList());
             return (T[]) compArray;
         }
@@ -46,7 +46,7 @@ public static class ComponentCache
         }
         else
         {
-            compList = UnityEngine.Object.FindObjectsOfType(typeof(T)).ToList();
+            compList = UnityEngine.Object.FindObjectsByType(typeof(T)).ToList();
             cache.Add(typeof(T), compList);
 
             // Return first element if there is any

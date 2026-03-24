@@ -7,6 +7,8 @@
 /// 
 /// </summary>
 
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -17,10 +19,10 @@ namespace Pixelplacement
     public class ChooserEditor : Editor
     {
         //Private Variables:
-        private Chooser _target;
+        Chooser _target;
 
         //Flow:
-        private void OnEnable()
+        void OnEnable()
         {
             _target = target as Chooser;
         }

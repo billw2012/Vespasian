@@ -162,7 +162,7 @@ public class OrbitEditor : Editor
             lastUpdate = EditorApplication.timeSinceStartup;
             var simModel = new SimModel();
             simModel.DelayedInit();
-            foreach (var o in FindObjectsOfType<Orbit>())
+            foreach (var o in FindObjectsByType<Orbit>())
             {
                 o.RefreshValidateRecursive();
             }

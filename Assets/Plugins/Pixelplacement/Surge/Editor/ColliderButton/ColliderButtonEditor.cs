@@ -7,6 +7,8 @@
 /// 
 /// </summary>
 
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -17,10 +19,10 @@ namespace Pixelplacement
     public class ColliderButtonEditor : Editor
     {
         //Private Variables:
-        private ColliderButton _target;
+        ColliderButton _target;
 
         //Init:
-        private void OnEnable()
+        void OnEnable()
         {
             _target = target as ColliderButton;
         }

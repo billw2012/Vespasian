@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Pixelplacement
 {
@@ -62,15 +63,15 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        [SerializeField] private Method _method;
-        [SerializeField] private bool _debugView = false;
-        private Transform _previousCursor;
-        private List<Transform> _current = new List<Transform>();
-        private List<Transform> _previous = new List<Transform>();
-        private Transform _currentRaycast;
-        private Transform _previousRaycast;
-        private Vector3 _targetPosition;
-        //private bool _hidden;
+        [SerializeField] Method _method;
+        [SerializeField] bool _debugView = false;
+        Transform _previousCursor;
+        List<Transform> _current = new List<Transform>();
+        List<Transform> _previous = new List<Transform>();
+        Transform _currentRaycast;
+        Transform _previousRaycast;
+        Vector3 _targetPosition;
+        bool _hidden;
 
         //Init:
         private void Reset()

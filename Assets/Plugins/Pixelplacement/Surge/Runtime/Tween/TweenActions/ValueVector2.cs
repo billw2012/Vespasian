@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using System;
+using Pixelplacement;
 
 namespace Pixelplacement.TweenSystem
 {
@@ -15,8 +16,8 @@ namespace Pixelplacement.TweenSystem
         public Vector2 EndValue {get; private set;}
 
         //Private Variables:
-        private Action<Vector2> _valueUpdatedCallback;
-        private Vector2 _start;
+        Action<Vector2> _valueUpdatedCallback;
+        Vector2 _start;
 
         //Constructor:
         public ValueVector2 (Vector2 startValue, Vector2 endValue, Action<Vector2> valueUpdatedCallback, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

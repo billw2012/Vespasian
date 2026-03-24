@@ -8,6 +8,7 @@
 /// </summary>
 
 using UnityEngine;
+using System.Collections;
 
 namespace Pixelplacement
 {
@@ -35,9 +36,9 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        private float _previousPercentage;
-        private bool _previousFaceDirection;
-        //private bool _detached;
+        float _previousPercentage;
+        bool _previousFaceDirection;
+        bool _detached;
 
         //Public Methods:
         public void UpdateOrientation (Spline spline)

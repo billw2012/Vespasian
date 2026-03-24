@@ -8,6 +8,7 @@
 /// </summary>
 
 using UnityEngine;
+using System.Collections;
 
 namespace Pixelplacement
 {

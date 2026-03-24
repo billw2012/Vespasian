@@ -7,24 +7,23 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-using Pixelplacement;
 
 namespace Pixelplacement.TweenSystem
 {
-    class RawImageColor : TweenBase
+    class GraphicColor : TweenBase
     {
         //Public Properties:
         public Color EndValue {get; private set;}
 
         //Private Variables:
-        RawImage _target;
+        Graphic _target;
         Color _start;
 
         //Constructor:
-        public RawImageColor (RawImage target, Color endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)
+        public GraphicColor (Graphic target, Color endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)
         {
             //set essential properties:
-            SetEssentials (Tween.TweenType.RawImageColor, target.GetInstanceID (), duration, delay, obeyTimescale, curve, loop, startCallback, completeCallback);
+            SetEssentials (Tween.TweenType.GraphicColor, target.GetInstanceID (), duration, delay, obeyTimescale, curve, loop, startCallback, completeCallback);
 
             //catalog custom properties:
             _target = target;

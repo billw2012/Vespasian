@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using System;
+using Pixelplacement;
 
 namespace Pixelplacement.TweenSystem
 {
@@ -15,9 +16,9 @@ namespace Pixelplacement.TweenSystem
         public float EndValue {get; private set;}
 
         //Private Variables:
-        private Material _target;
-        private float _start;
-        private string _propertyName;
+        Material _target;
+        float _start;
+        string _propertyName;
         
         //Constructor:
         public ShaderFloat (Material target, string propertyName, float endValue, float duration, float delay, bool obeyTimescale, AnimationCurve curve, Tween.LoopType loop, Action startCallback, Action completeCallback)

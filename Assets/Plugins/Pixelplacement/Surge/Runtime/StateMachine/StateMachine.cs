@@ -11,6 +11,9 @@
 #pragma warning disable 168
 
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System;
 using UnityEngine.Events;
 
 namespace Pixelplacement
@@ -27,7 +30,7 @@ namespace Pixelplacement
         /// Should log messages be thrown during usage?
         /// </summary>
         [Tooltip("Should log messages be thrown during usage?")]
-        public bool verbose = true;
+        public bool verbose;
 
         /// <summary>
         /// Can States within this StateMachine be reentered?
@@ -106,21 +109,29 @@ namespace Pixelplacement
         }
 
         //Private Variables:
-        //private bool _initialized;
-        private bool _atFirst;
-        private bool _atLast;
+        bool _initialized;
+        bool _atFirst;
+        bool _atLast;
 
         //Public Methods:
         /// <summary>
         /// Change to the next state if possible.
         /// </summary>
-        public GameObject Next ()
+        public GameObject Next (bool exitIfLast = false)
         {
             if (currentState == null) return ChangeState (0);
             int currentIndex = currentState.transform.GetSiblingIndex();
             if (currentIndex == transform.childCount - 1)
             {
-                return currentState;	
+                if (exitIfLast)
+                {
+                    Exit();
+                    return null;
+                }
+                else
+                {
+                    return currentState;	
+                }
             }else{
                 return ChangeState (++currentIndex);
             }
@@ -129,14 +140,23 @@ namespace Pixelplacement
         /// <summary>
         /// Change to the previous state if possible.
         /// </summary>
-        public GameObject Previous ()
+        public GameObject Previous (bool exitIfFirst = false)
         {
             if (currentState == null) return ChangeState(0);
             int currentIndex = currentState.transform.GetSiblingIndex();
             if (currentIndex == 0)
             {
-                return currentState;	
-            }else{
+                if (exitIfFirst)
+                {
+                    Exit();
+                    return null;
+                }
+                else
+                {
+                    return currentState;
+                }
+            }
+            else{
                 return ChangeState(--currentIndex);
             }
         }
@@ -171,6 +191,7 @@ namespace Pixelplacement
                 Log("Index is greater than the amount of states in the StateMachine \"" + gameObject.name + "\" please verify the index you are trying to change to.");
                 return null;
             }
+
             return ChangeState(transform.GetChild(childIndex).gameObject);
         }
 
@@ -237,7 +258,7 @@ namespace Pixelplacement
         }
 
         //Private Methods:
-        private void Enter (GameObject state)
+        void Enter (GameObject state)
         {
             currentState = state;
             int index = currentState.transform.GetSiblingIndex ();
@@ -259,7 +280,7 @@ namespace Pixelplacement
             currentState.SetActive (true);
         }
 
-        private void Log (string message)
+        void Log (string message)
         {
             if (!verbose) return;
             Debug.Log (message, gameObject);

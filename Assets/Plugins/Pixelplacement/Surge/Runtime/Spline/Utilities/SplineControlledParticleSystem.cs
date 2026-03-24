@@ -7,6 +7,8 @@
 /// 
 /// </summary>
 
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Pixelplacement;
 
@@ -19,19 +21,19 @@ public class SplineControlledParticleSystem : MonoBehaviour
     public float endRadius;
 
     //Private Variables:
-    [SerializeField] private ParticleSystem _particleSystem = null;
-    private Spline _spline;
-    private ParticleSystem.Particle[] _particles;
-    private const float _previousDiff = .01f;
+    [SerializeField] ParticleSystem _particleSystem = null;
+    Spline _spline;
+    ParticleSystem.Particle[] _particles;
+    const float _previousDiff = .01f;
 
     //Init:
-    private void Awake ()
+    void Awake ()
     {
         _spline = GetComponent<Spline> ();
     }
 
     //Loops:
-    private void LateUpdate ()
+    void LateUpdate ()
     {
         if (_particleSystem == null) return;
 

@@ -12,7 +12,6 @@ public class Miner : MonoBehaviour, IUpgradeLogic
     private bool miningActive => this.target != null;
     
     private ContextActionManager contextActionManager;
-    private bool actionsCreated = false;
    
     private void Start()
     {
