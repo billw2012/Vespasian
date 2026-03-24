@@ -1,5 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8610935096062956219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24983bbadc2cd574fa3d6983b38be74f, type: 3}
+  m_Name: AutoExposureFeature
+  m_EditorClassIdentifier: Game.Runtime::AutoExposureFeature
+  m_Active: 1
+  settings:
+    histogramMinEV: -10
+    histogramMaxEV: 2
+    lowPercentile: 0.062
+    highPercentile: 0.935
+    minEV: -3
+    maxEV: 1
+    exposureCompensation: -2
+    adaptSpeedUp: 3
+    adaptSpeedDown: 1
+  computeShader: {fileID: 7200000, guid: b658affd3bc74d542baeb6bbd2ee379d, type: 3}
+  debugHistogram: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,7 +53,8 @@ MonoBehaviour:
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
   - {fileID: 200000001}
-  m_RendererFeatureMap: 
+  - {fileID: -8610935096062956219}
+  m_RendererFeatureMap: 452d391f27d07f88
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -56,7 +82,7 @@ MonoBehaviour:
   m_DepthAttachmentFormat: 0
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
-  m_IntermediateTextureMode: 1
+  m_IntermediateTextureMode: 0
 --- !u!114 &200000001
 MonoBehaviour:
   m_ObjectHideFlags: 0

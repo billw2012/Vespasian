@@ -11,7 +11,11 @@
       "Bash(grep:*)",
       "Bash(find \"D:/dev/Vespasian/Assets/Prefabs\" -name \"*.prefab\" -exec grep -l \"f4c510226c1baa1408c3d36050fc87f1\" {})",
       "Bash(xargs basename:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(find D:devVespasianAssetsScripts -type f -name *FullScreen* -o -name *RenderPass* -o -name *Pass*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:knarkowicz.wordpress.com)",
+      "WebFetch(domain:docs.unity3d.com)"
     ]
   }
 }

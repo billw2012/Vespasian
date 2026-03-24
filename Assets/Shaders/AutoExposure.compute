@@ -1,0 +1,91 @@
+#pragma kernel CSClearHistogram
+#pragma kernel CSBuildHistogram
+#pragma kernel CSComputeAverage
+
+// Shared between kernels
+RWStructuredBuffer<uint> _Histogram; // 256 bins (uint)
+float _MinLogLum;
+
+// ─── CSClearHistogram ─────────────────────────────────────────────────────────
+// Run once per frame (dispatch 1,1,1) before building to reset last frame's data.
+[numthreads(256, 1, 1)]
+void CSClearHistogram(uint3 id : SV_DispatchThreadID)
+{
+    _Histogram[id.x] = 0u;
+}
+
+// ─── CSBuildHistogram ────────────────────────────────────────────────────────
+Texture2D<float4> _Source;
+float _InvLogLumRange;
+int _Width;
+int _Height;
+
+[numthreads(16, 16, 1)]
+void CSBuildHistogram(uint3 id : SV_DispatchThreadID)
+{
+    if ((int)id.x >= _Width || (int)id.y >= _Height)
+        return;
+
+    float3 color = _Source[id.xy].rgb;
+    float lum = dot(color, float3(0.2126, 0.7152, 0.0722));
+
+    uint bin;
+    if (lum < 1e-5)
+    {
+        bin = 0u;
+    }
+    else
+    {
+        float logLum = clamp((log2(lum) - _MinLogLum) * _InvLogLumRange, 0.0, 1.0);
+        bin = (uint)(logLum * 254.0) + 1u; // bins 1..255; 0 reserved for near-black
+    }
+    InterlockedAdd(_Histogram[bin], 1u);
+}
+
+// ─── CSComputeAverage ────────────────────────────────────────────────────────
+RWStructuredBuffer<float> _AverageLogLum; // 1 float output
+float _LowPercentile;
+float _HighPercentile;
+uint _TotalPixels;
+float _LogLumRange;
+
+groupshared uint gs_Histogram[256];
+
+[numthreads(256, 1, 1)]
+void CSComputeAverage(uint3 id : SV_DispatchThreadID)
+{
+    gs_Histogram[id.x] = _Histogram[id.x];
+    GroupMemoryBarrierWithGroupSync();
+    // Note: histogram is no longer cleared here — CSClearHistogram handles that
+    // at the start of the next frame, so debug readback can see this frame's data.
+
+    if (id.x != 0u)
+        return;
+
+    uint lowCut  = (uint)(_LowPercentile  * (float)_TotalPixels);
+    uint highCut = (uint)(_HighPercentile * (float)_TotalPixels);
+    if (highCut <= lowCut) highCut = lowCut + 1u;
+
+    uint  running      = 0u;
+    float weightedSum  = 0.0;
+    uint  weightedCount = 0u;
+
+    for (uint i = 0u; i < 256u; i++)
+    {
+        uint cnt  = gs_Histogram[i];
+        uint prev = running;
+        running  += cnt;
+        if (running > lowCut && prev < highCut)
+        {
+            uint contrib  = min(running, highCut) - max(prev, lowCut);
+            weightedSum  += (float)i * (float)contrib;
+            weightedCount += contrib;
+        }
+    }
+
+    float avgBin = weightedCount > 0u
+        ? weightedSum / (float)weightedCount
+        : 128.0;
+
+    _AverageLogLum[0] = ((avgBin - 1.0) / 254.0) * _LogLumRange + _MinLogLum;
+}
