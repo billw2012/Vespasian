@@ -152,12 +152,19 @@ public class HealthComponent : MonoBehaviour, ISavable
     public static void DebugTogglePlayerGodMode()
     {
         var playerHealthComponent = GetPlayerHealthComponent();
-        if (playerHealthComponent != null)
+        if (playerHealthComponent == null) return;
+
+        playerHealthComponent.allowDamage = !playerHealthComponent.allowDamage;
+        bool godMode = !playerHealthComponent.allowDamage;
+
+        var engine = ComponentCache.FindObjectOfType<PlayerController>()?.GetComponentInChildren<EngineController>();
+        if (engine != null)
         {
-            playerHealthComponent.allowDamage = !playerHealthComponent.allowDamage;
-            NotificationsUI.Add(playerHealthComponent.allowDamage
-                ? "<style=system>God mode OFF"
-                : "<style=system>God mode ON");
+            engine.godMode = godMode;
+            if (godMode) engine.AddFuel(float.MaxValue);
         }
+        if (godMode) playerHealthComponent.FullyRepairHull();
+
+        NotificationsUI.Add(godMode ? "<style=system>God mode ON" : "<style=system>God mode OFF");
     }
 }

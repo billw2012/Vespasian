@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+/// <summary>
+/// Serializable helper that drives a set of post-processing parameters
+/// toward target values (derived from a 0-1 input t) using SmoothDamp.
+/// Compose this into any MonoBehaviour that wants curve-driven post effects.
+/// Also owns the static float/color get-set utilities and property-target enums
+/// (previously in PostEffect).
+/// </summary>
 [Serializable]
-public class PostEffect
+public class PostEffectsDriver
 {
-    public Volume volume;
-    // Assign a blur material here if you need to animate blur amount via a Full Screen Pass Renderer Feature
-    public Material blurMaterial;
+    // ── Enums ─────────────────────────────────────────────────────────────────
 
     public enum FloatPropertyTarget
     {
@@ -38,16 +41,6 @@ public class PostEffect
         SplitToningBalance
     }
 
-    [Serializable]
-    public class FloatProperty
-    {
-        public FloatPropertyTarget target;
-        public float targetValue;
-        [NonSerialized] public float originalValue;
-        public AnimationCurve curve;
-    }
-    public List<FloatProperty> floatProperties;
-
     public enum ColorPropertyTarget
     {
         BloomColor,
@@ -63,63 +56,120 @@ public class PostEffect
         ShadowsMidtonesHighlightsHighlights
     }
 
+    // ── Config types ──────────────────────────────────────────────────────────
+
     [Serializable]
-    public class ColorProperty
+    public class Config
     {
-        public ColorPropertyTarget target;
-        public Color targetValue;
-        [NonSerialized] public Color originalValue;
-        public AnimationCurve curve;
-    }
-    public List<ColorProperty> colorProperties;
+        public FloatPropertyTarget parameter;
+        [Tooltip("Parameter value when t = 0")]
+        public float startValue;
+        [Tooltip("Parameter value when t = 1 — can be lower than startValue")]
+        public float endValue;
+        [Tooltip("Blends between startValue and the curve-driven value (0 = no effect, 1 = full)")]
+        [Range(0f, 2f)]
+        public float strength = 1f;
+        [Tooltip("Maps t [0, 1] to a position between startValue and endValue")]
+        public AnimationCurve responseCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-    public void Init()
-    {
-        if (volume == null)
-            volume = ComponentCache.FindObjectOfType<Volume>();
-
-        AnimationCurve NormalizeAnimation(AnimationCurve curve)
-        {
-            if (curve.keys.Length == 0)
-                return AnimationCurve.Linear(0, 0, 1, 1);
-            float maxTime = curve.keys.Last().time;
-            for (int i = 0; i < curve.keys.Length; i++)
-                curve.keys[i].time = curve.keys[i].time / maxTime;
-            return curve;
-        }
-
-        foreach (var p in this.colorProperties)
-        {
-            p.originalValue = GetColor(p.target);
-            p.curve = NormalizeAnimation(p.curve);
-        }
-        foreach (var p in this.floatProperties)
-        {
-            p.originalValue = GetFloat(p.target);
-            p.curve = NormalizeAnimation(p.curve);
-        }
+        [NonSerialized] public float currentValue;
+        [NonSerialized] public float velocity;
     }
 
+    [Serializable]
+    public class ColorConfig
+    {
+        public ColorPropertyTarget parameter;
+        [Tooltip("Parameter value when t = 0")]
+        public Color startValue = Color.white;
+        [Tooltip("Parameter value when t = 1")]
+        public Color endValue = Color.white;
+        [Tooltip("Blends between startValue and the curve-driven value (0 = no effect, 1 = full)")]
+        [Range(0f, 2f)]
+        public float strength = 1f;
+        [Tooltip("Maps t [0, 1] to a position between startValue and endValue")]
+        public AnimationCurve responseCurve = AnimationCurve.Linear(0, 0, 1, 1);
+
+        [NonSerialized] public Color currentValue;
+        [NonSerialized] public float velR, velG, velB, velA;
+    }
+
+    // ── Driver fields ─────────────────────────────────────────────────────────
+
+    [Tooltip("SmoothDamp time for all parameters — lower = snappier, higher = slower")]
+    public float smoothTime = 0.5f;
+
+    public Config[] configs;
+    public ColorConfig[] colorConfigs;
+
+    private Volume m_Volume;
+
+    // ── Instance API ──────────────────────────────────────────────────────────
+
+    /// <summary>Call once (e.g. in Start) to bind the Volume and read initial values.</summary>
+    public void Init(Volume volume)
+    {
+        m_Volume = volume;
+        if (m_Volume == null) return;
+        var profile = m_Volume.profile;
+        if (configs != null)
+            foreach (var config in configs)
+                config.currentValue = GetFloat(profile, config.parameter);
+        if (colorConfigs != null)
+            foreach (var config in colorConfigs)
+                config.currentValue = GetColor(profile, config.parameter);
+    }
+
+    /// <summary>Call every frame with a normalised t [0, 1] to animate parameters.</summary>
     public void Update(float t)
     {
-        foreach (var p in this.colorProperties)
-            SetColor(p.target, Color.Lerp(p.originalValue, p.targetValue, p.curve.Evaluate(t)));
-        foreach (var p in this.floatProperties)
-            SetFloat(p.target, Mathf.Lerp(p.originalValue, p.targetValue, p.curve.Evaluate(t)));
+        if (m_Volume == null) return;
+        var profile = m_Volume.profile;
+
+        if (configs != null)
+        {
+            foreach (var config in configs)
+            {
+                float curveT     = config.responseCurve.Evaluate(t);
+                float fullTarget = Mathf.Lerp(config.startValue, config.endValue, curveT);
+                float target     = Mathf.Lerp(config.startValue, fullTarget, config.strength);
+                config.currentValue = Mathf.SmoothDamp(config.currentValue, target, ref config.velocity, smoothTime);
+                SetFloat(profile, config.parameter, config.currentValue);
+            }
+        }
+
+        if (colorConfigs != null)
+        {
+            foreach (var config in colorConfigs)
+            {
+                float curveT     = config.responseCurve.Evaluate(t);
+                Color fullTarget = Color.Lerp(config.startValue, config.endValue, curveT);
+                Color target     = Color.Lerp(config.startValue, fullTarget, config.strength);
+                Color cur        = config.currentValue;
+                cur.r = Mathf.SmoothDamp(cur.r, target.r, ref config.velR, smoothTime);
+                cur.g = Mathf.SmoothDamp(cur.g, target.g, ref config.velG, smoothTime);
+                cur.b = Mathf.SmoothDamp(cur.b, target.b, ref config.velB, smoothTime);
+                cur.a = Mathf.SmoothDamp(cur.a, target.a, ref config.velA, smoothTime);
+                config.currentValue = cur;
+                SetColor(profile, config.parameter, cur);
+            }
+        }
     }
 
-    public void ResetSettings()
+    /// <summary>Restore all parameters to their startValues (call from OnDestroy).</summary>
+    public void Reset()
     {
-        foreach (var p in this.colorProperties)
-            SetColor(p.target, p.originalValue);
-        foreach (var p in this.floatProperties)
-            SetFloat(p.target, p.originalValue);
+        if (m_Volume == null) return;
+        var profile = m_Volume.profile;
+        if (configs != null)
+            foreach (var config in configs)
+                SetFloat(profile, config.parameter, config.startValue);
+        if (colorConfigs != null)
+            foreach (var config in colorConfigs)
+                SetColor(profile, config.parameter, config.startValue);
     }
 
-    // Values are stored in plugin-compatible units.
-    // Contrast/Saturation: plugin uses -1..1, URP uses -100..100 — conversion applied on read/write.
-    private float GetFloat(FloatPropertyTarget t) => GetFloat(volume?.profile, t, blurMaterial);
-    private void SetFloat(FloatPropertyTarget t, float value) => SetFloat(volume?.profile, t, value, blurMaterial);
+    // ── Static float utilities ────────────────────────────────────────────────
 
     public static float GetFloat(VolumeProfile profile, FloatPropertyTarget t, Material blurMaterial = null)
     {
@@ -223,9 +273,10 @@ public class PostEffect
         }
     }
 
-    private Color GetColor(ColorPropertyTarget t)
+    // ── Static color utilities ────────────────────────────────────────────────
+
+    public static Color GetColor(VolumeProfile profile, ColorPropertyTarget t)
     {
-        var profile = volume?.profile;
         switch (t)
         {
             case ColorPropertyTarget.BloomColor:
@@ -255,12 +306,8 @@ public class PostEffect
         }
     }
 
-    private static Color VecToColor(Vector4 v) => new Color(v.x, v.y, v.z, v.w);
-    private static Vector4 ColorToVec(Color c) => new Vector4(c.r, c.g, c.b, c.a);
-
-    private void SetColor(ColorPropertyTarget t, Color value)
+    public static void SetColor(VolumeProfile profile, ColorPropertyTarget t, Color value)
     {
-        var profile = volume?.profile;
         switch (t)
         {
             case ColorPropertyTarget.BloomColor:
@@ -298,4 +345,7 @@ public class PostEffect
                 break;
         }
     }
+
+    private static Color VecToColor(Vector4 v) => new Color(v.x, v.y, v.z, v.w);
+    private static Vector4 ColorToVec(Color c) => new Vector4(c.r, c.g, c.b, c.a);
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class WarpController : MonoBehaviour
 {
@@ -19,8 +20,13 @@ public class WarpController : MonoBehaviour
     private StarField starfield = null;
     [SerializeField]
     private FollowCameraController cameraController = null;
+
     [SerializeField]
-    private PostEffect warpPostEffect = null;
+    private PostEffectsDriver warpEffectsDriver;
+
+    [Header("Camera Zoom")]
+    [Tooltip("Orthographic size to zoom to at full warp speed")]
+    [SerializeField] private float warpCameraSize = 20f;
 
     private enum Mode
     {
@@ -49,7 +55,7 @@ public class WarpController : MonoBehaviour
 
     private void Start()
     {
-        this.warpPostEffect.Init();
+        this.warpEffectsDriver.Init(ComponentCache.FindObjectOfType<Volume>());
     }
 
     // Update is called once per frame
@@ -122,7 +128,7 @@ public class WarpController : MonoBehaviour
         this.warpEffect.turningAmount = Mathf.Clamp(-angleChange / 360f, -0.05f, 0.05f);
         this.warpEffect.direction = this.transform.up;
 
-        this.warpPostEffect.Update(warpEffectAmount);
+        this.warpEffectsDriver.Update(warpEffectAmount);
 
         this.starfield.fade = this.mode == Mode.NotInWarp ? 1 : 1 - Mathf.InverseLerp(this.warpSpeed * 0.5f, this.warpSpeed * 0.75f, this.speed);
     }
@@ -130,7 +136,8 @@ public class WarpController : MonoBehaviour
     public async Task EnterWarpAsync(Vector2 direction, float minDistanceBeforeWarp)
     {
         Debug.Log($"Requested enter warp at dir {direction} min distance {minDistanceBeforeWarp}");
-        
+
+        Camera.main.orthographicSize = this.warpCameraSize;
         this.mode = Mode.EnterWarp;
         this.direction = direction;
         this.rotationalSpeed = 0;

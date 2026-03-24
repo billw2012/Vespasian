@@ -135,6 +135,7 @@ public class MapComponent : MonoBehaviour, ISavable, IPreSave, ISavableCustom, I
             return;
         }
 
+        this.uiManager.SwitchToPlay();
         this.uiManager.HideUI();
 
         // Player enter warp

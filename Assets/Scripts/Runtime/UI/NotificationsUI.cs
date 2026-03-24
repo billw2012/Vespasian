@@ -21,9 +21,11 @@ public class NotificationsUI : MonoBehaviour
     private void Update()
     {
         this.notifications.RemoveAll(t => t.expiryTime < Time.time);
-        while (this.notifications.Count < this.maxOnScreen && pendingNotifications.Count > 0)
+        while (pendingNotifications.Count > 0)
         {
-            this.notifications.Add((pendingNotifications.First(), Time.time + this.expiryTime));
+            if (this.notifications.Count >= this.maxOnScreen)
+                this.notifications.RemoveAt(0);
+            this.notifications.Add((pendingNotifications[0], Time.time + this.expiryTime));
             pendingNotifications.RemoveAt(0);
         }
 

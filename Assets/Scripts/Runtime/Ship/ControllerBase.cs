@@ -41,7 +41,10 @@ public class ControllerBase : MonoBehaviour
         {
             c.enabled = allow;
         }
-        this.GetComponent<HealthComponent>().allowDamage = allow;
+        var health  = this.GetComponent<HealthComponent>();
+        var engine  = this.GetComponent<EngineController>();
+        bool godMode = engine != null && engine.godMode;
+        health.allowDamage = allow && !godMode;
     }
 
     public WeaponController GetWeaponController()

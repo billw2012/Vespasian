@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 public class CameraPostEffectRadius : MonoBehaviour
@@ -9,42 +9,31 @@ public class CameraPostEffectRadius : MonoBehaviour
     [Tooltip("Ratio of effect area to screen at which effects will be completely on"), Range(0, 1)]
     public float maxCoverage = 0.5f;
 
-    public Camera cameraTarget;
-
-    public PostEffect effect;
+    public PostEffectsDriver driver;
 
     private bool wasInRange = false;
 
-    // Start is called before the first frame update
     private void Start()
     {
-        if(this.cameraTarget == null)
-        {
-            this.cameraTarget = Camera.main;
-        }
-
-        this.effect.Init();
+        this.driver.Init(ComponentCache.FindObjectOfType<UnityEngine.Rendering.Volume>());
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        var screenRect = this.cameraTarget.WorldSpaceRect();
+        var screenRect = Camera.main.WorldSpaceRect();
         float coverage = MathX.RectCircleOverlap(screenRect, this.transform.position, this.radius * this.transform.lossyScale.x);
         bool inRange = coverage > 0;
-        // This makes sure we only update when we are in range, and once to completely revert them
-        // when we move out of range
         if (this.wasInRange || inRange)
         {
             float t = Mathf.Clamp01(Mathf.InverseLerp(this.minCoverage, this.maxCoverage, coverage / (screenRect.width * screenRect.height)));
-            this.effect.Update(t);
+            this.driver.Update(t);
         }
         this.wasInRange = inRange;
     }
 
     private void OnDestroy()
     {
-        this.effect.ResetSettings();
+        this.driver.Reset();
     }
 
 

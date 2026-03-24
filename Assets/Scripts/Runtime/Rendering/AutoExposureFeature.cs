@@ -335,7 +335,7 @@ public class AutoExposureFeature : ScriptableRendererFeature
                 m_Settings.minEV, m_Settings.maxEV);
             float speed = m_CurrentEV < target ? m_Settings.adaptSpeedUp : m_Settings.adaptSpeedDown;
             m_CurrentEV = Mathf.MoveTowards(m_CurrentEV, target, speed * Time.deltaTime);
-            PostEffect.SetFloat(m_Volume?.profile, PostEffect.FloatPropertyTarget.Exposure, m_CurrentEV);
+            PostEffectsDriver.SetFloat(m_Volume?.profile, PostEffectsDriver.FloatPropertyTarget.Exposure, m_CurrentEV);
 
             // ── Allocate sample RT ───────────────────────────────────────────
             var desc = new RenderTextureDescriptor(k_SampleW, k_SampleH,

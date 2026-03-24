@@ -136,7 +136,8 @@ public class EngineController : MonoBehaviour
 
             float thrustTotal = Mathf.Abs(this.thrust.x) + Mathf.Abs(this.thrust.y);
 
-            this.UseFuel(thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
+            if (!this.godMode)
+                this.UseFuel(thrustTotal * Time.fixedDeltaTime * this.constants.FuelUse);
 
             this.movement.AddForce(force);
         }
@@ -150,7 +151,8 @@ public class EngineController : MonoBehaviour
     public float refillableFuel => this.refillableTanks.Select(f => f.fuel).Sum();
     public float refillableMaxFuel => this.refillableTanks.Select(f => f.maxFuel).Sum();
     public bool canRefill => this.refillableFuel != this.refillableMaxFuel;
-    public bool canThrust => this.fuel > 0;
+    public bool godMode = false;
+    public bool canThrust => this.godMode || this.fuel > 0;
     
     public void AddFuel(float amount)
     {
@@ -186,6 +188,7 @@ public class EngineController : MonoBehaviour
     
     public void UseFuel(float amount)
     {
+        if (this.godMode) return;
         // Use fuel in non-refillable tanks first (maybe we shouldn't?), and from most empty tank first
         foreach (var (tank, tankAmount) in this.GetFuelTankUsage(amount))
         {

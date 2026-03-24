@@ -59,5 +59,12 @@ public class UIToggle : MonoBehaviour
         {
             Missions.DebugPlayerRevealMap();
         }
+
+        // Hold number keys to speed up simulation (matching UI buttons: x4, x16, x32)
+        int speedStep = 1;
+        if      (Input.GetKey(KeyCode.Alpha2)) speedStep = 4;
+        else if (Input.GetKey(KeyCode.Alpha3)) speedStep = 16;
+        else if (Input.GetKey(KeyCode.Alpha4)) speedStep = 32;
+        Simulation.SetGlobalTickStep(speedStep);
     }
 }

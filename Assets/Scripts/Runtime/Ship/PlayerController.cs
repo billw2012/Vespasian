@@ -37,9 +37,12 @@ public class PlayerController : ControllerBase
         else if (Input.GetKey("a"))
             kbInput.x = -1.0f;
 
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            kbInput *= 0.1f;
+
         // Convert normalized inputs into final values in (kind of) Newtons
         this.SetThrust(
-            this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y, 
+            this.thrustInputForward + this.thrustInputJoystick.y + kbInput.y,
             this.thrustInputRight + this.thrustInputJoystick.x + kbInput.x
             );
     }

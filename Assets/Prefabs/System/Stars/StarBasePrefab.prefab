@@ -20142,20 +20142,10 @@ MonoBehaviour:
   radius: 30.57
   minCoverage: 0.1
   maxCoverage: 0.5
-  cameraTarget: {fileID: 0}
-  effect:
-    volume: {fileID: 0}
-    blurMaterial: {fileID: 0}
-    floatProperties:
-    - target: 16
-      targetValue: 0.27
-      curve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-    colorProperties: []
+  driver:
+    smoothTime: 0.5
+    configs: []
+    colorConfigs: []
 --- !u!1 &6442401090780597286
 GameObject:
   m_ObjectHideFlags: 0

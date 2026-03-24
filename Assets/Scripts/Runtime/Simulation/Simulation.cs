@@ -36,6 +36,7 @@ public class Simulation : MonoBehaviour
 
     private static Simulation globalInstance = null;
     public static float globalTickStep => globalInstance.tickStep;
+    public static void SetGlobalTickStep(int step) { if (globalInstance != null) globalInstance.tickStep = step; }
 
     private void OnValidate()
     {

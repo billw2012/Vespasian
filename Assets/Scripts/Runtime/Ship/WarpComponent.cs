@@ -54,7 +54,7 @@ public class WarpComponent : MonoBehaviour, IUpgradeLogic
         return distanceCost * (this.fuelBaseCost + FuelEfficiency()) * this.fuelUsageRate;
     }
 
-    public bool CanJump(SolarSystem from, SolarSystem to) => this.player.GetComponentInChildren<FuelTankComponent>().fuel >= this.GetJumpFuelRequired(from, to);
+    public bool CanJump(SolarSystem from, SolarSystem to) => this.engine.godMode || this.player.GetComponentInChildren<FuelTankComponent>().fuel >= this.GetJumpFuelRequired(from, to);
 
     public async Task WarpAsync(SolarSystem from, SolarSystem to, Func<SolarSystem, Task> loadSystemCallback, Func<Vector2?> landingPositionCallback = default)
     {
