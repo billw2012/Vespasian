@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(find D:/dev/Vespasian/Library/PackageCache -maxdepth 1 -type d -name com.unity.render-pipelines.universal*)",
+      "Bash(find D:/dev/Vespasian/Library/PackageCache -type d -name com.unity.render-pipelines.universal@*)",
+      "Bash(find D:/dev/Vespasian/Library/PackageCache/com.unity.render-pipelines.universal@0c5162adfb45 -name *Exposure* -o -name *exposure*)",
+      "Bash(find D:/dev/Vespasian/Library/PackageCache/com.unity.render-pipelines.universal@0c5162adfb45/Runtime -name *.cs -type f)",
+      "Bash(find D:/dev/Vespasian/Library/PackageCache -name *.cs -path */VolumeComponents/* -type f)",
+      "Bash(find D:/dev/Vespasian/Library/PackageCache/com.unity.render-pipelines.core@17.4.0 -name *.cs -type f)"
     ]
   }
 }
