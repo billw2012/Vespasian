@@ -5769,7 +5769,7 @@ MonoBehaviour:
   - parameter: 8
     startValue: 1
     endValue: 0
-    strength: 1
+    strength: 0
     responseCurve:
       serializedVersion: 2
       m_Curve:
@@ -5795,9 +5795,9 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - parameter: 16
-    startValue: 0.33
-    endValue: 0.5
-    strength: 1
+    startValue: 0.2
+    endValue: 0.2
+    strength: 0
     responseCurve:
       serializedVersion: 2
       m_Curve:
@@ -5824,7 +5824,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   - parameter: 19
     startValue: 0
-    endValue: 0.5
+    endValue: 0.25
     strength: 1
     responseCurve:
       serializedVersion: 2

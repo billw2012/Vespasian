@@ -24,7 +24,7 @@ MonoBehaviour:
     adaptSpeedUp: 3
     adaptSpeedDown: 1
   computeShader: {fileID: 7200000, guid: b658affd3bc74d542baeb6bbd2ee379d, type: 3}
-  debugHistogram: 1
+  debugHistogram: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
